@@ -6,6 +6,9 @@ import { Locales } from "../services/graphql/__generated/sdk";
 import { getOptimizelySdk } from "../services/graphql/getSdk";
 import { ContentPayload } from "../services/shared/ContentPayload";
 
+import { getRelativeLocaleUrl } from "astro:i18n";
+const lang = Astro.currentLocale;
+
 const ctx = "view";
 
 var contentPayload: ContentPayload = {
@@ -22,7 +25,8 @@ const contentByPathResponse = await getOptimizelySdk(contentPayload).contentByPa
   url: urlPath,
 });
 if (contentByPathResponse._Content.items.length === 0) {
-  return Astro.redirect("/en");
+  // return Astro.redirect("/en");
+  return Astro.redirect(getRelativeLocaleUrl(lang, '/'));
 }
 const item = contentByPathResponse._Content.items[0];
 const contentByIdResponse = await getOptimizelySdk(contentPayload).contentById({

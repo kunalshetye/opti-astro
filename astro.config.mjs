@@ -21,6 +21,22 @@ export default defineConfig({
       },
     ],
   },
+  
+  i18n: {
+    locales: ["en", "es", "fr", "fr-CA", "nl", "sv"],
+    defaultLocale: "en",
+    routing: {
+        prefixDefaultLocale: false,
+        fallbackType: "rewrite"
+    },
+    fallback: {
+      es: "en",
+      fr: "en",
+      "fr-CA": "en",
+      nl: "en",
+      sv: "en",
+    },
+  },
 
   output: "server",
 

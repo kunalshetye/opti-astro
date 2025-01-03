@@ -2135,6 +2135,11 @@ enum Locales {
   ALL
   NEUTRAL
   en
+  es
+  fr
+  fr_CA
+  nl
+  sv
 }
 
 type MediaMetadata implements IContentMetadata & IInstanceMetadata & IMediaMetadata {
