@@ -1,0 +1,23 @@
+query componentById($key: [String]!, $loc: [Locales]!, $ver: String!) {
+    _Content(
+        ids: $key
+        locale: $loc
+        where: { _metadata: { version: { eq: $ver } } }
+    ) {
+        items {
+            _metadata {
+                types
+            }
+            ...ArticleListElement
+            ...CardElement
+            ...ContactElement
+            ...CTAElement
+            ...EventElement
+            ...HeadingElement
+            ...HeroElement
+            ...ImageElement
+            ...ParagraphElement
+            ...VideoElement
+        }
+    }
+}

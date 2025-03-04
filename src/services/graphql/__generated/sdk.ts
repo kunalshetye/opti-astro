@@ -59,6 +59,7 @@ export type AnnouncementElementOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -67,6 +68,7 @@ export type AnnouncementElementOutput = {
   autocomplete?: Maybe<AnnouncementElementAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<AnnouncementElementFacet>;
+  item?: Maybe<AnnouncementElement>;
   items?: Maybe<Array<Maybe<AnnouncementElement>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -124,6 +126,7 @@ export type ArticleListElementOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -132,6 +135,7 @@ export type ArticleListElementOutput = {
   autocomplete?: Maybe<ArticleListElementAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<ArticleListElementFacet>;
+  item?: Maybe<ArticleListElement>;
   items?: Maybe<Array<Maybe<ArticleListElement>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -195,6 +199,7 @@ export type BlankExperienceOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
   composition?: InputMaybe<CompositionStructureNodeOrderByInput>;
 };
@@ -204,6 +209,7 @@ export type BlankExperienceOutput = {
   autocomplete?: Maybe<BlankExperienceAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<BlankExperienceFacet>;
+  item?: Maybe<BlankExperience>;
   items?: Maybe<Array<Maybe<BlankExperience>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -265,6 +271,7 @@ export type BlankSectionOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
   composition?: InputMaybe<CompositionStructureNodeOrderByInput>;
 };
@@ -274,6 +281,7 @@ export type BlankSectionOutput = {
   autocomplete?: Maybe<BlankSectionAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<BlankSectionFacet>;
+  item?: Maybe<BlankSection>;
   items?: Maybe<Array<Maybe<BlankSection>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -333,6 +341,7 @@ export type BlogListingBlockOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -341,6 +350,7 @@ export type BlogListingBlockOutput = {
   autocomplete?: Maybe<BlogListingBlockAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<BlogListingBlockFacet>;
+  item?: Maybe<BlogListingBlock>;
   items?: Maybe<Array<Maybe<BlogListingBlock>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -427,6 +437,7 @@ export type BlogPostPageOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -435,6 +446,7 @@ export type BlogPostPageOutput = {
   autocomplete?: Maybe<BlogPostPageAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<BlogPostPageFacet>;
+  item?: Maybe<BlogPostPage>;
   items?: Maybe<Array<Maybe<BlogPostPage>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -503,6 +515,7 @@ export type ButtonBlockOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -511,6 +524,7 @@ export type ButtonBlockOutput = {
   autocomplete?: Maybe<ButtonBlockAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<ButtonBlockFacet>;
+  item?: Maybe<ButtonBlock>;
   items?: Maybe<Array<Maybe<ButtonBlock>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -600,6 +614,7 @@ export type CtaElementOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -608,6 +623,7 @@ export type CtaElementOutput = {
   autocomplete?: Maybe<CtaElementAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<CtaElementFacet>;
+  item?: Maybe<CtaElement>;
   items?: Maybe<Array<Maybe<CtaElement>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -685,6 +701,7 @@ export type CardBlockOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -693,6 +710,7 @@ export type CardBlockOutput = {
   autocomplete?: Maybe<CardBlockAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<CardBlockFacet>;
+  item?: Maybe<CardBlock>;
   items?: Maybe<Array<Maybe<CardBlock>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -765,6 +783,7 @@ export type CardElementOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -773,6 +792,7 @@ export type CardElementOutput = {
   autocomplete?: Maybe<CardElementAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<CardElementFacet>;
+  item?: Maybe<CardElement>;
   items?: Maybe<Array<Maybe<CardElement>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -835,6 +855,7 @@ export type CarouselBlockOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -843,6 +864,7 @@ export type CarouselBlockOutput = {
   autocomplete?: Maybe<CarouselBlockAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<CarouselBlockFacet>;
+  item?: Maybe<CarouselBlock>;
   items?: Maybe<Array<Maybe<CarouselBlock>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -1137,6 +1159,7 @@ export type ContactElementOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -1145,6 +1168,7 @@ export type ContactElementOutput = {
   autocomplete?: Maybe<ContactElementAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<ContactElementFacet>;
+  item?: Maybe<ContactElement>;
   items?: Maybe<Array<Maybe<ContactElement>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -1176,6 +1200,7 @@ export type ContactOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -1184,6 +1209,7 @@ export type ContactOutput = {
   autocomplete?: Maybe<ContactAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<ContactFacet>;
+  item?: Maybe<Contact>;
   items?: Maybe<Array<Maybe<Contact>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -1244,6 +1270,7 @@ export type ContactPageOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -1252,6 +1279,7 @@ export type ContactPageOutput = {
   autocomplete?: Maybe<ContactPageAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<ContactPageFacet>;
+  item?: Maybe<ContactPage>;
   items?: Maybe<Array<Maybe<ContactPage>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -1320,6 +1348,7 @@ export type ContainerOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -1328,6 +1357,7 @@ export type ContainerOutput = {
   autocomplete?: Maybe<ContainerAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<ContainerFacet>;
+  item?: Maybe<Container>;
   items?: Maybe<Array<Maybe<Container>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -1406,6 +1436,7 @@ export type ContentRecsBlockOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -1414,6 +1445,7 @@ export type ContentRecsBlockOutput = {
   autocomplete?: Maybe<ContentRecsBlockAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<ContentRecsBlockFacet>;
+  item?: Maybe<ContentRecsBlock>;
   items?: Maybe<Array<Maybe<ContentRecsBlock>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -1472,6 +1504,7 @@ export type ContentRecsElementOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -1480,6 +1513,7 @@ export type ContentRecsElementOutput = {
   autocomplete?: Maybe<ContentRecsElementAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<ContentRecsElementFacet>;
+  item?: Maybe<ContentRecsElement>;
   items?: Maybe<Array<Maybe<ContentRecsElement>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -1679,12 +1713,14 @@ export type DataOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type DataOutput = {
   __typename?: 'DataOutput';
   cursor?: Maybe<Scalars['String']['output']>;
+  item?: Maybe<IData>;
   items?: Maybe<Array<Maybe<IData>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -1786,6 +1822,7 @@ export type EventElementOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -1794,6 +1831,7 @@ export type EventElementOutput = {
   autocomplete?: Maybe<EventElementAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<EventElementFacet>;
+  item?: Maybe<EventElement>;
   items?: Maybe<Array<Maybe<EventElement>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -1856,6 +1894,7 @@ export type FormElementOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -1864,6 +1903,7 @@ export type FormElementOutput = {
   autocomplete?: Maybe<FormElementAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<FormElementFacet>;
+  item?: Maybe<FormElement>;
   items?: Maybe<Array<Maybe<FormElement>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -1921,6 +1961,7 @@ export type GenericMediaOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -1929,6 +1970,7 @@ export type GenericMediaOutput = {
   autocomplete?: Maybe<GenericMediaAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<GenericMediaFacet>;
+  item?: Maybe<GenericMedia>;
   items?: Maybe<Array<Maybe<GenericMedia>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -1986,6 +2028,7 @@ export type HeadingElementOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -1994,6 +2037,7 @@ export type HeadingElementOutput = {
   autocomplete?: Maybe<HeadingElementAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<HeadingElementFacet>;
+  item?: Maybe<HeadingElement>;
   items?: Maybe<Array<Maybe<HeadingElement>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -2067,6 +2111,7 @@ export type HeroBlockOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -2075,6 +2120,7 @@ export type HeroBlockOutput = {
   autocomplete?: Maybe<HeroBlockAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<HeroBlockFacet>;
+  item?: Maybe<HeroBlock>;
   items?: Maybe<Array<Maybe<HeroBlock>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -2152,6 +2198,7 @@ export type HeroElementOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -2160,6 +2207,7 @@ export type HeroElementOutput = {
   autocomplete?: Maybe<HeroElementAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<HeroElementFacet>;
+  item?: Maybe<HeroElement>;
   items?: Maybe<Array<Maybe<HeroElement>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -2241,6 +2289,7 @@ export type HomePageHeroBlockOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -2249,6 +2298,7 @@ export type HomePageHeroBlockOutput = {
   autocomplete?: Maybe<HomePageHeroBlockAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<HomePageHeroBlockFacet>;
+  item?: Maybe<HomePageHeroBlock>;
   items?: Maybe<Array<Maybe<HomePageHeroBlock>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -2313,6 +2363,7 @@ export type HtmlBlockOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -2321,6 +2372,7 @@ export type HtmlBlockOutput = {
   autocomplete?: Maybe<HtmlBlockAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<HtmlBlockFacet>;
+  item?: Maybe<HtmlBlock>;
   items?: Maybe<Array<Maybe<HtmlBlock>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -2805,6 +2857,7 @@ export type ImageElementOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
   imageLink?: InputMaybe<ContentReferenceOrderByInput>;
 };
@@ -2814,6 +2867,7 @@ export type ImageElementOutput = {
   autocomplete?: Maybe<ImageElementAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<ImageElementFacet>;
+  item?: Maybe<ImageElement>;
   items?: Maybe<Array<Maybe<ImageElement>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -2872,6 +2926,7 @@ export type ImageMediaOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -2880,6 +2935,7 @@ export type ImageMediaOutput = {
   autocomplete?: Maybe<ImageMediaAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<ImageMediaFacet>;
+  item?: Maybe<ImageMedia>;
   items?: Maybe<Array<Maybe<ImageMedia>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -2997,6 +3053,7 @@ export type LandingPageOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -3005,6 +3062,7 @@ export type LandingPageOutput = {
   autocomplete?: Maybe<LandingPageAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<LandingPageFacet>;
+  item?: Maybe<LandingPage>;
   items?: Maybe<Array<Maybe<LandingPage>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -3079,6 +3137,7 @@ export type LayoutContainerBlockOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -3087,6 +3146,7 @@ export type LayoutContainerBlockOutput = {
   autocomplete?: Maybe<LayoutContainerBlockAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<LayoutContainerBlockFacet>;
+  item?: Maybe<LayoutContainerBlock>;
   items?: Maybe<Array<Maybe<LayoutContainerBlock>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -3184,9 +3244,37 @@ export type LinkOrderByInput = {
 };
 
 export enum LinkTypes {
+  /**
+   *
+   * | *Direction* | &nbsp; | *Field*     |
+   * | ----------: | ------ | :---------- |
+   * | *from*      |        | `_metadata.key` |
+   * | *to*        |        | `_metadata.owner`   |
+   */
   Assets = 'ASSETS',
+  /**
+   *
+   * | *Direction* | &nbsp; | *Field*     |
+   * | ----------: | ------ | :---------- |
+   * | *from*      |        | `_metadata.key` |
+   * | *to*        |        | `_metadata.container`   |
+   */
   Default = 'DEFAULT',
+  /**
+   *
+   * | *Direction* | &nbsp; | *Field*     |
+   * | ----------: | ------ | :---------- |
+   * | *from*      |        | `_metadata.key` |
+   * | *to*        |        | `_metadata.container`   |
+   */
   Items = 'ITEMS',
+  /**
+   *
+   * | *Direction* | &nbsp; | *Field*     |
+   * | ----------: | ------ | :---------- |
+   * | *from*      |        | `_metadata.path` |
+   * | *to*        |        | `_metadata.key`   |
+   */
   Path = 'PATH'
 }
 
@@ -3200,7 +3288,12 @@ export type LinkWhereInput = {
 export enum Locales {
   All = 'ALL',
   Neutral = 'NEUTRAL',
-  En = 'en'
+  En = 'en',
+  Es = 'es',
+  Fr = 'fr',
+  FrCa = 'fr_CA',
+  Nl = 'nl',
+  Sv = 'sv'
 }
 
 export type MediaMetadata = IContentMetadata & IInstanceMetadata & IMediaMetadata & {
@@ -3286,6 +3379,7 @@ export type MegaMenuGroupBlockOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -3294,6 +3388,7 @@ export type MegaMenuGroupBlockOutput = {
   autocomplete?: Maybe<MegaMenuGroupBlockAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<MegaMenuGroupBlockFacet>;
+  item?: Maybe<MegaMenuGroupBlock>;
   items?: Maybe<Array<Maybe<MegaMenuGroupBlock>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -3357,6 +3452,7 @@ export type MenuNavigationBlockOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -3365,6 +3461,7 @@ export type MenuNavigationBlockOutput = {
   autocomplete?: Maybe<MenuNavigationBlockAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<MenuNavigationBlockFacet>;
+  item?: Maybe<MenuNavigationBlock>;
   items?: Maybe<Array<Maybe<MenuNavigationBlock>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -3423,6 +3520,7 @@ export type OdpEmbedBlockOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -3431,6 +3529,7 @@ export type OdpEmbedBlockOutput = {
   autocomplete?: Maybe<OdpEmbedBlockAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<OdpEmbedBlockFacet>;
+  item?: Maybe<OdpEmbedBlock>;
   items?: Maybe<Array<Maybe<OdpEmbedBlock>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -3504,6 +3603,7 @@ export type PageSeoSettingsOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -3512,6 +3612,7 @@ export type PageSeoSettingsOutput = {
   autocomplete?: Maybe<PageSeoSettingsAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<PageSeoSettingsFacet>;
+  item?: Maybe<PageSeoSettings>;
   items?: Maybe<Array<Maybe<PageSeoSettings>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -3598,6 +3699,7 @@ export type ParagraphElementOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
   text?: InputMaybe<RichTextOrderByInput>;
 };
@@ -3607,6 +3709,7 @@ export type ParagraphElementOutput = {
   autocomplete?: Maybe<ParagraphElementAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<ParagraphElementFacet>;
+  item?: Maybe<ParagraphElement>;
   items?: Maybe<Array<Maybe<ParagraphElement>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -4977,6 +5080,7 @@ export type QuoteBlockOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -4985,6 +5089,7 @@ export type QuoteBlockOutput = {
   autocomplete?: Maybe<QuoteBlockAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<QuoteBlockFacet>;
+  item?: Maybe<QuoteBlock>;
   items?: Maybe<Array<Maybe<QuoteBlock>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -5128,6 +5233,7 @@ export type StandardPageOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -5136,6 +5242,7 @@ export type StandardPageOutput = {
   autocomplete?: Maybe<StandardPageAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<StandardPageFacet>;
+  item?: Maybe<StandardPage>;
   items?: Maybe<Array<Maybe<StandardPage>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -5228,6 +5335,7 @@ export type StartPageOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -5236,6 +5344,7 @@ export type StartPageOutput = {
   autocomplete?: Maybe<StartPageAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<StartPageFacet>;
+  item?: Maybe<StartPage>;
   items?: Maybe<Array<Maybe<StartPage>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -5338,6 +5447,7 @@ export type SysContentFolderOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -5346,6 +5456,7 @@ export type SysContentFolderOutput = {
   autocomplete?: Maybe<SysContentFolderAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<SysContentFolderFacet>;
+  item?: Maybe<SysContentFolder>;
   items?: Maybe<Array<Maybe<SysContentFolder>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -5408,6 +5519,7 @@ export type TeamElementOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -5416,6 +5528,7 @@ export type TeamElementOutput = {
   autocomplete?: Maybe<TeamElementAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<TeamElementFacet>;
+  item?: Maybe<TeamElement>;
   items?: Maybe<Array<Maybe<TeamElement>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -5482,6 +5595,7 @@ export type TestimonialElementOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
   customerImage?: InputMaybe<ContentReferenceOrderByInput>;
   referenceText?: InputMaybe<RichTextOrderByInput>;
@@ -5492,6 +5606,7 @@ export type TestimonialElementOutput = {
   autocomplete?: Maybe<TestimonialElementAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<TestimonialElementFacet>;
+  item?: Maybe<TestimonialElement>;
   items?: Maybe<Array<Maybe<TestimonialElement>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -5560,6 +5675,7 @@ export type TextBlockOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -5568,6 +5684,7 @@ export type TextBlockOutput = {
   autocomplete?: Maybe<TextBlockAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<TextBlockFacet>;
+  item?: Maybe<TextBlock>;
   items?: Maybe<Array<Maybe<TextBlock>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -5660,6 +5777,7 @@ export type VideoElementOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
   placeholder?: InputMaybe<ContentReferenceOrderByInput>;
   video?: InputMaybe<ContentReferenceOrderByInput>;
@@ -5670,6 +5788,7 @@ export type VideoElementOutput = {
   autocomplete?: Maybe<VideoElementAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<VideoElementFacet>;
+  item?: Maybe<VideoElement>;
   items?: Maybe<Array<Maybe<VideoElement>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -5733,6 +5852,7 @@ export type VideoMediaOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -5741,6 +5861,7 @@ export type VideoMediaOutput = {
   autocomplete?: Maybe<VideoMediaAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<VideoMediaFacet>;
+  item?: Maybe<VideoMedia>;
   items?: Maybe<Array<Maybe<VideoMedia>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -5764,6 +5885,7 @@ export type VideoOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -5772,6 +5894,7 @@ export type VideoOutput = {
   autocomplete?: Maybe<VideoAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<VideoFacet>;
+  item?: Maybe<Video>;
   items?: Maybe<Array<Maybe<Video>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -5828,6 +5951,7 @@ export type _ComponentOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -5836,6 +5960,7 @@ export type _ComponentOutput = {
   autocomplete?: Maybe<_ComponentAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<_ComponentFacet>;
+  item?: Maybe<_IComponent>;
   items?: Maybe<Array<Maybe<_IComponent>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -5892,6 +6017,7 @@ export type _ContentOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -5900,6 +6026,7 @@ export type _ContentOutput = {
   autocomplete?: Maybe<_ContentAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<_ContentFacet>;
+  item?: Maybe<_IContent>;
   items?: Maybe<Array<Maybe<_IContent>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -5959,6 +6086,7 @@ export type _ExperienceOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
   composition?: InputMaybe<CompositionStructureNodeOrderByInput>;
 };
@@ -5968,6 +6096,7 @@ export type _ExperienceOutput = {
   autocomplete?: Maybe<_ExperienceAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<_ExperienceFacet>;
+  item?: Maybe<_IExperience>;
   items?: Maybe<Array<Maybe<_IExperience>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -6025,6 +6154,7 @@ export type _FolderOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -6033,6 +6163,7 @@ export type _FolderOutput = {
   autocomplete?: Maybe<_FolderAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<_FolderFacet>;
+  item?: Maybe<_IFolder>;
   items?: Maybe<Array<Maybe<_IFolder>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -6110,6 +6241,7 @@ export type _IContentOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -6316,6 +6448,7 @@ export type _ImageOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -6324,6 +6457,7 @@ export type _ImageOutput = {
   autocomplete?: Maybe<_ImageAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<_ImageFacet>;
+  item?: Maybe<_IImage>;
   items?: Maybe<Array<Maybe<_IImage>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -6380,6 +6514,7 @@ export type _MediaOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -6388,6 +6523,7 @@ export type _MediaOutput = {
   autocomplete?: Maybe<_MediaAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<_MediaFacet>;
+  item?: Maybe<_IMedia>;
   items?: Maybe<Array<Maybe<_IMedia>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -6444,6 +6580,7 @@ export type _PageOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -6452,6 +6589,7 @@ export type _PageOutput = {
   autocomplete?: Maybe<_PageAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<_PageFacet>;
+  item?: Maybe<_IPage>;
   items?: Maybe<Array<Maybe<_IPage>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -6511,6 +6649,7 @@ export type _SectionOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
   composition?: InputMaybe<CompositionStructureNodeOrderByInput>;
 };
@@ -6520,6 +6659,7 @@ export type _SectionOutput = {
   autocomplete?: Maybe<_SectionAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<_SectionFacet>;
+  item?: Maybe<_ISection>;
   items?: Maybe<Array<Maybe<_ISection>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -6577,6 +6717,7 @@ export type _VideoOrderByInput = {
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
   _ranking?: InputMaybe<Ranking>;
+  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
   _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -6585,6 +6726,7 @@ export type _VideoOutput = {
   autocomplete?: Maybe<_VideoAutocomplete>;
   cursor?: Maybe<Scalars['String']['output']>;
   facets?: Maybe<_VideoFacet>;
+  item?: Maybe<_IVideo>;
   items?: Maybe<Array<Maybe<_IVideo>>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
@@ -6648,6 +6790,45 @@ export type LandingPageFragment = { __typename?: 'LandingPage', MainContentArea?
 export type DisplaySettingsFragment = { __typename?: 'CompositionDisplaySetting', key?: string | null, value?: string | null };
 
 export type PageSeoSettingsPropertyFragment = { __typename?: 'PageSeoSettingsProperty', MetaTitle?: string | null, MetaDescription?: string | null, GraphType?: string | null, SharingImage?: { __typename?: 'ContentReference', url?: { __typename?: 'ContentUrl', default?: string | null } | null } | null };
+
+export type ComponentByIdQueryVariables = Exact<{
+  key: Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>;
+  loc: Array<InputMaybe<Locales>> | InputMaybe<Locales>;
+  ver: Scalars['String']['input'];
+}>;
+
+
+export type ComponentByIdQuery = { __typename?: 'Query', _Content?: { __typename?: '_ContentOutput', items?: Array<{ __typename?: 'AnnouncementElement', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | (
+      { __typename?: 'ArticleListElement', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null }
+      & ArticleListElementFragment
+    ) | { __typename?: 'BlankExperience', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'BlankSection', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'BlogListingBlock', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'BlogPostPage', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'ButtonBlock', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | (
+      { __typename?: 'CTAElement', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null }
+      & CtaElementFragment
+    ) | { __typename?: 'CardBlock', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | (
+      { __typename?: 'CardElement', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null }
+      & CardElementFragment
+    ) | { __typename?: 'CarouselBlock', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'Contact', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | (
+      { __typename?: 'ContactElement', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null }
+      & ContactElementFragment
+    ) | { __typename?: 'ContactPage', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'Container', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'ContentRecsBlock', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'ContentRecsElement', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | (
+      { __typename?: 'EventElement', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null }
+      & EventElementFragment
+    ) | { __typename?: 'FormElement', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'GenericMedia', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | (
+      { __typename?: 'HeadingElement', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null }
+      & HeadingElementFragment
+    ) | { __typename?: 'HeroBlock', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | (
+      { __typename?: 'HeroElement', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null }
+      & HeroElementFragment
+    ) | { __typename?: 'HomePageHeroBlock', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'HtmlBlock', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | (
+      { __typename?: 'ImageElement', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null }
+      & ImageElementFragment
+    ) | { __typename?: 'ImageMedia', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'LandingPage', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'LayoutContainerBlock', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'MegaMenuGroupBlock', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'MenuNavigationBlock', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'OdpEmbedBlock', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'PageSeoSettings', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | (
+      { __typename?: 'ParagraphElement', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null }
+      & ParagraphElementFragment
+    ) | { __typename?: 'QuoteBlock', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'StandardPage', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'StartPage', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'SysContentFolder', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'TeamElement', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'TestimonialElement', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'TextBlock', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: 'Video', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | (
+      { __typename?: 'VideoElement', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null }
+      & VideoElementFragment
+    ) | { __typename?: 'VideoMedia', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: '_Component', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: '_Content', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: '_Experience', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: '_Folder', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: '_Image', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: '_Media', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: '_Page', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: '_Section', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | { __typename?: '_Video', _metadata?: { __typename?: 'ContentMetadata', types?: Array<string | null> | null } | { __typename?: 'InstanceMetadata', types?: Array<string | null> | null } | { __typename?: 'ItemMetadata', types?: Array<string | null> | null } | { __typename?: 'MediaMetadata', types?: Array<string | null> | null } | null } | null> | null } | null };
 
 export type ContentByIdQueryVariables = Exact<{
   key: Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>;
@@ -7048,6 +7229,36 @@ export const DisplaySettingsFragmentDoc = gql`
   value
 }
     `;
+export const ComponentByIdDocument = gql`
+    query componentById($key: [String]!, $loc: [Locales]!, $ver: String!) {
+  _Content(ids: $key, locale: $loc, where: {_metadata: {version: {eq: $ver}}}) {
+    items {
+      _metadata {
+        types
+      }
+      ...ArticleListElement
+      ...CardElement
+      ...ContactElement
+      ...CTAElement
+      ...EventElement
+      ...HeadingElement
+      ...HeroElement
+      ...ImageElement
+      ...ParagraphElement
+      ...VideoElement
+    }
+  }
+}
+    ${ArticleListElementFragmentDoc}
+${CardElementFragmentDoc}
+${ContactElementFragmentDoc}
+${CtaElementFragmentDoc}
+${EventElementFragmentDoc}
+${HeadingElementFragmentDoc}
+${HeroElementFragmentDoc}
+${ImageElementFragmentDoc}
+${ParagraphElementFragmentDoc}
+${VideoElementFragmentDoc}`;
 export const ContentByIdDocument = gql`
     query contentById($key: [String]!, $loc: [Locales]!, $ver: String!) {
   _Content(ids: $key, locale: $loc, where: {_metadata: {version: {eq: $ver}}}) {
@@ -7240,6 +7451,9 @@ export const GetBlogPostsDocument = gql`
 export type Requester<C = {}> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R> | AsyncIterable<R>
 export function getSdk<C>(requester: Requester<C>) {
   return {
+    componentById(variables: ComponentByIdQueryVariables, options?: C): Promise<ComponentByIdQuery> {
+      return requester<ComponentByIdQuery, ComponentByIdQueryVariables>(ComponentByIdDocument, variables, options) as Promise<ComponentByIdQuery>;
+    },
     contentById(variables: ContentByIdQueryVariables, options?: C): Promise<ContentByIdQuery> {
       return requester<ContentByIdQuery, ContentByIdQueryVariables>(ContentByIdDocument, variables, options) as Promise<ContentByIdQuery>;
     },

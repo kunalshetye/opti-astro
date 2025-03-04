@@ -278,7 +278,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -330,6 +330,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "AnnouncementElementFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "AnnouncementElement",
               "ofType": null
             },
             "isDeprecated": false,
@@ -749,7 +761,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -801,6 +813,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "ArticleListElementFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ArticleListElement",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1297,7 +1321,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -1361,6 +1385,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "BlankExperienceFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "BlankExperience",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1833,7 +1869,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -1897,6 +1933,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "BlankSectionFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "BlankSection",
               "ofType": null
             },
             "isDeprecated": false,
@@ -2340,7 +2388,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -2392,6 +2440,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "BlogListingBlockFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "BlogListingBlock",
               "ofType": null
             },
             "isDeprecated": false,
@@ -3081,7 +3141,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -3133,6 +3193,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "BlogPostPageFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "BlogPostPage",
               "ofType": null
             },
             "isDeprecated": false,
@@ -3706,7 +3778,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -3758,6 +3830,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "ButtonBlockFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ButtonBlock",
               "ofType": null
             },
             "isDeprecated": false,
@@ -4405,7 +4489,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -4457,6 +4541,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "CTAElementFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "CTAElement",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5116,7 +5212,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -5168,6 +5264,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "CardBlockFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "CardBlock",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5767,7 +5875,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -5819,6 +5927,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "CardElementFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "CardElement",
               "ofType": null
             },
             "isDeprecated": false,
@@ -6302,7 +6422,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -6354,6 +6474,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "CarouselBlockFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "CarouselBlock",
               "ofType": null
             },
             "isDeprecated": false,
@@ -8657,7 +8789,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -8709,6 +8841,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "ContactElementFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ContactElement",
               "ofType": null
             },
             "isDeprecated": false,
@@ -8974,7 +9118,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -9026,6 +9170,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "ContactFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Contact",
               "ofType": null
             },
             "isDeprecated": false,
@@ -9493,7 +9649,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -9545,6 +9701,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "ContactPageFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ContactPage",
               "ofType": null
             },
             "isDeprecated": false,
@@ -10084,7 +10252,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -10136,6 +10304,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "ContainerFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Container",
               "ofType": null
             },
             "isDeprecated": false,
@@ -10734,7 +10914,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -10786,6 +10966,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "ContentRecsBlockFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ContentRecsBlock",
               "ofType": null
             },
             "isDeprecated": false,
@@ -11217,7 +11409,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -11269,6 +11461,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "ContentRecsElementFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ContentRecsElement",
               "ofType": null
             },
             "isDeprecated": false,
@@ -12746,7 +12950,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -12774,6 +12978,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "INTERFACE",
+              "name": "IData",
               "ofType": null
             },
             "isDeprecated": false,
@@ -13461,7 +13677,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -13513,6 +13729,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "EventElementFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "EventElement",
               "ofType": null
             },
             "isDeprecated": false,
@@ -14003,7 +14231,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -14055,6 +14283,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "FormElementFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "FormElement",
               "ofType": null
             },
             "isDeprecated": false,
@@ -14474,7 +14714,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -14526,6 +14766,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "GenericMediaFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "GenericMedia",
               "ofType": null
             },
             "isDeprecated": false,
@@ -14945,7 +15197,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -14997,6 +15249,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "HeadingElementFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "HeadingElement",
               "ofType": null
             },
             "isDeprecated": false,
@@ -15608,7 +15872,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -15660,6 +15924,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "HeroBlockFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "HeroBlock",
               "ofType": null
             },
             "isDeprecated": false,
@@ -16319,7 +16595,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -16371,6 +16647,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "HeroElementFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "HeroElement",
               "ofType": null
             },
             "isDeprecated": false,
@@ -17042,7 +17330,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -17094,6 +17382,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "HomePageHeroBlockFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "HomePageHeroBlock",
               "ofType": null
             },
             "isDeprecated": false,
@@ -17597,7 +17897,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -17649,6 +17949,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "HtmlBlockFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "HtmlBlock",
               "ofType": null
             },
             "isDeprecated": false,
@@ -21963,7 +22275,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -22027,6 +22339,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "ImageElementFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ImageElement",
               "ofType": null
             },
             "isDeprecated": false,
@@ -22463,7 +22787,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -22515,6 +22839,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "ImageMediaFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ImageMedia",
               "ofType": null
             },
             "isDeprecated": false,
@@ -23556,7 +23892,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -23608,6 +23944,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "LandingPageFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "LandingPage",
               "ofType": null
             },
             "isDeprecated": false,
@@ -24235,7 +24583,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -24287,6 +24635,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "LayoutContainerBlockFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "LayoutContainerBlock",
               "ofType": null
             },
             "isDeprecated": false,
@@ -25016,25 +25376,25 @@
         "enumValues": [
           {
             "name": "ASSETS",
-            "description": null,
+            "description": "\n| *Direction* | &nbsp; | *Field*     |\n| ----------: | ------ | :---------- |\n| *from*      |        | `_metadata.key` |\n| *to*        |        | `_metadata.owner`   |",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "DEFAULT",
-            "description": null,
+            "description": "\n| *Direction* | &nbsp; | *Field*     |\n| ----------: | ------ | :---------- |\n| *from*      |        | `_metadata.key` |\n| *to*        |        | `_metadata.container`   |",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "ITEMS",
-            "description": null,
+            "description": "\n| *Direction* | &nbsp; | *Field*     |\n| ----------: | ------ | :---------- |\n| *from*      |        | `_metadata.key` |\n| *to*        |        | `_metadata.container`   |",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "PATH",
-            "description": null,
+            "description": "\n| *Direction* | &nbsp; | *Field*     |\n| ----------: | ------ | :---------- |\n| *from*      |        | `_metadata.path` |\n| *to*        |        | `_metadata.key`   |",
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -25862,7 +26222,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -25914,6 +26274,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "MegaMenuGroupBlockFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "MegaMenuGroupBlock",
               "ofType": null
             },
             "isDeprecated": false,
@@ -26409,7 +26781,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -26461,6 +26833,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "MenuNavigationBlockFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "MenuNavigationBlock",
               "ofType": null
             },
             "isDeprecated": false,
@@ -26892,7 +27276,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -26944,6 +27328,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "OdpEmbedBlockFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "OdpEmbedBlock",
               "ofType": null
             },
             "isDeprecated": false,
@@ -27483,7 +27879,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -27535,6 +27931,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "PageSeoSettingsFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "PageSeoSettings",
               "ofType": null
             },
             "isDeprecated": false,
@@ -28146,7 +28554,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -28210,6 +28618,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "ParagraphElementFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ParagraphElement",
               "ofType": null
             },
             "isDeprecated": false,
@@ -40965,7 +41385,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -41017,6 +41437,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "QuoteBlockFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "QuoteBlock",
               "ofType": null
             },
             "isDeprecated": false,
@@ -42042,7 +42474,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -42094,6 +42526,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "StandardPageFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "StandardPage",
               "ofType": null
             },
             "isDeprecated": false,
@@ -42957,7 +43401,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -43009,6 +43453,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "StartPageFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "StartPage",
               "ofType": null
             },
             "isDeprecated": false,
@@ -43739,7 +44195,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -43791,6 +44247,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "SysContentFolderFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "SysContentFolder",
               "ofType": null
             },
             "isDeprecated": false,
@@ -44274,7 +44742,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -44326,6 +44794,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "TeamElementFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "TeamElement",
               "ofType": null
             },
             "isDeprecated": false,
@@ -44853,7 +45333,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -44929,6 +45409,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "TestimonialElementFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "TestimonialElement",
               "ofType": null
             },
             "isDeprecated": false,
@@ -45480,7 +45972,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -45532,6 +46024,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "TextBlockFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "TextBlock",
               "ofType": null
             },
             "isDeprecated": false,
@@ -46218,7 +46722,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -46294,6 +46798,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "VideoElementFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "VideoElement",
               "ofType": null
             },
             "isDeprecated": false,
@@ -46754,7 +47270,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -46806,6 +47322,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "VideoMediaFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "VideoMedia",
               "ofType": null
             },
             "isDeprecated": false,
@@ -47011,7 +47539,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -47063,6 +47591,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "VideoFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Video",
               "ofType": null
             },
             "isDeprecated": false,
@@ -47470,7 +48010,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -47522,6 +48062,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "_ComponentFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "INTERFACE",
+              "name": "_IComponent",
               "ofType": null
             },
             "isDeprecated": false,
@@ -47924,7 +48476,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -47976,6 +48528,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "_ContentFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "INTERFACE",
+              "name": "_IContent",
               "ofType": null
             },
             "isDeprecated": false,
@@ -48424,7 +48988,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -48488,6 +49052,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "_ExperienceFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "INTERFACE",
+              "name": "_IExperience",
               "ofType": null
             },
             "isDeprecated": false,
@@ -48907,7 +49483,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -48959,6 +49535,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "_FolderFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "INTERFACE",
+              "name": "_IFolder",
               "ofType": null
             },
             "isDeprecated": false,
@@ -49942,7 +50530,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -51546,7 +52134,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -51598,6 +52186,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "_ImageFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "INTERFACE",
+              "name": "_IImage",
               "ofType": null
             },
             "isDeprecated": false,
@@ -52005,7 +52605,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -52057,6 +52657,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "_MediaFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "INTERFACE",
+              "name": "_IMedia",
               "ofType": null
             },
             "isDeprecated": false,
@@ -52464,7 +53076,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -52516,6 +53128,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "_PageFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "INTERFACE",
+              "name": "_IPage",
               "ofType": null
             },
             "isDeprecated": false,
@@ -52964,7 +53588,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -53028,6 +53652,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "_SectionFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "INTERFACE",
+              "name": "_ISection",
               "ofType": null
             },
             "isDeprecated": false,
@@ -53452,7 +54088,7 @@
           },
           {
             "name": "_semanticWeight",
-            "description": null,
+            "description": "The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.",
             "type": {
               "kind": "SCALAR",
               "name": "Float",
@@ -53504,6 +54140,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "_VideoFacet",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "item",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "INTERFACE",
+              "name": "_IVideo",
               "ofType": null
             },
             "isDeprecated": false,
