@@ -21,7 +21,9 @@ var contentPayload: ContentPayload = {
 };
 
 const urlPath = `${Astro.url.pathname.replace(/\/$/, "")}/`;
+const urlBase = Astro.url.origin;
 const contentByPathResponse = await getOptimizelySdk(contentPayload).contentByPath({
+  base: urlBase,
   url: urlPath,
 });
 if (contentByPathResponse._Content.items.length === 0) {

@@ -1,5 +1,10 @@
-query contentByPath($url: String!) {
-    _Content(where: { _metadata: { url: { default: { eq: $url } } } }) {
+query contentByPath($base: String, $url: String!) {
+    _Content(
+        where: {
+            _metadata: { url: { base: { eq: $base } } }
+            _and: { _metadata: { url: { default: { eq: $url } } } }
+        }
+    ) {
         items {
             _metadata {
                 key

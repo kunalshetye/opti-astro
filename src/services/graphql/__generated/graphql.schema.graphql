@@ -277,6 +277,7 @@ type BlogPostPage implements IData & _IContent & _IPage {
   BlogPostPromoImage: ContentReference
   Heading: String
   SeoSettings: PageSeoSettingsProperty
+  Topic: [String]
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
@@ -669,6 +670,56 @@ input CarouselBlockWhereInput {
   _or: [CarouselBlockWhereInput]
 }
 
+type CompanyName implements IData & _IComponent & _IContent {
+  ABN: String
+  _children: QueryRef @deprecated(reason: "Use `_link` field instead")
+  _deleted: Bool
+  _fulltext(highlight: HighlightOptions): [String]
+  _id: String
+  _link(type: LinkTypes): QueryRef
+  _metadata: IContentMetadata
+  _modified: Date
+  _score: Float
+}
+
+type CompanyNameAutocomplete {
+  _metadata: IContentMetadataAutocomplete
+}
+
+type CompanyNameFacet {
+  _metadata: IContentMetadataFacet
+}
+
+input CompanyNameOrderByInput {
+  _metadata: IContentMetadataOrderByInput
+  _minimumScore: Float
+  _modified: OrderBy
+  _ranking: Ranking
+
+  """
+  The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.
+  """
+  _semanticWeight: Float
+}
+
+type CompanyNameOutput {
+  autocomplete: CompanyNameAutocomplete
+  cursor: String
+  facets: CompanyNameFacet
+  item: CompanyName
+  items: [CompanyName]
+  total(all: Boolean): Int
+}
+
+input CompanyNameWhereInput {
+  _and: [CompanyNameWhereInput]
+  _fulltext: SearchableStringFilterInput
+  _metadata: IContentMetadataWhereInput
+  _modified: DateFilterInput
+  _not: [CompanyNameWhereInput]
+  _or: [CompanyNameWhereInput]
+}
+
 type CompositionComponentNode implements ICompositionComponentNode & ICompositionNode {
   component: _IComponent
   displayName: String
@@ -988,6 +1039,7 @@ input ContainerWhereInput {
 }
 
 type ContentMetadata implements IContentMetadata {
+  changeset: String
   created: DateTime
   displayName(highlight: HighlightOptions): String
   fallbackForLocale: String
@@ -1131,6 +1183,7 @@ input ContentReferenceWhereInput {
 type ContentUrl {
   base: String
   default: String
+  graph: String
   hierarchical: String
   internal: String
   type: String
@@ -1139,6 +1192,7 @@ type ContentUrl {
 type ContentUrlAutocomplete {
   base(limit: Int! = 10, value: String!): [String]
   default(limit: Int! = 10, value: String!): [String]
+  graph(limit: Int! = 10, value: String!): [String]
   hierarchical(limit: Int! = 10, value: String!): [String]
   internal(limit: Int! = 10, value: String!): [String]
   type(limit: Int! = 10, value: String!): [String]
@@ -1147,6 +1201,7 @@ type ContentUrlAutocomplete {
 type ContentUrlFacet {
   base(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   default(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
+  graph(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   hierarchical(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   internal(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   type(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
@@ -1155,6 +1210,7 @@ type ContentUrlFacet {
 input ContentUrlOrderByInput {
   base: OrderBy
   default: OrderBy
+  graph: OrderBy
   hierarchical: OrderBy
   internal: OrderBy
   type: OrderBy
@@ -1163,6 +1219,7 @@ input ContentUrlOrderByInput {
 input ContentUrlWhereInput {
   base: StringFilterInput
   default: StringFilterInput
+  graph: StringFilterInput
   hierarchical: StringFilterInput
   internal: StringFilterInput
   type: StringFilterInput
@@ -1821,6 +1878,7 @@ interface ICompositionStructureNode implements ICompositionNode {
 }
 
 interface IContentMetadata {
+  changeset: String
   created: DateTime
   displayName(highlight: HighlightOptions): String
   fallbackForLocale: String
@@ -1835,6 +1893,7 @@ interface IContentMetadata {
 }
 
 type IContentMetadataAutocomplete {
+  changeset(limit: Int! = 10, value: String!): [String]
   fallbackForLocale(limit: Int! = 10, value: String!): [String]
   key(limit: Int! = 10, value: String!): [String]
   locale(limit: Int! = 10, value: String!): [String]
@@ -1845,6 +1904,7 @@ type IContentMetadataAutocomplete {
 }
 
 type IContentMetadataFacet {
+  changeset(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   created(unit: DateFacetUnit = DAY, value: Int = 1): [DateFacet]
   displayName(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   fallbackForLocale(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
@@ -1859,6 +1919,7 @@ type IContentMetadataFacet {
 }
 
 input IContentMetadataOrderByInput {
+  changeset: OrderBy
   created: OrderBy
   displayName: OrderBy
   fallbackForLocale: OrderBy
@@ -1873,6 +1934,7 @@ input IContentMetadataOrderByInput {
 }
 
 input IContentMetadataWhereInput {
+  changeset: StringFilterInput
   created: DateFilterInput
   displayName: SearchableStringFilterInput
   fallbackForLocale: StringFilterInput
@@ -1897,6 +1959,7 @@ interface IData {
 }
 
 interface IInstanceMetadata implements IContentMetadata {
+  changeset: String
   container: String
   created: DateTime
   createdBy: String
@@ -1919,6 +1982,7 @@ interface IInstanceMetadata implements IContentMetadata {
 }
 
 interface IItemMetadata implements IContentMetadata {
+  changeset: String
   created: DateTime
   displayName(highlight: HighlightOptions): String
   displayOption: String
@@ -1934,6 +1998,7 @@ interface IItemMetadata implements IContentMetadata {
 }
 
 interface IMediaMetadata implements IContentMetadata & IInstanceMetadata {
+  changeset: String
   container: String
   content(highlight: HighlightOptions): String
   created: DateTime
@@ -2064,6 +2129,7 @@ input ImageMediaWhereInput {
 }
 
 type InstanceMetadata implements IContentMetadata & IInstanceMetadata {
+  changeset: String
   container: String
   created: DateTime
   createdBy: String
@@ -2086,6 +2152,7 @@ type InstanceMetadata implements IContentMetadata & IInstanceMetadata {
 }
 
 type ItemMetadata implements IContentMetadata & IItemMetadata {
+  changeset: String
   created: DateTime
   displayName(highlight: HighlightOptions): String
   displayOption: String
@@ -2293,13 +2360,11 @@ enum Locales {
   NEUTRAL
   en
   es
-  fr
-  fr_CA
   nl
-  sv
 }
 
 type MediaMetadata implements IContentMetadata & IInstanceMetadata & IMediaMetadata {
+  changeset: String
   container: String
   content(highlight: HighlightOptions): String
   created: DateTime
@@ -2645,6 +2710,7 @@ type Query {
   CardBlock(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CardBlockOrderByInput, skip: Int! = 0, where: CardBlockWhereInput): CardBlockOutput
   CardElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CardElementOrderByInput, skip: Int! = 0, where: CardElementWhereInput): CardElementOutput
   CarouselBlock(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CarouselBlockOrderByInput, skip: Int! = 0, where: CarouselBlockWhereInput): CarouselBlockOutput
+  CompanyName(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CompanyNameOrderByInput, skip: Int! = 0, where: CompanyNameWhereInput): CompanyNameOutput
   Contact(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ContactOrderByInput, skip: Int! = 0, where: ContactWhereInput): ContactOutput
   ContactElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ContactElementOrderByInput, skip: Int! = 0, where: ContactElementWhereInput): ContactElementOutput
   ContactPage(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ContactPageOrderByInput, skip: Int! = 0, where: ContactPageWhereInput): ContactPageOutput
@@ -2703,6 +2769,7 @@ type QueryRef {
   CardBlock(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CardBlockOrderByInput, skip: Int! = 0, where: CardBlockWhereInput): CardBlockOutput
   CardElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CardElementOrderByInput, skip: Int! = 0, where: CardElementWhereInput): CardElementOutput
   CarouselBlock(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CarouselBlockOrderByInput, skip: Int! = 0, where: CarouselBlockWhereInput): CarouselBlockOutput
+  CompanyName(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CompanyNameOrderByInput, skip: Int! = 0, where: CompanyNameWhereInput): CompanyNameOutput
   Contact(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ContactOrderByInput, skip: Int! = 0, where: ContactWhereInput): ContactOutput
   ContactElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ContactElementOrderByInput, skip: Int! = 0, where: ContactElementWhereInput): ContactElementOutput
   ContactPage(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ContactPageOrderByInput, skip: Int! = 0, where: ContactPageWhereInput): ContactPageOutput
