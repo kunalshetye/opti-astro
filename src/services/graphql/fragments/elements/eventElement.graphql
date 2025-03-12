@@ -1,5 +1,0 @@
-fragment EventElement on EventElement {
-    Title
-    Date
-    Address
-}

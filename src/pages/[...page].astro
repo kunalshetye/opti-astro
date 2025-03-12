@@ -1,56 +1,64 @@
 ---
-import Components from "../components/cms/OnPageEditing/components/_Components.astro";
-import Pages from "../components/cms/OnPageEditing/pages/_Pages.astro";
-import Experiences from "../components/cms/VisualBuilder/experiences/_Experiences.astro";
-import { Locales } from "../services/graphql/__generated/sdk";
-import { getOptimizelySdk } from "../services/graphql/getSdk";
-import { ContentPayload } from "../services/shared/ContentPayload";
+import { Locales } from '../../__generated/sdk';
+import Components from '../cms/components/_Components.astro';
+import Experiences from '../cms/experiences/_Experiences.astro';
+import { getOptimizelySdk } from '../graphql/getSdk';
+import type { ContentPayload } from '../graphql/shared/ContentPayload';
 
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { getRelativeLocaleUrl } from 'astro:i18n';
 const lang = Astro.currentLocale;
 
-const ctx = "view";
+const ctx = 'view';
 
 var contentPayload: ContentPayload = {
-  ctx: ctx,
-  key: null,
-  ver: null,
-  loc: null,
-  preview_token: "",
-  types: null,
+    ctx: ctx,
+    key: '',
+    ver: '',
+    loc: '',
+    preview_token: '',
+    types: []
 };
 
-const urlPath = `${Astro.url.pathname.replace(/\/$/, "")}/`;
-const contentByPathResponse = await getOptimizelySdk(contentPayload).contentByPath({
-  url: urlPath,
+const urlPath = `${Astro.url.pathname.replace(/\/$/, '')}/`;
+const urlBase = Astro.url.origin;
+const contentByPathResponse = await getOptimizelySdk(
+    contentPayload
+).contentByPath({
+    base: urlBase,
+    url: urlPath,
 });
-if (contentByPathResponse._Content.items.length === 0) {
-  // return Astro.redirect("/en");
-  return Astro.redirect(getRelativeLocaleUrl(lang, '/'));
+if (!contentByPathResponse._Content || !contentByPathResponse._Content.items || contentByPathResponse._Content.items.length === 0) {
+    // return Astro.redirect("/en");
+    return Astro.redirect(getRelativeLocaleUrl(lang, '/'));
 }
 const item = contentByPathResponse._Content.items[0];
+
+if (!item?._metadata) {
+    throw new Error('Metadata is missing in the content item');
+}
+
 const contentByIdResponse = await getOptimizelySdk(contentPayload).contentById({
-  key: item._metadata.key,
-  ver: item._metadata.version,
-  loc: item._metadata.locale as Locales,
+    key: item._metadata.key || '',
+    ver: item._metadata.version || '',
+    loc: item._metadata.locale as Locales,
 });
 
 contentPayload = {
-  ctx: ctx,
-  key: item._metadata.key,
-  ver: item._metadata.version,
-  loc: item._metadata.locale as Locales,
-  preview_token: "",
-  types: contentByIdResponse._Content.items[0]._metadata.types,
+    ctx: ctx,
+    key: item._metadata.key || '',
+    ver: item._metadata.version || '',
+    loc: item._metadata.locale as Locales,
+    preview_token: '',
+    types: contentByIdResponse._Content?.items?.[0]?._metadata?.types as string[] || [],
 };
-const isComponentType = contentPayload.types.includes("_Component");
-const isExperienceType = contentPayload.types.includes("_Experience");
+const isComponentType = contentPayload.types.includes('_Component');
+const isExperienceType = contentPayload.types.includes('_Experience');
 const isPageType =
-  contentPayload.types.includes("_Page") && isExperienceType === false;
+    contentPayload.types.includes('_Page') && isExperienceType === false;
 ---
 
 <>
-  {isComponentType && <Components data={contentPayload} />}
-  {isExperienceType && <Experiences data={contentPayload} />}
-  {isPageType && <Pages data={contentPayload} />}
+    {isComponentType && <Components data={contentPayload} contentPayload={contentPayload} />}
+    {isExperienceType && <Experiences data={contentPayload} />}
+    <!-- {isPageType && <Pages data={contentPayload} />} -->
 </>

@@ -1,0 +1,83 @@
+---
+import type { ContentPayload } from '../../graphql/shared/ContentPayload';
+import CallToAction from './CallToActionComponent/CallToAction.astro';
+import Card from './CardComponent/Card.astro';
+import Hero from './HeroComponent/Hero.astro';
+import Image from './ImageComponent/Image.astro';
+import Paragraph from './ParagraphComponent/Paragraph.astro';
+import Text from './TextComponent/Text.astro';
+import Video from './VideoComponent/Video.astro';
+interface Props {
+    contentPayload: ContentPayload;
+    data: any;
+}
+
+const { contentPayload, data } = Astro.props as Props;
+const { component, displaySettings, displayTemplateKey } = data;
+const componentType = component._metadata.types[0];
+---
+
+{
+    componentType === 'Text' && (
+        <Text
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+        />
+    )
+}
+{
+    componentType === 'CallToAction' && (
+        <CallToAction
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+        />
+    )
+}
+{
+    componentType === 'Image' && (
+        <Image
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+        />
+    )
+}
+{
+    componentType === 'Video' && (
+        <Video
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+        />
+    )
+}
+{
+    componentType === 'Paragraph' && (
+        <Paragraph
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+        />
+    )
+}
+{
+    componentType === 'Card' && (
+        <Card
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+            displayTemplateKey={displayTemplateKey}
+        />
+    )
+}
+{
+    componentType === 'Hero' && (
+        <Hero
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+        />
+    )
+}

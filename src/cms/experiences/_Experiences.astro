@@ -1,0 +1,38 @@
+---
+import type { BlankExperience, Locales } from '../../../__generated/sdk';
+import { getOptimizelySdk } from '../../graphql/getSdk';
+import type { ContentPayload } from '../../graphql/shared/ContentPayload';
+import Layout from '../../layouts/Layout.astro';
+import Section from '../compositions/Section/Section.astro';
+const previewPayload = Astro.props.data as ContentPayload;
+
+const optiResponse = await getOptimizelySdk(previewPayload).getExperience({
+    key: previewPayload.key,
+    ver: previewPayload.ver,
+    loc: previewPayload.loc as Locales,
+});
+
+const experiences = optiResponse?._Experience?.items;
+if(!experiences || experiences.length === 0) {
+    throw new Error('No experience found');
+}
+const experience: any = experiences[experiences.length - 1];
+let metaTitle = '',
+    metaDescription = '';
+if (experience._metadata.types.includes('BlankExperience')) {
+    const blankExperience = experience as BlankExperience;
+    metaTitle = blankExperience.BlankExperienceSeoSettings?.MetaTitle || '';
+    metaDescription =
+        blankExperience.BlankExperienceSeoSettings?.MetaDescription || '';
+}
+---
+
+<Layout title={metaTitle} description={metaDescription}>
+    <div class="vb:outline relative w-full flex-1">
+        {
+            experience?.composition?.grids?.map((grid: any) => (
+                <Section contentPayload={previewPayload} grid={grid} />
+            ))
+        }
+    </div>
+</Layout>

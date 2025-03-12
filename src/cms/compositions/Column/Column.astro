@@ -1,0 +1,29 @@
+---
+import type { CompositionStructureNode } from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import Elements from '../../components/_Components.astro';
+import { getColumnStyles } from './ColumnHelper';
+export interface Props {
+    column: CompositionStructureNode;
+    contentPayload: ContentPayload;
+}
+const { column, contentPayload } = Astro.props as Props;
+const styles = getColumnStyles(column);
+---
+
+<!--<h3>this is a column</h3>-->
+<div
+    class:list={styles}
+    class="vb:col flex flex-1 flex-col flex-nowrap p-4"
+    data-epi-block-id={column.key}
+>
+    {
+        column.nodes?.map((item: any) => (
+            // <p>{item.displaySettings.map((ds: any) => (`${ds.key} : ${ds.value}`))}</p>
+
+            <div data-epi-block-id={item?.key}>
+                <Elements contentPayload={contentPayload} data={item} />
+            </div>
+        ))
+    }
+</div>

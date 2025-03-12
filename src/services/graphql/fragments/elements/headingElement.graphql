@@ -1,3 +1,0 @@
-fragment HeadingElement on HeadingElement {
-    headingText
-}

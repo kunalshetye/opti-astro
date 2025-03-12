@@ -1,0 +1,5 @@
+fragment Paragraph on Paragraph {
+    Text {
+        html
+    }
+}

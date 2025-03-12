@@ -1,0 +1,8 @@
+fragment Image on Image {
+    AltText
+    Image {
+        url {
+            default
+        }
+    }
+}

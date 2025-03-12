@@ -1,0 +1,33 @@
+---
+import type {
+    CardFragment,
+    DisplaySettingsFragment,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+
+export interface Props {
+    data: CardFragment;
+    displaySettings: DisplaySettingsFragment[];
+    displayTemplateKey: string;
+    contentPayload: ContentPayload;
+}
+const { data, displaySettings, displayTemplateKey, contentPayload } =
+    Astro.props as Props;
+const imageUrl = data.Asset?.url?.default || null;
+---
+
+<div class="relative mx-auto max-w-4xl">
+    {
+        imageUrl && (
+            <img
+                alt="Interior Painting"
+                class="relative rounded-xl border border-transparent object-cover"
+                decoding="async"
+                height="700"
+                loading="lazy"
+                src={imageUrl}
+                width="1075"
+            />
+        )
+    }
+</div>

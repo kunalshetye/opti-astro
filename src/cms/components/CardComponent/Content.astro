@@ -1,0 +1,45 @@
+---
+import type {
+CardFragment,
+DisplaySettingsFragment,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+
+export interface Props {
+    data: CardFragment;
+    displaySettings: DisplaySettingsFragment[];
+    displayTemplateKey: string;
+    contentPayload: ContentPayload;
+}
+const { data } = Astro.props as Props;
+const cssClassesSection = {
+    textOnRight: 'col-span-1',
+    textOnLeft: 'col-span-1',
+    textAboveCard: 'col-span-1 text-center',
+    textBelowCard: 'col-span-1 text-center',
+};
+const cssClassesCallToAction = {
+    textOnRight: 'z-20 mt-8 flex',
+    textOnLeft: 'z-20 mt-8 flex',
+    textAboveCard: 'z-20 mt-8 flex justify-center',
+    textBelowCard: 'z-20 mt-8 flex justify-center',
+};
+const cssClassesForSection = cssClassesSection[data.DisplayAs];
+const cssClassesForCallToAction = cssClassesCallToAction[data.DisplayAs];
+---
+
+<!-- <div class="col-span-1 md:order-last"> -->
+<div class={cssClassesForSection}>
+    <p class="mt-6 text-4xl font-bold">{data.Heading}</p>
+    <p class="mt-6 text-sm font-semibold">{data.SubHeading}</p>
+    <p class="description mt-6" set:html={data.Body?.html} />
+    <div class={cssClassesForCallToAction}>
+        {
+            data.Links?.map((link) => (
+                <a href={link?.url?.default} class="btn btn-neutral btn-lg">
+                    {link?.text}
+                </a>
+            ))
+        }
+    </div>
+</div>

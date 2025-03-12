@@ -11,6 +11,10 @@ import pageInsight from 'astro-page-insight';
 
 // https://astro.build/config
 export default defineConfig({
+    devToolbar: {
+        enabled: false,
+    },
+
     image: {
         domains: ['images.unsplash.com'],
         remotePatterns: [
@@ -22,7 +26,7 @@ export default defineConfig({
     },
 
     i18n: {
-        locales: ['en', 'es', 'fr', 'fr-CA', 'nl', 'sv'],
+        locales: ['en', 'es', 'fr', 'fr-CA', 'nl', 'sv', 'de'],
         defaultLocale: 'en',
         routing: {
             prefixDefaultLocale: false,
@@ -34,6 +38,7 @@ export default defineConfig({
             'fr-CA': 'en',
             nl: 'en',
             sv: 'en',
+            de: 'en',
         },
     },
 

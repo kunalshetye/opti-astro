@@ -1,13 +1,14 @@
 ---
-import { getOptimizelySdk } from '../services/graphql/getSdk';
-import Component from '../components/cms/VisualBuilder/components/_Component.astro';
-import Experiences from '../components/cms/VisualBuilder/experiences/_Experiences.astro';
-import Pages from '../components/cms/OnPageEditing/pages/_Pages.astro';
-import { ContentPayload } from '../services/shared/ContentPayload';
-import { Locales } from '../services/graphql/__generated/sdk';
+
 import qs from 'query-string';
 
 import { OPTIMIZELY_CMS_URL } from 'astro:env/client';
+import type { Locales } from 'astro';
+import Component from '../cms/components/_Component.astro';
+import Experiences from '../cms/experiences/_Experiences.astro';
+// import Pages from '../cms/pages/_Pages.astro';
+import { getOptimizelySdk } from '../graphql/getSdk';
+import type { ContentPayload } from '../graphql/shared/ContentPayload';
 const cmsScript =
     OPTIMIZELY_CMS_URL &&
     OPTIMIZELY_CMS_URL.startsWith('https://') &&
@@ -19,10 +20,12 @@ const previewPayload = qs.parse(Astro.url.search) as unknown as ContentPayload;
 
 const optiResponse = await getOptimizelySdk(previewPayload).contentById({
     key: previewPayload.key,
+    //@ts-ignore
     loc: previewPayload.loc as unknown as Locales,
     ver: previewPayload.ver,
 });
-const types = optiResponse._Content.items[0]?._metadata?.types;
+const types = optiResponse._Content?.items?.[0]?._metadata?.types;
+//@ts-ignore
 previewPayload.types = types;
 
 const isComponentType = types?.includes('_Component');
@@ -34,7 +37,7 @@ const isPageType = types?.includes('_Page') && isExperienceType === false;
     {!types && <h1 class="text-center text-5xl">Welcome to the demo site!</h1>}
     {isComponentType && <Component data={previewPayload} />}
     {isExperienceType && <Experiences data={previewPayload} />}
-    {isPageType && <Pages data={previewPayload} />}
+    <!-- {isPageType && <Pages data={previewPayload} />} -->
 </>
 <script src=`${cmsScript}` is:inline></script>
 <script>

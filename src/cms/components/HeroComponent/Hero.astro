@@ -1,0 +1,75 @@
+---
+import type {
+DisplaySettingsFragment,
+HeroFragment,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+
+export interface Props {
+    data: HeroFragment;
+    displaySettings: DisplaySettingsFragment[];
+    contentPayload: ContentPayload;
+}
+const { data } = Astro.props as Props;
+const videoUrl = data?.Video?.url?.default ?? null;
+const imageUrl = data?.Image?.url?.default || null;
+const hasVideo = videoUrl !== null;
+---
+
+<section class="relative flex h-[48rem] w-full items-center justify-center">
+    {
+        hasVideo && videoUrl && (
+            <video
+                autoplay
+                loop
+                muted
+                playsinline
+                class="absolute inset-0 h-full w-full object-cover"
+                id="hero-video"
+            >
+                <source src={videoUrl} type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
+        )
+    }
+
+    {
+        !hasVideo && imageUrl && (
+            <img
+                src={imageUrl}
+                alt="Hero Background"
+                class="absolute inset-0 h-full w-full object-cover"
+                id="hero-image"
+            />
+        )
+    }
+
+    <!-- Dark Overlay for Better Readability -->
+    <div class="absolute inset-0 bg-black/60"></div>
+
+    <!-- Content -->
+    <div class="relative z-10 px-6 text-center text-white">
+        <h1 class="text-5xl font-bold md:text-6xl">{data?.Heading}</h1>
+        <p class="mx-auto mt-4 max-w-2xl text-lg">
+            {data?.SubHeading}
+        </p>
+        <p
+            class="mx-auto mt-4 max-w-2xl text-base text-gray-200"
+            set:html={data.Body?.html}
+        />
+
+        <!-- Buttons -->
+        <div class="mt-6 flex justify-center space-x-4">
+            {
+                data?.Links?.map((link) => (
+                    <a
+                        href={link?.url?.default}
+                        class="rounded-full bg-black/90 px-6 py-3 font-semibold text-white shadow-lg hover:bg-blue-700"
+                    >
+                        {link?.text}
+                    </a>
+                ))
+            }
+        </div>
+    </div>
+</section>
