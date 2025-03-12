@@ -1,7 +1,37 @@
 @import 'tailwindcss';
+@import './inter.css';
 @plugin "daisyui" {
     themes:
         light --default,
         dark --preferslight;
     root: ':root';
+}
+@theme {
+    --font-sans: InterVariable, sans-serif;
+}
+@layer base {
+    ul {
+        @apply list-inside list-disc;
+    }
+    ol {
+        @apply list-inside list-decimal;
+    }
+    h1 {
+        @apply text-3xl;
+    }
+    h2 {
+        @apply text-2xl;
+    }
+    h3 {
+        @apply text-xl;
+    }
+    h4 {
+        @apply text-lg;
+    }
+    h5 {
+        @apply text-base;
+    }
+    h6 {
+        @apply text-sm;
+    }
 }

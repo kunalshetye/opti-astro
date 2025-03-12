@@ -12,7 +12,7 @@ const directoryToFindStylesIn = path.resolve(
 ); // looking for pattern *.opti-style.json
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
-const cmsUrl = process.env.CMS_URL;
+const cmsUrl = process.env.OPTIMIZELY_CMS_URL;
 
 // Create an instance of the client
 const config = {
