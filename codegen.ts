@@ -2,7 +2,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 import { loadEnv } from 'vite';
 
 const { OPTIMIZELY_GRAPH_SINGLE_KEY } = loadEnv(
-    process.env.NODE_ENV,
+    process.env.NODE_ENV || 'development',
     process.cwd(),
     ''
 );

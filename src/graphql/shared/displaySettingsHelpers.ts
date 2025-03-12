@@ -1,12 +1,22 @@
-import type { DisplaySettingsFragment } from '../../../__generated/sdk.ts';
+import type {
+    CompositionDisplaySetting,
+    DisplaySettingsFragment,
+    Maybe,
+} from '../../../__generated/sdk.ts';
 
 export function getDictionaryFromDisplaySettings(
-    displaySettings: DisplaySettingsFragment[]
+    displaySettings:
+        | Maybe<Maybe<DisplaySettingsFragment>>[]
+        | Maybe<Maybe<CompositionDisplaySetting>>[]
+        | undefined
+        | null
 ): Record<string, string> {
     const dictionary: Record<string, string> = {};
+    if (dictionary === undefined || dictionary === null) return dictionary;
     displaySettings?.forEach((setting) => {
-        // @ts-ignore
-        dictionary[setting.key] = setting.value;
+        if (setting?.key && setting?.value) {
+            dictionary[setting.key] = setting.value;
+        }
     });
     return dictionary;
 }
