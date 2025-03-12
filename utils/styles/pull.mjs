@@ -51,7 +51,7 @@ templatesList.items?.forEach(async (template) => {
         }
     } else {
         const nodeStyleLocation = `${directoryToFindStylesIn}/compositions/${capitalize(nodeType)}`;
-        const baseStyleLocation = `${directoryToFindStylesIn}/compositions/${capitalize(nodeType)}`;
+        const baseStyleLocation = `${directoryToFindStylesIn}/compositions/${capitalize(baseType)}`;
         if (
             nodeType !== undefined &&
             nodeType !== '' &&
