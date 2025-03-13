@@ -1,0 +1,22 @@
+fragment BlogPostPage on BlogPostPage {
+    _metadata {
+        url {
+            default
+        }
+        published
+    }
+    PromoImage {
+        url {
+            default
+        }
+    }
+    Heading
+    SubHeading
+    Author
+    Body {
+        html
+    }
+    SeoSettings {
+        ...PageSeoSettingsProperty
+    }
+}
