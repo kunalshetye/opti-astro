@@ -27,6 +27,7 @@
         "astro-page-insight": "^0.10.1",
         "autoprefixer": "^10.4.21",
         "daisyui": "^5.0.0",
+        "date-fns": "^4.1.0",
         "graphql": "^16.10.0",
         "graphql-request": "^7.1.2",
         "graphql-tag": "^2.12.6",

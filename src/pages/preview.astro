@@ -9,6 +9,7 @@ import Experiences from '../cms/experiences/_Experiences.astro';
 // import Pages from '../cms/pages/_Pages.astro';
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
+import Pages from '../cms/pages/_Pages.astro';
 const cmsScript =
     OPTIMIZELY_CMS_URL &&
     OPTIMIZELY_CMS_URL.startsWith('https://') &&
@@ -37,7 +38,7 @@ const isPageType = types?.includes('_Page') && isExperienceType === false;
     {!types && <h1 class="text-center text-5xl">Welcome to the demo site!</h1>}
     {isComponentType && <Component data={previewPayload} />}
     {isExperienceType && <Experiences data={previewPayload} />}
-    <!-- {isPageType && <Pages data={previewPayload} />} -->
+    {isPageType && <Pages data={previewPayload} />}
 </>
 <script src=`${cmsScript}` is:inline></script>
 <script>

@@ -2,6 +2,7 @@
 import { Locales } from '../../__generated/sdk';
 import Components from '../cms/components/_Components.astro';
 import Experiences from '../cms/experiences/_Experiences.astro';
+import Pages from '../cms/pages/_Pages.astro';
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
 
@@ -60,5 +61,5 @@ const isPageType =
 <>
     {isComponentType && <Components data={contentPayload} contentPayload={contentPayload} />}
     {isExperienceType && <Experiences data={contentPayload} />}
-    <!-- {isPageType && <Pages data={contentPayload} />} -->
+    {isPageType && <Pages data={contentPayload} />}
 </>

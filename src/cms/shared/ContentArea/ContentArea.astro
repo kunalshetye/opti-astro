@@ -1,20 +1,12 @@
 ---
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import Components from '../../components/_Components.astro';
 
 export interface Props {
     contentAreaItem: any;
     contentPayload: ContentPayload;
 }
 const { contentAreaItem, contentPayload } = Astro.props as Props;
-const componentType = contentAreaItem?._metadata?.types?.[0];
-//console.log('IN ContentArea', contentPayload)
+const component = { component: contentAreaItem || null };
 ---
-
-{
-    // componentType === 'BlogListingBlock' && (
-    //     <BlogListingBlock
-    //         contentPayload={contentPayload}
-    //         data={contentAreaItem}
-    //     />
-    // )
-}
+<Components contentPayload={contentPayload} data={component} />
