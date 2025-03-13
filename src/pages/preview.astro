@@ -1,5 +1,4 @@
 ---
-
 import qs from 'query-string';
 
 import { OPTIMIZELY_CMS_URL } from 'astro:env/client';
@@ -25,7 +24,7 @@ const optiResponse = await getOptimizelySdk(previewPayload).contentById({
     loc: previewPayload.loc as unknown as Locales,
     ver: previewPayload.ver,
 });
-const types = optiResponse._Content?.items?.[0]?._metadata?.types;
+const types = optiResponse?._Content?.items?.[0]?._metadata?.types;
 //@ts-ignore
 previewPayload.types = types;
 

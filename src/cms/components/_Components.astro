@@ -2,6 +2,7 @@
 import type { ContentPayload } from '../../graphql/shared/ContentPayload';
 import CallToAction from './CallToActionComponent/CallToAction.astro';
 import Card from './CardComponent/Card.astro';
+import Carousel from './CarouselComponent/Carousel.astro';
 import Hero from './HeroComponent/Hero.astro';
 import Image from './ImageComponent/Image.astro';
 import Paragraph from './ParagraphComponent/Paragraph.astro';
@@ -75,6 +76,15 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'Hero' && (
         <Hero
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+        />
+    )
+}
+{
+    componentType === 'Carousel' && (
+        <Carousel
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}

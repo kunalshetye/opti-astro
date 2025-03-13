@@ -1,14 +1,13 @@
 @import 'tailwindcss';
-@import './inter.css';
+/* @import './inter.css'; */
+/* @theme {--font-sans: InterVariable, sans-serif;} */
 @plugin "daisyui" {
     themes:
         light --default,
         dark --preferslight;
     root: ':root';
 }
-@theme {
-    --font-sans: InterVariable, sans-serif;
-}
+
 @layer base {
     ul {
         @apply list-inside list-disc;

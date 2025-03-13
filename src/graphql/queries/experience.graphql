@@ -59,6 +59,7 @@ query getExperience($key: String, $ver: String, $loc: [Locales]) {
                                                     ...Paragraph
                                                     ...Card
                                                     ...Hero
+                                                    ...Carousel
                                                 }
                                             }
                                         }
@@ -85,6 +86,7 @@ query getExperience($key: String, $ver: String, $loc: [Locales]) {
                             ...Paragraph
                             ...Card
                             ...Hero
+                            ...Carousel
                         }
                     }
                 }
