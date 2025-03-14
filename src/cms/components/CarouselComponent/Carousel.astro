@@ -22,7 +22,6 @@ const { data } = Astro.props as Props;
             const nextId =
                 //@ts-ignore
                 i === data?.Assets?.length - 1 ? `slide1` : `slide${i + 2}`;
-            // return <img src={asset?.url?.default} class="w-full" />;
             return (
                 <div id={id} class="carousel-item relative w-full">
                     <img
