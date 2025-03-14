@@ -1,0 +1,21 @@
+---
+interface Props {
+    DisplayAs: string;
+}
+const { DisplayAs } = Astro.props as Props;
+const cssClasses = {
+    textOnRight:
+        'mx-auto grid gap-8 rounded-xl md:grid-cols-2 md:gap-12 lg:gap-20',
+    textOnLeft:
+        'mx-auto grid gap-8 rounded-xl md:grid-cols-2 md:gap-12 lg:gap-20',
+    textAboveCard:
+        'mx-auto grid gap-8 rounded-xl md:grid-cols-1 md:gap-12 lg:gap-20',
+    textBelowCard:
+        'mx-auto grid gap-8 rounded-xl md:grid-cols-1 md:gap-12 lg:gap-20',
+};
+const cssClass = cssClasses[DisplayAs as keyof typeof cssClasses];
+---
+
+<div class={cssClass} style="opacity: 1; transform: translateX(0px);">
+    <slot />
+</div>

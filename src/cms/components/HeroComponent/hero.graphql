@@ -1,0 +1,23 @@
+fragment Hero on Hero {
+    Video {
+        url {
+            default
+        }
+    }
+    Image {
+        url {
+            default
+        }
+    }
+    Heading
+    SubHeading
+    Body {
+        html
+    }
+    Links {
+        url {
+            default
+        }
+        text
+    }
+}

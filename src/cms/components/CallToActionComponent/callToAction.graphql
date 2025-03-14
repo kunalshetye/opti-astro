@@ -1,0 +1,8 @@
+fragment CallToAction on CallToAction {
+    Links {
+        text
+        url {
+            default
+        }
+    }
+}

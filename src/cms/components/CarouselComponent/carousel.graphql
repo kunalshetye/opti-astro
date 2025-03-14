@@ -1,0 +1,7 @@
+fragment Carousel on Carousel {
+    Assets {
+        url {
+            default
+        }
+    }
+}

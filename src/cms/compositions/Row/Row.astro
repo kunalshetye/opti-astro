@@ -1,0 +1,41 @@
+---
+import type { CompositionStructureNode } from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import Column from '../Column/Column.astro';
+import CarouselRow from './CarouselRow.astro';
+import { getRowStyles } from './RowHelper';
+export interface Props {
+    row: any;
+    contentPayload: ContentPayload;
+}
+const { row, contentPayload } = Astro.props as Props;
+const rowNode = row as CompositionStructureNode;
+const displayTemplateKey = rowNode.displayTemplateKey;
+const styles = getRowStyles(rowNode);
+---
+
+<!--<h2>this is a row</h2>-->{
+    displayTemplateKey !== 'CarouselRow' && (
+        <div
+            class="vb:row flex flex-1 flex-row flex-nowrap items-center justify-start p-1"
+            class:list={styles}
+            data-epi-block-id={row.key}
+        >
+            {row.columns?.map((column: any) => (
+                <Column contentPayload={contentPayload} column={column} />
+            ))}
+        </div>
+    )
+}
+
+{
+    displayTemplateKey === 'CarouselRow' && (
+        <div
+            class="vb:row flex h-[50vh] flex-none flex-row flex-nowrap justify-start p-1"
+            class:list={styles}
+            data-epi-block-id={row.key}
+        >
+            <CarouselRow contentPayload={contentPayload} row={row} />
+        </div>
+    )
+}

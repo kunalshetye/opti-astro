@@ -1,0 +1,7 @@
+fragment Video on Video {
+    Video {
+        url {
+            default
+        }
+    }
+}

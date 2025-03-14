@@ -1,0 +1,16 @@
+---
+import type {
+    DisplaySettingsFragment,
+    VideoFragment,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+
+export interface Props {
+    data: VideoFragment;
+    displaySettings: DisplaySettingsFragment[];
+    contentPayload: ContentPayload;
+}
+const { data } = Astro.props as Props;
+---
+
+<video src={data.Video?.url?.default} autoplay muted></video>

@@ -1,0 +1,12 @@
+---
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import Components from '../../components/_Components.astro';
+
+export interface Props {
+    contentAreaItem: any;
+    contentPayload: ContentPayload;
+}
+const { contentAreaItem, contentPayload } = Astro.props as Props;
+const component = { component: contentAreaItem || null };
+---
+<Components contentPayload={contentPayload} data={component} />

@@ -1,0 +1,63 @@
+---
+import type {
+CardFragment,
+DisplaySettingsFragment,
+} from '../../../../__generated/sdk';
+
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import Asset from './Asset.astro';
+import Content from './Content.astro';
+import Wrapper from './Wrapper.astro';
+export interface Props {
+    data: CardFragment;
+    displaySettings: DisplaySettingsFragment[];
+    displayTemplateKey: string;
+    contentPayload: ContentPayload;
+}
+const { data, displaySettings, displayTemplateKey, contentPayload } =
+    Astro.props as Props;
+const { DisplayAs } = data;
+---
+
+{
+    () => {
+        switch (DisplayAs) {
+            case 'textOnRight':
+            case 'textBelowCard':
+                return (
+                    <Wrapper DisplayAs={DisplayAs}>
+                        <Asset
+                            data={data}
+                            displaySettings={displaySettings}
+                            displayTemplateKey={displayTemplateKey}
+                            contentPayload={contentPayload}
+                        />
+                        <Content
+                            data={data}
+                            displaySettings={displaySettings}
+                            displayTemplateKey={displayTemplateKey}
+                            contentPayload={contentPayload}
+                        />
+                    </Wrapper>
+                );
+            case 'textOnLeft':
+            case 'textAboveCard':
+                return (
+                    <Wrapper DisplayAs={DisplayAs}>
+                        <Content
+                            data={data}
+                            displaySettings={displaySettings}
+                            displayTemplateKey={displayTemplateKey}
+                            contentPayload={contentPayload}
+                        />
+                        <Asset
+                            data={data}
+                            displaySettings={displaySettings}
+                            displayTemplateKey={displayTemplateKey}
+                            contentPayload={contentPayload}
+                        />
+                    </Wrapper>
+                );
+        }
+    }
+}

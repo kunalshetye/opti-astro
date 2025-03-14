@@ -1,0 +1,38 @@
+---
+import type { Locales } from 'astro';
+import type { LandingPageFragment } from '../../../../__generated/sdk';
+import { getOptimizelySdk } from '../../../graphql/getSdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import Layout from '../../../layouts/Layout.astro';
+import ContentArea from '../../shared/ContentArea/ContentArea.astro';
+
+
+export interface Props {
+  contentPayload: ContentPayload;
+}
+const { contentPayload } = Astro.props as Props
+
+const optiResponse = await getOptimizelySdk(contentPayload).pageById({
+  key: contentPayload.key,
+  //@ts-ignore
+  loc: contentPayload.loc as Locales,
+  ver: contentPayload.ver
+})
+
+const page = optiResponse?._Page?.items?.[0] as LandingPageFragment
+---
+<Layout title="todo" , description="todo">
+  <!--Top content area-->
+  {
+    page?.TopContentArea?.map((contentAreaItem: any) => (
+      <ContentArea contentPayload={contentPayload} contentAreaItem={contentAreaItem} />
+    ))
+  }
+  <!--Main content area-->
+   {
+      page.MainContentArea?.map((contentAreaItem: any) => (
+        <ContentArea contentPayload={contentPayload} contentAreaItem={contentAreaItem} />
+      ))
+    }
+</Layout>
+

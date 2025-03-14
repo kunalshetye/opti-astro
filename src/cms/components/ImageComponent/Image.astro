@@ -1,0 +1,20 @@
+---
+import type { DisplaySettingsFragment, ImageFragment } from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { getImageElementStyles } from './ImageStyling';
+
+
+
+export interface Props {
+    data: ImageFragment;
+    displaySettings: DisplaySettingsFragment[];
+    contentPayload: ContentPayload;
+}
+const { data, displaySettings } = Astro.props as Props;
+---
+
+<img
+    class:list={getImageElementStyles(displaySettings)}
+    src={data.Image?.url?.default}
+    alt={data.AltText}
+/>

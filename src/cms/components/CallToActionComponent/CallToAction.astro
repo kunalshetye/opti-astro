@@ -1,0 +1,24 @@
+---
+import type {
+    CallToActionFragment,
+    DisplaySettingsFragment,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+
+export interface Props {
+    data: CallToActionFragment;
+    displaySettings: DisplaySettingsFragment[];
+    contentPayload: ContentPayload;
+}
+const { data } = Astro.props as Props;
+---
+
+<div class="m-4 flex gap-4">
+    {
+        data.Links?.map((link) => (
+            <a class="btn btn-neutral btn-lg" href={link?.url?.default}>
+                {link?.text}
+            </a>
+        ))
+    }
+</div>

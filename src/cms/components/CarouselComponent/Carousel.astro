@@ -1,0 +1,43 @@
+---
+import type {
+    CarouselFragment,
+    DisplaySettingsFragment,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+
+export interface Props {
+    data: CarouselFragment;
+    displaySettings: DisplaySettingsFragment[];
+    contentPayload: ContentPayload;
+}
+const { data } = Astro.props as Props;
+---
+
+<div class="carousel h-[50rem] w-full">
+    {
+        data.Assets?.map((asset, i) => {
+            const id = `slide${i + 1}`;
+            const previousId =
+                i === 0 ? `slide${data.Assets?.length}` : `slide${i}`;
+            const nextId =
+                //@ts-ignore
+                i === data?.Assets?.length - 1 ? `slide1` : `slide${i + 2}`;
+            return (
+                <div id={id} class="carousel-item relative w-full">
+                    <img
+                        src={asset?.url?.default}
+                        class="w-full object-cover"
+                    />
+                    <div class="absolute top-1/2 right-5 left-5 flex -translate-y-1/2 transform justify-between">
+                        <a href={`#` + previousId} class="btn btn-circle">
+                            ❮
+                        </a>
+                        <a href={`#` + nextId} class="btn btn-circle">
+                            ❯
+                        </a>
+                    </div>
+                </div>
+            );
+        })
+    }
+</div>

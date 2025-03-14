@@ -1,0 +1,19 @@
+fragment Card on Card {
+    DisplayAs
+    Heading
+    SubHeading
+    Body {
+        html
+    }
+    Asset {
+        url {
+            default
+        }
+    }
+    Links {
+        text
+        url {
+            default
+        }
+    }
+}

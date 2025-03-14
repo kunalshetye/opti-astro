@@ -1,6 +1,0 @@
-fragment CTAElement on CTAElement {
-    Text
-    Link {
-        default
-    }
-}

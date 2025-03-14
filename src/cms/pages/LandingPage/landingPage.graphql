@@ -1,0 +1,29 @@
+fragment LandingPage on LandingPage {
+    TopContentArea {
+        _metadata {
+            types
+        }
+        ...Text
+        ...Image
+        ...CallToAction
+        ...Video
+        ...Paragraph
+        ...Card
+        ...Hero
+    }
+    MainContentArea {
+        _metadata {
+            types
+        }
+        ...Text
+        ...Image
+        ...CallToAction
+        ...Video
+        ...Paragraph
+        ...Card
+        ...Hero
+    }
+    SeoSettings {
+        ...PageSeoSettingsProperty
+    }
+}

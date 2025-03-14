@@ -1,5 +1,0 @@
-fragment ContactElement on ContactElement {
-    Contact {
-        key
-    }
-}

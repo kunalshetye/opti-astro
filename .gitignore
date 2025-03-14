@@ -15,13 +15,26 @@ pnpm-debug.log*
 
 # environment variables
 .env
+.env.production
 .env.*
+!.env.template
 
 # macOS-specific files
 .DS_Store
 
 # jetbrains setting folder
 .idea/
+.vscode/
 
-# yarn
-.yarn/
+# graphql
+__generated/
+
+# bun
+bun.lock
+
+# util temp
+utils/**/temp/
+
+
+.yarn/*
+.netlify/*
