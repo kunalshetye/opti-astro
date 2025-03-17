@@ -55,6 +55,18 @@ export function getColumnStyles(column: CompositionStructureNode) {
                     break;
             }
 
+            switch (dictionary['alignItems']) {
+                case 'center':
+                    cssClasses.push('items-center');
+                    break;
+                case 'end':
+                    cssClasses.push('items-end');
+                    break;
+                default:
+                    cssClasses.push('items-start');
+                    break;
+            }
+
             switch (dictionary['showFrom']) {
                 case 'fromSmall':
                     cssClasses.push('hidden sm:block');
