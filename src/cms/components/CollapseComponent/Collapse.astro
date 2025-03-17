@@ -1,0 +1,20 @@
+---
+import type {
+    CollapseFragment,
+    DisplaySettingsFragment,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+
+export interface Props {
+    data: CollapseFragment;
+    displaySettings: DisplaySettingsFragment[];
+    contentPayload: ContentPayload;
+}
+const { data } = Astro.props as Props;
+---
+
+<div class="collapse-plus bg-base-100 border-base-300 collapse border">
+    <input type="checkbox" class="peer" />
+    <div class="collapse-title font-semibold">{data?.Heading}</div>
+    <div class="collapse-content text-sm" set:html={data?.Body?.html} />
+</div>
