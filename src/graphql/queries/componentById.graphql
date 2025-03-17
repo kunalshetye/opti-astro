@@ -15,6 +15,8 @@ query componentById($key: [String]!, $loc: [Locales]!, $ver: String!) {
             ...Image
             ...Paragraph
             ...Video
+            ...Carousel
+            ...Collapse
         }
     }
 }
