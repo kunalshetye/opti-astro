@@ -8,15 +8,7 @@ query componentById($key: [String]!, $loc: [Locales]!, $ver: String!) {
             _metadata {
                 types
             }
-            ...Card
-            ...CallToAction
-            ...Text
-            ...Hero
-            ...Image
-            ...Paragraph
-            ...Video
-            ...Carousel
-            ...Collapse
+            ...AllComponents
         }
     }
 }

@@ -1,6 +1,7 @@
 ---
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import type { SiteSettingsByHostnameQuery } from '../../../__generated/sdk';
+import { getClassForLogo } from './logoHelper';
 const lang = Astro.currentLocale || '';
 
 interface Props {
@@ -9,6 +10,7 @@ interface Props {
 
 const { siteSettings } = Astro.props;
 const settings = siteSettings.SiteSettings?.item;
+const logoCss = getClassForLogo(settings?.LogoResoultion);
 ---
 
 <header class="sticky top-0 z-50 bg-gray-50/70 backdrop-blur-sm">
@@ -21,7 +23,7 @@ const settings = siteSettings.SiteSettings?.item;
                 >
                     <span class="sr-only">Home</span>
                     <img
-                        class=`h-${settings?.LogoResoultion}`
+                        class={logoCss}
                         src={settings?.Logo?.url?.default ??
                             '/mosey-coffee.png'}
                     />

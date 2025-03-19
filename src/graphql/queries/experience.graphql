@@ -52,15 +52,7 @@ query getExperience($key: String, $ver: String, $loc: [Locales]) {
                                                     _metadata {
                                                         types
                                                     }
-                                                    ...Text
-                                                    ...Image
-                                                    ...CallToAction
-                                                    ...Video
-                                                    ...Paragraph
-                                                    ...Card
-                                                    ...Hero
-                                                    ...Carousel
-                                                    ...Collapse
+                                                    ...AllComponents
                                                 }
                                             }
                                         }
@@ -80,15 +72,7 @@ query getExperience($key: String, $ver: String, $loc: [Locales]) {
                             _metadata {
                                 types
                             }
-                            ...Text
-                            ...Image
-                            ...CallToAction
-                            ...Video
-                            ...Paragraph
-                            ...Card
-                            ...Hero
-                            ...Carousel
-                            ...Collapse
+                            ...AllComponents
                         }
                     }
                 }
