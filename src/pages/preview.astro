@@ -34,7 +34,7 @@ const isPageType = types?.includes('_Page') && isExperienceType === false;
 ---
 
 <>
-    {!types && <h1 class="text-center text-5xl">Welcome to the demo site!</h1>}
+    {!types && <h1 class="text-center text-5xl">Let's create some content</h1>}
     {isComponentType && <Component data={previewPayload} />}
     {isExperienceType && <Experiences data={previewPayload} />}
     {isPageType && <Pages data={previewPayload} />}

@@ -1,0 +1,18 @@
+query siteSettingsByHostname($domain: String!, $locale: [Locales]!) {
+    SiteSettings(
+        locale: $locale
+        where: { SiteDomain: { eq: $domain } }
+        orderBy: { _modified: DESC }
+        limit: 1
+    ) {
+        item {
+            SiteDomain
+            LogoResoultion
+            Logo {
+                url {
+                    default
+                }
+            }
+        }
+    }
+}

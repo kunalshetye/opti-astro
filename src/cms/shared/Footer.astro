@@ -1,13 +1,20 @@
 ---
+import type { SiteSettingsByHostnameQuery } from '../../../__generated/sdk';
 
+interface Props {
+    siteSettings: SiteSettingsByHostnameQuery;
+}
+
+const { siteSettings } = Astro.props;
+const settings = siteSettings.SiteSettings?.item;
 ---
 
 <footer class="bg-gray-100">
     <div class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
         <div class="flex justify-center text-teal-600">
             <img
-                class="h-32"
-                src="/mosey-coffee.png"
+                class=`h-${settings?.LogoResoultion}`
+                src={settings?.Logo?.url?.default ?? '/mosey-coffee.png'}
             />
         </div>
 
@@ -18,7 +25,7 @@
         </p>
 
         <ul
-            class="mt-12 flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12 list-none"
+            class="mt-12 flex list-none flex-wrap justify-center gap-6 md:gap-8 lg:gap-12"
         >
             <li>
                 <a
@@ -75,7 +82,7 @@
             </li>
         </ul>
 
-        <ul class="mt-12 flex justify-center gap-6 md:gap-8 list-none">
+        <ul class="mt-12 flex list-none justify-center gap-6 md:gap-8">
             <li>
                 <a
                     href="#"

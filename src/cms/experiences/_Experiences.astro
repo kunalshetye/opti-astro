@@ -13,7 +13,7 @@ const optiResponse = await getOptimizelySdk(previewPayload).getExperience({
 });
 
 const experiences = optiResponse?._Experience?.items;
-if(!experiences || experiences.length === 0) {
+if (!experiences || experiences.length === 0) {
     throw new Error('No experience found');
 }
 const experience: any = experiences[experiences.length - 1];
@@ -27,7 +27,11 @@ if (experience._metadata.types.includes('BlankExperience')) {
 }
 ---
 
-<Layout title={metaTitle} description={metaDescription}>
+<Layout
+    title={metaTitle}
+    description={metaDescription}
+    contentPayload={previewPayload}
+>
     <div class="vb:outline relative w-full flex-1">
         {
             experience?.composition?.grids?.map((grid: any) => (

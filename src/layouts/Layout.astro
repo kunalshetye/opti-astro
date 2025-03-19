@@ -1,13 +1,25 @@
 ---
+import type { Locales } from '../../__generated/sdk';
 import Footer from '../cms/shared/Footer.astro';
 import Header from '../cms/shared/Header.astro';
+import { getOptimizelySdk } from '../graphql/getSdk';
+import type { ContentPayload } from '../graphql/shared/ContentPayload';
 import '../styles/global.css';
 interface Props {
     title: string;
     description: string;
+    contentPayload: ContentPayload;
 }
 
-const { title, description } = Astro.props;
+const { title, description, contentPayload } = Astro.props;
+const { host } = Astro.url;
+console.log(host);
+const siteSettings = await getOptimizelySdk(
+    contentPayload
+).siteSettingsByHostname({
+    domain: host,
+    locale: [contentPayload.loc as Locales],
+});
 ---
 
 <!doctype html>
@@ -21,8 +33,8 @@ const { title, description } = Astro.props;
         <title>{title}</title>
     </head>
     <body>
-        <Header />
+        <Header siteSettings={siteSettings} />
         <slot />
-        <Footer />
+        <Footer siteSettings={siteSettings} />
     </body>
 </html>

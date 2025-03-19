@@ -34,6 +34,9 @@ export function getSectionStyles(grid: CompositionStructureNode): string[] {
                     break;
             }
             switch (dictionary['sectionColor']) {
+                case 'gray':
+                    cssClasses.push('bg-gray-100');
+                    break;
                 case 'black':
                     cssClasses.push('bg-gray-950');
                     break;

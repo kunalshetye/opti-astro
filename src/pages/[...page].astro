@@ -17,7 +17,7 @@ var contentPayload: ContentPayload = {
     ver: '',
     loc: '',
     preview_token: '',
-    types: []
+    types: [],
 };
 
 const urlPath = `${Astro.url.pathname.replace(/\/$/, '')}/`;
@@ -28,7 +28,11 @@ const contentByPathResponse = await getOptimizelySdk(
     base: urlBase,
     url: urlPath,
 });
-if (!contentByPathResponse._Content || !contentByPathResponse._Content.items || contentByPathResponse._Content.items.length === 0) {
+if (
+    !contentByPathResponse._Content ||
+    !contentByPathResponse._Content.items ||
+    contentByPathResponse._Content.items.length === 0
+) {
     // return Astro.redirect("/en");
     return Astro.redirect(getRelativeLocaleUrl(lang, '/'));
 }
@@ -50,7 +54,9 @@ contentPayload = {
     ver: item._metadata.version || '',
     loc: item._metadata.locale as Locales,
     preview_token: '',
-    types: contentByIdResponse._Content?.items?.[0]?._metadata?.types as string[] || [],
+    types:
+        (contentByIdResponse._Content?.items?.[0]?._metadata
+            ?.types as string[]) || [],
 };
 const isComponentType = contentPayload.types.includes('_Component');
 const isExperienceType = contentPayload.types.includes('_Experience');
@@ -59,7 +65,11 @@ const isPageType =
 ---
 
 <>
-    {isComponentType && <Components data={contentPayload} contentPayload={contentPayload} />}
+    {
+        isComponentType && (
+            <Components data={contentPayload} contentPayload={contentPayload} />
+        )
+    }
     {isExperienceType && <Experiences data={contentPayload} />}
     {isPageType && <Pages data={contentPayload} />}
 </>

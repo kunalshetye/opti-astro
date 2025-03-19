@@ -1,7 +1,7 @@
 ---
 import type {
-CardFragment,
-DisplaySettingsFragment,
+    CardFragment,
+    DisplaySettingsFragment,
 } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 
@@ -19,13 +19,18 @@ const cssClassesSection = {
     textBelowCard: 'col-span-1 text-center',
 };
 const cssClassesCallToAction = {
-    textOnRight: 'z-20 mt-8 flex',
-    textOnLeft: 'z-20 mt-8 flex',
-    textAboveCard: 'z-20 mt-8 flex justify-center',
-    textBelowCard: 'z-20 mt-8 flex justify-center',
+    textOnRight: 'z-20 mt-8 flex gap-2',
+    textOnLeft: 'z-20 mt-8 flex gap-2',
+    textAboveCard: 'z-20 mt-8 flex justify-center gap-2',
+    textBelowCard: 'z-20 mt-8 flex justify-center gap-2',
 };
-type DisplayAsType = 'textOnRight' | 'textOnLeft' | 'textAboveCard' | 'textBelowCard';
-const DisplayAs: DisplayAsType = data?.DisplayAs as DisplayAsType ?? 'textOnRight';
+type DisplayAsType =
+    | 'textOnRight'
+    | 'textOnLeft'
+    | 'textAboveCard'
+    | 'textBelowCard';
+const DisplayAs: DisplayAsType =
+    (data?.DisplayAs as DisplayAsType) ?? 'textOnRight';
 const cssClassesForSection: string = cssClassesSection[DisplayAs];
 const cssClassesForCallToAction: string = cssClassesCallToAction[DisplayAs];
 ---
@@ -37,11 +42,18 @@ const cssClassesForCallToAction: string = cssClassesCallToAction[DisplayAs];
     <p class="description mt-6" set:html={data.Body?.html} />
     <div class={cssClassesForCallToAction}>
         {
-            data.Links?.map((link) => (
-                <a href={link?.url?.default} class="btn btn-neutral btn-lg">
-                    {link?.text}
-                </a>
-            ))
+            data.Links?.map((link, i) => {
+                const css = i === 0 ? 'btn-neutral' : 'btn-primary';
+                return (
+                    <a
+                        href={link?.url?.default}
+                        class="btn btn-lg"
+                        class:list={css}
+                    >
+                        {link?.text}
+                    </a>
+                );
+            })
         }
     </div>
 </div>
