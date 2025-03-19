@@ -13,6 +13,7 @@ query siteSettingsByHostname($domain: String!, $locale: [Locales]!) {
                     default
                 }
             }
+            FooterText
         }
     }
 }

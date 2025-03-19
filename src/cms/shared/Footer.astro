@@ -21,7 +21,10 @@ const settings = siteSettings.SiteSettings?.item;
         <p
             class="mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-500"
         >
-            Sip, Savor, Repeat.
+            {
+                settings?.FooterText ??
+                    'Big Enough To Serve, Small Enough To Care.'
+            }
         </p>
 
         <ul
