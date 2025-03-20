@@ -30,6 +30,13 @@ templatesList.items?.forEach(async (template) => {
     const contentType = styleDefinition.contentType;
     const nodeType = styleDefinition.nodeType;
     const baseType = styleDefinition.baseType;
+    // Cleanup the style definition
+    // https://github.com/remkoj/optimizely-dxp-clients/blob/main/packages/optimizely-cms-cli/src/commands/styles_pull.tshttps://github.com/remkoj/optimizely-dxp-clients/blob/6f9633d4965a50a5323d3e8b2a03ab10deff8e9d/packages/optimizely-cms-cli/src/commands/styles_pull.ts#L63
+    if (styleDefinition.createdBy) delete styleDefinition.createdBy;
+    if (styleDefinition.lastModifiedBy) delete styleDefinition.lastModifiedBy;
+    if (styleDefinition.created) delete styleDefinition.created;
+    if (styleDefinition.lastModified) delete styleDefinition.lastModified;
+
     if (contentType !== undefined && contentType !== '') {
         const componentStyleLocation = `${directoryToFindStylesIn}/components/${contentType}Component`;
         if (

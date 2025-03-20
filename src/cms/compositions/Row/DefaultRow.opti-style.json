@@ -3,10 +3,6 @@
   "displayName": "Default",
   "nodeType": "row",
   "isDefault": true,
-  "created": "2024-10-23T08:40:03.013207+00:00",
-  "createdBy": "kunal.shetye@optimizely.com",
-  "lastModified": "2025-03-11T19:49:02.7625513+00:00",
-  "lastModifiedBy": "opti-styles",
   "settings": {
     "showAsRowFrom": {
       "displayName": "Show as row from (screen width)",

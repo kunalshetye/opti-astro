@@ -3,10 +3,6 @@
   "displayName": "Card",
   "nodeType": "column",
   "isDefault": false,
-  "created": "2024-10-23T08:40:02.7965234+00:00",
-  "createdBy": "kunal.shetye@optimizely.com",
-  "lastModified": "2025-03-11T19:49:02.7633982+00:00",
-  "lastModifiedBy": "opti-styles",
   "settings": {
     "colBackgroundColor": {
       "displayName": "Background color",

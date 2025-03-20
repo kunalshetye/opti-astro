@@ -3,10 +3,6 @@
   "displayName": "Card",
   "nodeType": "row",
   "isDefault": false,
-  "created": "2024-10-23T08:40:02.8263517+00:00",
-  "createdBy": "kunal.shetye@optimizely.com",
-  "lastModified": "2025-03-11T19:49:02.7750362+00:00",
-  "lastModifiedBy": "opti-styles",
   "settings": {
     "vSpacing": {
       "displayName": "Vertical Spacing",
