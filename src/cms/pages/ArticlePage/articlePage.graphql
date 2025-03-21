@@ -1,4 +1,4 @@
-fragment BlogPostPage on BlogPostPage {
+fragment ArticlePage on ArticlePage {
     _metadata {
         url {
             default

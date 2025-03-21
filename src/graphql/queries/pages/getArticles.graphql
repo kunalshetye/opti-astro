@@ -1,0 +1,33 @@
+query getArticles(
+    $loc: [Locales]
+    $limit: Int! = 15
+    $status: String! = "Published"
+) {
+    ArticlePage(
+        locale: $loc
+        orderBy: { _metadata: { published: DESC } }
+        limit: $limit
+        where: { _metadata: { status: { eq: $status } } }
+    ) {
+        items {
+            _metadata {
+                url {
+                    default
+                }
+            }
+            ... on ArticlePage {
+                PromoImage {
+                    url {
+                        default
+                    }
+                }
+                Heading
+                SubHeading
+                Author
+                Body {
+                    html
+                }
+            }
+        }
+    }
+}
