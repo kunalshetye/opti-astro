@@ -3,25 +3,13 @@ fragment LandingPage on LandingPage {
         _metadata {
             types
         }
-        ...Text
-        ...Image
-        ...CallToAction
-        ...Video
-        ...Paragraph
-        ...Card
-        ...Hero
+        ...AllComponents
     }
     MainContentArea {
         _metadata {
             types
         }
-        ...Text
-        ...Image
-        ...CallToAction
-        ...Video
-        ...Paragraph
-        ...Card
-        ...Hero
+        ...AllComponents
     }
     SeoSettings {
         ...PageSeoSettingsProperty

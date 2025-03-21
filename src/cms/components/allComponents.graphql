@@ -8,4 +8,5 @@ fragment AllComponents on _IComponent {
     ...Hero
     ...Carousel
     ...Collapse
+    ...ArticleList
 }

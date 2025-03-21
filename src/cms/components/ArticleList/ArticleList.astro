@@ -1,0 +1,56 @@
+---
+import { randomBytes } from 'crypto';
+import type {
+    ArticleListFragment,
+    ArticlePageExcerptFragment,
+    DisplaySettingsFragment,
+} from '../../../../__generated/sdk';
+import { getOptimizelySdk } from '../../../graphql/getSdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+
+export interface Props {
+    data: ArticleListFragment;
+    displaySettings: DisplaySettingsFragment[];
+    contentPayload: ContentPayload;
+}
+const { data, contentPayload } = Astro.props as Props;
+const articlesList = await getOptimizelySdk(contentPayload).getArticles({
+    //@ts-ignore
+    loc: contentPayload.loc,
+    limit: data.NumberOfArticles || 1,
+});
+const glideId = randomBytes(5).toString('hex');
+const items = articlesList.ArticlePage?.items || null;
+---
+
+<h1>{data?.Title}</h1>
+<div class="mx-auto mt-4 mb-4 flex gap-8 overflow-x-auto">
+    {
+        //@ts-ignore
+        items?.map((item: ArticlePageExcerptFragment, i) => {
+            // console.log(item);
+            return (
+                <div class="card bg-base-100 w-96 flex-shrink-0 shadow-sm">
+                    <figure>
+                        <img
+                            src={item.PromoImage?.url?.default}
+                            alt="promo image"
+                        />
+                    </figure>
+                    <div class="card-body">
+                        <h2 class="card-title">{item.Heading}</h2>
+                        <div set:html={item.Body?.html?.slice(0, 50)} />
+                        <div class="card-actions justify-end">
+                            <a
+                                href={item._metadata?.url?.default}
+                                class="btn btn-primary"
+                            >
+                                Read more
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            );
+        })
+    }
+</div>

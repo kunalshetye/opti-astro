@@ -10,24 +10,7 @@ query getArticles(
         where: { _metadata: { status: { eq: $status } } }
     ) {
         items {
-            _metadata {
-                url {
-                    default
-                }
-            }
-            ... on ArticlePage {
-                PromoImage {
-                    url {
-                        default
-                    }
-                }
-                Heading
-                SubHeading
-                Author
-                Body {
-                    html
-                }
-            }
+            ...ArticlePageExcerpt
         }
     }
 }

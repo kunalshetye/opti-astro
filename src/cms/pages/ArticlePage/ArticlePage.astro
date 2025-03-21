@@ -1,7 +1,7 @@
 ---
 import type { Locales } from 'astro';
 import { format } from 'date-fns';
-import type { BlogPostPageFragment } from '../../../../__generated/sdk';
+import type { ArticlePageFragment } from '../../../../__generated/sdk';
 import { getOptimizelySdk } from '../../../graphql/getSdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import Layout from '../../../layouts/Layout.astro';
@@ -17,9 +17,9 @@ const optiResponse = await getOptimizelySdk(contentPayload).pageById({
     loc: contentPayload.loc as Locales,
     ver: contentPayload.ver,
 });
-const post = optiResponse?._Page?.items?.[0] as BlogPostPageFragment;
+const post = optiResponse?._Page?.items?.[0] as ArticlePageFragment;
 const publishedDate = format(
-    new Date(post?._metadata?.published ?? Date.now),
+    new Date(post?._metadata?.published ?? Date.now()),
     'dd MMM yyyy'
 );
 ---
