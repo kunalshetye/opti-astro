@@ -56,8 +56,6 @@ const isComponentType = contentPayload.types.includes('_Component');
 const isExperienceType = contentPayload.types.includes('_Experience');
 const isPageType =
     contentPayload.types.includes('_Page') && isExperienceType === false;
-
-Astro.response.headers.set('Cache-Control', 'public, max-age=3600');
 ---
 
 <>
