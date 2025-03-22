@@ -17,7 +17,7 @@ const optiResponse = await getOptimizelySdk(contentPayload).pageById({
     loc: contentPayload.loc as Locales,
     ver: contentPayload.ver,
 });
-const post = optiResponse?._Page?.items?.[0] as ArticlePageFragment;
+const post = optiResponse?._Page?.item as ArticlePageFragment;
 const publishedDate = format(
     new Date(post?._metadata?.published ?? Date.now()),
     'dd MMM yyyy'

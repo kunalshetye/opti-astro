@@ -4,7 +4,7 @@ query componentById($key: [String]!, $loc: [Locales]!, $ver: String!) {
         locale: $loc
         where: { _metadata: { version: { eq: $ver } } }
     ) {
-        items {
+        item {
             _metadata {
                 types
             }

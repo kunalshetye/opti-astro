@@ -1,0 +1,3 @@
+fragment ContentArea on _IComponent {
+    ...AllComponents
+}

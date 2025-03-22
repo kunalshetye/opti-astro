@@ -5,7 +5,7 @@ query contentByPath($base: String, $url: String!) {
             _and: { _metadata: { url: { default: { eq: $url } } } }
         }
     ) {
-        items {
+        item {
             _metadata {
                 key
                 version

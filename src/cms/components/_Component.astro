@@ -14,7 +14,7 @@ const optiResponse = await getOptimizelySdk(contentPayload).componentById({
     ver: contentPayload.ver,
 });
 
-const component = { component: optiResponse?._Content?.items?.[0] || null };
+const component = { component: optiResponse?._Content?.item || null };
 ---
 
 {

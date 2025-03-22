@@ -3,13 +3,13 @@ fragment LandingPage on LandingPage {
         _metadata {
             types
         }
-        ...AllComponents
+        ...ContentArea
     }
     MainContentArea {
         _metadata {
             types
         }
-        ...AllComponents
+        ...ContentArea
     }
     SeoSettings {
         ...PageSeoSettingsProperty

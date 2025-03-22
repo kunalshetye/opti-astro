@@ -28,16 +28,11 @@ const contentByPathResponse = await getOptimizelySdk(
     base: urlBase,
     url: urlPath,
 });
-if (
-    !contentByPathResponse._Content ||
-    !contentByPathResponse._Content.items ||
-    contentByPathResponse._Content.items.length === 0
-) {
+if (!contentByPathResponse._Content || !contentByPathResponse._Content.item) {
     // return Astro.redirect("/en");
     return Astro.redirect(getRelativeLocaleUrl(lang, '/'));
 }
-const item = contentByPathResponse._Content.items[0];
-
+const item = contentByPathResponse._Content.item;
 if (!item?._metadata) {
     throw new Error('Metadata is missing in the content item');
 }
@@ -47,7 +42,6 @@ const contentByIdResponse = await getOptimizelySdk(contentPayload).contentById({
     ver: item._metadata.version || '',
     loc: item._metadata.locale as Locales,
 });
-
 contentPayload = {
     ctx: ctx,
     key: item._metadata.key || '',
@@ -55,13 +49,15 @@ contentPayload = {
     loc: item._metadata.locale as Locales,
     preview_token: '',
     types:
-        (contentByIdResponse._Content?.items?.[0]?._metadata
-            ?.types as string[]) || [],
+        (contentByIdResponse?._Content?.item?._metadata?.types as string[]) ||
+        [],
 };
 const isComponentType = contentPayload.types.includes('_Component');
 const isExperienceType = contentPayload.types.includes('_Experience');
 const isPageType =
     contentPayload.types.includes('_Page') && isExperienceType === false;
+
+Astro.response.headers.set('Cache-Control', 'public, max-age=3600');
 ---
 
 <>

@@ -12,14 +12,13 @@ const optiResponse = await getOptimizelySdk(previewPayload).getExperience({
     loc: previewPayload.loc as Locales,
 });
 
-const experiences = optiResponse?._Experience?.items;
-if (!experiences || experiences.length === 0) {
+const experience = optiResponse?._Experience?.item;
+if (!experience) {
     throw new Error('No experience found');
 }
-const experience: any = experiences[experiences.length - 1];
 let metaTitle = '',
     metaDescription = '';
-if (experience._metadata.types.includes('BlankExperience')) {
+if (experience?._metadata?.types?.includes('BlankExperience')) {
     const blankExperience = experience as BlankExperience;
     metaTitle = blankExperience.BlankExperienceSeoSettings?.MetaTitle || '';
     metaDescription =

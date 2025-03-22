@@ -18,7 +18,7 @@ const optiResponse = await getOptimizelySdk(contentPayload).pageById({
     ver: contentPayload.ver,
 });
 
-const page = optiResponse?._Page?.items?.[0] as LandingPageFragment;
+const page = optiResponse?._Page?.item as LandingPageFragment;
 ---
 
 <Layout

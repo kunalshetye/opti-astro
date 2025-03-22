@@ -21,12 +21,12 @@ export async function getSeoData(
             loc: previewPayload.loc as unknown as Locales,
         });
         if (
-            metaResponse?._Experience?.items?.[0]?._metadata?.types?.includes(
+            metaResponse?._Experience?.item?._metadata?.types?.includes(
                 'BlankExperience'
             )
         ) {
             const blankExperience = metaResponse?._Experience
-                ?.items[0] as BlankExperience;
+                ?.item as BlankExperience;
             metaTitle =
                 blankExperience?.BlankExperienceSeoSettings?.MetaTitle || '';
             metaDescription =
