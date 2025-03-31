@@ -10,8 +10,8 @@ const currentDirectory = path.dirname(currentFilename);
 const directoryToFindStylesIn = path.resolve(
     `${currentDirectory}/../../src/cms`
 ); // looking for pattern *.opti-style.json
-const clientId = process.env.CLIENT_ID;
-const clientSecret = process.env.CLIENT_SECRET;
+const clientId = process.env.OPTIMIZELY_CLIENT_ID;
+const clientSecret = process.env.OPTIMIZELY_CLIENT_SECRET;
 const cmsUrl = process.env.OPTIMIZELY_CMS_URL;
 
 // Create an instance of the client

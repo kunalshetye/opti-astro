@@ -14,6 +14,26 @@ query siteSettingsByHostname($domain: String!, $locale: [Locales]!) {
                 }
             }
             FooterText
+            HeaderLinks {
+                ... on MenuItem {
+                    Link {
+                        text
+                        url {
+                            default
+                        }
+                    }
+                    SubMenuItems {
+                        ... on MenuItem {
+                            Link {
+                                text
+                                url {
+                                    default
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
