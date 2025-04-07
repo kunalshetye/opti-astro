@@ -4,6 +4,7 @@
     "version": "0.0.1",
     "scripts": {
         "dev": "graphql-codegen --config codegen.ts && astro dev",
+        "prod:hotreload": "graphql-codegen --config codegen.ts && astro dev --host",
         "start": "graphql-codegen --config codegen.ts && astro dev",
         "build": "graphql-codegen --config codegen.ts && astro check && astro build",
         "preview": "astro preview",

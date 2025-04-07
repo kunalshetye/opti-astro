@@ -1,7 +1,7 @@
 ---
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import type { SiteSettingsByHostnameQuery } from '../../../__generated/sdk';
-import { getClassForLogo, getMenuItems } from './siteSettingsHelper';
+import { getClassForLogo } from './siteSettingsHelper';
 const lang = Astro.currentLocale || '';
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 const { siteSettings } = Astro.props;
 const settings = siteSettings.SiteSettings?.item;
 const logoCss = getClassForLogo(settings?.LogoResoultion);
-const headerItems = getMenuItems(settings?.HeaderLinks);
+// const headerItems = getMenuItems(settings?.HeaderLinks);
 ---
 
 <header class="sticky top-0 z-50 bg-gray-50/70 backdrop-blur-sm">
