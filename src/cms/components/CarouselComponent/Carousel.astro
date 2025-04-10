@@ -10,34 +10,147 @@ export interface Props {
     displaySettings: DisplaySettingsFragment[];
     contentPayload: ContentPayload;
 }
-const { data } = Astro.props as Props;
+const { data, displaySettings, contentPayload } = Astro.props as Props;
+
+// Configuration options
+const showChevrons = true;
+const showIndicators = true;
+const showCaptions = false;
+const carouselData = data?.Assets || [];
+const itemCount = carouselData.length;
 ---
 
-<div class="carousel h-[50rem] w-full">
-    {
-        data.Assets?.map((asset, i) => {
-            const id = `slide${i + 1}`;
-            const previousId =
-                i === 0 ? `slide${data.Assets?.length}` : `slide${i}`;
-            const nextId =
-                //@ts-ignore
-                i === data?.Assets?.length - 1 ? `slide1` : `slide${i + 2}`;
-            return (
-                <div id={id} class="carousel-item relative w-full">
-                    <img
-                        src={asset?.url?.default}
-                        class="w-full object-cover"
-                    />
-                    <div class="absolute top-1/2 right-5 left-5 flex -translate-y-1/2 transform justify-between">
-                        <a href={`#` + previousId} class="btn btn-circle">
-                            ❮
-                        </a>
-                        <a href={`#` + nextId} class="btn btn-circle">
-                            ❯
-                        </a>
-                    </div>
+<div
+    x-data=`carousel(${itemCount})`
+    class="relative h-full w-full overflow-hidden rounded-lg"
+>
+    <!-- Carousel items container -->
+    <div
+        class="flex transition-transform duration-500 ease-in-out"
+        x-ref="carouselContainer"
+        x-bind:style="`transform: translateX(-${currentIndex * 100}%)`"
+    >
+        {
+            data?.Assets?.map((item, index) => (
+                <div class="w-full flex-shrink-0">
+                    <a href="#" class="relative block h-[50rem] w-full">
+                        <img
+                            src={item?.url?.default}
+                            alt="todo"
+                            class="h-full w-full object-cover"
+                        />
+                        {showCaptions && (
+                            <div class="bg-opacity-50 absolute right-0 bottom-0 left-0 bg-black p-4 text-white">
+                                <h3 class="text-lg font-semibold">#todo</h3>
+                            </div>
+                        )}
+                    </a>
                 </div>
-            );
-        })
+            ))
+        }
+    </div>
+
+    <!-- Navigation chevrons (if enabled) -->
+    {
+        showChevrons && (
+            <>
+                <button
+                    x-on:click="prev()"
+                    class="absolute top-1/2 left-2 -translate-y-1/2 rounded-full bg-white/80 p-2 text-gray-800 shadow-md hover:bg-white focus:outline-none"
+                    aria-label="Previous slide"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M15 19l-7-7 7-7"
+                        />
+                    </svg>
+                </button>
+                <button
+                    x-on:click="next()"
+                    class="absolute top-1/2 right-2 -translate-y-1/2 rounded-full bg-white/80 p-2 text-gray-800 shadow-md hover:bg-white focus:outline-none"
+                    aria-label="Next slide"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 5l7 7-7 7"
+                        />
+                    </svg>
+                </button>
+            </>
+        )
+    }
+
+    <!-- Indicators (if enabled) -->
+    {
+        showIndicators && (
+            <div class="absolute bottom-4 left-1/2 flex -translate-x-1/2 space-x-2">
+                {data?.Assets?.map((_, index) => (
+                    <button
+                        x-on:click={`goTo(${index})`}
+                        class="h-1 w-6 rounded transition-colors"
+                        x-bind:class={`currentIndex === ${index} ? 'bg-white' : 'bg-white/50'`}
+                        aria-label={`Go to slide ${index + 1}`}
+                    />
+                ))}
+            </div>
+        )
     }
 </div>
+
+<script>
+    // Declare Alpine as a global variable to avoid TypeScript errors
+    declare global {
+        interface Window {
+            Alpine: any;
+        }
+    }
+
+    document.addEventListener('alpine:init', () => {
+        window.Alpine.data('carousel', (itemCount: number) => ({
+            currentIndex: 0,
+            itemCount: itemCount,
+            next() {
+                this.currentIndex = (this.currentIndex + 1) % this.itemCount;
+            },
+
+            prev() {
+                this.currentIndex =
+                    (this.currentIndex - 1 + this.itemCount) % this.itemCount;
+            },
+
+            goTo(index: number) {
+                this.currentIndex = index;
+            },
+
+            // Optional: Auto-play functionality
+            startAutoplay() {
+                setInterval(() => {
+                    this.next();
+                }, 5000); // Change slide every 5 seconds
+            },
+
+            init() {
+                // Uncomment to enable autoplay
+                this.startAutoplay();
+            },
+        }));
+    });
+</script>
