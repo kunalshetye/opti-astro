@@ -21,7 +21,7 @@ export function getOptimizelySdk(contentPayload: ContentPayload) {
     const requester: Requester<any> = async (doc: any, vars: any) => {
         if (mode === 'edit' && prevToken) {
             client = new GraphQLClient(
-                `${OPTIMIZELY_GRAPH_GATEWAY}/content/v2`,
+                `${OPTIMIZELY_GRAPH_GATEWAY}/content/v2` + `?cache=false`, // fix for preview update delays
                 {
                     headers: {
                         Authorization: `Bearer ${prevToken}`,
