@@ -26,25 +26,27 @@ const itemCount = carouselData.length;
 >
     <!-- Carousel items container -->
     <div
-        class="flex transition-transform duration-500 ease-in-out"
+        class="flex h-full transition-transform duration-500 ease-in-out"
         x-ref="carouselContainer"
         x-bind:style="`transform: translateX(-${currentIndex * 100}%)`"
     >
         {
             data?.Assets?.map((item, index) => (
-                <div class="w-full flex-shrink-0">
-                    <a href="#" class="relative block h-[50rem] w-full">
+                <div class="relative h-full w-full flex-shrink-0">
+                    <div class="relative block h-full w-full">
                         <img
                             src={item?.url?.default}
                             alt="todo"
                             class="h-full w-full object-cover"
                         />
                         {showCaptions && (
-                            <div class="bg-opacity-50 absolute right-0 bottom-0 left-0 bg-black p-4 text-white">
-                                <h3 class="text-lg font-semibold">#todo</h3>
+                            <div class="absolute inset-x-0 bottom-0 bg-black/50 p-2 text-white md:p-4">
+                                <h3 class="text-base font-semibold md:text-lg">
+                                    #todo
+                                </h3>
                             </div>
                         )}
-                    </a>
+                    </div>
                 </div>
             ))
         }
@@ -56,12 +58,12 @@ const itemCount = carouselData.length;
             <>
                 <button
                     x-on:click="prev()"
-                    class="absolute top-1/2 left-2 -translate-y-1/2 rounded-full bg-white/80 p-2 text-gray-800 shadow-md hover:bg-white focus:outline-none"
+                    class="absolute top-1/2 left-2 -translate-y-1/2 rounded-full bg-white/80 p-1.5 text-gray-800 shadow-md hover:bg-white focus:ring-2 focus:ring-white/80 focus:ring-offset-2 focus:outline-none md:left-4 md:p-2"
                     aria-label="Previous slide"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6"
+                        class="h-4 w-4 md:h-6 md:w-6"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -76,12 +78,12 @@ const itemCount = carouselData.length;
                 </button>
                 <button
                     x-on:click="next()"
-                    class="absolute top-1/2 right-2 -translate-y-1/2 rounded-full bg-white/80 p-2 text-gray-800 shadow-md hover:bg-white focus:outline-none"
+                    class="absolute top-1/2 right-2 -translate-y-1/2 rounded-full bg-white/80 p-1.5 text-gray-800 shadow-md hover:bg-white focus:ring-2 focus:ring-white/80 focus:ring-offset-2 focus:outline-none md:right-4 md:p-2"
                     aria-label="Next slide"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6"
+                        class="h-4 w-4 md:h-6 md:w-6"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -101,11 +103,11 @@ const itemCount = carouselData.length;
     <!-- Indicators (if enabled) -->
     {
         showIndicators && (
-            <div class="absolute bottom-4 left-1/2 flex -translate-x-1/2 space-x-2">
+            <div class="absolute bottom-2 left-1/2 flex -translate-x-1/2 space-x-1.5 md:bottom-4 md:space-x-2">
                 {data?.Assets?.map((_, index) => (
                     <button
                         x-on:click={`goTo(${index})`}
-                        class="h-1 w-6 rounded transition-colors"
+                        class="h-1 w-4 rounded transition-colors md:w-6"
                         x-bind:class={`currentIndex === ${index} ? 'bg-white' : 'bg-white/50'`}
                         aria-label={`Go to slide ${index + 1}`}
                     />
@@ -115,42 +117,71 @@ const itemCount = carouselData.length;
     }
 </div>
 
-<script>
-    // Declare Alpine as a global variable to avoid TypeScript errors
-    declare global {
-        interface Window {
-            Alpine: any;
-        }
+<style>
+    /* Ensure parent containers maintain height */
+    :global(.carousel-wrapper) {
+        height: 100%;
     }
+</style>
 
+<script>
     document.addEventListener('alpine:init', () => {
-        window.Alpine.data('carousel', (itemCount: number) => ({
-            currentIndex: 0,
-            itemCount: itemCount,
-            next() {
-                this.currentIndex = (this.currentIndex + 1) % this.itemCount;
-            },
+        window.Alpine.data('carousel', (itemCount: number) => {
+            let autoplayInterval: ReturnType<typeof setInterval> | null = null;
 
-            prev() {
-                this.currentIndex =
-                    (this.currentIndex - 1 + this.itemCount) % this.itemCount;
-            },
+            return {
+                currentIndex: 0,
+                itemCount: itemCount,
 
-            goTo(index: number) {
-                this.currentIndex = index;
-            },
+                next() {
+                    this.currentIndex =
+                        (this.currentIndex + 1) % this.itemCount;
+                },
 
-            // Optional: Auto-play functionality
-            startAutoplay() {
-                setInterval(() => {
-                    this.next();
-                }, 5000); // Change slide every 5 seconds
-            },
+                prev() {
+                    this.currentIndex =
+                        (this.currentIndex - 1 + this.itemCount) %
+                        this.itemCount;
+                },
 
-            init() {
-                // Uncomment to enable autoplay
-                this.startAutoplay();
-            },
-        }));
+                goTo(index: number) {
+                    this.currentIndex = index;
+                },
+
+                startAutoplay() {
+                    if (!autoplayInterval) {
+                        autoplayInterval = setInterval(() => {
+                            this.next();
+                        }, 5000);
+                    }
+                },
+
+                stopAutoplay() {
+                    if (autoplayInterval) {
+                        clearInterval(autoplayInterval);
+                        autoplayInterval = null;
+                    }
+                },
+
+                init() {
+                    this.startAutoplay();
+
+                    // Add event listeners for hover and touch
+                    const container = this.$el;
+                    container.addEventListener('mouseenter', () =>
+                        this.stopAutoplay()
+                    );
+                    container.addEventListener('mouseleave', () =>
+                        this.startAutoplay()
+                    );
+                    container.addEventListener('touchstart', () =>
+                        this.stopAutoplay()
+                    );
+                    container.addEventListener('touchend', () =>
+                        this.startAutoplay()
+                    );
+                },
+            };
+        });
     });
 </script>
