@@ -9,4 +9,5 @@ fragment AllComponents on _IComponent {
     ...Carousel
     ...Collapse
     ...ArticleList
+    ...Grid
 }

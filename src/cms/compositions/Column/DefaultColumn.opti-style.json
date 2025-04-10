@@ -1,165 +1,165 @@
 {
-  "key": "DefaultColumn",
-  "displayName": "Default",
-  "nodeType": "column",
-  "isDefault": true,
-  "settings": {
-    "contentSpacing": {
-      "displayName": "Content Spacing",
-      "editor": "",
-      "sortOrder": 10,
-      "choices": {
-        "none": {
-          "displayName": "None",
-          "sortOrder": 10
+    "key": "DefaultColumn",
+    "displayName": "Column Default",
+    "nodeType": "column",
+    "isDefault": true,
+    "settings": {
+        "contentSpacing": {
+            "displayName": "Content Spacing",
+            "editor": "",
+            "sortOrder": 10,
+            "choices": {
+                "none": {
+                    "displayName": "None",
+                    "sortOrder": 10
+                },
+                "small": {
+                    "displayName": "Small",
+                    "sortOrder": 20
+                },
+                "medium": {
+                    "displayName": "Medium",
+                    "sortOrder": 30
+                },
+                "large": {
+                    "displayName": "Large",
+                    "sortOrder": 40
+                },
+                "xl": {
+                    "displayName": "Extra Large",
+                    "sortOrder": 50
+                },
+                "xxl": {
+                    "displayName": "Extra Extra Large",
+                    "sortOrder": 60
+                }
+            }
         },
-        "small": {
-          "displayName": "Small",
-          "sortOrder": 20
+        "justifyContent": {
+            "displayName": "Justify content",
+            "editor": "",
+            "sortOrder": 20,
+            "choices": {
+                "start": {
+                    "displayName": "Start",
+                    "sortOrder": 10
+                },
+                "center": {
+                    "displayName": "Center",
+                    "sortOrder": 20
+                },
+                "end": {
+                    "displayName": "End",
+                    "sortOrder": 30
+                }
+            }
         },
-        "medium": {
-          "displayName": "Medium",
-          "sortOrder": 30
+        "alignContent": {
+            "displayName": "Align content",
+            "editor": "",
+            "sortOrder": 30,
+            "choices": {
+                "start": {
+                    "displayName": "Start",
+                    "sortOrder": 10
+                },
+                "center": {
+                    "displayName": "Center",
+                    "sortOrder": 20
+                },
+                "end": {
+                    "displayName": "End",
+                    "sortOrder": 30
+                }
+            }
         },
-        "large": {
-          "displayName": "Large",
-          "sortOrder": 40
+        "alignItems": {
+            "displayName": "Align items",
+            "editor": "",
+            "sortOrder": 30,
+            "choices": {
+                "start": {
+                    "displayName": "Start",
+                    "sortOrder": 10
+                },
+                "center": {
+                    "displayName": "Center",
+                    "sortOrder": 20
+                },
+                "end": {
+                    "displayName": "End",
+                    "sortOrder": 30
+                }
+            }
         },
-        "xl": {
-          "displayName": "Extra Large",
-          "sortOrder": 50
+        "showFrom": {
+            "displayName": "Show on",
+            "editor": "",
+            "sortOrder": 40,
+            "choices": {
+                "always": {
+                    "displayName": "All screen sizes",
+                    "sortOrder": 10
+                },
+                "fromSmall": {
+                    "displayName": "Small and up",
+                    "sortOrder": 20
+                },
+                "fromMedium": {
+                    "displayName": "Medium and up",
+                    "sortOrder": 30
+                },
+                "fromLarge": {
+                    "displayName": "Large and up",
+                    "sortOrder": 40
+                }
+            }
         },
-        "xxl": {
-          "displayName": "Extra Extra Large",
-          "sortOrder": 60
+        "minWidth": {
+            "displayName": "Minimal width",
+            "editor": "",
+            "sortOrder": 50,
+            "choices": {
+                "auto": {
+                    "displayName": "Automatic",
+                    "sortOrder": 10
+                },
+                "small": {
+                    "displayName": "Small",
+                    "sortOrder": 20
+                },
+                "medium": {
+                    "displayName": "Medium",
+                    "sortOrder": 30
+                },
+                "large": {
+                    "displayName": "Large",
+                    "sortOrder": 40
+                }
+            }
+        },
+        "overflow": {
+            "displayName": "Overflow (if available width is less then minimal)",
+            "editor": "",
+            "sortOrder": 60,
+            "choices": {
+                "full": {
+                    "displayName": "Overflow both",
+                    "sortOrder": 10
+                },
+                "clip": {
+                    "displayName": "None (hide content)",
+                    "sortOrder": 20
+                },
+                "left": {
+                    "displayName": "Overflow left",
+                    "sortOrder": 30
+                },
+                "right": {
+                    "displayName": "Overflow right",
+                    "sortOrder": 40
+                }
+            }
         }
-      }
-    },
-    "justifyContent": {
-      "displayName": "Justify content",
-      "editor": "",
-      "sortOrder": 20,
-      "choices": {
-        "start": {
-          "displayName": "Start",
-          "sortOrder": 10
-        },
-        "center": {
-          "displayName": "Center",
-          "sortOrder": 20
-        },
-        "end": {
-          "displayName": "End",
-          "sortOrder": 30
-        }
-      }
-    },
-    "alignContent": {
-      "displayName": "Align content",
-      "editor": "",
-      "sortOrder": 30,
-      "choices": {
-        "start": {
-          "displayName": "Start",
-          "sortOrder": 10
-        },
-        "center": {
-          "displayName": "Center",
-          "sortOrder": 20
-        },
-        "end": {
-          "displayName": "End",
-          "sortOrder": 30
-        }
-      }
-    },
-    "alignItems": {
-      "displayName": "Align items",
-      "editor": "",
-      "sortOrder": 30,
-      "choices": {
-        "start": {
-          "displayName": "Start",
-          "sortOrder": 10
-        },
-        "center": {
-          "displayName": "Center",
-          "sortOrder": 20
-        },
-        "end": {
-          "displayName": "End",
-          "sortOrder": 30
-        }
-      }
-    },
-    "showFrom": {
-      "displayName": "Show on",
-      "editor": "",
-      "sortOrder": 40,
-      "choices": {
-        "always": {
-          "displayName": "All screen sizes",
-          "sortOrder": 10
-        },
-        "fromSmall": {
-          "displayName": "Small and up",
-          "sortOrder": 20
-        },
-        "fromMedium": {
-          "displayName": "Medium and up",
-          "sortOrder": 30
-        },
-        "fromLarge": {
-          "displayName": "Large and up",
-          "sortOrder": 40
-        }
-      }
-    },
-    "minWidth": {
-      "displayName": "Minimal width",
-      "editor": "",
-      "sortOrder": 50,
-      "choices": {
-        "auto": {
-          "displayName": "Automatic",
-          "sortOrder": 10
-        },
-        "small": {
-          "displayName": "Small",
-          "sortOrder": 20
-        },
-        "medium": {
-          "displayName": "Medium",
-          "sortOrder": 30
-        },
-        "large": {
-          "displayName": "Large",
-          "sortOrder": 40
-        }
-      }
-    },
-    "overflow": {
-      "displayName": "Overflow (if available width is less then minimal)",
-      "editor": "",
-      "sortOrder": 60,
-      "choices": {
-        "full": {
-          "displayName": "Overflow both",
-          "sortOrder": 10
-        },
-        "clip": {
-          "displayName": "None (hide content)",
-          "sortOrder": 20
-        },
-        "left": {
-          "displayName": "Overflow left",
-          "sortOrder": 30
-        },
-        "right": {
-          "displayName": "Overflow right",
-          "sortOrder": 40
-        }
-      }
     }
-  }
 }

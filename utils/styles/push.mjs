@@ -53,7 +53,7 @@ files.forEach(async (file) => {
         );
     } catch (e) {
         console.log(`Error while trying to update ${styleKey} in ${file}`);
-        console.log(`Details: ${e.body.detail}`);
+        console.log(`Error Details: ${JSON.stringify(e)}`);
     }
 });
 

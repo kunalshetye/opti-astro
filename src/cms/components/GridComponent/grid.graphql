@@ -1,0 +1,20 @@
+fragment Grid on Grid {
+    RichText {
+        html
+    }
+    Items {
+        _metadata {
+            types
+        }
+        ...Text
+        ...Image
+        ...CallToAction
+        ...Video
+        ...Paragraph
+        ...Card
+        ...Hero
+        ...Carousel
+        ...Collapse
+        ...ArticleList
+    }
+}

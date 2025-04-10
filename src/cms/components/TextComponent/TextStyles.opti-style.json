@@ -1,104 +1,104 @@
 {
-  "key": "TextStyles",
-  "displayName": "Default",
-  "contentType": "Text",
-  "isDefault": true,
-  "settings": {
-    "headingType": {
-      "displayName": "Heading Type",
-      "editor": "",
-      "sortOrder": 10,
-      "choices": {
-        "h1": {
-          "displayName": "Heading 1",
-          "sortOrder": 10
+    "key": "TextStyles",
+    "displayName": "Text Default",
+    "contentType": "Text",
+    "isDefault": true,
+    "settings": {
+        "headingType": {
+            "displayName": "Heading Type",
+            "editor": "",
+            "sortOrder": 10,
+            "choices": {
+                "h1": {
+                    "displayName": "Heading 1",
+                    "sortOrder": 10
+                },
+                "h2": {
+                    "displayName": "Heading 2",
+                    "sortOrder": 20
+                },
+                "h3": {
+                    "displayName": "Heading 3",
+                    "sortOrder": 30
+                },
+                "h4": {
+                    "displayName": "Heading 4",
+                    "sortOrder": 40
+                },
+                "h5": {
+                    "displayName": "Heading 5",
+                    "sortOrder": 50
+                },
+                "h6": {
+                    "displayName": "Heading 6",
+                    "sortOrder": 60
+                },
+                "plain": {
+                    "displayName": "Plain text",
+                    "sortOrder": 250
+                }
+            }
         },
-        "h2": {
-          "displayName": "Heading 2",
-          "sortOrder": 20
+        "textAlign": {
+            "displayName": "Text align",
+            "editor": "",
+            "sortOrder": 20,
+            "choices": {
+                "left": {
+                    "displayName": "Left",
+                    "sortOrder": 10
+                },
+                "center": {
+                    "displayName": "Center",
+                    "sortOrder": 20
+                },
+                "right": {
+                    "displayName": "Right",
+                    "sortOrder": 30
+                },
+                "justify": {
+                    "displayName": "Justify",
+                    "sortOrder": 40
+                }
+            }
         },
-        "h3": {
-          "displayName": "Heading 3",
-          "sortOrder": 30
+        "showAs": {
+            "displayName": "Render as",
+            "editor": "",
+            "sortOrder": 30,
+            "choices": {
+                "heading": {
+                    "displayName": "Heading element",
+                    "sortOrder": 10
+                },
+                "element": {
+                    "displayName": "Basic element",
+                    "sortOrder": 20
+                }
+            }
         },
-        "h4": {
-          "displayName": "Heading 4",
-          "sortOrder": 40
-        },
-        "h5": {
-          "displayName": "Heading 5",
-          "sortOrder": 50
-        },
-        "h6": {
-          "displayName": "Heading 6",
-          "sortOrder": 60
-        },
-        "plain": {
-          "displayName": "Plain text",
-          "sortOrder": 250
+        "transform": {
+            "displayName": "Text transform",
+            "editor": "",
+            "sortOrder": 40,
+            "choices": {
+                "keep": {
+                    "displayName": "As entered",
+                    "sortOrder": 10
+                },
+                "uppercase": {
+                    "displayName": "Uppercase",
+                    "sortOrder": 20
+                },
+                "lowercase": {
+                    "displayName": "Lowercase",
+                    "sortOrder": 30
+                },
+                "capitalize": {
+                    "displayName": "Capitalize",
+                    "sortOrder": 40
+                }
+            }
         }
-      }
-    },
-    "textAlign": {
-      "displayName": "Text align",
-      "editor": "",
-      "sortOrder": 20,
-      "choices": {
-        "left": {
-          "displayName": "Left",
-          "sortOrder": 10
-        },
-        "center": {
-          "displayName": "Center",
-          "sortOrder": 20
-        },
-        "right": {
-          "displayName": "Right",
-          "sortOrder": 30
-        },
-        "justify": {
-          "displayName": "Justify",
-          "sortOrder": 40
-        }
-      }
-    },
-    "showAs": {
-      "displayName": "Render as",
-      "editor": "",
-      "sortOrder": 30,
-      "choices": {
-        "heading": {
-          "displayName": "Heading element",
-          "sortOrder": 10
-        },
-        "element": {
-          "displayName": "Basic element",
-          "sortOrder": 20
-        }
-      }
-    },
-    "transform": {
-      "displayName": "Text transform",
-      "editor": "",
-      "sortOrder": 40,
-      "choices": {
-        "keep": {
-          "displayName": "As entered",
-          "sortOrder": 10
-        },
-        "uppercase": {
-          "displayName": "Uppercase",
-          "sortOrder": 20
-        },
-        "lowercase": {
-          "displayName": "Lowercase",
-          "sortOrder": 30
-        },
-        "capitalize": {
-          "displayName": "Capitalize",
-          "sortOrder": 40
-        }
-      }
     }
-  }
 }

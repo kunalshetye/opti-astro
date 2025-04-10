@@ -5,6 +5,7 @@ import CallToAction from './CallToActionComponent/CallToAction.astro';
 import Card from './CardComponent/Card.astro';
 import Carousel from './CarouselComponent/Carousel.astro';
 import Collapse from './CollapseComponent/Collapse.astro';
+import Grid from './GridComponent/Grid.astro';
 import Hero from './HeroComponent/Hero.astro';
 import Image from './ImageComponent/Image.astro';
 import Paragraph from './ParagraphComponent/Paragraph.astro';
@@ -105,6 +106,15 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'ArticleList' && (
         <ArticleList
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+        />
+    )
+}
+{
+    componentType === 'Grid' && (
+        <Grid
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
