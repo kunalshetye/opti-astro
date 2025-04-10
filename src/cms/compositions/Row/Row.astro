@@ -17,7 +17,7 @@ const styles = getRowStyles(rowNode);
 <!--<h2>this is a row</h2>-->{
     displayTemplateKey !== 'CarouselRow' && (
         <div
-            class="vb:row flex flex-1 flex-row flex-nowrap items-center justify-start p-1"
+            class="vb:row flex flex-1 flex-col flex-wrap items-center justify-start p-1 md:flex-row"
             class:list={styles}
             data-epi-block-id={row.key}
         >
@@ -31,7 +31,7 @@ const styles = getRowStyles(rowNode);
 {
     displayTemplateKey === 'CarouselRow' && (
         <div
-            class="vb:row flex h-[50vh] flex-none flex-row flex-nowrap justify-start p-1"
+            class="vb:row relative flex h-[30vh] flex-none flex-row flex-nowrap justify-start p-1 md:h-[40vh] lg:h-[50vh]"
             class:list={styles}
             data-epi-block-id={row.key}
         >
