@@ -13,10 +13,16 @@ export interface Props {
 }
 const { data } = Astro.props as Props;
 const cssClassesSection = {
-    textOnRight: 'col-span-1',
-    textOnLeft: 'col-span-1',
+    textOnRight: 'col-span-1 content-center',
+    textOnLeft: 'col-span-1 content-center',
     textAboveCard: 'col-span-1 text-center',
     textBelowCard: 'col-span-1 text-center',
+};
+const cssTextClasses = {
+    textOnRight: 'mt-0',
+    textOnLeft: 'mt-0',
+    textAboveCard: 'mt-2',
+    textBelowCard: 'mt-2',
 };
 const cssClassesCallToAction = {
     textOnRight: 'z-20 mt-8 flex gap-2',
@@ -33,20 +39,26 @@ const DisplayAs: DisplayAsType =
     (data?.DisplayAs as DisplayAsType) ?? 'textOnRight';
 const cssClassesForSection: string = cssClassesSection[DisplayAs];
 const cssClassesForCallToAction: string = cssClassesCallToAction[DisplayAs];
+const cssClassesForText: string = cssTextClasses[DisplayAs];
 ---
 
 <div class={cssClassesForSection}>
-    <p class="mt-2 text-4xl font-bold">{data.Heading}</p>
-    <p class="mt-2 text-sm font-semibold">{data.SubHeading}</p>
-    <p class="description mt-2" set:html={data.Body?.html} />
+    <p class="text-4xl font-bold" class:list={cssClassesForText}>
+        {data.Heading}
+    </p>
+    <p class="text-sm font-semibold" class:list={cssClassesForText}>
+        {data.SubHeading}
+    </p>
+    <p class={cssClassesForText} set:html={data.Body?.html} />
     <div class={cssClassesForCallToAction}>
         {
             data.Links?.map((link, i) => {
-                const css = i === 0 ? 'btn-neutral' : 'btn-primary';
+                const css =
+                    i === 0 ? 'btn-soft btn-primary' : 'btn-soft btn-secondary';
                 return (
                     <a
                         href={link?.url?.default}
-                        class="btn btn-lg"
+                        class="btn btn-lg btn-wide"
                         class:list={css}
                     >
                         {link?.text}

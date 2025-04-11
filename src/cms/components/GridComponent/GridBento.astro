@@ -16,15 +16,12 @@ export interface Props {
 const { data, contentPayload, displaySettings, displayTemplateKey } =
     Astro.props as Props;
 const defaults = {
-    containerClass: 'max-w-6xl mx-auto grid grid-cols-12 gap-6',
-    cardClass: 'bg-gray-50 rounded-3xl p-6 overflow-hidden relative shadow-md',
-    titleClass: 'text-2xl font-bold mb-3 text-gray-900',
-    contentClass: 'text-gray-600 mb-6',
+    containerClass: 'max-w-7xl mx-auto grid grid-cols-12 gap-6',
+    cardClass: 'bg-white rounded-3xl p-6 overflow-hidden relative shadow-lg border border-slate-100',
 };
 ---
 
-<!-- Light Mode Asymmetric Bento Grid - Property Management -->
-<div class="p-6 text-gray-800">
+<div class="bg-gray-100 p-6 text-gray-800">
     <!-- Header Text -->
     <div class="mx-auto mb-12 max-w-4xl pt-8 text-center" set:html={data.RichText?.html}></div>
 
