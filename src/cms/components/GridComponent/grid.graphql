@@ -6,15 +6,6 @@ fragment Grid on Grid {
         _metadata {
             types
         }
-        ...Text
-        ...Image
-        ...CallToAction
-        ...Video
-        ...Paragraph
-        ...Card
-        ...Hero
-        ...Carousel
-        ...Collapse
-        ...ArticleList
+        ...AllComponentsExceptGrid
     }
 }
