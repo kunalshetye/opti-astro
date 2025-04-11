@@ -35,11 +35,10 @@ const cssClassesForSection: string = cssClassesSection[DisplayAs];
 const cssClassesForCallToAction: string = cssClassesCallToAction[DisplayAs];
 ---
 
-<!-- <div class="col-span-1 md:order-last"> -->
 <div class={cssClassesForSection}>
-    <p class="mt-6 text-4xl font-bold">{data.Heading}</p>
-    <p class="mt-6 text-sm font-semibold">{data.SubHeading}</p>
-    <p class="description mt-6" set:html={data.Body?.html} />
+    <p class="mt-2 text-4xl font-bold">{data.Heading}</p>
+    <p class="mt-2 text-sm font-semibold">{data.SubHeading}</p>
+    <p class="description mt-2" set:html={data.Body?.html} />
     <div class={cssClassesForCallToAction}>
         {
             data.Links?.map((link, i) => {
