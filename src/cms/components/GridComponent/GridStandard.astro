@@ -1,0 +1,39 @@
+---
+import type {
+    DisplaySettingsFragment,
+    GridFragment,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
+import ContentArea from '../../shared/ContentArea/ContentArea.astro';
+import { convertRecordToStyles } from './GridStyles';
+
+export interface Props {
+    data: GridFragment;
+    displaySettings: DisplaySettingsFragment[];
+    displayTemplateKey: string;
+    contentPayload: ContentPayload;
+}
+
+const { data, contentPayload, displaySettings, displayTemplateKey } =
+    Astro.props as Props;
+const styleRecords = getDictionaryFromDisplaySettings(displaySettings);
+const styles = convertRecordToStyles(styleRecords);
+---
+
+<div class="pre" set:html={data?.RichText?.html} />
+
+<div class="grid gap-8" class:list={styles}>
+    {
+        data?.Items?.map((contentAreaItem) => {
+            return (
+                <div class="flex flex-col items-center justify-end">
+                    <ContentArea
+                        contentPayload={contentPayload}
+                        contentAreaItem={contentAreaItem}
+                    />
+                </div>
+            );
+        })
+    }
+</div>

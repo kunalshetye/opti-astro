@@ -4,32 +4,18 @@ import type {
     GridFragment,
 } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
-import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
-import ContentArea from '../../shared/ContentArea/ContentArea.astro';
-import { convertRecordToStyles } from './GridStyles';
+import GridBento from './GridBento.astro';
+import GridStandard from './GridStandard.astro';
 
 export interface Props {
     data: GridFragment;
     displaySettings: DisplaySettingsFragment[];
+    displayTemplateKey: string;
     contentPayload: ContentPayload;
 }
-const { data, contentPayload, displaySettings } = Astro.props as Props;
-const styleRecords = getDictionaryFromDisplaySettings(displaySettings);
-const styles = convertRecordToStyles(styleRecords);
+const { displayTemplateKey } = Astro.props as Props;
+const isBento = displayTemplateKey === 'GridBentoStyles';
 ---
 
-<div class="pre" set:html={data?.RichText?.html} />
-<div class="grid gap-8" class:list={styles}>
-    {
-        data?.Items?.map((contentAreaItem) => {
-            return (
-                <div class="flex flex-col items-center justify-end">
-                    <ContentArea
-                        contentPayload={contentPayload}
-                        contentAreaItem={contentAreaItem}
-                    />
-                </div>
-            );
-        })
-    }
-</div>
+{!isBento && <GridStandard {...Astro.props} />}
+{isBento && <GridBento {...Astro.props} />}

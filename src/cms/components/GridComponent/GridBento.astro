@@ -1,0 +1,48 @@
+---
+import type {
+DisplaySettingsFragment,
+GridFragment,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import ContentArea from '../../shared/ContentArea/ContentArea.astro';
+import { cssMdClasses, getLayoutPattern } from './GridBentoHelper';
+
+export interface Props {
+    data: GridFragment;
+    displaySettings: DisplaySettingsFragment[];
+    displayTemplateKey: string;
+    contentPayload: ContentPayload;
+}
+const { data, contentPayload, displaySettings, displayTemplateKey } =
+    Astro.props as Props;
+const defaults = {
+    containerClass: 'max-w-6xl mx-auto grid grid-cols-12 gap-6',
+    cardClass: 'bg-gray-50 rounded-3xl p-6 overflow-hidden relative shadow-md',
+    titleClass: 'text-2xl font-bold mb-3 text-gray-900',
+    contentClass: 'text-gray-600 mb-6',
+};
+---
+
+<!-- Light Mode Asymmetric Bento Grid - Property Management -->
+<div class="p-6 text-gray-800">
+    <!-- Header Text -->
+    <div class="mx-auto mb-12 max-w-4xl pt-8 text-center" set:html={data.RichText?.html}></div>
+
+    <!-- Where the Bento grid will be inserted -->
+    <div class={defaults.containerClass}>
+        {data.Items?.map((contentAreaItem, index) => {
+            const pattern = getLayoutPattern(data.Items?.length || 0);
+            const span = pattern[index];
+            const cssClass = cssMdClasses[span];
+            return (
+                    <div class=`${defaults.cardClass} ${cssClass} col-span-12`>
+                        <ContentArea
+                            contentPayload={contentPayload}
+                            contentAreaItem={contentAreaItem}
+                        />
+                    </div>
+                );
+            })
+        }
+    </div>
+</div>
