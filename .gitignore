@@ -29,12 +29,11 @@ pnpm-debug.log*
 # graphql
 __generated/
 
-# bun
-bun.lock
-
 # util temp
 utils/**/temp/
 
 
 .yarn/*
 .netlify/*
+
+.pnp.*

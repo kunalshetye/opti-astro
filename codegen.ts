@@ -1,7 +1,7 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
 import { loadEnv } from 'vite';
 
-const { OPTIMIZELY_GRAPH_SINGLE_KEY } = loadEnv(
+const { OPTIMIZELY_GRAPH_SINGLE_KEY, OPTIMIZELY_GRAPH_GATEWAY } = loadEnv(
     process.env.NODE_ENV || 'development',
     process.cwd(),
     ''
@@ -9,7 +9,7 @@ const { OPTIMIZELY_GRAPH_SINGLE_KEY } = loadEnv(
 
 const config: CodegenConfig = {
     overwrite: true,
-    schema: `https://cg.optimizely.com/content/v2?auth=${OPTIMIZELY_GRAPH_SINGLE_KEY}`,
+    schema: `${OPTIMIZELY_GRAPH_GATEWAY}/content/v2?auth=${OPTIMIZELY_GRAPH_SINGLE_KEY}`,
     generates: {
         './__generated/graphql.schema.json': {
             plugins: ['introspection'],
