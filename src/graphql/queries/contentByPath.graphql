@@ -1,16 +1,16 @@
 query contentByPath($base: String, $url: String!) {
-    _Content(
-        where: {
-            _metadata: { url: { base: { eq: $base } } }
-            _and: { _metadata: { url: { default: { eq: $url } } } }
-        }
-    ) {
-        item {
-            _metadata {
-                key
-                version
-                locale
-            }
-        }
+  _Content(
+    where: {
+      _metadata: { url: { base: { endsWith: $base } } }
+      _and: { _metadata: { url: { default: { eq: $url } } } }
     }
+  ) {
+    item {
+      _metadata {
+        key
+        version
+        locale
+      }
+    }
+  }
 }

@@ -9,6 +9,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 import pageInsight from 'astro-page-insight';
 
+const usehttp = process.env.PORT === '80' || false;
+
 // https://astro.build/config
 export default defineConfig({
     devToolbar: {
@@ -41,19 +43,16 @@ export default defineConfig({
             de: 'en',
         },
     },
-
+    
     output: 'server',
-
     adapter: node({
         mode: 'standalone',
     }),
 
-    server: { port: 4321 },
+    server: { port: 4321},
     vite: {
-        ssr: {
-            noExternal: ['graphql', 'graphql-request'],
-        },
-        plugins: [mkcert(), tailwindcss()],
+        ssr: {noExternal: ['graphql', 'graphql-request']},
+        plugins: [!usehttp ? mkcert() : '', tailwindcss()],
     },
     integrations: [alpinejs(), pageInsight()],
 

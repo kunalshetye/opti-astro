@@ -19,9 +19,10 @@ var contentPayload: ContentPayload = {
     preview_token: '',
     types: [],
 };
-
 const urlPath = `${Astro.url.pathname.replace(/\/$/, '')}/`;
-const urlBase = Astro.url.origin;
+// const urlBase = Astro.url.origin;
+const urlBase = Astro.url.host;
+
 const contentByPathResponse = await getOptimizelySdk(
     contentPayload
 ).contentByPath({

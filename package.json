@@ -5,8 +5,9 @@
     "scripts": {
         "dev": "graphql-codegen --config codegen.ts && astro dev",
         "prod:hotreload": "graphql-codegen --config codegen.ts && astro dev --host",
-        "start": "graphql-codegen --config codegen.ts && astro dev --host",
+        "start": "graphql-codegen --config codegen.ts && astro dev --host --port ${PORT:-4321} ",
         "build": "graphql-codegen --config codegen.ts && astro build",
+        "package": "zip -r Archive.zip . -x '.pnp.*' '*.DS_Store' '*.nupkg' '*.ps1' '.vscode/*' '.astro/*' '*.git*' 'contentpack/*' '*.env' '*node_modules*' '*dist*'",
         "preview": "astro preview",
         "astro": "astro",
         "codegen": "graphql-codegen --config codegen.ts",
