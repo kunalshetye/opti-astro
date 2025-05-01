@@ -19,9 +19,7 @@ const styles = getColumnStyles(column);
 >
     {
         column.nodes?.map((item: any) => (
-            // <p>{item.displaySettings.map((ds: any) => (`${ds.key} : ${ds.value}`))}</p>
-
-            <div data-epi-block-id={item?.key}>
+            <div data-epi-block-id={item?.key} class="w-full">
                 <Elements contentPayload={contentPayload} data={item} />
             </div>
         ))
