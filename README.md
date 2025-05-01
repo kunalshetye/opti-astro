@@ -1,48 +1,50 @@
-# Astro Starter Kit: Basics
+# Example Astro frontend integrated with Optimizely SaaS CMS and Optimizely Graph
 
-```sh
-bun create astro@latest -- --template basics
-```
+## Getting Started
+Note: these instructions are for configuring the CMS, and setting up and running the front-end locally on your computer.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+More in-depth setup and usage instructions will follow.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+1. Clone the repository
+2. CMS: import the content pack (and types) into your CMS instance
+   1. *CMS > Settings > Import Data*
+   2. Import the content pack file from the repo [/contentpack/Astro - ContentTypes.episerverdata](/contentpack/Astro%20-%20ContentTypes.episerverdata), selecting "Root" as the content destination.
+3. CMS: configure an Application (front-end)
+   1. *CMS > Settings > Applications > Create Application*
+   2. *Hostnames > Add Hostname...*
+      1. Hostname: *localhost:4321*
+      2. Use a secure connection (HTTPS): *true*
+      3. Locale: *en*
+4. Create your *.env* file based on the [.env.template](/.env.template) example
+   1. Values can be found at: *CMS > Settings > API Keys*
+   2. Note, you must create a new API key for managing styles (it does not exist by default)
+5. Install dependencies using Yarn (or your preferred package manager):
+    ```sh
+    yarn install
+    ```
+6. Run the codegen command to generate your local graphql files from the CMS content types
+    ```sh
+    yarn codegen
+    ```
+7. OPTIONAL: Pull the styles from the CMS (added via the content pack import)
+   ```sh
+   yarn styles:pull
+   ```
+8. Run the Astro front-end locally in dev mode
+   ```sh
+   yarn run dev
+   ```
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+**Result**: your frontend should now load at https://localhost:4321/ and inside the CMS for content preview.
 
-## 🚀 Project Structure
+### Additional setup notes
+#### Site Settings
+Note: the Site Settings component currently allows you to update the site logo and footer tagline. Additional features coming soon.
 
-Inside of your Astro project, you'll see the following folders and files:
+1. Create a new Shared Block of type "Site Settings"
+   
+   *Note: my preference is to put it in the "For This Page" for the homepage, but you can create/save it anywhere you want*
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+2. Set the "Site Domain" field to match your domain -- for a local setup, it should be "localhost:4321". (Without this value defined, the site won't use the block.)
+3. Update the Logo and the Footer Text as desired. Updates will be reflected on publish.
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
