@@ -7,7 +7,7 @@ query siteSettingsByHostname($domain: String!, $locale: [Locales]!) {
     ) {
         item {
             SiteDomain
-            LogoResoultion
+            LogoResolution
             Logo {
                 url {
                     default

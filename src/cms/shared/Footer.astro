@@ -7,8 +7,8 @@ interface Props {
 }
 
 const { siteSettings } = Astro.props;
-const settings = siteSettings.SiteSettings?.item;
-const logoCss = getClassForLogo(settings?.LogoResoultion);
+const settings = siteSettings?.SiteSettings?.item;
+const logoCss = getClassForLogo(settings?.LogoResolution);
 ---
 
 <footer class="bg-gray-100">
@@ -16,7 +16,7 @@ const logoCss = getClassForLogo(settings?.LogoResoultion);
         <div class="flex justify-center text-teal-600">
             <img
                 class={logoCss}
-                src={settings?.Logo?.url?.default ?? '/mosey-coffee.png'}
+                src={settings?.Logo?.url?.default ?? '/optimizely-logo.svg'}
             />
         </div>
 

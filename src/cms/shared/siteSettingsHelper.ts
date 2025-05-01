@@ -5,7 +5,7 @@ export function getMenuItems(item: MenuItem) {
 }
 
 export function getClassForLogo(resolution: string | undefined | null): string {
-    const logoResolution = resolution ?? '8';
+    const logoResolution = resolution ?? '12';
     let logoSizeCss = '';
     switch (logoResolution) {
         case '32':
@@ -20,8 +20,11 @@ export function getClassForLogo(resolution: string | undefined | null): string {
         case '10':
             logoSizeCss = 'h-10';
             break;
-        default:
+        case '8':
             logoSizeCss = 'h-8';
+            break;
+        default:
+            logoSizeCss = 'h-12';
             break;
     }
     return logoSizeCss;
