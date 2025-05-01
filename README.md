@@ -41,7 +41,7 @@ More in-depth setup and usage instructions will follow.
 #### Site Settings
 Note: the Site Settings component currently allows you to update the site logo and footer tagline. Additional features coming soon.
 
-1. Create a new Shared Block of type "Site Settings"
+1. Create a new Shared Block of type "Site Settings". If using the existing content pack, a Site Settings block is included in the "For This Page" for the imported homepage.
    
    *Note: my preference is to put it in the "For This Page" for the homepage, but you can create/save it anywhere you want*
 
