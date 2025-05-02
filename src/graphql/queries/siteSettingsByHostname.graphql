@@ -33,6 +33,48 @@ query siteSettingsByHostname($domain: String!, $locale: [Locales]!) {
                         }
                     }
                 }
+                ... on _Experience {
+                    Link:_metadata {
+                        text:displayName
+                        url {
+                        default
+                        }
+                    }
+                }
+                ... on _Page {
+                    Link:_metadata {
+                        text:displayName
+                        url {
+                        default
+                        }
+                    }
+                }
+            }
+            FooterLinks {
+                ... on MenuItem {
+                    Link {
+                        text
+                        url {
+                            default
+                        }
+                    }
+                }
+                ... on _Experience {
+                    Link:_metadata {
+                        text:displayName
+                        url {
+                        default
+                        }
+                    }
+                }
+                ... on _Page {
+                    Link:_metadata {
+                        text:displayName
+                        url {
+                        default
+                        }
+                    }
+                }
             }
         }
     }

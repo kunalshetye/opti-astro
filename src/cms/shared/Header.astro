@@ -2,6 +2,7 @@
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import type { SiteSettingsByHostnameQuery } from '../../../__generated/sdk';
 import { getClassForLogo } from './siteSettingsHelper';
+// import { getMenuItems } from './siteSettingsHelper';
 const lang = Astro.currentLocale || '';
 
 interface Props {
@@ -11,7 +12,13 @@ interface Props {
 const { siteSettings } = Astro.props;
 const settings = siteSettings?.SiteSettings?.item;
 const logoCss = getClassForLogo(settings?.LogoResolution);
-// const headerItems = getMenuItems(settings?.HeaderLinks);
+
+// const headerItemsFunc = getMenuItems(settings?.HeaderLinks);
+
+const headerItems = settings?.HeaderLinks;
+const headerItemCount = headerItems.length;
+// console.log("# of header items: " + headerItemCount)
+// console.log("Header items: " + JSON.stringify(headerItems))
 ---
 
 <header class="sticky top-0 z-50 bg-gray-50/70 backdrop-blur-sm">
@@ -33,47 +40,34 @@ const logoCss = getClassForLogo(settings?.LogoResolution);
 
             <div class="md:flex md:items-center md:gap-12">
                 <nav aria-label="Global" class="hidden md:block">
-                    <ul class="flex list-none items-center gap-10 text-lg">
-                        <li>
-                            <a
-                                class="text-gray-500 transition hover:text-gray-500/75"
-                                href={getRelativeLocaleUrl(lang, '#')}
-                            >
-                                About
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                class="text-gray-500 transition hover:text-gray-500/75"
-                                href={getRelativeLocaleUrl(lang, '#')}
-                            >
-                                Careers
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                class="text-gray-500 transition hover:text-gray-500/75"
-                                href={getRelativeLocaleUrl(lang, '#')}
-                            >
-                                History
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                class="text-gray-500 transition hover:text-gray-500/75"
-                                href={getRelativeLocaleUrl(lang, '/blog')}
-                            >
-                                Blog
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                class="text-gray-500 transition hover:text-gray-500/75"
-                                href={getRelativeLocaleUrl(lang, '/store')}
-                            >
-                                Store
-                            </a>
-                        </li>
+                    <!-- <ul class="flex list-none items-center gap-10 text-lg"> -->
+                    <ul class="menu menu-horizontal bg-base-200 gap-10 text-lg">
+
+                        {
+                            headerItems && headerItemCount > 0 && (
+                                headerItems.map((data) => (
+                                    <li>
+                                        <a
+                                            class="text-gray-500 transition hover:text-gray-500/75"
+                                            href={data.Link.url.default}
+                                        >
+                                            {data.Link.text}
+                                        </a>
+
+                                        {/* WIP -- submenu items */}
+                                        {/* {
+                                            data.SubMenuItems?.length > 0 && (
+                                                data.SubMenuItems.map((subdata) => (
+                                                    <ul>
+                                                        <li><a href={subdata.Link.url.default}>{subdata.Link.text}</a></li>
+                                                    </ul>
+                                                ))
+                                            )
+                                        } */}
+                                    </li>
+                                ))
+                            )
+                        }
                     </ul>
                 </nav>
                 <!--<label class="swap swap-rotate">-->

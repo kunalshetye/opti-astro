@@ -9,6 +9,11 @@ interface Props {
 const { siteSettings } = Astro.props;
 const settings = siteSettings?.SiteSettings?.item;
 const logoCss = getClassForLogo(settings?.LogoResolution);
+
+const footerItems = settings?.FooterLinks;
+const footerItemCount = footerItems.length;
+// console.log("# of footer items: " + footerItemCount)
+// console.log("footer items: " + JSON.stringify(footerItems))
 ---
 
 <footer class="bg-gray-100">
@@ -32,59 +37,21 @@ const logoCss = getClassForLogo(settings?.LogoResolution);
         <ul
             class="mt-12 flex list-none flex-wrap justify-center gap-6 md:gap-8 lg:gap-12"
         >
-            <li>
-                <a
-                    class="text-gray-700 transition hover:text-gray-700/75"
-                    href="#"
-                >
-                    About
-                </a>
-            </li>
 
-            <li>
-                <a
-                    class="text-gray-700 transition hover:text-gray-700/75"
-                    href="#"
-                >
-                    Careers
-                </a>
-            </li>
-
-            <li>
-                <a
-                    class="text-gray-700 transition hover:text-gray-700/75"
-                    href="#"
-                >
-                    History
-                </a>
-            </li>
-
-            <li>
-                <a
-                    class="text-gray-700 transition hover:text-gray-700/75"
-                    href="#"
-                >
-                    Services
-                </a>
-            </li>
-
-            <li>
-                <a
-                    class="text-gray-700 transition hover:text-gray-700/75"
-                    href="#"
-                >
-                    Projects
-                </a>
-            </li>
-
-            <li>
-                <a
-                    class="text-gray-700 transition hover:text-gray-700/75"
-                    href="#"
-                >
-                    Blog
-                </a>
-            </li>
+            {
+                footerItems && footerItemCount > 0 && (
+                    footerItems.map((data) => 
+                        <li>
+                            <a
+                                class="text-gray-500 transition hover:text-gray-500/75"
+                                href={data.Link.url.default}
+                            >
+                                {data.Link.text}
+                            </a>
+                        </li>
+                    )
+                )
+            }
         </ul>
 
         <ul class="mt-12 flex list-none justify-center gap-6 md:gap-8">
