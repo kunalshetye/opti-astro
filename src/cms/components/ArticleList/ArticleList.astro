@@ -24,12 +24,12 @@ const items = articlesList.ArticlePage?.items || null;
 ---
 
 <h1>{data?.Title}</h1>
-<div class="mx-auto mt-4 mb-4 flex gap-8 overflow-x-auto">
+<div class="mx-auto mt-4 mb-4 flex gap-8 overflow-x-auto flex-wrap">
     {
         //@ts-ignore
         items?.map((item: ArticlePageExcerptFragment, i) => {
             return (
-                <div class="card bg-base-100 w-96 flex-shrink-0 shadow-sm">
+                <div class="card bg-base-100 w-96 flex-shrink-0 shadow-sm flex flex-col">
                     <figure>
                         <img
                             src={item.PromoImage?.url?.default}
@@ -38,8 +38,8 @@ const items = articlesList.ArticlePage?.items || null;
                     </figure>
                     <div class="card-body">
                         <h2 class="card-title">{item.Heading}</h2>
-                        <div set:html={item.Body?.html?.slice(0, 50)} />
-                        <div class="card-actions justify-end">
+                        <div set:html={item.Body?.html?.slice(0, 100) + "..."} />
+                        <div class="card-actions justify-end mt-auto">
                             <a
                                 href={item._metadata?.url?.default}
                                 class="btn btn-primary"
