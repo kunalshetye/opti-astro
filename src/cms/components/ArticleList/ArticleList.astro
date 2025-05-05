@@ -14,9 +14,11 @@ export interface Props {
     contentPayload: ContentPayload;
 }
 const { data, contentPayload } = Astro.props as Props;
+const currentSite = Astro.url.origin;
 const articlesList = await getOptimizelySdk(contentPayload).getArticles({
     //@ts-ignore
     loc: contentPayload.loc,
+    site: currentSite,
     limit: data.NumberOfArticles || 1,
 });
 const glideId = randomBytes(5).toString('hex');

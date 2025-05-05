@@ -1,13 +1,18 @@
 query getArticles(
     $loc: [Locales]
     $limit: Int! = 15
+    $site: String
     $status: String! = "Published"
 ) {
     ArticlePage(
         locale: $loc
         orderBy: { _metadata: { published: DESC } }
         limit: $limit
-        where: { _metadata: { status: { eq: $status } } }
+        where: {
+            _metadata: { 
+                status: { eq: $status }, 
+                url: { base: { eq: $site } } }
+        }
     ) {
         items {
             ...ArticlePageExcerpt
