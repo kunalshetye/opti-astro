@@ -76,6 +76,11 @@ query siteSettingsByHostname($domain: String!, $locale: [Locales]!) {
                     }
                 }
             }
+            SocialFacebook
+            SocialInstagram
+            SocialTwitter
+            SocialTikTok
+            SocialGitHub
         }
     }
 }
