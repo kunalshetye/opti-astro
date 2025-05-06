@@ -7,9 +7,9 @@ import { fileURLToPath } from 'url';
 // Convert import.meta.url to a usable file path
 const currentFilename = fileURLToPath(import.meta.url);
 const currentDirectory = path.dirname(currentFilename);
-const directoryToFindStylesIn = path.resolve(
+const directoryToFindStylesIn = fg.convertPathToPattern(path.resolve(
     `${currentDirectory}/../../src/cms`
-); // looking for pattern *.opti-style.json
+)); // looking for pattern *.opti-style.json
 const clientId = process.env.OPTIMIZELY_CLIENT_ID;
 const clientSecret = process.env.OPTIMIZELY_CLIENT_SECRET;
 const cmsUrl = process.env.OPTIMIZELY_CMS_URL;
@@ -33,7 +33,7 @@ async function processFiles(pattern) {
     }
 }
 
-const files = await processFiles('*.json');
+const files = await processFiles('*.opti-style.json');
 files.forEach(async (file) => {
     const styleDefinition = await tryReadJsonFile(file);
     if (styleDefinition === undefined || !styleDefinition.key) {
