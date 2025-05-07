@@ -10,12 +10,12 @@ interface Props {
 }
 
 const { contentPayload } = Astro.props;
-const { host } = Astro.url;
-const siteSettings = await getOptimizelySdk(
-    contentPayload
-).siteSettingsByHostname({
-    domain: host,
-    locale: [contentPayload.loc as Locales],
+
+const siteSettings = await getOptimizelySdk(contentPayload).siteSettingsById({
+    key: contentPayload.key,
+    //@ts-ignore
+    loc: contentPayload.loc as unknown as Locales,
+    ver: contentPayload.ver,
 });
 ---
 

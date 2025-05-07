@@ -14,7 +14,7 @@ const settings = siteSettings?.SiteSettings?.item;
 const logoCss = getClassForLogo(settings?.LogoResolution);
 
 const headerItems = settings?.HeaderLinks;
-const headerItemCount = headerItems.length;
+const headerItemCount = headerItems?.length;
 ---
 
 <header class="sticky top-0 z-50 bg-gray-50/70 backdrop-blur-sm">
@@ -30,7 +30,7 @@ const headerItemCount = headerItems.length;
               tabindex="0"
               class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow text-lg">
                 {
-                    headerItems && headerItemCount > 0 && (
+                    headerItems && headerItemCount && headerItemCount > 0 && (
                         headerItems.map((data) => (
                             <li>
                                 {
