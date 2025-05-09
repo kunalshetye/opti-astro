@@ -5,7 +5,7 @@
     "scripts": {
         "dev": "graphql-codegen --config codegen.ts && astro dev",
         "prod:hotreload": "graphql-codegen --config codegen.ts && astro dev --host",
-        "start": "graphql-codegen --config codegen.ts && astro dev --host",
+        "start": "node dist/server/entry.mjs",
         "build": "graphql-codegen --config codegen.ts && astro build",
         "preview": "astro preview",
         "astro": "astro",
