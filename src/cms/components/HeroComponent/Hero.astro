@@ -1,22 +1,28 @@
 ---
 import type {
-DisplaySettingsFragment,
-HeroFragment,
+    DisplaySettingsFragment,
+    HeroFragment,
 } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { getHeroStyles } from './HeroStyling';
 
 export interface Props {
     data: HeroFragment;
     displaySettings: DisplaySettingsFragment[];
     contentPayload: ContentPayload;
 }
-const { data } = Astro.props as Props;
+const { data, displaySettings } = Astro.props as Props;
 const videoUrl = data?.Video?.url?.default ?? null;
 const imageUrl = data?.Image?.url?.default || null;
 const hasVideo = videoUrl !== null;
+const { justifyClass, backgroundOpacityClass, textClasses } =
+    getHeroStyles(displaySettings);
 ---
 
-<section class="relative flex h-[48rem] w-full items-center justify-center">
+<section
+    class="relative flex h-[48rem] w-full items-center"
+    class:list={justifyClass}
+>
     {
         hasVideo && videoUrl && (
             <video
@@ -45,10 +51,10 @@ const hasVideo = videoUrl !== null;
     }
 
     <!-- Dark Overlay for Better Readability -->
-    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="absolute inset-0" class:list={backgroundOpacityClass}></div>
 
     <!-- Content -->
-    <div class="relative z-10 px-6 text-center text-white">
+    <div class="relative z-10 px-6" class:list={textClasses}>
         <h1 class="text-5xl font-bold md:text-6xl">{data?.Heading}</h1>
         <p class="mx-auto mt-4 max-w-2xl text-lg">
             {data?.SubHeading}
@@ -59,7 +65,7 @@ const hasVideo = videoUrl !== null;
         />
 
         <!-- Buttons -->
-        <div class="mt-6 flex justify-center space-x-4">
+        <div class="mt-6 flex space-x-4" class:list={justifyClass}>
             {
                 data?.Links?.map((link) => (
                     <a

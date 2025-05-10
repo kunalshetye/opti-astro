@@ -1,0 +1,93 @@
+{
+    "key": "DefaultHero",
+    "displayName": "Default Hero",
+    "contentType": "Hero",
+    "isDefault": true,
+    "settings": {
+        "background_tint_level": {
+            "displayName": "Background Tint Level",
+            "editor": "",
+            "sortOrder": 60,
+            "choices": {
+                "o_100": {
+                    "displayName": "100",
+                    "sortOrder": 100
+                },
+                "o_90": {
+                    "displayName": "90",
+                    "sortOrder": 90
+                },
+                "o_80": {
+                    "displayName": "80",
+                    "sortOrder": 80
+                },
+                "o_70": {
+                    "displayName": "70",
+                    "sortOrder": 70
+                },
+                "o_60": {
+                    "displayName": "60",
+                    "sortOrder": 60
+                },
+                "o_50": {
+                    "displayName": "50",
+                    "sortOrder": 50
+                },
+                "o_40": {
+                    "displayName": "40",
+                    "sortOrder": 40
+                },
+                "o_30": {
+                    "displayName": "30",
+                    "sortOrder": 30
+                },
+                "o_20": {
+                    "displayName": "20",
+                    "sortOrder": 20
+                },
+                "o_10": {
+                    "displayName": "10",
+                    "sortOrder": 10
+                },
+                "o_0": {
+                    "displayName": "0",
+                    "sortOrder": 0
+                }
+            }
+        },
+        "text_color": {
+            "displayName": "Text Color",
+            "editor": "",
+            "sortOrder": 40,
+            "choices": {
+                "black": {
+                    "displayName": "Black",
+                    "sortOrder": 50
+                },
+                "white": {
+                    "displayName": "White",
+                    "sortOrder": 40
+                }
+            }
+        },
+        "text_placement": {
+            "displayName": "Text Placement",
+            "editor": "",
+            "sortOrder": 40,
+            "choices": {
+                "left": {
+                    "displayName": "Left",
+                    "sortOrder": 30
+                },
+                "center": {
+                    "displayName": "Center",
+                    "sortOrder": 20
+                },
+                "right": {
+                    "displayName": "Right",
+                    "sortOrder": 10
+                }
+            }
+        }
+    }
+}
