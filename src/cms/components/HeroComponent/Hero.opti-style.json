@@ -73,7 +73,7 @@
         "text_placement": {
             "displayName": "Text Placement",
             "editor": "",
-            "sortOrder": 40,
+            "sortOrder": 30,
             "choices": {
                 "left": {
                     "displayName": "Left",
@@ -85,6 +85,29 @@
                 },
                 "right": {
                     "displayName": "Right",
+                    "sortOrder": 10
+                }
+            }
+        },
+        "hero_height": {
+            "displayName": "Hero Height",
+            "editor": "",
+            "sortOrder": 30,
+            "choices": {
+                "h_48rem": {
+                    "displayName": "X-Large (48rem)",
+                    "sortOrder": 40
+                },
+                "h_38rem": {
+                    "displayName": "Large (38rem)",
+                    "sortOrder": 30
+                },
+                "h_28rem": {
+                    "displayName": "Medium (28rem)",
+                    "sortOrder": 20
+                },
+                "h_18rem": {
+                    "displayName": "Small (18rem)",
                     "sortOrder": 10
                 }
             }

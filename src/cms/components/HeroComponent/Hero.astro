@@ -15,13 +15,13 @@ const { data, displaySettings } = Astro.props as Props;
 const videoUrl = data?.Video?.url?.default ?? null;
 const imageUrl = data?.Image?.url?.default || null;
 const hasVideo = videoUrl !== null;
-const { justifyClass, backgroundOpacityClass, textClasses } =
+const { justifyClass, backgroundOpacityClass, textClasses, heightClass } =
     getHeroStyles(displaySettings);
 ---
 
 <section
-    class="relative flex h-[48rem] w-full items-center"
-    class:list={justifyClass}
+    class="relative flex w-full items-center"
+    class:list={[justifyClass, heightClass]}
 >
     {
         hasVideo && videoUrl && (

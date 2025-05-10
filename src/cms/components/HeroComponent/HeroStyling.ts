@@ -5,6 +5,7 @@ export function getHeroStyles(displaySettings: DisplaySettingsFragment[]): {
     backgroundOpacityClass: string;
     textClasses: string[];
     justifyClass: string;
+    heightClass: string;
 } {
     const settings: Record<string, string> =
         getDictionaryFromDisplaySettings(displaySettings);
@@ -79,5 +80,24 @@ export function getHeroStyles(displaySettings: DisplaySettingsFragment[]): {
             textClasses.push('text-white');
             break;
     }
-    return { backgroundOpacityClass, textClasses, justifyClass };
+    const heroHeight = settings['hero_height'] ?? 'h_48rem';
+    let heightClass = '';
+    switch (heroHeight) {
+        case 'h_18rem':
+            heightClass = 'h-[18rem]';
+            break;
+        case 'h_28rem':
+            heightClass = 'h-[28rem]';
+            break;
+        case 'h_38rem':
+            heightClass = 'h-[38rem]';
+            break;
+        case 'h_48rem':
+            heightClass = 'h-[48rem]';
+            break;
+        default:
+            heightClass = 'h-[48rem]';
+            break;
+    }
+    return { backgroundOpacityClass, textClasses, justifyClass, heightClass };
 }
