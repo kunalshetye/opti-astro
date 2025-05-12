@@ -5,6 +5,7 @@ import type {
 } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { getHeroStyles } from './HeroStyling';
+import { getGlobalStyles } from '../../shared/globalStylesHelper';
 
 export interface Props {
     data: HeroFragment;
@@ -17,11 +18,14 @@ const imageUrl = data?.Image?.url?.default || null;
 const hasVideo = videoUrl !== null;
 const { justifyClass, backgroundOpacityClass, textClasses, heightClass } =
     getHeroStyles(displaySettings);
+
+const globalStyles = getGlobalStyles(displaySettings);
 ---
 
 <section
     class="relative flex w-full items-center"
-    class:list={[justifyClass, heightClass]}
+    class:list={[justifyClass, heightClass, globalStyles]}
+    
 >
     {
         hasVideo && videoUrl && (

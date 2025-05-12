@@ -1,9 +1,9 @@
-import type { DisplaySettingsFragment } from '../../../__generated/sdk.ts';
+import { DisplaySettingsFragmentDoc, type DisplaySettingsFragment } from '../../../__generated/sdk.ts';
 import { getDictionaryFromDisplaySettings } from '../../graphql/shared/displaySettingsHelpers.ts';
 
 
 export function getGlobalStyles(component: any[]) {
-    const settings = component?.displaySettings;
+    const settings = component?.displaySettings ?? component;
     const dictionary = getDictionaryFromDisplaySettings(settings);
 
 
