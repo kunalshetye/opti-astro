@@ -1,7 +1,7 @@
 {
-    "key": "GridBentoStyles",
-    "displayName": "Grid Bento",
-    "contentType": "Grid",
-    "isDefault": false,
-    "settings": {}
+  "key": "GridBentoStyles",
+  "displayName": "Grid Bento",
+  "contentType": "Grid",
+  "isDefault": false,
+  "settings": {}
 }

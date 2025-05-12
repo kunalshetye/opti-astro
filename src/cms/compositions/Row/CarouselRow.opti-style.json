@@ -1,7 +1,7 @@
 {
-    "key": "CarouselRow",
-    "displayName": "Row Carousel",
-    "nodeType": "row",
-    "isDefault": false,
-    "settings": {}
+  "key": "CarouselRow",
+  "displayName": "Row Carousel",
+  "nodeType": "row",
+  "isDefault": false,
+  "settings": {}
 }
