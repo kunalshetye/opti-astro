@@ -3,17 +3,19 @@ import type { CompositionStructureNode } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import Elements from '../../components/_Components.astro';
 import { getColumnStyles } from './ColumnHelper';
+import { getGlobalStyles } from '../../shared/globalStylesHelper';
 export interface Props {
     column: CompositionStructureNode;
     contentPayload: ContentPayload;
 }
 const { column, contentPayload } = Astro.props as Props;
 const styles = getColumnStyles(column);
+const globalStyles = getGlobalStyles(column);
+const allStyles = [...styles, ...globalStyles]
 ---
 
-<!--<h3>this is a column</h3>-->
 <div
-    class:list={styles}
+    class:list={allStyles}
     class="vb:col flex w-full flex-col p-2 sm:p-3 md:flex-1 md:p-4"
     data-epi-block-id={column.key}
 >

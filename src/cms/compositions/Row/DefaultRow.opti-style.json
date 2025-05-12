@@ -118,6 +118,29 @@
                     "sortOrder": 50
                 }
             }
+        },
+        "backgroundColor": {
+            "displayName": "Background Color",
+            "editor": "",
+            "sortOrder": 50,
+            "choices": {
+                "transparent": {
+                    "displayName": "Transparent",
+                    "sortOrder": 10
+                },
+                "white": {
+                    "displayName": "White",
+                    "sortOrder": 20
+                },
+                "blue": {
+                    "displayName": "Blue",
+                    "sortOrder": 30
+                },
+                "red": {
+                    "displayName": "Red",
+                    "sortOrder": 40
+                }
+            }
         }
     }
 }
