@@ -1,116 +1,116 @@
 {
-    "key": "DefaultHero",
-    "displayName": "Default Hero",
-    "contentType": "Hero",
-    "isDefault": true,
-    "settings": {
-        "background_tint_level": {
-            "displayName": "Background Tint Level",
-            "editor": "",
-            "sortOrder": 60,
-            "choices": {
-                "o_100": {
-                    "displayName": "100",
-                    "sortOrder": 100
-                },
-                "o_90": {
-                    "displayName": "90",
-                    "sortOrder": 90
-                },
-                "o_80": {
-                    "displayName": "80",
-                    "sortOrder": 80
-                },
-                "o_70": {
-                    "displayName": "70",
-                    "sortOrder": 70
-                },
-                "o_60": {
-                    "displayName": "60",
-                    "sortOrder": 60
-                },
-                "o_50": {
-                    "displayName": "50",
-                    "sortOrder": 50
-                },
-                "o_40": {
-                    "displayName": "40",
-                    "sortOrder": 40
-                },
-                "o_30": {
-                    "displayName": "30",
-                    "sortOrder": 30
-                },
-                "o_20": {
-                    "displayName": "20",
-                    "sortOrder": 20
-                },
-                "o_10": {
-                    "displayName": "10",
-                    "sortOrder": 10
-                },
-                "o_0": {
-                    "displayName": "0",
-                    "sortOrder": 0
-                }
-            }
+  "key": "DefaultHero",
+  "displayName": "Default Hero",
+  "contentType": "Hero",
+  "isDefault": true,
+  "settings": {
+    "hero_height": {
+      "displayName": "Hero Height",
+      "editor": "",
+      "sortOrder": 20,
+      "choices": {
+        "h_18rem": {
+          "displayName": "Small (18rem)",
+          "sortOrder": 10
         },
-        "text_color": {
-            "displayName": "Text Color",
-            "editor": "",
-            "sortOrder": 40,
-            "choices": {
-                "black": {
-                    "displayName": "Black",
-                    "sortOrder": 50
-                },
-                "white": {
-                    "displayName": "White",
-                    "sortOrder": 40
-                }
-            }
+        "h_28rem": {
+          "displayName": "Medium (28rem)",
+          "sortOrder": 20
         },
-        "text_placement": {
-            "displayName": "Text Placement",
-            "editor": "",
-            "sortOrder": 30,
-            "choices": {
-                "left": {
-                    "displayName": "Left",
-                    "sortOrder": 30
-                },
-                "center": {
-                    "displayName": "Center",
-                    "sortOrder": 20
-                },
-                "right": {
-                    "displayName": "Right",
-                    "sortOrder": 10
-                }
-            }
+        "h_38rem": {
+          "displayName": "Large (38rem)",
+          "sortOrder": 30
         },
-        "hero_height": {
-            "displayName": "Hero Height",
-            "editor": "",
-            "sortOrder": 30,
-            "choices": {
-                "h_48rem": {
-                    "displayName": "X-Large (48rem)",
-                    "sortOrder": 40
-                },
-                "h_38rem": {
-                    "displayName": "Large (38rem)",
-                    "sortOrder": 30
-                },
-                "h_28rem": {
-                    "displayName": "Medium (28rem)",
-                    "sortOrder": 20
-                },
-                "h_18rem": {
-                    "displayName": "Small (18rem)",
-                    "sortOrder": 10
-                }
-            }
+        "h_48rem": {
+          "displayName": "X-Large (48rem)",
+          "sortOrder": 40
         }
+      }
+    },
+    "text_placement": {
+      "displayName": "Text Placement",
+      "editor": "",
+      "sortOrder": 30,
+      "choices": {
+        "right": {
+          "displayName": "Right",
+          "sortOrder": 10
+        },
+        "center": {
+          "displayName": "Center",
+          "sortOrder": 20
+        },
+        "left": {
+          "displayName": "Left",
+          "sortOrder": 30
+        }
+      }
+    },
+    "text_color": {
+      "displayName": "Text Color",
+      "editor": "",
+      "sortOrder": 40,
+      "choices": {
+        "white": {
+          "displayName": "White",
+          "sortOrder": 40
+        },
+        "black": {
+          "displayName": "Black",
+          "sortOrder": 50
+        }
+      }
+    },
+    "background_tint_level": {
+      "displayName": "Background Tint Level",
+      "editor": "",
+      "sortOrder": 60,
+      "choices": {
+        "o_0": {
+          "displayName": "0",
+          "sortOrder": 0
+        },
+        "o_10": {
+          "displayName": "10",
+          "sortOrder": 10
+        },
+        "o_20": {
+          "displayName": "20",
+          "sortOrder": 20
+        },
+        "o_30": {
+          "displayName": "30",
+          "sortOrder": 30
+        },
+        "o_40": {
+          "displayName": "40",
+          "sortOrder": 40
+        },
+        "o_50": {
+          "displayName": "50",
+          "sortOrder": 50
+        },
+        "o_60": {
+          "displayName": "60",
+          "sortOrder": 60
+        },
+        "o_70": {
+          "displayName": "70",
+          "sortOrder": 70
+        },
+        "o_80": {
+          "displayName": "80",
+          "sortOrder": 80
+        },
+        "o_90": {
+          "displayName": "90",
+          "sortOrder": 90
+        },
+        "o_100": {
+          "displayName": "100",
+          "sortOrder": 100
+        }
+      }
     }
+  }
 }
