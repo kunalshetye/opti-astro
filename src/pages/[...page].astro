@@ -31,7 +31,7 @@ const contentByPathResponse = await getOptimizelySdk(
 if (!contentByPathResponse._Content 
     || !contentByPathResponse._Content.item 
     || !contentByPathResponse._Content.item._metadata?.key) {
-    return Astro.redirect(getRelativeLocaleUrl(lang, '/404'));
+    return Astro.redirect(getRelativeLocaleUrl(lang, '/404'), 404);
 }
 const item = contentByPathResponse._Content.item;
 if (!item?._metadata) {
