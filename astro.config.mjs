@@ -9,6 +9,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 import pageInsight from 'astro-page-insight';
 
+import netlify from '@astrojs/netlify';
+
 // https://astro.build/config
 export default defineConfig({
     devToolbar: {
@@ -44,9 +46,7 @@ export default defineConfig({
 
     output: 'server',
 
-    adapter: node({
-        mode: 'standalone',
-    }),
+    adapter: netlify(),
 
     server: { port: 4321 },
     vite: {
