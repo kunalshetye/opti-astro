@@ -35,5 +35,6 @@ utils/**/temp/
 
 .yarn/*
 .netlify/*
+.vercel/*
 
 .pnp.*
