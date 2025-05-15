@@ -5,6 +5,19 @@ import { getClassForLogo } from './siteSettingsHelper';
 // import { getMenuItems } from './siteSettingsHelper';
 const lang = Astro.currentLocale || '';
 
+// Define interfaces for the menu items to fix TypeScript errors
+interface LinkType {
+    text: string;
+    url: {
+        default: string;
+    };
+}
+
+interface MenuItemType {
+    Link: LinkType;
+    SubMenuItems?: MenuItemType[];
+}
+
 interface Props {
     siteSettings: SiteSettingsByHostnameQuery;
 }
@@ -13,8 +26,8 @@ const { siteSettings } = Astro.props;
 const settings = siteSettings?.SiteSettings?.item;
 const logoCss = getClassForLogo(settings?.LogoResolution);
 
-const headerItems = settings?.HeaderLinks;
-const headerItemCount = headerItems?.length;
+const headerItems = settings?.HeaderLinks as MenuItemType[] | undefined;
+const headerItemCount = headerItems?.length || 0;
 ---
 
 <header class="sticky top-0 z-50 bg-gray-50/70 backdrop-blur-sm">
@@ -34,26 +47,26 @@ const headerItemCount = headerItems?.length;
                         headerItems.map((data) => (
                             <li>
                                 {
-                                    (!data.SubMenuItems || data.SubMenuItems?.length == 0) && (
+                                    (!data?.SubMenuItems || data?.SubMenuItems?.length == 0) && (
                                         <a
                                             class="text-gray-500 transition hover:text-gray-500/75 text-lg"
-                                            href={data.Link.url.default}
+                                            href={data?.Link?.url?.default || '#'}
                                         >
-                                            {data.Link.text}
+                                            {data?.Link?.text || ''}
                                         </a>
                                     )
                                 }
 
                                 {
-                                    (data.SubMenuItems && data.SubMenuItems?.length > 0) && (
+                                    (data?.SubMenuItems && data?.SubMenuItems?.length > 0) && (
                                         <details>
-                                            <summary class="text-gray-500 transition hover:text-gray-500/75 text-lg">{data.Link.text}</summary>
+                                            <summary class="text-gray-500 transition hover:text-gray-500/75 text-lg">{data?.Link?.text || ''}</summary>
                                             <ul class="p-2">
                                                 {
-                                                    data.SubMenuItems?.length > 0 && (
-                                                        data.SubMenuItems.map((subdata) => (
+                                                    data?.SubMenuItems?.length > 0 && (
+                                                        data?.SubMenuItems.map((subdata: any) => (
                                                             <li class="text-gray-500 transition hover:text-gray-500/75 text-lg">
-                                                                <a class="transition hover:text-gray-500/75 text-lg" href={subdata.Link.url.default}>{subdata.Link.text}</a>
+                                                                <a class="transition hover:text-gray-500/75 text-lg" href={subdata?.Link?.url?.default || '#'}>{subdata?.Link?.text || ''}</a>
                                                             </li>
                                                         ))
                                                     )
@@ -87,27 +100,27 @@ const headerItemCount = headerItems?.length;
                     headerItems.map((data) => (
                         <li>
                             {
-                                (!data.SubMenuItems || data.SubMenuItems?.length == 0) && (
+                                (!data?.SubMenuItems || data?.SubMenuItems?.length == 0) && (
                                     <a
                                         class="text-gray-500 transition hover:text-gray-500/75"
-                                        href={data.Link.url.default}
+                                        href={data?.Link?.url?.default || '#'}
                                     >
-                                        {data.Link.text}
+                                        {data?.Link?.text || ''}
                                     </a>
                                 )
                             }
 
                             {
-                                (data.SubMenuItems && data.SubMenuItems?.length > 0) && (
+                                (data?.SubMenuItems && data?.SubMenuItems?.length > 0) && (
                                     <div class="dropdown dropdown-hover pb-2">
-                                        <div tabindex="0" role="button" class="mb-2 text-gray-500 transition hover:text-gray-500/75">{data.Link.text}</div>
+                                        <div tabindex="0" role="button" class="mb-2 text-gray-500 transition hover:text-gray-500/75">{data?.Link?.text || ''}</div>
                                         <ul tabindex="0"
                                         class="dropdown-content menu bg-base-200 rounded-box z-1 w-52 shadow-sm text-lg">
                                              {
-                                                data.SubMenuItems?.length > 0 && (
-                                                    data.SubMenuItems.map((subdata) => (
+                                                data?.SubMenuItems?.length > 0 && (
+                                                    data?.SubMenuItems.map((subdata: any) => (
                                                         <li class="text-gray-500 transition hover:text-gray-500/75">
-                                                            <a href={subdata.Link.url.default}>{subdata.Link.text}</a>
+                                                            <a href={subdata?.Link?.url?.default || '#'}>{subdata?.Link?.text || ''}</a>
                                                         </li>
                                                     ))
                                                 )

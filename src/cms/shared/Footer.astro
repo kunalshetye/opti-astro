@@ -2,6 +2,18 @@
 import type { SiteSettingsByHostnameQuery } from '../../../__generated/sdk';
 import { getClassForLogo } from './siteSettingsHelper';
 
+// Define interfaces for the menu items to fix TypeScript errors
+interface LinkType {
+    text: string;
+    url: {
+        default: string;
+    };
+}
+
+interface FooterItemType {
+    Link: LinkType;
+}
+
 interface Props {
     siteSettings: SiteSettingsByHostnameQuery;
 }
@@ -10,8 +22,8 @@ const { siteSettings } = Astro.props;
 const settings = siteSettings?.SiteSettings?.item;
 const logoCss = getClassForLogo(settings?.LogoResolution);
 
-const footerItems = settings?.FooterLinks;
-const footerItemCount = footerItems.length;
+const footerItems = settings?.FooterLinks as FooterItemType[] | undefined;
+const footerItemCount = footerItems?.length || 0;
 
 const socialLinkFacebook = "https://www.facebook.com/" + settings?.SocialFacebook;
 const socialLinkInstagram = "https://www.instagram.com/" + settings?.SocialInstagram;
@@ -49,9 +61,9 @@ const socialLinkGitHub = "https://www.github.com/" + settings?.SocialGitHub;
                         <li>
                             <a
                                 class="text-gray-500 transition hover:text-gray-500/75"
-                                href={data.Link.url.default}
+                                href={data?.Link?.url?.default || '#'}
                             >
-                                {data.Link.text}
+                                {data?.Link?.text || ''}
                             </a>
                         </li>
                     )
