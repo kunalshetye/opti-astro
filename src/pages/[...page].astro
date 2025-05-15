@@ -28,9 +28,10 @@ const contentByPathResponse = await getOptimizelySdk(
     base: urlBase,
     url: urlPath,
 });
-if (!contentByPathResponse._Content || !contentByPathResponse._Content.item) {
-    // return Astro.redirect("/en");
-    return Astro.redirect(getRelativeLocaleUrl(lang, '/'));
+if (!contentByPathResponse._Content 
+    || !contentByPathResponse._Content.item 
+    || !contentByPathResponse._Content.item._metadata?.key) {
+    return Astro.redirect(getRelativeLocaleUrl(lang, '/404'));
 }
 const item = contentByPathResponse._Content.item;
 if (!item?._metadata) {

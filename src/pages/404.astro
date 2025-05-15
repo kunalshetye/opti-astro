@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+import type { Locales } from '../../__generated/sdk';
+import type { ContentPayload } from '../graphql/shared/ContentPayload';
+import '../styles/global.css';
+
+const title = "404";
+const description = "This page can't be found 😭";
+const lang = Astro.currentLocale;
+
+const ctx = 'view';
+
+var contentPayload: ContentPayload = {
+    ctx: ctx,
+    key: '',
+    ver: '',
+    loc: lang as Locales,
+    preview_token: '',
+    types: [],
+};
+
+// TODO: pull 404 page title, description, and content from CMS
+
+---
+
+<Layout
+    title={title}
+    description={description}
+    contentPayload={contentPayload}
+>
+    <h1 class="text-center p-8">404 Page Not Found!</h1>
+</Layout>
