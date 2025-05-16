@@ -1,21 +1,25 @@
-import { DisplaySettingsFragmentDoc, type DisplaySettingsFragment } from '../../../__generated/sdk.ts';
+import type {
+    DisplaySettingsFragment,
+    CompositionStructureNode,
+    Maybe,
+} from '../../../__generated/sdk.ts';
+
 import { getDictionaryFromDisplaySettings } from '../../graphql/shared/displaySettingsHelpers.ts';
 
+export function getGlobalStyles(component: 
+        | Maybe<Maybe<DisplaySettingsFragment>>[]
+        | CompositionStructureNode
+        | undefined
+        | null) {
 
-export function getGlobalStyles(component: any[]) {
-    const settings = component?.displaySettings ?? component;
+    var settings;
+    if ((component as CompositionStructureNode).displaySettings) {
+        settings = (component as CompositionStructureNode).displaySettings as DisplaySettingsFragment[]
+    } else {
+        settings = (component as DisplaySettingsFragment[]);
+    }
+
     const dictionary = getDictionaryFromDisplaySettings(settings);
-
-
-
-// export function getGlobalStyles(displaySettings: DisplaySettingsFragment[]) {
-//     // const settings = component?.displaySettings;
-//     // const settings: Record<string, string> =
-//     //     getDictionaryFromDisplaySettings(displaySettings);
-//     const dictionary = getDictionaryFromDisplaySettings(displaySettings);
-
-
-
 
     let cssClasses: string[] = [];
 
