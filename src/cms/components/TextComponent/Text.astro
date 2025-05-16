@@ -1,9 +1,11 @@
 ---
+import { json } from 'stream/consumers';
 import type {
     DisplaySettingsFragment,
     TextFragment,
 } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers.ts';
 import { getHeadingElementStyles } from './TextStyling';
 
 export interface Props {
@@ -12,8 +14,14 @@ export interface Props {
     displaySettings: DisplaySettingsFragment[];
 }
 const { data, displaySettings } = Astro.props as Props;
+
+const settings: Record<string, string> =
+    getDictionaryFromDisplaySettings(displaySettings);
+const HeadingStyle = (settings?.headingType == "plain" || settings?.headingType == null) 
+    ? "span" : settings.headingType;
+
 ---
 
-<div class:list={getHeadingElementStyles(displaySettings)}>
+<HeadingStyle class:list={getHeadingElementStyles(displaySettings)}>
     {data.Content}
-</div>
+</HeadingStyle>
