@@ -2,7 +2,14 @@ query contentByPath($base: String, $url: String!) {
     _Content(
         where: {
             _metadata: { url: { base: { eq: $base } } }
-            _and: { _metadata: { url: { default: { eq: $url } } } }
+            _and: [
+                {
+                    _or: [
+                        { _metadata: { url: { default: { eq: $url } } } }
+                        { _metadata: { url: { hierarchical: { eq: $url } } } }
+                    ]
+                }
+            ]
         }
     ) {
         item {
