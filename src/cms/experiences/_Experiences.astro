@@ -24,12 +24,15 @@ if (experience?._metadata?.types?.includes('BlankExperience')) {
     metaDescription =
         blankExperience.BlankExperienceSeoSettings?.MetaDescription || '';
 }
+
+const hierarchicalUrl = experience?._metadata?.url?.type === "SIMPLE" ? experience?._metadata?.url?.hierarchical : '';
 ---
 
 <Layout
     title={metaTitle}
     description={metaDescription}
     contentPayload={previewPayload}
+    hierarchicalUrl={hierarchicalUrl ?? ''}
 >
     <div class="vb:outline relative w-full flex-1">
         {

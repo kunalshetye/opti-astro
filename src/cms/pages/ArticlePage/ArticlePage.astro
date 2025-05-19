@@ -22,12 +22,15 @@ const publishedDate = format(
     new Date(post?._metadata?.published ?? Date.now()),
     'dd MMM yyyy'
 );
+
+const hierarchicalUrl = post?._metadata?.url?.type === "SIMPLE" ? post?._metadata?.url?.hierarchical : '';
 ---
 
 <Layout
     title={post.SeoSettings?.MetaTitle ?? ''}
     description={post.SeoSettings?.MetaDescription ?? ''}
     contentPayload={contentPayload}
+    hierarchicalUrl={hierarchicalUrl ?? ''}
 >
     <div class="max-w-screen-6xl mx-auto">
         <main class="mt-10">

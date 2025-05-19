@@ -19,12 +19,15 @@ const optiResponse = await getOptimizelySdk(contentPayload).pageById({
 });
 
 const page = optiResponse?._Page?.item as LandingPageFragment;
+
+const hierarchicalUrl = page?._metadata?.url?.type === "SIMPLE" ? page?._metadata?.url?.hierarchical : '';
 ---
 
 <Layout
     title={page.SeoSettings?.MetaTitle ?? ''}
     description={page.SeoSettings?.MetaDescription ?? ''}
     contentPayload={contentPayload}
+    hierarchicalUrl={hierarchicalUrl ?? ''}
 >
     <!--Top content area-->
     {
