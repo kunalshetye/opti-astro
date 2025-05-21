@@ -4,6 +4,7 @@ import type {
     DisplaySettingsFragment,
 } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import LinkButton from '../ButtonComponent/LinkButton.astro';
 
 export interface Props {
     data: CardFragment;
@@ -53,16 +54,29 @@ const cssClassesForText: string = cssTextClasses[DisplayAs];
     <div class={cssClassesForCallToAction}>
         {
             data.Links?.map((link, i) => {
-                const css =
-                    i === 0 ? 'btn-soft btn-primary' : 'btn-soft btn-secondary';
+                const buttonType: string[] = ["btn-soft"];
+                switch (i) {
+                    case 0:
+                        buttonType.push('btn-primary');
+                        break;
+                    case 1:
+                        buttonType.push('btn-secondary');
+                        break;
+                    case 2:
+                        buttonType.push('btn-accent');
+                        break;
+                    case 3:
+                        buttonType.push('btn-info');
+                        break;
+                    case 4:
+                        buttonType.push('');
+                        break;
+                    default:
+                        buttonType.push('btn-primary');
+                        break;
+                }
                 return (
-                    <a
-                        href={link?.url?.default}
-                        class="btn btn-lg btn-wide"
-                        class:list={css}
-                    >
-                        {link?.text}
-                    </a>
+                    <LinkButton cssClassses={buttonType} link={link?.url?.default}>{link?.text}</LinkButton>
                 );
             })
         }

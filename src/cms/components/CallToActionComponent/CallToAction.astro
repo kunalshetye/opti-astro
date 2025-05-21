@@ -4,6 +4,7 @@ import type {
     DisplaySettingsFragment,
 } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import LinkButton from '../ButtonComponent/LinkButton.astro';
 
 export interface Props {
     data: CallToActionFragment;
@@ -16,9 +17,7 @@ const { data } = Astro.props as Props;
 <div class="m-4 flex gap-4">
     {
         data.Links?.map((link) => (
-            <a class="btn btn-neutral btn-lg" href={link?.url?.default}>
-                {link?.text}
-            </a>
+            <LinkButton cssClassses="btn-primary" link={link?.url?.default}>{link?.text}</LinkButton>
         ))
     }
 </div>

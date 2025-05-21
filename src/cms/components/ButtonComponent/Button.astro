@@ -1,0 +1,19 @@
+---
+import type {
+    ButtonFragment,
+    DisplaySettingsFragment,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import LinkButton from '../ButtonComponent/LinkButton.astro';
+
+export interface Props {
+    data: ButtonFragment;
+    displaySettings: DisplaySettingsFragment[];
+    displayTemplateKey: string;
+    contentPayload: ContentPayload;
+}
+const { data, displaySettings, displayTemplateKey, contentPayload } = Astro.props as Props;
+
+---
+
+<LinkButton cssClassses="btn-primary" link={data?.ButtonLink?.url?.hierarchical}>{data?.ButtonLabel}</LinkButton>
