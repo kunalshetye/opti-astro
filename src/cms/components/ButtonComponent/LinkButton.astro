@@ -8,6 +8,6 @@ const {link="/", cssClassses } = Astro.props as Props;
 
 ---
 
-<a class="btn py-2 px-4" class:list={cssClassses} href={link}>
+<a class="btn" class:list={cssClassses} href={link}>
     <slot />
 </a>
