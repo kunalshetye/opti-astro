@@ -4,6 +4,7 @@ import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import Column from '../Column/Column.astro';
 import CarouselRow from './CarouselRow.astro';
 import { getRowStyles } from './RowHelper';
+import { getGlobalStyles } from '../../shared/globalStylesHelper';
 export interface Props {
     row: any;
     contentPayload: ContentPayload;
@@ -11,7 +12,9 @@ export interface Props {
 const { row, contentPayload } = Astro.props as Props;
 const rowNode = row as CompositionStructureNode;
 const displayTemplateKey = rowNode.displayTemplateKey;
-const styles = getRowStyles(rowNode);
+const rowStyles = getRowStyles(rowNode);
+const globalStyles = getGlobalStyles(rowNode);
+const styles = [...rowStyles, ...globalStyles]
 ---
 
 <!--<h2>this is a row</h2>-->{
