@@ -1,13 +1,13 @@
 ---
 export interface Props {
-    label?: string;
     link?: string | null;
-    cssClassses?: string | string[];
+    cssClassses?: string | string[] | {};
 }
-const {link="/", cssClassses } = Astro.props as Props;
+const {cssClassses, link="/" } = Astro.props as Props;
 
+const btnStyles = cssClassses;
+console.log("linkbutton: " + btnStyles)
 ---
-
-<a class="btn" class:list={cssClassses} href={link}>
+<a class="btn my-1" class:list={btnStyles} href={link}>
     <slot />
 </a>

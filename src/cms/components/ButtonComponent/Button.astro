@@ -4,7 +4,8 @@ import type {
     DisplaySettingsFragment,
 } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
-import LinkButton from '../ButtonComponent/LinkButton.astro';
+import LinkButton from './LinkButton.astro';
+import { getButtonStyles } from './ButtonStyling';
 
 export interface Props {
     data: ButtonFragment;
@@ -14,6 +15,7 @@ export interface Props {
 }
 const { data, displaySettings, displayTemplateKey, contentPayload } = Astro.props as Props;
 
+const btnStyles = getButtonStyles(displaySettings);
 ---
 
-<LinkButton cssClassses="btn-primary" link={data?.ButtonLink?.url?.hierarchical}>{data?.ButtonLabel}</LinkButton>
+<LinkButton cssClassses={btnStyles} link={data?.ButtonLink?.url?.hierarchical}>{data?.ButtonLabel}</LinkButton>
