@@ -5,6 +5,7 @@ import type {
 } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import LinkButton from '../ButtonComponent/LinkButton.astro';
+import { getCardStyles } from './CardStyling';
 
 export interface Props {
     data: CardFragment;
@@ -12,7 +13,9 @@ export interface Props {
     displayTemplateKey: string;
     contentPayload: ContentPayload;
 }
-const { data } = Astro.props as Props;
+const { data, displaySettings } = Astro.props as Props;
+const cardStyles = getCardStyles(displaySettings);
+
 const cssClassesSection = {
     textOnRight: 'col-span-1 content-center',
     textOnLeft: 'col-span-1 content-center',
@@ -26,10 +29,10 @@ const cssTextClasses = {
     textBelowCard: 'mt-2',
 };
 const cssClassesCallToAction = {
-    textOnRight: 'z-20 mt-8 flex gap-2',
-    textOnLeft: 'z-20 mt-8 flex gap-2',
-    textAboveCard: 'z-20 mt-8 flex justify-center gap-2',
-    textBelowCard: 'z-20 mt-8 flex justify-center gap-2',
+    textOnRight: 'z-20 mt-8 flex gap-2 flex-wrap',
+    textOnLeft: 'z-20 mt-8 flex gap-2 flex-wrap',
+    textAboveCard: 'z-20 mt-8 flex justify-center gap-2 flex-wrap',
+    textBelowCard: 'z-20 mt-8 flex justify-center gap-2 flex-wrap',
 };
 type DisplayAsType =
     | 'textOnRight'
@@ -54,7 +57,7 @@ const cssClassesForText: string = cssTextClasses[DisplayAs];
     <div class={cssClassesForCallToAction}>
         {
             data.Links?.map((link, i) => {
-                const buttonType: string[] = ["btn-soft"];
+                const buttonType: string[] = [""];
                 switch (i) {
                     case 0:
                         buttonType.push('btn-primary');
@@ -76,7 +79,7 @@ const cssClassesForText: string = cssTextClasses[DisplayAs];
                         break;
                 }
                 return (
-                    <LinkButton cssClassses={buttonType} link={link?.url?.default}>{link?.text}</LinkButton>
+                    <LinkButton cssClassses={[buttonType, cardStyles]} link={link?.url?.default}>{link?.text}</LinkButton>
                 );
             })
         }

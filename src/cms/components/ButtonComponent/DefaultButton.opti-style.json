@@ -1,6 +1,6 @@
 {
 	"key": "DefaultButton",
-	"displayName": "Default Button",
+	"displayName": "Button Default",
 	"contentType": "Button",
 	"isDefault": true,
 	"settings": {

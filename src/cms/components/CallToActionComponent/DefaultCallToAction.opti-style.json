@@ -1,6 +1,6 @@
 {
 	"key": "DefaultCallToAction",
-	"displayName": "Default Call To Action (Button List)",
+	"displayName": "Call To Action (Button List) Default",
 	"contentType": "CallToAction",
 	"isDefault": true,
 	"settings": {
