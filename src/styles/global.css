@@ -1,11 +1,31 @@
 @import 'tailwindcss';
 /* @import './inter.css'; */
 /* @theme {--font-sans: InterVariable, sans-serif;} */
+
 @plugin "daisyui" {
-    themes:
-        light --default,
-        dark --preferslight;
+    themes: light --default,
+            dark --preferslight,
+            abyss,
+            acid,
+            aqua,
+            business,
+            coffee,
+            cupcake,
+            corporate,
+            cyberpunk,
+            dracula,
+            forest,
+            halloween,
+            lemonade,
+            luxury,
+            retro,
+            sunset,
+            valentine,
+            winter;
     root: ':root';
+    include: ;
+    exclude: ;
+    logs: true;
 }
 
 @layer base {
