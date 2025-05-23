@@ -30,21 +30,24 @@ const items = articlesList.ArticlePage?.items || null;
     {
         //@ts-ignore
         items?.map((item: ArticlePageExcerptFragment, i) => {
+            const cardImage = (item.PromoImage?.url?.default) ? item.PromoImage?.url?.default : "/placeholder.png";
             return (
-                <div class="card bg-base-100 w-96 flex-shrink-0 shadow-sm flex flex-col">
+                <div class="card bg-base-100 w-96 flex-shrink-0 shadow-sm flex flex-col">      
                     <figure>
                         <img
                             class="aspect-3/2 object-cover"
-                            src={item.PromoImage?.url?.default}
+                            src={cardImage}
                             alt="promo image"
                         />
                     </figure>
                     <div class="card-body">
                         <h2 class="card-title">{item.Heading}</h2>
-                        <div set:html={item.Body?.html?.slice(0, 100) + "..."} />
+                        { item.Body?.html && 
+                            <div set:html={item.Body?.html?.slice(0, 100) + "..."} />
+                        }
                         <div class="card-actions justify-end mt-auto">
                             <a
-                                href={item._metadata?.url?.default}
+                                href={item._metadata?.url?.hierarchical}
                                 class="btn btn-primary"
                             >
                                 Read more

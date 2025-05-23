@@ -2,6 +2,8 @@ fragment ArticlePageExcerpt on ArticlePage {
     _metadata {
         url {
             default
+            hierarchical
+            type
         }
     }
     PromoImage {
