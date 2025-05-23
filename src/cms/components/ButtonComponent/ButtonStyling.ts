@@ -26,7 +26,7 @@ export function getButtonStyles(displaySettings: DisplaySettingsFragment[]): {
          wide: 'btn-wide',
          disabled: 'btn-disabled'
         };
-    if(settings['buttonStyle']) {
+    if(buttonStyle) {
         cssClasses.push(`${allButtonStyles[buttonStyle]}`);
     }
 

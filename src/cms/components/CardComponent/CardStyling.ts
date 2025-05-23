@@ -11,9 +11,21 @@ export function getCardStyles(displaySettings: DisplaySettingsFragment[]): {
     if(settings['transform'] && settings['transform'] !== "keep") {
         cssClasses.push(settings['transform']);
     }
-
-    if(settings['buttonStyle']) {
-        cssClasses.push(`btn-${settings['buttonStyle']}`);
+    
+    const buttonStyle = settings['buttonStyle'];
+    const allButtonStyles : { [key: string]: any } = 
+        {standard: 'btn-standard',
+         soft: 'btn-soft',
+         outline: 'btn-outline',
+         dash: 'btn-dash',
+         neutral: 'btn-neutral',
+         link: 'btn-link',
+         ghost: 'btn-ghost',
+         wide: 'btn-wide',
+         disabled: 'btn-disabled'
+        };
+    if(buttonStyle) {
+        cssClasses.push(`${allButtonStyles[buttonStyle]}`);
     }
 
     const buttonWidth = settings['buttonWidth'] ?? '';
