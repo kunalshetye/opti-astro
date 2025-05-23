@@ -1,6 +1,6 @@
 {
   "key": "DefaultHero",
-  "displayName": "Default Hero",
+  "displayName": "Hero Default",
   "contentType": "Hero",
   "isDefault": true,
   "settings": {

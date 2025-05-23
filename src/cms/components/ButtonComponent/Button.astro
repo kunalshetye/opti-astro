@@ -1,0 +1,21 @@
+---
+import type {
+    ButtonFragment,
+    DisplaySettingsFragment,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import LinkButton from './LinkButton.astro';
+import { getButtonStyles } from './ButtonStyling';
+
+export interface Props {
+    data: ButtonFragment;
+    displaySettings: DisplaySettingsFragment[];
+    displayTemplateKey: string;
+    contentPayload: ContentPayload;
+}
+const { data, displaySettings, displayTemplateKey, contentPayload } = Astro.props as Props;
+
+const btnStyles = getButtonStyles(displaySettings);
+---
+
+<LinkButton cssClassses={btnStyles} link={data?.ButtonLink?.url?.hierarchical}>{data?.ButtonLabel}</LinkButton>
