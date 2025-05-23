@@ -12,37 +12,10 @@ The component supports two distinct layout modes:
 
 The Grid component is used through the Optimizely CMS interface and automatically renders based on the content structure and selected display template.
 
-### Component Structure
-
-```typescript
-interface GridProps {
-  data: GridFragment;
-  displaySettings: DisplaySettingsFragment[];
-  displayTemplateKey: string;
-  contentPayload: ContentPayload;
-}
-```
-
 ### Content Fields
 
 - **RichText**: Optional header text/HTML content displayed above the grid
 - **Items**: Collection of content components to display in the grid layout
-
-### GraphQL Fragment
-
-```graphql
-fragment Grid on Grid {
-    RichText {
-        html
-    }
-    Items {
-        _metadata {
-            types
-        }
-        ...AllComponentsExceptGrid
-    }
-}
-```
 
 ### Layout Selection
 
@@ -52,56 +25,15 @@ The layout is automatically determined by the `displayTemplateKey`:
 
 ## Styles
 
-### Standard Grid Styles (`GridStyles`)
+### Visual Builder Style Options
 
-The standard grid provides responsive column configuration options:
+#### Grid Default (`GridStyles`)
+- **Columns on Desktop**: 1-4 columns (default: 3)
+- **Columns on Tablet**: 1-4 columns (default: 2)
+- **Columns on Mobile**: 1-4 columns (default: 1)
 
-#### Desktop Columns (`columnsOnDesktop`)
-- **1 Column**: `lg:grid-cols-1`
-- **2 Columns**: `lg:grid-cols-2` 
-- **3 Columns**: `lg:grid-cols-3` (default)
-- **4 Columns**: `lg:grid-cols-4`
-
-#### Tablet Columns (`columnsOnTablet`)
-- **1 Column**: `md:grid-cols-1`
-- **2 Columns**: `md:grid-cols-2` (default)
-- **3 Columns**: `md:grid-cols-3`
-- **4 Columns**: `md:grid-cols-4`
-
-#### Mobile Columns (`columnsOnMobile`)
-- **1 Column**: `grid-cols-1` (default)
-- **2 Columns**: `grid-cols-2`
-- **3 Columns**: `grid-cols-3`
-- **4 Columns**: `grid-cols-4`
-
-### Bento Grid Styles (`GridBentoStyles`)
-
-The Bento layout uses dynamic patterns based on the number of items:
-
-#### Layout Patterns
-- **1 item**: Full width (12 columns)
-- **2 items**: Large left (8 cols), small right (4 cols)
-- **3 items**: 2-row layout (8, 4, 12)
-- **4 items**: Mixed 2-row (8, 4, 5, 7)
-- **5+ items**: Complex patterns with varying card sizes
-
-#### Visual Styling
-- **Container**: `max-w-7xl mx-auto grid grid-cols-12 gap-6`
-- **Cards**: `bg-white rounded-3xl p-6 overflow-hidden relative shadow-lg border border-slate-100`
-- **Background**: `bg-gray-100 p-6 text-gray-800`
-
-### CSS Classes
-
-The component uses TailwindCSS classes for responsive grid layouts:
-
-```typescript
-// Column span classes for responsive breakpoints
-md:col-span-{1-12}  // Tablet and up
-col-span-{1-12}     // Mobile
-lg:grid-cols-{1-4}  // Desktop columns
-md:grid-cols-{1-4}  // Tablet columns
-grid-cols-{1-4}     // Mobile columns
-```
+#### Grid Bento (`GridBentoStyles`)
+- No configurable options - uses dynamic patterns based on item count
 
 ## Screenshot
 

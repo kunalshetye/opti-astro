@@ -8,54 +8,23 @@ The Image component renders optimized images with configurable styling through d
 
 The Image component is used throughout the site for displaying standalone images, supporting graphics, or any visual content that requires styling flexibility.
 
-### Component Structure
-
-```typescript
-interface ImageProps {
-  data: ImageFragment;
-  displaySettings: DisplaySettingsFragment[];
-  contentPayload: ContentPayload;
-}
-```
-
 ### Content Fields
 
 - **Image**: The image asset with URL
 - **AltText**: Accessibility text description for screen readers
 
-### GraphQL Fragment
-
-```graphql
-fragment Image on Image {
-    AltText
-    Image {
-        url {
-            default
-        }
-    }
-}
-```
-
 ## Styles
 
-### Configurable Styling
+### Visual Builder Style Options
 
-The component uses `ImageStyling.ts` to apply display settings:
-- Styling is determined by the `getImageElementStyles()` function
-- Style options are configured through CMS display settings
-- Supports responsive design patterns
-
-### Style Configuration
-
-The component references:
-- `DefaultImage.opti-style.json` - CMS style configuration
-- `ImageStyling.ts` - Style processing utilities
-
-### Common Style Options
-- Aspect ratios (16:9, 4:3, 1:1, etc.)
-- Border radius options (rounded corners)
-- Sizing and alignment options
-- Responsive breakpoint behaviors
+#### Image Default
+- **Aspect Ratio**: Square (1:1), Banner (4:1), Classic Monitor (4:3), Photo (3:2), Widescreen (16:9)
+- **Orientation**: Landscape, Portrait
+- **Rounded Corners**: None, Small, Medium, Large, Huge, Full
+- **Fade in Animation**: None, Circle
+- **Fade in Direction**: Left to right, Right to left
+- **Fade in Delay**: None, Short (0.5s), Medium (1s), Long (1.5s), Very Long (2s)
+- **Fade in Duration**: None, Short (0.5s), Medium (1s), Long (1.5s), Very Long (2s)
 
 ## Screenshot
 

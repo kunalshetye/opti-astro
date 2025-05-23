@@ -8,16 +8,6 @@ The Hero component creates a full-width banner section with video or image backg
 
 The Hero component is typically used as the primary focal point at the top of landing pages, featuring compelling visuals and key messaging to engage visitors.
 
-### Component Structure
-
-```typescript
-interface HeroProps {
-  data: HeroFragment;
-  displaySettings: DisplaySettingsFragment[];
-  contentPayload: ContentPayload;
-}
-```
-
 ### Content Fields
 
 - **Video**: Optional background video (takes priority over image)
@@ -27,58 +17,15 @@ interface HeroProps {
 - **Body**: Rich text content (HTML)
 - **Links**: Collection of call-to-action buttons
 
-### GraphQL Fragment
-
-```graphql
-fragment Hero on Hero {
-    Video {
-        url {
-            default
-        }
-    }
-    Image {
-        url {
-            default
-        }
-    }
-    Heading
-    SubHeading
-    Body {
-        html
-    }
-    Links {
-        url {
-            default
-        }
-        text
-    }
-}
-```
-
 ## Styles
 
-### Layout Classes
-- **Section**: `relative flex w-full items-center`
-- **Background Video/Image**: `absolute inset-0 h-full w-full object-cover`
-- **Overlay**: `absolute inset-0` (with configurable opacity)
-- **Content**: `relative z-10 px-6`
+### Visual Builder Style Options
 
-### Typography Classes
-- **Heading**: `text-5xl font-bold md:text-6xl`
-- **SubHeading**: `mx-auto mt-4 max-w-2xl text-lg`
-- **Body**: `mx-auto mt-4 max-w-2xl text-base text-gray-200`
-
-### Button Classes
-- **Buttons Container**: `mt-6 flex space-x-4`
-- **Button**: `rounded-full bg-black/90 px-6 py-3 font-semibold text-white shadow-lg hover:bg-blue-700`
-
-### Configurable Styles
-
-The component uses `HeroStyling.ts` to apply display settings:
-- **justifyClass**: Content alignment (left, center, right)
-- **backgroundOpacityClass**: Overlay darkness
-- **textClasses**: Text color and alignment
-- **heightClass**: Section height (viewport heights)
+#### Default Hero
+- **Hero Height**: Small (18rem), Medium (28rem), Large (38rem), X-Large (48rem)
+- **Text Placement**: Right, Center, Left
+- **Text Color**: White, Black
+- **Background Tint Level**: 0-100 (opacity overlay)
 
 ## Screenshot
 

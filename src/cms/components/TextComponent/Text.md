@@ -8,54 +8,19 @@ The Text component renders configurable heading and text elements with dynamic s
 
 The Text component is used for headlines, subheadings, labels, and any text that requires specific typography treatment or semantic heading structure.
 
-### Component Structure
-
-```typescript
-interface TextProps {
-  data: TextFragment;
-  displaySettings: DisplaySettingsFragment[];
-  contentPayload: ContentPayload;
-}
-```
-
 ### Content Fields
 
 - **Content**: The text content to display
 
-### GraphQL Fragment
-
-```graphql
-fragment Text on Text {
-    Content
-}
-```
-
 ## Styles
 
-### Dynamic Element Types
+### Visual Builder Style Options
 
-The component dynamically renders different HTML elements based on display settings:
-- **Heading Types**: `h1`, `h2`, `h3`, `h4`, `h5`, `h6`
-- **Plain Text**: `span` (default when headingType is "plain" or null)
-
-### Style Configuration
-
-The component uses:
-- `TextStyling.ts` for style processing via `getHeadingElementStyles()`
-- `TextStyles.opti-style.json` for CMS configuration
-- Display settings to determine both element type and styling
-
-### Element Selection Logic
-```typescript
-const HeadingStyle = (settings?.headingType == "plain" || settings?.headingType == null) 
-    ? "span" : settings.headingType;
-```
-
-### Style Features
-- Configurable typography through display settings
-- Responsive design support
-- Semantic HTML heading structure when appropriate
-- Flexible styling for different text treatments
+#### Text Default
+- **Heading Type**: Heading 1-6, Plain text
+- **Text Align**: Left, Center, Right, Justify
+- **Render As**: Heading element, Basic element
+- **Text Transform**: As entered, Uppercase, Lowercase, Capitalize
 
 ## Screenshot
 

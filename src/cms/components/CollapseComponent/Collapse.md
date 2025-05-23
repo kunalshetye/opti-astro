@@ -8,46 +8,14 @@ The Collapse component creates an expandable/collapsible content section using D
 
 The component is ideal for creating accordion-style interfaces, FAQ sections, or any content that benefits from progressive disclosure.
 
-### Component Structure
-
-```typescript
-interface CollapseProps {
-  data: CollapseFragment;
-  displaySettings: DisplaySettingsFragment[];
-  contentPayload: ContentPayload;
-}
-```
-
 ### Content Fields
 
 - **Heading**: Clickable title text that toggles the collapse state
 - **Body**: Rich text content (HTML) that expands/collapses
 
-### GraphQL Fragment
-
-```graphql
-fragment Collapse on Collapse {
-    Heading
-    Body {
-        html
-    }
-}
-```
-
 ## Styles
 
-### Layout Classes
-- **Container**: `collapse-plus bg-base-100 border-base-300 collapse border`
-- **Checkbox Input**: `peer` (hidden checkbox for state management)
-- **Title**: `collapse-title font-semibold`
-- **Content**: `collapse-content text-sm`
-
-### Design Features
-- Uses DaisyUI collapse component with plus icon
-- Light background (`bg-base-100`) with subtle border
-- Bold title text with smaller body content
-- Smooth expand/collapse animations
-- Native checkbox-based state management
+No Visual Builder style options are currently configured for the Collapse component.
 
 ## Screenshot
 

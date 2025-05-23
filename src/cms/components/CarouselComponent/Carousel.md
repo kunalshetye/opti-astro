@@ -8,31 +8,9 @@ The Carousel component creates an infinite-scrolling image carousel with autopla
 
 The Carousel component is perfect for image galleries, featured content showcases, product demonstrations, or any content that benefits from a slideshow presentation.
 
-### Component Structure
-
-```typescript
-interface CarouselProps {
-  data: CarouselFragment;
-  displaySettings: DisplaySettingsFragment[];
-  contentPayload: ContentPayload;
-}
-```
-
 ### Content Fields
 
 - **Assets**: Collection of images or components to display in carousel slides
-
-### GraphQL Fragment
-
-```graphql
-fragment Carousel on Carousel {
-    Assets {
-        url {
-            default
-        }
-    }
-}
-```
 
 ### Features
 
@@ -45,30 +23,7 @@ fragment Carousel on Carousel {
 
 ## Styles
 
-### Container Classes
-- **Main Container**: `relative h-full w-full overflow-hidden rounded-lg`
-- **Slides Container**: `flex h-full transition-transform duration-500 ease-in-out`
-- **Individual Slide**: `relative h-full w-full flex-shrink-0`
-
-### Image Classes
-- **Image**: `h-full w-full object-cover`
-- **Caption Container**: `absolute inset-x-0 bottom-0 bg-black/50 p-2 text-white md:p-4`
-- **Caption Text**: `text-8xl font-semibold`
-
-### Navigation Classes
-- **Chevron Buttons**: `absolute top-1/2 -translate-y-1/2 rounded-full bg-white/80 p-1.5 text-gray-800 shadow-md hover:bg-white focus:ring-2 focus:ring-white/80 focus:ring-offset-2 focus:outline-none`
-- **Previous Button**: `left-2 md:left-4 md:p-2`
-- **Next Button**: `right-2 md:right-4 md:p-2`
-
-### Indicator Classes
-- **Indicators Container**: `absolute bottom-2 left-1/2 flex -translate-x-1/2 space-x-1.5 md:bottom-4 md:space-x-2`
-- **Indicator Button**: `h-1 w-4 rounded transition-colors md:w-12`
-- **Active Indicator**: `bg-gray-800`
-- **Inactive Indicator**: `bg-gray-200`
-
-### Responsive Breakpoints
-- **Mobile**: Smaller buttons and indicators
-- **Desktop** (`md:`): Larger navigation elements and spacing
+No Visual Builder style options are currently configured for the Carousel component.
 
 ## Functionality
 

@@ -8,52 +8,15 @@ The CallToAction component renders a collection of action buttons that encourage
 
 The component is used to present primary actions such as "Sign Up", "Learn More", "Contact Us", or other conversion-focused buttons on pages.
 
-### Component Structure
-
-```typescript
-interface CallToActionProps {
-  data: CallToActionFragment;
-  displaySettings: DisplaySettingsFragment[];
-  contentPayload: ContentPayload;
-}
-```
-
 ### Content Fields
 
 - **Links**: Collection of link objects containing:
   - **text**: Button label text
   - **url**: Target URL for the button
 
-### GraphQL Fragment
-
-```graphql
-fragment CallToAction on CallToAction {
-    Links {
-        text
-        url {
-            default
-        }
-    }
-}
-```
-
 ## Styles
 
-### Layout Classes
-- **Container**: `m-4 flex gap-4`
-- **Button**: `btn btn-neutral btn-lg`
-
-### Design Features
-- Horizontal flex layout with consistent spacing
-- Large button size (`btn-lg`) for prominent call-to-action
-- Neutral button styling for professional appearance
-- Responsive gap spacing between multiple buttons
-
-### Button States
-The component uses DaisyUI button classes:
-- `btn`: Base button styling
-- `btn-neutral`: Neutral color scheme
-- `btn-lg`: Large button size for emphasis
+No Visual Builder style options are currently configured for the CallToAction component.
 
 ## Screenshot
 
