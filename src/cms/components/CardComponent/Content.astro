@@ -5,7 +5,8 @@ import type {
 } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import LinkButton from '../ButtonComponent/LinkButton.astro';
-import { getCardStyles } from './CardStyling';
+// import { getCardStyles } from './CardStyling';
+import { getButtonStyles } from '../ButtonComponent/ButtonStyling';
 
 export interface Props {
     data: CardFragment;
@@ -14,7 +15,7 @@ export interface Props {
     contentPayload: ContentPayload;
 }
 const { data, displaySettings } = Astro.props as Props;
-const cardStyles = getCardStyles(displaySettings);
+const cardButtonStyles = getButtonStyles(displaySettings, false); // false: button type defined here
 
 const cssClassesSection = {
     textOnRight: 'col-span-1 content-center',
@@ -79,7 +80,7 @@ const cssClassesForText: string = cssTextClasses[DisplayAs];
                         break;
                 }
                 return (
-                    <LinkButton cssClassses={[buttonType, cardStyles]} link={link?.url?.default}>{link?.text}</LinkButton>
+                    <LinkButton cssClassses={[buttonType, cardButtonStyles]} link={link?.url?.default}>{link?.text}</LinkButton>
                 );
             })
         }
