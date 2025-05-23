@@ -48,3 +48,24 @@ Note: the Site Settings component currently allows you to update the site logo a
 2. Set the "Site Domain" field to match your domain -- for a local setup, it should be "localhost:4321". (Without this value defined, the site won't use the block.)
 3. Update the Logo and the Footer Text as desired. Updates will be reflected on publish.
 
+## Components
+
+### Layout Components
+- [Grid Component](src/cms/components/GridComponent/Grid.md) - Flexible layout system with standard and Bento grid options
+
+### Content Components
+- [ArticleList Component](src/cms/components/ArticleList/ArticleList.md) - Horizontally scrollable list of article cards
+- [Card Component](src/cms/components/CardComponent/Card.md) - Versatile content display with multiple layout configurations
+- [Carousel Component](src/cms/components/CarouselComponent/Carousel.md) - Infinite-scrolling image carousel with autoplay
+- [Collapse Component](src/cms/components/CollapseComponent/Collapse.md) - Expandable/collapsible content sections
+- [Hero Component](src/cms/components/HeroComponent/Hero.md) - Full-width banner with video/image backgrounds
+- [Paragraph Component](src/cms/components/ParagraphComponent/Paragraph.md) - Rich text content rendering
+
+### Media Components
+- [Image Component](src/cms/components/ImageComponent/Image.md) - Optimized images with configurable styling
+- [Video Component](src/cms/components/VideoComponent/Video.md) - Video content with aspect ratios and playback controls
+
+### Interactive Components
+- [CallToAction Component](src/cms/components/CallToActionComponent/CallToAction.md) - Collection of action buttons for user engagement
+- [Text Component](src/cms/components/TextComponent/Text.md) - Configurable heading and text elements
+
