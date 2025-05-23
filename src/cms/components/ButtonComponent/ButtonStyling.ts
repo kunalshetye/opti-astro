@@ -14,14 +14,37 @@ export function getButtonStyles(displaySettings: DisplaySettingsFragment[]): {
         cssClasses.push(settings['transform']);
     }
 
+    const buttonStyle = settings['buttonStyle'];
+    const allButtonStyles : { [key: string]: any } = 
+        {standard: 'btn-standard',
+         soft: 'btn-soft',
+         outline: 'btn-outline',
+         dash: 'btn-dash',
+         neutral: 'btn-neutral',
+         link: 'btn-link',
+         ghost: 'btn-ghost',
+         wide: 'btn-wide',
+         disabled: 'btn-disabled'
+        };
     if(settings['buttonStyle']) {
-        cssClasses.push(`btn-${settings['buttonStyle']}`);
+        cssClasses.push(`${allButtonStyles[buttonStyle]}`);
     }
 
-    if(settings['buttonType']) {
-        cssClasses.push(`btn-${settings['buttonType']}`);
+    const buttonType = settings['buttonType'];
+    const allButtonTypes  : { [key: string]: any } = 
+        {primary: 'btn-primary',
+         secondary: 'btn-secondary',
+         neutral: 'btn-neutral',
+         accent: 'btn-accent',
+         info: 'btn-info',
+         success: 'btn-success',
+         warning: 'btn-warning',
+         error: 'btn-error'
+        };
+    if(buttonType) {
+        cssClasses.push(`${allButtonTypes[buttonType]}`);
     } else {
-        // Default: btn-primary
+        // Default type: btn-primary
         cssClasses.push('btn-primary');
     }
 
