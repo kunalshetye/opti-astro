@@ -26,6 +26,7 @@
         "@types/alpinejs": "^3.13.11",
         "alpinejs": "^3.14.8",
         "astro": "5.7.13",
+        "astro-embed": "^0.9.0",
         "astro-page-insight": "^0.10.1",
         "autoprefixer": "^10.4.21",
         "daisyui": "^5.0.0",

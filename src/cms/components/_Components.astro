@@ -11,6 +11,7 @@ import Image from './ImageComponent/Image.astro';
 import Paragraph from './ParagraphComponent/Paragraph.astro';
 import Text from './TextComponent/Text.astro';
 import Video from './VideoComponent/Video.astro';
+import VideoExternal from './VideoExternalComponent/VideoExternal.astro';
 interface Props {
     contentPayload: ContentPayload;
     data: any;
@@ -119,6 +120,15 @@ const componentType = component._metadata.types[0];
             data={component}
             displaySettings={displaySettings}
             displayTemplateKey={displayTemplateKey}
+        />
+    )
+}
+{
+    componentType === 'VideoExternal' && (
+        <VideoExternal
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
         />
     )
 }
