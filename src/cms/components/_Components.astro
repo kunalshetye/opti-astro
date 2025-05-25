@@ -7,6 +7,7 @@ import Carousel from './CarouselComponent/Carousel.astro';
 import Collapse from './CollapseComponent/Collapse.astro';
 import Grid from './GridComponent/Grid.astro';
 import Hero from './HeroComponent/Hero.astro';
+import Iframe from './IframeComponent/Iframe.astro';
 import Image from './ImageComponent/Image.astro';
 import Paragraph from './ParagraphComponent/Paragraph.astro';
 import Text from './TextComponent/Text.astro';
@@ -115,6 +116,16 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'Grid' && (
         <Grid
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+            displayTemplateKey={displayTemplateKey}
+        />
+    )
+}
+{
+    componentType === 'Iframe' && (
+        <Iframe
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
