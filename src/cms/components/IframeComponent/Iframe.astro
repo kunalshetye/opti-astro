@@ -27,7 +27,7 @@ const settings: Record<string, string> =
     'w-3/4': 'md:w-3/4',
     };
 
-const width = allWidths[settings?.Width] || '';
+const width = allWidths[data?.Width || ''] || '';
 
 ---
 
