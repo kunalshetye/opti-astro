@@ -7,7 +7,7 @@ export function getSectionStyles(grid: CompositionStructureNode): string[] {
     const dictionary = getDictionaryFromDisplaySettings(displaySettings);
     let cssClasses: string[] = [];
     switch (grid.displayTemplateKey) {
-        case 'DefaultGrid':
+        case 'DefaultSection':
             switch (dictionary['gridWidth']) {
                 case 'default':
                     cssClasses.push('container mx-auto px-8');
