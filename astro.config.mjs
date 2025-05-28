@@ -48,7 +48,12 @@ export default defineConfig({
 
     adapter: netlify(),
 
-    server: { port: 4321 },
+    server: { 
+        port: 4321,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+    },
     vite: {
         ssr: {
             noExternal: ['graphql', 'graphql-request'],
