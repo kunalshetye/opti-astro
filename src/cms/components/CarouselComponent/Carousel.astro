@@ -20,250 +20,127 @@ const carouselData = data?.Assets || [];
 const itemCount = carouselData.length;
 ---
 
-<div
-    x-data=`infiniteCarousel(${itemCount})`
-    class="relative h-full w-full overflow-hidden rounded-lg"
->
-    <!-- Carousel items container -->
-    <div
-        class="flex h-full transition-transform duration-500 ease-in-out"
-        x-ref="carouselContainer"
-        x-bind:style="containerStyle"
-        @transitionend="handleTransitionEnd"
-    >
-        {/* Clone of last slide */}
-        {
-            data?.Assets && data.Assets.length > 0 && (
-                <div class="relative h-full w-full flex-shrink-0">
-                    <div class="relative block h-full w-full">
-                        <img
-                            src={
-                                data.Assets[data.Assets.length - 1]?.url
-                                    ?.default
-                            }
-                            alt="todo"
-                            class="h-full w-full object-cover"
-                        />
-                        {showCaptions && (
-                            <div class="absolute inset-x-0 bottom-0 bg-black/50 p-2 text-white md:p-4">
-                                <h3 class="text-base font-semibold md:text-lg">
-                                    #todo
-                                </h3>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            )
-        }
-
-        {/* Original slides */}
-        {
-            data?.Assets?.map((item, index) => (
-                <div class="relative h-full w-full flex-shrink-0">
-                    <div class="relative block h-full w-full">
-                        <img
-                            src={item?.url?.default}
-                            alt="todo"
-                            class="h-full w-full object-cover"
-                        />
-                        {showCaptions && (
-                            <div class="absolute inset-x-0 bottom-0 bg-black/50 p-2 text-white md:p-4">
-                                <h3 class="text-base font-semibold md:text-lg">
-                                    #todo
-                                </h3>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            ))
-        }
-
-        {/* Clone of first slide */}
-        {
-            data?.Assets && data.Assets.length > 0 && (
-                <div class="relative h-full w-full flex-shrink-0">
-                    <div class="relative block h-full w-full">
-                        <img
-                            src={data.Assets[0]?.url?.default}
-                            alt="todo"
-                            class="h-full w-full object-cover"
-                        />
-                        {showCaptions && (
-                            <div class="absolute inset-x-0 bottom-0 bg-black/50 p-2 text-white md:p-4">
-                                <h3 class="text-base font-semibold md:text-lg">
-                                    #todo
-                                </h3>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            )
-        }
+<section class="splide h-full w-full rounded-lg" aria-label="Carousel" data-show-arrows={showChevrons.toString()}>
+    <div class="splide__track h-full">
+        <ul class="splide__list h-full">
+            {/* Original slides */}
+            {
+                data?.Assets?.map((item, index) => (
+                    <li class="splide__slide h-full">
+                        <div class="relative block h-full w-full">
+                            <img
+                                src={item?.url?.default}
+                                alt="Carousel image"
+                                class="h-full w-full object-cover"
+                            />
+                            {showCaptions && (
+                                <div class="absolute inset-x-0 bottom-0 bg-black/50 p-2 text-white md:p-4">
+                                    <h3 class="text-base font-semibold md:text-lg">
+                                        #todo
+                                    </h3>
+                                </div>
+                            )}
+                        </div>
+                    </li>
+                ))
+            }
+        </ul>
     </div>
 
-    <!-- Navigation chevrons (if enabled) -->
-    {
-        showChevrons && (
-            <>
-                <button
-                    x-on:click="prev()"
-                    class="absolute top-1/2 left-2 -translate-y-1/2 rounded-full bg-white/80 p-1.5 text-gray-800 shadow-md hover:bg-white focus:ring-2 focus:ring-white/80 focus:ring-offset-2 focus:outline-none md:left-4 md:p-2"
-                    aria-label="Previous slide"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-4 w-4 md:h-6 md:w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M15 19l-7-7 7-7"
-                        />
-                    </svg>
-                </button>
-                <button
-                    x-on:click="next()"
-                    class="absolute top-1/2 right-2 -translate-y-1/2 rounded-full bg-white/80 p-1.5 text-gray-800 shadow-md hover:bg-white focus:ring-2 focus:ring-white/80 focus:ring-offset-2 focus:outline-none md:right-4 md:p-2"
-                    aria-label="Next slide"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-4 w-4 md:h-6 md:w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M9 5l7 7-7 7"
-                        />
-                    </svg>
-                </button>
-            </>
-        )
-    }
-
-    <!-- Indicators (if enabled) -->
-    {
-        showIndicators && (
-            <div class="absolute bottom-2 left-1/2 flex -translate-x-1/2 space-x-1.5 md:bottom-4 md:space-x-2">
-                {data?.Assets?.map((_, index) => (
-                    <button
-                        x-on:click={`goTo(${index})`}
-                        class="h-1 w-4 rounded transition-colors md:w-12"
-                        x-bind:class={`displayIndex === ${index} ? 'bg-gray-800' : 'bg-gray-200'`}
-                        aria-label={`Go to slide ${index + 1}`}
-                    />
-                ))}
-            </div>
-        )
-    }
-</div>
+    {/* Splide will automatically handle arrows based on configuration */}
+</section>
 
 <style>
     /* Ensure parent containers maintain height */
     :global(.carousel-wrapper) {
         height: 100%;
     }
+
+    /* Custom Splide styles */
+    :global(.splide__pagination) {
+        bottom: 0.5rem;
+    }
+
+    :global(.splide__pagination__page) {
+        height: 0.25rem;
+        width: 1rem;
+        background-color: rgb(229, 231, 235);
+        transition: background-color 0.3s;
+    }
+
+    :global(.splide__pagination__page.is-active) {
+        background-color: rgb(31, 41, 55);
+        transform: none;
+    }
+    
+    /* Style for the built-in Splide arrows */
+    :global(.splide__arrow) {
+        background: rgba(255, 255, 255, 0.8);
+        width: 2.5rem;
+        height: 2.5rem;
+        opacity: 1;
+        transition: background-color 0.3s;
+    }
+    
+    :global(.splide__arrow:hover) {
+        background: rgba(255, 255, 255, 1);
+    }
+    
+    :global(.splide__arrow svg) {
+        width: 1.25rem;
+        height: 1.25rem;
+        fill: #1f2937;
+    }
+
+    @media (min-width: 768px) {
+        :global(.splide__pagination) {
+            bottom: 1rem;
+        }
+
+        :global(.splide__pagination__page) {
+            width: 3rem;
+        }
+        
+        :global(.splide__arrow) {
+            width: 3rem;
+            height: 3rem;
+        }
+        
+        :global(.splide__arrow svg) {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+    }
 </style>
 
 <script>
-    document.addEventListener('alpine:init', () => {
-        window.Alpine.data('infiniteCarousel', (itemCount: number) => {
-            let autoplayInterval: ReturnType<typeof setInterval> | null = null;
+    // Import Splide library
+    import { Splide } from '@splidejs/splide';
+    // Optional: Import CSS - if you're already handling CSS imports globally, you can skip this
+    import '@splidejs/splide/css';
 
-            return {
-                currentIndex: 1, // Start at 1 to account for the cloned slide
-                itemCount: itemCount,
-                isTransitioning: false,
-                displayIndex: 0, // For indicators
-
-                get containerStyle() {
-                    return {
-                        transform: `translateX(-${this.currentIndex * 100}%)`,
-                        transition: this.isTransitioning
-                            ? 'transform 500ms ease-in-out'
-                            : 'none',
-                    };
-                },
-
-                next() {
-                    if (this.isTransitioning) return;
-                    this.isTransitioning = true;
-                    this.currentIndex++;
-                    this.displayIndex =
-                        (this.displayIndex + 1) % this.itemCount;
-                },
-
-                prev() {
-                    if (this.isTransitioning) return;
-                    this.isTransitioning = true;
-                    this.currentIndex--;
-                    this.displayIndex =
-                        (this.displayIndex - 1 + this.itemCount) %
-                        this.itemCount;
-                },
-
-                goTo(index: number) {
-                    if (this.isTransitioning) return;
-                    this.isTransitioning = true;
-                    this.currentIndex = index + 1; // Add 1 to account for cloned slide
-                    this.displayIndex = index;
-                },
-
-                handleTransitionEnd() {
-                    this.isTransitioning = false;
-
-                    // If we're at the clone of the last slide (index 0)
-                    if (this.currentIndex === 0) {
-                        this.currentIndex = this.itemCount;
-                    }
-                    // If we're at the clone of the first slide (index itemCount + 1)
-                    else if (this.currentIndex === this.itemCount + 1) {
-                        this.currentIndex = 1;
-                    }
-                },
-
-                startAutoplay() {
-                    if (!autoplayInterval) {
-                        autoplayInterval = setInterval(() => {
-                            this.next();
-                        }, 5000);
-                    }
-                },
-
-                stopAutoplay() {
-                    if (autoplayInterval) {
-                        clearInterval(autoplayInterval);
-                        autoplayInterval = null;
-                    }
-                },
-
-                init() {
-                    this.startAutoplay();
-
-                    // Add event listeners for hover and touch
-                    const container = this.$el;
-                    container.addEventListener('mouseenter', () =>
-                        this.stopAutoplay()
-                    );
-                    container.addEventListener('mouseleave', () =>
-                        this.startAutoplay()
-                    );
-                    container.addEventListener('touchstart', () =>
-                        this.stopAutoplay()
-                    );
-                    container.addEventListener('touchend', () =>
-                        this.startAutoplay()
-                    );
-                },
-            };
-        });
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Splide
+        const splideElement = document.querySelector('.splide');
+        if (splideElement instanceof HTMLElement) {
+            // Get the show arrows setting from the data attribute
+            const showArrows = splideElement.dataset.showArrows === 'true';
+            const splide = new Splide(splideElement, {
+                type: 'loop',             // Enable loop
+                perPage: 1,               // Show 1 slide per page
+                autoplay: true,           // Enable autoplay
+                interval: 5000,           // Set autoplay interval to 5 seconds
+                pauseOnHover: true,       // Pause on hover
+                pauseOnFocus: true,       // Pause on focus
+                pagination: true,         // Show pagination
+                arrows: showArrows,      // Show arrows if enabled in config
+                speed: 500,               // Transition speed
+                rewind: true,             // Allow rewinding
+                easing: 'ease-in-out',    // Transition easing
+                height: '100%'            // Full height
+            }).mount();
+            
+            // No custom arrow functionality needed - using Splide's built-in arrows
+        }
     });
 </script>

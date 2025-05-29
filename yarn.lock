@@ -2885,6 +2885,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@splidejs/splide@npm:^4.1.4":
+  version: 4.1.4
+  resolution: "@splidejs/splide@npm:4.1.4"
+  checksum: 10c0/2dc36e0ce13d049b6ff6e2dcd02cf100ad5df014cd7e751e34f941d54f73a9af948b0912f977aaf896a05ac4f0388fc0a2404cf79d970ac632d207f9dbe03044
+  languageName: node
+  linkType: hard
+
 "@swc/helpers@npm:^0.5.12":
   version: 0.5.17
   resolution: "@swc/helpers@npm:0.5.17"
@@ -8104,6 +8111,7 @@ __metadata:
     "@parcel/watcher": "npm:^2.5.1"
     "@remkoj/optimizely-cms-api": "npm:^4.3.1"
     "@rollup/plugin-commonjs": "npm:^28.0.3"
+    "@splidejs/splide": "npm:^4.1.4"
     "@tailwindcss/vite": "npm:^4.0.12"
     "@types/alpinejs": "npm:^3.13.11"
     "@types/node": "npm:^22.13.10"
