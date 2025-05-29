@@ -18,9 +18,12 @@ const showIndicators = true;
 const showCaptions = false;
 const carouselData = data?.Assets || [];
 const itemCount = carouselData.length;
+
+// Create a unique ID for this specific carousel instance
+const carouselId = `splide-${Math.random().toString(36).substring(2, 9)}`;
 ---
 
-<section class="splide h-full w-full rounded-lg" aria-label="Carousel" data-show-arrows={showChevrons.toString()}>
+<section id={carouselId} class="splide h-full w-full rounded-lg" aria-label="Carousel" data-show-arrows={showChevrons.toString()}>
     <div class="splide__track h-full">
         <ul class="splide__list h-full">
             {/* Original slides */}
@@ -113,18 +116,23 @@ const itemCount = carouselData.length;
     }
 </style>
 
+<!-- Import Splide as a module script -->
 <script>
-    // Import Splide library
-    import { Splide } from '@splidejs/splide';
-    // Optional: Import CSS - if you're already handling CSS imports globally, you can skip this
     import '@splidejs/splide/css';
+</script>
 
+<!-- Add Splide JS via CDN as a fallback -->
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+
+<!-- Initialize this specific carousel instance -->
+<script define:vars={{ carouselId, showChevrons }} is:inline>
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize Splide
-        const splideElement = document.querySelector('.splide');
+        // Get only this specific carousel instance by ID
+        const splideElement = document.getElementById(carouselId);
+        
+        // Initialize only if the element exists
         if (splideElement instanceof HTMLElement) {
-            // Get the show arrows setting from the data attribute
-            const showArrows = splideElement.dataset.showArrows === 'true';
+            // Create a new Splide instance for this carousel
             const splide = new Splide(splideElement, {
                 type: 'loop',             // Enable loop
                 perPage: 1,               // Show 1 slide per page
@@ -133,14 +141,12 @@ const itemCount = carouselData.length;
                 pauseOnHover: true,       // Pause on hover
                 pauseOnFocus: true,       // Pause on focus
                 pagination: true,         // Show pagination
-                arrows: showArrows,      // Show arrows if enabled in config
+                arrows: showChevrons,     // Show arrows if enabled in config
                 speed: 500,               // Transition speed
                 rewind: true,             // Allow rewinding
                 easing: 'ease-in-out',    // Transition easing
                 height: '100%'            // Full height
             }).mount();
-            
-            // No custom arrow functionality needed - using Splide's built-in arrows
         }
     });
 </script>
