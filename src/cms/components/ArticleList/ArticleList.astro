@@ -7,6 +7,7 @@ import type {
 } from '../../../../__generated/sdk';
 import { getOptimizelySdk } from '../../../graphql/getSdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import LinkButton from '../ButtonComponent/LinkButton.astro';
 
 export interface Props {
     data: ArticleListFragment;
@@ -46,12 +47,7 @@ const items = articlesList.ArticlePage?.items || null;
                             <div set:html={item.Body?.html?.slice(0, 100) + "..."} />
                         }
                         <div class="card-actions justify-end mt-auto">
-                            <a
-                                href={item._metadata?.url?.hierarchical}
-                                class="btn btn-primary"
-                            >
-                                Read more
-                            </a>
+                          <LinkButton cssClassses="btn-primary" link={item._metadata?.url?.hierarchical}>Read more</LinkButton>
                         </div>
                     </div>
                 </div>

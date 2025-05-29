@@ -4,6 +4,9 @@ import type {
     DisplaySettingsFragment,
 } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import LinkButton from '../ButtonComponent/LinkButton.astro';
+// import { getCardStyles } from './CardStyling';
+import { getButtonStyles } from '../ButtonComponent/ButtonStyling';
 
 export interface Props {
     data: CardFragment;
@@ -11,7 +14,9 @@ export interface Props {
     displayTemplateKey: string;
     contentPayload: ContentPayload;
 }
-const { data } = Astro.props as Props;
+const { data, displaySettings } = Astro.props as Props;
+const cardButtonStyles = getButtonStyles(displaySettings, false); // false: button type defined here
+
 const cssClassesSection = {
     textOnRight: 'col-span-1 content-center',
     textOnLeft: 'col-span-1 content-center',
@@ -25,10 +30,10 @@ const cssTextClasses = {
     textBelowCard: 'mt-2',
 };
 const cssClassesCallToAction = {
-    textOnRight: 'z-20 mt-8 flex gap-2',
-    textOnLeft: 'z-20 mt-8 flex gap-2',
-    textAboveCard: 'z-20 mt-8 flex justify-center gap-2',
-    textBelowCard: 'z-20 mt-8 flex justify-center gap-2',
+    textOnRight: 'z-20 mt-8 flex gap-2 flex-wrap',
+    textOnLeft: 'z-20 mt-8 flex gap-2 flex-wrap',
+    textAboveCard: 'z-20 mt-8 flex justify-center gap-2 flex-wrap',
+    textBelowCard: 'z-20 mt-8 flex justify-center gap-2 flex-wrap',
 };
 type DisplayAsType =
     | 'textOnRight'
@@ -53,16 +58,29 @@ const cssClassesForText: string = cssTextClasses[DisplayAs];
     <div class={cssClassesForCallToAction}>
         {
             data.Links?.map((link, i) => {
-                const css =
-                    i === 0 ? 'btn-soft btn-primary' : 'btn-soft btn-secondary';
+                const buttonType: string[] = [""];
+                switch (i) {
+                    case 0:
+                        buttonType.push('btn-primary');
+                        break;
+                    case 1:
+                        buttonType.push('btn-secondary');
+                        break;
+                    case 2:
+                        buttonType.push('btn-accent');
+                        break;
+                    case 3:
+                        buttonType.push('btn-info');
+                        break;
+                    case 4:
+                        buttonType.push('');
+                        break;
+                    default:
+                        buttonType.push('btn-primary');
+                        break;
+                }
                 return (
-                    <a
-                        href={link?.url?.default}
-                        class="btn btn-lg btn-wide"
-                        class:list={css}
-                    >
-                        {link?.text}
-                    </a>
+                    <LinkButton cssClassses={[buttonType, cardButtonStyles]} link={link?.url?.default}>{link?.text}</LinkButton>
                 );
             })
         }
