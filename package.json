@@ -13,7 +13,8 @@
         "codegen:watch": "graphql-codegen --watch --config codegen.ts",
         "styles:push": "node --env-file=.env ./utils/styles/push.mjs",
         "styles:pull": "node --env-file=.env ./utils/styles/pull.mjs",
-        "types:pull": "node --env-file=.env ./utils/types/pull.mjs"
+        "types:pull": "node --env-file=.env ./utils/types/pull.mjs",
+        "types:push": "node --env-file=.env ./utils/types/push.mjs"
     },
     "dependencies": {
         "@astrojs/alpinejs": "0.4.8",
