@@ -4,21 +4,53 @@ import type {
     DisplaySettingsFragment,
 } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import LinkButton from '../ButtonComponent/LinkButton.astro';
+// import { getCtaStyles } from './CallToActionStyling';
+import { getButtonStyles } from '../ButtonComponent/ButtonStyling';
 
 export interface Props {
     data: CallToActionFragment;
     displaySettings: DisplaySettingsFragment[];
+    displayTemplateKey: string;
     contentPayload: ContentPayload;
 }
-const { data } = Astro.props as Props;
+const { data, displaySettings } = Astro.props as Props;
+const ctaButtonStyles = getButtonStyles(displaySettings, false); // false: button type defined here
 ---
 
-<div class="m-4 flex gap-4">
+<div class="m-4 flex gap-4 flex-wrap">
     {
-        data.Links?.map((link) => (
-            <a class="btn btn-neutral btn-lg" href={link?.url?.default}>
-                {link?.text}
-            </a>
-        ))
+        data.Links?.map((link, i) => {
+            const buttonType: string[] = [""];
+            switch (i) {
+                case 0:
+                    buttonType.push('btn-primary');
+                    break;
+                case 1:
+                    buttonType.push('btn-secondary');
+                    break;
+                case 2:
+                    buttonType.push('btn-accent');
+                    break;
+                case 3:
+                    buttonType.push('btn-info');
+                    break;
+                case 4:
+                    buttonType.push('');
+                    break;
+                case 5:
+                    buttonType.push('btn-success');
+                    break;
+                case 6:
+                    buttonType.push('btn-warning');
+                    break;
+                default:
+                    buttonType.push('btn-primary');
+                    break;
+            }
+            return (
+                <LinkButton cssClassses={[buttonType, ctaButtonStyles]} link={link?.url?.default}>{link?.text}</LinkButton>
+            );
+        })
     }
 </div>

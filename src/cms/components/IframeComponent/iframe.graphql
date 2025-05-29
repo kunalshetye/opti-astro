@@ -1,0 +1,6 @@
+fragment Iframe on Iframe {
+    Title
+    IframePageUrl
+    ManualHeight
+    Width
+}
