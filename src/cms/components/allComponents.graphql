@@ -14,5 +14,6 @@ fragment AllComponentsExceptGrid on _IComponent {
     ...Carousel
     ...Collapse
     ...ArticleList
+    ...Button
     ...Iframe
 }

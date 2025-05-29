@@ -1,0 +1,39 @@
+---
+import type {
+    ButtonFragment,
+    DisplaySettingsFragment,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import LinkButton from './LinkButton.astro';
+import { getButtonStyles } from './ButtonStyling';
+import { getLoginButtonStyles } from './LoginButtonStyling';
+
+export interface Props {
+    data: ButtonFragment;
+    displaySettings: DisplaySettingsFragment[];
+    displayTemplateKey: string;
+    contentPayload: ContentPayload;
+}
+const { data, displaySettings, displayTemplateKey, contentPayload } = Astro.props as Props;
+
+const isDefaultButton = displayTemplateKey === 'DefaultButton';
+const isLoginButton = displayTemplateKey === 'LoginButton';
+
+let btnStyles: string | string[] | {} = '';
+let loginButtonSlot: string = '';
+
+if(isLoginButton) {
+    const { btnStyles: loginBtnStyles, loginButtonSlot: loginBtnSlot } = getLoginButtonStyles(displaySettings);
+    btnStyles = loginBtnStyles;
+    loginButtonSlot = loginBtnSlot;
+} else {
+    btnStyles = getButtonStyles(displaySettings);
+}
+
+---
+{ isDefaultButton &&
+    <LinkButton cssClassses={btnStyles} link={data?.ButtonLink?.url?.hierarchical}>{data?.ButtonLabel}</LinkButton>
+}
+{ isLoginButton &&
+    <LinkButton cssClassses={btnStyles} link={data?.ButtonLink?.url?.hierarchical}><Fragment set:html={loginButtonSlot}/></LinkButton>
+}
