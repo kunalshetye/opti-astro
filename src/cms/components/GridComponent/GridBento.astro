@@ -17,11 +17,11 @@ const { data, contentPayload, displaySettings, displayTemplateKey } =
     Astro.props as Props;
 const defaults = {
     containerClass: 'max-w-7xl mx-auto grid grid-cols-12 gap-6',
-    cardClass: 'bg-white rounded-3xl p-6 overflow-hidden relative shadow-lg border border-slate-100',
+    cardClass: 'bg-base-100 rounded-3xl p-6 overflow-hidden relative shadow-lg border border-base-300',
 };
 ---
 
-<div class="bg-gray-100 p-6 text-gray-800">
+<div class="bg-base-200 p-6 text-base-content">
     <!-- Header Text -->
     <div class="mx-auto mb-12 max-w-4xl pt-8 text-center" set:html={data.RichText?.html}></div>
 

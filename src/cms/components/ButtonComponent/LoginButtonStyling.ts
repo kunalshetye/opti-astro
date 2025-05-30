@@ -14,9 +14,9 @@ export function getLoginButtonStyles(displaySettings: DisplaySettingsFragment[])
     let loginService = settings['loginService'];
     
     const allLoginServiceClasses : { [key: string]: any } = 
-        {Email: 'bg-white text-black border-[#e5e5e5]',
+        {Email: 'bg-base-100 text-base-content border-base-300',
          GitHub: 'bg-black text-white border-black',
-         Google: 'bg-white text-black border-[#e5e5e5]',
+         Google: 'bg-base-100 text-base-content border-base-300',
          Facebook: 'bg-[#1A77F2] text-white border-[#005fd8]',
          xtwitter: 'bg-black text-white border-black',
          Apple: 'btn bg-black text-white border-black',
