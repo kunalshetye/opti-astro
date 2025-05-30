@@ -7,9 +7,9 @@ import { fileURLToPath } from 'url';
 // Convert import.meta.url to a usable file path
 const currentFilename = fileURLToPath(import.meta.url);
 const currentDirectory = path.dirname(currentFilename);
-const directoryToFindTypesIn = path.resolve(
+const directoryToFindTypesIn = fg.convertPathToPattern(path.resolve(
     `${currentDirectory}/../../src/cms`
-); // looking for pattern *.opti-type.json
+)); // looking for pattern *.opti-type.json
 
 // Environment variables for API connection
 const clientId = process.env.OPTIMIZELY_CLIENT_ID;
