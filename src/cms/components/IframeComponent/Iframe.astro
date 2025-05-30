@@ -32,6 +32,6 @@ const width = allWidths[data?.Width || ''] || '';
 ---
 
 <div class={`mb-3`}>
-    <iframe class=`w-full ${width}` height={data?.ManualHeight} src={data?.IframePageUrl} title={data?.Title} style="border:0;" allow="" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <iframe class=`w-full ${width} border-0` height={data?.ManualHeight} src={data?.IframePageUrl} title={data?.Title} allow="" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </div>
 

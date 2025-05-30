@@ -107,7 +107,7 @@ const itemCount = carouselData.length;
             <>
                 <button
                     x-on:click="prev()"
-                    class="absolute top-1/2 left-2 -translate-y-1/2 rounded-full bg-white/80 p-1.5 text-gray-800 shadow-md hover:bg-white focus:ring-2 focus:ring-white/80 focus:ring-offset-2 focus:outline-none md:left-4 md:p-2"
+                    class="absolute top-1/2 left-2 -translate-y-1/2 rounded-full bg-base-100/80 p-1.5 text-base-content shadow-md hover:bg-base-100 focus:ring-2 focus:ring-base-100/80 focus:ring-offset-2 focus:outline-none md:left-4 md:p-2"
                     aria-label="Previous slide"
                 >
                     <svg
@@ -127,7 +127,7 @@ const itemCount = carouselData.length;
                 </button>
                 <button
                     x-on:click="next()"
-                    class="absolute top-1/2 right-2 -translate-y-1/2 rounded-full bg-white/80 p-1.5 text-gray-800 shadow-md hover:bg-white focus:ring-2 focus:ring-white/80 focus:ring-offset-2 focus:outline-none md:right-4 md:p-2"
+                    class="absolute top-1/2 right-2 -translate-y-1/2 rounded-full bg-base-100/80 p-1.5 text-base-content shadow-md hover:bg-base-100 focus:ring-2 focus:ring-base-100/80 focus:ring-offset-2 focus:outline-none md:right-4 md:p-2"
                     aria-label="Next slide"
                 >
                     <svg
@@ -157,7 +157,7 @@ const itemCount = carouselData.length;
                     <button
                         x-on:click={`goTo(${index})`}
                         class="h-1 w-4 rounded transition-colors md:w-12"
-                        x-bind:class={`displayIndex === ${index} ? 'bg-gray-800' : 'bg-gray-200'`}
+                        x-bind:class={`displayIndex === ${index} ? 'bg-base-content' : 'bg-base-300'`}
                         aria-label={`Go to slide ${index + 1}`}
                     />
                 ))}
