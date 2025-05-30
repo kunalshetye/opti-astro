@@ -7,10 +7,7 @@ import { fileURLToPath } from 'url';
 // Convert import.meta.url to a usable file path
 const currentFilename = fileURLToPath(import.meta.url);
 const currentDirectory = path.dirname(currentFilename);
-const directoryToFindStylesIn = fg.convertPathToPattern(path.resolve(
-    `${currentDirectory}/../../src/cms`
-)); // looking for pattern *.opti-style.json
-const directoryToPullStylesInto = fg.convertPathToPattern(path.resolve(`${currentDirectory}/temp`)); // temp directory to store pulled styles
+// const directoryToPullStylesInto = fg.convertPathToPattern(path.resolve(`${currentDirectory}/temp`)); // temp directory to store pulled styles
 const clientId = process.env.OPTIMIZELY_CLIENT_ID;
 const clientSecret = process.env.OPTIMIZELY_CLIENT_SECRET;
 const cmsUrl = process.env.OPTIMIZELY_CMS_URL;
@@ -50,7 +47,7 @@ templatesList.items?.forEach(async (template) => {
         ) {
             fs.writeFile(
                 path.join(componentStyleLocation, `${styleKey}.opti-style.json`),
-                JSON.stringify(styleDefinition, null, 2)
+                JSON.stringify(styleDefinition, null, '\t')
             );
             console.log(
                 `✅ Template with styleKey: ${styleKey} and contentType: ${contentType} has been pulled`
@@ -76,7 +73,7 @@ templatesList.items?.forEach(async (template) => {
         ) {
             fs.writeFile(
                 path.join(nodeStyleLocation, `${styleKey}.opti-style.json`),
-                JSON.stringify(styleDefinition, null, 2)
+                JSON.stringify(styleDefinition, null, '\t')
             );
             console.log(
                 `✅ Template with styleKey: ${styleKey} and nodeType: ${nodeType} has been pulled`
@@ -88,7 +85,7 @@ templatesList.items?.forEach(async (template) => {
         ) {
             fs.writeFile(
                 path.join(baseStyleLocation, `${styleKey}.opti-style.json`),
-                JSON.stringify(styleDefinition, null, 2)
+                JSON.stringify(styleDefinition, null, '\t')
             );
             console.log(
                 `✅ Template with styleKey: ${styleKey} and baseType: ${baseType} has been pulled`

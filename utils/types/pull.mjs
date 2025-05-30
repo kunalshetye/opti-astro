@@ -6,12 +6,6 @@ import { fileURLToPath } from 'url';
 
 // Convert import.meta.url to a usable file path
 const currentFilename = fileURLToPath(import.meta.url);
-const currentDirectory = path.dirname(currentFilename);
-
-// Define directory for organization using fast-glob for Windows compatibility
-const directoryToFindTypesIn = fg.convertPathToPattern(path.resolve(
-    `${currentDirectory}/../../src/cms`
-));
 
 const clientId = process.env.OPTIMIZELY_CLIENT_ID;
 const clientSecret = process.env.OPTIMIZELY_CLIENT_SECRET;
@@ -75,7 +69,7 @@ contentTypesListSorted?.forEach(async (contentType) => {
                 // Directory exists, write the file
                 fs.writeFile(
                     path.join(typeFolderPath, `${sanitizedKey}.opti-type.json`),
-                    JSON.stringify(cleanContentType, null, 2)
+                    JSON.stringify(cleanContentType, null, '\t')
                 );
                 console.log(
                     `✅ Content type for type "${contentTypeKey}" has been pulled to pages folder`
@@ -96,7 +90,7 @@ contentTypesListSorted?.forEach(async (contentType) => {
                 // Directory exists, write the file
                 fs.writeFile(
                     path.join(typeFolderPath, `${sanitizedKey}.opti-type.json`),
-                    JSON.stringify(cleanContentType, null, 2)
+                    JSON.stringify(cleanContentType, null, '\t')
                 );
                 console.log(
                     `✅ Content type for type "${contentTypeKey}" has been pulled to components folder`
@@ -119,7 +113,7 @@ contentTypesListSorted?.forEach(async (contentType) => {
                 // Directory exists, write the file
                 fs.writeFile(
                     path.join(typeFolderPath, `${sanitizedKey}.opti-type.json`),
-                    JSON.stringify(cleanContentType, null, 2)
+                    JSON.stringify(cleanContentType, null, '\t')
                 );
                 console.log(
                     `✅ Content type for type "${contentTypeKey}" has been pulled to media folder`
@@ -142,7 +136,7 @@ contentTypesListSorted?.forEach(async (contentType) => {
                 // Directory exists, write the file
                 fs.writeFile(
                     path.join(typeFolderPath, `${sanitizedKey}.opti-type.json`),
-                    JSON.stringify(cleanContentType, null, 2)
+                    JSON.stringify(cleanContentType, null, '\t')
                 );
                 console.log(
                     `✅ Content type for type "${contentTypeKey}" has been pulled to experiences folder`
@@ -166,7 +160,7 @@ contentTypesListSorted?.forEach(async (contentType) => {
                 // Directory exists, write the file
                 fs.writeFile(
                     path.join(typeFolderPath, `${sanitizedKey}.opti-type.json`),
-                    JSON.stringify(cleanContentType, null, 2)
+                    JSON.stringify(cleanContentType, null, '\t')
                 );
                 console.log(
                     `✅ Content type for type "${contentTypeKey}" has been pulled to components folder (fallback)`

@@ -1,8 +1,8 @@
 {
-	"key": "DefaultSection",
-	"displayName": "Section Default",
+	"key": "DefaultGrid",
+	"displayName": "[DO NOT EXPORT]Default",
 	"baseType": "section",
-	"isDefault": true,
+	"isDefault": false,
 	"settings": {
 		"gridWidth": {
 			"displayName": "Width",
