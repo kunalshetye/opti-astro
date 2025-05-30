@@ -1,4 +1,5 @@
 import { createClient } from '@remkoj/optimizely-cms-api';
+import fg from 'fast-glob';
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -7,10 +8,10 @@ import { fileURLToPath } from 'url';
 const currentFilename = fileURLToPath(import.meta.url);
 const currentDirectory = path.dirname(currentFilename);
 
-// Define directory for organization
-const directoryToFindTypesIn = path.resolve(
+// Define directory for organization using fast-glob for Windows compatibility
+const directoryToFindTypesIn = fg.convertPathToPattern(path.resolve(
     `${currentDirectory}/../../src/cms`
-);
+));
 
 const clientId = process.env.OPTIMIZELY_CLIENT_ID;
 const clientSecret = process.env.OPTIMIZELY_CLIENT_SECRET;
@@ -64,13 +65,16 @@ contentTypesListSorted?.forEach(async (contentType) => {
         
         if (baseType === 'page') {
             // Pages go in pages folder
-            const typeFolderPath = `${directoryToFindTypesIn}/pages/${contentTypeKeyCapitalized}`;
+            const typeFolderPath = fg.convertPathToPattern(path.resolve(
+                path.dirname(fileURLToPath(import.meta.url)), 
+                `../../src/cms/pages/${contentTypeKeyCapitalized}`
+            ));
 
             // Check if directory exists, but don't create it
             if (await folderExists(typeFolderPath)) {
                 // Directory exists, write the file
                 fs.writeFile(
-                    `${typeFolderPath}/${sanitizedKey}.opti-type.json`,
+                    path.join(typeFolderPath, `${sanitizedKey}.opti-type.json`),
                     JSON.stringify(cleanContentType, null, 2)
                 );
                 console.log(
@@ -82,13 +86,16 @@ contentTypesListSorted?.forEach(async (contentType) => {
             }
         } else if (baseType === 'component') {
             // Standard components go in component folders
-            const typeFolderPath = `${directoryToFindTypesIn}/components/${contentTypeKeyCapitalized}Component`;
+            const typeFolderPath = fg.convertPathToPattern(path.resolve(
+                path.dirname(fileURLToPath(import.meta.url)), 
+                `../../src/cms/components/${contentTypeKeyCapitalized}Component`
+            ));
 
             // Check if directory exists, but don't create it
             if (await folderExists(typeFolderPath)) {
                 // Directory exists, write the file
                 fs.writeFile(
-                    `${typeFolderPath}/${sanitizedKey}.opti-type.json`,
+                    path.join(typeFolderPath, `${sanitizedKey}.opti-type.json`),
                     JSON.stringify(cleanContentType, null, 2)
                 );
                 console.log(
@@ -102,13 +109,16 @@ contentTypesListSorted?.forEach(async (contentType) => {
             }
         } else if (baseType === 'media' || baseType === 'image' || baseType === 'video') {
             // Media types go in media folder
-            const typeFolderPath = `${directoryToFindTypesIn}/media/${contentTypeKeyCapitalized}Component`;
+            const typeFolderPath = fg.convertPathToPattern(path.resolve(
+                path.dirname(fileURLToPath(import.meta.url)), 
+                `../../src/cms/media/${contentTypeKeyCapitalized}Component`
+            ));
 
             // Check if directory exists, but don't create it
             if (await folderExists(typeFolderPath)) {
                 // Directory exists, write the file
                 fs.writeFile(
-                    `${typeFolderPath}/${sanitizedKey}.opti-type.json`,
+                    path.join(typeFolderPath, `${sanitizedKey}.opti-type.json`),
                     JSON.stringify(cleanContentType, null, 2)
                 );
                 console.log(
@@ -122,13 +132,16 @@ contentTypesListSorted?.forEach(async (contentType) => {
             }
         } else if (baseType === 'experience') {
             // Experience types go in experiences folder
-            const typeFolderPath = `${directoryToFindTypesIn}/experiences/${contentTypeKeyCapitalized}Component`;
+            const typeFolderPath = fg.convertPathToPattern(path.resolve(
+                path.dirname(fileURLToPath(import.meta.url)), 
+                `../../src/cms/experiences/${contentTypeKeyCapitalized}Component`
+            ));
 
             // Check if directory exists, but don't create it
             if (await folderExists(typeFolderPath)) {
                 // Directory exists, write the file
                 fs.writeFile(
-                    `${typeFolderPath}/${sanitizedKey}.opti-type.json`,
+                    path.join(typeFolderPath, `${sanitizedKey}.opti-type.json`),
                     JSON.stringify(cleanContentType, null, 2)
                 );
                 console.log(
@@ -143,13 +156,16 @@ contentTypesListSorted?.forEach(async (contentType) => {
         } else {
             // Fallback for any other baseType - put in components folder
             console.log(`Unknown baseType "${baseType}" for type "${contentTypeKey}", placing in components folder`);
-            const typeFolderPath = `${directoryToFindTypesIn}/components/${contentTypeKeyCapitalized}Component`;
+            const typeFolderPath = fg.convertPathToPattern(path.resolve(
+                path.dirname(fileURLToPath(import.meta.url)), 
+                `../../src/cms/components/${contentTypeKeyCapitalized}Component`
+            ));
 
             // Check if directory exists, but don't create it
             if (await folderExists(typeFolderPath)) {
                 // Directory exists, write the file
                 fs.writeFile(
-                    `${typeFolderPath}/${sanitizedKey}.opti-type.json`,
+                    path.join(typeFolderPath, `${sanitizedKey}.opti-type.json`),
                     JSON.stringify(cleanContentType, null, 2)
                 );
                 console.log(
