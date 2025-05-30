@@ -25,7 +25,7 @@ const videoVimeo = data?.VideoExternal || '676247342'; // Default to a known Vim
 // TODO: Add CSS classes for styling
 ---
 
-<div style=`width: ${displayWidth}; max-width: 100% !important; height: 100%;`>
+<div class="max-w-full h-full" style={`width: ${displayWidth};`}>
     {
         provider === 'youtube' && (
             <YouTube

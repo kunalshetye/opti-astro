@@ -54,7 +54,7 @@ Note: the Site Settings component currently allows you to update the site logo a
 - [Grid Component](src/cms/components/GridComponent/Grid.md) - Flexible layout system with standard and Bento grid options
 
 ### Content Components
-- [ArticleList Component](src/cms/components/ArticleList/ArticleList.md) - Horizontally scrollable list of article cards
+- [ArticleList Component](src/cms/components/ArticleListComponent/ArticleList.md) - Horizontally scrollable list of article cards
 - [Card Component](src/cms/components/CardComponent/Card.md) - Versatile content display with multiple layout configurations
 - [Carousel Component](src/cms/components/CarouselComponent/Carousel.md) - Infinite-scrolling image carousel with autoplay
 - [Collapse Component](src/cms/components/CollapseComponent/Collapse.md) - Expandable/collapsible content sections

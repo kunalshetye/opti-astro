@@ -48,13 +48,13 @@ const cssClassesForText: string = cssTextClasses[DisplayAs];
 ---
 
 <div class={cssClassesForSection}>
-    <p class="text-4xl font-bold" class:list={cssClassesForText}>
+    <p class="text-4xl font-bold text-base-content" class:list={cssClassesForText}>
         {data.Heading}
     </p>
-    <p class="text-sm font-semibold" class:list={cssClassesForText}>
+    <p class="text-sm font-semibold text-base-content opacity-80" class:list={cssClassesForText}>
         {data.SubHeading}
     </p>
-    <p class={cssClassesForText} set:html={data.Body?.html} />
+    <p class={`${cssClassesForText} text-base-content opacity-75`} set:html={data.Body?.html} />
     <div class={cssClassesForCallToAction}>
         {
             data.Links?.map((link, i) => {

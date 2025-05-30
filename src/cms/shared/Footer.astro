@@ -33,9 +33,9 @@ const socialLinkGitHub = "https://www.github.com/" + settings?.SocialGitHub;
 
 ---
 
-<footer class="bg-gray-100">
+<footer class="bg-base-200">
     <div class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
-        <div class="flex justify-center text-teal-600">
+        <div class="flex justify-center text-primary">
             <img
                 class={logoCss}
                 src={settings?.Logo?.url?.default ?? '/optimizely-logo.svg'}
@@ -43,7 +43,7 @@ const socialLinkGitHub = "https://www.github.com/" + settings?.SocialGitHub;
         </div>
 
         <p
-            class="mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-500"
+            class="mx-auto mt-6 max-w-md text-center leading-relaxed text-base-content opacity-70"
         >
             {
                 settings?.FooterText ??
@@ -60,7 +60,7 @@ const socialLinkGitHub = "https://www.github.com/" + settings?.SocialGitHub;
                     footerItems.map((data) => 
                         <li>
                             <a
-                                class="text-gray-500 transition hover:text-gray-500/75"
+                                class="text-base-content opacity-70 transition hover:text-primary"
                                 href={data?.Link?.url?.default || '#'}
                             >
                                 {data?.Link?.text || ''}
@@ -80,7 +80,7 @@ const socialLinkGitHub = "https://www.github.com/" + settings?.SocialGitHub;
                             href={socialLinkFacebook}
                             rel="noreferrer"
                             target="_blank"
-                            class="text-gray-700 transition hover:text-gray-700/75"
+                            class="text-base-content transition hover:text-primary"
                         >
                             <span class="sr-only">Facebook</span>
                             <svg
@@ -107,7 +107,7 @@ const socialLinkGitHub = "https://www.github.com/" + settings?.SocialGitHub;
                             href={socialLinkInstagram}
                             rel="noreferrer"
                             target="_blank"
-                            class="text-gray-700 transition hover:text-gray-700/75"
+                            class="text-base-content transition hover:text-primary"
                         >
                             <span class="sr-only">Instagram</span>
                             <svg
@@ -134,7 +134,7 @@ const socialLinkGitHub = "https://www.github.com/" + settings?.SocialGitHub;
                             href={socialLinkTwitter}
                             rel="noreferrer"
                             target="_blank"
-                            class="text-gray-700 transition hover:text-gray-700/75"
+                            class="text-base-content transition hover:text-primary"
                         >
                             <span class="sr-only">Twitter</span>
                             <svg
@@ -160,7 +160,7 @@ const socialLinkGitHub = "https://www.github.com/" + settings?.SocialGitHub;
                             href={socialLinkTikTok}
                             rel="noreferrer"
                             target="_blank"
-                            class="text-gray-700 transition hover:text-gray-700/75"
+                            class="text-base-content transition hover:text-primary"
                         >
                             <span class="sr-only">TikTok</span>
                             <svg
@@ -184,7 +184,7 @@ const socialLinkGitHub = "https://www.github.com/" + settings?.SocialGitHub;
                             href={socialLinkGitHub}
                             rel="noreferrer"
                             target="_blank"
-                            class="text-gray-700 transition hover:text-gray-700/75"
+                            class="text-base-content transition hover:text-primary"
                         >
                             <span class="sr-only">GitHub</span>
                             <svg

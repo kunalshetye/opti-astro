@@ -1,0 +1,40 @@
+{
+	"key": "MenuItem",
+	"displayName": "Menu Item",
+	"description": "",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [],
+	"properties": {
+		"SubMenuItems": {
+			"type": "array",
+			"displayName": "Sub Menu Items",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 0,
+			"editorSettings": {},
+			"items": {
+				"type": "content",
+				"allowedTypes": [
+					"MenuItem"
+				],
+				"restrictedTypes": []
+			}
+		},
+		"Link": {
+			"type": "component",
+			"contentType": "link",
+			"displayName": "Link",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 0,
+			"editorSettings": {}
+		}
+	}
+}

@@ -1,0 +1,26 @@
+{
+	"key": "Paragraph",
+	"displayName": "Paragraph",
+	"description": "",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"sectionEnabled",
+		"elementEnabled"
+	],
+	"properties": {
+		"Text": {
+			"type": "string",
+			"format": "html",
+			"displayName": "Text",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 0,
+			"editorSettings": {}
+		}
+	}
+}

@@ -1,0 +1,41 @@
+{
+	"key": "Video",
+	"displayName": "Video",
+	"description": "Video",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"sectionEnabled",
+		"elementEnabled"
+	],
+	"properties": {
+		"Video": {
+			"type": "contentReference",
+			"displayName": "Video",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 0,
+			"editorSettings": {},
+			"allowedTypes": [],
+			"restrictedTypes": []
+		},
+		"VideoPosterImage": {
+			"type": "contentReference",
+			"displayName": "Video Poster Image",
+			"description": "Image shown before video is played (limited use if autoplay enabled)",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 20,
+			"editorSettings": {},
+			"allowedTypes": [
+				"Image"
+			],
+			"restrictedTypes": []
+		}
+	}
+}

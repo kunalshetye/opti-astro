@@ -60,7 +60,7 @@ const { justifyClass, backgroundOpacityClass, textClasses, heightClass } =
             {data?.SubHeading}
         </p>
         <p
-            class="mx-auto mt-4 max-w-2xl text-base text-gray-200"
+            class="mx-auto mt-4 max-w-2xl text-base text-base-content opacity-80"
             set:html={data.Body?.html}
         />
 
@@ -70,7 +70,7 @@ const { justifyClass, backgroundOpacityClass, textClasses, heightClass } =
                 data?.Links?.map((link) => (
                     <a
                         href={link?.url?.default}
-                        class="rounded-full bg-black/90 px-6 py-3 font-semibold text-white shadow-lg hover:bg-blue-700"
+                        class="btn btn-neutral btn-lg"
                     >
                         {link?.text}
                     </a>

@@ -1,0 +1,104 @@
+{
+	"key": "Card",
+	"displayName": "Card",
+	"description": "",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"sectionEnabled",
+		"elementEnabled"
+	],
+	"properties": {
+		"Heading": {
+			"type": "string",
+			"displayName": "Heading",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": -100,
+			"editorSettings": {}
+		},
+		"SubHeading": {
+			"type": "string",
+			"displayName": "Sub Heading",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": -50,
+			"editorSettings": {}
+		},
+		"Body": {
+			"type": "string",
+			"format": "html",
+			"displayName": "Body",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": -25,
+			"editorSettings": {}
+		},
+		"DisplayAs": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Display As",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 0,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "Text Below Card",
+						"value": "textBelowCard"
+					},
+					{
+						"displayName": "Text Above Card",
+						"value": "textAboveCard"
+					},
+					{
+						"displayName": "Text On Left",
+						"value": "textOnLeft"
+					},
+					{
+						"displayName": "Text On Right",
+						"value": "textOnRight"
+					}
+				]
+			}
+		},
+		"Asset": {
+			"type": "contentReference",
+			"displayName": "Asset",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 0,
+			"editorSettings": {},
+			"allowedTypes": [],
+			"restrictedTypes": []
+		},
+		"Links": {
+			"type": "array",
+			"format": "LinkCollection",
+			"displayName": "Links",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 200,
+			"editorSettings": {},
+			"items": {
+				"type": "component",
+				"contentType": "link"
+			}
+		}
+	}
+}

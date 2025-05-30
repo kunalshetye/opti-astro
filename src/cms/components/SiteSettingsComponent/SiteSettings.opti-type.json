@@ -1,0 +1,174 @@
+{
+	"key": "SiteSettings",
+	"displayName": "Site Settings",
+	"description": "",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [],
+	"properties": {
+		"Logo": {
+			"type": "contentReference",
+			"displayName": "Logo",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 10,
+			"editorSettings": {},
+			"allowedTypes": [
+				"Image"
+			],
+			"restrictedTypes": []
+		},
+		"SocialFacebook": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "Facebook Account",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "SocialMediaAccounts",
+			"sortOrder": 10,
+			"editorSettings": {}
+		},
+		"LogoResolution": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Logo Resolution",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 20,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "32",
+						"value": "32"
+					},
+					{
+						"displayName": "16",
+						"value": "16"
+					},
+					{
+						"displayName": "12",
+						"value": "12"
+					},
+					{
+						"displayName": "10",
+						"value": "10"
+					},
+					{
+						"displayName": "8",
+						"value": "8"
+					}
+				]
+			}
+		},
+		"SocialInstagram": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "Instagram Account",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "SocialMediaAccounts",
+			"sortOrder": 20,
+			"editorSettings": {}
+		},
+		"SocialTwitter": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "Twitter (X) Account",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "SocialMediaAccounts",
+			"sortOrder": 30,
+			"editorSettings": {}
+		},
+		"SocialTikTok": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "TikTok Account",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "SocialMediaAccounts",
+			"sortOrder": 40,
+			"editorSettings": {}
+		},
+		"SocialGitHub": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "GitHub Account",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "SocialMediaAccounts",
+			"sortOrder": 50,
+			"editorSettings": {}
+		},
+		"HeaderLinks": {
+			"type": "array",
+			"displayName": "Header Links",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 100,
+			"editorSettings": {},
+			"maxItems": 6,
+			"items": {
+				"type": "content",
+				"allowedTypes": [
+					"Page",
+					"MenuItem"
+				],
+				"restrictedTypes": []
+			}
+		},
+		"FooterText": {
+			"type": "string",
+			"displayName": "Footer Text",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 200,
+			"editorSettings": {}
+		},
+		"FooterLinks": {
+			"type": "array",
+			"displayName": "Footer Links",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 210,
+			"editorSettings": {},
+			"items": {
+				"type": "content",
+				"allowedTypes": [
+					"Page",
+					"MenuItem"
+				],
+				"restrictedTypes": []
+			}
+		},
+		"SiteDomain": {
+			"type": "string",
+			"displayName": "Site Domain",
+			"description": "Domain (www.mysite.com) to associate with these Site Settings",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 1000,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		}
+	}
+}

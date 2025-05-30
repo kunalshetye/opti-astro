@@ -3,28 +3,10 @@
 /* @theme {--font-sans: InterVariable, sans-serif;} */
 
 @plugin "daisyui" {
-    themes: light --default,
-            dark --preferslight,
-            abyss,
-            acid,
-            aqua,
-            business,
-            coffee,
-            cupcake,
-            corporate,
-            cyberpunk,
-            dracula,
-            forest,
-            halloween,
-            lemonade,
-            luxury,
-            retro,
-            sunset,
-            valentine,
-            winter;
+    themes: all;
     root: ':root';
-    include: ;
-    exclude: ;
+    include:;
+    exclude:;
     logs: true;
 }
 

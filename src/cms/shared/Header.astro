@@ -28,6 +28,46 @@ const logoCss = getClassForLogo(settings?.LogoResolution);
 
 const headerItems = settings?.HeaderLinks as MenuItemType[] | undefined;
 const headerItemCount = headerItems?.length || 0;
+
+// Available themes from daisyUI
+const themes = [
+  // Light themes
+  { name: 'Light', value: 'light' },
+  { name: 'Acid', value: 'acid' },
+  { name: 'Aqua', value: 'aqua' },
+  { name: 'Autumn', value: 'autumn' },
+  { name: 'Bumblebee', value: 'bumblebee' },
+  { name: 'Cmyk', value: 'cmyk' },
+  { name: 'Corporate', value: 'corporate' },
+  { name: 'Cupcake', value: 'cupcake' },
+  { name: 'Cyberpunk', value: 'cyberpunk' },
+  { name: 'Emerald', value: 'emerald' },
+  { name: 'Fantasy', value: 'fantasy' },
+  { name: 'Garden', value: 'garden' },
+  { name: 'Lemonade', value: 'lemonade' },
+  { name: 'Lofi', value: 'lofi' },
+  { name: 'Pastel', value: 'pastel' },
+  { name: 'Retro', value: 'retro' },
+  { name: 'Valentine', value: 'valentine' },
+  { name: 'Winter', value: 'winter' },
+  { name: 'Wireframe', value: 'wireframe' },
+  { name: '-----', value: '' },
+  
+  // Dark themes
+  { name: 'Dark', value: 'dark' },
+  { name: 'Black', value: 'black' },
+  { name: 'Business', value: 'business' },
+  { name: 'Coffee', value: 'coffee' },
+  { name: 'Dim', value: 'dim' },
+  { name: 'Dracula', value: 'dracula' },
+  { name: 'Forest', value: 'forest' },
+  { name: 'Halloween', value: 'halloween' },
+  { name: 'Luxury', value: 'luxury' },
+  { name: 'Night', value: 'night' },
+  { name: 'Nord', value: 'nord' },
+  { name: 'Sunset', value: 'sunset' },
+  { name: 'Synthwave', value: 'synthwave' }
+];
 ---
 
 <header class="sticky top-0 z-50 bg-gray-50/70 backdrop-blur-sm">
@@ -136,8 +176,56 @@ const headerItemCount = headerItems?.length || 0;
           </ul>
         </div>
         <div class="navbar-end">
+          <!-- Theme switcher dropdown -->
+          <div class="dropdown dropdown-end mr-2">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 1-2.4 2.245 4.5 4.5 0 0 0 8.4-2.245c0-.399-.078-.78-.22-1.128Zm0 0a15.998 15.998 0 0 0 3.388-1.62m-5.043-.025a15.994 15.994 0 0 1 1.622-3.395m3.42 3.42a15.995 15.995 0 0 0 4.764-4.648l3.876-5.814a1.151 1.151 0 0 0-1.597-1.597L14.146 6.32a15.996 15.996 0 0 0-4.649 4.763m3.42 3.42a6.776 6.776 0 0 0-3.42-3.42" />
+              </svg>
+            </div>
+            <ul tabindex="0" class="dropdown-content z-[1] menu h-[40rem] overflow-auto menu p-2 shadow bg-base-100 rounded-box w-52">
+              {themes.map((theme) => (
+                <li><button data-set-theme={theme.value} data-act-class="active">{theme.name}</button></li>
+              ))}
+            </ul>
+          </div>
           <a class="btn" href="https://home.optimizely.com/">Log In</a>
         </div>
       </div>
 
 </header>
+
+<script is:inline>
+  // Load the theme-change library directly using a CDN to avoid import issues
+  (function() {
+    const themeChange = window.themeChange || {};
+    
+    // Set default theme if none is stored
+    if (!localStorage.getItem('theme')) {
+      localStorage.setItem('theme', 'light');
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+    
+    // Add event listener to theme buttons after page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const themeButtons = document.querySelectorAll('[data-set-theme]');
+      themeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const theme = this.getAttribute('data-set-theme');
+          document.documentElement.setAttribute('data-theme', theme);
+          localStorage.setItem('theme', theme);
+        });
+      });
+    });
+  })();
+</script>
+
+<!-- Load theme from localStorage on page load -->
+<script is:inline>
+  (function() {
+    const theme = localStorage.getItem('theme');
+    if (theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+  })();
+</script>

@@ -13,40 +13,40 @@ export function getHeroStyles(displaySettings: DisplaySettingsFragment[]): {
     let backgroundOpacityClass = '';
     switch (backgroundTintLevel) {
         case 'o_0':
-            backgroundOpacityClass = 'bg-black/0';
+            backgroundOpacityClass = 'bg-neutral/0';
             break;
         case 'o_10':
-            backgroundOpacityClass = 'bg-black/10';
+            backgroundOpacityClass = 'bg-neutral/10';
             break;
         case 'o_20':
-            backgroundOpacityClass = 'bg-black/20';
+            backgroundOpacityClass = 'bg-neutral/20';
             break;
         case 'o_30':
-            backgroundOpacityClass = 'bg-black/30';
+            backgroundOpacityClass = 'bg-neutral/30';
             break;
         case 'o_40':
-            backgroundOpacityClass = 'bg-black/40';
+            backgroundOpacityClass = 'bg-neutral/40';
             break;
         case 'o_50':
-            backgroundOpacityClass = 'bg-black/50';
+            backgroundOpacityClass = 'bg-neutral/50';
             break;
         case 'o_60':
-            backgroundOpacityClass = 'bg-black/60';
+            backgroundOpacityClass = 'bg-neutral/60';
             break;
         case 'o_70':
-            backgroundOpacityClass = 'bg-black/70';
+            backgroundOpacityClass = 'bg-neutral/70';
             break;
         case 'o_80':
-            backgroundOpacityClass = 'bg-black/80';
+            backgroundOpacityClass = 'bg-neutral/80';
             break;
         case 'o_90':
-            backgroundOpacityClass = 'bg-black/90';
+            backgroundOpacityClass = 'bg-neutral/90';
             break;
         case 'o_100':
-            backgroundOpacityClass = 'bg-black/100';
+            backgroundOpacityClass = 'bg-neutral/100';
             break;
         default:
-            backgroundOpacityClass = 'bg-black/60';
+            backgroundOpacityClass = 'bg-neutral/60';
             break;
     }
 
@@ -71,13 +71,13 @@ export function getHeroStyles(displaySettings: DisplaySettingsFragment[]): {
     const textColor = settings['text_color'] ?? 'white';
     switch (textColor) {
         case 'white':
-            textClasses.push('text-white');
+            textClasses.push('text-base-100');
             break;
         case 'black':
-            textClasses.push('text-black');
+            textClasses.push('text-base-content');
             break;
         default:
-            textClasses.push('text-white');
+            textClasses.push('text-base-100');
             break;
     }
     const heroHeight = settings['hero_height'] ?? 'h_48rem';

@@ -1,4 +1,5 @@
 import { createClient } from '@remkoj/optimizely-cms-api';
+import fg from 'fast-glob';
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -6,10 +7,7 @@ import { fileURLToPath } from 'url';
 // Convert import.meta.url to a usable file path
 const currentFilename = fileURLToPath(import.meta.url);
 const currentDirectory = path.dirname(currentFilename);
-const directoryToFindStylesIn = path.resolve(
-    `${currentDirectory}/../../src/cms`
-); // looking for pattern *.opti-style.json
-const directoryToPullStylesInto = path.resolve(`${currentDirectory}/temp`); // temp directory to store pulled styles
+// const directoryToPullStylesInto = fg.convertPathToPattern(path.resolve(`${currentDirectory}/temp`)); // temp directory to store pulled styles
 const clientId = process.env.OPTIMIZELY_CLIENT_ID;
 const clientSecret = process.env.OPTIMIZELY_CLIENT_SECRET;
 const cmsUrl = process.env.OPTIMIZELY_CMS_URL;
@@ -38,15 +36,18 @@ templatesList.items?.forEach(async (template) => {
     if (styleDefinition.lastModified) delete styleDefinition.lastModified;
 
     if (contentType !== undefined && contentType !== '') {
-        const componentStyleLocation = `${directoryToFindStylesIn}/components/${contentType}Component`;
+        const componentStyleLocation = fg.convertPathToPattern(path.resolve(
+            path.dirname(fileURLToPath(import.meta.url)), 
+            `../../src/cms/components/${contentType}Component`
+        ));
         if (
             contentType !== undefined &&
             contentType !== '' &&
             (await folderExists(componentStyleLocation))
         ) {
             fs.writeFile(
-                `${componentStyleLocation}/${styleKey}.opti-style.json`,
-                JSON.stringify(styleDefinition, null, 2)
+                path.join(componentStyleLocation, `${styleKey}.opti-style.json`),
+                JSON.stringify(styleDefinition, null, '\t')
             );
             console.log(
                 `✅ Template with styleKey: ${styleKey} and contentType: ${contentType} has been pulled`
@@ -57,16 +58,22 @@ templatesList.items?.forEach(async (template) => {
             );
         }
     } else {
-        const nodeStyleLocation = `${directoryToFindStylesIn}/compositions/${capitalize(nodeType)}`;
-        const baseStyleLocation = `${directoryToFindStylesIn}/compositions/${capitalize(baseType)}`;
+        const nodeStyleLocation = fg.convertPathToPattern(path.resolve(
+            path.dirname(fileURLToPath(import.meta.url)), 
+            `../../src/cms/compositions/${capitalize(nodeType)}`
+        ));
+        const baseStyleLocation = fg.convertPathToPattern(path.resolve(
+            path.dirname(fileURLToPath(import.meta.url)), 
+            `../../src/cms/compositions/${capitalize(baseType)}`
+        ));
         if (
             nodeType !== undefined &&
             nodeType !== '' &&
             (await folderExists(nodeStyleLocation))
         ) {
             fs.writeFile(
-                `${nodeStyleLocation}/${styleKey}.opti-style.json`,
-                JSON.stringify(styleDefinition, null, 2)
+                path.join(nodeStyleLocation, `${styleKey}.opti-style.json`),
+                JSON.stringify(styleDefinition, null, '\t')
             );
             console.log(
                 `✅ Template with styleKey: ${styleKey} and nodeType: ${nodeType} has been pulled`
@@ -77,8 +84,8 @@ templatesList.items?.forEach(async (template) => {
             (await folderExists(baseStyleLocation))
         ) {
             fs.writeFile(
-                `${baseStyleLocation}/${styleKey}.opti-style.json`,
-                JSON.stringify(styleDefinition, null, 2)
+                path.join(baseStyleLocation, `${styleKey}.opti-style.json`),
+                JSON.stringify(styleDefinition, null, '\t')
             );
             console.log(
                 `✅ Template with styleKey: ${styleKey} and baseType: ${baseType} has been pulled`
