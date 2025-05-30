@@ -25,5 +25,45 @@ export default {
                 },
             });
         },
+        require('daisyui'),
     ],
+    daisyui: {
+        themes: [
+            // Light themes
+            'light',
+            'cupcake',
+            'bumblebee',
+            'emerald',
+            'corporate',
+            'retro',
+            'cyberpunk',
+            'valentine',
+            'garden',
+            'aqua',
+            'lofi',
+            'pastel',
+            'fantasy',
+            'wireframe',
+            'cmyk',
+            'autumn',
+            'acid',
+            'lemonade',
+            
+            // Dark themes
+            'dark',
+            'synthwave',
+            'halloween',
+            'forest',
+            'black',
+            'luxury',
+            'dracula',
+            'business',
+            'night',
+            'coffee',
+            'winter',
+            'dim',
+            'nord',
+            'sunset'
+        ],
+    },
 };
