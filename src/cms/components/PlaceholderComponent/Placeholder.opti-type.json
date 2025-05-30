@@ -1,35 +1,35 @@
 {
-	"key": "Button",
-	"displayName": "Button",
-	"description": "Single Button",
+	"key": "Placeholder",
+	"displayName": "Form",
+	"description": "",
 	"baseType": "component",
 	"sortOrder": 0,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [],
 	"compositionBehaviors": [
+		"sectionEnabled",
 		"elementEnabled"
 	],
 	"properties": {
-		"ButtonLabel": {
+		"Title": {
 			"type": "string",
-			"format": "shortString",
-			"displayName": "Button Label",
-			"description": "Button Label",
+			"displayName": "Title",
+			"description": "",
 			"localized": true,
 			"required": false,
 			"group": "Information",
-			"sortOrder": 10,
+			"sortOrder": -100,
 			"editorSettings": {}
 		},
-		"ButtonLink": {
+		"Image": {
 			"type": "component",
 			"contentType": "link",
-			"displayName": "Button Link",
-			"description": "Content the button is linking to",
-			"localized": false,
-			"required": true,
+			"displayName": "Image",
+			"description": "",
+			"localized": true,
+			"required": false,
 			"group": "Information",
-			"sortOrder": 20,
+			"sortOrder": 0,
 			"editorSettings": {}
 		}
 	}
