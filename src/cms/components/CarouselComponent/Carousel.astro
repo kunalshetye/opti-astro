@@ -23,7 +23,12 @@ const itemCount = carouselData.length;
 const carouselId = `splide-${Math.random().toString(36).substring(2, 9)}`;
 ---
 
-<section id={carouselId} class="splide h-full w-full rounded-lg" aria-label="Carousel" data-show-arrows={showChevrons.toString()}>
+<section
+    id={carouselId}
+    class="splide h-full w-full rounded-lg"
+    aria-label="Carousel"
+    data-show-arrows={showChevrons.toString()}
+>
     <div class="splide__track h-full">
         <ul class="splide__list h-full">
             {/* Original slides */}
@@ -37,7 +42,7 @@ const carouselId = `splide-${Math.random().toString(36).substring(2, 9)}`;
                                 class="h-full w-full object-cover"
                             />
                             {showCaptions && (
-                                <div class="absolute inset-x-0 bottom-0 bg-black/50 p-2 text-white md:p-4">
+                                <div class="bg-base-300/80 text-base-content absolute inset-x-0 bottom-0 p-2 md:p-4">
                                     <h3 class="text-base font-semibold md:text-lg">
                                         #todo
                                     </h3>
@@ -53,66 +58,52 @@ const carouselId = `splide-${Math.random().toString(36).substring(2, 9)}`;
     {/* Splide will automatically handle arrows based on configuration */}
 </section>
 
-<style>
-    /* Ensure parent containers maintain height */
-    :global(.carousel-wrapper) {
-        height: 100%;
+<style is:inline>
+    /* Custom arrow colors */
+    .splide__arrow {
+        background: color-mix(
+            in srgb,
+            var(--color-base-content) 50%,
+            transparent
+        ) !important;
+        color: color-mix(
+            in srgb,
+            var(--color-base-content) 50%,
+            transparent
+        ) !important;
     }
 
-    /* Custom Splide styles */
-    :global(.splide__pagination) {
-        bottom: 0.5rem;
+    .splide__arrow--prev {
+        background: color-mix(
+            in srgb,
+            var(--color-base-content) 80%,
+            transparent
+        ) !important;
     }
 
-    :global(.splide__pagination__page) {
-        height: 0.25rem;
-        width: 1rem;
-        background-color: rgb(229, 231, 235);
-        transition: background-color 0.3s;
+    .splide__arrow--next {
+        background: color-mix(
+            in srgb,
+            var(--color-base-content) 80%,
+            transparent
+        ) !important;
     }
 
-    :global(.splide__pagination__page.is-active) {
-        background-color: rgb(31, 41, 55);
-        transform: none;
-    }
-    
-    /* Style for the built-in Splide arrows */
-    :global(.splide__arrow) {
-        background: rgba(255, 255, 255, 0.8);
-        width: 2.5rem;
-        height: 2.5rem;
-        opacity: 1;
-        transition: background-color 0.3s;
-    }
-    
-    :global(.splide__arrow:hover) {
-        background: rgba(255, 255, 255, 1);
-    }
-    
-    :global(.splide__arrow svg) {
-        width: 1.25rem;
-        height: 1.25rem;
-        fill: #1f2937;
+    /* Custom pagination colors */
+    .splide__pagination__page {
+        background: color-mix(
+            in srgb,
+            var(--color-base-content) 50%,
+            transparent
+        ) !important;
     }
 
-    @media (min-width: 768px) {
-        :global(.splide__pagination) {
-            bottom: 1rem;
-        }
-
-        :global(.splide__pagination__page) {
-            width: 3rem;
-        }
-        
-        :global(.splide__arrow) {
-            width: 3rem;
-            height: 3rem;
-        }
-        
-        :global(.splide__arrow svg) {
-            width: 1.5rem;
-            height: 1.5rem;
-        }
+    .splide__pagination__page.is-active {
+        background: color-mix(
+            in srgb,
+            var(--color-base-content) 100%,
+            transparent
+        ) !important;
     }
 </style>
 
@@ -122,30 +113,32 @@ const carouselId = `splide-${Math.random().toString(36).substring(2, 9)}`;
 </script>
 
 <!-- Add Splide JS via CDN as a fallback -->
-<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+<script
+    src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"
+></script>
 
 <!-- Initialize this specific carousel instance -->
 <script define:vars={{ carouselId, showChevrons }} is:inline>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         // Get only this specific carousel instance by ID
         const splideElement = document.getElementById(carouselId);
-        
+
         // Initialize only if the element exists
         if (splideElement instanceof HTMLElement) {
             // Create a new Splide instance for this carousel
             const splide = new Splide(splideElement, {
-                type: 'loop',             // Enable loop
-                perPage: 1,               // Show 1 slide per page
-                autoplay: true,           // Enable autoplay
-                interval: 5000,           // Set autoplay interval to 5 seconds
-                pauseOnHover: true,       // Pause on hover
-                pauseOnFocus: true,       // Pause on focus
-                pagination: true,         // Show pagination
-                arrows: showChevrons,     // Show arrows if enabled in config
-                speed: 500,               // Transition speed
-                rewind: true,             // Allow rewinding
-                easing: 'ease-in-out',    // Transition easing
-                height: '100%'            // Full height
+                type: 'loop', // Enable loop
+                perPage: 1, // Show 1 slide per page
+                autoplay: true, // Enable autoplay
+                interval: 5000, // Set autoplay interval to 5 seconds
+                pauseOnHover: true, // Pause on hover
+                pauseOnFocus: true, // Pause on focus
+                pagination: true, // Show pagination
+                arrows: showChevrons, // Show arrows if enabled in config
+                speed: 500, // Transition speed
+                rewind: true, // Allow rewinding
+                easing: 'ease-in-out', // Transition easing
+                height: '100%', // Full height
             }).mount();
         }
     });
