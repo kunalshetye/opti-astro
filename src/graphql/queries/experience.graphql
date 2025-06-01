@@ -12,6 +12,8 @@ query getExperience($key: String, $ver: String, $loc: [Locales]) {
                 version
                 url {
                     default
+                    hierarchical
+                    type
                 }
                 types
             }

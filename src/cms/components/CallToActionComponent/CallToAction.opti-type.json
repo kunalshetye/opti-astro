@@ -1,0 +1,30 @@
+{
+	"key": "CallToAction",
+	"displayName": "Call To Action",
+	"description": "",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"sectionEnabled",
+		"elementEnabled"
+	],
+	"properties": {
+		"Links": {
+			"type": "array",
+			"format": "LinkCollection",
+			"displayName": "Links",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 0,
+			"editorSettings": {},
+			"items": {
+				"type": "component",
+				"contentType": "link"
+			}
+		}
+	}
+}

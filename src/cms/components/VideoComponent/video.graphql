@@ -4,4 +4,9 @@ fragment Video on Video {
             default
         }
     }
+    VideoPosterImage {
+        url {
+            default
+        }
+    }
 }

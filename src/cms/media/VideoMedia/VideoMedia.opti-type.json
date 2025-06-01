@@ -1,0 +1,28 @@
+{
+	"key": "VideoMedia",
+	"displayName": "Video media",
+	"description": "Used for video assets.",
+	"baseType": "video",
+	"sortOrder": 520,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [
+		"avi",
+		"av1",
+		"flv",
+		"m4v",
+		"mkv",
+		"mov",
+		"mp4",
+		"mp4v",
+		"mpg",
+		"ogg",
+		"ogv",
+		"qt",
+		"vc1",
+		"vob",
+		"webm",
+		"wmv"
+	],
+	"compositionBehaviors": [],
+	"properties": {}
+}

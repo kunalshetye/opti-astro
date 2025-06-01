@@ -1,0 +1,11 @@
+{
+	"key": "GenericMedia",
+	"displayName": "Generic media",
+	"description": "Used for generic media without any dedicated content type.",
+	"baseType": "media",
+	"sortOrder": 500,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [],
+	"properties": {}
+}

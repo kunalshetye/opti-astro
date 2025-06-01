@@ -1,11 +1,13 @@
 @import 'tailwindcss';
 /* @import './inter.css'; */
 /* @theme {--font-sans: InterVariable, sans-serif;} */
+
 @plugin "daisyui" {
-    themes:
-        light --default,
-        dark --preferslight;
+    themes: all;
     root: ':root';
+    include:;
+    exclude:;
+    logs: true;
 }
 
 @layer base {

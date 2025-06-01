@@ -1,0 +1,85 @@
+{
+	"key": "Hero",
+	"displayName": "Hero",
+	"description": "A flexible Hero Component",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"sectionEnabled",
+		"elementEnabled"
+	],
+	"properties": {
+		"Video": {
+			"type": "contentReference",
+			"displayName": "Video",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": -200,
+			"editorSettings": {},
+			"allowedTypes": [],
+			"restrictedTypes": []
+		},
+		"Image": {
+			"type": "contentReference",
+			"displayName": "Image",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": -100,
+			"editorSettings": {},
+			"allowedTypes": [],
+			"restrictedTypes": []
+		},
+		"Heading": {
+			"type": "string",
+			"displayName": "Heading",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": -50,
+			"editorSettings": {}
+		},
+		"SubHeading": {
+			"type": "string",
+			"displayName": "Sub Heading",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": -25,
+			"editorSettings": {}
+		},
+		"Body": {
+			"type": "string",
+			"format": "html",
+			"displayName": "Body",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 0,
+			"editorSettings": {}
+		},
+		"Links": {
+			"type": "array",
+			"format": "LinkCollection",
+			"displayName": "Links",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 0,
+			"editorSettings": {},
+			"items": {
+				"type": "component",
+				"contentType": "link"
+			}
+		}
+	}
+}

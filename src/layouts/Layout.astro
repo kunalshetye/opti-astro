@@ -9,9 +9,10 @@ interface Props {
     title: string;
     description: string;
     contentPayload: ContentPayload;
+    hierarchicalUrl?: string;
 }
 
-const { title, description, contentPayload } = Astro.props;
+const { title, description, contentPayload, hierarchicalUrl } = Astro.props;
 const { host } = Astro.url;
 const siteSettings = await getOptimizelySdk(
     contentPayload
@@ -19,16 +20,21 @@ const siteSettings = await getOptimizelySdk(
     domain: host,
     locale: [contentPayload.loc as Locales],
 });
+
+const canonicalUrl = Astro.url.origin + hierarchicalUrl;
 ---
 
 <!doctype html>
-<html lang="en">
+<html data-theme="light" lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="generator" content={Astro.generator} />
+        {hierarchicalUrl && 
+            <link rel="canonical" href={canonicalUrl} />
+        }
         <title>{title}</title>
     </head>
     <body>

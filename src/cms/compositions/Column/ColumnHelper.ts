@@ -33,39 +33,39 @@ export function getColumnStyles(column: CompositionStructureNode) {
 
             switch (dictionary['justifyContent']) {
                 case 'center':
-                    cssClasses.push('justify-center');
+                    cssClasses.push('justify-center justify-items-center');
                     break;
                 case 'end':
-                    cssClasses.push('justify-end');
+                    cssClasses.push('justify-end justify-items-end');
                     break;
                 default:
-                    cssClasses.push('justify-start');
+                    cssClasses.push('justify-start justify-items-start');
                     break;
             }
 
             switch (dictionary['alignContent']) {
                 case 'center':
-                    cssClasses.push('content-center');
+                    cssClasses.push('content-center items-center');
                     break;
                 case 'end':
-                    cssClasses.push('content-end');
+                    cssClasses.push('content-end items-end');
                     break;
                 default:
-                    cssClasses.push('content-start');
+                    cssClasses.push('content-start items-start');
                     break;
             }
 
-            switch (dictionary['alignItems']) {
-                case 'center':
-                    cssClasses.push('items-center');
-                    break;
-                case 'end':
-                    cssClasses.push('items-end');
-                    break;
-                default:
-                    cssClasses.push('items-start');
-                    break;
-            }
+            // switch (dictionary['alignItems']) {
+            //     case 'center':
+            //         cssClasses.push('items-center');
+            //         break;
+            //     case 'end':
+            //         cssClasses.push('items-end');
+            //         break;
+            //     default:
+            //         cssClasses.push('items-start');
+            //         break;
+            // }
 
             switch (dictionary['showFrom']) {
                 case 'fromSmall':

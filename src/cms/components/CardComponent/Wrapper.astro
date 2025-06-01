@@ -16,6 +16,6 @@ const cssClasses = {
 const cssClass = cssClasses[DisplayAs as keyof typeof cssClasses];
 ---
 
-<div class={cssClass} style="opacity: 1; transform: translateX(0px);">
+<div class={`${cssClass} opacity-100`}>
     <slot />
 </div>

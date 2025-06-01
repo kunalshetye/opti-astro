@@ -1,0 +1,30 @@
+{
+	"key": "Carousel",
+	"displayName": "Carousel",
+	"description": "",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"sectionEnabled",
+		"elementEnabled"
+	],
+	"properties": {
+		"Assets": {
+			"type": "array",
+			"format": "LinkCollection",
+			"displayName": "Assets",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 0,
+			"editorSettings": {},
+			"items": {
+				"type": "component",
+				"contentType": "link"
+			}
+		}
+	}
+}

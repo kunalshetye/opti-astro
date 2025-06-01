@@ -1,4 +1,4 @@
-query contentByPath($base: String, $url: String!) {
+query contentByPath($base: String, $url: String!, $urlNoSlash: String!) {
     _Content(
         where: {
             _metadata: { url: { base: { eq: $base } } }
@@ -6,6 +6,7 @@ query contentByPath($base: String, $url: String!) {
                 {
                     _or: [
                         { _metadata: { url: { default: { eq: $url } } } }
+                        { _metadata: { url: { default: { eq: $urlNoSlash } } } }
                         { _metadata: { url: { hierarchical: { eq: $url } } } }
                     ]
                 }

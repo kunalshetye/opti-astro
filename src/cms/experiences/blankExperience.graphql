@@ -1,6 +1,0 @@
-fragment BlankExperienceSeo on BlankExperience{
-    BlankExperienceSeoSettings{
-        MetaTitle
-        MetaDescription
-    }
-}

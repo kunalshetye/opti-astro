@@ -1,0 +1,49 @@
+---
+import type {
+    DisplaySettingsFragment,
+    VideoExternalFragment,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
+import { YouTube, Vimeo } from 'astro-embed';
+
+export interface Props {
+    data: VideoExternalFragment;
+    displaySettings: DisplaySettingsFragment[];
+    contentPayload: ContentPayload;
+}
+const { data, displaySettings } = Astro.props as Props;
+
+// Get settings from display settings
+const settings = getDictionaryFromDisplaySettings(displaySettings);
+const displayWidth = data.DisplayWidth || '100%';
+
+const provider = data?.Provider;
+const videoYouTube = data?.VideoExternal || 'dQw4w9WgXcQ'; // Default to a known YouTube video if none provided
+const videoVimeo = data?.VideoExternal || '676247342'; // Default to a known Vimeo video if none provided
+
+// TODO: Add CSS classes for styling
+---
+
+<div class="max-w-full h-full" style={`width: ${displayWidth};`}>
+    {
+        provider === 'youtube' && (
+            <YouTube
+                id={videoYouTube}
+                poster={data.Poster?.url?.default || ''}
+                params={data.Params || ''}
+                playlabel={data.PlayLabel || ''}
+            />
+        )
+    }
+    {
+        provider === 'vimeo' && (
+            <Vimeo
+                id={videoVimeo}
+                poster={data.Poster?.url?.default || ''}
+                params={data.Params || ''}
+                playlabel={data.PlayLabel || ''}
+            />
+        )
+    }
+</div>

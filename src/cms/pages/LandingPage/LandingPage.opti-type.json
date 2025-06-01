@@ -1,0 +1,55 @@
+{
+	"key": "LandingPage",
+	"displayName": "Landing Page",
+	"description": "",
+	"baseType": "page",
+	"sortOrder": 0,
+	"mayContainTypes": [
+		"*"
+	],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [],
+	"properties": {
+		"TopContentArea": {
+			"type": "array",
+			"displayName": "Top Content Area",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": -100,
+			"editorSettings": {},
+			"items": {
+				"type": "content",
+				"allowedTypes": [],
+				"restrictedTypes": []
+			}
+		},
+		"MainContentArea": {
+			"type": "array",
+			"displayName": "Main Content Area",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 0,
+			"editorSettings": {},
+			"items": {
+				"type": "content",
+				"allowedTypes": [],
+				"restrictedTypes": []
+			}
+		},
+		"SeoSettings": {
+			"type": "component",
+			"contentType": "PageSeoSettings",
+			"displayName": "SEO Settings",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "SeoSettings",
+			"sortOrder": 0,
+			"editorSettings": {}
+		}
+	}
+}

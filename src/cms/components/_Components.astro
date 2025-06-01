@@ -1,16 +1,19 @@
 ---
 import type { ContentPayload } from '../../graphql/shared/ContentPayload';
-import ArticleList from './ArticleList/ArticleList.astro';
+import ArticleList from './ArticleListComponent/ArticleList.astro';
+import Button from './ButtonComponent/Button.astro';
 import CallToAction from './CallToActionComponent/CallToAction.astro';
 import Card from './CardComponent/Card.astro';
 import Carousel from './CarouselComponent/Carousel.astro';
 import Collapse from './CollapseComponent/Collapse.astro';
 import Grid from './GridComponent/Grid.astro';
 import Hero from './HeroComponent/Hero.astro';
+import Iframe from './IframeComponent/Iframe.astro';
 import Image from './ImageComponent/Image.astro';
 import Paragraph from './ParagraphComponent/Paragraph.astro';
 import Text from './TextComponent/Text.astro';
 import Video from './VideoComponent/Video.astro';
+import VideoExternal from './VideoExternalComponent/VideoExternal.astro';
 interface Props {
     contentPayload: ContentPayload;
     data: any;
@@ -35,6 +38,7 @@ const componentType = component._metadata.types[0];
         <CallToAction
             contentPayload={contentPayload}
             data={component}
+            displayTemplateKey={displayTemplateKey}
             displaySettings={displaySettings}
         />
     )
@@ -119,6 +123,36 @@ const componentType = component._metadata.types[0];
             data={component}
             displaySettings={displaySettings}
             displayTemplateKey={displayTemplateKey}
+        />
+    )
+}
+{
+    componentType === 'Button' && (
+        <Button
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+            displayTemplateKey={displayTemplateKey}
+        />
+    )
+}
+
+{
+    componentType === 'Iframe' && (
+        <Iframe
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+            displayTemplateKey={displayTemplateKey}
+        />
+    )
+}
+{
+    componentType === 'VideoExternal' && (
+        <VideoExternal
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
         />
     )
 }
