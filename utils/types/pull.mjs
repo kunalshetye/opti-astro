@@ -28,7 +28,8 @@ contentTypesListSorted?.forEach(async (contentType) => {
     if (
         contentType !== undefined &&
         contentType !== '' &&
-        contentType.source != 'system'
+        contentType.source != 'system' &&
+        contentType.source != 'graph'
     ) {
         // Clean up the content type object by removing unwanted properties
         const cleanContentType = { ...contentType };
