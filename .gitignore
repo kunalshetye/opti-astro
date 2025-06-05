@@ -38,3 +38,7 @@ utils/**/temp/
 .vercel/*
 
 .pnp.*
+
+bun.lock
+.mcp.json
+CLAUDE.md
