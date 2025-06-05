@@ -56,29 +56,31 @@ async function tryReadJsonFile(filePath) {
     return undefined;
 }
 
+// Get command line argument for specific type
+const typeNameArg = process.argv[2];
+
 // Main execution
 (async () => {
-    console.log('Starting content type push...');
-    
-    // Find all opti-type.json files
-    const files = await processFiles('*.opti-type.json');
-    console.log(`Found ${files.length} content type definition files`);
-    
-    // Track results for summary
-    const results = {
-        success: 0,
-        failed: 0,
-        skipped: 0
-    };
+    if (typeNameArg) {
+        console.log(`Starting content type push for: ${typeNameArg}...`);
+        
+        // Find specific type file
+        const files = await processFiles('*.opti-type.json');
+        const targetFile = files.find(file => {
+            const filename = path.basename(file);
+            return filename === `${typeNameArg}.opti-type.json`;
+        });
 
-    // Process each file
-    for (const file of files) {
+        if (!targetFile) {
+            console.log(`❌ Content type file "${typeNameArg}.opti-type.json" not found`);
+            process.exit(1);
+        }
+
         // Read the content type definition
-        const contentTypeDefinition = await tryReadJsonFile(file);
+        const contentTypeDefinition = await tryReadJsonFile(targetFile);
         if (contentTypeDefinition === undefined || !contentTypeDefinition.key) {
-            console.log(`Invalid content type definition in ${file}`);
-            results.skipped++;
-            continue;
+            console.log(`❌ Invalid content type definition in ${targetFile}`);
+            process.exit(1);
         }
 
         const contentTypeKey = contentTypeDefinition.key;
@@ -86,7 +88,6 @@ async function tryReadJsonFile(filePath) {
         const displayName = contentTypeDefinition.displayName;
         
         // Clean up the content type definition
-        // Remove properties that should not be included in the update
         const cleanContentType = { ...contentTypeDefinition };
         if (cleanContentType.source || cleanContentType.source == '') delete cleanContentType.source;
         if (cleanContentType.features) delete cleanContentType.features;
@@ -96,7 +97,6 @@ async function tryReadJsonFile(filePath) {
         if (cleanContentType.created) delete cleanContentType.created;
 
         try {
-            // Push the content type to Optimizely CMS
             await client.contentTypes.contentTypesPut(
                 contentTypeKey,
                 cleanContentType,
@@ -105,19 +105,73 @@ async function tryReadJsonFile(filePath) {
             console.log(
                 `✅ Content type "${displayName}" (${contentTypeKey}) of baseType ${baseType} has been updated`
             );
-            results.success++;
         } catch (e) {
-            console.log(`❌ Error while trying to update ${contentTypeKey} from ${file}`);
+            console.log(`❌ Error while trying to update ${contentTypeKey} from ${targetFile}`);
             console.log(`Error Details: ${e.message}`);
-            results.failed++;
+            process.exit(1);
         }
-    }
+    } else {
+        console.log('Starting content type push for all types...');
+        
+        // Find all opti-type.json files
+        const files = await processFiles('*.opti-type.json');
+        console.log(`Found ${files.length} content type definition files`);
+        
+        // Track results for summary
+        const results = {
+            success: 0,
+            failed: 0,
+            skipped: 0
+        };
 
-    // Display summary
-    console.log('\nContent type push summary:');
-    console.log(`✅ Successfully updated: ${results.success}`);
-    console.log(`❌ Failed to update: ${results.failed}`);
-    console.log(`⚠️ Skipped: ${results.skipped}`);
+        // Process each file
+        for (const file of files) {
+            // Read the content type definition
+            const contentTypeDefinition = await tryReadJsonFile(file);
+            if (contentTypeDefinition === undefined || !contentTypeDefinition.key) {
+                console.log(`Invalid content type definition in ${file}`);
+                results.skipped++;
+                continue;
+            }
+
+            const contentTypeKey = contentTypeDefinition.key;
+            const baseType = contentTypeDefinition.baseType;
+            const displayName = contentTypeDefinition.displayName;
+            
+            // Clean up the content type definition
+            // Remove properties that should not be included in the update
+            const cleanContentType = { ...contentTypeDefinition };
+            if (cleanContentType.source || cleanContentType.source == '') delete cleanContentType.source;
+            if (cleanContentType.features) delete cleanContentType.features;
+            if (cleanContentType.usage) delete cleanContentType.usage;
+            if (cleanContentType.lastModifiedBy) delete cleanContentType.lastModifiedBy;
+            if (cleanContentType.lastModified) delete cleanContentType.lastModified;
+            if (cleanContentType.created) delete cleanContentType.created;
+
+            try {
+                // Push the content type to Optimizely CMS
+                await client.contentTypes.contentTypesPut(
+                    contentTypeKey,
+                    cleanContentType,
+                    true // Force update
+                );
+                console.log(
+                    `✅ Content type "${displayName}" (${contentTypeKey}) of baseType ${baseType} has been updated`
+                );
+                results.success++;
+            } catch (e) {
+                console.log(`❌ Error while trying to update ${contentTypeKey} from ${file}`);
+                console.log(`Error Details: ${e.message}`);
+                results.failed++;
+            }
+        }
+
+        // Display summary
+        console.log('\nContent type push summary:');
+        console.log(`✅ Successfully updated: ${results.success}`);
+        console.log(`❌ Failed to update: ${results.failed}`);
+        console.log(`⚠️ Skipped: ${results.skipped}`);
+    }
     console.log('Done!');
 })().catch(err => {
     console.error('Unhandled error during execution:', err);

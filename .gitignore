@@ -39,6 +39,7 @@ utils/**/temp/
 
 .pnp.*
 
-bun.lock
+bun.*
+
 .mcp.json
 CLAUDE.md

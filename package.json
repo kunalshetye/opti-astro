@@ -13,8 +13,10 @@
         "codegen:watch": "graphql-codegen --watch --config codegen.ts",
         "styles:push": "node --env-file=.env ./utils/styles/push.mjs",
         "styles:pull": "node --env-file=.env ./utils/styles/pull.mjs",
+        "style:push": "node --env-file=.env ./utils/styles/push.mjs",
         "types:pull": "node --env-file=.env ./utils/types/pull.mjs",
-        "types:push": "node --env-file=.env ./utils/types/push.mjs"
+        "types:push": "node --env-file=.env ./utils/types/push.mjs",
+        "type:push": "node --env-file=.env ./utils/types/push.mjs"
     },
     "dependencies": {
         "@astrojs/alpinejs": "0.4.8",
@@ -29,7 +31,6 @@
         "alpinejs": "^3.14.8",
         "astro": "5.8.0",
         "astro-embed": "^0.9.0",
-        "astro-page-insight": "^0.10.1",
         "autoprefixer": "^10.4.21",
         "daisyui": "^5.0.0",
         "date-fns": "^4.1.0",

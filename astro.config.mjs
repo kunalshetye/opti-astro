@@ -7,8 +7,6 @@ import node from '@astrojs/node';
 import alpinejs from '@astrojs/alpinejs';
 import tailwindcss from '@tailwindcss/vite';
 
-import pageInsight from 'astro-page-insight';
-
 // https://astro.build/config
 export default defineConfig({
     devToolbar: {
@@ -55,7 +53,7 @@ export default defineConfig({
         },
         plugins: [mkcert(), tailwindcss()],
     },
-    integrations: [alpinejs(), pageInsight()],
+    integrations: [alpinejs()],
 
     env: {
         schema: {
