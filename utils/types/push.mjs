@@ -56,6 +56,72 @@ async function tryReadJsonFile(filePath) {
     return undefined;
 }
 
+/**
+ * Get all property groups from the CMS
+ * @returns {Promise<object>} - Object with group keys as properties
+ */
+async function getPropertyGroups() {
+    try {
+        const groups = await client.propertyGroups.propertyGroupsList();
+        const groupMap = {};
+        if (groups && groups.items) {
+            groups.items.forEach(group => {
+                groupMap[group.key] = group;
+            });
+        }
+        return groupMap;
+    } catch (error) {
+        console.error('Error fetching property groups:', error);
+        return {};
+    }
+}
+
+/**
+ * Create a property group if it doesn't exist
+ * @param {string} groupKey - The key of the group to create
+ * @returns {Promise<boolean>} - True if created successfully
+ */
+async function createPropertyGroup(groupKey) {
+    try {
+        await client.propertyGroups.propertyGroupsCreate({
+            key: groupKey,
+            displayName: groupKey,
+            sortOrder: 0
+        });
+        console.log(`✅ Created property group: ${groupKey}`);
+        return true;
+    } catch (error) {
+        console.error(`❌ Error creating property group ${groupKey}:`, error.message);
+        return false;
+    }
+}
+
+/**
+ * Ensure all property groups exist for a content type
+ * @param {object} contentType - The content type definition
+ * @param {object} existingGroups - Map of existing property groups
+ */
+async function ensurePropertyGroups(contentType, existingGroups) {
+    if (!contentType.properties) return;
+
+    const groupsToCreate = new Set();
+    
+    // Check each property for group references
+    for (const [propertyKey, property] of Object.entries(contentType.properties)) {
+        if (property.group && !existingGroups[property.group]) {
+            groupsToCreate.add(property.group);
+        }
+    }
+
+    // Create missing groups
+    for (const groupKey of groupsToCreate) {
+        const created = await createPropertyGroup(groupKey);
+        if (created) {
+            existingGroups[groupKey] = { key: groupKey };
+        }
+    }
+}
+
 // Get command line argument for specific type
 const typeNameArg = process.argv[2];
 
@@ -87,6 +153,13 @@ const typeNameArg = process.argv[2];
         const baseType = contentTypeDefinition.baseType;
         const displayName = contentTypeDefinition.displayName;
         
+        // Get existing property groups
+        console.log('Fetching property groups...');
+        const existingGroups = await getPropertyGroups();
+        
+        // Ensure all required property groups exist
+        await ensurePropertyGroups(contentTypeDefinition, existingGroups);
+        
         // Clean up the content type definition
         const cleanContentType = { ...contentTypeDefinition };
         if (cleanContentType.source || cleanContentType.source == '') delete cleanContentType.source;
@@ -117,6 +190,10 @@ const typeNameArg = process.argv[2];
         const files = await processFiles('*.opti-type.json');
         console.log(`Found ${files.length} content type definition files`);
         
+        // Get existing property groups
+        console.log('Fetching property groups...');
+        const existingGroups = await getPropertyGroups();
+        
         // Track results for summary
         const results = {
             success: 0,
@@ -137,6 +214,9 @@ const typeNameArg = process.argv[2];
             const contentTypeKey = contentTypeDefinition.key;
             const baseType = contentTypeDefinition.baseType;
             const displayName = contentTypeDefinition.displayName;
+            
+            // Ensure all required property groups exist for this content type
+            await ensurePropertyGroups(contentTypeDefinition, existingGroups);
             
             // Clean up the content type definition
             // Remove properties that should not be included in the update
