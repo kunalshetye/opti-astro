@@ -3,7 +3,7 @@ import { defineConfig, envField } from 'astro/config';
 import mkcert from 'vite-plugin-mkcert';
 
 import node from '@astrojs/node';
-import { adapter } from "astro-auto-adapter";
+import { adapter, type IAdapterOptions } from "astro-auto-adapter";
 
 import alpinejs from '@astrojs/alpinejs';
 import tailwindcss from '@tailwindcss/vite';
