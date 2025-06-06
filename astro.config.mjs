@@ -4,8 +4,6 @@ import mkcert from 'vite-plugin-mkcert';
 
 import node from '@astrojs/node';
 import { adapter } from "astro-auto-adapter";
-import type { NetlifyAdapterOptions } from "astro-auto-adapter";
-import type { VercelAdapterOptions } from "astro-auto-adapter";
 
 import alpinejs from '@astrojs/alpinejs';
 import tailwindcss from '@tailwindcss/vite';
