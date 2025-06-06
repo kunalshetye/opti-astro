@@ -119,7 +119,7 @@ const carouselId = `splide-${Math.random().toString(36).substring(2, 9)}`;
 
 <!-- Initialize this specific carousel instance -->
 <script define:vars={{ carouselId, showChevrons }} is:inline>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('astro:page-load', function () {
         // Get only this specific carousel instance by ID
         const splideElement = document.getElementById(carouselId);
 

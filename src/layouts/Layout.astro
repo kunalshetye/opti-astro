@@ -1,4 +1,6 @@
 ---
+import { ClientRouter } from "astro:transitions";
+
 import type { Locales } from '../../__generated/sdk';
 import Footer from '../cms/shared/Footer.astro';
 import Header from '../cms/shared/Header.astro';
@@ -36,6 +38,7 @@ const canonicalUrl = Astro.url.origin + hierarchicalUrl;
             <link rel="canonical" href={canonicalUrl} />
         }
         <title>{title}</title>
+        <ClientRouter />
     </head>
     <body>
         <Header siteSettings={siteSettings} />

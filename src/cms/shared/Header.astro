@@ -278,7 +278,7 @@ const themes = [
         }
 
         // Add event listener to theme buttons after page load
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('astro:page-load', function () {
             const themeButtons = document.querySelectorAll('[data-set-theme]');
             themeButtons.forEach((button) => {
                 button.addEventListener('click', function () {
@@ -293,10 +293,14 @@ const themes = [
 
 <!-- Load theme from localStorage on page load -->
 <script is:inline>
-    (function () {
+    function applyTheme() {
         const theme = localStorage.getItem('theme');
         if (theme) {
             document.documentElement.setAttribute('data-theme', theme);
         }
-    })();
+    };
+    
+    document.addEventListener("astro:after-swap", applyTheme);
+    applyTheme();
+
 </script>
