@@ -1,0 +1,37 @@
+---
+import type { ContentPayload } from '../../graphql/shared/ContentPayload';
+import { loadComponent, isValidComponentType, type ComponentType } from './_component-registry';
+
+interface Props {
+    contentPayload: ContentPayload;
+    data: any;
+    componentType: string;
+    displaySettings?: any;
+    displayTemplateKey?: string;
+}
+
+const { contentPayload, data, componentType, displaySettings, displayTemplateKey } = Astro.props as Props;
+
+// Validate component type
+if (!isValidComponentType(componentType)) {
+    console.warn(`Unknown component type: ${componentType}`);
+}
+
+// Load the component dynamically
+const Component = await loadComponent(componentType);
+
+// Prepare props for the component
+const componentProps = {
+    contentPayload,
+    data,
+    displaySettings,
+    displayTemplateKey
+};
+---
+
+{Component && <Component {...componentProps} />}
+{!Component && (
+    <div class="alert alert-warning">
+        <span>⚠️ Component type "{componentType}" not found</span>
+    </div>
+)}

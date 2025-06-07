@@ -1,19 +1,7 @@
 ---
 import type { ContentPayload } from '../../graphql/shared/ContentPayload';
-import ArticleList from './ArticleListComponent/ArticleList.astro';
-import Button from './ButtonComponent/Button.astro';
-import CallToAction from './CallToActionComponent/CallToAction.astro';
-import Card from './CardComponent/Card.astro';
-import Carousel from './CarouselComponent/Carousel.astro';
-import Collapse from './CollapseComponent/Collapse.astro';
-import Grid from './GridComponent/Grid.astro';
-import Hero from './HeroComponent/Hero.astro';
-import Iframe from './IframeComponent/Iframe.astro';
-import Image from './ImageComponent/Image.astro';
-import Paragraph from './ParagraphComponent/Paragraph.astro';
-import Text from './TextComponent/Text.astro';
-import Video from './VideoComponent/Video.astro';
-import VideoExternal from './VideoExternalComponent/VideoExternal.astro';
+import DynamicComponent from './_DynamicComponent.astro';
+
 interface Props {
     contentPayload: ContentPayload;
     data: any;
@@ -24,135 +12,10 @@ const { component, displaySettings, displayTemplateKey } = data;
 const componentType = component._metadata.types[0];
 ---
 
-{
-    componentType === 'Text' && (
-        <Text
-            contentPayload={contentPayload}
-            data={component}
-            displaySettings={displaySettings}
-        />
-    )
-}
-{
-    componentType === 'CallToAction' && (
-        <CallToAction
-            contentPayload={contentPayload}
-            data={component}
-            displayTemplateKey={displayTemplateKey}
-            displaySettings={displaySettings}
-        />
-    )
-}
-{
-    componentType === 'Image' && (
-        <Image
-            contentPayload={contentPayload}
-            data={component}
-            displaySettings={displaySettings}
-        />
-    )
-}
-{
-    componentType === 'Video' && (
-        <Video
-            contentPayload={contentPayload}
-            data={component}
-            displaySettings={displaySettings}
-        />
-    )
-}
-{
-    componentType === 'Paragraph' && (
-        <Paragraph
-            contentPayload={contentPayload}
-            data={component}
-            displaySettings={displaySettings}
-        />
-    )
-}
-{
-    componentType === 'Card' && (
-        <Card
-            contentPayload={contentPayload}
-            data={component}
-            displaySettings={displaySettings}
-            displayTemplateKey={displayTemplateKey}
-        />
-    )
-}
-{
-    componentType === 'Hero' && (
-        <Hero
-            contentPayload={contentPayload}
-            data={component}
-            displaySettings={displaySettings}
-        />
-    )
-}
-{
-    componentType === 'Carousel' && (
-        <Carousel
-            contentPayload={contentPayload}
-            data={component}
-            displaySettings={displaySettings}
-        />
-    )
-}
-{
-    componentType === 'Collapse' && (
-        <Collapse
-            contentPayload={contentPayload}
-            data={component}
-            displaySettings={displaySettings}
-        />
-    )
-}
-{
-    componentType === 'ArticleList' && (
-        <ArticleList
-            contentPayload={contentPayload}
-            data={component}
-            displaySettings={displaySettings}
-        />
-    )
-}
-{
-    componentType === 'Grid' && (
-        <Grid
-            contentPayload={contentPayload}
-            data={component}
-            displaySettings={displaySettings}
-            displayTemplateKey={displayTemplateKey}
-        />
-    )
-}
-{
-    componentType === 'Button' && (
-        <Button
-            contentPayload={contentPayload}
-            data={component}
-            displaySettings={displaySettings}
-            displayTemplateKey={displayTemplateKey}
-        />
-    )
-}
-
-{
-    componentType === 'Iframe' && (
-        <Iframe
-            contentPayload={contentPayload}
-            data={component}
-            displaySettings={displaySettings}
-            displayTemplateKey={displayTemplateKey}
-        />
-    )
-}
-{
-    componentType === 'VideoExternal' && (
-        <VideoExternal
-            contentPayload={contentPayload}
-            data={component}
-            displaySettings={displaySettings}
-        />
-    )
-}
+<DynamicComponent
+    contentPayload={contentPayload}
+    data={component}
+    componentType={componentType}
+    displaySettings={displaySettings}
+    displayTemplateKey={displayTemplateKey}
+/>
