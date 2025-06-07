@@ -3,9 +3,12 @@ import { defineConfig, envField } from 'astro/config';
 import mkcert from 'vite-plugin-mkcert';
 
 import node from '@astrojs/node';
+import { adapter } from "astro-auto-adapter";
 
 import alpinejs from '@astrojs/alpinejs';
 import tailwindcss from '@tailwindcss/vite';
+
+const multiAdapter = await adapter();
 
 // https://astro.build/config
 export default defineConfig({
@@ -42,9 +45,7 @@ export default defineConfig({
 
     output: 'server',
 
-    adapter: node({
-        mode: 'standalone',
-    }),
+    adapter: multiAdapter,
 
     server: { port: 4321 },
     vite: {
