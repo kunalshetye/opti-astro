@@ -12,7 +12,9 @@ Deploy this project with one click:
 
 **Note:** You'll need to configure the environment variables during deployment. See the [Environment Setup](#environment-setup) section below for required values.
 
-## Getting Started
+After deploying the project via one of the buttons above, your front-end will return a 404. Next, you need to configure an Application in the CMS (which will also require creating a site homepage -- be sure to publish it!). The Application hostname should match the front-end domain (for example: your-project-name.netlify.app / your-project-name.vercel.app), and the locale should be "en". After configuring the Application, re-run the Optimizely Graph Full Synchronization Scheduled Job, and your homepage should now appear.
+
+## Getting Started (Local Devs)
 Note: these instructions are for configuring the CMS, and setting up and running the front-end locally on your computer.
 
 More in-depth setup and usage instructions will follow.
@@ -54,9 +56,6 @@ More in-depth setup and usage instructions will follow.
 Note: the Site Settings component currently allows you to update the site logo and footer tagline. Additional features coming soon.
 
 1. Create a new Shared Block of type "Site Settings". If using the existing content pack, a Site Settings block is included in the "For This Page" for the imported homepage.
-   
-   *Note: my preference is to put it in the "For This Page" for the homepage, but you can create/save it anywhere you want*
-
 2. Set the "Site Domain" field to match your domain -- for a local setup, it should be "localhost:4321". (Without this value defined, the site won't use the block.)
 3. Update the Logo and the Footer Text as desired. Updates will be reflected on publish.
 
