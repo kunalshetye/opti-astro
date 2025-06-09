@@ -62,5 +62,8 @@
         "vite": "^6.2.7",
         "vite-plugin-mkcert": "^1.17.7"
     },
-    "packageManager": "yarn@4.9.1"
+    "packageManager": "yarn@4.9.1",
+    "engines": {
+        "node": "22.x"
+    }
 }
