@@ -2,6 +2,11 @@
 
 ## Quick Deploy
 
+Pre-requisites for quick deploy:
+- Optimizely SaaS CMS instance, with administrator access
+- GitHub account
+- Netlify or Vercel account
+
 Deploy this project with one click:
 
 ### Vercel
