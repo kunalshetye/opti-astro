@@ -1,5 +1,15 @@
 # Example Astro frontend integrated with Optimizely SaaS CMS and Optimizely Graph
 
+## Quick Deploy
+
+Deploy this project with one click:
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fkunalshetye%2Fopti-astro&env=OPTIMIZELY_GRAPH_GATEWAY,OPTIMIZELY_GRAPH_SINGLE_KEY,OPTIMIZELY_GRAPH_APP_KEY,OPTIMIZELY_GRAPH_SECRET&envDescription=Required%20API%20keys%20for%20Optimizely%20Graph%20integration&envLink=https%3A%2F%2Fgithub.com%2Fkunalshetye%2Fopti-astro%23environment-setup)
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/kunalshetye/opti-astro#OPTIMIZELY_GRAPH_GATEWAY=&OPTIMIZELY_GRAPH_SINGLE_KEY=&OPTIMIZELY_GRAPH_APP_KEY=&OPTIMIZELY_GRAPH_SECRET=)
+
+**Note:** You'll need to configure the environment variables during deployment. See the [Environment Setup](#environment-setup) section below for required values.
+
 ## Getting Started
 Note: these instructions are for configuring the CMS, and setting up and running the front-end locally on your computer.
 
@@ -15,7 +25,7 @@ More in-depth setup and usage instructions will follow.
       1. Hostname: *localhost:4321*
       2. Use a secure connection (HTTPS): *true*
       3. Locale: *en*
-4. Create your *.env* file based on the [.env.template](/.env.template) example
+4. <a id="environment-setup"></a>**Environment Setup**: Create your *.env* file based on the [.env.template](/.env.template) example
    1. Values can be found at: *CMS > Settings > API Keys*
    2. Note, you must create a new API key for managing styles (it does not exist by default)
 5. Install dependencies using Yarn (or your preferred package manager):
