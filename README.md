@@ -4,7 +4,7 @@
 
 Deploy this project with one click:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fkunalshetye%2Fopti-astro&env=OPTIMIZELY_GRAPH_GATEWAY,OPTIMIZELY_GRAPH_SINGLE_KEY,OPTIMIZELY_GRAPH_APP_KEY,OPTIMIZELY_GRAPH_SECRET&envDescription=Required%20API%20keys%20for%20Optimizely%20Graph%20integration&envLink=https%3A%2F%2Fgithub.com%2Fkunalshetye%2Fopti-astro%23environment-setup&project-name=opti-astro&repository-name=opti-astro&env=OPTIMIZELY_GRAPH_GATEWAY=https%3A%2F%2Fcg.optimizely.com)
+[![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fkunalshetye%2Fopti-astro&env=OPTIMIZELY_GRAPH_GATEWAY,OPTIMIZELY_GRAPH_SINGLE_KEY,OPTIMIZELY_GRAPH_APP_KEY,OPTIMIZELY_GRAPH_SECRET&envDescription=Required%20API%20keys%20for%20Optimizely%20Graph%20integration&envLink=https%3A%2F%2Fgithub.com%2Fkunalshetye%2Fopti-astro%23environment-setup&project-name=opti-astro&repository-name=opti-astro&env=OPTIMIZELY_GRAPH_GATEWAY=https%3A%2F%2Fcg.optimizely.com)
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/kunalshetye/opti-astro#OPTIMIZELY_GRAPH_GATEWAY=https://cg.optimizely.com&OPTIMIZELY_GRAPH_SINGLE_KEY=&OPTIMIZELY_GRAPH_APP_KEY=&OPTIMIZELY_GRAPH_SECRET=)
 
