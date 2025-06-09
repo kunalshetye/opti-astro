@@ -15,6 +15,8 @@ interface SearchResult {
 export const GET: APIRoute = async ({ url, currentLocale, request }) => {
     try {
         const query = url.searchParams.get('q')?.toLowerCase() || '';
+        const useSemanticSearch = url.searchParams.get('semantic') === 'true';
+        const semanticWeight = parseFloat(url.searchParams.get('semanticWeight') || '0.3');
 
         if (!query) {
             return new Response(
@@ -46,14 +48,17 @@ export const GET: APIRoute = async ({ url, currentLocale, request }) => {
 
         try {
             const searchResponse = await sdk.searchContent({
-                searchTerm: `%${query}%`,
+                searchTerm: query,
                 locale: [contentPayload.loc as Locales],
-                domain: host
+                domain: host,
+                useSemanticSearch: useSemanticSearch,
+                semanticWeight: semanticWeight
             });
 
             // Transform _Page results (includes experiences since they're also pages)
-            if (searchResponse._Page?.items) {
-                const pageResults = searchResponse._Page.items
+            const pageData = useSemanticSearch ? searchResponse.semanticPages : searchResponse.regularPages;
+            if (pageData?.items) {
+                const pageResults = pageData.items
                     .filter(item => item?._metadata)
                     .map(item => {
                         const seoSettings = (item as any)?.SeoSettings;

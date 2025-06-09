@@ -63,6 +63,44 @@
                 />
             </div>
 
+            <!-- Search options -->
+            <div class="bg-base-200 border-t border-base-300 px-4 py-3 space-y-3">
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input
+                        type="checkbox"
+                        x-model="useSemanticSearch"
+                        @change="search()"
+                        class="checkbox checkbox-sm"
+                    />
+                    <span class="text-sm text-base-content/80">
+                        Use semantic search
+                        <span class="text-xs text-base-content/60">(experimental)</span>
+                    </span>
+                </label>
+                
+                <div x-show="useSemanticSearch" class="flex items-center gap-2">
+                    <label for="semanticWeight" class="text-sm text-base-content/80 whitespace-nowrap">
+                        Semantic weight:
+                    </label>
+                    <select
+                        id="semanticWeight"
+                        x-model="semanticWeight"
+                        @change="search()"
+                        class="select select-sm select-bordered flex-1 max-w-24"
+                    >
+                        <option value="0.2">0.2</option>
+                        <option value="0.3">0.3</option>
+                        <option value="0.4">0.4</option>
+                        <option value="0.5">0.5</option>
+                        <option value="0.6">0.6</option>
+                        <option value="0.7">0.7</option>
+                        <option value="0.8">0.8</option>
+                        <option value="0.9">0.9</option>
+                        <option value="1.0">1.0</option>
+                    </select>
+                </div>
+            </div>
+
             <!-- Results -->
             <div class="divide-base-300 flex divide-x">
                 <!-- Search results list -->
@@ -251,6 +289,8 @@
             results: [],
             loading: false,
             error: null,
+            useSemanticSearch: false,
+            semanticWeight: '0.3',
 
             init() {
                 this.results = [];
@@ -267,8 +307,17 @@
                     this.loading = true;
                     this.error = null;
 
+                    const searchParams = new URLSearchParams({
+                        q: this.query
+                    });
+                    
+                    if (this.useSemanticSearch) {
+                        searchParams.append('semantic', 'true');
+                        searchParams.append('semanticWeight', this.semanticWeight);
+                    }
+
                     const response = await fetch(
-                        `/api/search.json?q=${encodeURIComponent(this.query)}`
+                        `/api/search.json?${searchParams.toString()}`
                     );
                     if (!response.ok) {
                         throw new Error('Failed to perform search');

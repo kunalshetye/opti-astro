@@ -1,12 +1,62 @@
-query searchContent($searchTerm: String!, $locale: [Locales], $domain: String) {
-  _Page(
+query searchContent($searchTerm: String!, $locale: [Locales], $domain: String, $useSemanticSearch: Boolean = false, $semanticWeight: Float = 0.3) {
+  semanticPages: _Page(
+    locale: $locale
+    orderBy: { _ranking: SEMANTIC, _semanticWeight: $semanticWeight }
+    where: {
+      _fulltext: { match: $searchTerm fuzzy:true}
+      _metadata: { url: { base: { eq: $domain } } }
+    }
+    limit: 20
+  ) @include(if: $useSemanticSearch) {
+    items {
+      _metadata {
+        key
+        displayName
+        url {
+          default
+          hierarchical
+          base
+        }
+        types
+      }
+      ... on ArticlePage {
+        Heading
+        SubHeading
+        PromoImage {
+          url {
+            default
+          }
+        }
+        SeoSettings {
+          ...PageSeoSettingsProperty
+        }
+      }
+      ... on LandingPage {
+        _metadata {
+          displayName
+        }
+        SeoSettings {
+          ...PageSeoSettingsProperty
+        }
+      }
+      ... on BlankExperience {
+        _metadata {
+          displayName
+        }
+        SeoSettings: BlankExperienceSeoSettings {
+          ...PageSeoSettingsProperty
+        }
+      }
+    }
+  }
+  regularPages: _Page(
     locale: $locale
     where: {
       _fulltext: { match: $searchTerm fuzzy:true}
       _metadata: { url: { base: { eq: $domain } } }
     }
     limit: 20
-  ) {
+  ) @skip(if: $useSemanticSearch) {
     items {
       _metadata {
         key
