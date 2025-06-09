@@ -184,7 +184,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/compiler@npm:2.12.0, @astrojs/compiler@npm:^2.10.3, @astrojs/compiler@npm:^2.11.0, @astrojs/compiler@npm:^2.9.1":
+"@astrojs/compiler@npm:2.12.2, @astrojs/compiler@npm:^2.12.2":
+  version: 2.12.2
+  resolution: "@astrojs/compiler@npm:2.12.2"
+  checksum: 10c0/3e63055117010247a9fa6d2c8de1263b3e6f3c089bb6b3cddea76bf3eea6b62b77359c89950e6d048d860874a79521ca2c0cc734af1ee59c7568e01e76a4df10
+  languageName: node
+  linkType: hard
+
+"@astrojs/compiler@npm:^2.10.3, @astrojs/compiler@npm:^2.9.1":
   version: 2.12.0
   resolution: "@astrojs/compiler@npm:2.12.0"
   checksum: 10c0/8499c8cfae1c94ba5cbafe1fb645f6a6d1b8e431ca20e91386a76e39046c66dddc1cea84d75152d961752dc95bb45f9e933b54e7b1dd3746b98626f2878c1c79
@@ -4151,11 +4158,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"astro@npm:5.8.0":
-  version: 5.8.0
-  resolution: "astro@npm:5.8.0"
+"astro@npm:5.9.2":
+  version: 5.9.2
+  resolution: "astro@npm:5.9.2"
   dependencies:
-    "@astrojs/compiler": "npm:^2.11.0"
+    "@astrojs/compiler": "npm:^2.12.2"
     "@astrojs/internal-helpers": "npm:0.6.1"
     "@astrojs/markdown-remark": "npm:6.3.2"
     "@astrojs/telemetry": "npm:3.3.0"
@@ -4222,7 +4229,7 @@ __metadata:
       optional: true
   bin:
     astro: astro.js
-  checksum: 10c0/124d40e023d3126ecb307ccdc17f7a195ddac8d22a8ef826f5915ef2c41f38e63976a10738705afc1b60119dcd32f26a9e3a3799b297df611dfe75e2124273f5
+  checksum: 10c0/6da1590fb367f9332bd83580d81c1d56a25be2dbd27f34488691ada167384d9bdf3ab195a71d3f94bf4a0118e53476630b9f7fb0b3b8d2581923ff7658f27b11
   languageName: node
   linkType: hard
 
@@ -9107,7 +9114,7 @@ __metadata:
   dependencies:
     "@astrojs/alpinejs": "npm:0.4.8"
     "@astrojs/check": "npm:^0.9.4"
-    "@astrojs/compiler": "npm:2.12.0"
+    "@astrojs/compiler": "npm:2.12.2"
     "@astrojs/netlify": "npm:^6.3.4"
     "@astrojs/node": "npm:9.2.2"
     "@astrojs/ts-plugin": "npm:1.10.4"
@@ -9128,7 +9135,7 @@ __metadata:
     "@types/alpinejs": "npm:^3.13.11"
     "@types/node": "npm:^22.13.10"
     alpinejs: "npm:^3.14.8"
-    astro: "npm:5.8.0"
+    astro: "npm:5.9.2"
     astro-auto-adapter: "npm:^2.3.0"
     astro-embed: "npm:^0.9.0"
     autoprefixer: "npm:^10.4.21"
@@ -9139,6 +9146,7 @@ __metadata:
     graphql-request: "npm:6.1.0"
     graphql-sock: "npm:^1.0.1"
     graphql-tag: "npm:^2.12.6"
+    path-to-regexp: "npm:6.3.0"
     postcss: "npm:^8.5.3"
     prettier: "npm:^3.5.3"
     prettier-plugin-astro: "npm:^0.14.1"
@@ -9486,7 +9494,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"path-to-regexp-updated@npm:path-to-regexp@6.3.0":
+"path-to-regexp-updated@npm:path-to-regexp@6.3.0, path-to-regexp@npm:6.3.0":
   version: 6.3.0
   resolution: "path-to-regexp@npm:6.3.0"
   checksum: 10c0/73b67f4638b41cde56254e6354e46ae3a2ebc08279583f6af3d96fe4664fc75788f74ed0d18ca44fa4a98491b69434f9eee73b97bb5314bd1b5adb700f5c18d6
