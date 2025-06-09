@@ -21,7 +21,7 @@
     "dependencies": {
         "@astrojs/alpinejs": "0.4.8",
         "@astrojs/check": "^0.9.4",
-        "@astrojs/compiler": "2.12.0",
+        "@astrojs/compiler": "2.12.2",
         "@astrojs/netlify": "^6.3.4",
         "@astrojs/node": "9.2.2",
         "@astrojs/ts-plugin": "1.10.4",
@@ -31,7 +31,7 @@
         "@tailwindcss/vite": "^4.0.12",
         "@types/alpinejs": "^3.13.11",
         "alpinejs": "^3.14.8",
-        "astro": "5.8.0",
+        "astro": "5.9.2",
         "astro-auto-adapter": "^2.3.0",
         "astro-embed": "^0.9.0",
         "autoprefixer": "^10.4.21",
@@ -39,6 +39,7 @@
         "date-fns": "^4.1.0",
         "graphql": "^16.10.0",
         "graphql-request": "6.1.0",
+        "path-to-regexp": "6.3.0",
         "query-string": "^9.1.1",
         "tailwindcss": "^4.0.12",
         "typescript": "^5.8.2"
