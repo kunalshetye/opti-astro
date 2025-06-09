@@ -181,11 +181,7 @@
                                     <template x-if="!result.image || imageError">
                                         <span
                                             class="inline-flex h-10 w-10 items-center justify-center rounded-lg"
-                                            :class="{
-                                            'bg-primary/10 text-primary': result.type === 'page',
-                                            'bg-warning/10 text-warning': result.type === 'document'
-                                        }"
-                                        >
+                                            :class="{'bg-primary/10 text-primary': result.type === 'page', 'bg-warning/10 text-warning': result.type === 'document'}">
                                             <svg
                                                 x-show="result.type === 'page'"
                                                 class="h-6 w-6"
