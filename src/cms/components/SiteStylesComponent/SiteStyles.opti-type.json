@@ -1,0 +1,414 @@
+{
+	"key": "SiteStyles",
+	"displayName": "Site Styles",
+	"description": "Manage site colors and other display attributes via the CMS",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [],
+	"properties": {
+		"SiteDomain": {
+			"type": "string",
+			"displayName": "Site Domain",
+			"description": "Domain (www.mysite.com) to associate with these Site Styles",
+			"localized": false,
+			"required": true,
+			"group": "Information",
+			"sortOrder": 10,
+			"editorSettings": {}
+		},
+		"primary": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-primary",
+			"description": "Primary brand color",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 10,
+			"editorSettings": {}
+		},
+		"radiusSelector": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Radius - Selector",
+			"description": "Border radius for selectors like checkbox, toggle, badge, etc",
+			"localized": false,
+			"required": false,
+			"group": "StylesOther",
+			"sortOrder": 10,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "xs",
+						"value": "0rem"
+					},
+					{
+						"displayName": "s",
+						"value": "0.25rem"
+					},
+					{
+						"displayName": "md",
+						"value": "0.5rem"
+					},
+					{
+						"displayName": "lg",
+						"value": "1rem"
+					},
+					{
+						"displayName": "xl",
+						"value": "2rem"
+					}
+				]
+			}
+		},
+		"primaryContent": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-primary-content",
+			"description": "Foreground content color to use on primary color",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 20,
+			"editorSettings": {}
+		},
+		"radiusField": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Radius - Field",
+			"description": "Border radius for fields like input, select, tab, etc",
+			"localized": false,
+			"required": false,
+			"group": "StylesOther",
+			"sortOrder": 20,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "xs",
+						"value": "0rem"
+					},
+					{
+						"displayName": "s",
+						"value": "0.25rem"
+					},
+					{
+						"displayName": "md",
+						"value": "0.5rem"
+					},
+					{
+						"displayName": "lg",
+						"value": "1rem"
+					},
+					{
+						"displayName": "xl",
+						"value": "2rem"
+					}
+				]
+			}
+		},
+		"secondary": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-secondary",
+			"description": "Secondary brand color",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 30,
+			"editorSettings": {}
+		},
+		"radiusBox": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Radius - Box",
+			"description": "Border radius for boxes like card, modal, alert, etc",
+			"localized": false,
+			"required": false,
+			"group": "StylesOther",
+			"sortOrder": 30,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "xs",
+						"value": "0rem"
+					},
+					{
+						"displayName": "s",
+						"value": "0.25rem"
+					},
+					{
+						"displayName": "md",
+						"value": "0.5rem"
+					},
+					{
+						"displayName": "lg",
+						"value": "1rem"
+					},
+					{
+						"displayName": "xl",
+						"value": "2rem"
+					}
+				]
+			}
+		},
+		"secondaryContent": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-secondary-content",
+			"description": "Foreground content color to use on secondary color",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 40,
+			"editorSettings": {}
+		},
+		"sizeSelector": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Size - Selector",
+			"description": "Base scale size for selectors like checkbox, toggle, badge, etc",
+			"localized": false,
+			"required": false,
+			"group": "StylesOther",
+			"sortOrder": 40,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "xs",
+						"value": "0.1875rem"
+					},
+					{
+						"displayName": "s",
+						"value": "0.21875rem"
+					},
+					{
+						"displayName": "md",
+						"value": "0.25rem"
+					},
+					{
+						"displayName": "lg",
+						"value": "0.28125rem"
+					},
+					{
+						"displayName": "xl",
+						"value": "0.3125rem"
+					}
+				]
+			}
+		},
+		"accent": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-accent",
+			"description": "Accent brand color",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 50,
+			"editorSettings": {}
+		},
+		"borderWidth": {
+			"type": "float",
+			"displayName": "Border Width (px)",
+			"description": "Border width of all components",
+			"localized": false,
+			"required": false,
+			"group": "StylesOther",
+			"sortOrder": 50,
+			"editorSettings": {},
+			"minimum": 0,
+			"maximum": 10
+		},
+		"depth": {
+			"type": "boolean",
+			"displayName": "Depth",
+			"description": "Adds a depth effect for relevant components",
+			"localized": false,
+			"required": false,
+			"group": "StylesOther",
+			"sortOrder": 59,
+			"editorSettings": {}
+		},
+		"accentContent": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-accent-content",
+			"description": "Foreground content color to use on accent color",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 60,
+			"editorSettings": {}
+		},
+		"neutral": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-neutral",
+			"description": "Neutral dark color",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 70,
+			"editorSettings": {}
+		},
+		"noise": {
+			"type": "boolean",
+			"displayName": "Noise",
+			"description": "Adds a background noise effect for relevant components",
+			"localized": false,
+			"required": false,
+			"group": "StylesOther",
+			"sortOrder": 70,
+			"editorSettings": {}
+		},
+		"neutralContent": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-neutral-content",
+			"description": "Foreground content color to use on neutral color",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 80,
+			"editorSettings": {}
+		},
+		"base100": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-base-100",
+			"description": "Base color of page, used for blank backgrounds",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 90,
+			"editorSettings": {}
+		},
+		"base200": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-base-200",
+			"description": "Base color, darker shade",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 100,
+			"editorSettings": {}
+		},
+		"base300": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-base-300",
+			"description": "Base color, even more darker shade",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 110,
+			"editorSettings": {}
+		},
+		"baseContent": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-base-content",
+			"description": "Foreground content color to use on base color",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 120,
+			"editorSettings": {}
+		},
+		"info": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-info",
+			"description": "Info color",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 130,
+			"editorSettings": {}
+		},
+		"infoContent": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-info-content",
+			"description": "Foreground content color to use on info color",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 140,
+			"editorSettings": {}
+		},
+		"success": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-success",
+			"description": "Success color",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 150,
+			"editorSettings": {}
+		},
+		"successContent": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-success-content",
+			"description": "Foreground content color to use on success color",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 160,
+			"editorSettings": {}
+		},
+		"warning": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-warning",
+			"description": "Warning color",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 170,
+			"editorSettings": {}
+		},
+		"warningContent": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-warning-content",
+			"description": "Foreground content color to use on warning color",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 180,
+			"editorSettings": {}
+		},
+		"error": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-error",
+			"description": "Error color",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 190,
+			"editorSettings": {}
+		},
+		"errorContent": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-error-content",
+			"description": "Foreground content color to use on error color",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 200,
+			"editorSettings": {}
+		}
+	}
+}
