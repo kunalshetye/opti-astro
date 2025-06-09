@@ -1,0 +1,11 @@
+{
+  "functions": {
+    "**/*.js": {
+      "runtime": "nodejs22.x"
+    },
+    "**/*.ts": {
+      "runtime": "nodejs22.x"
+    }
+  },
+  "buildCommand": "yarn build"
+}
