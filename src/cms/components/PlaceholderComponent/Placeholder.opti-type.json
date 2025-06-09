@@ -19,6 +19,7 @@
 			"required": false,
 			"group": "Information",
 			"sortOrder": -100,
+			"indexingType": "searchable",
 			"editorSettings": {}
 		},
 		"Image": {

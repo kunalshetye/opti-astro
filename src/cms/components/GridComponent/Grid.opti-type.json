@@ -19,6 +19,7 @@
 			"required": false,
 			"group": "Information",
 			"sortOrder": -75,
+			"indexingType": "searchable",
 			"editorSettings": {}
 		},
 		"Items": {

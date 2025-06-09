@@ -30,6 +30,7 @@
 			"required": false,
 			"group": "Information",
 			"sortOrder": 0,
+			"indexingType": "searchable",
 			"editorSettings": {}
 		},
 		"SubHeading": {
@@ -40,6 +41,7 @@
 			"required": false,
 			"group": "Information",
 			"sortOrder": 0,
+			"indexingType": "searchable",
 			"editorSettings": {}
 		},
 		"SeoSettings": {
@@ -62,6 +64,7 @@
 			"required": false,
 			"group": "Information",
 			"sortOrder": 100,
+			"indexingType": "searchable",
 			"editorSettings": {}
 		},
 		"AuthorEmail": {
@@ -72,6 +75,7 @@
 			"required": false,
 			"group": "Information",
 			"sortOrder": 150,
+			"indexingType": "searchable",
 			"editorSettings": {}
 		},
 		"Body": {
@@ -83,6 +87,7 @@
 			"required": false,
 			"group": "Information",
 			"sortOrder": 200,
+			"indexingType": "searchable",
 			"editorSettings": {}
 		}
 	}

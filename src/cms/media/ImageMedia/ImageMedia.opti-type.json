@@ -29,6 +29,7 @@
 			"required": false,
 			"group": "Information",
 			"sortOrder": 10,
+			"indexingType": "searchable",
 			"editorSettings": {}
 		}
 	}

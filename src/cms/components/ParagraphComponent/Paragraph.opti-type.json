@@ -20,6 +20,7 @@
 			"required": false,
 			"group": "Information",
 			"sortOrder": 0,
+			"indexingType": "searchable",
 			"editorSettings": {}
 		}
 	}

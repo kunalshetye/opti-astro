@@ -43,6 +43,7 @@
 			"required": false,
 			"group": "Information",
 			"sortOrder": -50,
+			"indexingType": "searchable",
 			"editorSettings": {}
 		},
 		"SubHeading": {
@@ -53,6 +54,7 @@
 			"required": false,
 			"group": "Information",
 			"sortOrder": -25,
+			"indexingType": "searchable",
 			"editorSettings": {}
 		},
 		"Body": {
@@ -64,6 +66,7 @@
 			"required": false,
 			"group": "Information",
 			"sortOrder": 0,
+			"indexingType": "searchable",
 			"editorSettings": {}
 		},
 		"Links": {

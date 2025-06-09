@@ -31,6 +31,7 @@
 			"required": false,
 			"group": "SocialMediaAccounts",
 			"sortOrder": 10,
+			"indexingType": "searchable",
 			"editorSettings": {}
 		},
 		"LogoResolution": {
@@ -77,6 +78,7 @@
 			"required": false,
 			"group": "SocialMediaAccounts",
 			"sortOrder": 20,
+			"indexingType": "searchable",
 			"editorSettings": {}
 		},
 		"SocialTwitter": {
@@ -88,6 +90,7 @@
 			"required": false,
 			"group": "SocialMediaAccounts",
 			"sortOrder": 30,
+			"indexingType": "searchable",
 			"editorSettings": {}
 		},
 		"SocialTikTok": {
@@ -99,6 +102,7 @@
 			"required": false,
 			"group": "SocialMediaAccounts",
 			"sortOrder": 40,
+			"indexingType": "searchable",
 			"editorSettings": {}
 		},
 		"SocialGitHub": {
@@ -110,6 +114,7 @@
 			"required": false,
 			"group": "SocialMediaAccounts",
 			"sortOrder": 50,
+			"indexingType": "searchable",
 			"editorSettings": {}
 		},
 		"HeaderLinks": {
@@ -139,6 +144,7 @@
 			"required": false,
 			"group": "Information",
 			"sortOrder": 200,
+			"indexingType": "searchable",
 			"editorSettings": {}
 		},
 		"FooterLinks": {
