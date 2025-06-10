@@ -1,4 +1,6 @@
 ---
+// Using AstroImage alias to avoid naming conflict with ImageFragment type
+import { Image as AstroImage } from 'astro:assets';
 import type { DisplaySettingsFragment, ImageFragment } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { getImageElementStyles } from './ImageStyling';
@@ -13,8 +15,9 @@ export interface Props {
 const { data, displaySettings } = Astro.props as Props;
 ---
 
-<img
+<AstroImage
     class:list={getImageElementStyles(displaySettings)}
-    src={data.Image?.url?.default}
-    alt={data.AltText}
+    src={data.Image?.url?.default || ''}
+    alt={data.AltText || ''}
+    inferSize={true}
 />

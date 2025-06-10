@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { randomBytes } from 'crypto';
 import type {
     ArticleListFragment,
@@ -35,10 +36,11 @@ const items = articlesList.ArticlePage?.items || null;
             return (
                 <div class="card bg-base-100 w-96 flex-shrink-0 shadow-sm flex flex-col">      
                     <figure>
-                        <img
+                        <Image
                             class="aspect-3/2 object-cover"
                             src={cardImage}
                             alt="promo image"
+                            inferSize={true}
                         />
                     </figure>
                     <div class="card-body">

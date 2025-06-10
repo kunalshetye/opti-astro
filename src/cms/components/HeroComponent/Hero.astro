@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import type {
     DisplaySettingsFragment,
     HeroFragment,
@@ -45,11 +46,12 @@ const globalStyles = getGlobalStyles(displaySettings);
 
     {
         !hasVideo && imageUrl && (
-            <img
+            <Image
                 src={imageUrl}
                 alt="Hero Background"
                 class="absolute inset-0 h-full w-full object-cover"
                 id="hero-image"
+                inferSize={true}
             />
         )
     }

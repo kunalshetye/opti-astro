@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import type { SiteSettingsByHostnameQuery } from '../../../__generated/sdk';
 import { getClassForLogo } from './siteSettingsHelper';
@@ -154,9 +155,12 @@ const themes = [
                 href={getRelativeLocaleUrl(lang, '/')}
             >
                 <span class="sr-only">Home</span>
-                <img
+                <Image
                     class={logoCss}
                     src={settings?.Logo?.url?.default ?? '/optimizely-logo.svg'}
+                    alt="Logo"
+                    width={148}
+                    height={148}
                 />
             </a>
         </div>

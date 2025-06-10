@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import type { Locales } from 'astro';
 import { format } from 'date-fns';
 import type { ArticlePageFragment } from '../../../../__generated/sdk';
@@ -43,11 +44,12 @@ const hierarchicalUrl = post?._metadata?.url?.type === "SIMPLE" ? post?._metadat
                     style="background-image: linear-gradient(180deg,transparent,rgba(0,0,0,.7));"
                 >
                 </div>
-                <img
-                    src={post.PromoImage?.url?.default}
+                <Image
+                    src={post.PromoImage?.url?.default || ''}
                     class="absolute top-0 left-0 z-0 h-full w-full object-cover"
                     data-epi-property-name="BlogPostPromoImage"
-                    loading="lazy"
+                    alt=""
+                    inferSize={true}
                 />
                 <div class="absolute bottom-0 left-0 z-20 p-4">
                     <!--<a href="#"-->

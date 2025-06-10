@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import type {
     CardFragment,
     DisplaySettingsFragment,
@@ -19,14 +20,12 @@ const imageUrl = data.Asset?.url?.default || null;
 <div class="relative mx-auto max-w-4xl">
     {
         imageUrl && (
-            <img
+            <Image
                 alt="Interior Painting"
                 class="relative content-center rounded-xl border border-transparent object-cover"
-                decoding="async"
-                height="700"
-                loading="lazy"
+                height={700}
+                width={1075}
                 src={imageUrl}
-                width="1075"
             />
         )
     }
