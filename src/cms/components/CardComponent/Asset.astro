@@ -21,7 +21,7 @@ const imageUrl = data.Asset?.url?.default || null;
     {
         imageUrl && (
             <Image
-                alt="Interior Painting"
+                alt={data.Asset?.item?.AltText || data.Asset?.item?._metadata?.displayName || data.Heading || 'Card image'}
                 class="relative content-center rounded-xl border border-transparent object-cover"
                 height={700}
                 width={1075}

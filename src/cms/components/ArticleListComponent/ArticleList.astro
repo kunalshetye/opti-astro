@@ -39,7 +39,7 @@ const items = articlesList.ArticlePage?.items || null;
                         <Image
                             class="aspect-3/2 object-cover"
                             src={cardImage}
-                            alt="promo image"
+                            alt={item.PromoImage?.item?.AltText || item.PromoImage?.item?._metadata?.displayName || `Promo image for ${item.Heading}` || 'Article promo image'}
                             inferSize={true}
                         />
                     </figure>

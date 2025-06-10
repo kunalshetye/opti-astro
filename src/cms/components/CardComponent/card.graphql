@@ -9,6 +9,16 @@ fragment Card on Card {
         url {
             default
         }
+        item {
+            ... on ImageMedia {
+                AltText
+            }
+            ... on _IContent {
+                _metadata {
+                    displayName
+                }
+            }
+        }
     }
     Links {
         text

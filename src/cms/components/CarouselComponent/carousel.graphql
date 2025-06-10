@@ -3,5 +3,6 @@ fragment Carousel on Carousel {
         url {
             default
         }
+        title
     }
 }

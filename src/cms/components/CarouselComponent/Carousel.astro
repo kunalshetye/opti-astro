@@ -39,7 +39,7 @@ const carouselId = `splide-${Math.random().toString(36).substring(2, 9)}`;
                         <div class="relative block h-full w-full">
                             <Image
                                 src={item?.url?.default || ''}
-                                alt="Carousel image"
+                                alt={item?.title || `Carousel image ${index + 1} of ${itemCount}`}
                                 class="h-full w-full object-cover"
                                 inferSize={true}
                             />
