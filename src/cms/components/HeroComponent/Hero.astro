@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Image as AstroImage } from 'astro:assets';
 import type {
     DisplaySettingsFragment,
     HeroFragment,
@@ -46,7 +46,7 @@ const globalStyles = getGlobalStyles(displaySettings);
 
     {
         !hasVideo && imageUrl && (
-            <Image
+            <AstroImage
                 src={imageUrl}
                 alt={data.Image?.item?.AltText || data.Image?.item?._metadata?.displayName || data.Heading || ''}
                 class="absolute inset-0 h-full w-full object-cover"
