@@ -29,6 +29,9 @@ pnpm-debug.log*
 # graphql
 __generated/
 
+# auto-generated component registry
+src/cms/components/_component-registry.ts
+
 # util temp
 utils/**/temp/
 
