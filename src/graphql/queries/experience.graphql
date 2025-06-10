@@ -16,6 +16,7 @@ query getExperience($key: String, $ver: String, $loc: [Locales]) {
                     type
                 }
                 types
+                displayName
             }
             ...BlankExperienceSeo
             composition {
