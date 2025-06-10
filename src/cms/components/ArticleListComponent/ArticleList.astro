@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Image as AstroImage } from 'astro:assets';
 import { randomBytes } from 'crypto';
 import type {
     ArticleListFragment,
@@ -32,15 +32,15 @@ const items = articlesList.ArticlePage?.items || null;
     {
         //@ts-ignore
         items?.map((item: ArticlePageExcerptFragment, i) => {
-            const cardImage = (item.PromoImage?.url?.default) ? item.PromoImage?.url?.default : "/placeholder.png";
             return (
                 <div class="card bg-base-100 w-96 flex-shrink-0 shadow-sm flex flex-col">      
                     <figure>
-                        <Image
+                        <AstroImage
                             class="aspect-3/2 object-cover"
-                            src={cardImage}
+                            src={item.PromoImage?.url?.default ?? '/placeholder.png'}
                             alt={item.PromoImage?.item?.AltText || item.PromoImage?.item?._metadata?.displayName || `Promo image for ${item.Heading}` || 'Article promo image'}
-                            inferSize={true}
+                            width={600}
+                            height={400}
                         />
                     </figure>
                     <div class="card-body">
