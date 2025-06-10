@@ -15,9 +15,11 @@ export interface Props {
 const { data, displaySettings } = Astro.props as Props;
 ---
 
-<AstroImage
-    class:list={getImageElementStyles(displaySettings)}
-    src={data.Image?.url?.default || ''}
-    alt={data.AltText || ''}
-    inferSize={true}
-/>
+{data.Image?.url?.default && 
+    <AstroImage
+        class:list={getImageElementStyles(displaySettings)}
+        src={data.Image?.url?.default || ''}
+        alt={data.AltText || ''}
+        inferSize={true}
+    />
+}
