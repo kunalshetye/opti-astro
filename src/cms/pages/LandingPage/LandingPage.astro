@@ -30,21 +30,25 @@ const hierarchicalUrl = page?._metadata?.url?.type === "SIMPLE" ? page?._metadat
     hierarchicalUrl={hierarchicalUrl ?? ''}
 >
     <!--Top content area-->
-    {
-        page?.TopContentArea?.map((contentAreaItem: any) => (
-            <ContentArea
-                contentPayload={contentPayload}
-                contentAreaItem={contentAreaItem}
-            />
-        ))
-    }
+    <div class="mx-auto justify-start p-2 sm:p-3 md:p-4 flex gap-8 overflow-x-auto flex-wrap">
+        {
+            page?.TopContentArea?.map((contentAreaItem: any) => (
+                <ContentArea
+                    contentPayload={contentPayload}
+                    contentAreaItem={contentAreaItem}
+                />
+            ))
+        }
+    </div>
     <!--Main content area-->
-    {
-        page.MainContentArea?.map((contentAreaItem: any) => (
-            <ContentArea
-                contentPayload={contentPayload}
-                contentAreaItem={contentAreaItem}
-            />
-        ))
-    }
+    <div class="mx-auto justify-start p-2 sm:p-3 md:p-4 flex gap-8 overflow-x-auto flex-wrap">
+        {
+            page.MainContentArea?.map((contentAreaItem: any) => (
+                <ContentArea
+                    contentPayload={contentPayload}
+                    contentAreaItem={contentAreaItem}
+                />
+            ))
+        }
+    </div>
 </Layout>

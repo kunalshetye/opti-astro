@@ -1,6 +1,7 @@
 ---
 import type { ContentPayload } from '../../graphql/shared/ContentPayload';
 import ArticleList from './ArticleListComponent/ArticleList.astro';
+import ArticlePageCard from '../pages/ArticlePage/ArticlePageCard.astro';
 import Button from './ButtonComponent/Button.astro';
 import CallToAction from './CallToActionComponent/CallToAction.astro';
 import Card from './CardComponent/Card.astro';
@@ -153,6 +154,15 @@ const componentType = component._metadata.types[0];
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
+        />
+    )
+}
+
+{
+    componentType === 'ArticlePage' && (
+        <ArticlePageCard
+            contentPayload={contentPayload}
+            data={component}
         />
     )
 }

@@ -1,0 +1,42 @@
+---
+import type { Locales } from 'astro';
+import { Image as AstroImage } from 'astro:assets';
+import { format } from 'date-fns';
+import type { ArticlePageFragment } from '../../../../__generated/sdk';
+import { getOptimizelySdk } from '../../../graphql/getSdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import LinkButton from '../../components/ButtonComponent/LinkButton.astro';
+
+export interface Props {
+    data: ArticlePageFragment;
+    contentPayload: ContentPayload;
+}
+const { data, contentPayload } = Astro.props as Props;
+
+const publishedDate = format(
+    new Date(data?._metadata?.published ?? Date.now()),
+    'dd MMM yyyy'
+);
+---
+
+<div class="card bg-base-100 w-96 flex-shrink-0 shadow-sm flex flex-col">
+    <figure>
+        <AstroImage
+            class="aspect-3/2 object-cover"
+            src={data.PromoImage?.url?.default ?? '/placeholder.png'}
+            alt={`Promo image for ${data.Heading}` || 'Article promo image'}
+            width={600}
+            height={400}
+        />
+    </figure>
+    <div class="card-body">
+        <h2 class="card-title">{data.Heading}</h2>
+        { data.Body?.html && 
+            <div set:html={data.Body?.html?.slice(0, 100) + "..."} />
+        }
+        <div class="card-actions justify-end mt-auto">
+            <LinkButton cssClassses="btn-primary" link={data._metadata?.url?.hierarchical}>Read more</LinkButton>
+        </div>
+    </div>
+</div>
+
