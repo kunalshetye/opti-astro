@@ -46,7 +46,7 @@ const items = articlesList.ArticlePage?.items || null;
                     <div class="card-body">
                         <h2 class="card-title">{item.Heading}</h2>
                         { item.Body?.html && 
-                            <div set:html={item.Body?.html?.slice(0, 100) + "..."} />
+                            <div set:html={item.Body.html.replace(/<[^>]*>/g, '').split(' ').slice(0, 30).join(' ') + "..."} />
                         }
                         <div class="card-actions justify-end mt-auto">
                           <LinkButton cssClasses="btn-primary" link={item._metadata?.url?.hierarchical}>Read more</LinkButton>
