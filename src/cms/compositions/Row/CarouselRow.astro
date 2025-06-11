@@ -22,9 +22,9 @@ row.columns?.map((column: any) => {
             <div id={`slide${index}`} class="carousel-item relative w-full">
                 <Elements contentPayload={contentPayload} data={item} />
                 <div class="absolute top-1/2 right-5 left-5 flex -translate-y-1/2 transform justify-between">
-                    <LinkButton cssClassses="btn-circle" link={`#slide${index === 0 ? items.length - 1 : index - 1}`}>❮</LinkButton>
+                    <LinkButton cssClasses="btn-circle" link={`#slide${index === 0 ? items.length - 1 : index - 1}`}>❮</LinkButton>
 
-                    <LinkButton cssClassses="btn-circle" link={`#slide${index === items.length - 1 ? 0 : index + 1}`}>❯</LinkButton>
+                    <LinkButton cssClasses="btn-circle" link={`#slide${index === items.length - 1 ? 0 : index + 1}`}>❯</LinkButton>
                 </div>
             </div>
         ))

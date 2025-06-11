@@ -32,8 +32,8 @@ if(isLoginButton) {
 
 ---
 { isDefaultButton &&
-    <LinkButton cssClassses={btnStyles} link={data?.ButtonLink?.url?.hierarchical}>{data?.ButtonLabel}</LinkButton>
+    <LinkButton cssClasses={btnStyles} link={data?.ButtonLink?.url?.hierarchical}>{data?.ButtonLabel}</LinkButton>
 }
 { isLoginButton &&
-    <LinkButton cssClassses={btnStyles} link={data?.ButtonLink?.url?.hierarchical}><Fragment set:html={loginButtonSlot}/></LinkButton>
+    <LinkButton cssClasses={btnStyles} link={data?.ButtonLink?.url?.hierarchical}><Fragment set:html={loginButtonSlot}/></LinkButton>
 }

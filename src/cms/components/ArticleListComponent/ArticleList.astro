@@ -49,7 +49,7 @@ const items = articlesList.ArticlePage?.items || null;
                             <div set:html={item.Body?.html?.slice(0, 100) + "..."} />
                         }
                         <div class="card-actions justify-end mt-auto">
-                          <LinkButton cssClassses="btn-primary" link={item._metadata?.url?.hierarchical}>Read more</LinkButton>
+                          <LinkButton cssClasses="btn-primary" link={item._metadata?.url?.hierarchical}>Read more</LinkButton>
                         </div>
                     </div>
                 </div>

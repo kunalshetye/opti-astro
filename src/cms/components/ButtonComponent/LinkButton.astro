@@ -1,11 +1,11 @@
 ---
 export interface Props {
     link?: string | null;
-    cssClassses?: string | string[] | {};
+    cssClasses?: string | string[] | {};
 }
-const {cssClassses, link="/" } = Astro.props as Props;
+const {cssClasses, link="/" } = Astro.props as Props;
 
-const btnStyles = cssClassses;
+const btnStyles = cssClasses;
 ---
 <a class="btn my-1" class:list={btnStyles} href={link}>
     <slot />
