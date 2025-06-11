@@ -1,4 +1,13 @@
 fragment Carousel on Carousel {
+    Heading
+    Link {
+        url {
+            default
+        }
+        title
+        target
+        text
+    }
     Assets {
         url {
             default

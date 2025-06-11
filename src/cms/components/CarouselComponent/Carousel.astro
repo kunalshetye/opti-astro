@@ -5,143 +5,245 @@ import type {
     DisplaySettingsFragment,
 } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { getCarouselStyleConfig, getCarouselMode } from './CarouselStyling';
 
 export interface Props {
     data: CarouselFragment;
     displaySettings: DisplaySettingsFragment[];
+    displayTemplateKey?: string;
     contentPayload: ContentPayload;
 }
-const { data, displaySettings, contentPayload } = Astro.props as Props;
+const { data, displaySettings, displayTemplateKey = 'DefaultCarousel', contentPayload } = Astro.props as Props;
 
-// Configuration options
-const showChevrons = true;
-const showIndicators = true;
-const showCaptions = false;
+// Determine carousel mode from settings or template key
+const carouselMode = getCarouselMode(displaySettings, displayTemplateKey);
+const isContentCarousel = carouselMode === 'content';
+
+// Get all styling configuration
+const styleConfig = getCarouselStyleConfig(displaySettings, displayTemplateKey);
+
 const carouselData = data?.Assets || [];
 const itemCount = carouselData.length;
 
 // Create a unique ID for this specific carousel instance
-const carouselId = `splide-${Math.random().toString(36).substring(2, 9)}`;
+const carouselId = `carousel-${Math.random().toString(36).substring(2, 9)}`;
 ---
 
-<section
-    id={carouselId}
-    class="splide h-full w-full rounded-lg"
-    aria-label="Carousel"
-    data-show-arrows={showChevrons.toString()}
->
-    <div class="splide__track h-full">
-        <ul class="splide__list h-full">
-            {/* Original slides */}
-            {
-                data?.Assets?.map((item, index) => (
-                    <li class="splide__slide h-full">
-                        <div class="relative block h-full w-full">
-                            <Image
-                                src={item?.url?.default || ''}
-                                alt={item?.title || `Carousel image ${index + 1} of ${itemCount}`}
-                                class="h-full w-full object-cover"
-                                inferSize={true}
-                            />
-                            {showCaptions && (
-                                <div class="bg-base-300/80 text-base-content absolute inset-x-0 bottom-0 p-2 md:p-4">
-                                    <h3 class="text-base font-semibold md:text-lg">
-                                        #todo
-                                    </h3>
+<div class={`carousel-container ${styleConfig.carouselAlignment}`}>
+    {/* Heading and Link */}
+    {(data?.Heading?.trim() || data?.Link?.url?.default) && (
+        <div class="carousel-header flex justify-between items-center mb-6">
+            {data?.Heading?.trim() && (
+                <h2 class="text-3xl font-bold text-base-content">
+                    {data.Heading}
+                </h2>
+            )}
+            {data?.Link?.url?.default && (
+                <a 
+                    href={data.Link.url.default}
+                    target={data.Link.target || '_self'}
+                    class="btn btn-primary"
+                >
+                    {data.Link.text || data.Link.title || 'View All'}
+                </a>
+            )}
+        </div>
+    )}
+    
+    <section
+        id={carouselId}
+        class={`splide ${isContentCarousel ? 'content-carousel' : 'standard-carousel'}`}
+        aria-label="Carousel"
+        data-content-mode={isContentCarousel ? 'true' : 'false'}
+        data-show-arrows={styleConfig.showNavigation.toString()}
+        data-show-pagination={styleConfig.showPagination.toString()}
+        data-autoplay={styleConfig.enableAutoplay.toString()}
+        data-autoplay-delay={styleConfig.autoplayDelay.toString()}
+        data-loop={styleConfig.enableLoop.toString()}
+        data-items-desktop={styleConfig.itemsPerViewDesktop.toString()}
+        data-items-tablet={styleConfig.itemsPerViewTablet.toString()}
+        data-items-mobile={styleConfig.itemsPerViewMobile.toString()}
+        data-space-between={styleConfig.spaceBetween.toString()}
+    >
+        <div class="splide__track">
+            <ul class="splide__list">
+                {
+                    carouselData.map((item, index) => (
+                        <li class={`splide__slide ${styleConfig.carouselHeight}`}>
+                            {isContentCarousel ? (
+                                // Content carousel mode - show as cards
+                                <div class="card bg-base-100 shadow-xl h-full">
+                                    <figure class={styleConfig.carouselHeight === 'h-auto' ? 'aspect-video' : 'flex-1'}>
+                                        <Image
+                                            src={item?.url?.default || ''}
+                                            alt={item?.title || `Carousel image ${index + 1} of ${itemCount}`}
+                                            class={`w-full h-full ${styleConfig.imageFit}`}
+                                            inferSize={true}
+                                        />
+                                    </figure>
+                                    {item?.title && (
+                                        <div class="card-body">
+                                            <h3 class="card-title text-lg">
+                                                {item.title}
+                                            </h3>
+                                        </div>
+                                    )}
+                                </div>
+                            ) : (
+                                // Standard carousel mode - full width images
+                                <div class="relative w-full h-full">
+                                    <Image
+                                        src={item?.url?.default || ''}
+                                        alt={item?.title || `Carousel image ${index + 1} of ${itemCount}`}
+                                        class={`w-full h-full ${styleConfig.imageFit}`}
+                                        inferSize={true}
+                                    />
                                 </div>
                             )}
-                        </div>
-                    </li>
-                ))
-            }
-        </ul>
-    </div>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+    </section>
+</div>
 
-    {/* Splide will automatically handle arrows based on configuration */}
-</section>
-
-<style is:inline>
-    /* Custom arrow colors */
+<style>
+    .carousel-container {
+        position: relative;
+    }
+    
+    /* Content carousel styles */
+    .content-carousel .splide__slide {
+        padding: 0.5rem;
+    }
+    
+    /* Ensure cards fill the available height */
+    .content-carousel .splide__slide .card {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .content-carousel .splide__slide .card figure.flex-1 {
+        flex: 1;
+        display: flex;
+    }
+    
+    /* Arrow styling */
     .splide__arrow {
-        background: color-mix(
-            in srgb,
-            var(--color-base-content) 50%,
-            transparent
-        ) !important;
-        color: color-mix(
-            in srgb,
-            var(--color-base-content) 50%,
-            transparent
-        ) !important;
+        background: rgba(0, 0, 0, 0.7) !important;
+        border: none !important;
+        border-radius: 50% !important;
+        width: 3rem !important;
+        height: 3rem !important;
     }
-
-    .splide__arrow--prev {
-        background: color-mix(
-            in srgb,
-            var(--color-base-content) 80%,
-            transparent
-        ) !important;
+    
+    .splide__arrow svg {
+        fill: white !important;
+        width: 1.5rem !important;
+        height: 1.5rem !important;
     }
-
-    .splide__arrow--next {
-        background: color-mix(
-            in srgb,
-            var(--color-base-content) 80%,
-            transparent
-        ) !important;
-    }
-
-    /* Custom pagination colors */
+    
+    /* Pagination styling */
     .splide__pagination__page {
-        background: color-mix(
-            in srgb,
-            var(--color-base-content) 50%,
-            transparent
-        ) !important;
+        background: rgba(255, 255, 255, 0.5) !important;
+        border: none !important;
+        border-radius: 50% !important;
+        width: 0.75rem !important;
+        height: 0.75rem !important;
+        margin: 0 0.25rem !important;
     }
-
+    
     .splide__pagination__page.is-active {
-        background: color-mix(
-            in srgb,
-            var(--color-base-content) 100%,
-            transparent
-        ) !important;
+        background: white !important;
     }
 </style>
 
-<!-- Import Splide as a module script -->
+<!-- Splide CSS -->
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css"
+/>
+
+<!-- Splide JS -->
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+
 <script>
-    import '@splidejs/splide/css';
-</script>
-
-<!-- Add Splide JS via CDN as a fallback -->
-<script
-    src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"
-></script>
-
-<!-- Initialize this specific carousel instance -->
-<script define:vars={{ carouselId, showChevrons }} is:inline>
     document.addEventListener('astro:page-load', function () {
-        // Get only this specific carousel instance by ID
-        const splideElement = document.getElementById(carouselId);
-
-        // Initialize only if the element exists
-        if (splideElement instanceof HTMLElement) {
-            // Create a new Splide instance for this carousel
-            const splide = new Splide(splideElement, {
-                type: 'loop', // Enable loop
-                perPage: 1, // Show 1 slide per page
-                autoplay: true, // Enable autoplay
-                interval: 5000, // Set autoplay interval to 5 seconds
-                pauseOnHover: true, // Pause on hover
-                pauseOnFocus: true, // Pause on focus
-                pagination: true, // Show pagination
-                arrows: showChevrons, // Show arrows if enabled in config
-                speed: 500, // Transition speed
-                rewind: true, // Allow rewinding
-                easing: 'ease-in-out', // Transition easing
-                height: '100%', // Full height
-            }).mount();
-        }
+        // Find all carousel instances
+        const carousels = document.querySelectorAll('.splide');
+        
+        carousels.forEach((carousel) => {
+            // Skip if already initialized
+            if (carousel.splide) return;
+            
+            // Get configuration from data attributes using camelCase for dataset access
+            const isContentMode = carousel.dataset.contentMode === 'true';
+            const showArrows = carousel.dataset.showArrows === 'true';
+            const showPagination = carousel.dataset.showPagination === 'true';
+            const enableAutoplay = carousel.dataset.autoplay === 'true';
+            const autoplayDelay = parseInt(carousel.dataset.autoplayDelay || '5000');
+            const enableLoop = carousel.dataset.loop === 'true';
+            
+            // Content carousel specific settings
+            const itemsDesktop = parseInt(carousel.dataset.itemsDesktop || '3');
+            const itemsTablet = parseInt(carousel.dataset.itemsTablet || '2');
+            const itemsMobile = parseInt(carousel.dataset.itemsMobile || '1');
+            const spaceBetween = parseInt(carousel.dataset.spaceBetween || '24');
+            
+            console.log('Carousel config:', {
+                isContentMode,
+                showArrows,
+                showPagination,
+                enableAutoplay,
+                itemsDesktop,
+                itemsTablet,
+                itemsMobile,
+                spaceBetween
+            });
+            
+            // Build configuration
+            let config = {
+                type: enableLoop ? 'loop' : 'slide',
+                arrows: showArrows,
+                pagination: showPagination,
+                autoplay: enableAutoplay,
+                interval: autoplayDelay,
+                pauseOnHover: true,
+                pauseOnFocus: true,
+                speed: 500,
+                easing: 'ease-in-out',
+            };
+            
+            if (isContentMode) {
+                // Content carousel with responsive breakpoints
+                // Default is desktop settings
+                config.perPage = itemsDesktop;
+                config.gap = `${spaceBetween}px`;
+                config.breakpoints = {
+                    1023: {
+                        perPage: itemsTablet,
+                        gap: `${spaceBetween}px`,
+                    },
+                    767: {
+                        perPage: itemsMobile,
+                        gap: `${spaceBetween}px`,
+                    },
+                };
+            } else {
+                // Standard carousel - one slide at a time
+                config.perPage = 1;
+                config.gap = 0;
+            }
+            
+            console.log('Final Splide config:', config);
+            
+            // Initialize Splide
+            if (typeof Splide !== 'undefined') {
+                new Splide(carousel, config).mount();
+            } else {
+                console.error('Splide is not loaded');
+            }
+        });
     });
 </script>

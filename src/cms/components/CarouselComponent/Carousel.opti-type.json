@@ -11,6 +11,28 @@
 		"elementEnabled"
 	],
 	"properties": {
+		"Heading": {
+			"type": "string",
+			"displayName": "Heading",
+			"description": "Carousel section heading",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": -100,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		},
+		"Link": {
+			"type": "component",
+			"contentType": "link",
+			"displayName": "Link",
+			"description": "Optional link for the heading",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": -50,
+			"editorSettings": {}
+		},
 		"Assets": {
 			"type": "array",
 			"format": "LinkCollection",
