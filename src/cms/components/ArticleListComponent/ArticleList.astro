@@ -27,8 +27,8 @@ const glideId = randomBytes(5).toString('hex');
 const items = articlesList.ArticlePage?.items || null;
 ---
 
-<h1>{data?.Title}</h1>
-<div class="mx-auto mt-4 mb-4 flex gap-8 overflow-x-auto flex-wrap">
+<h1 class="w-full basis-full">{data?.Title}</h1>
+<div class="mt-4 mb-4 flex gap-8 overflow-x-auto flex-wrap">
     {
         //@ts-ignore
         items?.map((item: ArticlePageExcerptFragment, i) => {
