@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
+import type { Locales } from '../../../__generated/sdk';
 import { getOptimizelySdk } from '../../graphql/getSdk';
 import type { ContentPayload } from '../../graphql/shared/ContentPayload';
-import type { Locales } from '../../../__generated/sdk';
 
 interface SearchResult {
     id: string;
@@ -66,7 +66,7 @@ export const GET: APIRoute = async ({ url, currentLocale, request }) => {
                             id: item?._metadata?.key || '',
                             type: 'page' as const,
                             title: item?._metadata?.displayName || (item as any).Heading || 'Untitled Page',
-                            subtitle: (item as any)?.SubHeading || seoSettings?.MetaDescription || item?._metadata?.types?.join(', ') || undefined,
+                            subtitle: (item as any)?.SubHeading || seoSettings?.MetaDescription || item?._metadata?.types?.[0] || undefined,
                             url: item?._metadata?.url?.default || item?._metadata?.url?.hierarchical || '#',
                             image: (item as any)?.PromoImage?.url?.default || seoSettings?.SharingImage?.url?.default || undefined
                         };
