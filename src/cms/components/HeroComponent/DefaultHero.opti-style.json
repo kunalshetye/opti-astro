@@ -134,6 +134,25 @@
           "sortOrder": 40
         }
       }
+    },
+    "image_fit": {
+      "displayName": "Image Fit",
+      "editor": "",
+      "sortOrder": 80,
+      "choices": {
+        "object_cover": {
+          "displayName": "Cover (Fill Container, May Crop)",
+          "sortOrder": 10
+        },
+        "object_contain": {
+          "displayName": "Contain (Show Full Image, May Have Gaps)",
+          "sortOrder": 20
+        },
+        "object_fill": {
+          "displayName": "Fill (Stretch to Fit)",
+          "sortOrder": 30
+        }
+      }
     }
   }
 }

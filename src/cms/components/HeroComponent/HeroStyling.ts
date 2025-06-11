@@ -6,6 +6,7 @@ export function getHeroStyles(displaySettings: DisplaySettingsFragment[]): {
     textClasses: string[];
     justifyClass: string;
     heightClass: string;
+    imageFitClass: string;
 } {
     const settings: Record<string, string> =
         getDictionaryFromDisplaySettings(displaySettings);
@@ -99,5 +100,22 @@ export function getHeroStyles(displaySettings: DisplaySettingsFragment[]): {
             heightClass = 'h-[48rem]';
             break;
     }
-    return { backgroundOpacityClass, textClasses, justifyClass, heightClass };
+    const imageFit = settings['image_fit'] ?? 'object_cover';
+    let imageFitClass = '';
+    switch (imageFit) {
+        case 'object_cover':
+            imageFitClass = 'object-cover';
+            break;
+        case 'object_contain':
+            imageFitClass = 'object-contain';
+            break;
+        case 'object_fill':
+            imageFitClass = 'object-fill';
+            break;
+        default:
+            imageFitClass = 'object-cover';
+            break;
+    }
+    
+    return { backgroundOpacityClass, textClasses, justifyClass, heightClass, imageFitClass };
 }
