@@ -35,7 +35,7 @@ const publishedDate = format(
             <div set:html={data.Body?.html?.slice(0, 100) + "..."} />
         }
         <div class="card-actions justify-end mt-auto">
-            <LinkButton cssClassses="btn-primary" link={data._metadata?.url?.hierarchical}>Read more</LinkButton>
+            <LinkButton cssClasses="btn-primary" link={data._metadata?.url?.hierarchical}>Read more</LinkButton>
         </div>
     </div>
 </div>
