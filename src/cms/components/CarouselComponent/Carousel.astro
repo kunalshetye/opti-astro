@@ -191,16 +191,6 @@ const carouselId = `carousel-${Math.random().toString(36).substring(2, 9)}`;
             const itemsMobile = parseInt(carousel.dataset.itemsMobile || '1');
             const spaceBetween = parseInt(carousel.dataset.spaceBetween || '24');
             
-            console.log('Carousel config:', {
-                isContentMode,
-                showArrows,
-                showPagination,
-                enableAutoplay,
-                itemsDesktop,
-                itemsTablet,
-                itemsMobile,
-                spaceBetween
-            });
             
             // Build configuration
             let config = {
@@ -236,7 +226,6 @@ const carouselId = `carousel-${Math.random().toString(36).substring(2, 9)}`;
                 config.gap = 0;
             }
             
-            console.log('Final Splide config:', config);
             
             // Initialize Splide
             if (typeof Splide !== 'undefined') {
