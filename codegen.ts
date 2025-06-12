@@ -12,8 +12,8 @@ import * as path from 'path';
 
 import 'dotenv/config';
 
-const OPTIMIZELY_GRAPH_GATEWAY=import.meta.env.OPTIMIZELY_GRAPH_GATEWAY;
-const OPTIMIZELY_GRAPH_SINGLE_KEY=import.meta.env.OPTIMIZELY_GRAPH_SINGLE_KEY;
+const OPTIMIZELY_GRAPH_GATEWAY=process.env.OPTIMIZELY_GRAPH_GATEWAY;
+const OPTIMIZELY_GRAPH_SINGLE_KEY=process.env.OPTIMIZELY_GRAPH_SINGLE_KEY;
 const OPTIMIZELY_DAM_ENABLED = process.env.OPTIMIZELY_DAM_ENABLED === 'true';
 
 // Build document array dynamically to avoid conflicts
