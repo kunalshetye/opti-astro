@@ -1,9 +1,6 @@
 fragment Button on Button {
     ButtonLabel
     ButtonLink {
-        text
-        url {
-            hierarchical
-        }
+        ...LinkUrl
     }
 }

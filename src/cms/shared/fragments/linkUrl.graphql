@@ -3,4 +3,7 @@ fragment LinkUrl on Link {
         default
         hierarchical
     }
+    title
+    target
+    text
 }

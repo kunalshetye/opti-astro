@@ -2,9 +2,7 @@ fragment VideoExternal on VideoExternal {
     Provider
     VideoExternal: Video
     Poster {
-        url {
-            default
-        }
+        ...ContentUrl
     }
     Params
     PlayLabel

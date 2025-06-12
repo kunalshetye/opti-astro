@@ -1,26 +1,11 @@
 fragment ArticlePage on ArticlePage {
     _metadata {
-        url {
-            default
-            hierarchical
-            type
-        }
+        ...PageUrl
         published
     }
     PromoImage {
-        url {
-            default
-        }
-        item {
-            ... on ImageMedia {
-                AltText
-            }
-            ... on _IContent {
-                _metadata {
-                    displayName
-                }
-            }
-        }
+        ...ContentUrl
+        ...ContentReferenceItem
     }
     Heading
     SubHeading

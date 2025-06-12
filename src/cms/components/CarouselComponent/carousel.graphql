@@ -1,12 +1,7 @@
 fragment Carousel on Carousel {
     Heading
     Link {
-        url {
-            default
-        }
-        title
-        target
-        text
+        ...LinkUrl
     }
     Assets {
         url {

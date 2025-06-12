@@ -1,10 +1,6 @@
 fragment LandingPage on LandingPage {
     _metadata {
-        url {
-            default
-            hierarchical
-            type
-        }
+        ...PageUrl
         published
     }
     TopContentArea {

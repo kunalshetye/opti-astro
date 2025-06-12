@@ -1,23 +1,10 @@
 fragment Hero on Hero {
     Video {
-        url {
-            default
-        }
+        ...ContentUrl
     }
     Image {
-        url {
-            default
-        }
-        item {
-            ... on ImageMedia {
-                AltText
-            }
-            ... on _IContent {
-                _metadata {
-                    displayName
-                }
-            }
-        }
+        ...ContentUrl
+        ...ContentReferenceItem
     }
     Heading
     SubHeading
@@ -25,9 +12,6 @@ fragment Hero on Hero {
         html
     }
     Links {
-        url {
-            default
-        }
-        text
+        ...LinkCollection
     }
 }

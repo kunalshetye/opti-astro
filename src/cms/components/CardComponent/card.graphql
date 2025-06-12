@@ -6,14 +6,9 @@ fragment Card on Card {
         html
     }
     Asset {
-        url {
-            default
-        }
+        ...ContentUrl
     }
     Links {
-        text
-        url {
-            default
-        }
+        ...LinkCollection
     }
 }
