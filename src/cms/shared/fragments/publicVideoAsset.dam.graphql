@@ -1,0 +1,4 @@
+fragment PublicVideoAsset on cmp_PublicVideoAsset {
+    AltText
+    Url
+}

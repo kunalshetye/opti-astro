@@ -49,7 +49,7 @@ const hierarchicalUrl = post?._metadata?.url?.type === "SIMPLE" ? post?._metadat
                         src={post.PromoImage?.url?.default}
                         class="absolute top-0 left-0 z-0 h-full w-full object-cover"
                         data-epi-property-name="BlogPostPromoImage"
-                        alt={post.PromoImage?.item?.AltText || post.PromoImage?.item?._metadata?.displayName || post.Heading || 'Article promo image'}
+                        alt={(post.PromoImage as any)?.item?.AltText || (post.PromoImage as any)?.item?._metadata?.displayName || post.Heading || 'Article promo image'}
                         inferSize={true}
                     />
                 }

@@ -3,6 +3,12 @@ fragment ContentReferenceItem on ContentReference {
         ... on ImageMedia {
             AltText
         }
+        ... on cmp_PublicImageAsset {
+            ...PublicImageAsset
+        }
+        ... on cmp_PublicVideoAsset {
+            ...PublicVideoAsset
+        }
         ... on _IContent {
             _metadata {
                 displayName
