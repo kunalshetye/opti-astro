@@ -1,0 +1,12 @@
+fragment ContentReferenceItem on ContentReference {
+    item {
+        ... on ImageMedia {
+            AltText
+        }
+        ... on _IContent {
+            _metadata {
+                displayName
+            }
+        }
+    }
+}

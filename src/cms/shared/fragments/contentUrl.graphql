@@ -1,0 +1,6 @@
+fragment ContentUrl on ContentReference {
+    url {
+        default
+        hierarchical
+    }
+}

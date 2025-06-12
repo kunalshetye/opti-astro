@@ -1,0 +1,6 @@
+fragment LinkCollection on Link {
+    text
+    url {
+        default
+    }
+}

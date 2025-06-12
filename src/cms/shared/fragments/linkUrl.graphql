@@ -1,0 +1,6 @@
+fragment LinkUrl on Link {
+    url {
+        default
+        hierarchical
+    }
+}
