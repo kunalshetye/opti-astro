@@ -1,6 +1,7 @@
 ---
 import type { DisplaySettingsFragment, ParagraphFragment } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { getParagraphStyleConfig } from './ParagraphStyling';
 
 
 export interface Props {
@@ -8,7 +9,9 @@ export interface Props {
     displaySettings: DisplaySettingsFragment[];
     contentPayload: ContentPayload;
 }
-const { data } = Astro.props as Props;
+const { data, displaySettings} = Astro.props as Props;
+
+const paragraphStyles = getParagraphStyleConfig(displaySettings);
 ---
 
-<div set:html={data.Text?.html} />
+<div class={`${paragraphStyles.paragraphAlignment}`} set:html={data.Text?.html} />
