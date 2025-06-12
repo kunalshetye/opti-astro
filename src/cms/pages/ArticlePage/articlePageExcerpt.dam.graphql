@@ -10,6 +10,16 @@ fragment ArticlePageExcerpt on ArticlePage {
         url {
             default
         }
+        item {
+            ... on ImageMedia {
+                AltText
+            }
+            ... on _IContent {
+                _metadata {
+                    displayName
+                }
+            }
+        }
     }
     Heading
     SubHeading
