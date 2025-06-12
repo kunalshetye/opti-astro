@@ -39,14 +39,14 @@ const hierarchicalUrl = post?._metadata?.url?.type === "SIMPLE" ? post?._metadat
                 class="relative mx-auto mb-4 w-full max-w-screen-xl md:mb-0"
                 style="height: 24em;"
             >
-                { post.PromoImage?.url?.default && 
+                { ((post.PromoImage as any)?.item?.Url || post.PromoImage?.url?.default) && 
                     <div
                         class="absolute bottom-0 left-0 z-10 h-full w-full"
                         style="background-image: linear-gradient(180deg,transparent,rgba(0,0,0,.7));"
                     >
                     </div>
                     <AstroImage
-                        src={post.PromoImage?.url?.default}
+                        src={(post.PromoImage as any)?.item?.Url || post.PromoImage?.url?.default}
                         class="absolute top-0 left-0 z-0 h-full w-full object-cover"
                         data-epi-property-name="BlogPostPromoImage"
                         alt={(post.PromoImage as any)?.item?.AltText || (post.PromoImage as any)?.item?._metadata?.displayName || post.Heading || 'Article promo image'}

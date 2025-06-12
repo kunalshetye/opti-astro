@@ -14,7 +14,7 @@ export interface Props {
 }
 const { data, displaySettings, displayTemplateKey, contentPayload } =
     Astro.props as Props;
-const imageUrl = data.Asset?.url?.default || null;
+const imageUrl = (data.Asset as any)?.item?.Url || data.Asset?.url?.default || null;
 ---
 
 <div class="relative mx-auto max-w-4xl">

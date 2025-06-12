@@ -37,7 +37,7 @@ const items = articlesList.ArticlePage?.items || null;
                     <figure>
                         <AstroImage
                             class="aspect-3/2 object-cover"
-                            src={item.PromoImage?.url?.default ?? '/placeholder.png'}
+                            src={((item.PromoImage as any)?.item?.Url || item.PromoImage?.url?.default) ?? '/placeholder.png'}
                             alt={item.PromoImage?.item?.AltText || item.PromoImage?.item?._metadata?.displayName || `Promo image for ${item.Heading}` || 'Article promo image'}
                             width={600}
                             height={400}
