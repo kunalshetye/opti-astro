@@ -147,6 +147,122 @@
 					"sortOrder": 60
 				}
 			}
+		},
+		"animation_entrance": {
+			"displayName": "Section Animation",
+			"editor": "",
+			"sortOrder": 160,
+			"choices": {
+				"none": {
+					"displayName": "None",
+					"sortOrder": 10
+				},
+				"fade_in": {
+					"displayName": "Fade In",
+					"sortOrder": 20
+				},
+				"slide_up": {
+					"displayName": "Slide Up",
+					"sortOrder": 30
+				},
+				"slide_down": {
+					"displayName": "Slide Down",
+					"sortOrder": 40
+				},
+				"slide_left": {
+					"displayName": "Slide Left",
+					"sortOrder": 50
+				},
+				"slide_right": {
+					"displayName": "Slide Right",
+					"sortOrder": 60
+				},
+				"scale_up": {
+					"displayName": "Scale Up",
+					"sortOrder": 70
+				},
+				"bounce_in": {
+					"displayName": "Bounce In",
+					"sortOrder": 80
+				}
+			}
+		},
+		"animation_hover": {
+			"displayName": "Hover Animation",
+			"editor": "",
+			"sortOrder": 170,
+			"choices": {
+				"none": {
+					"displayName": "None",
+					"sortOrder": 10
+				},
+				"lift": {
+					"displayName": "Lift",
+					"sortOrder": 20
+				},
+				"scale": {
+					"displayName": "Scale Up",
+					"sortOrder": 30
+				},
+				"scale_down": {
+					"displayName": "Scale Down",
+					"sortOrder": 35
+				},
+				"tilt": {
+					"displayName": "Tilt",
+					"sortOrder": 40
+				},
+				"bounce": {
+					"displayName": "Bounce",
+					"sortOrder": 50
+				}
+			}
+		},
+		"animation_duration": {
+			"displayName": "Animation Duration",
+			"editor": "",
+			"sortOrder": 180,
+			"choices": {
+				"fast": {
+					"displayName": "Fast (150ms)",
+					"sortOrder": 10
+				},
+				"normal": {
+					"displayName": "Normal (300ms)",
+					"sortOrder": 20
+				},
+				"slow": {
+					"displayName": "Slow (500ms)",
+					"sortOrder": 30
+				},
+				"slower": {
+					"displayName": "Slower (700ms)",
+					"sortOrder": 40
+				}
+			}
+		},
+		"animation_delay": {
+			"displayName": "Animation Delay",
+			"editor": "",
+			"sortOrder": 190,
+			"choices": {
+				"none": {
+					"displayName": "None",
+					"sortOrder": 10
+				},
+				"short": {
+					"displayName": "Short (150ms)",
+					"sortOrder": 20
+				},
+				"medium": {
+					"displayName": "Medium (300ms)",
+					"sortOrder": 30
+				},
+				"long": {
+					"displayName": "Long (500ms)",
+					"sortOrder": 40
+				}
+			}
 		}
 	}
 }
