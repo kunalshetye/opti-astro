@@ -18,9 +18,10 @@ const settings: Record<string, string> =
     getDictionaryFromDisplaySettings(displaySettings);
 const HeadingStyle = (settings?.headingType == "plain" || settings?.headingType == null) 
     ? "span" : settings.headingType;
+const { textClasses, animationClasses } = getHeadingElementStyles(displaySettings);
 
 ---
 
-<HeadingStyle class:list={getHeadingElementStyles(displaySettings)}>
+<HeadingStyle class:list={[textClasses, animationClasses]}>
     {data.Content}
 </HeadingStyle>
