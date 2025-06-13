@@ -6,6 +6,7 @@ import type {
 
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
+import { getCardStyles } from './CardStyling';
 import Asset from './Asset.astro';
 import Content from './Content.astro';
 import Wrapper from './Wrapper.astro';
@@ -21,6 +22,7 @@ const { data, displaySettings, displayTemplateKey, contentPayload } =
 const dictionary = getDictionaryFromDisplaySettings(displaySettings);
 const { backgroundColor } = dictionary;
 const { DisplayAs } = data;
+const { animationClasses } = getCardStyles(displaySettings);
 ---
 
 {
@@ -29,7 +31,7 @@ const { DisplayAs } = data;
             case 'textOnRight':
             case 'textBelowCard':
                 return (
-                    <Wrapper DisplayAs={DisplayAs}>
+                    <Wrapper DisplayAs={DisplayAs} animationClasses={animationClasses}>
                         <Asset
                             data={data}
                             displaySettings={displaySettings}
@@ -47,7 +49,7 @@ const { DisplayAs } = data;
             case 'textOnLeft':
             case 'textAboveCard':
                 return (
-                    <Wrapper DisplayAs={DisplayAs}>
+                    <Wrapper DisplayAs={DisplayAs} animationClasses={animationClasses}>
                         <Content
                             data={data}
                             displaySettings={displaySettings}

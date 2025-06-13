@@ -11,7 +11,7 @@ export interface Props {
 }
 const { data, displaySettings} = Astro.props as Props;
 
-const paragraphStyles = getParagraphStyleConfig(displaySettings);
+const { paragraphAlignment, animationClasses } = getParagraphStyleConfig(displaySettings);
 ---
 
-<div class={`${paragraphStyles.paragraphAlignment}`} set:html={data.Text?.html} />
+<div class:list={[paragraphAlignment, animationClasses]} set:html={data.Text?.html} />

@@ -1,8 +1,10 @@
 import type { DisplaySettingsFragment } from '../../../../__generated/sdk.ts';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers.ts';
+import { getAccessibleAnimationClasses } from '../../shared/Animations.ts';
 
 export interface ParagraphStyleConfig {
     paragraphAlignment: string;
+    animationClasses: string[];
 }
 
 
@@ -19,8 +21,12 @@ export function getParagraphStyleConfig(
 ): ParagraphStyleConfig {
     const settingsDict = getDictionaryFromDisplaySettings(displaySettings);
     
+    // Get animation classes from the centralized animation system
+    const animationClasses = getAccessibleAnimationClasses(displaySettings);
+    
     return {
         // Alignment settings
         paragraphAlignment: alignmentMap[settingsDict['paragraph_alignment']] || 'w-full',
+        animationClasses,
     };
 }

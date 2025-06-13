@@ -1,9 +1,13 @@
 import type { DisplaySettingsFragment } from '../../../../__generated/sdk.ts';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers.ts';
+import { getAccessibleAnimationClasses } from '../../shared/Animations.ts';
 
 export function getHeadingElementStyles(
     displaySettings: DisplaySettingsFragment[]
-): string[] {
+): {
+    textClasses: string[];
+    animationClasses: string[];
+} {
     const settings: Record<string, string> =
         getDictionaryFromDisplaySettings(displaySettings);
     let cssClasses: string[] = [];
@@ -34,5 +38,11 @@ export function getHeadingElementStyles(
             cssClasses.push('capitalize');
             break;
     }
-    return cssClasses;
+    // Get animation classes from the centralized animation system
+    const animationClasses = getAccessibleAnimationClasses(displaySettings);
+    
+    return {
+        textClasses: cssClasses,
+        animationClasses
+    };
 }
