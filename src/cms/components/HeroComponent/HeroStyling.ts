@@ -1,5 +1,6 @@
 import type { DisplaySettingsFragment } from '../../../../__generated/sdk.ts';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers.ts';
+import { getAccessibleAnimationClasses } from '../../shared/Animations.ts';
 
 export function getHeroStyles(displaySettings: DisplaySettingsFragment[]): {
     backgroundOpacityClass: string;
@@ -7,6 +8,8 @@ export function getHeroStyles(displaySettings: DisplaySettingsFragment[]): {
     justifyClass: string;
     heightClass: string;
     imageFitClass: string;
+    animationClasses: string[];
+    headingAnimationClasses: string[];
 } {
     const settings: Record<string, string> =
         getDictionaryFromDisplaySettings(displaySettings);
@@ -116,6 +119,22 @@ export function getHeroStyles(displaySettings: DisplaySettingsFragment[]): {
             imageFitClass = 'object-cover';
             break;
     }
+
+    // Get animation classes from the centralized animation system for section
+    const animationClasses = getAccessibleAnimationClasses(displaySettings);
     
-    return { backgroundOpacityClass, textClasses, justifyClass, heightClass, imageFitClass };
+    // Get heading animation classes from the separate heading_animation property
+    const headingAnimationSetting = settings['heading_animation'] ?? 'none';
+    const headingAnimationClasses = headingAnimationSetting === 'none' ? [] : 
+        getAccessibleAnimationClasses(displaySettings, 'heading_animation');
+    
+    return { 
+        backgroundOpacityClass, 
+        textClasses, 
+        justifyClass, 
+        heightClass, 
+        imageFitClass, 
+        animationClasses,
+        headingAnimationClasses 
+    };
 }
