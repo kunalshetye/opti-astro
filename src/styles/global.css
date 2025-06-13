@@ -10,6 +10,187 @@
     logs: true;
 }
 
+/* Custom animations for entrance effects */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0; 
+        transform: translateY(1rem); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+@keyframes slideDown {
+    from { 
+        opacity: 0; 
+        transform: translateY(-1rem); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+@keyframes slideLeft {
+    from { 
+        opacity: 0; 
+        transform: translateX(1rem); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateX(0); 
+    }
+}
+
+@keyframes slideRight {
+    from { 
+        opacity: 0; 
+        transform: translateX(-1rem); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateX(0); 
+    }
+}
+
+@keyframes scaleUp {
+    from { 
+        opacity: 0; 
+        transform: scale(0.95); 
+    }
+    to { 
+        opacity: 1; 
+        transform: scale(1); 
+    }
+}
+
+@keyframes bounceIn {
+    0% { 
+        opacity: 0; 
+        transform: scale(0.5); 
+    }
+    50% { 
+        opacity: 1; 
+        transform: scale(1.05); 
+    }
+    100% { 
+        opacity: 1; 
+        transform: scale(1); 
+    }
+}
+
+@keyframes typewriter {
+    from { 
+        width: 0; 
+    }
+    to { 
+        width: 100%; 
+    }
+}
+
+@keyframes blinkCursor {
+    from, to { 
+        border-color: transparent; 
+    }
+    50% { 
+        border-color: currentColor; 
+    }
+}
+
+/* Animation utility classes */
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.animate-fade-in-fast {
+    animation: fadeIn 0.15s ease-out;
+}
+
+.animate-fade-in-slow {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+}
+
+.animate-slide-down {
+    animation: slideDown 0.3s ease-out;
+}
+
+.animate-slide-left {
+    animation: slideLeft 0.3s ease-out;
+}
+
+.animate-slide-right {
+    animation: slideRight 0.3s ease-out;
+}
+
+.animate-scale-up {
+    animation: scaleUp 0.3s ease-out;
+}
+
+.animate-bounce-in {
+    animation: bounceIn 0.7s ease-out;
+}
+
+.animate-typewriter {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typewriter 3s steps(30, end);
+}
+
+.animate-typewriter-fast {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typewriter 1.5s steps(20, end);
+}
+
+.animate-typewriter-slow {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typewriter 5s steps(40, end);
+}
+
+.animate-typewriter-cursor {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid currentColor;
+    animation: typewriter 3s steps(30, end), blinkCursor 1s infinite;
+}
+
+/* Accessibility: Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    .animate-fade-in-fast,
+    .animate-fade-in-slow,
+    .animate-slide-up,
+    .animate-slide-down,
+    .animate-slide-left,
+    .animate-slide-right,
+    .animate-scale-up,
+    .animate-bounce-in {
+        animation: fadeIn 0.15s ease-out;
+    }
+    
+    .animate-typewriter,
+    .animate-typewriter-fast,
+    .animate-typewriter-slow,
+    .animate-typewriter-cursor {
+        animation: fadeIn 0.15s ease-out;
+        overflow: visible;
+        white-space: normal;
+        border-right: none;
+    }
+}
+
 @layer base {
     ul {
         @apply list-inside list-disc;
