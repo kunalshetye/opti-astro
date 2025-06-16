@@ -5,7 +5,7 @@ import type {
 } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import LinkButton from '../ButtonComponent/LinkButton.astro';
-// import { getCtaStyles } from './CallToActionStyling';
+import { getCtaStyles } from './CallToActionStyling';
 import { getButtonStyles } from '../ButtonComponent/ButtonStyling';
 
 export interface Props {
@@ -16,9 +16,10 @@ export interface Props {
 }
 const { data, displaySettings } = Astro.props as Props;
 const ctaButtonStyles = getButtonStyles(displaySettings, false); // false: button type defined here
+const { animationClasses, staggerDelay } = getCtaStyles(displaySettings);
 ---
 
-<div class="m-4 flex gap-4 flex-wrap">
+<div class:list={['m-4 flex gap-4 flex-wrap', animationClasses]}>
     {
         data.Links?.map((link, i) => {
             const buttonType: string[] = [""];
@@ -48,8 +49,18 @@ const ctaButtonStyles = getButtonStyles(displaySettings, false); // false: butto
                     buttonType.push('btn-primary');
                     break;
             }
+            
+            // Apply stagger delay if enabled
+            const staggerStyle = staggerDelay > 0 ? `animation-delay: ${i * staggerDelay}ms;` : '';
+            
             return (
-                <LinkButton cssClasses={[buttonType, ctaButtonStyles]} link={link?.url?.default}>{link?.text}</LinkButton>
+                <LinkButton 
+                    cssClasses={[buttonType, ctaButtonStyles]} 
+                    link={link?.url?.default}
+                    style={staggerStyle}
+                >
+                    {link?.text}
+                </LinkButton>
             );
         })
     }
