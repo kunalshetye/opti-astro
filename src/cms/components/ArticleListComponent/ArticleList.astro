@@ -2,9 +2,9 @@
 import { Image as AstroImage } from 'astro:assets';
 import { randomBytes } from 'crypto';
 import type {
-    ArticleListFragment,
-    ArticlePageExcerptFragment,
-    DisplaySettingsFragment,
+ArticleListFragment,
+ArticlePageExcerptFragment,
+DisplaySettingsFragment,
 } from '../../../../__generated/sdk';
 import { getOptimizelySdk } from '../../../graphql/getSdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
@@ -28,12 +28,12 @@ const items = articlesList.ArticlePage?.items || null;
 ---
 
 <h1 class="w-full basis-full">{data?.Title}</h1>
-<div class="mt-4 mb-4 flex gap-8 overflow-x-auto flex-wrap">
+<div class="mt-4 mb-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
     {
         //@ts-ignore
         items?.map((item: ArticlePageExcerptFragment, i) => {
             return (
-                <div class="card bg-base-100 w-96 flex-shrink-0 shadow-sm flex flex-col">      
+                <div class="card bg-base-100 shadow-sm flex flex-col">      
                     <figure>
                         <AstroImage
                             class="aspect-3/2 object-cover"
