@@ -186,6 +186,68 @@
 					"sortOrder": 60
 				}
 			}
+		},
+		"buttonRadius": {
+			"displayName": "Button Corners",
+			"editor": "",
+			"sortOrder": 60,
+			"choices": {
+				"standard": {
+					"displayName": "Square (No Rounding)",
+					"sortOrder": 10
+				},
+				"xs": {
+					"displayName": "Extra Small Radius",
+					"sortOrder": 20
+				},
+				"sm": {
+					"displayName": "Small Radius",
+					"sortOrder": 30
+				},
+				"md": {
+					"displayName": "Medium Radius",
+					"sortOrder": 40
+				},
+				"lg": {
+					"displayName": "Large Radius",
+					"sortOrder": 50
+				},
+				"xl": {
+					"displayName": "Extra Large Radius",
+					"sortOrder": 60
+				},
+				"xl2": {
+					"displayName": "2X Large Radius",
+					"sortOrder": 70
+				},
+				"xl3": {
+					"displayName": "3X Large Radius",
+					"sortOrder": 80
+				},
+				"xl4": {
+					"displayName": "4X Large Radius",
+					"sortOrder": 90
+				},
+				"full": {
+					"displayName": "Fully Rounded",
+					"sortOrder": 100
+				}
+			}
+		},
+		"buttonAction": {
+			"displayName": "Button Hover Effect",
+			"editor": "",
+			"sortOrder": 70,
+			"choices": {
+				"static": {
+					"displayName": "Static (No Effect)",
+					"sortOrder": 10
+				},
+				"bouncy": {
+					"displayName": "Bouncy with Shadow",
+					"sortOrder": 20
+				}
+			}
 		}
 	}
 }
