@@ -31,7 +31,9 @@
 			"group": "Information",
 			"sortOrder": -100,
 			"editorSettings": {},
-			"allowedTypes": [],
+			"allowedTypes": [
+				"Image"
+			],
 			"restrictedTypes": []
 		}
 	}

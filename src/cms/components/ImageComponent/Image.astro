@@ -13,12 +13,14 @@ export interface Props {
     contentPayload: ContentPayload;
 }
 const { data, displaySettings } = Astro.props as Props;
+
+const imageUrl = (data.Image as any)?.item?.Url || data.Image?.url?.default || null;
 ---
 
-{data.Image?.url?.default && 
+{imageUrl && 
     <AstroImage
         class:list={getImageElementStyles(displaySettings)}
-        src={data.Image?.url?.default || ''}
+        src={imageUrl || ''}
         alt={data.AltText || ''}
         inferSize={true}
     />

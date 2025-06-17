@@ -15,13 +15,15 @@ const publishedDate = format(
     new Date(data?._metadata?.published ?? Date.now()),
     'dd MMM yyyy'
 );
+
+const articlePromoImage = (data.PromoImage as any)?.item?.Url || data.PromoImage?.url?.default;
 ---
 
 <div class="card bg-base-100 w-96 flex-shrink-0 shadow-sm flex flex-col">
     <figure>
         <AstroImage
             class="aspect-3/2 object-cover"
-            src={data.PromoImage?.url?.default ?? '/placeholder.png'}
+            src={articlePromoImage ?? '/placeholder.png'}
             alt={`Promo image for ${data.Heading}` || 'Article promo image'}
             width={600}
             height={400}

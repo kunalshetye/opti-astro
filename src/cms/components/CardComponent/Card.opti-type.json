@@ -85,7 +85,9 @@
 			"group": "Information",
 			"sortOrder": 0,
 			"editorSettings": {},
-			"allowedTypes": [],
+			"allowedTypes": [
+				"Image"
+			],
 			"restrictedTypes": []
 		},
 		"Links": {

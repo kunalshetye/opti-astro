@@ -1,6 +1,7 @@
 fragment Hero on Hero {
     Video {
         ...ContentUrl
+        ...ContentReferenceItem
     }
     Image {
         ...ContentUrl

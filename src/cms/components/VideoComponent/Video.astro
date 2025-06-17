@@ -13,6 +13,9 @@ export interface Props {
 }
 const { data, displaySettings } = Astro.props as Props;
 
+const videoUrl = (data.Video as any)?.item?.Url || data.Video?.url?.default || null;
+const posterImageUrl = (data.VideoPosterImage as any)?.item?.Url || data.VideoPosterImage?.url?.default || null;
+
 // Get settings from display settings
 const settings = getDictionaryFromDisplaySettings(displaySettings);
 
@@ -55,13 +58,15 @@ const cssClasses = [
     ] || '',
 ].filter(Boolean);
 ---
+{ videoUrl &&
+    <video
+        src={videoUrl}
+        poster={posterImageUrl}
+        class:list={cssClasses}
+        controls={showControls}
+        muted={muted}
+        loop={loop}
+        autoplay={autoPlay}
+        playsinline></video>
 
-<video
-    src={data.Video?.url?.default}
-    poster={data.VideoPosterImage?.url?.default}
-    class:list={cssClasses}
-    controls={showControls}
-    muted={muted}
-    loop={loop}
-    autoplay={autoPlay}
-    playsinline></video>
+}
