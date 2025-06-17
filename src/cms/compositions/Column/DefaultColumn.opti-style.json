@@ -73,25 +73,6 @@
                 }
             }
         },
-        "alignItems": {
-            "displayName": "Align items",
-            "editor": "",
-            "sortOrder": 30,
-            "choices": {
-                "start": {
-                    "displayName": "Start",
-                    "sortOrder": 10
-                },
-                "center": {
-                    "displayName": "Center",
-                    "sortOrder": 20
-                },
-                "end": {
-                    "displayName": "End",
-                    "sortOrder": 30
-                }
-            }
-        },
         "showFrom": {
             "displayName": "Show on",
             "editor": "",

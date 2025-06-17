@@ -146,7 +146,68 @@
 					"displayName": "Responsive",
 					"sortOrder": 60
 				}
-			}
-		}
+			},
+			"buttonRadius": {
+				"displayName": "Rounded Buttons",
+				"editor": "",
+				"sortOrder": 60,
+				"choices": {
+					"none": {
+						"displayName": "None",
+						"sortOrder": 10
+					},
+					"full": {
+						"displayName": "Full (pill button)",
+						"sortOrder": 15
+					},
+					"xs": {
+						"displayName": "Extra Small",
+						"sortOrder": 20
+					},
+					"sm": {
+						"displayName": "Small",
+						"sortOrder": 30
+					},
+					"md": {
+						"displayName": "Medium",
+						"sortOrder": 30
+					},
+					"lg": {
+						"displayName": "Large",
+						"sortOrder": 40
+					},
+					"xl": {
+						"displayName": "X-Large",
+						"sortOrder": 50
+					},
+					"xl2": {
+						"displayName": "2x-Large",
+						"sortOrder": 60
+					},
+					"xl3": {
+						"displayName": "3x-Large",
+						"sortOrder": 70
+					},
+					"xl4": {
+						"displayName": "4x-Large",
+						"sortOrder": 80
+					}
+				}
+			},
+			"buttonAction": {
+				"displayName": "Bouncy Buttons",
+				"editor": "",
+				"sortOrder": 70,
+				"choices": {
+					"static": {
+						"displayName": "No Bounce",
+						"sortOrder": 10
+					},
+					"bouncy": {
+						"displayName": "Bouncy",
+						"sortOrder": 20
+					}
+				}
+			}		}
 	}
 }
