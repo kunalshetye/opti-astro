@@ -23,6 +23,10 @@ export default defineConfig({
                 protocol: 'https',
                 hostname: '*.cms.optimizely.com',
             },
+            {
+                protocol: 'https',
+                hostname: '*.cmp.optimizely.com',
+            },
         ],
     },
 
