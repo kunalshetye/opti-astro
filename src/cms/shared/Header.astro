@@ -1,5 +1,6 @@
 ---
 import { Image as AstroImage } from 'astro:assets';
+
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import type { SiteSettingsByHostnameQuery } from '../../../__generated/sdk';
 import { getClassForLogo } from './siteSettingsHelper';
@@ -26,6 +27,8 @@ interface Props {
 
 const { siteSettings } = Astro.props;
 const settings = siteSettings?.SiteSettings?.item;
+
+const logoUrl = (settings?.Logo as any)?.item?.Url || settings?.Logo?.url?.default || null;
 const logoCss = getClassForLogo(settings?.LogoResolution);
 
 const headerItems = settings?.HeaderLinks as MenuItemType[] | undefined;
@@ -156,11 +159,11 @@ const themes = [
             >
                 <span class="sr-only">Home</span>
                 <AstroImage
-                    class={logoCss}
-                    src={settings?.Logo?.url?.default ?? '/optimizely-logo.svg'}
+                    class:list={[logoCss, "w-full object-contain max-w-full"]}
+                    src={logoUrl ?? '/optimizely-logo.svg'}
                     alt="Logo"
-                    width={148}
-                    height={148}
+                    width=300
+                    height=300
                 />
             </a>
         </div>

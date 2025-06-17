@@ -1,0 +1,84 @@
+query siteSettingsById($key: [String]!, $loc: [Locales]!, $ver: String!) {
+    SiteSettings(
+        ids: $key
+        locale: $loc
+        where: { _metadata: { version: { eq: $ver } } }
+    ) {
+        item {
+            SiteDomain
+            LogoResolution
+            Logo {
+                ...ContentUrl
+                ...ContentReferenceItem
+            }
+            FooterText
+            HeaderLinks {
+                ... on MenuItem {
+                    Link {
+                        text
+                        url {
+                            default
+                        }
+                    }
+                    SubMenuItems {
+                        ... on MenuItem {
+                            Link {
+                                text
+                                url {
+                                    default
+                                }
+                            }
+                        }
+                    }
+                }
+                ... on _Experience {
+                    Link: _metadata {
+                        text: displayName
+                        url {
+                            default
+                        }
+                    }
+                }
+                ... on _Page {
+                    Link: _metadata {
+                        text: displayName
+                        url {
+                            default
+                        }
+                    }
+                }
+            }
+            FooterLinks {
+                ... on MenuItem {
+                    Link {
+                        text
+                        url {
+                            default
+                        }
+                    }
+                }
+                ... on _Experience {
+                    Link: _metadata {
+                        text: displayName
+                        url {
+                            default
+                        }
+                    }
+                }
+                ... on _Page {
+                    Link: _metadata {
+                        text: displayName
+                        url {
+                            default
+                        }
+                    }
+                }
+            }
+            SocialFacebook
+            SocialInstagram
+            SocialTwitter
+            SocialTikTok
+            SocialGitHub
+        }
+    }
+}

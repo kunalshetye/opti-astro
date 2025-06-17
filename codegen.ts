@@ -18,25 +18,28 @@ const OPTIMIZELY_DAM_ENABLED = process.env.OPTIMIZELY_DAM_ENABLED === 'true';
 
 // Build document array dynamically to avoid conflicts
 function buildDocumentArray() {
-    const graphqlFiles = ['./src/graphql/**/*.graphql'];
+    const graphqlFilePath = ['./src/graphql/**/*.graphql'];
+    const graphqlFiles = glob.sync(graphqlFilePath);
     
     if (OPTIMIZELY_DAM_ENABLED) {
         // When DAM is enabled, prefer .dam.graphql files over regular ones
         const allCmsFiles = glob.sync('./src/cms/**/*.graphql');
-        const damFiles = allCmsFiles.filter(file => file.endsWith('.dam.graphql'));
-        const regularFiles = allCmsFiles.filter(file => !file.endsWith('.dam.graphql'));
+        const allGraphqlFiles = [...graphqlFiles, ...allCmsFiles];
+        const damFiles = allGraphqlFiles.filter(file => file.endsWith('.dam.graphql'));
+        const regularFiles = allGraphqlFiles.filter(file => !file.endsWith('.dam.graphql'));
         
         // For each regular file, check if a DAM version exists
         const finalFiles = regularFiles.filter(regularFile => {
             const damVersion = regularFile.replace('.graphql', '.dam.graphql');
             return !damFiles.includes(damVersion);
         });
-        
-        return [...graphqlFiles, ...damFiles, ...finalFiles];
+
+        return [...damFiles, ...finalFiles];
     } else {
         // When DAM is disabled, exclude all .dam.graphql files
         return [
-            ...graphqlFiles,
+            ...graphqlFilePath,
+            '!./src/graphql/**/*.dam.graphql',
             './src/cms/**/*.graphql',
             '!./src/cms/**/*.dam.graphql'
         ];
