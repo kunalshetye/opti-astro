@@ -68,7 +68,8 @@ export const GET: APIRoute = async ({ url, currentLocale, request }) => {
                             title: item?._metadata?.displayName || (item as any).Heading || 'Untitled Page',
                             subtitle: (item as any)?.SubHeading || seoSettings?.MetaDescription || item?._metadata?.types?.[0] || undefined,
                             url: item?._metadata?.url?.default || item?._metadata?.url?.hierarchical || '#',
-                            image: (item as any)?.PromoImage?.url?.default || seoSettings?.SharingImage?.url?.default || undefined
+                            image: (item as any)?.PromoImage?.item?.Url || (item as any)?.PromoImage?.url?.default || 
+                                    seoSettings?.SharingImage?.item?.Url || seoSettings?.SharingImage?.url?.default || undefined
                         };
                         // Remove only optional undefined fields, never remove required fields (id, type, title)
                         if (result.subtitle === undefined) delete result.subtitle;

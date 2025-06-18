@@ -1,0 +1,9 @@
+fragment PageSeoSettingsProperty on PageSeoSettingsProperty {
+    MetaTitle
+    MetaDescription
+    SharingImage {
+        ...ContentUrl
+        ...ContentReferenceItem
+    }
+    GraphType
+}
