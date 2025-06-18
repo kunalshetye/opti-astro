@@ -1,0 +1,26 @@
+---
+export interface Props {
+    title: string;
+    sectionKey: string;
+    badge?: string | number;
+}
+
+const { title, sectionKey, badge } = Astro.props;
+---
+
+<div class="mb-4">
+    <button 
+        @click={`openSections.${sectionKey} = !openSections.${sectionKey}`}
+        class="flex items-center gap-2 text-sm font-mono text-base-content hover:text-primary transition-colors"
+    >
+        <svg class="w-4 h-4 transition-transform" :class={`{ 'rotate-90': openSections.${sectionKey} }`} fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+        </svg>
+        {title}
+        {badge !== undefined && ` (${badge})`}
+    </button>
+    
+    <div x-show={`openSections.${sectionKey}`} x-transition class="mt-4" style="display: none;">
+        <slot />
+    </div>
+</div>

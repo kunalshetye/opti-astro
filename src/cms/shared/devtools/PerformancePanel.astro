@@ -1,0 +1,27 @@
+---
+import { getGraphQLQueries } from '../../../graphql/getSdk';
+import DevToolsPanel from './DevToolsPanel.astro';
+
+const graphqlQueries = getGraphQLQueries();
+---
+
+<DevToolsPanel title="Performance Metrics" sectionKey="perf">
+    <div class="bg-base-100 rounded-lg border border-base-300 overflow-hidden">
+        <div class="p-4">
+            <div class="text-xs font-mono space-y-2">
+                <div>
+                    <span class="text-base-content opacity-70">GraphQL Queries:</span>
+                    <span class="text-base-content ml-2">{graphqlQueries.length} total</span>
+                </div>
+                <div>
+                    <span class="text-base-content opacity-70">Page Load Time:</span>
+                    <span class="text-base-content ml-2" x-text="window.performance?.timing ? (window.performance.timing.loadEventEnd - window.performance.timing.navigationStart) + 'ms' : 'N/A'"></span>
+                </div>
+                <div>
+                    <span class="text-base-content opacity-70">DOM Content Loaded:</span>
+                    <span class="text-base-content ml-2" x-text="window.performance?.timing ? (window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart) + 'ms' : 'N/A'"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</DevToolsPanel>

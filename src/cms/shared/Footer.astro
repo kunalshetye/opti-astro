@@ -2,6 +2,7 @@
 import { Image as AstroImage } from 'astro:assets';
 import type { SiteSettingsByHostnameQuery } from '../../../__generated/sdk';
 import { getClassForLogo } from './siteSettingsHelper';
+import DevTools from './DevTools.astro';
 
 // Define interfaces for the menu items to fix TypeScript errors
 interface LinkType {
@@ -33,6 +34,7 @@ const socialLinkInstagram = "https://www.instagram.com/" + settings?.SocialInsta
 const socialLinkTwitter = "https://www.twitter.com/" + settings?.SocialTwitter;
 const socialLinkTikTok = "https://www.tiktok.com/@" + settings?.SocialTikTok;
 const socialLinkGitHub = "https://www.github.com/" + settings?.SocialGitHub;
+
 
 ---
 
@@ -210,4 +212,7 @@ const socialLinkGitHub = "https://www.github.com/" + settings?.SocialGitHub;
             }
         </ul>
     </div>
+
+    <!-- Developer Tools -->
+    <DevTools />
 </footer>

@@ -1,0 +1,29 @@
+---
+import { OPTIMIZELY_DEV_MODE } from 'astro:env/client';
+import DevToolsPanel from './DevToolsPanel.astro';
+---
+
+<DevToolsPanel title="Environment Info" sectionKey="env">
+    <div class="bg-base-100 rounded-lg border border-base-300 overflow-hidden">
+        <div class="p-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+                <div>
+                    <span class="text-base-content opacity-70">Current URL:</span>
+                    <span class="text-base-content ml-2">{Astro.url.pathname}</span>
+                </div>
+                <div>
+                    <span class="text-base-content opacity-70">Build Mode:</span>
+                    <span class="text-base-content ml-2">{import.meta.env.MODE}</span>
+                </div>
+                <div>
+                    <span class="text-base-content opacity-70">Dev Mode:</span>
+                    <span class="text-base-content ml-2">{OPTIMIZELY_DEV_MODE ? 'Enabled' : 'Disabled'}</span>
+                </div>
+                <div>
+                    <span class="text-base-content opacity-70">SSR:</span>
+                    <span class="text-base-content ml-2">{import.meta.env.SSR ? 'Yes' : 'No'}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</DevToolsPanel>

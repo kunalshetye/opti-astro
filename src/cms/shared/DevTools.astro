@@ -1,0 +1,20 @@
+---
+import { OPTIMIZELY_DEV_MODE } from 'astro:env/client';
+import GraphQLPanel from './devtools/GraphQLPanel.astro';
+import EnvironmentPanel from './devtools/EnvironmentPanel.astro';
+import PerformancePanel from './devtools/PerformancePanel.astro';
+---
+
+{OPTIMIZELY_DEV_MODE && (
+    <div class="border-t border-base-300 bg-base-300" x-data="{ openSections: {} }">
+        <div class="mx-auto max-w-5xl px-4 py-4">
+            <div class="text-xs font-mono text-base-content opacity-70 mb-4">
+                Developer Tools
+            </div>
+            
+            <GraphQLPanel />
+            <EnvironmentPanel />
+            <PerformancePanel />
+        </div>
+    </div>
+)}

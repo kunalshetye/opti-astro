@@ -93,6 +93,12 @@ export default defineConfig({
                 optional: true,
                 default: 0,
             }),
+            OPTIMIZELY_DEV_MODE: envField.boolean({
+                context: 'client',
+                access: 'public',
+                optional: true,
+                default: false,
+            }),
         },
     },
 });
