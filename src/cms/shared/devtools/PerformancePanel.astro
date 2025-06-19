@@ -13,13 +13,79 @@ const graphqlQueries = getGraphQLQueries();
                     <span class="text-base-content opacity-70">GraphQL Queries:</span>
                     <span class="text-base-content ml-2">{graphqlQueries.length} total</span>
                 </div>
-                <div>
-                    <span class="text-base-content opacity-70">Page Load Time:</span>
-                    <span class="text-base-content ml-2" x-text="window.performance?.timing ? (window.performance.timing.loadEventEnd - window.performance.timing.navigationStart) + 'ms' : 'N/A'"></span>
-                </div>
-                <div>
-                    <span class="text-base-content opacity-70">DOM Content Loaded:</span>
-                    <span class="text-base-content ml-2" x-text="window.performance?.timing ? (window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart) + 'ms' : 'N/A'"></span>
+                <div x-data="{ 
+                    metrics: {
+                        pageLoad: 'Calculating...',
+                        domReady: 'Calculating...',
+                        ttfb: 'Calculating...',
+                        renderStart: 'Calculating...'
+                    },
+                    init() {
+                        // Wait for page to be fully loaded before calculating
+                        if (document.readyState === 'complete') {
+                            this.calculateMetrics();
+                        } else {
+                            window.addEventListener('load', () => {
+                                // Small delay to ensure all timing events are recorded
+                                setTimeout(() => this.calculateMetrics(), 50);
+                            });
+                        }
+                    },
+                    calculateMetrics() {
+                        try {
+                            const nav = window.performance?.getEntriesByType('navigation')[0];
+                            if (!nav) {
+                                this.setAllMetrics('N/A');
+                                return;
+                            }
+
+                            // Page Load Time (navigation start to load complete)
+                            this.metrics.pageLoad = nav.loadEventEnd > 0 
+                                ? Math.round(nav.loadEventEnd) + 'ms' 
+                                : 'Pending...';
+
+                            // DOM Ready Time (navigation start to DOM ready)
+                            this.metrics.domReady = nav.domContentLoadedEventEnd > 0 
+                                ? Math.round(nav.domContentLoadedEventEnd) + 'ms' 
+                                : 'Pending...';
+
+                            // Time to First Byte
+                            this.metrics.ttfb = nav.responseStart > 0 
+                                ? Math.round(nav.responseStart) + 'ms' 
+                                : 'N/A';
+
+                            // Time to render start
+                            this.metrics.renderStart = nav.domContentLoadedEventStart > 0 
+                                ? Math.round(nav.domContentLoadedEventStart) + 'ms' 
+                                : 'N/A';
+
+                        } catch (error) {
+                            console.warn('Performance metrics calculation failed:', error);
+                            this.setAllMetrics('Error');
+                        }
+                    },
+                    setAllMetrics(value) {
+                        Object.keys(this.metrics).forEach(key => {
+                            this.metrics[key] = value;
+                        });
+                    }
+                }">
+                    <div>
+                        <span class="text-base-content opacity-70">Page Load Time:</span>
+                        <span class="text-base-content ml-2" x-text="metrics.pageLoad"></span>
+                    </div>
+                    <div>
+                        <span class="text-base-content opacity-70">DOM Ready:</span>
+                        <span class="text-base-content ml-2" x-text="metrics.domReady"></span>
+                    </div>
+                    <div>
+                        <span class="text-base-content opacity-70">Time to First Byte:</span>
+                        <span class="text-base-content ml-2" x-text="metrics.ttfb"></span>
+                    </div>
+                    <div>
+                        <span class="text-base-content opacity-70">Render Start:</span>
+                        <span class="text-base-content ml-2" x-text="metrics.renderStart"></span>
+                    </div>
                 </div>
             </div>
         </div>
