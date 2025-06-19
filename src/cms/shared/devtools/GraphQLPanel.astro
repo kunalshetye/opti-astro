@@ -1,6 +1,10 @@
 ---
 import { getGraphQLQueries } from '../../../graphql/getSdk';
 import DevToolsPanel from './DevToolsPanel.astro';
+import { isEditContext, isPreviewContext } from '../utils.ts';
+
+const isCmsEdit = isEditContext(Astro.url);
+const isCmsPreview = isPreviewContext(Astro.url);
 
 // Get GraphQL queries for dev mode
 const graphqlQueries = getGraphQLQueries();
@@ -25,13 +29,15 @@ const graphqlQueries = getGraphQLQueries();
                             >
                                 <span x-text="(queryOpen && variablesOpen && responseOpen) ? '📁 Collapse All' : '📂 Expand All'"></span>
                             </button>
-                            <button 
-                                @click="navigator.clipboard.writeText($el.closest('.bg-base-100').querySelector('pre').textContent)"
-                                class="btn btn-xs btn-primary gap-1"
-                                title="Copy query"
-                            >
-                                📋 Copy Query
-                            </button>
+                            { !isCmsEdit && !isCmsPreview && (
+                                <button 
+                                    @click="navigator.clipboard.writeText($el.closest('.bg-base-100').querySelector('pre').textContent)"
+                                    class="btn btn-xs btn-primary gap-1"
+                                    title="Copy query"
+                                >
+                                    📋 Copy Query
+                                </button>
+                            )}
                         </div>
                     </div>
                     <div class="p-4">
@@ -44,13 +50,16 @@ const graphqlQueries = getGraphQLQueries();
                                     <span x-text="queryOpen ? '▼' : '▶'"></span>
                                     GraphQL Query
                                 </button>
-                                <button 
-                                    @click="navigator.clipboard.writeText($el.closest('div').parentElement.querySelector('pre').textContent)"
-                                    class="btn btn-xs btn-primary gap-1"
-                                    title="Copy query"
-                                >
-                                    📋 Copy Query
-                                </button>
+                                
+                                { !isCmsEdit && !isCmsPreview && (
+                                    <button 
+                                        @click="navigator.clipboard.writeText($el.closest('div').parentElement.querySelector('pre').textContent)"
+                                        class="btn btn-xs btn-primary gap-1"
+                                        title="Copy query"
+                                    >
+                                        📋 Copy Query
+                                    </button>
+                                )}
                             </div>
                             <div x-show="queryOpen" x-transition>
                                 <pre 
@@ -68,13 +77,15 @@ const graphqlQueries = getGraphQLQueries();
                                         <span x-text="variablesOpen ? '▼' : '▶'"></span>
                                         Variables
                                     </button>
-                                    <button 
-                                        @click="navigator.clipboard.writeText($el.closest('div').parentElement.querySelector('pre').textContent)"
-                                        class="btn btn-xs btn-primary gap-1"
-                                        title="Copy variables"
-                                    >
-                                        📋 Copy Variables
-                                    </button>
+                                    { !isCmsEdit && !isCmsPreview && (
+                                        <button 
+                                            @click="navigator.clipboard.writeText($el.closest('div').parentElement.querySelector('pre').textContent)"
+                                            class="btn btn-xs btn-primary gap-1"
+                                            title="Copy variables"
+                                        >
+                                            📋 Copy Variables
+                                        </button>
+                                    )}
                                 </div>
                                 <div x-show="variablesOpen" x-transition>
                                     <pre class="text-xs bg-neutral text-neutral-content p-3 rounded overflow-x-auto font-mono"
@@ -92,13 +103,15 @@ const graphqlQueries = getGraphQLQueries();
                                         <span x-text="responseOpen ? '▼' : '▶'"></span>
                                         Response
                                     </button>
-                                    <button 
-                                        @click="navigator.clipboard.writeText($el.closest('div').parentElement.querySelector('pre').textContent)"
-                                        class="btn btn-xs btn-primary gap-1"
-                                        title="Copy response"
-                                    >
-                                        📋 Copy Response
-                                    </button>
+                                    { !isCmsEdit && !isCmsPreview && (
+                                        <button 
+                                            @click="navigator.clipboard.writeText($el.closest('div').parentElement.querySelector('pre').textContent)"
+                                            class="btn btn-xs btn-primary gap-1"
+                                            title="Copy response"
+                                        >
+                                            📋 Copy Response
+                                        </button>
+                                    )}
                                 </div>
                                 <div x-show="responseOpen" x-transition>
                                     <pre class="text-xs bg-neutral text-neutral-content p-3 rounded overflow-x-auto font-mono"
