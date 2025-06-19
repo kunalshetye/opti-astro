@@ -19,6 +19,7 @@ let currentStore: Array<{
     query: string;
     variables: any;
     timestamp: Date;
+    response?: any;
 }> = [];
 
 // Track the last request timestamp to detect new page loads
@@ -68,15 +69,24 @@ export function getOptimizelySdk(contentPayload: ContentPayload) {
             
             lastRequestTime = now;
             
-            currentStore.push({
+            const queryEntry = {
                 query: print(doc),
                 variables: vars,
-                timestamp: new Date()
-            });
+                timestamp: new Date(),
+                response: undefined as any
+            };
+            
+            currentStore.push(queryEntry);
         }
 
         try {
             const res = await client.rawRequest(print(doc), vars);
+            
+            // Update the response in dev mode
+            if (OPTIMIZELY_DEV_MODE && currentStore.length > 0) {
+                currentStore[currentStore.length - 1].response = res?.data;
+            }
+            
             return res?.data as any;
         } catch (err: any) {
             if (import.meta.env.DEV) {

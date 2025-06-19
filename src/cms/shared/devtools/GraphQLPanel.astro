@@ -12,32 +12,98 @@ const graphqlQueries = getGraphQLQueries();
             <p class="text-sm text-base-content opacity-70 font-mono">No GraphQL queries captured yet. Navigate to different pages to see queries.</p>
         ) : (
             graphqlQueries.map((queryData, index) => (
-                <div class="bg-base-100 rounded-lg border border-base-300 overflow-hidden">
+                <div class="bg-base-100 rounded-lg border border-base-300 overflow-hidden" x-data="{ queryOpen: false, variablesOpen: false, responseOpen: false }">
                     <div class="px-4 py-2 bg-base-200 border-b border-base-300 flex justify-between items-center">
                         <span class="text-xs font-mono text-base-content opacity-70">
                             Query #{graphqlQueries.length - index} - {queryData.timestamp.toLocaleTimeString()}
                         </span>
-                        <button 
-                            @click="navigator.clipboard.writeText($el.closest('.bg-base-100').querySelector('pre').textContent)"
-                            class="text-xs text-primary hover:text-primary-focus transition-colors"
-                            title="Copy query"
-                        >
-                            Copy
-                        </button>
+                        <div class="flex gap-2">
+                            <button 
+                                @click="const allOpen = queryOpen && variablesOpen && responseOpen; queryOpen = !allOpen; variablesOpen = !allOpen; responseOpen = !allOpen"
+                                class="btn btn-xs btn-ghost gap-1"
+                                :title="(queryOpen && variablesOpen && responseOpen) ? 'Collapse all sections' : 'Expand all sections'"
+                            >
+                                <span x-text="(queryOpen && variablesOpen && responseOpen) ? '📁 Collapse All' : '📂 Expand All'"></span>
+                            </button>
+                            <button 
+                                @click="navigator.clipboard.writeText($el.closest('.bg-base-100').querySelector('pre').textContent)"
+                                class="btn btn-xs btn-primary gap-1"
+                                title="Copy query"
+                            >
+                                📋 Copy Query
+                            </button>
+                        </div>
                     </div>
                     <div class="p-4">
                         <div class="mb-3">
-                            <h4 class="text-xs font-semibold text-base-content mb-2">GraphQL Query:</h4>
-                            <pre 
-                                class="text-xs bg-neutral text-neutral-content p-3 rounded overflow-x-auto font-mono whitespace-pre"
-                            >{queryData.query}</pre>
+                            <div class="flex justify-between items-center mb-2">
+                                <button 
+                                    @click="queryOpen = !queryOpen"
+                                    class="text-xs font-semibold text-base-content hover:text-primary transition-colors flex items-center gap-1"
+                                >
+                                    <span x-text="queryOpen ? '▼' : '▶'"></span>
+                                    GraphQL Query
+                                </button>
+                                <button 
+                                    @click="navigator.clipboard.writeText($el.closest('div').parentElement.querySelector('pre').textContent)"
+                                    class="btn btn-xs btn-primary gap-1"
+                                    title="Copy query"
+                                >
+                                    📋 Copy Query
+                                </button>
+                            </div>
+                            <div x-show="queryOpen" x-transition>
+                                <pre 
+                                    class="text-xs bg-neutral text-neutral-content p-3 rounded overflow-x-auto font-mono whitespace-pre"
+                                >{queryData.query}</pre>
+                            </div>
                         </div>
                         {queryData.variables && Object.keys(queryData.variables).length > 0 && (
+                            <div class="mb-3">
+                                <div class="flex justify-between items-center mb-2">
+                                    <button 
+                                        @click="variablesOpen = !variablesOpen"
+                                        class="text-xs font-semibold text-base-content hover:text-primary transition-colors flex items-center gap-1"
+                                    >
+                                        <span x-text="variablesOpen ? '▼' : '▶'"></span>
+                                        Variables
+                                    </button>
+                                    <button 
+                                        @click="navigator.clipboard.writeText($el.closest('div').parentElement.querySelector('pre').textContent)"
+                                        class="btn btn-xs btn-primary gap-1"
+                                        title="Copy variables"
+                                    >
+                                        📋 Copy Variables
+                                    </button>
+                                </div>
+                                <div x-show="variablesOpen" x-transition>
+                                    <pre class="text-xs bg-neutral text-neutral-content p-3 rounded overflow-x-auto font-mono"
+                                        >{JSON.stringify(queryData.variables, null, 2)}</pre>
+                                </div>
+                            </div>
+                        )}
+                        {queryData.response && (
                             <div>
-                                <h4 class="text-xs font-semibold text-base-content mb-2">Variables:</h4>
-                                <pre class="text-xs bg-neutral text-neutral-content p-3 rounded overflow-x-auto font-mono">
-                                    {JSON.stringify(queryData.variables, null, 2)}
-                                </pre>
+                                <div class="flex justify-between items-center mb-2">
+                                    <button 
+                                        @click="responseOpen = !responseOpen"
+                                        class="text-xs font-semibold text-base-content hover:text-primary transition-colors flex items-center gap-1"
+                                    >
+                                        <span x-text="responseOpen ? '▼' : '▶'"></span>
+                                        Response
+                                    </button>
+                                    <button 
+                                        @click="navigator.clipboard.writeText($el.closest('div').parentElement.querySelector('pre').textContent)"
+                                        class="btn btn-xs btn-primary gap-1"
+                                        title="Copy response"
+                                    >
+                                        📋 Copy Response
+                                    </button>
+                                </div>
+                                <div x-show="responseOpen" x-transition>
+                                    <pre class="text-xs bg-neutral text-neutral-content p-3 rounded overflow-x-auto font-mono"
+                                        >{JSON.stringify(queryData.response, null, 2)}</pre>
+                                </div>
                             </div>
                         )}
                     </div>
