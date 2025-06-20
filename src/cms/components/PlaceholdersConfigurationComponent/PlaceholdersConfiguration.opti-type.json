@@ -1,0 +1,40 @@
+{
+	"key": "PlaceholdersConfiguration",
+	"displayName": "Placeholders Configuration",
+	"description": "",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [],
+	"properties": {
+		"Placeholders": {
+			"type": "array",
+			"displayName": "Placeholders",
+			"description": "",
+			"localized": true,
+			"required": true,
+			"group": "Information",
+			"sortOrder": 0,
+			"editorSettings": {},
+			"items": {
+				"type": "content",
+				"allowedTypes": [
+					"PlaceholderItem"
+				],
+				"restrictedTypes": []
+			}
+		},
+		"Domain": {
+			"type": "string",
+			"displayName": "Domain",
+			"description": "",
+			"localized": true,
+			"required": true,
+			"group": "Information",
+			"sortOrder": 0,
+			"indexingType": "queryable",
+			"editorSettings": {}
+		}
+	}
+}
