@@ -1,0 +1,33 @@
+---
+import type { Locales } from '../../__generated/sdk';
+import SiteStyles from "../cms/components/SiteStylesComponent/SiteStyles.astro";
+import { getOptimizelySdk } from '../graphql/getSdk';
+import type { ContentPayload } from '../graphql/shared/ContentPayload';
+import '../styles/global.css';
+interface Props {
+    contentPayload: ContentPayload;
+}
+
+const { contentPayload } = Astro.props;
+
+const siteStyles = await getOptimizelySdk(contentPayload).siteStylesById({
+    key: contentPayload.key,
+    //@ts-ignore
+    loc: contentPayload.loc as unknown as Locales,
+    ver: contentPayload.ver,
+});
+
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        {siteStyles && <SiteStyles siteStyles={siteStyles} />}
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <div class="w-full my-20 text-center text-3xl italic">
+            Page Body Placeholder
+        </div>
+    </body>
+</html>
