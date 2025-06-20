@@ -1,0 +1,24 @@
+---
+import type { SiteStylesByHostnameQuery } from '../../../../__generated/sdk';
+import { getSiteStyles } from '../../shared/siteStylesHelper';
+
+const lang = Astro.currentLocale || '';
+
+interface Props {
+    siteStyles: SiteStylesByHostnameQuery;
+}
+
+const { siteStyles } = Astro.props;
+const styles = siteStyles?.SiteStyles?.item;
+
+console.log('SiteStyles:', styles);
+
+const stylesList = getSiteStyles(styles);
+const stylesCode = `
+    :root {
+        ${stylesList}
+    }
+`;
+---
+
+<style is:inline set:html={stylesCode}></style>

@@ -1,0 +1,54 @@
+query siteStylesByHostname($domain: String!, $locale: [Locales]!) {
+    SiteStyles(
+        locale: $locale
+        where: { SiteStylesDomain: { eq: $domain } }
+        orderBy: { _metadata: { lastModified: DESC } }
+        limit: 1
+    ) {
+        item {
+            SiteStylesDomain
+            primary
+            primaryContent
+            secondary
+            secondaryContent
+            accent
+            accentContent
+            neutral
+            neutralContent
+            base100
+            base200
+            base300
+            baseContent
+            info
+            infoContent
+            success
+            successContent
+            warning
+            warningContent
+            error
+            errorContent
+            radiusSelector
+            radiusField
+            radiusBox
+            sizeSelector
+            sizeField
+            borderWidth
+            depth
+            noise
+            textXs
+            textSm
+            textBase
+            textLg
+            textXl
+            text2xl
+            text3xl
+            text4xl
+            text5xl
+            text6xl
+            text7xl
+            text8xl
+            text9xl
+            freeFormStyles
+        }
+    }
+}

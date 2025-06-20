@@ -18,7 +18,7 @@
         @apply list-inside list-decimal;
     }
     p {
-        @apply mb-4;
+        @apply mb-4 text-base;
     }
     h1 {
         @apply text-3xl;
