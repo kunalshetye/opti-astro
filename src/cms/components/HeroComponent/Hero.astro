@@ -16,7 +16,7 @@ export interface Props {
     contentPayload: ContentPayload;
 }
 const { data, displaySettings } = Astro.props as Props;
-const cardButtonStyles = getButtonStyles(displaySettings, false); // false: button type defined here
+const heroButtonStyles = getButtonStyles(displaySettings, false); // false: button type defined here
 
 const imageUrl = (data?.Image as any)?.item?.Url || data?.Image?.url?.default || null;
 const imageAltText = (data.Image as any)?.item?.AltText || (data.Image as any)?.item?._metadata?.displayName || data.Heading || '';
@@ -102,7 +102,7 @@ const globalStyles = getGlobalStyles(displaySettings);
                             break;
                     }
                     return (
-                        <LinkButton cssClasses={[buttonType, cardButtonStyles]} link={link?.url?.default}>{link?.text}</LinkButton>
+                        <LinkButton cssClasses={[buttonType, heroButtonStyles]} link={link?.url?.default}>{link?.text}</LinkButton>
                     );
                 })
             }
