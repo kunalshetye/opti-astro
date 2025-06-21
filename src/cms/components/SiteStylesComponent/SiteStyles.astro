@@ -11,8 +11,6 @@ interface Props {
 const { siteStyles } = Astro.props;
 const styles = siteStyles?.SiteStyles?.item;
 
-console.log('SiteStyles:', styles);
-
 const stylesList = getSiteStyles(styles);
 const stylesCode = `
     :root {

@@ -22,7 +22,7 @@
 		"radiusSelector": {
 			"type": "string",
 			"format": "selectOne",
-			"displayName": "Radius - Selector",
+			"displayName": "Radius - Selector (checkbox, toggle, badge, etc)",
 			"description": "Border radius for selectors like checkbox, toggle, badge, etc",
 			"localized": false,
 			"required": false,
@@ -31,6 +31,10 @@
 			"editorSettings": {},
 			"enum": {
 				"values": [
+					{
+						"displayName": "Default",
+						"value": ""
+					},
 					{
 						"displayName": "xs",
 						"value": "0rem"
@@ -79,7 +83,7 @@
 		"radiusField": {
 			"type": "string",
 			"format": "selectOne",
-			"displayName": "Radius - Field",
+			"displayName": "Radius - Field (button, input, select, tab)",
 			"description": "Border radius for fields like input, select, tab, etc",
 			"localized": false,
 			"required": false,
@@ -88,6 +92,10 @@
 			"editorSettings": {},
 			"enum": {
 				"values": [
+					{
+						"displayName": "Default",
+						"value": ""
+					},
 					{
 						"displayName": "xs",
 						"value": "0rem"
@@ -125,7 +133,7 @@
 		"radiusBox": {
 			"type": "string",
 			"format": "selectOne",
-			"displayName": "Radius - Box",
+			"displayName": "Radius - Box (card, modal, alert, etc)",
 			"description": "Border radius for boxes like card, modal, alert, etc",
 			"localized": false,
 			"required": false,
@@ -134,6 +142,10 @@
 			"editorSettings": {},
 			"enum": {
 				"values": [
+					{
+						"displayName": "Default",
+						"value": ""
+					},
 					{
 						"displayName": "xs",
 						"value": "0rem"
@@ -169,6 +181,10 @@
 			"editorSettings": {},
 			"enum": {
 				"values": [
+					{
+						"displayName": "Default",
+						"value": ""
+					},
 					{
 						"displayName": "xs",
 						"value": "0.1875rem"
@@ -215,6 +231,10 @@
 			"editorSettings": {},
 			"enum": {
 				"values": [
+					{
+						"displayName": "Default",
+						"value": ""
+					},
 					{
 						"displayName": "xs",
 						"value": "0.1875rem"
@@ -322,7 +342,7 @@
 			"localized": false,
 			"required": false,
 			"group": "StylesColors",
-			"sortOrder": 90,
+			"sortOrder": 210,
 			"editorSettings": {}
 		},
 		"base200": {
@@ -333,7 +353,7 @@
 			"localized": false,
 			"required": false,
 			"group": "StylesColors",
-			"sortOrder": 100,
+			"sortOrder": 220,
 			"editorSettings": {}
 		},
 		"base300": {
@@ -344,7 +364,7 @@
 			"localized": false,
 			"required": false,
 			"group": "StylesColors",
-			"sortOrder": 110,
+			"sortOrder": 230,
 			"editorSettings": {}
 		},
 		"baseContent": {
@@ -355,7 +375,7 @@
 			"localized": false,
 			"required": false,
 			"group": "StylesColors",
-			"sortOrder": 120,
+			"sortOrder": 240,
 			"editorSettings": {}
 		},
 		"info": {
@@ -481,7 +501,7 @@
 		"textBase": {
 			"type": "string",
 			"format": "shortString",
-			"displayName": "text-base (h5)",
+			"displayName": "text-base (h5 + p)",
 			"description": "Text size: base",
 			"localized": false,
 			"required": false,

@@ -3,6 +3,7 @@ import type { Locales } from '../../__generated/sdk';
 import SiteStyles from "../cms/components/SiteStylesComponent/SiteStyles.astro";
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
+import LinkButton from '../cms/components/ButtonComponent/LinkButton.astro';
 import '../styles/global.css';
 interface Props {
     contentPayload: ContentPayload;
@@ -17,6 +18,25 @@ const siteStyles = await getOptimizelySdk(contentPayload).siteStylesById({
     ver: contentPayload.ver,
 });
 
+const indexedColorProperties = [
+    {class: 'primary', label: 'Primary'},
+    {class: 'primary-content', label: 'Primary Content'},
+    {class: 'secondary', label: 'Secondary'},
+    {class: 'secondary-content', label: 'Secondary Content'},
+    {class: 'accent', label: 'Accent'},
+    {class: 'accent-content', label: 'Accent Content'},
+    {class: 'neutral', label: 'Neutral'},
+    {class: 'neutral-content', label: 'Neutral Content'},
+    {class: 'info', label: 'Info'},
+    {class: 'info-content', label: 'Info Content'},
+    {class: 'success', label: 'Success'},
+    {class: 'success-content', label: 'Success Content'},
+    {class: 'warning', label: 'Warning'},
+    {class: 'warning-content', label: 'Warning Content'},
+    {class: 'error', label: 'Error'},
+    {class: 'error-content', label: 'Error Content'}
+];
+
 ---
 
 <!doctype html>
@@ -27,7 +47,66 @@ const siteStyles = await getOptimizelySdk(contentPayload).siteStylesById({
     </head>
     <body>
         <div class="w-full my-20 text-center text-3xl italic">
-            Page Body Placeholder
+            Site Styles Preview
         </div>
+        <div class="w-full mt-20 mb-10 text-center text-2xl italic">Colors</div>
+        <div class="my-5 grid grid-cols-4 gap-4 justify-center items-center mx-auto" style="max-width: 900px;">
+            {indexedColorProperties.filter((key) => !key.class.toLowerCase().includes('content')).map((key) => {
+                // Find the corresponding Content color if it exists
+                const contentKey = indexedColorProperties.find(k => k.class === key.class + '-content');
+                const textColor = contentKey ? `var(--color-${contentKey.class})` : 'var(--color-base-content, #222)';
+                return (
+                    <div style={{ height: '150px', background: `var(--color-${key.class})`, 
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                        textAlign: 'center', borderRadius: 'var(--radius-box)', flexDirection: 'column' }}>
+                        <span style={{ color: textColor, fontWeight: 500, fontSize: '18px', textShadow: '0 1px 2px rgba(0,0,0,0.08)' }}>{key.label}</span>
+                    </div>
+                );
+            })}
+        </div>
+        <div class="my-5 grid grid-cols-3 gap-4 justify-center items-center mx-auto" style="max-width: 900px;">
+            <div style={{ height: '150px', background: 'var(--color-base-100)', display: 'flex',
+                        alignItems: 'center', justifyContent: 'center', textAlign: 'center', 
+                        borderRadius: 'var(--radius-box)', flexDirection: 'column', border: 'var(--border) solid var(--color-base-200)' }}>
+                        <span style={{ color: 'var(--color-base-content)', fontWeight: 500, fontSize: '18px', textShadow: '0 1px 2px rgba(0,0,0,0.08)' }}>color-base-100</span>
+            </div>
+            <div style={{ height: '150px', background: 'var(--color-base-200)', display: 'flex',
+                        alignItems: 'center', justifyContent: 'center', textAlign: 'center', 
+                        borderRadius: 'var(--radius-box)', flexDirection: 'column', border: 'var(--border) solid var(--color-base-200)' }}>
+                        <span style={{ color: 'var(--color-base-content)', fontWeight: 500, fontSize: '18px', textShadow: '0 1px 2px rgba(0,0,0,0.08)' }}>color-base-200</span>
+            </div>
+            <div style={{ height: '150px', background: 'var(--color-base-300)', display: 'flex',
+                        alignItems: 'center', justifyContent: 'center', textAlign: 'center', 
+                        borderRadius: 'var(--radius-box)', flexDirection: 'column', border: 'var(--border) solid var(--color-base-200)' }}>
+                        <span style={{ color: 'var(--color-base-content)', fontWeight: 500, fontSize: '18px', textShadow: '0 1px 2px rgba(0,0,0,0.08)' }}>color-base-300</span>
+            </div>
+            
+        </div>
+        <div class="w-full mt-20 mb-10 text-center text-2xl italic">Misc</div>
+        <div class="my-5 grid grid-cols-4 gap-4 justify-center items-center mx-auto" style="max-width: 900px;">
+            <LinkButton cssClasses="btn-primary" link='/'>btn-primary</LinkButton>
+            <LinkButton cssClasses="btn-secondary" link='/'>btn-secondary</LinkButton>
+            <LinkButton cssClasses="btn-accent" link='/'>btn-accent</LinkButton>
+            <LinkButton cssClasses="btn-neutral" link='/'>btn-neutral</LinkButton>
+            <LinkButton cssClasses="btn-info" link='/'>btn-info</LinkButton>
+            <LinkButton cssClasses="btn-success" link='/'>btn-success</LinkButton>
+            <LinkButton cssClasses="btn-warning" link='/'>btn-warning</LinkButton>
+            <LinkButton cssClasses="btn-error" link='/'>btn-error</LinkButton>
+        </div>
+        <div class="w-full mt-20 mb-10 text-center text-2xl italic">Text Sizes</div>
+        <div class="my-5 grid grid-cols-1 gap-6 mx-auto" style="max-width: 900px;">
+            <div class="text-xs">Text XS - Optimizely</div>
+            <div class="text-sm">Text SM (h6) - Optimizely</div>
+            <div class="text-base">Text Base (h5 + p) - Optimizely</div>
+            <div class="text-lg">Text LG (h4) - Optimizely</div>
+            <div class="text-xl">Text XL (h3) - Optimizely</div>
+            <div class="text-2xl">Text 2XL (h2) - Optimizely</div>
+            <div class="text-3xl">Text 3XL (h1) - Optimizely</div>
+            <div class="text-4xl">Text 4XL - Optimizely</div>
+            <div class="text-5xl">Text 5XL - Optimizely</div>
+            <div class="text-6xl">Text 6XL - Optimizely</div>
+            <div class="text-7xl">Text 7XL - Optimizely</div>
+            <div class="text-8xl">Text 8XL - Optimizely</div>
+            <div class="text-9xl">Text 9XL - Optimizely</div>
     </body>
 </html>
