@@ -7,6 +7,8 @@ import type {
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { getHeroStyles } from './HeroStyling';
 import { getGlobalStyles } from '../../shared/globalStylesHelper';
+import LinkButton from '../ButtonComponent/LinkButton.astro';
+import { getButtonStyles } from '../ButtonComponent/ButtonStyling';
 
 export interface Props {
     data: HeroFragment;
@@ -14,6 +16,7 @@ export interface Props {
     contentPayload: ContentPayload;
 }
 const { data, displaySettings } = Astro.props as Props;
+const cardButtonStyles = getButtonStyles(displaySettings, false); // false: button type defined here
 
 const imageUrl = (data?.Image as any)?.item?.Url || data?.Image?.url?.default || null;
 const imageAltText = (data.Image as any)?.item?.AltText || (data.Image as any)?.item?._metadata?.displayName || data.Heading || '';
@@ -76,14 +79,32 @@ const globalStyles = getGlobalStyles(displaySettings);
         <!-- Buttons -->
         <div class="mt-6 flex space-x-4" class:list={justifyClass}>
             {
-                data?.Links?.map((link) => (
-                    <a
-                        href={link?.url?.default}
-                        class="btn btn-neutral btn-lg"
-                    >
-                        {link?.text}
-                    </a>
-                ))
+                data?.Links?.map((link, i) => {
+                    const buttonType: string[] = [""];
+                    switch (i) {
+                        case 0:
+                            buttonType.push('btn-primary');
+                            break;
+                        case 1:
+                            buttonType.push('btn-secondary');
+                            break;
+                        case 2:
+                            buttonType.push('btn-accent');
+                            break;
+                        case 3:
+                            buttonType.push('btn-info');
+                            break;
+                        case 4:
+                            buttonType.push('');
+                            break;
+                        default:
+                            buttonType.push('btn-primary');
+                            break;
+                    }
+                    return (
+                        <LinkButton cssClasses={[buttonType, cardButtonStyles]} link={link?.url?.default}>{link?.text}</LinkButton>
+                    );
+                })
             }
         </div>
     </div>
