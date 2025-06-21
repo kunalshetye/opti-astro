@@ -1,0 +1,53 @@
+query siteStylesById($key: [String]!, $loc: [Locales]!, $ver: String!) {
+    SiteStyles(
+        ids: $key
+        locale: $loc
+        where: { _metadata: { version: { eq: $ver } } }
+    ) {
+        item {
+            SiteStylesDomain
+            primary
+            primaryContent
+            secondary
+            secondaryContent
+            accent
+            accentContent
+            neutral
+            neutralContent
+            base100
+            base200
+            base300
+            baseContent
+            info
+            infoContent
+            success
+            successContent
+            warning
+            warningContent
+            error
+            errorContent
+            radiusSelector
+            radiusField
+            radiusBox
+            sizeSelector
+            sizeField
+            borderWidth
+            depth
+            noise
+            textXs
+            textSm
+            textBase
+            textLg
+            textXl
+            text2xl
+            text3xl
+            text4xl
+            text5xl
+            text6xl
+            text7xl
+            text8xl
+            text9xl
+            freeFormStyles
+        }
+    }
+}
