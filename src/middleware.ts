@@ -5,7 +5,7 @@ import type { ContentPayload } from './graphql/shared/ContentPayload';
 
 // Cache for placeholder data to avoid repeated GraphQL calls
 const placeholderCache = new Map<string, Map<string, string>>();
-const CACHE_DURATION = 1000; // 5 minutes
+const CACHE_DURATION = 60000; // 1 minute
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const response = await next();
