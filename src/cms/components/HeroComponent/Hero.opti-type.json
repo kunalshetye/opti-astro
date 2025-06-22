@@ -20,7 +20,9 @@
 			"group": "Information",
 			"sortOrder": -200,
 			"editorSettings": {},
-			"allowedTypes": [],
+			"allowedTypes": [
+				"Video"
+			],
 			"restrictedTypes": []
 		},
 		"Image": {
@@ -32,7 +34,9 @@
 			"group": "Information",
 			"sortOrder": -100,
 			"editorSettings": {},
-			"allowedTypes": [],
+			"allowedTypes": [
+				"Image"
+			],
 			"restrictedTypes": []
 		},
 		"Heading": {
