@@ -1,0 +1,24 @@
+---
+import type {
+    DisplaySettingsFragment,
+    DividerFragment,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { getDividerElementStyles } from './DividerStyling';
+
+export interface Props {
+    data: DividerFragment;
+    contentPayload: ContentPayload;
+    displaySettings: DisplaySettingsFragment[];
+}
+const { data, displaySettings } = Astro.props as Props;
+
+const dividerStyles = getDividerElementStyles(displaySettings, data?.DividerDirection || 'horizontal');
+
+// Vertical divider line in DaisyUI uses class "divider-horizontal", since it's separating vertical components
+const directionClass = data?.DividerDirection === 'horizontal' ? '' : 'md:divider-horizontal md:flex-1 md:mx-auto';
+
+---
+
+<div class:list={['divider', directionClass, dividerStyles]}
+    >{data.DividerText && data.DividerText}</div>

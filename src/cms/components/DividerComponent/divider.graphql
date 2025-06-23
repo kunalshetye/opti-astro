@@ -1,0 +1,4 @@
+fragment Divider on Divider {
+    DividerText
+    DividerDirection
+}

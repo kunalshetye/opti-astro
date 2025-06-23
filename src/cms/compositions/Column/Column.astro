@@ -21,9 +21,7 @@ const allStyles = [...styles, ...globalStyles]
 >
     {
         column.nodes?.map((item: any) => (
-            <div data-epi-block-id={item?.key} class="w-full">
-                <Elements contentPayload={contentPayload} data={item} />
-            </div>
+            <Elements contentPayload={contentPayload} data={item}/>
         ))
     }
 </div>

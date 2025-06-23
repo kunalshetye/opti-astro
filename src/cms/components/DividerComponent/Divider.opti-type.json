@@ -1,0 +1,49 @@
+{
+	"key": "Divider",
+	"displayName": "Divider",
+	"description": "Divider component, to separate content vertically or horizontally",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"sectionEnabled",
+		"elementEnabled"
+	],
+	"properties": {
+		"DividerText": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "Divider Text",
+			"description": "Text to show on divider line",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 10,
+			"editorSettings": {}
+		},
+		"DividerDirection": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Divider Direction",
+			"description": "Direction the divider line will be displayed",
+			"localized": false,
+			"required": true,
+			"group": "Information",
+			"sortOrder": 20,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "Horizontal Divider Line",
+						"value": "horizontal"
+					},
+					{
+						"displayName": "Vertical Divider Line",
+						"value": "vertical"
+					}
+				]
+			}
+		}
+	}
+}

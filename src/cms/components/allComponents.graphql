@@ -17,4 +17,5 @@ fragment AllComponentsExceptGrid on _IComponent {
     ...Button
     ...Iframe
     ...VideoExternal
+    ...Divider
 }
