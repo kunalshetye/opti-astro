@@ -6,6 +6,7 @@ DisplaySettingsFragment,
 
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
+import { getAssetWidthClass, getContentWidthClass } from './CardHelper';
 import Asset from './Asset.astro';
 import Content from './Content.astro';
 import Wrapper from './Wrapper.astro';
@@ -21,6 +22,8 @@ const { data, displaySettings, displayTemplateKey, contentPayload } =
 const dictionary = getDictionaryFromDisplaySettings(displaySettings);
 const { backgroundColor } = dictionary;
 const { DisplayAs } = data;
+const assetWidthClass = getAssetWidthClass(dictionary);
+const contentWidthClass = getContentWidthClass(dictionary);
 ---
 
 <Wrapper DisplayAs={DisplayAs ?? ''}>
@@ -30,6 +33,7 @@ const { DisplayAs } = data;
         displayTemplateKey={displayTemplateKey}
         contentPayload={contentPayload}
         DisplayAs={DisplayAs ?? undefined}
+        widthClass={assetWidthClass}
     />
     <Content
         data={data}
@@ -37,5 +41,6 @@ const { DisplayAs } = data;
         displayTemplateKey={displayTemplateKey}
         contentPayload={contentPayload}
         DisplayAs={DisplayAs ?? undefined}
+        widthClass={contentWidthClass}
     />
 </Wrapper>

@@ -209,6 +209,68 @@
 					"sortOrder": 20
 				}
 			}
+		},
+		"assetWidth": {
+			"displayName": "Asset Width",
+			"editor": "",
+			"sortOrder": 80,
+			"choices": {
+				"flex_1": {
+					"displayName": "Equal (50/50) (Default)",
+					"sortOrder": 10
+				},
+				"w_1_3": {
+					"displayName": "One Third (33%)",
+					"sortOrder": 20
+				},
+				"w_2_5": {
+					"displayName": "Two Fifths (40%)",
+					"sortOrder": 30
+				},
+				"w_1_2": {
+					"displayName": "Half (50%)",
+					"sortOrder": 40
+				},
+				"w_3_5": {
+					"displayName": "Three Fifths (60%)",
+					"sortOrder": 50
+				},
+				"w_2_3": {
+					"displayName": "Two Thirds (67%)",
+					"sortOrder": 60
+				}
+			}
+		},
+		"contentWidth": {
+			"displayName": "Content Width",
+			"editor": "",
+			"sortOrder": 90,
+			"choices": {
+				"flex_1": {
+					"displayName": "Equal (50/50) (Default)",
+					"sortOrder": 10
+				},
+				"w_1_3": {
+					"displayName": "One Third (33%)",
+					"sortOrder": 20
+				},
+				"w_2_5": {
+					"displayName": "Two Fifths (40%)",
+					"sortOrder": 30
+				},
+				"w_1_2": {
+					"displayName": "Half (50%)",
+					"sortOrder": 40
+				},
+				"w_3_5": {
+					"displayName": "Three Fifths (60%)",
+					"sortOrder": 50
+				},
+				"w_2_3": {
+					"displayName": "Two Thirds (67%)",
+					"sortOrder": 60
+				}
+			}
 		}
 	}
 }

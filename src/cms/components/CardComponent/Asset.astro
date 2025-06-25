@@ -1,8 +1,8 @@
 ---
-import { Image } from 'astro:assets';
+import { Image as AstroImage } from 'astro:assets';
 import type {
-    CardFragment,
-    DisplaySettingsFragment,
+CardFragment,
+DisplaySettingsFragment,
 } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 
@@ -12,20 +12,20 @@ export interface Props {
     displayTemplateKey: string;
     contentPayload: ContentPayload;
     DisplayAs?: string;
+    widthClass?: string;
 }
-const { data, displaySettings, displayTemplateKey, contentPayload, DisplayAs } =
+const { data, displaySettings, displayTemplateKey, contentPayload, DisplayAs, widthClass } =
     Astro.props as Props;
 const imageUrl = (data.Asset as any)?.item?.Url || data.Asset?.url?.default || null;
 ---
 
-<div class="relative mx-auto max-w-4xl flex-1">
+<div class={`relative mx-auto max-w-4xl ${widthClass || 'flex-1'}`}>
     {
         imageUrl && (
-            <Image
+            <AstroImage
                 alt={data.Asset?.item?.AltText || data.Asset?.item?._metadata?.displayName || data.Heading || 'Card image'}
                 class="relative content-center rounded-xl border border-transparent object-cover"
-                height={700}
-                width={1075}
+                inferSize
                 src={imageUrl}
             />
         )
