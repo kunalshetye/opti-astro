@@ -1,6 +1,19 @@
 export function getSiteStyles(siteStyles: any): string {
     const styles: string[] = [];
 
+    console.log('siteStyles', siteStyles);
+
+    // DaisyUI Theme
+    if(siteStyles?.daisyuiTheme) {
+        const regex = /--[a-zA-Z0-9_-]+\s*:\s*[^;]+/g;
+        const variables = siteStyles?.daisyuiTheme.match(regex);
+        if(variables) {
+            variables.forEach((variable: string) => {
+                styles.push(variable);
+            });
+        }
+        console.log('styles', styles);
+    }
     // Colors
     siteStyles?.primary && styles.push(`--color-primary: ${siteStyles.primary}`);
     siteStyles?.primaryContent && styles.push(`--color-primary-content: ${siteStyles.primaryContent}`);
