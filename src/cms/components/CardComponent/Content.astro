@@ -50,41 +50,49 @@ const cssClassesForText: string = cssTextClasses[displayAs];
 ---
 
 <div class={`${widthClass || 'flex-1'} ${cssClassesForSection}`}>
-    <p class="text-4xl font-bold text-base-content" class:list={cssClassesForText}>
-        {data.Heading}
-    </p>
-    <p class="text-sm font-semibold text-base-content opacity-80" class:list={cssClassesForText}>
-        {data.SubHeading}
-    </p>
-    <p class={`${cssClassesForText} text-base-content opacity-75`} set:html={data.Body?.html} />
-    <div class={cssClassesForCallToAction}>
-        {
-            data.Links?.map((link, i) => {
-                const buttonType: string[] = [""];
-                switch (i) {
-                    case 0:
-                        buttonType.push('btn-primary');
-                        break;
-                    case 1:
-                        buttonType.push('btn-secondary');
-                        break;
-                    case 2:
-                        buttonType.push('btn-accent');
-                        break;
-                    case 3:
-                        buttonType.push('btn-info');
-                        break;
-                    case 4:
-                        buttonType.push('');
-                        break;
-                    default:
-                        buttonType.push('btn-primary');
-                        break;
-                }
-                return (
-                    <LinkButton cssClasses={[buttonType, cardButtonStyles]} link={link?.url?.default}>{link?.text}</LinkButton>
-                );
-            })
-        }
-    </div>
+    {data.Heading && (
+        <p class="text-4xl font-bold text-base-content" class:list={cssClassesForText}>
+            {data.Heading}
+        </p>
+    )}
+    {data.SubHeading && (
+        <p class="text-sm font-semibold text-base-content opacity-80" class:list={cssClassesForText}>
+            {data.SubHeading}
+        </p>
+    )}
+    {data.Body?.html && (
+        <p class={`${cssClassesForText} text-base-content opacity-75`} set:html={data.Body.html} />
+    )}
+    {data.Links && data.Links.length > 0 && (
+        <div class={cssClassesForCallToAction}>
+            {
+                data.Links.map((link, i) => {
+                    const buttonType: string[] = [""];
+                    switch (i) {
+                        case 0:
+                            buttonType.push('btn-primary');
+                            break;
+                        case 1:
+                            buttonType.push('btn-secondary');
+                            break;
+                        case 2:
+                            buttonType.push('btn-accent');
+                            break;
+                        case 3:
+                            buttonType.push('btn-info');
+                            break;
+                        case 4:
+                            buttonType.push('');
+                            break;
+                        default:
+                            buttonType.push('btn-primary');
+                            break;
+                    }
+                    return (
+                        <LinkButton cssClasses={[buttonType, cardButtonStyles]} link={link?.url?.default}>{link?.text}</LinkButton>
+                    );
+                })
+            }
+        </div>
+    )}
 </div>
