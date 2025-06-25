@@ -12,3 +12,29 @@ export function getCardStyles(displaySettings: DisplaySettingsFragment[]): {
 
     return cssClasses;
 }
+
+export function getCardTextAlignmentStyle(displaySettings: DisplaySettingsFragment[]): string {
+    const dictionary = getDictionaryFromDisplaySettings(displaySettings);
+    const textAlign = dictionary['textAlign'];
+    
+    switch (textAlign) {
+        case 'left': return 'text-left';
+        case 'center': return 'text-center';
+        case 'right': return 'text-right';
+        case 'justify': return 'text-justify';
+        default: return 'text-left';
+    }
+}
+
+export function getCardHeaderStyles(displaySettings: DisplaySettingsFragment[]): string {
+    const dictionary = getDictionaryFromDisplaySettings(displaySettings);
+    const transformHeader = dictionary['transformHeader'];
+    
+    switch (transformHeader) {
+        case 'uppercase': return 'uppercase';
+        case 'lowercase': return 'lowercase';
+        case 'capitalize': return 'capitalize';
+        case 'normal_case':
+        default: return 'normal-case';
+    }
+}

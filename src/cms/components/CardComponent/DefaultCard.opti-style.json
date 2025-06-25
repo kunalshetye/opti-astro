@@ -271,6 +271,52 @@
 					"sortOrder": 60
 				}
 			}
+		},
+		"textAlign": {
+			"displayName": "Text Alignment",
+			"editor": "",
+			"sortOrder": 100,
+			"choices": {
+				"left": {
+					"displayName": "Left (Default)",
+					"sortOrder": 10
+				},
+				"center": {
+					"displayName": "Center",
+					"sortOrder": 20
+				},
+				"right": {
+					"displayName": "Right",
+					"sortOrder": 30
+				},
+				"justify": {
+					"displayName": "Justify",
+					"sortOrder": 40
+				}
+			}
+		},
+		"transformHeader": {
+			"displayName": "Header Text Transform",
+			"editor": "",
+			"sortOrder": 110,
+			"choices": {
+				"normal_case": {
+					"displayName": "Normal Case (Default)",
+					"sortOrder": 10
+				},
+				"uppercase": {
+					"displayName": "UPPERCASE",
+					"sortOrder": 20
+				},
+				"lowercase": {
+					"displayName": "lowercase",
+					"sortOrder": 30
+				},
+				"capitalize": {
+					"displayName": "Capitalize",
+					"sortOrder": 40
+				}
+			}
 		}
 	}
 }

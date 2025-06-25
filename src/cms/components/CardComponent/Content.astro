@@ -7,6 +7,7 @@ import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import LinkButton from '../ButtonComponent/LinkButton.astro';
 // import { getCardStyles } from './CardStyling';
 import { getButtonStyles } from '../ButtonComponent/ButtonStyling';
+import { getCardTextAlignmentStyle, getCardHeaderStyles } from './CardStyling';
 
 export interface Props {
     data: CardFragment;
@@ -18,6 +19,8 @@ export interface Props {
 }
 const { data, displaySettings, DisplayAs, widthClass } = Astro.props as Props;
 const cardButtonStyles = getButtonStyles(displaySettings, false); // false: button type defined here
+const cardTextAlignmentStyle = getCardTextAlignmentStyle(displaySettings);
+const cardHeaderStyles = getCardHeaderStyles(displaySettings);
 
 // Button type mapping for cleaner code
 const buttonTypes = ['btn-primary', 'btn-secondary', 'btn-accent', 'btn-info', ''];
@@ -53,9 +56,9 @@ const cssClassesForCallToAction: string = cssClassesCallToAction[displayAs];
 const cssClassesForText: string = cssTextClasses[displayAs];
 ---
 
-<div class={`${widthClass || 'flex-1'} ${cssClassesForSection}`}>
+<div class={`${widthClass || 'flex-1'} ${cssClassesForSection} ${cardTextAlignmentStyle}`}>
     {data.Heading && (
-        <h2 class="text-4xl font-bold text-base-content" class:list={cssClassesForText}>
+        <h2 class={`text-4xl font-bold text-base-content ${cardHeaderStyles}`} class:list={cssClassesForText}>
             {data.Heading}
         </h2>
     )}
