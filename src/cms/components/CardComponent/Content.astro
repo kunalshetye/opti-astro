@@ -13,15 +13,16 @@ export interface Props {
     displaySettings: DisplaySettingsFragment[];
     displayTemplateKey: string;
     contentPayload: ContentPayload;
+    DisplayAs?: string;
 }
-const { data, displaySettings } = Astro.props as Props;
+const { data, displaySettings, DisplayAs } = Astro.props as Props;
 const cardButtonStyles = getButtonStyles(displaySettings, false); // false: button type defined here
 
 const cssClassesSection = {
-    textOnRight: 'col-span-1 content-center',
-    textOnLeft: 'col-span-1 content-center',
-    textAboveCard: 'col-span-1 text-center',
-    textBelowCard: 'col-span-1 text-center',
+    textOnRight: 'flex-1 content-center',
+    textOnLeft: 'flex-1 content-center',
+    textAboveCard: 'flex-1 text-center',
+    textBelowCard: 'flex-1 text-center',
 };
 const cssTextClasses = {
     textOnRight: 'mt-0',
@@ -40,11 +41,11 @@ type DisplayAsType =
     | 'textOnLeft'
     | 'textAboveCard'
     | 'textBelowCard';
-const DisplayAs: DisplayAsType =
-    (data?.DisplayAs as DisplayAsType) ?? 'textOnRight';
-const cssClassesForSection: string = cssClassesSection[DisplayAs];
-const cssClassesForCallToAction: string = cssClassesCallToAction[DisplayAs];
-const cssClassesForText: string = cssTextClasses[DisplayAs];
+const displayAs: DisplayAsType =
+    (DisplayAs as DisplayAsType) ?? (data?.DisplayAs as DisplayAsType) ?? 'textOnRight';
+const cssClassesForSection: string = cssClassesSection[displayAs];
+const cssClassesForCallToAction: string = cssClassesCallToAction[displayAs];
+const cssClassesForText: string = cssTextClasses[displayAs];
 ---
 
 <div class={cssClassesForSection}>

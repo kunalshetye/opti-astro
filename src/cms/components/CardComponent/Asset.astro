@@ -11,13 +11,14 @@ export interface Props {
     displaySettings: DisplaySettingsFragment[];
     displayTemplateKey: string;
     contentPayload: ContentPayload;
+    DisplayAs?: string;
 }
-const { data, displaySettings, displayTemplateKey, contentPayload } =
+const { data, displaySettings, displayTemplateKey, contentPayload, DisplayAs } =
     Astro.props as Props;
 const imageUrl = (data.Asset as any)?.item?.Url || data.Asset?.url?.default || null;
 ---
 
-<div class="relative mx-auto max-w-4xl">
+<div class="relative mx-auto max-w-4xl flex-1">
     {
         imageUrl && (
             <Image

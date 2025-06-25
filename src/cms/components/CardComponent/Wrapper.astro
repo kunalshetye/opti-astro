@@ -5,13 +5,13 @@ interface Props {
 const { DisplayAs } = Astro.props as Props;
 const cssClasses = {
     textOnRight:
-        'mx-auto max-w-7xl grid gap-8 rounded-xl md:grid-cols-2 md:gap-12 lg:gap-20',
+        'mx-auto max-w-7xl flex flex-col gap-8 rounded-xl md:flex-row md:gap-12 lg:gap-20',
     textOnLeft:
-        'mx-auto max-w-7xl grid gap-8 rounded-xl md:grid-cols-2 md:gap-12 lg:gap-20',
+        'mx-auto max-w-7xl flex flex-col-reverse gap-8 rounded-xl md:flex-row-reverse md:gap-12 lg:gap-20',
     textAboveCard:
-        'mx-auto max-w-7xl grid gap-8 rounded-xl md:grid-cols-1 md:gap-12 lg:gap-20',
+        'mx-auto max-w-7xl flex flex-col-reverse gap-8 rounded-xl md:gap-12 lg:gap-20',
     textBelowCard:
-        'mx-auto max-w-7xl grid gap-8 rounded-xl md:grid-cols-1 md:gap-12 lg:gap-20',
+        'mx-auto max-w-7xl flex flex-col gap-8 rounded-xl md:gap-12 lg:gap-20',
 };
 const cssClass = cssClasses[DisplayAs as keyof typeof cssClasses];
 ---

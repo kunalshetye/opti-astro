@@ -1,7 +1,7 @@
 ---
 import type {
-    CardFragment,
-    DisplaySettingsFragment,
+CardFragment,
+DisplaySettingsFragment,
 } from '../../../../__generated/sdk';
 
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
@@ -23,45 +23,19 @@ const { backgroundColor } = dictionary;
 const { DisplayAs } = data;
 ---
 
-{
-    () => {
-        switch (DisplayAs) {
-            case 'textOnRight':
-            case 'textBelowCard':
-                return (
-                    <Wrapper DisplayAs={DisplayAs}>
-                        <Asset
-                            data={data}
-                            displaySettings={displaySettings}
-                            displayTemplateKey={displayTemplateKey}
-                            contentPayload={contentPayload}
-                        />
-                        <Content
-                            data={data}
-                            displaySettings={displaySettings}
-                            displayTemplateKey={displayTemplateKey}
-                            contentPayload={contentPayload}
-                        />
-                    </Wrapper>
-                );
-            case 'textOnLeft':
-            case 'textAboveCard':
-                return (
-                    <Wrapper DisplayAs={DisplayAs}>
-                        <Content
-                            data={data}
-                            displaySettings={displaySettings}
-                            displayTemplateKey={displayTemplateKey}
-                            contentPayload={contentPayload}
-                        />
-                        <Asset
-                            data={data}
-                            displaySettings={displaySettings}
-                            displayTemplateKey={displayTemplateKey}
-                            contentPayload={contentPayload}
-                        />
-                    </Wrapper>
-                );
-        }
-    }
-}
+<Wrapper DisplayAs={DisplayAs ?? ''}>
+    <Asset
+        data={data}
+        displaySettings={displaySettings}
+        displayTemplateKey={displayTemplateKey}
+        contentPayload={contentPayload}
+        DisplayAs={DisplayAs ?? undefined}
+    />
+    <Content
+        data={data}
+        displaySettings={displaySettings}
+        displayTemplateKey={displayTemplateKey}
+        contentPayload={contentPayload}
+        DisplayAs={DisplayAs ?? undefined}
+    />
+</Wrapper>
