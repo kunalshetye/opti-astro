@@ -38,3 +38,27 @@ export function getCardHeaderStyles(displaySettings: DisplaySettingsFragment[]):
         default: return 'normal-case';
     }
 }
+
+export function getAssetVerticalAlignClass(displaySettings: DisplaySettingsFragment[]): string {
+    const dictionary = getDictionaryFromDisplaySettings(displaySettings);
+    const assetVerticalAlign = dictionary['assetVerticalAlign'];
+    
+    switch (assetVerticalAlign) {
+        case 'start': return 'self-start';
+        case 'end': return 'self-end';
+        case 'center':
+        default: return 'self-center';
+    }
+}
+
+export function getContentVerticalAlignClass(displaySettings: DisplaySettingsFragment[]): string {
+    const dictionary = getDictionaryFromDisplaySettings(displaySettings);
+    const contentVerticalAlign = dictionary['contentVerticalAlign'];
+    
+    switch (contentVerticalAlign) {
+        case 'start': return 'self-start';
+        case 'end': return 'self-end';
+        case 'center':
+        default: return 'self-center';
+    }
+}

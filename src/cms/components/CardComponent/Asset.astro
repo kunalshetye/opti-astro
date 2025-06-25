@@ -13,13 +13,14 @@ export interface Props {
     contentPayload: ContentPayload;
     DisplayAs?: string;
     widthClass?: string;
+    verticalAlignClass?: string;
 }
-const { data, displaySettings, displayTemplateKey, contentPayload, DisplayAs, widthClass } =
+const { data, displaySettings, displayTemplateKey, contentPayload, DisplayAs, widthClass, verticalAlignClass } =
     Astro.props as Props;
 const imageUrl = (data.Asset as any)?.item?.Url || data.Asset?.url?.default || null;
 ---
 
-<div class={`relative mx-auto max-w-4xl ${widthClass || 'flex-1'}`}>
+<div class={`relative mx-auto max-w-4xl ${widthClass || 'flex-1'} ${verticalAlignClass || 'self-center'}`}>
     {
         imageUrl && (
             <AstroImage

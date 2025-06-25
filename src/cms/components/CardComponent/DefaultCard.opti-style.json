@@ -317,6 +317,44 @@
 					"sortOrder": 40
 				}
 			}
+		},
+		"assetVerticalAlign": {
+			"displayName": "Asset Vertical Alignment",
+			"editor": "",
+			"sortOrder": 120,
+			"choices": {
+				"center": {
+					"displayName": "Center (Default)",
+					"sortOrder": 10
+				},
+				"start": {
+					"displayName": "Top",
+					"sortOrder": 20
+				},
+				"end": {
+					"displayName": "Bottom",
+					"sortOrder": 30
+				}
+			}
+		},
+		"contentVerticalAlign": {
+			"displayName": "Content Vertical Alignment",
+			"editor": "",
+			"sortOrder": 130,
+			"choices": {
+				"center": {
+					"displayName": "Center (Default)",
+					"sortOrder": 10
+				},
+				"start": {
+					"displayName": "Top",
+					"sortOrder": 20
+				},
+				"end": {
+					"displayName": "Bottom",
+					"sortOrder": 30
+				}
+			}
 		}
 	}
 }

@@ -16,8 +16,9 @@ export interface Props {
     contentPayload: ContentPayload;
     DisplayAs?: string;
     widthClass?: string;
+    verticalAlignClass?: string;
 }
-const { data, displaySettings, DisplayAs, widthClass } = Astro.props as Props;
+const { data, displaySettings, DisplayAs, widthClass, verticalAlignClass } = Astro.props as Props;
 const cardButtonStyles = getButtonStyles(displaySettings, false); // false: button type defined here
 const cardTextAlignmentStyle = getCardTextAlignmentStyle(displaySettings);
 const cardHeaderStyles = getCardHeaderStyles(displaySettings);
@@ -56,7 +57,7 @@ const cssClassesForCallToAction: string = cssClassesCallToAction[displayAs];
 const cssClassesForText: string = cssTextClasses[displayAs];
 ---
 
-<div class={`${widthClass || 'flex-1'} ${cssClassesForSection} ${cardTextAlignmentStyle}`}>
+<div class={`${widthClass || 'flex-1'} ${cssClassesForSection} ${cardTextAlignmentStyle} ${verticalAlignClass || 'self-center'}`}>
     {data.Heading && (
         <h2 class={`text-4xl font-bold text-base-content ${cardHeaderStyles}`} class:list={cssClassesForText}>
             {data.Heading}
