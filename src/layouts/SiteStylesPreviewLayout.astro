@@ -1,9 +1,12 @@
 ---
+import { ClientRouter } from "astro:transitions";
+
 import type { Locales } from '../../__generated/sdk';
 import SiteStyles from "../cms/components/SiteStylesComponent/SiteStyles.astro";
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
 import LinkButton from '../cms/components/ButtonComponent/LinkButton.astro';
+import ThemePicker from '../cms/shared/ThemePicker.astro';
 import '../styles/global.css';
 interface Props {
     contentPayload: ContentPayload;
@@ -44,8 +47,13 @@ const indexedColorProperties = [
     <head>
         {siteStyles && <SiteStyles siteStyles={siteStyles} />}
         <meta charset="UTF-8" />
+        <ClientRouter />
     </head>
     <body>
+        <!-- Theme switcher dropdown -->
+        <div class="content-end flex justify-end p-4">
+            <ThemePicker />
+        </div>
         <div class="w-full my-20 text-center text-3xl italic">
             Site Styles Preview
         </div>
