@@ -3,6 +3,7 @@ import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import Components from '../../components/_Components.astro';
 import Row from '../Row/Row.astro';
 import { getSectionStyles } from './SectionHelper';
+import { getGlobalStyles } from '../../shared/globalStylesHelper';
 export interface Props {
     grid: any;
     contentPayload: ContentPayload;
@@ -10,7 +11,9 @@ export interface Props {
 const { grid, contentPayload } = Astro.props as Props;
 const isSection = grid.nodeType === 'section';
 const isComponent = grid.nodeType === 'component';
-const styles = getSectionStyles(grid);
+const sectionStyles = getSectionStyles(grid);
+const globalStyles = getGlobalStyles(grid);
+const styles = [...sectionStyles, ...globalStyles];
 ---
 
 <div

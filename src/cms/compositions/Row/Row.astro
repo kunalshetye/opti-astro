@@ -1,10 +1,10 @@
 ---
 import type { CompositionStructureNode } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { getGlobalStyles } from '../../shared/globalStylesHelper';
 import Column from '../Column/Column.astro';
 import CarouselRow from './CarouselRow.astro';
 import { getRowStyles } from './RowHelper';
-import { getGlobalStyles } from '../../shared/globalStylesHelper';
 export interface Props {
     row: any;
     contentPayload: ContentPayload;
@@ -16,8 +16,6 @@ const rowStyles = getRowStyles(rowNode);
 const globalStyles = getGlobalStyles(rowNode);
 const styles = [...rowStyles, ...globalStyles]
 ---
-
-<!--<h2>this is a row</h2>-->
 {
     displayTemplateKey !== 'CarouselRow' && (
         <div

@@ -42,19 +42,7 @@ export function getRowStyles(row: CompositionStructureNode) {
         none = 'my-0',
     }
 
-    enum BackgroundColorClasses {
-        base_100 = 'bg-base-100',
-        base_200 = 'bg-base-200',
-        base_300 = 'bg-base-300',
-        primary = 'bg-primary',
-        secondary = 'bg-secondary',
-        accent = 'bg-accent',
-        neutral = 'bg-neutral',
-        info = 'bg-info',
-        success = 'bg-success',
-        warning = 'bg-warning',
-        error = 'bg-error',
-    }
+    // Background colors are now handled by globalStylesHelper
 
     let cssClasses = [];
     cssClasses.push(ContentSpacingClasses[dictionary['contentSpacing']] ?? '');
@@ -64,6 +52,5 @@ export function getRowStyles(row: CompositionStructureNode) {
         VerticalSpacingClasses[dictionary['verticalSpacing']] ?? ''
     );
     cssClasses.push(RowFromClasses[dictionary['showAsRowFrom']] ?? '');
-    cssClasses.push(BackgroundColorClasses[dictionary['backgroundColor']] ?? '');
     return cssClasses;
 }
