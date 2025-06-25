@@ -8,16 +8,6 @@
 	"mediaFileExtensions": [],
 	"compositionBehaviors": [],
 	"properties": {
-		"daisyuiTheme": {
-			"type": "string",
-			"displayName": "DaisyUI Theme",
-			"description": "A free form field to copy/paste the theme generated via the DaisyUI theme generator - https://daisyui.com/theme-generator/",
-			"localized": false,
-			"required": false,
-			"group": "StylesOther",
-			"sortOrder": 5,
-			"editorSettings": {}
-		},
 		"primary": {
 			"type": "string",
 			"format": "shortString",
@@ -474,6 +464,16 @@
 			"required": false,
 			"group": "StylesColors",
 			"sortOrder": 200,
+			"editorSettings": {}
+		},
+		"daisyuiTheme": {
+			"type": "string",
+			"displayName": "DaisyUI Theme",
+			"description": "A free form field to copy/paste the theme generated via the DaisyUI theme generator - https://daisyui.com/theme-generator/",
+			"localized": false,
+			"required": false,
+			"group": "StylesOther",
+			"sortOrder": 499,
 			"editorSettings": {}
 		},
 		"freeFormStyles": {
