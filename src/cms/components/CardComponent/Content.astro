@@ -19,6 +19,10 @@ export interface Props {
 const { data, displaySettings, DisplayAs, widthClass } = Astro.props as Props;
 const cardButtonStyles = getButtonStyles(displaySettings, false); // false: button type defined here
 
+// Button type mapping for cleaner code
+const buttonTypes = ['btn-primary', 'btn-secondary', 'btn-accent', 'btn-info', ''];
+const getButtonType = (index: number) => buttonTypes[index] || 'btn-primary';
+
 const cssClassesSection = {
     textOnRight: 'content-center',
     textOnLeft: 'content-center',
@@ -51,9 +55,9 @@ const cssClassesForText: string = cssTextClasses[displayAs];
 
 <div class={`${widthClass || 'flex-1'} ${cssClassesForSection}`}>
     {data.Heading && (
-        <p class="text-4xl font-bold text-base-content" class:list={cssClassesForText}>
+        <h2 class="text-4xl font-bold text-base-content" class:list={cssClassesForText}>
             {data.Heading}
-        </p>
+        </h2>
     )}
     {data.SubHeading && (
         <p class="text-sm font-semibold text-base-content opacity-80" class:list={cssClassesForText}>
@@ -61,33 +65,13 @@ const cssClassesForText: string = cssTextClasses[displayAs];
         </p>
     )}
     {data.Body?.html && (
-        <p class={`${cssClassesForText} text-base-content opacity-75`} set:html={data.Body.html} />
+        <div class={`${cssClassesForText} text-base-content opacity-75`} set:html={data.Body.html}></div>
     )}
     {data.Links && data.Links.length > 0 && (
         <div class={cssClassesForCallToAction}>
             {
                 data.Links.map((link, i) => {
-                    const buttonType: string[] = [""];
-                    switch (i) {
-                        case 0:
-                            buttonType.push('btn-primary');
-                            break;
-                        case 1:
-                            buttonType.push('btn-secondary');
-                            break;
-                        case 2:
-                            buttonType.push('btn-accent');
-                            break;
-                        case 3:
-                            buttonType.push('btn-info');
-                            break;
-                        case 4:
-                            buttonType.push('');
-                            break;
-                        default:
-                            buttonType.push('btn-primary');
-                            break;
-                    }
+                    const buttonType = ['', getButtonType(i)];
                     return (
                         <LinkButton cssClasses={[buttonType, cardButtonStyles]} link={link?.url?.default}>{link?.text}</LinkButton>
                     );
