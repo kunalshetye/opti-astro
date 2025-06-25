@@ -1,8 +1,6 @@
 export function getSiteStyles(siteStyles: any): string {
     const styles: string[] = [];
 
-    console.log('siteStyles', siteStyles);
-
     // DaisyUI Theme
     if(siteStyles?.daisyuiTheme) {
         const regex = /--[a-zA-Z0-9_-]+\s*:\s*[^;]+/g;
@@ -12,7 +10,6 @@ export function getSiteStyles(siteStyles: any): string {
                 styles.push(variable);
             });
         }
-        console.log('styles', styles);
     }
     // Colors
     siteStyles?.primary && styles.push(`--color-primary: ${siteStyles.primary}`);
