@@ -34,6 +34,9 @@ export function getSectionStyles(grid: CompositionStructureNode): string[] {
                     break;
             }
             switch (dictionary['sectionColor']) {
+                case 'transparent':
+                    // No background color applied
+                    break;
                 case 'base_100':
                     cssClasses.push('bg-base-100');
                     break;
