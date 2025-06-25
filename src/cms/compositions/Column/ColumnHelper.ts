@@ -91,6 +91,42 @@ export function getColumnStyles(column: CompositionStructureNode) {
                     break;
             }
 
+            switch (dictionary['backgroundColor']) {
+                case 'base_100':
+                    cssClasses.push('bg-base-100');
+                    break;
+                case 'base_200':
+                    cssClasses.push('bg-base-200');
+                    break;
+                case 'base_300':
+                    cssClasses.push('bg-base-300');
+                    break;
+                case 'primary':
+                    cssClasses.push('bg-primary');
+                    break;
+                case 'secondary':
+                    cssClasses.push('bg-secondary');
+                    break;
+                case 'accent':
+                    cssClasses.push('bg-accent');
+                    break;
+                case 'neutral':
+                    cssClasses.push('bg-neutral');
+                    break;
+                case 'info':
+                    cssClasses.push('bg-info');
+                    break;
+                case 'success':
+                    cssClasses.push('bg-success');
+                    break;
+                case 'warning':
+                    cssClasses.push('bg-warning');
+                    break;
+                case 'error':
+                    cssClasses.push('bg-error');
+                    break;
+            }
+
             cssClasses.push('relative top-0');
             let useChildContainer = false;
             switch (dictionary['overflow']) {

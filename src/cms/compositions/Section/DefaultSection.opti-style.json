@@ -51,21 +51,49 @@
 			"editor": "",
 			"sortOrder": 30,
 			"choices": {
-				"default": {
-					"displayName": "Default",
+				"base_100": {
+					"displayName": "Base 100",
 					"sortOrder": 10
 				},
-				"gray": {
-					"displayName": "Gray",
+				"base_200": {
+					"displayName": "Base 200",
 					"sortOrder": 20
 				},
-				"black": {
-					"displayName": "Black",
+				"base_300": {
+					"displayName": "Base 300",
 					"sortOrder": 30
 				},
-				"blue": {
-					"displayName": "Blue",
+				"primary": {
+					"displayName": "Primary",
 					"sortOrder": 40
+				},
+				"secondary": {
+					"displayName": "Secondary",
+					"sortOrder": 50
+				},
+				"accent": {
+					"displayName": "Accent",
+					"sortOrder": 60
+				},
+				"neutral": {
+					"displayName": "Neutral",
+					"sortOrder": 70
+				},
+				"info": {
+					"displayName": "Info",
+					"sortOrder": 80
+				},
+				"success": {
+					"displayName": "Success",
+					"sortOrder": 90
+				},
+				"warning": {
+					"displayName": "Warning",
+					"sortOrder": 100
+				},
+				"error": {
+					"displayName": "Error",
+					"sortOrder": 110
 				}
 			}
 		}

@@ -7,7 +7,7 @@ export function getSectionStyles(grid: CompositionStructureNode): string[] {
     const dictionary = getDictionaryFromDisplaySettings(displaySettings);
     let cssClasses: string[] = [];
     switch (grid.displayTemplateKey) {
-        case 'DefaultGrid':
+        case 'DefaultSection':
             switch (dictionary['gridWidth']) {
                 case 'default':
                     cssClasses.push('container mx-auto px-8');
@@ -34,14 +34,38 @@ export function getSectionStyles(grid: CompositionStructureNode): string[] {
                     break;
             }
             switch (dictionary['sectionColor']) {
-                case 'gray':
-                    cssClasses.push('bg-gray-100');
+                case 'base_100':
+                    cssClasses.push('bg-base-100');
                     break;
-                case 'black':
-                    cssClasses.push('bg-gray-950');
+                case 'base_200':
+                    cssClasses.push('bg-base-200');
                     break;
-                case 'blue':
-                    cssClasses.push('bg-blue-700');
+                case 'base_300':
+                    cssClasses.push('bg-base-300');
+                    break;
+                case 'primary':
+                    cssClasses.push('bg-primary');
+                    break;
+                case 'secondary':
+                    cssClasses.push('bg-secondary');
+                    break;
+                case 'accent':
+                    cssClasses.push('bg-accent');
+                    break;
+                case 'neutral':
+                    cssClasses.push('bg-neutral');
+                    break;
+                case 'info':
+                    cssClasses.push('bg-info');
+                    break;
+                case 'success':
+                    cssClasses.push('bg-success');
+                    break;
+                case 'warning':
+                    cssClasses.push('bg-warning');
+                    break;
+                case 'error':
+                    cssClasses.push('bg-error');
                     break;
             }
             break;
