@@ -43,6 +43,7 @@ export function getRowStyles(row: CompositionStructureNode) {
     }
 
     enum BackgroundColorClasses {
+        transparent = '',
         base_100 = 'bg-base-100',
         base_200 = 'bg-base-200',
         base_300 = 'bg-base-300',

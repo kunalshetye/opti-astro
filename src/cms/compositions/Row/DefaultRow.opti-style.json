@@ -124,6 +124,10 @@
             "editor": "",
             "sortOrder": 50,
             "choices": {
+                "transparent": {
+                    "displayName": "Transparent",
+                    "sortOrder": 5
+                },
                 "base_100": {
                     "displayName": "Base 100",
                     "sortOrder": 10
