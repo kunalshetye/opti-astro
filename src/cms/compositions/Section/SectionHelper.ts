@@ -33,44 +33,7 @@ export function getSectionStyles(grid: CompositionStructureNode): string[] {
                     cssClasses.push('py-8 md:py-16 lg:py-24');
                     break;
             }
-            switch (dictionary['sectionColor']) {
-                case 'transparent':
-                    // No background color applied
-                    break;
-                case 'base_100':
-                    cssClasses.push('bg-base-100');
-                    break;
-                case 'base_200':
-                    cssClasses.push('bg-base-200');
-                    break;
-                case 'base_300':
-                    cssClasses.push('bg-base-300');
-                    break;
-                case 'primary':
-                    cssClasses.push('bg-primary');
-                    break;
-                case 'secondary':
-                    cssClasses.push('bg-secondary');
-                    break;
-                case 'accent':
-                    cssClasses.push('bg-accent');
-                    break;
-                case 'neutral':
-                    cssClasses.push('bg-neutral');
-                    break;
-                case 'info':
-                    cssClasses.push('bg-info');
-                    break;
-                case 'success':
-                    cssClasses.push('bg-success');
-                    break;
-                case 'warning':
-                    cssClasses.push('bg-warning');
-                    break;
-                case 'error':
-                    cssClasses.push('bg-error');
-                    break;
-            }
+            // Background color is now handled by globalStylesHelper
             break;
         default:
             cssClasses.push('vb:NoStyles');
