@@ -7,6 +7,9 @@ import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
 
 import { getRelativeLocaleUrl } from 'astro:i18n';
+
+Astro.response.headers.set('Content-Type', 'text/html; charset=UTF-8');
+
 const lang = Astro.currentLocale;
 
 const ctx = 'view';
