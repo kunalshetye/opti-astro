@@ -1,0 +1,37 @@
+import { contentType } from '@episerver/cms-sdk';
+
+export const ImageMedia = contentType({
+  key: 'ImageMedia',
+  displayName: 'Image media',
+  description: 'Used for image assets.',
+  baseType: '_image',
+  sortOrder: 510,
+  mayContainTypes: [],
+  mediaFileExtensions: [
+    'jpg',
+    'jpeg',
+    'jpe',
+    'ico',
+    'gif',
+    'bmp',
+    'heif',
+    'png',
+    'svg',
+    'tiff',
+    'webp'
+  ],
+  compositionBehaviors: [],
+  properties: {
+    AltText: {
+      type: 'string',
+      format: 'shortString',
+      displayName: 'Alt text',
+      description: '',
+      localized: true,
+      required: false,
+      group: 'Information',
+      sortOrder: 10,
+      indexingType: 'searchable',
+    }
+  }
+});
