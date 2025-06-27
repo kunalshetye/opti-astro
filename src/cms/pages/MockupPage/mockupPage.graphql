@@ -1,0 +1,3 @@
+fragment MockupPage on MockupPage {
+    HtmlMockup
+}
