@@ -8,6 +8,7 @@ import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
 import { getAssetWidthClass, getContentWidthClass } from './CardHelper';
 import { getAssetVerticalAlignClass, getContentVerticalAlignClass } from './CardStyling';
+import { getGlobalStyles } from '../../shared/globalStylesHelper';
 import Asset from './Asset.astro';
 import Content from './Content.astro';
 import Wrapper from './Wrapper.astro';
@@ -21,15 +22,15 @@ const { data, displaySettings, displayTemplateKey, contentPayload } =
     Astro.props as Props;
 
 const dictionary = getDictionaryFromDisplaySettings(displaySettings);
-const { backgroundColor } = dictionary;
 const { DisplayAs } = data;
 const assetWidthClass = getAssetWidthClass(dictionary);
 const contentWidthClass = getContentWidthClass(dictionary);
 const assetVerticalAlignClass = getAssetVerticalAlignClass(displaySettings);
 const contentVerticalAlignClass = getContentVerticalAlignClass(displaySettings);
+const globalStyles = getGlobalStyles(displaySettings);
 ---
 
-<Wrapper DisplayAs={DisplayAs ?? ''}>
+<Wrapper DisplayAs={DisplayAs ?? ''} GlobalStyles={globalStyles}>
     <Asset
         data={data}
         displaySettings={displaySettings}
