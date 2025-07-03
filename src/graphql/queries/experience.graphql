@@ -1,10 +1,8 @@
 query getExperience($key: String, $ver: String, $loc: [Locales]) {
     _Experience(
+        ids: $key
         locale: $loc
-        where: {
-            _metadata: { key: { eq: $key } }
-            _or: { _metadata: { version: { eq: $ver } } }
-        }
+        where: { _metadata: { version: { eq: $ver } } }
         variation: { include: ALL }
     ) {
         item {
