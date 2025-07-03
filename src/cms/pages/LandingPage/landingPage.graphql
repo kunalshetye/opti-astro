@@ -2,6 +2,7 @@ fragment LandingPage on LandingPage {
     _metadata {
         ...PageUrl
         published
+        displayName
     }
     TopContentArea {
         _metadata {

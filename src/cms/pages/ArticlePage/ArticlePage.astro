@@ -30,8 +30,8 @@ const hierarchicalUrl = post?._metadata?.url?.type === "SIMPLE" ? post?._metadat
 ---
 
 <Layout
-    title={post.SeoSettings?.MetaTitle ?? post?.Heading ?? 'Article'}
-    description={post.SeoSettings?.MetaDescription ?? ''}
+    title={post.SeoSettings?.MetaTitle ?? post?.Heading ?? post?._metadata?.displayName ?? 'Article'}
+    description={post.SeoSettings?.MetaDescription ?? post?.Heading ?? ''}
     graphtype={graphType}
     indexing={post.SeoSettings?.Indexing ?? false}
     contentPayload={contentPayload}

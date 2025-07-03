@@ -2,6 +2,7 @@ fragment ArticlePage on ArticlePage {
     _metadata {
         ...PageUrl
         published
+        displayName
     }
     PromoImage {
         ...ContentUrl

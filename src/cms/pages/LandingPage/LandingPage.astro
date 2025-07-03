@@ -27,8 +27,8 @@ const hierarchicalUrl = page?._metadata?.url?.type === "SIMPLE" ? page?._metadat
 ---
 
 <Layout
-    title={page.SeoSettings?.MetaTitle ?? 'Landing Page'}
-    description={page.SeoSettings?.MetaDescription ?? 'Landing Page'}
+    title={page.SeoSettings?.MetaTitle ?? page._metadata?.displayName ?? 'Landing Page'}
+    description={page.SeoSettings?.MetaDescription ?? page._metadata?.displayName ?? 'Landing Page'}
     graphtype={graphType}
     indexing={page.SeoSettings?.Indexing ?? false}
     contentPayload={contentPayload}
