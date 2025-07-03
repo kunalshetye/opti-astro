@@ -28,7 +28,7 @@ const hierarchicalUrl = post?._metadata?.url?.type === "SIMPLE" ? post?._metadat
 ---
 
 <Layout
-    title={post.SeoSettings?.MetaTitle ?? ''}
+    title={post.SeoSettings?.MetaTitle ?? post?.Heading ?? 'Article'}
     description={post.SeoSettings?.MetaDescription ?? ''}
     contentPayload={contentPayload}
     hierarchicalUrl={hierarchicalUrl ?? ''}
@@ -80,9 +80,8 @@ const hierarchicalUrl = post?._metadata?.url?.type === "SIMPLE" ? post?._metadat
                     </div>
                 </div>
             </div>
-
-            <div
-                class="mx-auto mt-12 max-w-screen-xl px-4 font-sans text-lg leading-relaxed text-gray-700 lg:px-0"
+            <article
+                class="prose dark:prose-invert md:prose-lg lg:prose-xl mx-auto mt-12 mb-12 max-w-screen-xl px-4 2xl:px-0 prose-img:rounded-[2rem] prose-img:p-4 "
                 data-epi-property-name="BlogPostBody"
                 set:html={post.Body?.html}
             />

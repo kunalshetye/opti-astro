@@ -2,6 +2,7 @@
 /* @import './inter.css'; */
 /* @theme {--font-sans: InterVariable, sans-serif;} */
 
+@plugin "@tailwindcss/typography";
 @plugin "daisyui" {
     /* themes: all; */
     root: ':root';
@@ -54,7 +55,7 @@
         @apply list-inside list-decimal;
     }
     p {
-        @apply mb-4 text-base;
+        @apply mb-4;
     }
     h1 {
         @apply text-3xl;
