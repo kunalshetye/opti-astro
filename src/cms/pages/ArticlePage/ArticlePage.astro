@@ -24,12 +24,16 @@ const publishedDate = format(
     'dd MMM yyyy'
 );
 
+const graphType = post?.SeoSettings?.GraphType && post?.SeoSettings?.GraphType !== "-" ? 
+    post?.SeoSettings?.GraphType : 'article';
 const hierarchicalUrl = post?._metadata?.url?.type === "SIMPLE" ? post?._metadata?.url?.hierarchical : '';
 ---
 
 <Layout
     title={post.SeoSettings?.MetaTitle ?? post?.Heading ?? 'Article'}
     description={post.SeoSettings?.MetaDescription ?? ''}
+    graphtype={graphType}
+    indexing={post.SeoSettings?.Indexing ?? false}
     contentPayload={contentPayload}
     hierarchicalUrl={hierarchicalUrl ?? ''}
 >

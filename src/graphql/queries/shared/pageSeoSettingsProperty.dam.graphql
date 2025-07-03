@@ -6,4 +6,5 @@ fragment PageSeoSettingsProperty on PageSeoSettingsProperty {
         ...ContentReferenceItem
     }
     GraphType
+    Indexing
 }

@@ -22,12 +22,15 @@ const page = optiResponse?._Page?.item as LandingPageFragment;
 
 const cssClassesForContentArea = "mx-auto justify-start p-2 sm:p-3 md:p-4 flex gap-8 overflow-x-auto flex-wrap";
 
+const graphType = page?.SeoSettings?.GraphType ?? 'website';
 const hierarchicalUrl = page?._metadata?.url?.type === "SIMPLE" ? page?._metadata?.url?.hierarchical : '';
 ---
 
 <Layout
-    title={page.SeoSettings?.MetaTitle ?? ''}
-    description={page.SeoSettings?.MetaDescription ?? ''}
+    title={page.SeoSettings?.MetaTitle ?? 'Landing Page'}
+    description={page.SeoSettings?.MetaDescription ?? 'Landing Page'}
+    graphtype={graphType}
+    indexing={page.SeoSettings?.Indexing ?? false}
     contentPayload={contentPayload}
     hierarchicalUrl={hierarchicalUrl ?? ''}
 >

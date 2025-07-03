@@ -17,12 +17,18 @@ if (!experience) {
     throw new Error('No experience found');
 }
 let metaTitle = '',
-    metaDescription = '';
+    metaDescription = '',
+    metaIndexing = false,
+    metaGraphType = 'website';
 if (experience?._metadata?.types?.includes('BlankExperience')) {
     const blankExperience = experience as BlankExperience;
     metaTitle = blankExperience.BlankExperienceSeoSettings?.MetaTitle || experience?._metadata?.displayName || '';
     metaDescription =
         blankExperience.BlankExperienceSeoSettings?.MetaDescription || '';
+    metaIndexing =
+        blankExperience.BlankExperienceSeoSettings?.Indexing || false;
+    metaGraphType =
+        blankExperience.BlankExperienceSeoSettings?.GraphType || 'website';
 }
 
 const hierarchicalUrl = experience?._metadata?.url?.type === "SIMPLE" ? experience?._metadata?.url?.hierarchical : '';
@@ -31,6 +37,8 @@ const hierarchicalUrl = experience?._metadata?.url?.type === "SIMPLE" ? experien
 <Layout
     title={metaTitle}
     description={metaDescription}
+    indexing={metaIndexing}
+    graphtype={metaGraphType}
     contentPayload={previewPayload}
     hierarchicalUrl={hierarchicalUrl ?? ''}
 >

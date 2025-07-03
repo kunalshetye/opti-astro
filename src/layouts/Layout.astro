@@ -11,11 +11,13 @@ import '../styles/global.css';
 interface Props {
     title: string;
     description: string;
+    graphtype?: string;
+    indexing?: boolean;
     contentPayload: ContentPayload;
     hierarchicalUrl?: string;
 }
 
-const { title, description, contentPayload, hierarchicalUrl } = Astro.props;
+const { title, description, graphtype="website", indexing=false, contentPayload, hierarchicalUrl } = Astro.props;
 const { host } = Astro.url;
 const siteSettings = await getOptimizelySdk(
     contentPayload
@@ -32,6 +34,8 @@ const siteStyles = await getOptimizelySdk(
 });
 
 const canonicalUrl = Astro.url.origin + hierarchicalUrl;
+
+const graphType = graphtype !== "-" ? graphtype : 'website';
 ---
 
 <!doctype html>
@@ -43,6 +47,12 @@ const canonicalUrl = Astro.url.origin + hierarchicalUrl;
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="generator" content={Astro.generator} />
+        {indexing && 
+            <meta name="robots" content="noindex, nofollow" />
+        }
+        {graphType && 
+            <meta property="og:type" content={graphType} />
+        }
         {hierarchicalUrl && 
             <link rel="canonical" href={canonicalUrl} />
         }
