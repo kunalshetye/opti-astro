@@ -5,6 +5,7 @@ query getExperience($key: String, $ver: String, $loc: [Locales]) {
             _metadata: { key: { eq: $key } }
             _or: { _metadata: { version: { eq: $ver } } }
         }
+        variation: { include: ALL }
     ) {
         item {
             _metadata {

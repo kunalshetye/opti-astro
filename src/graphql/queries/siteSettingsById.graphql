@@ -3,6 +3,7 @@ query siteSettingsById($key: [String]!, $loc: [Locales]!, $ver: String!) {
         ids: $key
         locale: $loc
         where: { _metadata: { version: { eq: $ver } } }
+        variation: { include: ALL }
     ) {
         item {
             SiteDomain
@@ -33,18 +34,18 @@ query siteSettingsById($key: [String]!, $loc: [Locales]!, $ver: String!) {
                     }
                 }
                 ... on _Experience {
-                    Link:_metadata {
-                        text:displayName
+                    Link: _metadata {
+                        text: displayName
                         url {
-                        default
+                            default
                         }
                     }
                 }
                 ... on _Page {
-                    Link:_metadata {
-                        text:displayName
+                    Link: _metadata {
+                        text: displayName
                         url {
-                        default
+                            default
                         }
                     }
                 }
@@ -59,18 +60,18 @@ query siteSettingsById($key: [String]!, $loc: [Locales]!, $ver: String!) {
                     }
                 }
                 ... on _Experience {
-                    Link:_metadata {
-                        text:displayName
+                    Link: _metadata {
+                        text: displayName
                         url {
-                        default
+                            default
                         }
                     }
                 }
                 ... on _Page {
-                    Link:_metadata {
-                        text:displayName
+                    Link: _metadata {
+                        text: displayName
                         url {
-                        default
+                            default
                         }
                     }
                 }
