@@ -1,4 +1,4 @@
-query getExperience($key: String, $ver: String, $loc: [Locales]) {
+query getExperience($key: [String]!, $ver: String, $loc: [Locales]) {
     _Experience(
         ids: $key
         locale: $loc
