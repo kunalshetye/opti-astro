@@ -20,18 +20,26 @@ let metaTitle = '',
     metaDescription = '';
 if (experience?._metadata?.types?.includes('BlankExperience')) {
     const blankExperience = experience as BlankExperience;
-    metaTitle = blankExperience.BlankExperienceSeoSettings?.MetaTitle || experience?._metadata?.displayName || '';
+    metaTitle =
+        blankExperience.BlankExperienceSeoSettings?.MetaTitle ||
+        experience?._metadata?.displayName ||
+        '';
     metaDescription =
         blankExperience.BlankExperienceSeoSettings?.MetaDescription || '';
 }
 
-const hierarchicalUrl = experience?._metadata?.url?.type === "SIMPLE" ? experience?._metadata?.url?.hierarchical : '';
+const defaultUrl = experience?._metadata?.url?.default || '';
+const hierarchicalUrl =
+    experience?._metadata?.url?.type === 'SIMPLE'
+        ? experience?._metadata?.url?.hierarchical
+        : '';
 ---
 
 <Layout
     title={metaTitle}
     description={metaDescription}
     contentPayload={previewPayload}
+    defaultUrl={defaultUrl}
     hierarchicalUrl={hierarchicalUrl ?? ''}
 >
     <div class="vb:outline relative w-full flex-1">

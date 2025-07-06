@@ -24,6 +24,7 @@ const publishedDate = format(
     'dd MMM yyyy'
 );
 
+const defaultUrl = post?._metadata?.url?.default || '';
 const hierarchicalUrl = post?._metadata?.url?.type === "SIMPLE" ? post?._metadata?.url?.hierarchical : '';
 ---
 
@@ -31,6 +32,7 @@ const hierarchicalUrl = post?._metadata?.url?.type === "SIMPLE" ? post?._metadat
     title={post.SeoSettings?.MetaTitle ?? post?.Heading ?? 'Article'}
     description={post.SeoSettings?.MetaDescription ?? ''}
     contentPayload={contentPayload}
+    defaultUrl={defaultUrl}
     hierarchicalUrl={hierarchicalUrl ?? ''}
 >
     <div class="max-w-screen-6xl mx-auto">
