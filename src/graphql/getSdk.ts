@@ -12,6 +12,7 @@ import {
     OPTIMIZELY_GRAPH_SINGLE_KEY,
     OPTIMIZELY_GRAPH_APP_KEY,
     OPTIMIZELY_DEV_MODE,
+    EXTERNAL_PREVIEW_ENABLED,
 } from 'astro:env/client';
 import { OPTIMIZELY_GRAPH_SECRET } from 'astro:env/server';
 
@@ -59,7 +60,11 @@ export function getOptimizelySdk(contentPayload: ContentPayload) {
                     },
                 }
             );
-        } else if (mode === 'ext_preview' && extprevToken) {
+        } else if (
+            mode === 'ext_preview' &&
+            EXTERNAL_PREVIEW_ENABLED &&
+            extprevToken
+        ) {
             client = new GraphQLClient(
                 `${OPTIMIZELY_GRAPH_GATEWAY}/content/v2` + `?stored=true`, // enable cached templates
                 {

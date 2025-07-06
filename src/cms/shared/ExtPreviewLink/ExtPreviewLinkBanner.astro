@@ -1,0 +1,27 @@
+---
+import { undefined } from 'astro:schema';
+import { getOptimizelySdk } from '../../../graphql/getSdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { EXTERNAL_PREVIEW_ENABLED } from 'astro:env/client';
+
+export interface Props {
+    contentPayload: ContentPayload;
+    pageUrl?: string;
+}
+const { contentPayload, pageUrl } = Astro.props as Props;
+const version = contentPayload.ver || undefined;
+
+const externalPreviewUrl =
+    Astro.url.origin + '/externalpreview' + pageUrl + '?ver=' + version;
+---
+
+{
+    EXTERNAL_PREVIEW_ENABLED && (
+        <div class="w-full border-b bg-yellow-200 p-2 text-center text-sm text-yellow-900">
+            <span>External preview link: </span>
+            <a href={externalPreviewUrl} target="_blank" class="font-light">
+                {externalPreviewUrl}
+            </a>
+        </div>
+    )
+}

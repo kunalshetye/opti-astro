@@ -93,6 +93,12 @@ export default defineConfig({
                 optional: true,
                 default: 0,
             }),
+            EXTERNAL_PREVIEW_ENABLED: envField.boolean({
+                context: 'client',
+                access: 'public',
+                optional: true,
+                default: false,
+            }),
             OPTIMIZELY_DEV_MODE: envField.boolean({
                 context: 'client',
                 access: 'public',
