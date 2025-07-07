@@ -2,6 +2,7 @@
 import qs from 'query-string';
 
 import type { Locales } from 'astro';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import Component from '../../cms/components/_Component.astro';
 import Experiences from '../../cms/experiences/_Experiences.astro';
 import { getOptimizelySdk } from '../../graphql/getSdk';
@@ -47,7 +48,7 @@ if (
     !contentByPathResponse._Content.item ||
     !contentByPathResponse._Content.item._metadata?.key
 ) {
-    return Astro.redirect(getRelativeLocaleUrl(lang, '/404'), 404);
+    return Astro.redirect(getRelativeLocaleUrl(extPreviewPayload.loc, '/404'), 404);
 }
 const item = contentByPathResponse._Content.item;
 
@@ -64,12 +65,16 @@ const optiPreviewResponse = await getOptimizelySdk(
 });
 
 const types = optiPreviewResponse?._Content?.item?._metadata?.types;
-//@ts-ignore
-extPreviewPayload.types = types;
+if (!types || types.length === 0 || types === null) {
+    return Astro.redirect(getRelativeLocaleUrl(extPreviewPayload.loc, '/404'), 404);
+} else {
+    const filteredTypes = types.filter((type): type is string => type !== null);
+    extPreviewPayload.types = filteredTypes;
+}
 
-const isComponentType = types?.includes('_Component');
-const isExperienceType = types?.includes('_Experience');
-const isPageType = types?.includes('_Page') && isExperienceType === false;
+const isComponentType = extPreviewPayload.types?.includes('_Component');
+const isExperienceType = extPreviewPayload.types?.includes('_Experience');
+const isPageType = extPreviewPayload.types?.includes('_Page') && isExperienceType === false;
 ---
 
 <>

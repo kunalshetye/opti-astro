@@ -1,6 +1,5 @@
 ---
 import { undefined } from 'astro:schema';
-import { getOptimizelySdk } from '../../../graphql/getSdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { EXTERNAL_PREVIEW_ENABLED } from 'astro:env/client';
 
@@ -11,17 +10,29 @@ export interface Props {
 const { contentPayload, pageUrl } = Astro.props as Props;
 const version = contentPayload.ver || undefined;
 
+const ctx = contentPayload.ctx || 'view';
+
 const externalPreviewUrl =
     Astro.url.origin + '/externalpreview' + pageUrl + '?ver=' + version;
 ---
 
+{/* Show link to external preview page while working inside CMS */}
 {
-    EXTERNAL_PREVIEW_ENABLED && (
+    EXTERNAL_PREVIEW_ENABLED && ctx === 'edit' && (
         <div class="w-full border-b bg-yellow-200 p-2 text-center text-sm text-yellow-900">
             <span>External preview link: </span>
             <a href={externalPreviewUrl} target="_blank" class="font-light">
                 {externalPreviewUrl}
             </a>
+        </div>
+    )
+}
+
+{/* Show banner on top of external preview page while outside of CMS */}
+{
+    EXTERNAL_PREVIEW_ENABLED && ctx === 'ext_preview' && (
+        <div class="sticky top-0 z-51 w-full border-b bg-yellow-200 p-2 text-center text-sm text-yellow-900">
+            <span>NOTE: currently viewing an external preview link. This page may be in draft format.</span>
         </div>
     )
 }

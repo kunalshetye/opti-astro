@@ -74,6 +74,14 @@ const graphType = graphtype !== '-' ? graphtype : 'website';
                 />
             )
         }
+        {
+            EXTERNAL_PREVIEW_ENABLED && ctx === 'ext_preview' && (
+                <ExtPreviewLinkBanner
+                    contentPayload={contentPayload}
+                    pageUrl={defaultUrl}
+                />
+            )
+        }
         <Header siteSettings={siteSettings} />
         <slot />
         <Footer siteSettings={siteSettings} />
