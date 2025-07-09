@@ -67,7 +67,7 @@ export async function isExternalPreviewEnabled(contentVersion: string): Promise<
     let isExtPreviewEnabled = false;
     if (types.includes('_Page')) {
         //@ts-ignore
-        isExtPreviewEnabled = contentPublishStatus?._Content?.item?.PageAdminSettings?.EnableExternalPreview || '';
+        isExtPreviewEnabled = contentPublishStatus?._Content?.item?.PageAdminSettings?.EnableExternalPreview || false;
     }
 
     return isExtPreviewEnabled;
