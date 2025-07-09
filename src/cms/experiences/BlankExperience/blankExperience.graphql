@@ -5,4 +5,7 @@ fragment BlankExperienceSeo on BlankExperience {
         GraphType
         Indexing
     }
+    PageAdminSettings {
+        ...PageAdminSettingsProperty
+    }
 }

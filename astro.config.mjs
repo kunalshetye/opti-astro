@@ -99,6 +99,11 @@ export default defineConfig({
                 optional: true,
                 default: false,
             }),
+            EXTERNAL_PREVIEW_TOKEN: envField.string({
+                context: 'server',
+                access: 'secret',
+                optional: true,
+            }),
             OPTIMIZELY_DEV_MODE: envField.boolean({
                 context: 'client',
                 access: 'public',

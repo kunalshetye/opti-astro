@@ -19,7 +19,8 @@ if (!experience) {
 let metaTitle = '',
     metaDescription = '',
     metaIndexing = false,
-    metaGraphType = 'website';
+    metaGraphType = 'website',
+    extPreviewEnabled = false;
 if (experience?._metadata?.types?.includes('BlankExperience')) {
     const blankExperience = experience as BlankExperience;
     metaTitle =
@@ -32,6 +33,8 @@ if (experience?._metadata?.types?.includes('BlankExperience')) {
         blankExperience.BlankExperienceSeoSettings?.Indexing || false;
     metaGraphType =
         blankExperience.BlankExperienceSeoSettings?.GraphType || 'website';
+    extPreviewEnabled =
+        blankExperience.PageAdminSettings?.EnableExternalPreview ?? false;
 }
 
 const defaultUrl = experience?._metadata?.url?.default || '';
@@ -49,6 +52,7 @@ const hierarchicalUrl =
     contentPayload={previewPayload}
     defaultUrl={defaultUrl}
     hierarchicalUrl={hierarchicalUrl ?? ''}
+    extPreviewEnabled={extPreviewEnabled}
 >
     <div class="vb:outline relative w-full flex-1">
         {

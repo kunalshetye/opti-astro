@@ -6,6 +6,7 @@ import { getRelativeLocaleUrl } from 'astro:i18n';
 import Component from '../../cms/components/_Component.astro';
 import Experiences from '../../cms/experiences/_Experiences.astro';
 import { getOptimizelySdk } from '../../graphql/getSdk';
+import { isDraftContent, isExternalPreviewEnabled, isValidExtPreviewToken } from '../../cms/shared/utils.ts';
 import type { ContentPayload } from '../../graphql/shared/ContentPayload';
 import Pages from '../../cms/pages/_Pages.astro';
 
@@ -26,6 +27,9 @@ var extPreviewPayload = qs.parse(Astro.url.search) as unknown as ContentPayload;
 extPreviewPayload.loc = Astro.currentLocale || 'en';
 extPreviewPayload.ctx = ctx;
 
+const isDraft = await isDraftContent(extPreviewPayload.ver);
+const isExtPreviewEnabled = await isExternalPreviewEnabled(extPreviewPayload.ver);
+
 const urlBase = Astro.url.origin;
 const currentPagePath = `${Astro.url.pathname.replace(/\/$/, '')}/`
     .split('/')
@@ -44,6 +48,8 @@ const contentByPathResponse = await getOptimizelySdk(
 
 if (
     !EXTERNAL_PREVIEW_ENABLED ||
+    !isDraft ||
+    !isExtPreviewEnabled ||
     !contentByPathResponse._Content ||
     !contentByPathResponse._Content.item ||
     !contentByPathResponse._Content.item._metadata?.key
@@ -53,6 +59,12 @@ if (
 const item = contentByPathResponse._Content.item;
 
 extPreviewPayload.key = item?._metadata?.key || '';
+
+const token = Astro.url.searchParams.get('token') || '';
+console.log('ext [page] token', token);
+if (!token || !isValidExtPreviewToken(extPreviewPayload.key, extPreviewPayload.ver, token)) {
+    return Astro.redirect(getRelativeLocaleUrl(extPreviewPayload.loc, '/404'), 404);
+}
 
 // Search by content ID to get the content item
 const optiPreviewResponse = await getOptimizelySdk(

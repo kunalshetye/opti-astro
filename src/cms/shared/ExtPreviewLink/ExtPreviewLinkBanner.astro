@@ -1,18 +1,20 @@
 ---
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { getOptimizelySdk } from '../../../graphql/getSdk';
 import { EXTERNAL_PREVIEW_ENABLED } from 'astro:env/client';
+import { isDraftContent, generateExtPreviewToken } from '../utils.ts';
 
 export interface Props {
     contentPayload: ContentPayload;
     pageUrl?: string;
 }
 const { contentPayload, pageUrl } = Astro.props as Props;
-const version = contentPayload.ver || undefined;
-
+const version = contentPayload.ver || '';
 const ctx = contentPayload.ctx || 'view';
 
+const externalPreviewToken = generateExtPreviewToken(contentPayload.key, version);
 const externalPreviewUrl =
-    Astro.url.origin + '/externalpreview' + pageUrl + '?ver=' + version;
+    Astro.url.origin + '/externalpreview' + pageUrl + '?ver=' + version + '&token=' + externalPreviewToken;
 ---
 
 {/* Show link to external preview page while working inside CMS */}
@@ -31,7 +33,7 @@ const externalPreviewUrl =
 {
     EXTERNAL_PREVIEW_ENABLED && ctx === 'ext_preview' && (
         <div class="sticky top-0 z-51 w-full border-b bg-yellow-200 p-2 text-center text-sm text-yellow-900">
-            <span>NOTE: currently viewing an external preview link. This page may be in draft format.</span>
+            <span>NOTE: currently viewing an external preview link. This page is in draft (unpublished) format.</span>
         </div>
     )
 }

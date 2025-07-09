@@ -7,6 +7,7 @@ import Header from '../cms/shared/Header.astro';
 import SiteStyles from '../cms/components/SiteStylesComponent/SiteStyles.astro';
 import { EXTERNAL_PREVIEW_ENABLED } from 'astro:env/client';
 import ExtPreviewLinkBanner from '../cms/shared/ExtPreviewLink/ExtPreviewLinkBanner.astro';
+import { isDraftContent } from '../cms/shared/utils.ts';
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
 import '../styles/global.css';
@@ -19,6 +20,7 @@ interface Props {
     contentPayload: ContentPayload;
     defaultUrl?: string;
     hierarchicalUrl?: string;
+    extPreviewEnabled?: boolean;
 }
 
 const {
@@ -29,8 +31,12 @@ const {
     contentPayload,
     defaultUrl,
     hierarchicalUrl,
+    extPreviewEnabled,
 } = Astro.props;
 const ctx = contentPayload.ctx || 'view';
+
+const contentVersion = contentPayload.ver || '';
+const isDraft = await isDraftContent(contentVersion);
 
 const { host } = Astro.url;
 const siteSettings = await getOptimizelySdk(
@@ -67,7 +73,7 @@ const graphType = graphtype !== '-' ? graphtype : 'website';
     </head>
     <body>
         {
-            EXTERNAL_PREVIEW_ENABLED && ctx === 'edit' && (
+            EXTERNAL_PREVIEW_ENABLED && extPreviewEnabled && isDraft && ctx === 'edit' && (
                 <ExtPreviewLinkBanner
                     contentPayload={contentPayload}
                     pageUrl={defaultUrl}
@@ -75,7 +81,7 @@ const graphType = graphtype !== '-' ? graphtype : 'website';
             )
         }
         {
-            EXTERNAL_PREVIEW_ENABLED && ctx === 'ext_preview' && (
+            EXTERNAL_PREVIEW_ENABLED && extPreviewEnabled && isDraft && ctx === 'ext_preview' && (
                 <ExtPreviewLinkBanner
                     contentPayload={contentPayload}
                     pageUrl={defaultUrl}
