@@ -5,7 +5,7 @@ import type { Locales } from '../../__generated/sdk';
 import Footer from '../cms/shared/Footer.astro';
 import Header from '../cms/shared/Header.astro';
 import SiteStyles from '../cms/components/SiteStylesComponent/SiteStyles.astro';
-import { EXTERNAL_PREVIEW_ENABLED } from 'astro:env/client';
+import { EXTERNAL_PREVIEW_ENABLED } from 'astro:env/server';
 import ExtPreviewLinkBanner from '../cms/shared/ExtPreviewLink/ExtPreviewLinkBanner.astro';
 import { isDraftContent } from '../cms/shared/utils.ts';
 import { getOptimizelySdk } from '../graphql/getSdk';
@@ -73,15 +73,8 @@ const graphType = graphtype !== '-' ? graphtype : 'website';
     </head>
     <body>
         {
-            EXTERNAL_PREVIEW_ENABLED && extPreviewEnabled && isDraft && ctx === 'edit' && (
-                <ExtPreviewLinkBanner
-                    contentPayload={contentPayload}
-                    pageUrl={defaultUrl}
-                />
-            )
-        }
-        {
-            EXTERNAL_PREVIEW_ENABLED && extPreviewEnabled && isDraft && ctx === 'ext_preview' && (
+            EXTERNAL_PREVIEW_ENABLED && extPreviewEnabled && isDraft 
+                && (ctx === 'edit' || ctx === 'ext_preview') && (
                 <ExtPreviewLinkBanner
                     contentPayload={contentPayload}
                     pageUrl={defaultUrl}

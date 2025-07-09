@@ -10,7 +10,7 @@ import { isDraftContent, isExternalPreviewEnabled, isValidExtPreviewToken } from
 import type { ContentPayload } from '../../graphql/shared/ContentPayload';
 import Pages from '../../cms/pages/_Pages.astro';
 
-import { EXTERNAL_PREVIEW_ENABLED } from 'astro:env/client';
+import { EXTERNAL_PREVIEW_ENABLED } from 'astro:env/server';
 
 const ctx = 'ext_preview';
 
@@ -61,7 +61,6 @@ const item = contentByPathResponse._Content.item;
 extPreviewPayload.key = item?._metadata?.key || '';
 
 const token = Astro.url.searchParams.get('token') || '';
-console.log('ext [page] token', token);
 if (!token || !isValidExtPreviewToken(extPreviewPayload.key, extPreviewPayload.ver, token)) {
     return Astro.redirect(getRelativeLocaleUrl(extPreviewPayload.loc, '/404'), 404);
 }

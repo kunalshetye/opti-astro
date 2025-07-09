@@ -94,7 +94,7 @@ export default defineConfig({
                 default: 0,
             }),
             EXTERNAL_PREVIEW_ENABLED: envField.boolean({
-                context: 'client',
+                context: 'server',
                 access: 'public',
                 optional: true,
                 default: false,

@@ -1,7 +1,7 @@
 ---
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { getOptimizelySdk } from '../../../graphql/getSdk';
-import { EXTERNAL_PREVIEW_ENABLED } from 'astro:env/client';
+import { EXTERNAL_PREVIEW_ENABLED } from 'astro:env/server';
 import { isDraftContent, generateExtPreviewToken } from '../utils.ts';
 
 export interface Props {
