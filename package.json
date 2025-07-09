@@ -11,7 +11,7 @@
         "astro": "astro",
         "codegen": "graphql-codegen --config codegen.ts && yarn sync-locales",
         "codegen:watch": "graphql-codegen --watch --config codegen.ts",
-        "sync-locales": "node --env-file=.env ./utils/sync-locales.mjs",
+        "sync-locales": "node ./utils/sync-locales.mjs",
         "styles:push": "node --env-file=.env ./utils/styles/push.mjs",
         "styles:pull": "node --env-file=.env ./utils/styles/pull.mjs",
         "style:push": "node --env-file=.env ./utils/styles/push.mjs",
