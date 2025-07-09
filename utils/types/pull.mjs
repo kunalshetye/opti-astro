@@ -153,13 +153,6 @@ contentTypesListSorted?.forEach(async (contentType) => {
                 );
             }
         } else if (baseType === 'experience') {
-            if (contentTypeKeyCapitalized === 'BlankExperience') {
-                console.log(
-                    `⚠️ Warning: Skipping experience type "${contentTypeKey}"`
-                );
-                return;
-            }
-
             // Experience types go in experiences folder
             const typeFolderPath = fg.convertPathToPattern(
                 path.resolve(
