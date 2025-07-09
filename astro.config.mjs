@@ -31,19 +31,20 @@ export default defineConfig({
     },
 
     i18n: {
-        locales: ['en', 'es', 'fr', 'fr-CA', 'nl', 'sv', 'de'],
+        locales: [
+        // DYNAMIC_LOCALES_START
+       'en' 
+        // DYNAMIC_LOCALES_END
+        ],
         defaultLocale: 'en',
         routing: {
             prefixDefaultLocale: false,
             fallbackType: 'rewrite',
         },
         fallback: {
-            es: 'en',
-            fr: 'en',
-            'fr-CA': 'en',
-            nl: 'en',
-            sv: 'en',
-            de: 'en',
+            // DYNAMIC_FALLBACK_START
+            
+            // DYNAMIC_FALLBACK_END
         },
     },
 
