@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /**
  * Sync locales from generated SDK to astro.config.mjs
  * This script extracts locale values from __generated/sdk.ts and updates astro.config.mjs
