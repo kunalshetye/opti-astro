@@ -20,8 +20,16 @@ const config = {
 };
 const client = createClient(config);
 
+// Get command line argument for specific style name
+const styleNameArg = process.argv[2];
+
 const templatesList = await client.displayTemplates.displayTemplatesList();
-templatesList.items?.forEach(async (template) => {
+const templatesListFiltered = styleNameArg ? 
+    templatesList.items.filter(
+        (item) => item.key === styleNameArg
+    ) : templatesList.items;
+
+templatesListFiltered?.forEach(async (template) => {
     const styleKey = template.key;
     const styleDefinition =
         await client.displayTemplates.displayTemplatesGet(styleKey);

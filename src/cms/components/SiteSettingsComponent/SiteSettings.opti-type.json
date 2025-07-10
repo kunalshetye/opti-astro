@@ -168,13 +168,14 @@
 		"SiteDomain": {
 			"type": "string",
 			"displayName": "Site Domain",
-			"description": "Domain (www.mysite.com) to associate with these Site Settings",
+			"description": "Domain (format: www.mysite.com) to associate with these Site Settings",
 			"localized": false,
 			"required": false,
 			"group": "Information",
 			"sortOrder": 1000,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"editorSettings": {},
+			"pattern": "^((([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,})|localhost)(:[0-9]+)?$"
 		}
 	}
 }

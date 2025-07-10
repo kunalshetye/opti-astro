@@ -2,6 +2,7 @@ fragment ArticlePage on ArticlePage {
     _metadata {
         ...PageUrl
         published
+        displayName
     }
     PromoImage {
         ...ContentUrl
@@ -15,5 +16,8 @@ fragment ArticlePage on ArticlePage {
     }
     SeoSettings {
         ...PageSeoSettingsProperty
+    }
+    PageAdminSettings {
+        ...PageAdminSettingsProperty
     }
 }

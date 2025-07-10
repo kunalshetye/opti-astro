@@ -61,12 +61,24 @@
 		"SiteStylesDomain": {
 			"type": "string",
 			"displayName": "Site Domain",
-			"description": "Domain (www.mysite.com) to associate with these Site Styles",
+			"description": "Domain (format: www.mysite.com) to associate with these Site Styles",
 			"localized": false,
 			"required": true,
 			"group": "Information",
 			"sortOrder": 10,
 			"indexingType": "searchable",
+			"editorSettings": {},
+			"pattern": "^((([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,})|localhost)(:[0-9]+)?$"
+		},
+		"textXs": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "text-xs",
+			"description": "Text size: xs",
+			"localized": false,
+			"required": false,
+			"group": "StylesSizes",
+			"sortOrder": 10,
 			"editorSettings": {}
 		},
 		"primaryContent": {
@@ -119,6 +131,17 @@
 				]
 			}
 		},
+		"textSm": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "text-sm (h6)",
+			"description": "Text size: sm",
+			"localized": false,
+			"required": false,
+			"group": "StylesSizes",
+			"sortOrder": 20,
+			"editorSettings": {}
+		},
 		"secondary": {
 			"type": "string",
 			"format": "shortString",
@@ -168,6 +191,17 @@
 					}
 				]
 			}
+		},
+		"textBase": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "text-base (h5 + p)",
+			"description": "Text size: base",
+			"localized": false,
+			"required": false,
+			"group": "StylesSizes",
+			"sortOrder": 30,
+			"editorSettings": {}
 		},
 		"sizeField": {
 			"type": "string",
@@ -258,6 +292,17 @@
 				]
 			}
 		},
+		"textLg": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "text-lg (h4)",
+			"description": "Text size: lg",
+			"localized": false,
+			"required": false,
+			"group": "StylesSizes",
+			"sortOrder": 40,
+			"editorSettings": {}
+		},
 		"accent": {
 			"type": "string",
 			"format": "shortString",
@@ -281,6 +326,17 @@
 			"minimum": 0,
 			"maximum": 10
 		},
+		"textXl": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "text-xl (h3)",
+			"description": "Text size: xl",
+			"localized": false,
+			"required": false,
+			"group": "StylesSizes",
+			"sortOrder": 50,
+			"editorSettings": {}
+		},
 		"depth": {
 			"type": "boolean",
 			"displayName": "Depth",
@@ -299,6 +355,17 @@
 			"localized": false,
 			"required": false,
 			"group": "StylesColors",
+			"sortOrder": 60,
+			"editorSettings": {}
+		},
+		"text2xl": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "text-2xl (h2)",
+			"description": "Text size: 2xl",
+			"localized": false,
+			"required": false,
+			"group": "StylesSizes",
 			"sortOrder": 60,
 			"editorSettings": {}
 		},
@@ -323,6 +390,17 @@
 			"sortOrder": 70,
 			"editorSettings": {}
 		},
+		"text3xl": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "text-3xl (h1)",
+			"description": "Text size: 3xl",
+			"localized": false,
+			"required": false,
+			"group": "StylesSizes",
+			"sortOrder": 70,
+			"editorSettings": {}
+		},
 		"neutralContent": {
 			"type": "string",
 			"format": "shortString",
@@ -334,48 +412,59 @@
 			"sortOrder": 80,
 			"editorSettings": {}
 		},
-		"base100": {
+		"text4xl": {
 			"type": "string",
 			"format": "shortString",
-			"displayName": "color-base-100",
-			"description": "Base color of page, used for blank backgrounds",
+			"displayName": "text-4xl",
+			"description": "Text size: 4xl",
 			"localized": false,
 			"required": false,
-			"group": "StylesColors",
-			"sortOrder": 210,
+			"group": "StylesSizes",
+			"sortOrder": 80,
 			"editorSettings": {}
 		},
-		"base200": {
+		"text5xl": {
 			"type": "string",
 			"format": "shortString",
-			"displayName": "color-base-200",
-			"description": "Base color, darker shade",
+			"displayName": "text-5xl",
+			"description": "Text size: 5xl",
 			"localized": false,
 			"required": false,
-			"group": "StylesColors",
-			"sortOrder": 220,
+			"group": "StylesSizes",
+			"sortOrder": 90,
 			"editorSettings": {}
 		},
-		"base300": {
+		"text6xl": {
 			"type": "string",
 			"format": "shortString",
-			"displayName": "color-base-300",
-			"description": "Base color, even more darker shade",
+			"displayName": "text-6xl",
+			"description": "Text size: 6xl",
 			"localized": false,
 			"required": false,
-			"group": "StylesColors",
-			"sortOrder": 230,
+			"group": "StylesSizes",
+			"sortOrder": 100,
 			"editorSettings": {}
 		},
-		"baseContent": {
+		"text7xl": {
 			"type": "string",
 			"format": "shortString",
-			"displayName": "color-base-content (base text color)",
-			"description": "Foreground (text) content color to use on base content",
+			"displayName": "text-7xl",
+			"description": "Text size: 7xl",
 			"localized": false,
 			"required": false,
-			"group": "StylesColors",
-			"sortOrder": 240,
+			"group": "StylesSizes",
+			"sortOrder": 110,
+			"editorSettings": {}
+		},
+		"text8xl": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "text-8xl",
+			"description": "Text size: 8xl",
+			"localized": false,
+			"required": false,
+			"group": "StylesSizes",
+			"sortOrder": 120,
 			"editorSettings": {}
 		},
 		"info": {
@@ -386,6 +475,17 @@
 			"localized": false,
 			"required": false,
 			"group": "StylesColors",
+			"sortOrder": 130,
+			"editorSettings": {}
+		},
+		"text9xl": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "text-9xl",
+			"description": "Text size: 9xl",
+			"localized": false,
+			"required": false,
+			"group": "StylesSizes",
 			"sortOrder": 130,
 			"editorSettings": {}
 		},
@@ -466,6 +566,50 @@
 			"sortOrder": 200,
 			"editorSettings": {}
 		},
+		"base100": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-base-100",
+			"description": "Base color of page, used for blank backgrounds",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 210,
+			"editorSettings": {}
+		},
+		"base200": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-base-200",
+			"description": "Base color, darker shade",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 220,
+			"editorSettings": {}
+		},
+		"base300": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-base-300",
+			"description": "Base color, even more darker shade",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 230,
+			"editorSettings": {}
+		},
+		"baseContent": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "color-base-content (base text color)",
+			"description": "Foreground (text) content color to use on base content",
+			"localized": false,
+			"required": false,
+			"group": "StylesColors",
+			"sortOrder": 240,
+			"editorSettings": {}
+		},
 		"daisyuiTheme": {
 			"type": "string",
 			"displayName": "DaisyUI Theme",
@@ -484,149 +628,6 @@
 			"required": false,
 			"group": "StylesOther",
 			"sortOrder": 500,
-			"editorSettings": {}
-		},
-		"textXs": {
-			"type": "string",
-			"format": "shortString",
-			"displayName": "text-xs",
-			"description": "Text size: xs",
-			"localized": false,
-			"required": false,
-			"group": "StylesSizes",
-			"sortOrder": 10,
-			"editorSettings": {}
-		},
-		"textSm": {
-			"type": "string",
-			"format": "shortString",
-			"displayName": "text-sm (h6)",
-			"description": "Text size: sm",
-			"localized": false,
-			"required": false,
-			"group": "StylesSizes",
-			"sortOrder": 20,
-			"editorSettings": {}
-		},
-		"textBase": {
-			"type": "string",
-			"format": "shortString",
-			"displayName": "text-base (h5 + p)",
-			"description": "Text size: base",
-			"localized": false,
-			"required": false,
-			"group": "StylesSizes",
-			"sortOrder": 30,
-			"editorSettings": {}
-		},
-		"textLg": {
-			"type": "string",
-			"format": "shortString",
-			"displayName": "text-lg (h4)",
-			"description": "Text size: lg",
-			"localized": false,
-			"required": false,
-			"group": "StylesSizes",
-			"sortOrder": 40,
-			"editorSettings": {}
-		},
-		"textXl": {
-			"type": "string",
-			"format": "shortString",
-			"displayName": "text-xl (h3)",
-			"description": "Text size: xl",
-			"localized": false,
-			"required": false,
-			"group": "StylesSizes",
-			"sortOrder": 50,
-			"editorSettings": {}
-		},
-		"text2xl": {
-			"type": "string",
-			"format": "shortString",
-			"displayName": "text-2xl (h2)",
-			"description": "Text size: 2xl",
-			"localized": false,
-			"required": false,
-			"group": "StylesSizes",
-			"sortOrder": 60,
-			"editorSettings": {}
-		},
-		"text3xl": {
-			"type": "string",
-			"format": "shortString",
-			"displayName": "text-3xl (h1)",
-			"description": "Text size: 3xl",
-			"localized": false,
-			"required": false,
-			"group": "StylesSizes",
-			"sortOrder": 70,
-			"editorSettings": {}
-		},
-		"text4xl": {
-			"type": "string",
-			"format": "shortString",
-			"displayName": "text-4xl",
-			"description": "Text size: 4xl",
-			"localized": false,
-			"required": false,
-			"group": "StylesSizes",
-			"sortOrder": 80,
-			"editorSettings": {}
-		},
-		"text5xl": {
-			"type": "string",
-			"format": "shortString",
-			"displayName": "text-5xl",
-			"description": "Text size: 5xl",
-			"localized": false,
-			"required": false,
-			"group": "StylesSizes",
-			"sortOrder": 90,
-			"editorSettings": {}
-		},
-		"text6xl": {
-			"type": "string",
-			"format": "shortString",
-			"displayName": "text-6xl",
-			"description": "Text size: 6xl",
-			"localized": false,
-			"required": false,
-			"group": "StylesSizes",
-			"sortOrder": 100,
-			"editorSettings": {}
-		},
-		"text7xl": {
-			"type": "string",
-			"format": "shortString",
-			"displayName": "text-7xl",
-			"description": "Text size: 7xl",
-			"localized": false,
-			"required": false,
-			"group": "StylesSizes",
-			"sortOrder": 110,
-			"editorSettings": {}
-		},
-		"text8xl": {
-			"type": "string",
-			"format": "shortString",
-			"displayName": "text-8xl",
-			"description": "Text size: 8xl",
-			"localized": false,
-			"required": false,
-			"group": "StylesSizes",
-			"sortOrder": 120,
-			"editorSettings": {}
-		},
-		"text9xl": {
-			"type": "string",
-			"format": "shortString",
-			"displayName": "text-9xl",
-			"description": "Text size: 9xl",
-			"localized": false,
-			"required": false,
-			"group": "StylesSizes",
-			"sortOrder": 130,
 			"editorSettings": {}
 		}
 	}

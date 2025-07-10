@@ -1,0 +1,27 @@
+query extPreviewStatusByVer($ver: String) {
+    _Content(
+        where: { _metadata: { version: { eq: $ver } } }
+        variation: { include: ALL }
+    ) {
+        item {
+            _metadata {
+                types
+            }
+            ... on ArticlePage {
+                PageAdminSettings {
+                    EnableExternalPreview
+                }
+            }
+            ... on LandingPage {
+                PageAdminSettings {
+                    EnableExternalPreview
+                }
+            }
+            ... on BlankExperience {
+                PageAdminSettings {
+                    EnableExternalPreview
+                }
+            }
+        }
+    }
+}

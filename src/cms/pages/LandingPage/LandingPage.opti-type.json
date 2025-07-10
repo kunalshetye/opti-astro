@@ -50,6 +50,17 @@
 			"group": "SeoSettings",
 			"sortOrder": 0,
 			"editorSettings": {}
+		},
+		"PageAdminSettings": {
+			"type": "component",
+			"contentType": "PageAdminSettings",
+			"displayName": "Page Admin Settings",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "AdminSettings",
+			"sortOrder": 10,
+			"editorSettings": {}
 		}
 	}
 }

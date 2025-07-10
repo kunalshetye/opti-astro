@@ -2,10 +2,10 @@ fragment PageSeoSettingsProperty on PageSeoSettingsProperty {
     MetaTitle
     MetaDescription
     SharingImage {
-        url
-        {
+        url {
             default
         }
     }
     GraphType
+    Indexing
 }

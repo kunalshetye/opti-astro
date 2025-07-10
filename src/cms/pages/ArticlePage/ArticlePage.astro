@@ -34,14 +34,22 @@ const articleHeaderAuthorColor = ((post.PromoImage as any)?.item?.Url || post.Pr
 const articleHeaderDateColor = ((post.PromoImage as any)?.item?.Url || post.PromoImage?.url?.default)
     ? "text-neutral-content/55" : "text-base-content/50";
 
+const graphType = post?.SeoSettings?.GraphType && post?.SeoSettings?.GraphType !== "-" ? 
+    post?.SeoSettings?.GraphType : 'article';
+const defaultUrl = post?._metadata?.url?.default || '';
 const hierarchicalUrl = post?._metadata?.url?.type === "SIMPLE" ? post?._metadata?.url?.hierarchical : '';
+const extPreviewEnabled = post?.PageAdminSettings?.EnableExternalPreview ?? false;
 ---
 
 <Layout
-    title={post.SeoSettings?.MetaTitle ?? post?.Heading ?? 'Article'}
-    description={post.SeoSettings?.MetaDescription ?? ''}
+    title={post.SeoSettings?.MetaTitle ?? post?.Heading ?? post?._metadata?.displayName ?? 'Article'}
+    description={post.SeoSettings?.MetaDescription ?? post?.Heading ?? ''}
+    graphtype={graphType}
+    indexing={post.SeoSettings?.Indexing ?? false}
     contentPayload={contentPayload}
+    defaultUrl={defaultUrl}
     hierarchicalUrl={hierarchicalUrl ?? ''}
+    extPreviewEnabled={extPreviewEnabled}
 >
     <div class="max-w-screen-6xl mx-auto">
         <main class="mt-10">

@@ -77,6 +77,8 @@ The following environment variables are required for the application to function
 |----------|-------------|---------|-------|
 | `PREVIEW_DELAY` | Delay in ms for content preview updates | `600` | Increase if preview updates are unreliable |
 | `OPTIMIZELY_DAM_ENABLED` | Enable DAM (Digital Asset Management) features | `false` | Set to `true` if your CMS instance has DAM enabled |
+| `EXTERNAL_PREVIEW_ENABLED` | Enable external preview feature | `false` | Set to `true` to enable external preview links |
+| `EXTERNAL_PREVIEW_TOKEN` | String token for external preview feature | `OptiPreview123` | Required to enable external preview links |
 | `OPTIMIZELY_DEV_MODE` | Enable GraphQL debug panel in footer | `false` | Set to `true` to show GraphQL queries being executed |
 
 ### DAM Configuration

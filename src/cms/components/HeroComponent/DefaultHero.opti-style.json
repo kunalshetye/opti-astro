@@ -112,29 +112,61 @@
         }
       }
     },
-    "backgroundColor": {
-      "displayName": "Background Color",
-      "editor": "",
-      "sortOrder": 70,
-      "choices": {
-        "transparent": {
-          "displayName": "Transparent",
-          "sortOrder": 10
-        },
-        "white": {
-          "displayName": "White",
-          "sortOrder": 20
-        },
-        "blue": {
-          "displayName": "Blue",
-          "sortOrder": 30
-        },
-        "red": {
-          "displayName": "Red",
-          "sortOrder": 40
-        }
-      }
-    },
+	"backgroundColor": {
+		"displayName": "Hero Background Color",
+		"editor": "",
+		"sortOrder": 70,
+		"choices": {
+			"transparent": {
+				"displayName": "Transparent",
+				"sortOrder": 5
+			},
+			"base_100": {
+				"displayName": "Base 100",
+				"sortOrder": 10
+			},
+			"base_200": {
+				"displayName": "Base 200",
+				"sortOrder": 20
+			},
+			"base_300": {
+				"displayName": "Base 300",
+				"sortOrder": 30
+			},
+			"primary": {
+				"displayName": "Primary",
+				"sortOrder": 40
+			},
+			"secondary": {
+				"displayName": "Secondary",
+				"sortOrder": 50
+			},
+			"accent": {
+				"displayName": "Accent",
+				"sortOrder": 60
+			},
+			"neutral": {
+				"displayName": "Neutral",
+				"sortOrder": 70
+			},
+			"info": {
+				"displayName": "Info",
+				"sortOrder": 80
+			},
+			"success": {
+				"displayName": "Success",
+				"sortOrder": 90
+			},
+			"warning": {
+				"displayName": "Warning",
+				"sortOrder": 100
+			},
+			"error": {
+				"displayName": "Error",
+				"sortOrder": 110
+			}
+		}
+	},
     "image_fit": {
       "displayName": "Image Fit",
       "editor": "",

@@ -1,0 +1,12 @@
+query contentPublishStatusByVer($ver: String) {
+    _Content(
+        where: { _metadata: { version: { eq: $ver } } }
+        variation: { include: ALL }
+    ) {
+        item {
+            _metadata {
+                status
+            }
+        }
+    }
+}

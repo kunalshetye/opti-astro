@@ -8,6 +8,18 @@
 	"mediaFileExtensions": [],
 	"compositionBehaviors": [],
 	"properties": {
+		"Domain": {
+			"type": "string",
+			"displayName": "Domain",
+			"description": "Domain (format: www.mysite.com) to use/apply these Placeholders",
+			"localized": true,
+			"required": true,
+			"group": "Information",
+			"sortOrder": 10,
+			"indexingType": "queryable",
+			"editorSettings": {},
+			"pattern": "^((([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,})|localhost)(:[0-9]+)?$"
+		},
 		"Placeholders": {
 			"type": "array",
 			"displayName": "Placeholders",
@@ -15,7 +27,7 @@
 			"localized": true,
 			"required": true,
 			"group": "Information",
-			"sortOrder": 0,
+			"sortOrder": 20,
 			"editorSettings": {},
 			"items": {
 				"type": "content",
@@ -24,17 +36,6 @@
 				],
 				"restrictedTypes": []
 			}
-		},
-		"Domain": {
-			"type": "string",
-			"displayName": "Domain",
-			"description": "",
-			"localized": true,
-			"required": true,
-			"group": "Information",
-			"sortOrder": 0,
-			"indexingType": "queryable",
-			"editorSettings": {}
 		}
 	}
 }

@@ -1,21 +1,43 @@
 ---
-import { ClientRouter } from "astro:transitions";
+import { ClientRouter } from 'astro:transitions';
 
 import type { Locales } from '../../__generated/sdk';
 import Footer from '../cms/shared/Footer.astro';
 import Header from '../cms/shared/Header.astro';
-import SiteStyles from "../cms/components/SiteStylesComponent/SiteStyles.astro";
+import SiteStyles from '../cms/components/SiteStylesComponent/SiteStyles.astro';
+import { EXTERNAL_PREVIEW_ENABLED } from 'astro:env/server';
+import ExtPreviewLinkBanner from '../cms/shared/ExtPreviewLink/ExtPreviewLinkBanner.astro';
+import { isDraftContent } from '../cms/shared/utils.ts';
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
 import '../styles/global.css';
+
 interface Props {
     title: string;
     description: string;
+    graphtype?: string;
+    indexing?: boolean;
     contentPayload: ContentPayload;
+    defaultUrl?: string;
     hierarchicalUrl?: string;
+    extPreviewEnabled?: boolean;
 }
 
-const { title, description, contentPayload, hierarchicalUrl } = Astro.props;
+const {
+    title,
+    description,
+    graphtype = 'website',
+    indexing = false,
+    contentPayload,
+    defaultUrl,
+    hierarchicalUrl,
+    extPreviewEnabled,
+} = Astro.props;
+const ctx = contentPayload.ctx || 'view';
+
+const contentVersion = contentPayload.ver || '';
+const isDraft = await isDraftContent(contentVersion);
+
 const { host } = Astro.url;
 const siteSettings = await getOptimizelySdk(
     contentPayload
@@ -24,14 +46,14 @@ const siteSettings = await getOptimizelySdk(
     locale: [contentPayload.loc as Locales],
 });
 
-const siteStyles = await getOptimizelySdk(
-    contentPayload
-).siteStylesByHostname({
+const siteStyles = await getOptimizelySdk(contentPayload).siteStylesByHostname({
     domain: host,
     locale: [contentPayload.loc as Locales],
 });
 
 const canonicalUrl = Astro.url.origin + hierarchicalUrl;
+
+const graphType = graphtype !== '-' ? graphtype : 'website';
 ---
 
 <!doctype html>
@@ -43,23 +65,32 @@ const canonicalUrl = Astro.url.origin + hierarchicalUrl;
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="generator" content={Astro.generator} />
-        {hierarchicalUrl && 
-            <link rel="canonical" href={canonicalUrl} />
-        }
+        {indexing && <meta name="robots" content="noindex, nofollow" />}
+        {graphType && <meta property="og:type" content={graphType} />}
+        {hierarchicalUrl && <link rel="canonical" href={canonicalUrl} />}
         <title>{title}</title>
         <ClientRouter />
     </head>
     <body>
+        {
+            EXTERNAL_PREVIEW_ENABLED && extPreviewEnabled && isDraft 
+                && (ctx === 'edit' || ctx === 'ext_preview') && (
+                <ExtPreviewLinkBanner
+                    contentPayload={contentPayload}
+                    pageUrl={defaultUrl}
+                />
+            )
+        }
         <Header siteSettings={siteSettings} />
         <slot />
         <Footer siteSettings={siteSettings} />
-        
+
         <script>
             import Alpine from 'alpinejs';
-            
+
             // Make Alpine available globally
             window.Alpine = Alpine;
-            
+
             // Start Alpine
             Alpine.start();
         </script>

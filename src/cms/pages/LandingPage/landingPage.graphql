@@ -2,6 +2,7 @@ fragment LandingPage on LandingPage {
     _metadata {
         ...PageUrl
         published
+        displayName
     }
     TopContentArea {
         _metadata {
@@ -17,5 +18,8 @@ fragment LandingPage on LandingPage {
     }
     SeoSettings {
         ...PageSeoSettingsProperty
+    }
+    PageAdminSettings {
+        ...PageAdminSettingsProperty
     }
 }

@@ -1,0 +1,96 @@
+---
+import qs from 'query-string';
+
+import type { Locales } from 'astro';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import Component from '../../cms/components/_Component.astro';
+import Experiences from '../../cms/experiences/_Experiences.astro';
+import { getOptimizelySdk } from '../../graphql/getSdk';
+import { isDraftContent, isExternalPreviewEnabled, isValidExtPreviewToken } from '../../cms/shared/utils.ts';
+import type { ContentPayload } from '../../graphql/shared/ContentPayload';
+import Pages from '../../cms/pages/_Pages.astro';
+
+import { EXTERNAL_PREVIEW_ENABLED } from 'astro:env/server';
+
+const ctx = 'ext_preview';
+
+var extPreviewPayload: ContentPayload = {
+    ctx: ctx,
+    key: '',
+    ver: '',
+    loc: '',
+    preview_token: '',
+    types: [],
+};
+
+var extPreviewPayload = qs.parse(Astro.url.search) as unknown as ContentPayload;
+extPreviewPayload.loc = Astro.currentLocale || 'en';
+extPreviewPayload.ctx = ctx;
+
+const isDraft = await isDraftContent(extPreviewPayload.ver);
+const isExtPreviewEnabled = await isExternalPreviewEnabled(extPreviewPayload.ver);
+
+const urlBase = Astro.url.origin;
+const currentPagePath = `${Astro.url.pathname.replace(/\/$/, '')}/`
+    .split('/')
+    .filter((p) => p !== 'externalpreview')
+    .join('/');
+const currentPagePathNoSlash = `${currentPagePath.replace(/\/$/, '')}`;
+
+// Search by page path to get the content item key
+const contentByPathResponse = await getOptimizelySdk(
+    extPreviewPayload
+).contentByPath({
+    base: urlBase,
+    url: currentPagePath,
+    urlNoSlash: currentPagePathNoSlash,
+});
+
+if (
+    !EXTERNAL_PREVIEW_ENABLED ||
+    !isDraft ||
+    !isExtPreviewEnabled ||
+    !contentByPathResponse._Content ||
+    !contentByPathResponse._Content.item ||
+    !contentByPathResponse._Content.item._metadata?.key
+) {
+    return Astro.redirect(getRelativeLocaleUrl(extPreviewPayload.loc, '/404'), 404);
+}
+const item = contentByPathResponse._Content.item;
+
+extPreviewPayload.key = item?._metadata?.key || '';
+
+const token = Astro.url.searchParams.get('token') || '';
+if (!token || !isValidExtPreviewToken(extPreviewPayload.key, extPreviewPayload.ver, token)) {
+    return Astro.redirect(getRelativeLocaleUrl(extPreviewPayload.loc, '/404'), 404);
+}
+
+// Search by content ID to get the content item
+const optiPreviewResponse = await getOptimizelySdk(
+    extPreviewPayload
+).contentById({
+    key: extPreviewPayload.key,
+    //@ts-ignore
+    loc: extPreviewPayload.loc as unknown as Locales,
+    ver: extPreviewPayload.ver,
+});
+
+const types = optiPreviewResponse?._Content?.item?._metadata?.types;
+if (!types || types.length === 0 || types === null) {
+    return Astro.redirect(getRelativeLocaleUrl(extPreviewPayload.loc, '/404'), 404);
+} else {
+    const filteredTypes = types.filter((type): type is string => type !== null);
+    extPreviewPayload.types = filteredTypes;
+}
+
+const isComponentType = extPreviewPayload.types?.includes('_Component');
+const isExperienceType = extPreviewPayload.types?.includes('_Experience');
+const isPageType = extPreviewPayload.types?.includes('_Page') && isExperienceType === false;
+---
+
+<>
+    {!types && <h1 class="text-center text-5xl">Let's create some content</h1>}
+    {isComponentType && <Component data={extPreviewPayload} />}
+    {isExperienceType && <Experiences data={extPreviewPayload} />}
+    {isPageType && <Pages data={extPreviewPayload} />}
+</>

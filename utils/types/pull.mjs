@@ -18,9 +18,16 @@ const config = {
 };
 const client = createClient(config);
 
+// Get command line argument for specific type
+const typeNameArg = process.argv[2];
+
 // Get content types from API
 const contentTypesList = await client.contentTypes.contentTypesList();
-const contentTypesListSorted = contentTypesList.items.sort((a, b) =>
+const contentTypesListFiltered = typeNameArg ? 
+    contentTypesList.items.filter(
+        (item) => item.key === typeNameArg
+    ) : contentTypesList.items;
+const contentTypesListSorted = contentTypesListFiltered.sort((a, b) =>
     a.key.localeCompare(b.key)
 );
 
