@@ -22,6 +22,7 @@ query siteSettingsByHostname($domain: String!, $locale: [Locales]!) {
                             default
                         }
                     }
+                    LinkText
                     SubMenuItems {
                         ... on MenuItem {
                             Link {
@@ -30,22 +31,23 @@ query siteSettingsByHostname($domain: String!, $locale: [Locales]!) {
                                     default
                                 }
                             }
+                            LinkText
                         }
                     }
                 }
                 ... on _Experience {
-                    Link:_metadata {
-                        text:displayName
+                    Link: _metadata {
+                        text: displayName
                         url {
-                        default
+                            default
                         }
                     }
                 }
                 ... on _Page {
-                    Link:_metadata {
-                        text:displayName
+                    Link: _metadata {
+                        text: displayName
                         url {
-                        default
+                            default
                         }
                     }
                 }
@@ -60,18 +62,18 @@ query siteSettingsByHostname($domain: String!, $locale: [Locales]!) {
                     }
                 }
                 ... on _Experience {
-                    Link:_metadata {
-                        text:displayName
+                    Link: _metadata {
+                        text: displayName
                         url {
-                        default
+                            default
                         }
                     }
                 }
                 ... on _Page {
-                    Link:_metadata {
-                        text:displayName
+                    Link: _metadata {
+                        text: displayName
                         url {
-                        default
+                            default
                         }
                     }
                 }

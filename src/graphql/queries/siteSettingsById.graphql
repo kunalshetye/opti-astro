@@ -22,6 +22,7 @@ query siteSettingsById($key: [String]!, $loc: [Locales]!, $ver: String!) {
                             default
                         }
                     }
+                    LinkText
                     SubMenuItems {
                         ... on MenuItem {
                             Link {
@@ -30,6 +31,7 @@ query siteSettingsById($key: [String]!, $loc: [Locales]!, $ver: String!) {
                                     default
                                 }
                             }
+                            LinkText
                         }
                     }
                 }

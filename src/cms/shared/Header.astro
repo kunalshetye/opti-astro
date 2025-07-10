@@ -19,6 +19,7 @@ interface LinkType {
 
 interface MenuItemType {
     Link: LinkType;
+    LinkText?: string;
     SubMenuItems?: MenuItemType[];
 }
 
@@ -73,7 +74,7 @@ const headerItemCount = headerItems?.length || 0;
                                                 data?.Link?.url?.default || '#'
                                             }
                                         >
-                                            {data?.Link?.text || ''}
+                                            {data?.LinkText || data?.Link?.text || ''}
                                         </a>
                                     )}
 
@@ -81,7 +82,7 @@ const headerItemCount = headerItems?.length || 0;
                                         data?.SubMenuItems?.length > 0 && (
                                             <details>
                                                 <summary class="text-lg text-gray-500 transition hover:text-gray-500/75">
-                                                    {data?.Link?.text || ''}
+                                                    {data?.LinkText || data?.Link?.text || ''}
                                                 </summary>
                                                 <ul class="p-2">
                                                     {data?.SubMenuItems
@@ -99,7 +100,8 @@ const headerItemCount = headerItems?.length || 0;
                                                                             '#'
                                                                         }
                                                                     >
-                                                                        {subdata
+                                                                        {subdata?.LinkText ||
+                                                                         subdata
                                                                             ?.Link
                                                                             ?.text ||
                                                                             ''}
@@ -142,7 +144,7 @@ const headerItemCount = headerItems?.length || 0;
                                         class="text-gray-500 transition hover:text-gray-500/75"
                                         href={data?.Link?.url?.default || '#'}
                                     >
-                                        {data?.Link?.text || ''}
+                                        {data?.LinkText || data?.Link?.text || ''}
                                     </a>
                                 )}
 
@@ -154,7 +156,7 @@ const headerItemCount = headerItems?.length || 0;
                                                 role="button"
                                                 class="mb-2 text-gray-500 transition hover:text-gray-500/75"
                                             >
-                                                {data?.Link?.text || ''}
+                                                {data?.LinkText || data?.Link?.text || ''}
                                             </div>
                                             <ul
                                                 tabindex="0"
@@ -174,7 +176,8 @@ const headerItemCount = headerItems?.length || 0;
                                                                         '#'
                                                                     }
                                                                 >
-                                                                    {subdata
+                                                                    {subdata?.LinkText ||
+                                                                        subdata
                                                                         ?.Link
                                                                         ?.text ||
                                                                         ''}
