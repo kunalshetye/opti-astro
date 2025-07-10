@@ -1,0 +1,186 @@
+import { StyleSchema } from '../../../../lib/schema-registry.js';
+
+// Auto-registering Row Default style schema
+export const DefaultRowStyleDefinition = StyleSchema({
+  key: 'DefaultRow',
+  displayName: 'Row Default',
+  nodeType: 'row',
+  isDefault: true,
+  settings: {
+      showAsRowFrom: {
+        displayName: 'Show as row from (screen width)',
+        editor: '',
+        sortOrder: 5,
+        choices: {
+          md: {
+            displayName: 'Medium',
+            sortOrder: 10,
+          },
+          lg: {
+            displayName: 'Large',
+            sortOrder: 20,
+          },
+          xl: {
+            displayName: 'Extra large',
+            sortOrder: 30,
+          },
+        },
+      },
+      contentSpacing: {
+        displayName: 'Content Spacing',
+        editor: '',
+        sortOrder: 10,
+        choices: {
+          none: {
+            displayName: 'None',
+            sortOrder: 10,
+          },
+          small: {
+            displayName: 'Small',
+            sortOrder: 20,
+          },
+          medium: {
+            displayName: 'Medium',
+            sortOrder: 30,
+          },
+          large: {
+            displayName: 'Large',
+            sortOrder: 40,
+          },
+          xl: {
+            displayName: 'Extra Large',
+            sortOrder: 50,
+          },
+          xxl: {
+            displayName: 'Extra Extra Large',
+            sortOrder: 60,
+          },
+        },
+      },
+      justifyContent: {
+        displayName: 'Justify content',
+        editor: '',
+        sortOrder: 20,
+        choices: {
+          start: {
+            displayName: 'Start',
+            sortOrder: 10,
+          },
+          center: {
+            displayName: 'Center',
+            sortOrder: 20,
+          },
+          end: {
+            displayName: 'End',
+            sortOrder: 30,
+          },
+        },
+      },
+      alignContent: {
+        displayName: 'Align content',
+        editor: '',
+        sortOrder: 30,
+        choices: {
+          start: {
+            displayName: 'Start',
+            sortOrder: 10,
+          },
+          center: {
+            displayName: 'Center',
+            sortOrder: 20,
+          },
+          end: {
+            displayName: 'End',
+            sortOrder: 30,
+          },
+        },
+      },
+      verticalSpacing: {
+        displayName: 'Vertical Spacing',
+        editor: '',
+        sortOrder: 40,
+        choices: {
+          none: {
+            displayName: 'None',
+            sortOrder: 10,
+          },
+          small: {
+            displayName: 'Small',
+            sortOrder: 20,
+          },
+          medium: {
+            displayName: 'Medium',
+            sortOrder: 30,
+          },
+          large: {
+            displayName: 'Large',
+            sortOrder: 40,
+          },
+          verylarge: {
+            displayName: 'Very large',
+            sortOrder: 50,
+          },
+        },
+      },
+      backgroundColor: {
+        displayName: 'Background Color',
+        editor: '',
+        sortOrder: 50,
+        choices: {
+          transparent: {
+            displayName: 'Transparent',
+            sortOrder: 5,
+          },
+          base_100: {
+            displayName: 'Base 100',
+            sortOrder: 10,
+          },
+          base_200: {
+            displayName: 'Base 200',
+            sortOrder: 20,
+          },
+          base_300: {
+            displayName: 'Base 300',
+            sortOrder: 30,
+          },
+          primary: {
+            displayName: 'Primary',
+            sortOrder: 40,
+          },
+          secondary: {
+            displayName: 'Secondary',
+            sortOrder: 50,
+          },
+          accent: {
+            displayName: 'Accent',
+            sortOrder: 60,
+          },
+          neutral: {
+            displayName: 'Neutral',
+            sortOrder: 70,
+          },
+          info: {
+            displayName: 'Info',
+            sortOrder: 80,
+          },
+          success: {
+            displayName: 'Success',
+            sortOrder: 90,
+          },
+          warning: {
+            displayName: 'Warning',
+            sortOrder: 100,
+          },
+          error: {
+            displayName: 'Error',
+            sortOrder: 110,
+          },
+        },
+      },
+  },
+});
+
+// Function to serialize to JSON (returns a copy that can be safely modified)
+export function serializeDefaultRowStyleToJSON() {
+  return JSON.parse(JSON.stringify(DefaultRowStyleDefinition));
+}

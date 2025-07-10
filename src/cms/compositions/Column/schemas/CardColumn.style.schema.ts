@@ -1,0 +1,66 @@
+import { StyleSchema } from '../../../../lib/schema-registry.js';
+
+// Auto-registering Column Card style schema
+export const CardColumnStyleDefinition = StyleSchema({
+  key: 'CardColumn',
+  displayName: 'Column Card',
+  nodeType: 'column',
+  isDefault: false,
+  settings: {
+      colBackgroundColor: {
+        displayName: 'Background color',
+        editor: '',
+        sortOrder: 10,
+        choices: {
+          white: {
+            displayName: 'White',
+            sortOrder: 10,
+          },
+          blue: {
+            displayName: 'Blue',
+            sortOrder: 20,
+          },
+          dark_blue: {
+            displayName: 'Dark blue',
+            sortOrder: 30,
+          },
+          orange: {
+            displayName: 'Orange',
+            sortOrder: 40,
+          },
+          green: {
+            displayName: 'Green',
+            sortOrder: 50,
+          },
+          red: {
+            displayName: 'Red',
+            sortOrder: 60,
+          },
+          purple: {
+            displayName: 'Purple',
+            sortOrder: 70,
+          },
+        },
+      },
+      itemOrderOnSmallScreen: {
+        displayName: 'First item on small screen',
+        editor: '',
+        sortOrder: 20,
+        choices: {
+          normal: {
+            displayName: 'Normal',
+            sortOrder: 10,
+          },
+          last: {
+            displayName: 'Last',
+            sortOrder: 20,
+          },
+        },
+      },
+  },
+});
+
+// Function to serialize to JSON (returns a copy that can be safely modified)
+export function serializeCardColumnStyleToJSON() {
+  return JSON.parse(JSON.stringify(CardColumnStyleDefinition));
+}
