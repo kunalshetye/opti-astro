@@ -94,43 +94,64 @@ async function main() {
       console.log(`- Total schemas: ${stats.total}\n`);
       
       if (stats.total > 0) {
-        // Registry is working - show actual schemas
-        const heroStyle = registryModule.getStyleSchema('DefaultHero');
-        
-        if (heroStyle) {
-          console.log('🎨 DefaultHero Style Schema JSON:');
-          console.log('='.repeat(50));
-          console.log(JSON.stringify(heroStyle, null, 2));
-          console.log('='.repeat(50));
-          
-          console.log('\n📊 Schema stats:');
-          console.log(`- Key: ${heroStyle.key}`);
-          console.log(`- Display Name: ${heroStyle.displayName}`);
-          console.log(`- Settings: ${Object.keys(heroStyle.settings).length}`);
-          console.log(`- Content Type: ${heroStyle.contentType}`);
-          console.log(`- Is Default: ${heroStyle.isDefault}`);
-          
-          const totalChoices = Object.values(heroStyle.settings)
-            .reduce((total, setting) => total + Object.keys(setting.choices).length, 0);
-          console.log(`- Total style choices: ${totalChoices}`);
-        } else {
-          console.log('❌ DefaultHero style schema not found in registry');
-        }
-        
-        // List all registered schemas
-        console.log('\n📚 All Registered Schemas:');
-        
+        // Print all component schemas
         const allComponents = registryModule.getAllComponentSchemas();
-        console.log('\nComponent Schemas:');
+        console.log('📝 All Component Schemas:');
+        console.log('='.repeat(60));
+        
         for (const [key, schema] of allComponents) {
-          console.log(`  - ${key}: ${schema.displayName}`);
+          console.log(`\n🏗️  Component: ${key}`);
+          console.log('-'.repeat(40));
+          console.log(JSON.stringify(schema, null, 2));
+          console.log('-'.repeat(40));
+          
+          console.log(`📊 Component Stats:`);
+          console.log(`- Key: ${schema.key}`);
+          console.log(`- Display Name: ${schema.displayName}`);
+          console.log(`- Description: ${schema.description || 'N/A'}`);
+          console.log(`- Base Type: ${schema.baseType}`);
+          console.log(`- Properties: ${Object.keys(schema.properties || {}).length}`);
+          
+          if (schema.properties) {
+            console.log(`- Property Types: ${Object.values(schema.properties).map(p => p.type).join(', ')}`);
+          }
         }
         
+        // Print all style schemas
         const allStyles = registryModule.getAllStyleSchemas();
-        console.log('\nStyle Schemas:');
+        console.log('\n\n🎨 All Style Schemas:');
+        console.log('='.repeat(60));
+        
         for (const [key, schema] of allStyles) {
-          console.log(`  - ${key}: ${schema.displayName} (${schema.contentType || 'composition'})`);
+          console.log(`\n🎭 Style: ${key}`);
+          console.log('-'.repeat(40));
+          console.log(JSON.stringify(schema, null, 2));
+          console.log('-'.repeat(40));
+          
+          console.log(`📊 Style Stats:`);
+          console.log(`- Key: ${schema.key}`);
+          console.log(`- Display Name: ${schema.displayName}`);
+          console.log(`- Content Type: ${schema.contentType || 'N/A'}`);
+          console.log(`- Is Default: ${schema.isDefault || false}`);
+          console.log(`- Settings: ${Object.keys(schema.settings || {}).length}`);
+          
+          if (schema.settings) {
+            const totalChoices = Object.values(schema.settings)
+              .reduce((total, setting) => total + Object.keys(setting.choices || {}).length, 0);
+            console.log(`- Total style choices: ${totalChoices}`);
+            
+            const settingNames = Object.keys(schema.settings);
+            console.log(`- Setting names: ${settingNames.join(', ')}`);
+          }
         }
+        
+        // Summary
+        console.log('\n\n📚 Registry Summary:');
+        console.log('='.repeat(60));
+        console.log(`Total Component Schemas: ${allComponents.size}`);
+        console.log(`Total Style Schemas: ${allStyles.size}`);
+        console.log(`Grand Total: ${stats.total}`);
+        
       } else {
         console.log('📁 Registry loaded but no schemas registered');
       }
