@@ -15,9 +15,11 @@
         "styles:push": "node --env-file=.env ./utils/styles/push.mjs",
         "styles:pull": "node --env-file=.env ./utils/styles/pull.mjs",
         "style:push": "node --env-file=.env ./utils/styles/push.mjs",
+        "style:pull": "node --env-file=.env ./utils/styles/pull.mjs",
         "style:delete": "node --env-file=.env ./utils/styles/delete.mjs",
         "types:pull": "node --env-file=.env ./utils/types/pull.mjs",
         "types:push": "node --env-file=.env ./utils/types/push.mjs",
+        "type:pull": "node --env-file=.env ./utils/types/pull.mjs",
         "type:push": "node --env-file=.env ./utils/types/push.mjs"
     },
     "dependencies": {
