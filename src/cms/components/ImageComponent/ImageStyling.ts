@@ -7,38 +7,44 @@ export function getImageElementStyles(
     const settings: Record<string, string> =
         getDictionaryFromDisplaySettings(displaySettings);
 
-    enum portraitAspectRatioClasses {
-        square = 'aspect-square',
-        banner = 'aspect-[1/4]',
-        photo = 'aspect-[2/3]',
-        monitor = 'aspect-[3/4]',
-        widescreen = 'aspect-[9/16]',
-    }
+    const portraitAspectRatioClasses = {
+        square: 'aspect-square',
+        banner: 'aspect-[1/4]',
+        photo: 'aspect-[2/3]',
+        monitor: 'aspect-[3/4]',
+        widescreen: 'aspect-[9/16]',
+    } as const;
 
-    enum landscapeAspectRatioClasses {
-        square = 'aspect-square',
-        banner = 'aspect-[4/1]',
-        photo = 'aspect-[3/2]',
-        monitor = 'aspect-[4/3]',
-        widescreen = 'aspect-[16/9]',
-    }
+    const landscapeAspectRatioClasses = {
+        default: 'aspect-auto',
+        square: 'aspect-square',
+        banner: 'aspect-[4/1]',
+        photo: 'aspect-[3/2]',
+        monitor: 'aspect-[4/3]',
+        widescreen: 'aspect-[16/9]',
+    } as const;
 
-    enum roundedCornersClasses {
-        small = 'rounded',
-        medium = 'rounded-md',
-        large = 'rounded-lg',
-        huge = 'rounded-[40px]',
-        full = 'rounded-full',
-        none = '',
-    }
+    const roundedCornersClasses = {
+        small: 'rounded',
+        medium: 'rounded-md',
+        large: 'rounded-lg',
+        xlarge: 'rounded-xl',
+        x3large: 'rounded-3xl',
+        huge: 'rounded-[40px]',
+        xhuge: 'rounded-[80px]',
+        full: 'rounded-full',
+        none: '',
+    } as const;
 
-    const cssClasses: string[] = ['relative w-full overflow-hidden not-prose'];
-    // const isPortrait = displaySettings['orientation'] == 'portrait';
-    // cssClasses.push(
-    //     (isPortrait
-    //         ? portraitAspectRatioClasses[settings['aspectRatio']]
-    //         : landscapeAspectRatioClasses[settings['aspectRatio']]) ?? ''
-    // ); //Add aspect ratio
-    // cssClasses.push(roundedCornersClasses[settings['roundedCorners']] ?? ''); // Add rounded corners
+    const cssClasses: string[] = ['relative w-full object-cover not-prose'];
+    const isPortrait = settings['orientation'] == 'portrait';
+    console.log('isPortrait', isPortrait);
+    cssClasses.push(
+        (isPortrait
+            ? portraitAspectRatioClasses[settings['aspectRatio'] as keyof typeof portraitAspectRatioClasses]
+            : landscapeAspectRatioClasses[settings['aspectRatio'] as keyof typeof landscapeAspectRatioClasses]) ?? ''
+    ); //Add aspect ratio
+
+    cssClasses.push(roundedCornersClasses[settings['roundedCorners'] as keyof typeof roundedCornersClasses] ?? ''); // Add rounded corners
     return cssClasses;
 }
