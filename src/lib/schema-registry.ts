@@ -11,6 +11,9 @@ const styleSchemaRegistry = new Map<string, StyleSchemaDefinition>();
  * Auto-registering component schema builder
  */
 export function ComponentSchema<T extends ComponentSchemaDefinition>(definition: T): T {
+  if (componentSchemaRegistry.has(definition.key)) {
+    throw new Error(`Duplicate component schema key: '${definition.key}'. Schema keys must be unique.`);
+  }
   componentSchemaRegistry.set(definition.key, definition);
   console.log(`📝 Auto-registered component schema: ${definition.key}`);
   return definition;
@@ -20,6 +23,9 @@ export function ComponentSchema<T extends ComponentSchemaDefinition>(definition:
  * Auto-registering style schema builder
  */
 export function StyleSchema<T extends StyleSchemaDefinition>(definition: T): T {
+  if (styleSchemaRegistry.has(definition.key)) {
+    throw new Error(`Duplicate style schema key: '${definition.key}'. Schema keys must be unique.`);
+  }
   styleSchemaRegistry.set(definition.key, definition);
   console.log(`🎨 Auto-registered style schema: ${definition.key}`);
   return definition;
