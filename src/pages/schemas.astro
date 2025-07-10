@@ -1,7 +1,8 @@
 ---
 import { getRegistryStats, getAllComponentSchemas, getAllStyleSchemas } from '../lib/schema-registry';
-import '../cms/components/HeroComponent/Hero.type.schema';
-import '../cms/components/HeroComponent/DefaultHero.style.schema';
+
+// Automatically discover and import all schema files
+import.meta.glob('../cms/**/*.schema.ts', { eager: true });
 
 const stats = getRegistryStats();
 const componentSchemas = getAllComponentSchemas();
