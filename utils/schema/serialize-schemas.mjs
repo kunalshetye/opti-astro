@@ -91,11 +91,11 @@ async function main() {
       console.log('Registry Statistics:');
       console.log(`- Component schemas: ${stats.componentSchemas}`);
       console.log(`- Style schemas: ${stats.styleSchemas}`);
-      console.log(`- Total schemas: ${stats.total}\n`);
+      console.log(`- Total schemas: ${stats.totalSchemas}\n`);
       
-      if (stats.total > 0) {
+      if (stats.totalSchemas > 0) {
         // Print all component schemas
-        const allComponents = registryModule.getAllComponentSchemas();
+        const allComponents = registryModule.getAllComponentSchemasMap();
         console.log('📝 All Component Schemas:');
         console.log('='.repeat(60));
         
@@ -118,7 +118,7 @@ async function main() {
         }
         
         // Print all style schemas
-        const allStyles = registryModule.getAllStyleSchemas();
+        const allStyles = registryModule.getAllStyleSchemasMap();
         console.log('\n\n🎨 All Style Schemas:');
         console.log('='.repeat(60));
         
@@ -150,7 +150,7 @@ async function main() {
         console.log('='.repeat(60));
         console.log(`Total Component Schemas: ${allComponents.size}`);
         console.log(`Total Style Schemas: ${allStyles.size}`);
-        console.log(`Grand Total: ${stats.total}`);
+        console.log(`Grand Total: ${stats.totalSchemas}`);
         
       } else {
         console.log('📁 Registry loaded but no schemas registered');

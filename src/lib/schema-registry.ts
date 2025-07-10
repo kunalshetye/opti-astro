@@ -46,16 +46,30 @@ export function getStyleSchema(key: string): StyleSchemaDefinition | undefined {
 }
 
 /**
- * Get all registered component schemas
+ * Get all registered component schemas as an array (optimized for templates)
  */
-export function getAllComponentSchemas(): Map<string, ComponentSchemaDefinition> {
+export function getAllComponentSchemas(): ComponentSchemaDefinition[] {
+  return Array.from(componentSchemaRegistry.values());
+}
+
+/**
+ * Get all registered style schemas as an array (optimized for templates)
+ */
+export function getAllStyleSchemas(): StyleSchemaDefinition[] {
+  return Array.from(styleSchemaRegistry.values());
+}
+
+/**
+ * Get all registered component schemas as a Map (optimized for tooling)
+ */
+export function getAllComponentSchemasMap(): Map<string, ComponentSchemaDefinition> {
   return new Map(componentSchemaRegistry);
 }
 
 /**
- * Get all registered style schemas
+ * Get all registered style schemas as a Map (optimized for tooling)
  */
-export function getAllStyleSchemas(): Map<string, StyleSchemaDefinition> {
+export function getAllStyleSchemasMap(): Map<string, StyleSchemaDefinition> {
   return new Map(styleSchemaRegistry);
 }
 
@@ -80,7 +94,7 @@ export function getRegistryStats() {
   return {
     componentSchemas: componentSchemaRegistry.size,
     styleSchemas: styleSchemaRegistry.size,
-    total: componentSchemaRegistry.size + styleSchemaRegistry.size,
+    totalSchemas: componentSchemaRegistry.size + styleSchemaRegistry.size,
   };
 }
 

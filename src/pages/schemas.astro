@@ -1,0 +1,39 @@
+---
+import { getRegistryStats, getAllComponentSchemas, getAllStyleSchemas } from '../lib/schema-registry';
+import '../cms/components/HeroComponent/Hero.type.schema';
+import '../cms/components/HeroComponent/DefaultHero.style.schema';
+
+const stats = getRegistryStats();
+const componentSchemas = getAllComponentSchemas();
+const styleSchemas = getAllStyleSchemas();
+---
+
+<html>
+<head>
+    <title>Schema Registry Test</title>
+</head>
+<body>
+    <h1>Schema Registry Test</h1>
+    
+    <h2>Registry Statistics</h2>
+    <ul>
+        <li>Component schemas: {stats.componentSchemas}</li>
+        <li>Style schemas: {stats.styleSchemas}</li>
+        <li>Total schemas: {stats.totalSchemas}</li>
+    </ul>
+    
+    <h2>Component Names</h2>
+    <ul>
+        {componentSchemas.map(schema => (
+            <li>{schema.key} - {schema.displayName}</li>
+        ))}
+    </ul>
+    
+    <h2>Style Names</h2>
+    <ul>
+        {styleSchemas.map(schema => (
+            <li>{schema.key} - {schema.displayName}</li>
+        ))}
+    </ul>
+</body>
+</html>
