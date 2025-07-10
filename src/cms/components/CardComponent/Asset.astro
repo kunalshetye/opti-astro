@@ -25,7 +25,7 @@ const imageUrl = (data.Asset as any)?.item?.Url || data.Asset?.url?.default || n
         imageUrl && (
             <AstroImage
                 alt={data.Asset?.item?.AltText || data.Asset?.item?._metadata?.displayName || data.Heading || 'Card image'}
-                class="relative content-center rounded-xl border border-transparent object-cover"
+                class="relative content-center rounded-xl object-cover"
                 inferSize
                 src={imageUrl}
             />
