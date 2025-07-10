@@ -1,199 +1,40 @@
 import { StyleSchema } from '../../../lib/schema-registry.js';
-import { HeroComponentDefinition } from './Hero.type.schema.js';
+import { CardComponentDefinition } from './Card.type.schema.js';
 
-// Auto-registering Hero Default style schema
-export const DefaultHeroStyleDefinition = StyleSchema({
-  key: 'DefaultHero',
-  displayName: 'Hero Default',
-  contentType: HeroComponentDefinition.key,
+// Auto-registering Card Default style schema
+export const DefaultCardStyleDefinition = StyleSchema({
+  key: 'DefaultCard',
+  displayName: 'Card Default',
+  contentType: CardComponentDefinition.key,
   isDefault: true,
   settings: {
-      hero_height: {
-        displayName: 'Hero Height',
+      transform: {
+        displayName: 'Button Text Transform',
         editor: '',
-        sortOrder: 20,
+        sortOrder: 5,
         choices: {
-          h_18rem: {
-            displayName: 'Small (18rem)',
+          keep: {
+            displayName: 'As entered',
             sortOrder: 10,
           },
-          h_28rem: {
-            displayName: 'Medium (28rem)',
+          uppercase: {
+            displayName: 'Uppercase',
             sortOrder: 20,
           },
-          h_38rem: {
-            displayName: 'Large (38rem)',
+          lowercase: {
+            displayName: 'Lowercase',
             sortOrder: 30,
           },
-          h_48rem: {
-            displayName: 'X-Large (48rem)',
+          capitalize: {
+            displayName: 'Capitalize',
             sortOrder: 40,
-          },
-        },
-      },
-      text_placement: {
-        displayName: 'Text Placement',
-        editor: '',
-        sortOrder: 30,
-        choices: {
-          center: {
-            displayName: 'Center',
-            sortOrder: 10,
-          },
-          right: {
-            displayName: 'Right',
-            sortOrder: 20,
-          },
-          left: {
-            displayName: 'Left',
-            sortOrder: 30,
-          },
-        },
-      },
-      text_color: {
-        displayName: 'Text Color',
-        editor: '',
-        sortOrder: 40,
-        choices: {
-          white: {
-            displayName: 'White',
-            sortOrder: 40,
-          },
-          black: {
-            displayName: 'Black',
-            sortOrder: 50,
-          },
-        },
-      },
-      background_tint_level: {
-        displayName: 'Background Tint Level',
-        editor: '',
-        sortOrder: 60,
-        choices: {
-          o_0: {
-            displayName: '0',
-            sortOrder: 0,
-          },
-          o_10: {
-            displayName: '10',
-            sortOrder: 10,
-          },
-          o_20: {
-            displayName: '20',
-            sortOrder: 20,
-          },
-          o_30: {
-            displayName: '30',
-            sortOrder: 30,
-          },
-          o_40: {
-            displayName: '40',
-            sortOrder: 40,
-          },
-          o_50: {
-            displayName: '50',
-            sortOrder: 50,
-          },
-          o_60: {
-            displayName: '60',
-            sortOrder: 60,
-          },
-          o_70: {
-            displayName: '70',
-            sortOrder: 70,
-          },
-          o_80: {
-            displayName: '80',
-            sortOrder: 80,
-          },
-          o_90: {
-            displayName: '90',
-            sortOrder: 90,
-          },
-          o_100: {
-            displayName: '100',
-            sortOrder: 100,
-          },
-        },
-      },
-      backgroundColor: {
-        displayName: 'Hero Background Color',
-        editor: '',
-        sortOrder: 70,
-        choices: {
-          transparent: {
-            displayName: 'Transparent',
-            sortOrder: 5,
-          },
-          base_100: {
-            displayName: 'Base 100',
-            sortOrder: 10,
-          },
-          base_200: {
-            displayName: 'Base 200',
-            sortOrder: 20,
-          },
-          base_300: {
-            displayName: 'Base 300',
-            sortOrder: 30,
-          },
-          primary: {
-            displayName: 'Primary',
-            sortOrder: 40,
-          },
-          secondary: {
-            displayName: 'Secondary',
-            sortOrder: 50,
-          },
-          accent: {
-            displayName: 'Accent',
-            sortOrder: 60,
-          },
-          neutral: {
-            displayName: 'Neutral',
-            sortOrder: 70,
-          },
-          info: {
-            displayName: 'Info',
-            sortOrder: 80,
-          },
-          success: {
-            displayName: 'Success',
-            sortOrder: 90,
-          },
-          warning: {
-            displayName: 'Warning',
-            sortOrder: 100,
-          },
-          error: {
-            displayName: 'Error',
-            sortOrder: 110,
-          },
-        },
-      },
-      image_fit: {
-        displayName: 'Image Fit',
-        editor: '',
-        sortOrder: 80,
-        choices: {
-          object_cover: {
-            displayName: 'Cover (Fill Container, May Crop)',
-            sortOrder: 10,
-          },
-          object_contain: {
-            displayName: 'Contain (Show Full Image, May Have Gaps)',
-            sortOrder: 20,
-          },
-          object_fill: {
-            displayName: 'Fill (Stretch to Fit)',
-            sortOrder: 30,
           },
         },
       },
       buttonStyle: {
         displayName: 'Button Style',
         editor: '',
-        sortOrder: 120,
+        sortOrder: 20,
         choices: {
           standard: {
             displayName: 'Standard (Default)',
@@ -236,7 +77,7 @@ export const DefaultHeroStyleDefinition = StyleSchema({
       buttonWidth: {
         displayName: 'Button Width',
         editor: '',
-        sortOrder: 130,
+        sortOrder: 40,
         choices: {
           w_10rem: {
             displayName: 'Standard (10rem) (Default)',
@@ -283,7 +124,7 @@ export const DefaultHeroStyleDefinition = StyleSchema({
       buttonSize: {
         displayName: 'Button Size',
         editor: '',
-        sortOrder: 130,
+        sortOrder: 50,
         choices: {
           medium: {
             displayName: 'Medium (Default)',
@@ -314,7 +155,7 @@ export const DefaultHeroStyleDefinition = StyleSchema({
       buttonRadius: {
         displayName: 'Rounded Buttons',
         editor: '',
-        sortOrder: 150,
+        sortOrder: 60,
         choices: {
           none: {
             displayName: 'None',
@@ -361,7 +202,7 @@ export const DefaultHeroStyleDefinition = StyleSchema({
       buttonAction: {
         displayName: 'Bouncy Buttons',
         editor: '',
-        sortOrder: 160,
+        sortOrder: 70,
         choices: {
           static: {
             displayName: 'No Bounce',
@@ -373,10 +214,156 @@ export const DefaultHeroStyleDefinition = StyleSchema({
           },
         },
       },
+      assetWidth: {
+        displayName: 'Asset Width',
+        editor: '',
+        sortOrder: 80,
+        choices: {
+          flex_1: {
+            displayName: 'Equal (50/50) (Default)',
+            sortOrder: 10,
+          },
+          w_1_3: {
+            displayName: 'One Third (33%)',
+            sortOrder: 20,
+          },
+          w_2_5: {
+            displayName: 'Two Fifths (40%)',
+            sortOrder: 30,
+          },
+          w_1_2: {
+            displayName: 'Half (50%)',
+            sortOrder: 40,
+          },
+          w_3_5: {
+            displayName: 'Three Fifths (60%)',
+            sortOrder: 50,
+          },
+          w_2_3: {
+            displayName: 'Two Thirds (67%)',
+            sortOrder: 60,
+          },
+        },
+      },
+      contentWidth: {
+        displayName: 'Content Width',
+        editor: '',
+        sortOrder: 90,
+        choices: {
+          flex_1: {
+            displayName: 'Equal (50/50) (Default)',
+            sortOrder: 10,
+          },
+          w_1_3: {
+            displayName: 'One Third (33%)',
+            sortOrder: 20,
+          },
+          w_2_5: {
+            displayName: 'Two Fifths (40%)',
+            sortOrder: 30,
+          },
+          w_1_2: {
+            displayName: 'Half (50%)',
+            sortOrder: 40,
+          },
+          w_3_5: {
+            displayName: 'Three Fifths (60%)',
+            sortOrder: 50,
+          },
+          w_2_3: {
+            displayName: 'Two Thirds (67%)',
+            sortOrder: 60,
+          },
+        },
+      },
+      textAlign: {
+        displayName: 'Text Alignment',
+        editor: '',
+        sortOrder: 100,
+        choices: {
+          left: {
+            displayName: 'Left (Default)',
+            sortOrder: 10,
+          },
+          center: {
+            displayName: 'Center',
+            sortOrder: 20,
+          },
+          right: {
+            displayName: 'Right',
+            sortOrder: 30,
+          },
+          justify: {
+            displayName: 'Justify',
+            sortOrder: 40,
+          },
+        },
+      },
+      transformHeader: {
+        displayName: 'Header Text Transform',
+        editor: '',
+        sortOrder: 110,
+        choices: {
+          normal_case: {
+            displayName: 'Normal Case (Default)',
+            sortOrder: 10,
+          },
+          uppercase: {
+            displayName: 'UPPERCASE',
+            sortOrder: 20,
+          },
+          lowercase: {
+            displayName: 'lowercase',
+            sortOrder: 30,
+          },
+          capitalize: {
+            displayName: 'Capitalize',
+            sortOrder: 40,
+          },
+        },
+      },
+      assetVerticalAlign: {
+        displayName: 'Asset Vertical Alignment',
+        editor: '',
+        sortOrder: 120,
+        choices: {
+          center: {
+            displayName: 'Center (Default)',
+            sortOrder: 10,
+          },
+          start: {
+            displayName: 'Top',
+            sortOrder: 20,
+          },
+          end: {
+            displayName: 'Bottom',
+            sortOrder: 30,
+          },
+        },
+      },
+      contentVerticalAlign: {
+        displayName: 'Content Vertical Alignment',
+        editor: '',
+        sortOrder: 130,
+        choices: {
+          center: {
+            displayName: 'Center (Default)',
+            sortOrder: 10,
+          },
+          start: {
+            displayName: 'Top',
+            sortOrder: 20,
+          },
+          end: {
+            displayName: 'Bottom',
+            sortOrder: 30,
+          },
+        },
+      },
   },
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeDefaultHeroStyleToJSON() {
-  return JSON.parse(JSON.stringify(DefaultHeroStyleDefinition));
+export function serializeDefaultCardStyleToJSON() {
+  return JSON.parse(JSON.stringify(DefaultCardStyleDefinition));
 }

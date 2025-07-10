@@ -1,0 +1,262 @@
+import { StyleSchema } from '../../../lib/schema-registry.js';
+import { ButtonComponentDefinition } from './Button.type.schema.js';
+
+// Auto-registering Button Default style schema
+export const DefaultButtonStyleDefinition = StyleSchema({
+  key: 'DefaultButton',
+  displayName: 'Button Default',
+  contentType: ButtonComponentDefinition.key,
+  isDefault: true,
+  settings: {
+      transform: {
+        displayName: 'Text Transform',
+        editor: '',
+        sortOrder: 5,
+        choices: {
+          keep: {
+            displayName: 'As entered',
+            sortOrder: 10,
+          },
+          uppercase: {
+            displayName: 'Uppercase',
+            sortOrder: 20,
+          },
+          lowercase: {
+            displayName: 'Lowercase',
+            sortOrder: 30,
+          },
+          capitalize: {
+            displayName: 'Capitalize',
+            sortOrder: 40,
+          },
+        },
+      },
+      buttonStyle: {
+        displayName: 'Button Style',
+        editor: '',
+        sortOrder: 20,
+        choices: {
+          standard: {
+            displayName: 'Standard (Default)',
+            sortOrder: 10,
+          },
+          soft: {
+            displayName: 'Soft',
+            sortOrder: 20,
+          },
+          outline: {
+            displayName: 'Outline (Transparent)',
+            sortOrder: 30,
+          },
+          dash: {
+            displayName: 'Dash (Transparent)',
+            sortOrder: 40,
+          },
+          neutral: {
+            displayName: 'Neutral',
+            sortOrder: 50,
+          },
+          link: {
+            displayName: 'Link',
+            sortOrder: 60,
+          },
+          ghost: {
+            displayName: 'Ghost',
+            sortOrder: 70,
+          },
+          wide: {
+            displayName: 'Wide',
+            sortOrder: 80,
+          },
+          disabled: {
+            displayName: 'Disabled',
+            sortOrder: 90,
+          },
+        },
+      },
+      buttonType: {
+        displayName: 'Button Type (Color)',
+        editor: '',
+        sortOrder: 30,
+        choices: {
+          primary: {
+            displayName: 'Primary (Default)',
+            sortOrder: 10,
+          },
+          secondary: {
+            displayName: 'Secondary',
+            sortOrder: 20,
+          },
+          neutral: {
+            displayName: 'Neutral',
+            sortOrder: 30,
+          },
+          accent: {
+            displayName: 'Accent',
+            sortOrder: 40,
+          },
+          info: {
+            displayName: 'Info',
+            sortOrder: 50,
+          },
+          success: {
+            displayName: 'Success',
+            sortOrder: 60,
+          },
+          warning: {
+            displayName: 'Warning',
+            sortOrder: 70,
+          },
+          error: {
+            displayName: 'Error',
+            sortOrder: 80,
+          },
+        },
+      },
+      buttonWidth: {
+        displayName: 'Button Width',
+        editor: '',
+        sortOrder: 40,
+        choices: {
+          w_10rem: {
+            displayName: 'Standard (10rem) (Default)',
+            sortOrder: 10,
+          },
+          w_6rem: {
+            displayName: 'Narrow (6rem)',
+            sortOrder: 15,
+          },
+          w_9rem: {
+            displayName: 'Medium (9rem)',
+            sortOrder: 20,
+          },
+          w_12rem: {
+            displayName: 'Wide (12rem)',
+            sortOrder: 30,
+          },
+          w_15rem: {
+            displayName: 'X-Wide (15rem)',
+            sortOrder: 40,
+          },
+          w_20rem: {
+            displayName: 'XX-Wide (20rem)',
+            sortOrder: 45,
+          },
+          auto: {
+            displayName: 'Auto (Dynamic)',
+            sortOrder: 50,
+          },
+          half: {
+            displayName: 'Half Width',
+            sortOrder: 60,
+          },
+          full: {
+            displayName: 'Full Width',
+            sortOrder: 70,
+          },
+          responsive: {
+            displayName: 'Responsive',
+            sortOrder: 80,
+          },
+        },
+      },
+      buttonSize: {
+        displayName: 'Button Size',
+        editor: '',
+        sortOrder: 50,
+        choices: {
+          medium: {
+            displayName: 'Medium (Default)',
+            sortOrder: 10,
+          },
+          xs: {
+            displayName: 'Extra Small',
+            sortOrder: 20,
+          },
+          sm: {
+            displayName: 'Small',
+            sortOrder: 30,
+          },
+          lg: {
+            displayName: 'Large',
+            sortOrder: 40,
+          },
+          xl: {
+            displayName: 'X-Large',
+            sortOrder: 50,
+          },
+          responsive: {
+            displayName: 'Responsive',
+            sortOrder: 60,
+          },
+        },
+      },
+      buttonRadius: {
+        displayName: 'Button Corners',
+        editor: '',
+        sortOrder: 60,
+        choices: {
+          standard: {
+            displayName: 'Square (No Rounding)',
+            sortOrder: 10,
+          },
+          xs: {
+            displayName: 'Extra Small Radius',
+            sortOrder: 20,
+          },
+          sm: {
+            displayName: 'Small Radius',
+            sortOrder: 30,
+          },
+          md: {
+            displayName: 'Medium Radius',
+            sortOrder: 40,
+          },
+          lg: {
+            displayName: 'Large Radius',
+            sortOrder: 50,
+          },
+          xl: {
+            displayName: 'Extra Large Radius',
+            sortOrder: 60,
+          },
+          xl2: {
+            displayName: '2X Large Radius',
+            sortOrder: 70,
+          },
+          xl3: {
+            displayName: '3X Large Radius',
+            sortOrder: 80,
+          },
+          xl4: {
+            displayName: '4X Large Radius',
+            sortOrder: 90,
+          },
+          full: {
+            displayName: 'Fully Rounded',
+            sortOrder: 100,
+          },
+        },
+      },
+      buttonAction: {
+        displayName: 'Button Hover Effect',
+        editor: '',
+        sortOrder: 70,
+        choices: {
+          static: {
+            displayName: 'Static (No Effect)',
+            sortOrder: 10,
+          },
+          bouncy: {
+            displayName: 'Bouncy with Shadow',
+            sortOrder: 20,
+          },
+        },
+      },
+  },
+});
+
+// Function to serialize to JSON (returns a copy that can be safely modified)
+export function serializeDefaultButtonStyleToJSON() {
+  return JSON.parse(JSON.stringify(DefaultButtonStyleDefinition));
+}

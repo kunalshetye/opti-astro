@@ -168,6 +168,23 @@ export function createComponentSchemaValidator() {
   return TypeCompiler.Compile(schema);
 }
 
+// Helper functions to create TypeBox schemas for style components
+function createStyleChoiceSchema() {
+  return Type.Object({
+    displayName: Type.String(),
+    sortOrder: Type.Number()
+  });
+}
+
+function createStyleSettingSchema() {
+  return Type.Object({
+    displayName: Type.String(),
+    editor: Type.String(),
+    sortOrder: Type.Number(),
+    choices: Type.Record(Type.String(), createStyleChoiceSchema())
+  });
+}
+
 // Create TypeBox schema from StyleSchema interface
 export function createStyleSchemaValidator() {
   const schema = Type.Object({
@@ -177,7 +194,7 @@ export function createStyleSchemaValidator() {
     baseType: Type.Optional(Type.String()),
     nodeType: Type.Optional(Type.String()),
     isDefault: Type.Optional(Type.Boolean()),
-    settings: Type.Record(Type.String(), Type.Any()),
+    settings: Type.Record(Type.String(), createStyleSettingSchema()),
   });
 
   return TypeCompiler.Compile(schema);
@@ -272,4 +289,25 @@ export function validatePropertyByType(data: unknown, type: string): boolean {
     default:
       return false;
   }
+}
+
+// Style component validation functions
+export function validateStyleChoice(data: unknown): boolean {
+  const validator = TypeCompiler.Compile(createStyleChoiceSchema());
+  return validator.Check(data);
+}
+
+export function validateStyleSetting(data: unknown): boolean {
+  const validator = TypeCompiler.Compile(createStyleSettingSchema());
+  return validator.Check(data);
+}
+
+export function getStyleChoiceErrors(data: unknown) {
+  const validator = TypeCompiler.Compile(createStyleChoiceSchema());
+  return Array.from(validator.Errors(data));
+}
+
+export function getStyleSettingErrors(data: unknown) {
+  const validator = TypeCompiler.Compile(createStyleSettingSchema());
+  return Array.from(validator.Errors(data));
 }
