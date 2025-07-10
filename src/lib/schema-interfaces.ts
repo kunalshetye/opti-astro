@@ -14,11 +14,21 @@ export interface BaseProperty {
   editorSettings: Record<string, any>;
 }
 
+// Enum value interface for string properties
+export interface EnumValue {
+  displayName: string;
+  value: string;
+}
+
 // String property interface
 export interface StringProperty extends BaseProperty {
   type: 'string';
-  format?: 'shortString' | 'html' | 'text';
+  format?: 'shortString' | 'html' | 'text' | 'selectOne';
   indexingType?: 'searchable' | 'queryable';
+  pattern?: string;
+  enum?: {
+    values: EnumValue[];
+  };
 }
 
 // Content reference property interface
@@ -38,6 +48,7 @@ export interface ComponentProperty extends BaseProperty {
 export interface ArrayProperty extends BaseProperty {
   type: 'array';
   format?: string;
+  maxItems?: number;
   items: {
     type: 'content' | 'component';
     contentType?: string;
@@ -46,8 +57,26 @@ export interface ArrayProperty extends BaseProperty {
   };
 }
 
+// Boolean property interface
+export interface BooleanProperty extends BaseProperty {
+  type: 'boolean';
+}
+
+// Integer property interface
+export interface IntegerProperty extends BaseProperty {
+  type: 'integer';
+  minimum?: number;
+}
+
+// Float property interface
+export interface FloatProperty extends BaseProperty {
+  type: 'float';
+  minimum?: number;
+  maximum?: number;
+}
+
 // Union of all property types
-export type Property = StringProperty | ContentReferenceProperty | ComponentProperty | ArrayProperty;
+export type Property = StringProperty | ContentReferenceProperty | ComponentProperty | ArrayProperty | BooleanProperty | IntegerProperty | FloatProperty;
 
 // Component schema definition type
 export interface ComponentSchemaDefinition<TKey extends string = string, TProperties = Record<string, Property>> {
@@ -101,8 +130,12 @@ export type StringPropertyConfig = {
   description?: string;
   group?: string;
   sortOrder?: number;
-  format?: 'shortString' | 'html' | 'text';
+  format?: 'shortString' | 'html' | 'text' | 'selectOne';
   indexingType?: 'searchable' | 'queryable';
+  pattern?: string;
+  enum?: {
+    values: EnumValue[];
+  };
   localized?: boolean;
   required?: boolean;
 };
@@ -133,11 +166,42 @@ export type ArrayPropertyConfig = {
   itemType: 'content' | 'component';
   contentType?: string;
   format?: string;
+  maxItems?: number;
   description?: string;
   group?: string;
   sortOrder?: number;
   allowedTypes?: string[];
   restrictedTypes?: string[];
+  localized?: boolean;
+  required?: boolean;
+};
+
+export type BooleanPropertyConfig = {
+  displayName: string;
+  description?: string;
+  group?: string;
+  sortOrder?: number;
+  localized?: boolean;
+  required?: boolean;
+};
+
+export type IntegerPropertyConfig = {
+  displayName: string;
+  minimum?: number;
+  description?: string;
+  group?: string;
+  sortOrder?: number;
+  localized?: boolean;
+  required?: boolean;
+};
+
+export type FloatPropertyConfig = {
+  displayName: string;
+  minimum?: number;
+  maximum?: number;
+  description?: string;
+  group?: string;
+  sortOrder?: number;
   localized?: boolean;
   required?: boolean;
 };
@@ -152,6 +216,8 @@ export function createStringProperty(config: StringPropertyConfig): StringProper
     sortOrder: config.sortOrder ?? 0,
     format: config.format,
     indexingType: config.indexingType,
+    pattern: config.pattern,
+    enum: config.enum,
     localized: config.localized ?? true,
     required: config.required ?? false,
     editorSettings: {},
@@ -208,8 +274,51 @@ export function createArrayProperty(config: ArrayPropertyConfig): ArrayProperty 
     group: config.group ?? 'Information',
     sortOrder: config.sortOrder ?? 0,
     format: config.format,
+    maxItems: config.maxItems,
     items,
     localized: config.localized ?? true,
+    required: config.required ?? false,
+    editorSettings: {},
+  };
+}
+
+export function createBooleanProperty(config: BooleanPropertyConfig): BooleanProperty {
+  return {
+    type: 'boolean',
+    displayName: config.displayName,
+    description: config.description ?? '',
+    group: config.group ?? 'Information',
+    sortOrder: config.sortOrder ?? 0,
+    localized: config.localized ?? false,
+    required: config.required ?? false,
+    editorSettings: {},
+  };
+}
+
+export function createIntegerProperty(config: IntegerPropertyConfig): IntegerProperty {
+  return {
+    type: 'integer',
+    displayName: config.displayName,
+    description: config.description ?? '',
+    group: config.group ?? 'Information',
+    sortOrder: config.sortOrder ?? 0,
+    minimum: config.minimum,
+    localized: config.localized ?? false,
+    required: config.required ?? false,
+    editorSettings: {},
+  };
+}
+
+export function createFloatProperty(config: FloatPropertyConfig): FloatProperty {
+  return {
+    type: 'float',
+    displayName: config.displayName,
+    description: config.description ?? '',
+    group: config.group ?? 'Information',
+    sortOrder: config.sortOrder ?? 0,
+    minimum: config.minimum,
+    maximum: config.maximum,
+    localized: config.localized ?? false,
     required: config.required ?? false,
     editorSettings: {},
   };

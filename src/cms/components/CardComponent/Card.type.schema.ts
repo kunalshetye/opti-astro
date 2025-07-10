@@ -1,40 +1,16 @@
 import { ComponentSchema } from '../../../lib/schema-registry.js';
 
-// Auto-registering Hero component schema
-export const HeroComponentDefinition = ComponentSchema({
-  key: 'Hero',
-  displayName: 'Hero',
-  description: 'A flexible Hero Component',
+// Auto-registering Card component schema
+export const CardComponentDefinition = ComponentSchema({
+  key: 'Card',
+  displayName: 'Card',
+  description: '',
   baseType: 'component',
   sortOrder: 0,
   mayContainTypes: [],
   mediaFileExtensions: [],
   compositionBehaviors: ['sectionEnabled', 'elementEnabled'],
   properties: {
-    Video: {
-      type: 'contentReference',
-      displayName: 'Video',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: -200,
-      editorSettings: {},
-      allowedTypes: ['Video'],
-      restrictedTypes: [],
-    },
-    Image: {
-      type: 'contentReference',
-      displayName: 'Image',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: -100,
-      editorSettings: {},
-      allowedTypes: ['Image'],
-      restrictedTypes: [],
-    },
     Heading: {
       type: 'string',
       displayName: 'Heading',
@@ -42,7 +18,7 @@ export const HeroComponentDefinition = ComponentSchema({
       localized: true,
       required: false,
       group: 'Information',
-      sortOrder: -50,
+      sortOrder: -100,
       editorSettings: {},
       indexingType: 'searchable',
     },
@@ -53,7 +29,7 @@ export const HeroComponentDefinition = ComponentSchema({
       localized: true,
       required: false,
       group: 'Information',
-      sortOrder: -25,
+      sortOrder: -50,
       editorSettings: {},
       indexingType: 'searchable',
     },
@@ -64,10 +40,53 @@ export const HeroComponentDefinition = ComponentSchema({
       localized: true,
       required: false,
       group: 'Information',
-      sortOrder: 0,
+      sortOrder: -25,
       editorSettings: {},
       format: 'html',
       indexingType: 'searchable',
+    },
+    DisplayAs: {
+      type: 'string',
+      displayName: 'Display As',
+      description: '',
+      localized: true,
+      required: false,
+      group: 'Information',
+      sortOrder: 0,
+      editorSettings: {},
+      format: 'selectOne',
+      enum: {
+        values: [
+          {
+            displayName: 'Text Below Card',
+            value: 'textBelowCard',
+          },
+          {
+            displayName: 'Text Above Card',
+            value: 'textAboveCard',
+          },
+          {
+            displayName: 'Text On Left',
+            value: 'textOnLeft',
+          },
+          {
+            displayName: 'Text On Right',
+            value: 'textOnRight',
+          }
+        ],
+      },
+    },
+    Asset: {
+      type: 'contentReference',
+      displayName: 'Asset',
+      description: '',
+      localized: true,
+      required: false,
+      group: 'Information',
+      sortOrder: 0,
+      editorSettings: {},
+      allowedTypes: ['Image'],
+      restrictedTypes: [],
     },
     Links: {
       type: 'array',
@@ -76,7 +95,7 @@ export const HeroComponentDefinition = ComponentSchema({
       localized: true,
       required: false,
       group: 'Information',
-      sortOrder: 0,
+      sortOrder: 200,
       editorSettings: {},
       format: 'LinkCollection',
       items: {
@@ -88,6 +107,6 @@ export const HeroComponentDefinition = ComponentSchema({
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeHeroToJSON() {
-  return JSON.parse(JSON.stringify(HeroComponentDefinition));
+export function serializeCardToJSON() {
+  return JSON.parse(JSON.stringify(CardComponentDefinition));
 }

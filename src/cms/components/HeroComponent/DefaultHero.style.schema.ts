@@ -1,10 +1,11 @@
 import { StyleSchema } from '../../../lib/schema-registry.js';
+import { HeroComponentDefinition } from './Hero.type.schema.js';
 
 // Auto-registering Default Hero style schema
 export const DefaultHeroStyleDefinition = StyleSchema({
   key: 'DefaultHero',
   displayName: 'Hero Default',
-  contentType: 'Hero',
+  contentType: HeroComponentDefinition.key,
   isDefault: true,
   settings: {
       hero_height: {
