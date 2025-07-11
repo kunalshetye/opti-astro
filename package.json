@@ -15,12 +15,16 @@
         "styles:push": "node --env-file=.env ./utils/styles/push.mjs",
         "styles:pull": "node --env-file=.env ./utils/styles/pull.mjs",
         "style:push": "node --env-file=.env ./utils/styles/push.mjs",
-        "style:pull": "node --env-file=.env ./utils/styles/pull.mjs",
         "style:delete": "node --env-file=.env ./utils/styles/delete.mjs",
         "types:pull": "node --env-file=.env ./utils/types/pull.mjs",
         "types:push": "node --env-file=.env ./utils/types/push.mjs",
-        "type:pull": "node --env-file=.env ./utils/types/pull.mjs",
-        "type:push": "node --env-file=.env ./utils/types/push.mjs"
+        "type:push": "node --env-file=.env ./utils/types/push.mjs",
+        "schemas:types:pull": "npx tsx --env-file=.env ./utils/schema/types/pull.mjs",
+        "schemas:types:push": "npx tsx --env-file=.env ./utils/schema/types/push.mjs",
+        "schemas:types:delete": "npx tsx --env-file=.env ./utils/schema/types/delete.mjs",
+        "schemas:styles:pull": "npx tsx --env-file=.env ./utils/schema/styles/pull.mjs",
+        "schemas:styles:push": "npx tsx --env-file=.env ./utils/schema/styles/push.mjs",
+        "schemas:styles:delete": "npx tsx --env-file=.env ./utils/schema/styles/delete.mjs"
     },
     "dependencies": {
         "@astrojs/alpinejs": "0.4.8",
@@ -31,6 +35,7 @@
         "@astrojs/ts-plugin": "1.10.4",
         "@astrojs/vercel": "8.2.0",
         "@rollup/plugin-commonjs": "^28.0.3",
+        "@sinclair/typebox": "^0.34.37",
         "@splidejs/splide": "^4.1.4",
         "@tailwindcss/vite": "^4.0.12",
         "@types/alpinejs": "^3.13.11",
@@ -68,6 +73,7 @@
         "prettier": "^3.5.3",
         "prettier-plugin-astro": "^0.14.1",
         "prettier-plugin-tailwindcss": "^0.6.11",
+        "ts-node": "^10.9.2",
         "vite": "^6.2.7",
         "vite-plugin-mkcert": "^1.17.7"
     },

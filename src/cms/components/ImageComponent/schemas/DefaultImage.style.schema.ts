@@ -1,0 +1,106 @@
+import { StyleSchema } from '../../../../lib/schema-registry.js';
+import { ImageComponentDefinition } from './Image.type.schema.js';
+
+// Auto-registering Image Default style schema
+export const DefaultImageStyleDefinition = StyleSchema({
+  key: 'DefaultImage',
+  displayName: 'Image Default',
+  contentType: ImageComponentDefinition.key,
+  isDefault: true,
+  settings: {
+      "aspectRatio": {
+        "displayName": "Image aspect ratio",
+        "editor": "",
+        "sortOrder": 5,
+        "choices": {
+          "default": {
+            "displayName": "Default/Auto",
+            "sortOrder": 10
+          },
+          "square": {
+            "displayName": "Square (1:1)",
+            "sortOrder": 20
+          },
+          "banner": {
+            "displayName": "Banner (4:1)",
+            "sortOrder": 30
+          },
+          "monitor": {
+            "displayName": "Classic Monitor (4:3)",
+            "sortOrder": 40
+          },
+          "photo": {
+            "displayName": "Photo (3:2)",
+            "sortOrder": 50
+          },
+          "widescreen": {
+            "displayName": "Widescreen (16:9)",
+            "sortOrder": 60
+          }
+        }
+      },
+      "orientation": {
+        "displayName": "Image orientation",
+        "editor": "",
+        "sortOrder": 10,
+        "choices": {
+          "landscape": {
+            "displayName": "Landscape",
+            "sortOrder": 10
+          },
+          "portrait": {
+            "displayName": "Portrait",
+            "sortOrder": 20
+          }
+        }
+      },
+      "roundedCorners": {
+        "displayName": "Rounded corners",
+        "editor": "",
+        "sortOrder": 20,
+        "choices": {
+          "none": {
+            "displayName": "None",
+            "sortOrder": 10
+          },
+          "small": {
+            "displayName": "Small",
+            "sortOrder": 20
+          },
+          "medium": {
+            "displayName": "Medium",
+            "sortOrder": 30
+          },
+          "large": {
+            "displayName": "Large",
+            "sortOrder": 40
+          },
+          "xlarge": {
+            "displayName": "X-Large",
+            "sortOrder": 50
+          },
+          "x3large": {
+            "displayName": "3X-Large",
+            "sortOrder": 60
+          },
+          "huge": {
+            "displayName": "Huge",
+            "sortOrder": 70
+          },
+          "xhuge": {
+            "displayName": "X-Huge",
+            "sortOrder": 80
+          },
+          "full": {
+            "displayName": "Full",
+            "sortOrder": 90
+          }
+        }
+      }
+    },
+});
+
+// Function to serialize to JSON (returns a copy that can be safely modified)
+export function serializeDefaultImageStyleToJSON() {
+  return JSON.parse(JSON.stringify(DefaultImageStyleDefinition));
+}
