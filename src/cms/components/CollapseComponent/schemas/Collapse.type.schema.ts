@@ -9,32 +9,34 @@ export const CollapseComponentDefinition = ComponentSchema({
   sortOrder: 0,
   mayContainTypes: [],
   mediaFileExtensions: [],
-  compositionBehaviors: ['elementEnabled'],
+  compositionBehaviors: [
+    "elementEnabled"
+  ],
   properties: {
-    Heading: {
-      type: 'string',
-      displayName: 'Heading',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: 0,
-      editorSettings: {},
-      indexingType: 'searchable',
+      "Heading": {
+        "type": "string",
+        "displayName": "Heading",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 0,
+        "editorSettings": {},
+        "indexingType": "searchable"
+      },
+      "Body": {
+        "type": "string",
+        "displayName": "Body",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 0,
+        "editorSettings": {},
+        "format": "html",
+        "indexingType": "searchable"
+      }
     },
-    Body: {
-      type: 'string',
-      displayName: 'Body',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: 0,
-      editorSettings: {},
-      format: 'html',
-      indexingType: 'searchable',
-    },
-  },
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

@@ -11,33 +11,35 @@ export const MenuItemComponentDefinition = ComponentSchema({
   mediaFileExtensions: [],
   compositionBehaviors: [],
   properties: {
-    SubMenuItems: {
-      type: 'array',
-      displayName: 'Sub Menu Items',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: 0,
-      editorSettings: {},
-      items: {
-        type: 'content',
-        allowedTypes: ['MenuItem'],
-        restrictedTypes: [],
+      "SubMenuItems": {
+        "type": "array",
+        "displayName": "Sub Menu Items",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 0,
+        "editorSettings": {},
+        "items": {
+          "type": "content",
+          "allowedTypes": [
+            "MenuItem"
+          ],
+          "restrictedTypes": []
+        }
       },
+      "Link": {
+        "type": "component",
+        "displayName": "Link",
+        "description": "",
+        "localized": false,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 0,
+        "editorSettings": {},
+        "contentType": "link"
+      }
     },
-    Link: {
-      type: 'component',
-      displayName: 'Link',
-      description: '',
-      localized: false,
-      required: false,
-      group: 'Information',
-      sortOrder: 0,
-      editorSettings: {},
-      contentType: 'link',
-    },
-  },
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

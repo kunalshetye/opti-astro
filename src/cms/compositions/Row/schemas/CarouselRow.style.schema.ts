@@ -6,8 +6,7 @@ export const CarouselRowStyleDefinition = StyleSchema({
   displayName: 'Row Carousel',
   nodeType: 'row',
   isDefault: false,
-  settings: {
-  },
+  settings: {},
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

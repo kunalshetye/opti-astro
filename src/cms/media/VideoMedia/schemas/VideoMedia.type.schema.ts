@@ -8,10 +8,26 @@ export const VideoMediaComponentDefinition = ComponentSchema({
   baseType: 'video',
   sortOrder: 520,
   mayContainTypes: [],
-  mediaFileExtensions: ['avi', 'av1', 'flv', 'm4v', 'mkv', 'mov', 'mp4', 'mp4v', 'mpg', 'ogg', 'ogv', 'qt', 'vc1', 'vob', 'webm', 'wmv'],
+  mediaFileExtensions: [
+    "avi",
+    "av1",
+    "flv",
+    "m4v",
+    "mkv",
+    "mov",
+    "mp4",
+    "mp4v",
+    "mpg",
+    "ogg",
+    "ogv",
+    "qt",
+    "vc1",
+    "vob",
+    "webm",
+    "wmv"
+  ],
   compositionBehaviors: [],
-  properties: {
-  },
+  properties: {},
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

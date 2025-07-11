@@ -9,21 +9,24 @@ export const ParagraphComponentDefinition = ComponentSchema({
   sortOrder: 0,
   mayContainTypes: [],
   mediaFileExtensions: [],
-  compositionBehaviors: ['sectionEnabled', 'elementEnabled'],
+  compositionBehaviors: [
+    "sectionEnabled",
+    "elementEnabled"
+  ],
   properties: {
-    Text: {
-      type: 'string',
-      displayName: 'Text',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: 0,
-      editorSettings: {},
-      format: 'html',
-      indexingType: 'searchable',
+      "Text": {
+        "type": "string",
+        "displayName": "Text",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 0,
+        "editorSettings": {},
+        "format": "html",
+        "indexingType": "searchable"
+      }
     },
-  },
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

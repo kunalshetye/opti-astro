@@ -9,32 +9,34 @@ export const ButtonComponentDefinition = ComponentSchema({
   sortOrder: 0,
   mayContainTypes: [],
   mediaFileExtensions: [],
-  compositionBehaviors: ['elementEnabled'],
+  compositionBehaviors: [
+    "elementEnabled"
+  ],
   properties: {
-    ButtonLabel: {
-      type: 'string',
-      displayName: 'Button Label',
-      description: 'Button Label',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: 10,
-      editorSettings: {},
-      format: 'shortString',
-      indexingType: 'searchable',
+      "ButtonLabel": {
+        "type": "string",
+        "displayName": "Button Label",
+        "description": "Button Label",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 10,
+        "editorSettings": {},
+        "format": "shortString",
+        "indexingType": "searchable"
+      },
+      "ButtonLink": {
+        "type": "component",
+        "displayName": "Button Link",
+        "description": "Content the button is linking to",
+        "localized": false,
+        "required": true,
+        "group": "Information",
+        "sortOrder": 20,
+        "editorSettings": {},
+        "contentType": "link"
+      }
     },
-    ButtonLink: {
-      type: 'component',
-      displayName: 'Button Link',
-      description: 'Content the button is linking to',
-      localized: false,
-      required: true,
-      group: 'Information',
-      sortOrder: 20,
-      editorSettings: {},
-      contentType: 'link',
-    },
-  },
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

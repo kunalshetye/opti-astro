@@ -11,27 +11,27 @@ export const PlaceholderItemComponentDefinition = ComponentSchema({
   mediaFileExtensions: [],
   compositionBehaviors: [],
   properties: {
-    Key: {
-      type: 'string',
-      displayName: 'Key',
-      description: '',
-      localized: false,
-      required: true,
-      group: 'Information',
-      sortOrder: 0,
-      editorSettings: {},
+      "Key": {
+        "type": "string",
+        "displayName": "Key",
+        "description": "",
+        "localized": false,
+        "required": true,
+        "group": "Information",
+        "sortOrder": 0,
+        "editorSettings": {}
+      },
+      "Value": {
+        "type": "string",
+        "displayName": "Value",
+        "description": "",
+        "localized": true,
+        "required": true,
+        "group": "Information",
+        "sortOrder": 0,
+        "editorSettings": {}
+      }
     },
-    Value: {
-      type: 'string',
-      displayName: 'Value',
-      description: '',
-      localized: true,
-      required: true,
-      group: 'Information',
-      sortOrder: 0,
-      editorSettings: {},
-    },
-  },
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

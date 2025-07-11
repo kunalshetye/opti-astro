@@ -8,151 +8,151 @@ export const DefaultCallToActionStyleDefinition = StyleSchema({
   contentType: CallToActionComponentDefinition.key,
   isDefault: true,
   settings: {
-      transform: {
-        displayName: 'Text Transform',
-        editor: '',
-        sortOrder: 5,
-        choices: {
-          keep: {
-            displayName: 'As entered',
-            sortOrder: 10,
+      "transform": {
+        "displayName": "Text Transform",
+        "editor": "",
+        "sortOrder": 5,
+        "choices": {
+          "keep": {
+            "displayName": "As entered",
+            "sortOrder": 10
           },
-          uppercase: {
-            displayName: 'Uppercase',
-            sortOrder: 20,
+          "uppercase": {
+            "displayName": "Uppercase",
+            "sortOrder": 20
           },
-          lowercase: {
-            displayName: 'Lowercase',
-            sortOrder: 30,
+          "lowercase": {
+            "displayName": "Lowercase",
+            "sortOrder": 30
           },
-          capitalize: {
-            displayName: 'Capitalize',
-            sortOrder: 40,
-          },
-        },
+          "capitalize": {
+            "displayName": "Capitalize",
+            "sortOrder": 40
+          }
+        }
       },
-      buttonStyle: {
-        displayName: 'Button Style',
-        editor: '',
-        sortOrder: 20,
-        choices: {
-          standard: {
-            displayName: 'Standard (Default)',
-            sortOrder: 10,
+      "buttonStyle": {
+        "displayName": "Button Style",
+        "editor": "",
+        "sortOrder": 20,
+        "choices": {
+          "standard": {
+            "displayName": "Standard (Default)",
+            "sortOrder": 10
           },
-          soft: {
-            displayName: 'Soft',
-            sortOrder: 20,
+          "soft": {
+            "displayName": "Soft",
+            "sortOrder": 20
           },
-          outline: {
-            displayName: 'Outline (Transparent)',
-            sortOrder: 30,
+          "outline": {
+            "displayName": "Outline (Transparent)",
+            "sortOrder": 30
           },
-          dash: {
-            displayName: 'Dash (Transparent)',
-            sortOrder: 40,
+          "dash": {
+            "displayName": "Dash (Transparent)",
+            "sortOrder": 40
           },
-          neutral: {
-            displayName: 'Neutral',
-            sortOrder: 50,
+          "neutral": {
+            "displayName": "Neutral",
+            "sortOrder": 50
           },
-          link: {
-            displayName: 'Link',
-            sortOrder: 60,
+          "link": {
+            "displayName": "Link",
+            "sortOrder": 60
           },
-          ghost: {
-            displayName: 'Ghost',
-            sortOrder: 70,
+          "ghost": {
+            "displayName": "Ghost",
+            "sortOrder": 70
           },
-          wide: {
-            displayName: 'Wide',
-            sortOrder: 80,
+          "wide": {
+            "displayName": "Wide",
+            "sortOrder": 80
           },
-          disabled: {
-            displayName: 'Disabled',
-            sortOrder: 90,
-          },
-        },
+          "disabled": {
+            "displayName": "Disabled",
+            "sortOrder": 90
+          }
+        }
       },
-      buttonWidth: {
-        displayName: 'Button Width',
-        editor: '',
-        sortOrder: 40,
-        choices: {
-          w_10rem: {
-            displayName: 'Standard (10rem) (Default)',
-            sortOrder: 10,
+      "buttonWidth": {
+        "displayName": "Button Width",
+        "editor": "",
+        "sortOrder": 40,
+        "choices": {
+          "w_10rem": {
+            "displayName": "Standard (10rem) (Default)",
+            "sortOrder": 10
           },
-          w_6rem: {
-            displayName: 'Narrow (6rem)',
-            sortOrder: 15,
+          "w_6rem": {
+            "displayName": "Narrow (6rem)",
+            "sortOrder": 15
           },
-          w_9rem: {
-            displayName: 'Medium (9rem)',
-            sortOrder: 20,
+          "w_9rem": {
+            "displayName": "Medium (9rem)",
+            "sortOrder": 20
           },
-          w_12rem: {
-            displayName: 'Wide (12rem)',
-            sortOrder: 30,
+          "w_12rem": {
+            "displayName": "Wide (12rem)",
+            "sortOrder": 30
           },
-          w_15rem: {
-            displayName: 'X-Wide (15rem)',
-            sortOrder: 40,
+          "w_15rem": {
+            "displayName": "X-Wide (15rem)",
+            "sortOrder": 40
           },
-          w_20rem: {
-            displayName: 'XX-Wide (20rem)',
-            sortOrder: 45,
+          "w_20rem": {
+            "displayName": "XX-Wide (20rem)",
+            "sortOrder": 45
           },
-          auto: {
-            displayName: 'Auto (Dynamic)',
-            sortOrder: 50,
+          "auto": {
+            "displayName": "Auto (Dynamic)",
+            "sortOrder": 50
           },
-          half: {
-            displayName: 'Half Width',
-            sortOrder: 60,
+          "half": {
+            "displayName": "Half Width",
+            "sortOrder": 60
           },
-          full: {
-            displayName: 'Full Width',
-            sortOrder: 70,
+          "full": {
+            "displayName": "Full Width",
+            "sortOrder": 70
           },
-          responsive: {
-            displayName: 'Responsive',
-            sortOrder: 80,
-          },
-        },
+          "responsive": {
+            "displayName": "Responsive",
+            "sortOrder": 80
+          }
+        }
       },
-      buttonSize: {
-        displayName: 'Button Size',
-        editor: '',
-        sortOrder: 50,
-        choices: {
-          medium: {
-            displayName: 'Medium (Default)',
-            sortOrder: 10,
+      "buttonSize": {
+        "displayName": "Button Size",
+        "editor": "",
+        "sortOrder": 50,
+        "choices": {
+          "medium": {
+            "displayName": "Medium (Default)",
+            "sortOrder": 10
           },
-          xs: {
-            displayName: 'Extra Small',
-            sortOrder: 20,
+          "xs": {
+            "displayName": "Extra Small",
+            "sortOrder": 20
           },
-          sm: {
-            displayName: 'Small',
-            sortOrder: 30,
+          "sm": {
+            "displayName": "Small",
+            "sortOrder": 30
           },
-          lg: {
-            displayName: 'Large',
-            sortOrder: 40,
+          "lg": {
+            "displayName": "Large",
+            "sortOrder": 40
           },
-          xl: {
-            displayName: 'X-Large',
-            sortOrder: 50,
+          "xl": {
+            "displayName": "X-Large",
+            "sortOrder": 50
           },
-          responsive: {
-            displayName: 'Responsive',
-            sortOrder: 60,
-          },
-        },
-      },
-  },
+          "responsive": {
+            "displayName": "Responsive",
+            "sortOrder": 60
+          }
+        }
+      }
+    },
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

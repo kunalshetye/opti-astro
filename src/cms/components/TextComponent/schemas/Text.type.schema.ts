@@ -9,20 +9,23 @@ export const TextComponentDefinition = ComponentSchema({
   sortOrder: 0,
   mayContainTypes: [],
   mediaFileExtensions: [],
-  compositionBehaviors: ['sectionEnabled', 'elementEnabled'],
+  compositionBehaviors: [
+    "sectionEnabled",
+    "elementEnabled"
+  ],
   properties: {
-    Content: {
-      type: 'string',
-      displayName: 'Content',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: 0,
-      editorSettings: {},
-      indexingType: 'searchable',
+      "Content": {
+        "type": "string",
+        "displayName": "Content",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 0,
+        "editorSettings": {},
+        "indexingType": "searchable"
+      }
     },
-  },
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

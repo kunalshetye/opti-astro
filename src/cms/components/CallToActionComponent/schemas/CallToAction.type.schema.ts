@@ -9,24 +9,27 @@ export const CallToActionComponentDefinition = ComponentSchema({
   sortOrder: 0,
   mayContainTypes: [],
   mediaFileExtensions: [],
-  compositionBehaviors: ['sectionEnabled', 'elementEnabled'],
+  compositionBehaviors: [
+    "sectionEnabled",
+    "elementEnabled"
+  ],
   properties: {
-    Links: {
-      type: 'array',
-      displayName: 'Links',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: 0,
-      editorSettings: {},
-      format: 'LinkCollection',
-      items: {
-        type: 'component',
-        contentType: 'link',
-      },
+      "Links": {
+        "type": "array",
+        "displayName": "Links",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 0,
+        "editorSettings": {},
+        "items": {
+          "type": "component",
+          "contentType": "link"
+        },
+        "format": "LinkCollection"
+      }
     },
-  },
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

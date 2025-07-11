@@ -7,80 +7,80 @@ export const CardRowStyleDefinition = StyleSchema({
   nodeType: 'row',
   isDefault: false,
   settings: {
-      vSpacing: {
-        displayName: 'Vertical Spacing',
-        editor: '',
-        sortOrder: 5,
-        choices: {
-          none: {
-            displayName: 'None',
-            sortOrder: 10,
+      "vSpacing": {
+        "displayName": "Vertical Spacing",
+        "editor": "",
+        "sortOrder": 5,
+        "choices": {
+          "none": {
+            "displayName": "None",
+            "sortOrder": 10
           },
-          small: {
-            displayName: 'Small',
-            sortOrder: 20,
+          "small": {
+            "displayName": "Small",
+            "sortOrder": 20
           },
-          medium: {
-            displayName: 'Medium',
-            sortOrder: 30,
+          "medium": {
+            "displayName": "Medium",
+            "sortOrder": 30
           },
-          large: {
-            displayName: 'Large',
-            sortOrder: 40,
-          },
-        },
+          "large": {
+            "displayName": "Large",
+            "sortOrder": 40
+          }
+        }
       },
-      rowBackgroundColor: {
-        displayName: 'Background color',
-        editor: '',
-        sortOrder: 10,
-        choices: {
-          white: {
-            displayName: 'White',
-            sortOrder: 10,
+      "rowBackgroundColor": {
+        "displayName": "Background color",
+        "editor": "",
+        "sortOrder": 10,
+        "choices": {
+          "white": {
+            "displayName": "White",
+            "sortOrder": 10
           },
-          blue: {
-            displayName: 'Blue',
-            sortOrder: 20,
+          "blue": {
+            "displayName": "Blue",
+            "sortOrder": 20
           },
-          dark_blue: {
-            displayName: 'Dark blue',
-            sortOrder: 30,
+          "dark_blue": {
+            "displayName": "Dark blue",
+            "sortOrder": 30
           },
-          orange: {
-            displayName: 'Orange',
-            sortOrder: 40,
+          "orange": {
+            "displayName": "Orange",
+            "sortOrder": 40
           },
-          green: {
-            displayName: 'Green',
-            sortOrder: 50,
+          "green": {
+            "displayName": "Green",
+            "sortOrder": 50
           },
-          red: {
-            displayName: 'Red',
-            sortOrder: 60,
+          "red": {
+            "displayName": "Red",
+            "sortOrder": 60
           },
-          purple: {
-            displayName: 'Purple',
-            sortOrder: 70,
-          },
-        },
+          "purple": {
+            "displayName": "Purple",
+            "sortOrder": 70
+          }
+        }
       },
-      columnOrderOnSmallScreen: {
-        displayName: 'Colums on small screen',
-        editor: '',
-        sortOrder: 20,
-        choices: {
-          normal: {
-            displayName: 'Normal',
-            sortOrder: 10,
+      "columnOrderOnSmallScreen": {
+        "displayName": "Colums on small screen",
+        "editor": "",
+        "sortOrder": 20,
+        "choices": {
+          "normal": {
+            "displayName": "Normal",
+            "sortOrder": 10
           },
-          reversed: {
-            displayName: 'Reversed',
-            sortOrder: 20,
-          },
-        },
-      },
-  },
+          "reversed": {
+            "displayName": "Reversed",
+            "sortOrder": 20
+          }
+        }
+      }
+    },
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

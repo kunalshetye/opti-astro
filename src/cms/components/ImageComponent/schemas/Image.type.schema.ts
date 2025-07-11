@@ -9,32 +9,37 @@ export const ImageComponentDefinition = ComponentSchema({
   sortOrder: 0,
   mayContainTypes: [],
   mediaFileExtensions: [],
-  compositionBehaviors: ['sectionEnabled', 'elementEnabled'],
+  compositionBehaviors: [
+    "sectionEnabled",
+    "elementEnabled"
+  ],
   properties: {
-    AltText: {
-      type: 'string',
-      displayName: 'Alt Text',
-      description: '',
-      localized: false,
-      required: false,
-      group: 'Information',
-      sortOrder: -200,
-      editorSettings: {},
-      indexingType: 'searchable',
+      "AltText": {
+        "type": "string",
+        "displayName": "Alt Text",
+        "description": "",
+        "localized": false,
+        "required": false,
+        "group": "Information",
+        "sortOrder": -200,
+        "editorSettings": {},
+        "indexingType": "searchable"
+      },
+      "Image": {
+        "type": "contentReference",
+        "displayName": "Image",
+        "description": "",
+        "localized": false,
+        "required": false,
+        "group": "Information",
+        "sortOrder": -100,
+        "editorSettings": {},
+        "allowedTypes": [
+          "Image"
+        ],
+        "restrictedTypes": []
+      }
     },
-    Image: {
-      type: 'contentReference',
-      displayName: 'Image',
-      description: '',
-      localized: false,
-      required: false,
-      group: 'Information',
-      sortOrder: -100,
-      editorSettings: {},
-      allowedTypes: ['Image'],
-      restrictedTypes: [],
-    },
-  },
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

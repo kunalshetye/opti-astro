@@ -11,17 +11,17 @@ export const PageAdminSettingsComponentDefinition = ComponentSchema({
   mediaFileExtensions: [],
   compositionBehaviors: [],
   properties: {
-    EnableExternalPreview: {
-      type: 'boolean',
-      displayName: 'Enable External Preview Link',
-      description: 'Select to enable external (non-CMS) preview link for draft content',
-      localized: false,
-      required: false,
-      group: 'Information',
-      sortOrder: 10,
-      editorSettings: {},
+      "EnableExternalPreview": {
+        "type": "boolean",
+        "displayName": "Enable External Preview Link",
+        "description": "Select to enable external (non-CMS) preview link for draft content",
+        "localized": false,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 10,
+        "editorSettings": {}
+      }
     },
-  },
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

@@ -8,359 +8,359 @@ export const DefaultCardStyleDefinition = StyleSchema({
   contentType: CardComponentDefinition.key,
   isDefault: true,
   settings: {
-      transform: {
-        displayName: 'Button Text Transform',
-        editor: '',
-        sortOrder: 5,
-        choices: {
-          keep: {
-            displayName: 'As entered',
-            sortOrder: 10,
+      "transform": {
+        "displayName": "Button Text Transform",
+        "editor": "",
+        "sortOrder": 5,
+        "choices": {
+          "keep": {
+            "displayName": "As entered",
+            "sortOrder": 10
           },
-          uppercase: {
-            displayName: 'Uppercase',
-            sortOrder: 20,
+          "uppercase": {
+            "displayName": "Uppercase",
+            "sortOrder": 20
           },
-          lowercase: {
-            displayName: 'Lowercase',
-            sortOrder: 30,
+          "lowercase": {
+            "displayName": "Lowercase",
+            "sortOrder": 30
           },
-          capitalize: {
-            displayName: 'Capitalize',
-            sortOrder: 40,
-          },
-        },
+          "capitalize": {
+            "displayName": "Capitalize",
+            "sortOrder": 40
+          }
+        }
       },
-      buttonStyle: {
-        displayName: 'Button Style',
-        editor: '',
-        sortOrder: 20,
-        choices: {
-          standard: {
-            displayName: 'Standard (Default)',
-            sortOrder: 10,
+      "buttonStyle": {
+        "displayName": "Button Style",
+        "editor": "",
+        "sortOrder": 20,
+        "choices": {
+          "standard": {
+            "displayName": "Standard (Default)",
+            "sortOrder": 10
           },
-          soft: {
-            displayName: 'Soft',
-            sortOrder: 20,
+          "soft": {
+            "displayName": "Soft",
+            "sortOrder": 20
           },
-          outline: {
-            displayName: 'Outline (Transparent)',
-            sortOrder: 30,
+          "outline": {
+            "displayName": "Outline (Transparent)",
+            "sortOrder": 30
           },
-          dash: {
-            displayName: 'Dash (Transparent)',
-            sortOrder: 40,
+          "dash": {
+            "displayName": "Dash (Transparent)",
+            "sortOrder": 40
           },
-          neutral: {
-            displayName: 'Neutral',
-            sortOrder: 50,
+          "neutral": {
+            "displayName": "Neutral",
+            "sortOrder": 50
           },
-          link: {
-            displayName: 'Link',
-            sortOrder: 60,
+          "link": {
+            "displayName": "Link",
+            "sortOrder": 60
           },
-          ghost: {
-            displayName: 'Ghost',
-            sortOrder: 70,
+          "ghost": {
+            "displayName": "Ghost",
+            "sortOrder": 70
           },
-          wide: {
-            displayName: 'Wide',
-            sortOrder: 80,
+          "wide": {
+            "displayName": "Wide",
+            "sortOrder": 80
           },
-          disabled: {
-            displayName: 'Disabled',
-            sortOrder: 90,
-          },
-        },
+          "disabled": {
+            "displayName": "Disabled",
+            "sortOrder": 90
+          }
+        }
       },
-      buttonWidth: {
-        displayName: 'Button Width',
-        editor: '',
-        sortOrder: 40,
-        choices: {
-          w_10rem: {
-            displayName: 'Standard (10rem) (Default)',
-            sortOrder: 10,
+      "buttonWidth": {
+        "displayName": "Button Width",
+        "editor": "",
+        "sortOrder": 40,
+        "choices": {
+          "w_10rem": {
+            "displayName": "Standard (10rem) (Default)",
+            "sortOrder": 10
           },
-          w_6rem: {
-            displayName: 'Narrow (6rem)',
-            sortOrder: 15,
+          "w_6rem": {
+            "displayName": "Narrow (6rem)",
+            "sortOrder": 15
           },
-          w_9rem: {
-            displayName: 'Medium (9rem)',
-            sortOrder: 20,
+          "w_9rem": {
+            "displayName": "Medium (9rem)",
+            "sortOrder": 20
           },
-          w_12rem: {
-            displayName: 'Wide (12rem)',
-            sortOrder: 30,
+          "w_12rem": {
+            "displayName": "Wide (12rem)",
+            "sortOrder": 30
           },
-          w_15rem: {
-            displayName: 'X-Wide (15rem)',
-            sortOrder: 40,
+          "w_15rem": {
+            "displayName": "X-Wide (15rem)",
+            "sortOrder": 40
           },
-          w_20rem: {
-            displayName: 'XX-Wide (20rem)',
-            sortOrder: 45,
+          "w_20rem": {
+            "displayName": "XX-Wide (20rem)",
+            "sortOrder": 45
           },
-          auto: {
-            displayName: 'Auto (Dynamic)',
-            sortOrder: 50,
+          "auto": {
+            "displayName": "Auto (Dynamic)",
+            "sortOrder": 50
           },
-          half: {
-            displayName: 'Half Width',
-            sortOrder: 60,
+          "half": {
+            "displayName": "Half Width",
+            "sortOrder": 60
           },
-          full: {
-            displayName: 'Full Width',
-            sortOrder: 70,
+          "full": {
+            "displayName": "Full Width",
+            "sortOrder": 70
           },
-          responsive: {
-            displayName: 'Responsive',
-            sortOrder: 80,
-          },
-        },
+          "responsive": {
+            "displayName": "Responsive",
+            "sortOrder": 80
+          }
+        }
       },
-      buttonSize: {
-        displayName: 'Button Size',
-        editor: '',
-        sortOrder: 50,
-        choices: {
-          medium: {
-            displayName: 'Medium (Default)',
-            sortOrder: 10,
+      "buttonSize": {
+        "displayName": "Button Size",
+        "editor": "",
+        "sortOrder": 50,
+        "choices": {
+          "medium": {
+            "displayName": "Medium (Default)",
+            "sortOrder": 10
           },
-          xs: {
-            displayName: 'Extra Small',
-            sortOrder: 20,
+          "xs": {
+            "displayName": "Extra Small",
+            "sortOrder": 20
           },
-          sm: {
-            displayName: 'Small',
-            sortOrder: 30,
+          "sm": {
+            "displayName": "Small",
+            "sortOrder": 30
           },
-          lg: {
-            displayName: 'Large',
-            sortOrder: 40,
+          "lg": {
+            "displayName": "Large",
+            "sortOrder": 40
           },
-          xl: {
-            displayName: 'X-Large',
-            sortOrder: 50,
+          "xl": {
+            "displayName": "X-Large",
+            "sortOrder": 50
           },
-          responsive: {
-            displayName: 'Responsive',
-            sortOrder: 60,
-          },
-        },
+          "responsive": {
+            "displayName": "Responsive",
+            "sortOrder": 60
+          }
+        }
       },
-      buttonRadius: {
-        displayName: 'Rounded Buttons',
-        editor: '',
-        sortOrder: 60,
-        choices: {
-          none: {
-            displayName: 'None',
-            sortOrder: 10,
+      "buttonRadius": {
+        "displayName": "Rounded Buttons",
+        "editor": "",
+        "sortOrder": 60,
+        "choices": {
+          "none": {
+            "displayName": "None",
+            "sortOrder": 10
           },
-          full: {
-            displayName: 'Full (pill button)',
-            sortOrder: 15,
+          "full": {
+            "displayName": "Full (pill button)",
+            "sortOrder": 15
           },
-          xs: {
-            displayName: 'Extra Small',
-            sortOrder: 20,
+          "xs": {
+            "displayName": "Extra Small",
+            "sortOrder": 20
           },
-          sm: {
-            displayName: 'Small',
-            sortOrder: 30,
+          "sm": {
+            "displayName": "Small",
+            "sortOrder": 30
           },
-          md: {
-            displayName: 'Medium',
-            sortOrder: 30,
+          "md": {
+            "displayName": "Medium",
+            "sortOrder": 30
           },
-          lg: {
-            displayName: 'Large',
-            sortOrder: 40,
+          "lg": {
+            "displayName": "Large",
+            "sortOrder": 40
           },
-          xl: {
-            displayName: 'X-Large',
-            sortOrder: 50,
+          "xl": {
+            "displayName": "X-Large",
+            "sortOrder": 50
           },
-          xl2: {
-            displayName: '2x-Large',
-            sortOrder: 60,
+          "xl2": {
+            "displayName": "2x-Large",
+            "sortOrder": 60
           },
-          xl3: {
-            displayName: '3x-Large',
-            sortOrder: 70,
+          "xl3": {
+            "displayName": "3x-Large",
+            "sortOrder": 70
           },
-          xl4: {
-            displayName: '4x-Large',
-            sortOrder: 80,
-          },
-        },
+          "xl4": {
+            "displayName": "4x-Large",
+            "sortOrder": 80
+          }
+        }
       },
-      buttonAction: {
-        displayName: 'Bouncy Buttons',
-        editor: '',
-        sortOrder: 70,
-        choices: {
-          static: {
-            displayName: 'No Bounce',
-            sortOrder: 10,
+      "buttonAction": {
+        "displayName": "Bouncy Buttons",
+        "editor": "",
+        "sortOrder": 70,
+        "choices": {
+          "static": {
+            "displayName": "No Bounce",
+            "sortOrder": 10
           },
-          bouncy: {
-            displayName: 'Bouncy',
-            sortOrder: 20,
-          },
-        },
+          "bouncy": {
+            "displayName": "Bouncy",
+            "sortOrder": 20
+          }
+        }
       },
-      assetWidth: {
-        displayName: 'Asset Width',
-        editor: '',
-        sortOrder: 80,
-        choices: {
-          flex_1: {
-            displayName: 'Equal (50/50) (Default)',
-            sortOrder: 10,
+      "assetWidth": {
+        "displayName": "Asset Width",
+        "editor": "",
+        "sortOrder": 80,
+        "choices": {
+          "flex_1": {
+            "displayName": "Equal (50/50) (Default)",
+            "sortOrder": 10
           },
-          w_1_3: {
-            displayName: 'One Third (33%)',
-            sortOrder: 20,
+          "w_1_3": {
+            "displayName": "One Third (33%)",
+            "sortOrder": 20
           },
-          w_2_5: {
-            displayName: 'Two Fifths (40%)',
-            sortOrder: 30,
+          "w_2_5": {
+            "displayName": "Two Fifths (40%)",
+            "sortOrder": 30
           },
-          w_1_2: {
-            displayName: 'Half (50%)',
-            sortOrder: 40,
+          "w_1_2": {
+            "displayName": "Half (50%)",
+            "sortOrder": 40
           },
-          w_3_5: {
-            displayName: 'Three Fifths (60%)',
-            sortOrder: 50,
+          "w_3_5": {
+            "displayName": "Three Fifths (60%)",
+            "sortOrder": 50
           },
-          w_2_3: {
-            displayName: 'Two Thirds (67%)',
-            sortOrder: 60,
-          },
-        },
+          "w_2_3": {
+            "displayName": "Two Thirds (67%)",
+            "sortOrder": 60
+          }
+        }
       },
-      contentWidth: {
-        displayName: 'Content Width',
-        editor: '',
-        sortOrder: 90,
-        choices: {
-          flex_1: {
-            displayName: 'Equal (50/50) (Default)',
-            sortOrder: 10,
+      "contentWidth": {
+        "displayName": "Content Width",
+        "editor": "",
+        "sortOrder": 90,
+        "choices": {
+          "flex_1": {
+            "displayName": "Equal (50/50) (Default)",
+            "sortOrder": 10
           },
-          w_1_3: {
-            displayName: 'One Third (33%)',
-            sortOrder: 20,
+          "w_1_3": {
+            "displayName": "One Third (33%)",
+            "sortOrder": 20
           },
-          w_2_5: {
-            displayName: 'Two Fifths (40%)',
-            sortOrder: 30,
+          "w_2_5": {
+            "displayName": "Two Fifths (40%)",
+            "sortOrder": 30
           },
-          w_1_2: {
-            displayName: 'Half (50%)',
-            sortOrder: 40,
+          "w_1_2": {
+            "displayName": "Half (50%)",
+            "sortOrder": 40
           },
-          w_3_5: {
-            displayName: 'Three Fifths (60%)',
-            sortOrder: 50,
+          "w_3_5": {
+            "displayName": "Three Fifths (60%)",
+            "sortOrder": 50
           },
-          w_2_3: {
-            displayName: 'Two Thirds (67%)',
-            sortOrder: 60,
-          },
-        },
+          "w_2_3": {
+            "displayName": "Two Thirds (67%)",
+            "sortOrder": 60
+          }
+        }
       },
-      textAlign: {
-        displayName: 'Text Alignment',
-        editor: '',
-        sortOrder: 100,
-        choices: {
-          left: {
-            displayName: 'Left (Default)',
-            sortOrder: 10,
+      "textAlign": {
+        "displayName": "Text Alignment",
+        "editor": "",
+        "sortOrder": 100,
+        "choices": {
+          "left": {
+            "displayName": "Left (Default)",
+            "sortOrder": 10
           },
-          center: {
-            displayName: 'Center',
-            sortOrder: 20,
+          "center": {
+            "displayName": "Center",
+            "sortOrder": 20
           },
-          right: {
-            displayName: 'Right',
-            sortOrder: 30,
+          "right": {
+            "displayName": "Right",
+            "sortOrder": 30
           },
-          justify: {
-            displayName: 'Justify',
-            sortOrder: 40,
-          },
-        },
+          "justify": {
+            "displayName": "Justify",
+            "sortOrder": 40
+          }
+        }
       },
-      transformHeader: {
-        displayName: 'Header Text Transform',
-        editor: '',
-        sortOrder: 110,
-        choices: {
-          normal_case: {
-            displayName: 'Normal Case (Default)',
-            sortOrder: 10,
+      "transformHeader": {
+        "displayName": "Header Text Transform",
+        "editor": "",
+        "sortOrder": 110,
+        "choices": {
+          "normal_case": {
+            "displayName": "Normal Case (Default)",
+            "sortOrder": 10
           },
-          uppercase: {
-            displayName: 'UPPERCASE',
-            sortOrder: 20,
+          "uppercase": {
+            "displayName": "UPPERCASE",
+            "sortOrder": 20
           },
-          lowercase: {
-            displayName: 'lowercase',
-            sortOrder: 30,
+          "lowercase": {
+            "displayName": "lowercase",
+            "sortOrder": 30
           },
-          capitalize: {
-            displayName: 'Capitalize',
-            sortOrder: 40,
-          },
-        },
+          "capitalize": {
+            "displayName": "Capitalize",
+            "sortOrder": 40
+          }
+        }
       },
-      assetVerticalAlign: {
-        displayName: 'Asset Vertical Alignment',
-        editor: '',
-        sortOrder: 120,
-        choices: {
-          center: {
-            displayName: 'Center (Default)',
-            sortOrder: 10,
+      "assetVerticalAlign": {
+        "displayName": "Asset Vertical Alignment",
+        "editor": "",
+        "sortOrder": 120,
+        "choices": {
+          "center": {
+            "displayName": "Center (Default)",
+            "sortOrder": 10
           },
-          start: {
-            displayName: 'Top',
-            sortOrder: 20,
+          "start": {
+            "displayName": "Top",
+            "sortOrder": 20
           },
-          end: {
-            displayName: 'Bottom',
-            sortOrder: 30,
-          },
-        },
+          "end": {
+            "displayName": "Bottom",
+            "sortOrder": 30
+          }
+        }
       },
-      contentVerticalAlign: {
-        displayName: 'Content Vertical Alignment',
-        editor: '',
-        sortOrder: 130,
-        choices: {
-          center: {
-            displayName: 'Center (Default)',
-            sortOrder: 10,
+      "contentVerticalAlign": {
+        "displayName": "Content Vertical Alignment",
+        "editor": "",
+        "sortOrder": 130,
+        "choices": {
+          "center": {
+            "displayName": "Center (Default)",
+            "sortOrder": 10
           },
-          start: {
-            displayName: 'Top',
-            sortOrder: 20,
+          "start": {
+            "displayName": "Top",
+            "sortOrder": 20
           },
-          end: {
-            displayName: 'Bottom',
-            sortOrder: 30,
-          },
-        },
-      },
-  },
+          "end": {
+            "displayName": "Bottom",
+            "sortOrder": 30
+          }
+        }
+      }
+    },
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

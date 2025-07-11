@@ -10,8 +10,7 @@ export const GenericMediaComponentDefinition = ComponentSchema({
   mayContainTypes: [],
   mediaFileExtensions: [],
   compositionBehaviors: [],
-  properties: {
-  },
+  properties: {},
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

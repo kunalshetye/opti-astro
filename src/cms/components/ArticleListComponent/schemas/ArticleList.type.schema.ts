@@ -9,31 +9,34 @@ export const ArticleListComponentDefinition = ComponentSchema({
   sortOrder: 0,
   mayContainTypes: [],
   mediaFileExtensions: [],
-  compositionBehaviors: ['sectionEnabled', 'elementEnabled'],
+  compositionBehaviors: [
+    "sectionEnabled",
+    "elementEnabled"
+  ],
   properties: {
-    Title: {
-      type: 'string',
-      displayName: 'Title',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: 0,
-      editorSettings: {},
-      indexingType: 'searchable',
+      "Title": {
+        "type": "string",
+        "displayName": "Title",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 0,
+        "editorSettings": {},
+        "indexingType": "searchable"
+      },
+      "NumberOfArticles": {
+        "type": "integer",
+        "displayName": "Number of Articles to Show",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 100,
+        "editorSettings": {},
+        "minimum": 1
+      }
     },
-    NumberOfArticles: {
-      type: 'integer',
-      displayName: 'Number of Articles to Show',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: 100,
-      editorSettings: {},
-      minimum: 1,
-    },
-  },
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

@@ -9,82 +9,89 @@ export const HeroComponentDefinition = ComponentSchema({
   sortOrder: 0,
   mayContainTypes: [],
   mediaFileExtensions: [],
-  compositionBehaviors: ['sectionEnabled', 'elementEnabled'],
+  compositionBehaviors: [
+    "sectionEnabled",
+    "elementEnabled"
+  ],
   properties: {
-    Video: {
-      type: 'contentReference',
-      displayName: 'Video',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: -200,
-      editorSettings: {},
-      allowedTypes: ['Video'],
-      restrictedTypes: [],
-    },
-    Image: {
-      type: 'contentReference',
-      displayName: 'Image',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: -100,
-      editorSettings: {},
-      allowedTypes: ['Image'],
-      restrictedTypes: [],
-    },
-    Heading: {
-      type: 'string',
-      displayName: 'Heading',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: -50,
-      editorSettings: {},
-      indexingType: 'searchable',
-    },
-    SubHeading: {
-      type: 'string',
-      displayName: 'Sub Heading',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: -25,
-      editorSettings: {},
-      indexingType: 'searchable',
-    },
-    Body: {
-      type: 'string',
-      displayName: 'Body',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: 0,
-      editorSettings: {},
-      format: 'html',
-      indexingType: 'searchable',
-    },
-    Links: {
-      type: 'array',
-      displayName: 'Links',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: 0,
-      editorSettings: {},
-      format: 'LinkCollection',
-      items: {
-        type: 'component',
-        contentType: 'link',
+      "Video": {
+        "type": "contentReference",
+        "displayName": "Video",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": -200,
+        "editorSettings": {},
+        "allowedTypes": [
+          "Video"
+        ],
+        "restrictedTypes": []
       },
+      "Image": {
+        "type": "contentReference",
+        "displayName": "Image",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": -100,
+        "editorSettings": {},
+        "allowedTypes": [
+          "Image"
+        ],
+        "restrictedTypes": []
+      },
+      "Heading": {
+        "type": "string",
+        "displayName": "Heading",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": -50,
+        "editorSettings": {},
+        "indexingType": "searchable"
+      },
+      "SubHeading": {
+        "type": "string",
+        "displayName": "Sub Heading",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": -25,
+        "editorSettings": {},
+        "indexingType": "searchable"
+      },
+      "Body": {
+        "type": "string",
+        "displayName": "Body",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 0,
+        "editorSettings": {},
+        "format": "html",
+        "indexingType": "searchable"
+      },
+      "Links": {
+        "type": "array",
+        "displayName": "Links",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 0,
+        "editorSettings": {},
+        "items": {
+          "type": "component",
+          "contentType": "link"
+        },
+        "format": "LinkCollection"
+      }
     },
-  },
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

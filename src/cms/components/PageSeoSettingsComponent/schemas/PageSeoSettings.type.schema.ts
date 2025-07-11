@@ -11,85 +11,85 @@ export const PageSeoSettingsComponentDefinition = ComponentSchema({
   mediaFileExtensions: [],
   compositionBehaviors: [],
   properties: {
-    MetaTitle: {
-      type: 'string',
-      displayName: 'Meta title',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: 0,
-      editorSettings: {},
-      format: 'shortString',
-      indexingType: 'searchable',
-    },
-    MetaDescription: {
-      type: 'string',
-      displayName: 'Meta description',
-      description: '',
-      localized: false,
-      required: false,
-      group: 'Information',
-      sortOrder: 0,
-      editorSettings: {},
-      indexingType: 'searchable',
-    },
-    DisplayInMenu: {
-      type: 'boolean',
-      displayName: 'Display In Menu',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: 0,
-      editorSettings: {},
-    },
-    Indexing: {
-      type: 'boolean',
-      displayName: 'Disable Indexing (NOINDEX, NOFOLLOW)',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: 0,
-      editorSettings: {},
-    },
-    SharingImage: {
-      type: 'contentReference',
-      displayName: 'Sharing image',
-      description: '',
-      localized: false,
-      required: false,
-      group: 'Information',
-      sortOrder: 100,
-      editorSettings: {},
-      allowedTypes: [],
-      restrictedTypes: [],
-    },
-    GraphType: {
-      type: 'string',
-      displayName: 'OpenGraph Type',
-      description: '',
-      localized: false,
-      required: true,
-      group: 'Information',
-      sortOrder: 200,
-      editorSettings: {},
-      format: 'selectOne',
-      enum: {
-        values: [
-          {
-            displayName: 'Undefined',
-            value: '-',
-          },
-          {
-            displayName: 'Article',
-            value: 'article',
-          }
-        ],
+      "MetaTitle": {
+        "type": "string",
+        "displayName": "Meta title",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 0,
+        "editorSettings": {},
+        "format": "shortString",
+        "indexingType": "searchable"
       },
+      "MetaDescription": {
+        "type": "string",
+        "displayName": "Meta description",
+        "description": "",
+        "localized": false,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 0,
+        "editorSettings": {},
+        "indexingType": "searchable"
+      },
+      "DisplayInMenu": {
+        "type": "boolean",
+        "displayName": "Display In Menu",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 0,
+        "editorSettings": {}
+      },
+      "Indexing": {
+        "type": "boolean",
+        "displayName": "Disable Indexing (NOINDEX, NOFOLLOW)",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 0,
+        "editorSettings": {}
+      },
+      "SharingImage": {
+        "type": "contentReference",
+        "displayName": "Sharing image",
+        "description": "",
+        "localized": false,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 100,
+        "editorSettings": {},
+        "allowedTypes": [],
+        "restrictedTypes": []
+      },
+      "GraphType": {
+        "type": "string",
+        "displayName": "OpenGraph Type",
+        "description": "",
+        "localized": false,
+        "required": true,
+        "group": "Information",
+        "sortOrder": 200,
+        "editorSettings": {},
+        "format": "selectOne",
+        "enum": {
+          "values": [
+            {
+              "displayName": "Undefined",
+              "value": "-"
+            },
+            {
+              "displayName": "Article",
+              "value": "article"
+            }
+          ]
+        }
+      }
     },
-  },
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

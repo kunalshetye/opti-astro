@@ -7,8 +7,7 @@ export const GridBentoStylesStyleDefinition = StyleSchema({
   displayName: 'Grid Bento',
   contentType: GridComponentDefinition.key,
   isDefault: false,
-  settings: {
-  },
+  settings: {},
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

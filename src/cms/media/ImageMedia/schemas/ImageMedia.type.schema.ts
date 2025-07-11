@@ -8,22 +8,34 @@ export const ImageMediaComponentDefinition = ComponentSchema({
   baseType: 'image',
   sortOrder: 510,
   mayContainTypes: [],
-  mediaFileExtensions: ['jpg', 'jpeg', 'jpe', 'ico', 'gif', 'bmp', 'heif', 'png', 'svg', 'tiff', 'webp'],
+  mediaFileExtensions: [
+    "jpg",
+    "jpeg",
+    "jpe",
+    "ico",
+    "gif",
+    "bmp",
+    "heif",
+    "png",
+    "svg",
+    "tiff",
+    "webp"
+  ],
   compositionBehaviors: [],
   properties: {
-    AltText: {
-      type: 'string',
-      displayName: 'Alt text',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: 10,
-      editorSettings: {},
-      format: 'shortString',
-      indexingType: 'searchable',
+      "AltText": {
+        "type": "string",
+        "displayName": "Alt text",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 10,
+        "editorSettings": {},
+        "format": "shortString",
+        "indexingType": "searchable"
+      }
     },
-  },
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

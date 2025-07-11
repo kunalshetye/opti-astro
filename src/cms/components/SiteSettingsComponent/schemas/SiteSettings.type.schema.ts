@@ -11,168 +11,176 @@ export const SiteSettingsComponentDefinition = ComponentSchema({
   mediaFileExtensions: [],
   compositionBehaviors: [],
   properties: {
-    Logo: {
-      type: 'contentReference',
-      displayName: 'Logo',
-      description: '',
-      localized: false,
-      required: false,
-      group: 'Information',
-      sortOrder: 10,
-      editorSettings: {},
-      allowedTypes: ['Image'],
-      restrictedTypes: [],
-    },
-    SocialFacebook: {
-      type: 'string',
-      displayName: 'Facebook Account',
-      description: '',
-      localized: false,
-      required: false,
-      group: 'SocialMediaAccounts',
-      sortOrder: 10,
-      editorSettings: {},
-      format: 'shortString',
-      indexingType: 'searchable',
-    },
-    LogoResolution: {
-      type: 'string',
-      displayName: 'Logo Resolution',
-      description: '',
-      localized: false,
-      required: false,
-      group: 'Information',
-      sortOrder: 20,
-      editorSettings: {},
-      format: 'selectOne',
-      enum: {
-        values: [
-          {
-            displayName: '32',
-            value: '32',
-          },
-          {
-            displayName: '16',
-            value: '16',
-          },
-          {
-            displayName: '12',
-            value: '12',
-          },
-          {
-            displayName: '10',
-            value: '10',
-          },
-          {
-            displayName: '8',
-            value: '8',
-          }
+      "Logo": {
+        "type": "contentReference",
+        "displayName": "Logo",
+        "description": "",
+        "localized": false,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 10,
+        "editorSettings": {},
+        "allowedTypes": [
+          "Image"
         ],
+        "restrictedTypes": []
       },
-    },
-    SocialInstagram: {
-      type: 'string',
-      displayName: 'Instagram Account',
-      description: '',
-      localized: false,
-      required: false,
-      group: 'SocialMediaAccounts',
-      sortOrder: 20,
-      editorSettings: {},
-      format: 'shortString',
-      indexingType: 'searchable',
-    },
-    SocialTwitter: {
-      type: 'string',
-      displayName: 'Twitter (X) Account',
-      description: '',
-      localized: false,
-      required: false,
-      group: 'SocialMediaAccounts',
-      sortOrder: 30,
-      editorSettings: {},
-      format: 'shortString',
-      indexingType: 'searchable',
-    },
-    SocialTikTok: {
-      type: 'string',
-      displayName: 'TikTok Account',
-      description: '',
-      localized: false,
-      required: false,
-      group: 'SocialMediaAccounts',
-      sortOrder: 40,
-      editorSettings: {},
-      format: 'shortString',
-      indexingType: 'searchable',
-    },
-    SocialGitHub: {
-      type: 'string',
-      displayName: 'GitHub Account',
-      description: '',
-      localized: false,
-      required: false,
-      group: 'SocialMediaAccounts',
-      sortOrder: 50,
-      editorSettings: {},
-      format: 'shortString',
-      indexingType: 'searchable',
-    },
-    HeaderLinks: {
-      type: 'array',
-      displayName: 'Header Links',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: 100,
-      editorSettings: {},
-      maxItems: 6,
-      items: {
-        type: 'content',
-        allowedTypes: ['Page', 'MenuItem'],
-        restrictedTypes: [],
+      "SocialFacebook": {
+        "type": "string",
+        "displayName": "Facebook Account",
+        "description": "",
+        "localized": false,
+        "required": false,
+        "group": "SocialMediaAccounts",
+        "sortOrder": 10,
+        "editorSettings": {},
+        "format": "shortString",
+        "indexingType": "searchable"
       },
-    },
-    FooterText: {
-      type: 'string',
-      displayName: 'Footer Text',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: 200,
-      editorSettings: {},
-      indexingType: 'searchable',
-    },
-    FooterLinks: {
-      type: 'array',
-      displayName: 'Footer Links',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: 210,
-      editorSettings: {},
-      items: {
-        type: 'content',
-        allowedTypes: ['Page', 'MenuItem'],
-        restrictedTypes: [],
+      "LogoResolution": {
+        "type": "string",
+        "displayName": "Logo Resolution",
+        "description": "",
+        "localized": false,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 20,
+        "editorSettings": {},
+        "format": "selectOne",
+        "enum": {
+          "values": [
+            {
+              "displayName": "32",
+              "value": "32"
+            },
+            {
+              "displayName": "16",
+              "value": "16"
+            },
+            {
+              "displayName": "12",
+              "value": "12"
+            },
+            {
+              "displayName": "10",
+              "value": "10"
+            },
+            {
+              "displayName": "8",
+              "value": "8"
+            }
+          ]
+        }
       },
+      "SocialInstagram": {
+        "type": "string",
+        "displayName": "Instagram Account",
+        "description": "",
+        "localized": false,
+        "required": false,
+        "group": "SocialMediaAccounts",
+        "sortOrder": 20,
+        "editorSettings": {},
+        "format": "shortString",
+        "indexingType": "searchable"
+      },
+      "SocialTwitter": {
+        "type": "string",
+        "displayName": "Twitter (X) Account",
+        "description": "",
+        "localized": false,
+        "required": false,
+        "group": "SocialMediaAccounts",
+        "sortOrder": 30,
+        "editorSettings": {},
+        "format": "shortString",
+        "indexingType": "searchable"
+      },
+      "SocialTikTok": {
+        "type": "string",
+        "displayName": "TikTok Account",
+        "description": "",
+        "localized": false,
+        "required": false,
+        "group": "SocialMediaAccounts",
+        "sortOrder": 40,
+        "editorSettings": {},
+        "format": "shortString",
+        "indexingType": "searchable"
+      },
+      "SocialGitHub": {
+        "type": "string",
+        "displayName": "GitHub Account",
+        "description": "",
+        "localized": false,
+        "required": false,
+        "group": "SocialMediaAccounts",
+        "sortOrder": 50,
+        "editorSettings": {},
+        "format": "shortString",
+        "indexingType": "searchable"
+      },
+      "HeaderLinks": {
+        "type": "array",
+        "displayName": "Header Links",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 100,
+        "editorSettings": {},
+        "items": {
+          "type": "content",
+          "allowedTypes": [
+            "Page",
+            "MenuItem"
+          ],
+          "restrictedTypes": []
+        },
+        "maxItems": 6
+      },
+      "FooterText": {
+        "type": "string",
+        "displayName": "Footer Text",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 200,
+        "editorSettings": {},
+        "indexingType": "searchable"
+      },
+      "FooterLinks": {
+        "type": "array",
+        "displayName": "Footer Links",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 210,
+        "editorSettings": {},
+        "items": {
+          "type": "content",
+          "allowedTypes": [
+            "Page",
+            "MenuItem"
+          ],
+          "restrictedTypes": []
+        }
+      },
+      "SiteDomain": {
+        "type": "string",
+        "displayName": "Site Domain",
+        "description": "Domain (format: www.mysite.com) to associate with these Site Settings",
+        "localized": false,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 1000,
+        "editorSettings": {},
+        "indexingType": "searchable",
+        "pattern": "^((([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?.)+[a-zA-Z]{2,})|localhost)(:[0-9]+)?$"
+      }
     },
-    SiteDomain: {
-      type: 'string',
-      displayName: 'Site Domain',
-      description: 'Domain (format: www.mysite.com) to associate with these Site Settings',
-      localized: false,
-      required: false,
-      group: 'Information',
-      sortOrder: 1000,
-      editorSettings: {},
-      indexingType: 'searchable',
-      pattern: '^((([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,})|localhost)(:[0-9]+)?$',
-    },
-  },
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

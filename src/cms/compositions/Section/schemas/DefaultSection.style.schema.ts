@@ -7,104 +7,104 @@ export const DefaultSectionStyleDefinition = StyleSchema({
   baseType: 'section',
   isDefault: true,
   settings: {
-      gridWidth: {
-        displayName: 'Width',
-        editor: '',
-        sortOrder: 10,
-        choices: {
-          default: {
-            displayName: 'Default',
-            sortOrder: 10,
+      "gridWidth": {
+        "displayName": "Width",
+        "editor": "",
+        "sortOrder": 10,
+        "choices": {
+          "default": {
+            "displayName": "Default",
+            "sortOrder": 10
           },
-          full: {
-            displayName: 'Full width',
-            sortOrder: 20,
+          "full": {
+            "displayName": "Full width",
+            "sortOrder": 20
           },
-          wide: {
-            displayName: 'Wide',
-            sortOrder: 30,
+          "wide": {
+            "displayName": "Wide",
+            "sortOrder": 30
           },
-          narrow: {
-            displayName: 'Narrow',
-            sortOrder: 40,
-          },
-        },
+          "narrow": {
+            "displayName": "Narrow",
+            "sortOrder": 40
+          }
+        }
       },
-      vSpacing: {
-        displayName: 'Vertical spacing',
-        editor: '',
-        sortOrder: 20,
-        choices: {
-          default: {
-            displayName: 'Default',
-            sortOrder: 10,
+      "vSpacing": {
+        "displayName": "Vertical spacing",
+        "editor": "",
+        "sortOrder": 20,
+        "choices": {
+          "default": {
+            "displayName": "Default",
+            "sortOrder": 10
           },
-          small: {
-            displayName: 'Small',
-            sortOrder: 20,
+          "small": {
+            "displayName": "Small",
+            "sortOrder": 20
           },
-          large: {
-            displayName: 'Large',
-            sortOrder: 30,
-          },
-        },
+          "large": {
+            "displayName": "Large",
+            "sortOrder": 30
+          }
+        }
       },
-      sectionColor: {
-        displayName: 'Color',
-        editor: '',
-        sortOrder: 30,
-        choices: {
-          transparent: {
-            displayName: 'Transparent',
-            sortOrder: 5,
+      "sectionColor": {
+        "displayName": "Color",
+        "editor": "",
+        "sortOrder": 30,
+        "choices": {
+          "transparent": {
+            "displayName": "Transparent",
+            "sortOrder": 5
           },
-          base_100: {
-            displayName: 'Base 100',
-            sortOrder: 10,
+          "base_100": {
+            "displayName": "Base 100",
+            "sortOrder": 10
           },
-          base_200: {
-            displayName: 'Base 200',
-            sortOrder: 20,
+          "base_200": {
+            "displayName": "Base 200",
+            "sortOrder": 20
           },
-          base_300: {
-            displayName: 'Base 300',
-            sortOrder: 30,
+          "base_300": {
+            "displayName": "Base 300",
+            "sortOrder": 30
           },
-          primary: {
-            displayName: 'Primary',
-            sortOrder: 40,
+          "primary": {
+            "displayName": "Primary",
+            "sortOrder": 40
           },
-          secondary: {
-            displayName: 'Secondary',
-            sortOrder: 50,
+          "secondary": {
+            "displayName": "Secondary",
+            "sortOrder": 50
           },
-          accent: {
-            displayName: 'Accent',
-            sortOrder: 60,
+          "accent": {
+            "displayName": "Accent",
+            "sortOrder": 60
           },
-          neutral: {
-            displayName: 'Neutral',
-            sortOrder: 70,
+          "neutral": {
+            "displayName": "Neutral",
+            "sortOrder": 70
           },
-          info: {
-            displayName: 'Info',
-            sortOrder: 80,
+          "info": {
+            "displayName": "Info",
+            "sortOrder": 80
           },
-          success: {
-            displayName: 'Success',
-            sortOrder: 90,
+          "success": {
+            "displayName": "Success",
+            "sortOrder": 90
           },
-          warning: {
-            displayName: 'Warning',
-            sortOrder: 100,
+          "warning": {
+            "displayName": "Warning",
+            "sortOrder": 100
           },
-          error: {
-            displayName: 'Error',
-            sortOrder: 110,
-          },
-        },
-      },
-  },
+          "error": {
+            "displayName": "Error",
+            "sortOrder": 110
+          }
+        }
+      }
+    },
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

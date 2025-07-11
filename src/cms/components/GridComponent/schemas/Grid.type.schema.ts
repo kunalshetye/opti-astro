@@ -9,36 +9,38 @@ export const GridComponentDefinition = ComponentSchema({
   sortOrder: 0,
   mayContainTypes: [],
   mediaFileExtensions: [],
-  compositionBehaviors: ['sectionEnabled'],
+  compositionBehaviors: [
+    "sectionEnabled"
+  ],
   properties: {
-    RichText: {
-      type: 'string',
-      displayName: 'Rich Text',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: -75,
-      editorSettings: {},
-      format: 'html',
-      indexingType: 'searchable',
-    },
-    Items: {
-      type: 'array',
-      displayName: 'Items',
-      description: '',
-      localized: true,
-      required: false,
-      group: 'Information',
-      sortOrder: 0,
-      editorSettings: {},
-      items: {
-        type: 'content',
-        allowedTypes: [],
-        restrictedTypes: [],
+      "RichText": {
+        "type": "string",
+        "displayName": "Rich Text",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": -75,
+        "editorSettings": {},
+        "format": "html",
+        "indexingType": "searchable"
       },
+      "Items": {
+        "type": "array",
+        "displayName": "Items",
+        "description": "",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 0,
+        "editorSettings": {},
+        "items": {
+          "type": "content",
+          "allowedTypes": [],
+          "restrictedTypes": []
+        }
+      }
     },
-  },
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)

@@ -8,18 +8,18 @@ export const CardDefaultStylesStyleDefinition = StyleSchema({
   contentType: CardComponentDefinition.key,
   isDefault: false,
   settings: {
-      backgroundColor: {
-        displayName: 'Background Color for the Card',
-        editor: '',
-        sortOrder: 10,
-        choices: {
-          bg6CD7E4: {
-            displayName: '#6CD7E4',
-            sortOrder: 10,
-          },
-        },
-      },
-  },
+      "backgroundColor": {
+        "displayName": "Background Color for the Card",
+        "editor": "",
+        "sortOrder": 10,
+        "choices": {
+          "bg6CD7E4": {
+            "displayName": "#6CD7E4",
+            "sortOrder": 10
+          }
+        }
+      }
+    },
 });
 
 // Function to serialize to JSON (returns a copy that can be safely modified)
