@@ -8,6 +8,229 @@
 	"mediaFileExtensions": [],
 	"compositionBehaviors": [],
 	"properties": {
+		"font": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Font",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "StylesOther",
+			"sortOrder": 5,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "default",
+						"value": "default"
+					},
+					{
+						"displayName": "Alegreya",
+						"value": "--font-alegreya"
+					},
+					{
+						"displayName": "Alegreya Sans",
+						"value": "--font-alegreya-sans"
+					},
+					{
+						"displayName": "Archivo Narrow",
+						"value": "--font-archivo-narrow"
+					},
+					{
+						"displayName": "BioRhyme",
+						"value": "--font-biorhyme"
+					},
+					{
+						"displayName": "Cardo",
+						"value": "--font-cardo"
+					},
+					{
+						"displayName": "Chivo",
+						"value": "--font-chivo"
+					},
+					{
+						"displayName": "Cormorant",
+						"value": "--font-cormorant"
+					},
+					{
+						"displayName": "Crimson Text",
+						"value": "--font-crimson-text"
+					},
+					{
+						"displayName": "DM Sans",
+						"value": "--font-dm-sans"
+					},
+					{
+						"displayName": "Eczar",
+						"value": "--font-eczar"
+					},
+					{
+						"displayName": "Fira Sans",
+						"value": "--font-fira-sans"
+					},
+					{
+						"displayName": "Fraunces",
+						"value": "--font-fraunces"
+					},
+					{
+						"displayName": "Heebo",
+						"value": "--font-heebo"
+					},
+					{
+						"displayName": "IBM Plex Sans",
+						"value": "--font-ibm-plex-sans"
+					},
+					{
+						"displayName": "IBM Plex Serif",
+						"value": "--font-ibm-plex-serif"
+					},
+					{
+						"displayName": "Inconsolata",
+						"value": "--font-inconsolata"
+					},
+					{
+						"displayName": "Inknut Antiqua",
+						"value": "--font-inknut-antiqua"
+					},
+					{
+						"displayName": "Inter",
+						"value": "--font-inter"
+					},
+					{
+						"displayName": "Karla",
+						"value": "--font-karla"
+					},
+					{
+						"displayName": "Lato",
+						"value": "--font-lato"
+					},
+					{
+						"displayName": "Libre Baskerville",
+						"value": "--font-libre-baskerville"
+					},
+					{
+						"displayName": "Libre Franklin",
+						"value": "--font-libre-franklin"
+					},
+					{
+						"displayName": "Lora",
+						"value": "--font-lora"
+					},
+					{
+						"displayName": "Manrope",
+						"value": "--font-manrope"
+					},
+					{
+						"displayName": "Merriweather",
+						"value": "--font-merriweather"
+					},
+					{
+						"displayName": "Montserrat",
+						"value": "--font-montserrat"
+					},
+					{
+						"displayName": "Neuton",
+						"value": "--font-neuton"
+					},
+					{
+						"displayName": "Nunito",
+						"value": "--font-nunito"
+					},
+					{
+						"displayName": "Open Sans",
+						"value": "--font-open-sans"
+					},
+					{
+						"displayName": "Oswald",
+						"value": "--font-oswald"
+					},
+					{
+						"displayName": "Outfit",
+						"value": "--font-outfit"
+					},
+					{
+						"displayName": "Playfair Display",
+						"value": "--font-playfair-display"
+					},
+					{
+						"displayName": "Plus Jakarta Sans",
+						"value": "--font-plus-jakarta-sans"
+					},
+					{
+						"displayName": "Poppins",
+						"value": "--font-poppins"
+					},
+					{
+						"displayName": "Proza Libre",
+						"value": "--font-proza-libre"
+					},
+					{
+						"displayName": "PT Sans",
+						"value": "--font-pt-sans"
+					},
+					{
+						"displayName": "PT Serif",
+						"value": "--font-pt-serif"
+					},
+					{
+						"displayName": "Public Sans",
+						"value": "--font-public-sans"
+					},
+					{
+						"displayName": "Quicksand",
+						"value": "--font-quicksand"
+					},
+					{
+						"displayName": "Raleway",
+						"value": "--font-raleway"
+					},
+					{
+						"displayName": "Roboto",
+						"value": "--font-roboto"
+					},
+					{
+						"displayName": "Roboto Mono",
+						"value": "--font-roboto-mono"
+					},
+					{
+						"displayName": "Rubik",
+						"value": "--font-rubik"
+					},
+					{
+						"displayName": "Source Sans 3",
+						"value": "--font-source-sans-3"
+					},
+					{
+						"displayName": "Source Serif 4",
+						"value": "--font-source-serif-4"
+					},
+					{
+						"displayName": "Space Grotesk",
+						"value": "--font-space-grotesk"
+					},
+					{
+						"displayName": "Space Mono",
+						"value": "--font-space-mono"
+					},
+					{
+						"displayName": "Spectral",
+						"value": "--font-spectral"
+					},
+					{
+						"displayName": "Syne",
+						"value": "--font-syne"
+					},
+					{
+						"displayName": "Urbanist",
+						"value": "--font-urbanist"
+					},
+					{
+						"displayName": "Work Sans",
+						"value": "--font-work-sans"
+					}
+				]
+			}
+		},
 		"primary": {
 			"type": "string",
 			"format": "shortString",

@@ -65,3 +65,61 @@ export function getSiteStyles(siteStyles: any): string {
     
     return styles.join('; ');
 }
+
+export function getSiteFont(siteStyles: any): FontVariable | null {
+    const fontStyle: FontVariable | null = siteStyles?.font !== 'default' ? siteStyles?.font : null;
+    return fontStyle;
+}
+
+export type FontVariable = 
+    | "--font-alegreya"
+    | "--font-alegreya-sans"
+    | "--font-archivo-narrow"
+    | "--font-biorhyme"
+    | "--font-cardo"
+    | "--font-chivo"
+    | "--font-cormorant"
+    | "--font-crimson-text"
+    | "--font-dm-sans"
+    | "--font-eczar"
+    | "--font-fira-sans"
+    | "--font-fraunces"
+    | "--font-heebo"
+    | "--font-ibm-plex-sans"
+    | "--font-ibm-plex-serif"
+    | "--font-inconsolata"
+    | "--font-inknut-antiqua"
+    | "--font-inter"
+    | "--font-karla"
+    | "--font-lato"
+    | "--font-libre-baskerville"
+    | "--font-libre-franklin"
+    | "--font-lora"
+    | "--font-manrope"
+    | "--font-merriweather"
+    | "--font-montserrat"
+    | "--font-neuton"
+    | "--font-nunito"
+    | "--font-open-sans"
+    | "--font-oswald"
+    | "--font-outfit"
+    | "--font-playfair-display"
+    | "--font-plus-jakarta-sans"
+    | "--font-poppins"
+    | "--font-proza-libre"
+    | "--font-pt-sans"
+    | "--font-pt-serif"
+    | "--font-public-sans"
+    | "--font-quicksand"
+    | "--font-raleway"
+    | "--font-roboto"
+    | "--font-roboto-mono"
+    | "--font-rubik"
+    | "--font-source-sans-3"
+    | "--font-source-serif-4"
+    | "--font-space-grotesk"
+    | "--font-space-mono"
+    | "--font-spectral"
+    | "--font-syne"
+    | "--font-urbanist"
+    | "--font-work-sans";
