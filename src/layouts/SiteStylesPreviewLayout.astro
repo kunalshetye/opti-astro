@@ -21,6 +21,8 @@ const siteStyles = await getOptimizelySdk(contentPayload).siteStylesById({
     ver: contentPayload.ver,
 });
 
+const externalStylesUrl = siteStyles?.SiteStyles?.item?.cssFile?.url?.default || null;
+
 const indexedColorProperties = [
     {class: 'primary', label: 'Primary'},
     {class: 'primary-content', label: 'Primary Content'},
@@ -47,6 +49,12 @@ const indexedColorProperties = [
     <head>
         {siteStyles && <SiteStyles siteStyles={siteStyles} />}
         <meta charset="UTF-8" />
+        { externalStylesUrl && (
+            <>
+                <link rel="preload" href={externalStylesUrl} as="style" />
+                <link rel="stylesheet" href={externalStylesUrl} />
+            </>
+        )}
         <ClientRouter />
     </head>
     <body>

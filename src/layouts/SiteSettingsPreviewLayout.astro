@@ -2,6 +2,7 @@
 import type { Locales } from '../../__generated/sdk';
 import Footer from '../cms/shared/Footer.astro';
 import Header from '../cms/shared/Header.astro';
+import SiteStyles from "../cms/components/SiteStylesComponent/SiteStyles.astro";
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
 import '../styles/global.css';
@@ -17,12 +18,29 @@ const siteSettings = await getOptimizelySdk(contentPayload).siteSettingsById({
     loc: contentPayload.loc as unknown as Locales,
     ver: contentPayload.ver,
 });
+
+const siteStyles = await getOptimizelySdk(contentPayload).siteStylesById({
+    key: contentPayload.key,
+    //@ts-ignore
+    loc: contentPayload.loc as unknown as Locales,
+    ver: contentPayload.ver,
+});
+
+const externalStylesUrl = siteStyles?.SiteStyles?.item?.cssFile?.url?.default || null;
+
 ---
 
 <!doctype html>
 <html lang="en">
     <head>
+        {siteStyles && <SiteStyles siteStyles={siteStyles} />}
         <meta charset="UTF-8" />
+        { externalStylesUrl && (
+            <>
+                <link rel="preload" href={externalStylesUrl} as="style" />
+                <link rel="stylesheet" href={externalStylesUrl} />
+            </>
+        )}
     </head>
     <body>
         <Header siteSettings={siteSettings} />

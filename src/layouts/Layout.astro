@@ -51,6 +51,8 @@ const siteStyles = await getOptimizelySdk(contentPayload).siteStylesByHostname({
     locale: [contentPayload.loc as Locales],
 });
 
+const externalStylesUrl = siteStyles?.SiteStyles?.item?.cssFile?.url?.default || null;
+
 const canonicalUrl = Astro.url.origin + hierarchicalUrl;
 
 const graphType = graphtype !== '-' ? graphtype : 'website';
@@ -64,6 +66,12 @@ const graphType = graphtype !== '-' ? graphtype : 'website';
         <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        { externalStylesUrl && (
+            <>
+                <link rel="preload" href={externalStylesUrl} as="style" />
+                <link rel="stylesheet" href={externalStylesUrl} />
+            </>
+        )}
         <meta name="generator" content={Astro.generator} />
         {indexing && <meta name="robots" content="noindex, nofollow" />}
         {graphType && <meta property="og:type" content={graphType} />}
