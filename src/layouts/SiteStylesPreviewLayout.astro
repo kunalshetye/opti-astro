@@ -1,8 +1,10 @@
 ---
 import { ClientRouter } from "astro:transitions";
+import { Font } from 'astro:assets';
 
 import type { Locales } from '../../__generated/sdk';
 import SiteStyles from "../cms/components/SiteStylesComponent/SiteStyles.astro";
+import { getSiteFont } from '../cms/shared/siteStylesHelper';
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
 import LinkButton from '../cms/components/ButtonComponent/LinkButton.astro';
@@ -20,6 +22,10 @@ const siteStyles = await getOptimizelySdk(contentPayload).siteStylesById({
     loc: contentPayload.loc as unknown as Locales,
     ver: contentPayload.ver,
 });
+
+const siteFont = getSiteFont(siteStyles?.SiteStyles?.item);
+
+const externalStylesUrl = siteStyles?.SiteStyles?.item?.cssFile?._metadata?.url?.default || null;
 
 const indexedColorProperties = [
     {class: 'primary', label: 'Primary'},
@@ -46,7 +52,14 @@ const indexedColorProperties = [
 <html data-theme="light" lang="en">
     <head>
         {siteStyles && <SiteStyles siteStyles={siteStyles} />}
+        {siteFont && <Font cssVariable={siteFont} preload />}
         <meta charset="UTF-8" />
+        { externalStylesUrl && (
+            <>
+                <link rel="preload" href={externalStylesUrl} as="style" />
+                <link rel="stylesheet" href={externalStylesUrl} />
+            </>
+        )}
         <ClientRouter />
     </head>
     <body>

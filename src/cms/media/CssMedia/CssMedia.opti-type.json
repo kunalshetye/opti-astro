@@ -1,0 +1,13 @@
+{
+	"key": "CssMedia",
+	"displayName": "CSS File",
+	"description": "Used for CSS files",
+	"baseType": "media",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [
+		"css"
+	],
+	"compositionBehaviors": [],
+	"properties": {}
+}

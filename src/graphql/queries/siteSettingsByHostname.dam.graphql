@@ -21,6 +21,7 @@ query siteSettingsByHostname($domain: String!, $locale: [Locales]!) {
                             default
                         }
                     }
+                    LinkText
                     SubMenuItems {
                         ... on MenuItem {
                             Link {
@@ -29,6 +30,7 @@ query siteSettingsByHostname($domain: String!, $locale: [Locales]!) {
                                     default
                                 }
                             }
+                            LinkText
                         }
                     }
                 }

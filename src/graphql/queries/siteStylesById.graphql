@@ -50,6 +50,14 @@ query siteStylesById($key: [String]!, $loc: [Locales]!, $ver: String!) {
             text8xl
             text9xl
             freeFormStyles
+            font
+            cssFile {
+                _metadata {
+                    url {
+                        default
+                    }
+                }
+            }
         }
     }
 }

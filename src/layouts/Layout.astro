@@ -1,10 +1,12 @@
 ---
 import { ClientRouter } from 'astro:transitions';
+import { Font } from 'astro:assets';
 
 import type { Locales } from '../../__generated/sdk';
 import Footer from '../cms/shared/Footer.astro';
 import Header from '../cms/shared/Header.astro';
 import SiteStyles from '../cms/components/SiteStylesComponent/SiteStyles.astro';
+import { getSiteFont } from '../cms/shared/siteStylesHelper';
 import { EXTERNAL_PREVIEW_ENABLED } from 'astro:env/server';
 import ExtPreviewLinkBanner from '../cms/shared/ExtPreviewLink/ExtPreviewLinkBanner.astro';
 import { isDraftContent } from '../cms/shared/utils.ts';
@@ -51,6 +53,10 @@ const siteStyles = await getOptimizelySdk(contentPayload).siteStylesByHostname({
     locale: [contentPayload.loc as Locales],
 });
 
+const siteFont = getSiteFont(siteStyles?.SiteStyles?.item);
+
+const externalStylesUrl = siteStyles?.SiteStyles?.item?.cssFile?._metadata?.url?.default || null;
+
 const canonicalUrl = Astro.url.origin + hierarchicalUrl;
 
 const graphType = graphtype !== '-' ? graphtype : 'website';
@@ -60,10 +66,17 @@ const graphType = graphtype !== '-' ? graphtype : 'website';
 <html data-theme="light" lang="en">
     <head>
         {siteStyles && <SiteStyles siteStyles={siteStyles} />}
+        {siteFont && <Font cssVariable={siteFont} preload />}
         <meta charset="UTF-8" />
         <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        { externalStylesUrl && (
+            <>
+                <link rel="preload" href={externalStylesUrl} as="style" />
+                <link rel="stylesheet" href={externalStylesUrl} />
+            </>
+        )}
         <meta name="generator" content={Astro.generator} />
         {indexing && <meta name="robots" content="noindex, nofollow" />}
         {graphType && <meta property="og:type" content={graphType} />}

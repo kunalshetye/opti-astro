@@ -7,7 +7,7 @@ query siteStylesByHostname($domain: String!, $locale: [Locales]!) {
     ) {
         item {
             SiteStylesDomain
-            daisyuiTheme 
+            daisyuiTheme
             primary
             primaryContent
             secondary
@@ -50,6 +50,14 @@ query siteStylesByHostname($domain: String!, $locale: [Locales]!) {
             text8xl
             text9xl
             freeFormStyles
+            font
+            cssFile {
+                _metadata {
+                    url {
+                        default
+                    }
+                }
+            }
         }
     }
 }
