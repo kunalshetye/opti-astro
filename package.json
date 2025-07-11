@@ -18,7 +18,13 @@
         "style:delete": "node --env-file=.env ./utils/styles/delete.mjs",
         "types:pull": "node --env-file=.env ./utils/types/pull.mjs",
         "types:push": "node --env-file=.env ./utils/types/push.mjs",
-        "type:push": "node --env-file=.env ./utils/types/push.mjs"
+        "type:push": "node --env-file=.env ./utils/types/push.mjs",
+        "schemas:types:pull": "npx tsx --env-file=.env ./utils/schema/types/pull.mjs",
+        "schemas:types:push": "npx tsx --env-file=.env ./utils/schema/types/push.mjs",
+        "schemas:types:delete": "npx tsx --env-file=.env ./utils/schema/types/delete.mjs",
+        "schemas:styles:pull": "npx tsx --env-file=.env ./utils/schema/styles/pull.mjs",
+        "schemas:styles:push": "npx tsx --env-file=.env ./utils/schema/styles/push.mjs",
+        "schemas:styles:delete": "npx tsx --env-file=.env ./utils/schema/styles/delete.mjs"
     },
     "dependencies": {
         "@astrojs/alpinejs": "0.4.8",
