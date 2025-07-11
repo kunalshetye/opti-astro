@@ -11,6 +11,28 @@ export const MenuItemComponentDefinition = ComponentSchema({
   mediaFileExtensions: [],
   compositionBehaviors: [],
   properties: {
+      "Link": {
+        "type": "component",
+        "displayName": "Link",
+        "description": "",
+        "localized": false,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 10,
+        "editorSettings": {},
+        "contentType": "link"
+      },
+      "LinkText": {
+        "type": "string",
+        "displayName": "Link Text",
+        "description": "Text for link (if blank, falls back to text on Link Item)",
+        "localized": true,
+        "required": false,
+        "group": "Information",
+        "sortOrder": 20,
+        "editorSettings": {},
+        "format": "shortString"
+      },
       "SubMenuItems": {
         "type": "array",
         "displayName": "Sub Menu Items",
@@ -18,7 +40,7 @@ export const MenuItemComponentDefinition = ComponentSchema({
         "localized": true,
         "required": false,
         "group": "Information",
-        "sortOrder": 0,
+        "sortOrder": 30,
         "editorSettings": {},
         "items": {
           "type": "content",
@@ -27,17 +49,6 @@ export const MenuItemComponentDefinition = ComponentSchema({
           ],
           "restrictedTypes": []
         }
-      },
-      "Link": {
-        "type": "component",
-        "displayName": "Link",
-        "description": "",
-        "localized": false,
-        "required": false,
-        "group": "Information",
-        "sortOrder": 0,
-        "editorSettings": {},
-        "contentType": "link"
       }
     },
 });
