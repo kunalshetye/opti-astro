@@ -1,21 +1,22 @@
 ---
 interface Props {
     DisplayAs: string;
+    GlobalStyles?: string[];
 }
-const { DisplayAs } = Astro.props as Props;
+const { DisplayAs, GlobalStyles } = Astro.props as Props;
 const cssClasses = {
     textOnRight:
-        'mx-auto max-w-7xl flex flex-col gap-8 rounded-xl md:flex-row',
+        'mx-auto max-w-7xl flex flex-col gap-8 rounded-xl md:flex-row pe-5',
     textOnLeft:
-        'mx-auto max-w-7xl flex flex-col-reverse gap-8 rounded-xl md:flex-row-reverse',
+        'mx-auto max-w-7xl flex flex-col-reverse gap-8 rounded-xl md:flex-row-reverse ps-5',
     textAboveCard:
-        'mx-auto max-w-7xl flex flex-col-reverse gap-4 rounded-xl',
+        'mx-auto max-w-7xl flex flex-col-reverse gap-4 rounded-xl p-5',
     textBelowCard:
-        'mx-auto max-w-7xl flex flex-col gap-8 rounded-xl',
+        'mx-auto max-w-7xl flex flex-col gap-8 rounded-xl p-5',
 };
 const cssClass = cssClasses[DisplayAs as keyof typeof cssClasses];
 ---
 
-<div class={`${cssClass} opacity-100`}>
+<div class:list={[cssClass, "opacity-100", ...(GlobalStyles ?? [])]}>
     <slot />
 </div>

@@ -6,6 +6,9 @@ import type { ArticlePageFragment } from '../../../../__generated/sdk';
 import { getOptimizelySdk } from '../../../graphql/getSdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import Layout from '../../../layouts/Layout.astro';
+import { isEditContext } from '../../shared/utils.ts';
+
+const isCmsEdit = isEditContext(Astro.url);
 
 export interface Props {
     contentPayload: ContentPayload;
@@ -23,6 +26,13 @@ const publishedDate = format(
     new Date(post?._metadata?.published ?? Date.now()),
     'dd MMM yyyy'
 );
+
+const articleHeaderFontColor = ((post.PromoImage as any)?.item?.Url || post.PromoImage?.url?.default)
+    ? "text-neutral-content" : "text-base-content";
+const articleHeaderAuthorColor = ((post.PromoImage as any)?.item?.Url || post.PromoImage?.url?.default)
+    ? "text-neutral-content/75" : "text-base-content/65";
+const articleHeaderDateColor = ((post.PromoImage as any)?.item?.Url || post.PromoImage?.url?.default)
+    ? "text-neutral-content/55" : "text-base-content/50";
 
 const graphType = post?.SeoSettings?.GraphType && post?.SeoSettings?.GraphType !== "-" ? 
     post?.SeoSettings?.GraphType : 'article';
@@ -44,7 +54,7 @@ const extPreviewEnabled = post?.PageAdminSettings?.EnableExternalPreview ?? fals
     <div class="max-w-screen-6xl mx-auto">
         <main class="mt-10">
             <div
-                class="relative mx-auto mb-4 w-full max-w-screen-xl md:mb-0"
+                class="relative mx-auto mb-4 w-full max-w-screen-xl md:mb-0 bg-base-200"
                 style="height: 24em;"
             >
                 { ((post.PromoImage as any)?.item?.Url || post.PromoImage?.url?.default) && 
@@ -56,32 +66,34 @@ const extPreviewEnabled = post?.PageAdminSettings?.EnableExternalPreview ?? fals
                     <AstroImage
                         src={(post.PromoImage as any)?.item?.Url || post.PromoImage?.url?.default}
                         class="absolute top-0 left-0 z-0 h-full w-full object-cover"
-                        data-epi-property-name="BlogPostPromoImage"
                         alt={(post.PromoImage as any)?.item?.AltText || (post.PromoImage as any)?.item?._metadata?.displayName || post.Heading || 'Article promo image'}
                         inferSize={true}
+                        data-epi-edit={isCmsEdit ? "PromoImage" : undefined}
                     />
                 }
                 <div class="absolute bottom-0 left-0 z-20 p-4">
-                    <!--<a href="#"-->
-                    <!--   class="px-4 py-1 bg-black text-gray-200 inline-flex items-center justify-center mb-2">Nutrition</a>-->
                     <h1
-                        class="text-4xl leading-tight font-semibold text-gray-100"
-                        data-epi-property-name="Heading"
+                        class={`text-4xl lg:text-6xl leading-tight font-semibold pb-4 ${articleHeaderFontColor}`}
+                        data-epi-edit={isCmsEdit ? "Heading" : undefined}
                     >
                         {post?.Heading}
                     </h1>
                     <h2
-                        class="text-base leading-tight font-semibold text-gray-100"
-                        data-epi-property-name="Heading"
+                        class={`text-base lg:text-2xl leading-tight font-semibold ${articleHeaderFontColor}`}
+                        data-epi-edit={isCmsEdit ? "SubHeading" : undefined}
                     >
                         {post?.SubHeading}
                     </h2>
                     <div class="mt-3 flex">
                         <div>
-                            <p class="text-sm font-semibold text-gray-200">
+                            <p class={`text-sm font-semibold ${articleHeaderAuthorColor}`}
+                                data-epi-edit={isCmsEdit ? "Author" : undefined}
+                            >
                                 {post?.Author}
                             </p>
-                            <p class="text-xs font-semibold text-gray-400">
+                            <p class={`text-xs font-semibold ${articleHeaderDateColor}`}
+                                data-epi-edit={isCmsEdit ? "publishedDate" : undefined}
+                            >
                                 {publishedDate}
                             </p>
                         </div>
@@ -90,7 +102,7 @@ const extPreviewEnabled = post?.PageAdminSettings?.EnableExternalPreview ?? fals
             </div>
             <article
                 class="prose dark:prose-invert md:prose-lg lg:prose-xl mx-auto mt-12 mb-12 max-w-screen-xl px-4 2xl:px-0 prose-img:rounded-[2rem] prose-img:p-4 "
-                data-epi-property-name="BlogPostBody"
+                data-epi-edit={isCmsEdit ? "BlogPostBody" : undefined}
                 set:html={post.Body?.html}
             />
         </main>
