@@ -38,7 +38,6 @@ export function getImageElementStyles(
 
     const cssClasses: string[] = ['relative w-full object-cover not-prose'];
     const isPortrait = settings['orientation'] == 'portrait';
-    console.log('isPortrait', isPortrait);
     cssClasses.push(
         (isPortrait
             ? portraitAspectRatioClasses[settings['aspectRatio'] as keyof typeof portraitAspectRatioClasses]
