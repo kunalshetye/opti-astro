@@ -21,7 +21,7 @@ const siteStyles = await getOptimizelySdk(contentPayload).siteStylesById({
     ver: contentPayload.ver,
 });
 
-const externalStylesUrl = siteStyles?.SiteStyles?.item?.cssFile?.url?.default || null;
+const externalStylesUrl = siteStyles?.SiteStyles?.item?.cssFile?._metadata?.url?.default || null;
 
 const indexedColorProperties = [
     {class: 'primary', label: 'Primary'},

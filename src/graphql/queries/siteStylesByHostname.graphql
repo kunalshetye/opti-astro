@@ -51,8 +51,10 @@ query siteStylesByHostname($domain: String!, $locale: [Locales]!) {
             text9xl
             freeFormStyles
             cssFile {
-                url {
-                    default
+                _metadata {
+                    url {
+                        default
+                    }
                 }
             }
         }

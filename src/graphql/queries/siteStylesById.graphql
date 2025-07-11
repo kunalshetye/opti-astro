@@ -51,8 +51,10 @@ query siteStylesById($key: [String]!, $loc: [Locales]!, $ver: String!) {
             text9xl
             freeFormStyles
             cssFile {
-                url {
-                    default
+                _metadata {
+                    url {
+                        default
+                    }
                 }
             }
         }

@@ -51,7 +51,7 @@ const siteStyles = await getOptimizelySdk(contentPayload).siteStylesByHostname({
     locale: [contentPayload.loc as Locales],
 });
 
-const externalStylesUrl = siteStyles?.SiteStyles?.item?.cssFile?.url?.default || null;
+const externalStylesUrl = siteStyles?.SiteStyles?.item?.cssFile?._metadata?.url?.default || null;
 
 const canonicalUrl = Astro.url.origin + hierarchicalUrl;
 
