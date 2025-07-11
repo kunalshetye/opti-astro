@@ -629,6 +629,20 @@
 			"group": "StylesOther",
 			"sortOrder": 500,
 			"editorSettings": {}
+		},
+		"cssFile": {
+			"type": "content",
+			"displayName": "CSS File",
+			"description": "Load custom CSS file on all pages",
+			"localized": false,
+			"required": false,
+			"group": "StylesOther",
+			"sortOrder": 510,
+			"editorSettings": {},
+			"allowedTypes": [
+				"CssMedia"
+			],
+			"restrictedTypes": []
 		}
 	}
 }
