@@ -52,8 +52,10 @@ query siteStylesByHostname($domain: String!, $locale: [Locales]!) {
             freeFormStyles
             font
             cssFile {
-                url {
-                    default
+                _metadata {
+                    url {
+                        default
+                    }
                 }
             }
         }
