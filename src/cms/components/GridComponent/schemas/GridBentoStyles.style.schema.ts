@@ -9,8 +9,3 @@ export const GridBentoStylesStyleDefinition = StyleSchema({
   isDefault: false,
   settings: {},
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeGridBentoStylesStyleToJSON() {
-  return JSON.parse(JSON.stringify(GridBentoStylesStyleDefinition));
-}

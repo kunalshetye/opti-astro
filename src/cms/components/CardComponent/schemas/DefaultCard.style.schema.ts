@@ -417,8 +417,3 @@ export const DefaultCardStyleDefinition = StyleSchema({
       }
     },
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeDefaultCardStyleToJSON() {
-  return JSON.parse(JSON.stringify(DefaultCardStyleDefinition));
-}

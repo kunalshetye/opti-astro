@@ -93,8 +93,3 @@ export const HeroComponentDefinition = ComponentSchema({
       }
     },
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeHeroToJSON() {
-  return JSON.parse(JSON.stringify(HeroComponentDefinition));
-}

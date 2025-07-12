@@ -179,8 +179,3 @@ export const DefaultRowStyleDefinition = StyleSchema({
       }
     },
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeDefaultRowStyleToJSON() {
-  return JSON.parse(JSON.stringify(DefaultRowStyleDefinition));
-}

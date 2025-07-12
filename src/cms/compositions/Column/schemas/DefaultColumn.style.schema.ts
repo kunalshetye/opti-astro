@@ -202,8 +202,3 @@ export const DefaultColumnStyleDefinition = StyleSchema({
       }
     },
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeDefaultColumnStyleToJSON() {
-  return JSON.parse(JSON.stringify(DefaultColumnStyleDefinition));
-}

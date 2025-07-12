@@ -67,8 +67,3 @@ export const LandingPageComponentDefinition = ComponentSchema({
       }
     },
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeLandingPageToJSON() {
-  return JSON.parse(JSON.stringify(LandingPageComponentDefinition));
-}

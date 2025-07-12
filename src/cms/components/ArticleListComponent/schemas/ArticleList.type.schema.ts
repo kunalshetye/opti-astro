@@ -38,8 +38,3 @@ export const ArticleListComponentDefinition = ComponentSchema({
       }
     },
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeArticleListToJSON() {
-  return JSON.parse(JSON.stringify(ArticleListComponentDefinition));
-}

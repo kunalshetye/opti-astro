@@ -42,8 +42,3 @@ export const GridComponentDefinition = ComponentSchema({
       }
     },
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeGridToJSON() {
-  return JSON.parse(JSON.stringify(GridComponentDefinition));
-}

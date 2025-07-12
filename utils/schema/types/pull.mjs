@@ -130,11 +130,6 @@ export const ${componentName} = ComponentSchema({
   compositionBehaviors: ${JSON.stringify(cleanContentType.compositionBehaviors || [], null, 2).replace(/\n/g, '\n  ')},
   properties: ${JSON.stringify(properties, null, 2).replace(/\n/g, '\n    ')},
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serialize${capitalizedKey}ToJSON() {
-  return JSON.parse(JSON.stringify(${componentName}));
-}
 `;
     
     return tsContent;

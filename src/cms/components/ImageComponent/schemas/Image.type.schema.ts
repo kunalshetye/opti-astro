@@ -41,8 +41,3 @@ export const ImageComponentDefinition = ComponentSchema({
       }
     },
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeImageToJSON() {
-  return JSON.parse(JSON.stringify(ImageComponentDefinition));
-}

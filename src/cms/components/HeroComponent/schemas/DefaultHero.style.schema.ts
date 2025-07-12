@@ -343,8 +343,3 @@ export const DefaultHeroStyleDefinition = StyleSchema({
       }
     },
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeDefaultHeroStyleToJSON() {
-  return JSON.parse(JSON.stringify(DefaultHeroStyleDefinition));
-}

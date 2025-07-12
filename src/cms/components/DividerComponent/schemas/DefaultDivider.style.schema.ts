@@ -271,8 +271,3 @@ export const DefaultDividerStyleDefinition = StyleSchema({
       }
     },
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeDefaultDividerStyleToJSON() {
-  return JSON.parse(JSON.stringify(DefaultDividerStyleDefinition));
-}

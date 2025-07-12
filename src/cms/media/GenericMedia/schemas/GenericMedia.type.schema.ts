@@ -12,8 +12,3 @@ export const GenericMediaComponentDefinition = ComponentSchema({
   compositionBehaviors: [],
   properties: {},
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeGenericMediaToJSON() {
-  return JSON.parse(JSON.stringify(GenericMediaComponentDefinition));
-}

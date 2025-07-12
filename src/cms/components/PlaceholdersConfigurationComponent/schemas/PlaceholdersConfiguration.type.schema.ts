@@ -42,8 +42,3 @@ export const PlaceholdersConfigurationComponentDefinition = ComponentSchema({
       }
     },
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializePlaceholdersConfigurationToJSON() {
-  return JSON.parse(JSON.stringify(PlaceholdersConfigurationComponentDefinition));
-}

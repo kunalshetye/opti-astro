@@ -29,8 +29,3 @@ export const VideoMediaComponentDefinition = ComponentSchema({
   compositionBehaviors: [],
   properties: {},
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeVideoMediaToJSON() {
-  return JSON.parse(JSON.stringify(VideoMediaComponentDefinition));
-}

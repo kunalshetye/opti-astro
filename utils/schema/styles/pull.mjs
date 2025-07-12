@@ -176,11 +176,6 @@ export const ${styleDefinitionName} = StyleSchema({
   displayName: '${styleProperties.displayName}',${styleProperties.contentType ? `\n  contentType: ${styleProperties.contentType},` : ''}${styleProperties.baseType ? `\n  baseType: ${styleProperties.baseType},` : ''}${styleProperties.nodeType ? `\n  nodeType: ${styleProperties.nodeType},` : ''}${styleProperties.isDefault !== undefined ? `\n  isDefault: ${styleProperties.isDefault},` : ''}
   settings: ${JSON.stringify(settings, null, 2).replace(/\n/g, '\n    ')},
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serialize${capitalizedKey}StyleToJSON() {
-  return JSON.parse(JSON.stringify(${styleDefinitionName}));
-}
 `;
     
     return tsContent;

@@ -154,8 +154,3 @@ export const DefaultCallToActionStyleDefinition = StyleSchema({
       }
     },
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeDefaultCallToActionStyleToJSON() {
-  return JSON.parse(JSON.stringify(DefaultCallToActionStyleDefinition));
-}

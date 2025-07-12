@@ -8,27 +8,55 @@ const componentSchemaRegistry = new Map<string, ComponentSchemaDefinition>();
 const styleSchemaRegistry = new Map<string, StyleSchemaDefinition>();
 
 /**
- * Auto-registering component schema builder
+ * Enhanced component schema with built-in serialization
  */
-export function ComponentSchema<T extends ComponentSchemaDefinition>(definition: T): T {
+export type ComponentSchemaWithSerialization<T extends ComponentSchemaDefinition = ComponentSchemaDefinition> = T & {
+  serialize(): T;
+};
+
+/**
+ * Auto-registering component schema builder with built-in serialize method
+ */
+export function ComponentSchema<T extends ComponentSchemaDefinition>(definition: T): ComponentSchemaWithSerialization<T> {
   if (componentSchemaRegistry.has(definition.key)) {
     throw new Error(`Duplicate component schema key: '${definition.key}'. Schema keys must be unique.`);
   }
   componentSchemaRegistry.set(definition.key, definition);
   console.log(`📝 Auto-registered component schema: ${definition.key}`);
-  return definition;
+  
+  // Return enhanced object with built-in serialize method
+  return {
+    ...definition,
+    serialize(): T {
+      return JSON.parse(JSON.stringify(definition));
+    }
+  };
 }
 
 /**
- * Auto-registering style schema builder
+ * Enhanced style schema with built-in serialization
  */
-export function StyleSchema<T extends StyleSchemaDefinition>(definition: T): T {
+export type StyleSchemaWithSerialization<T extends StyleSchemaDefinition = StyleSchemaDefinition> = T & {
+  serialize(): T;
+};
+
+/**
+ * Auto-registering style schema builder with built-in serialize method
+ */
+export function StyleSchema<T extends StyleSchemaDefinition>(definition: T): StyleSchemaWithSerialization<T> {
   if (styleSchemaRegistry.has(definition.key)) {
     throw new Error(`Duplicate style schema key: '${definition.key}'. Schema keys must be unique.`);
   }
   styleSchemaRegistry.set(definition.key, definition);
   console.log(`🎨 Auto-registered style schema: ${definition.key}`);
-  return definition;
+  
+  // Return enhanced object with built-in serialize method
+  return {
+    ...definition,
+    serialize(): T {
+      return JSON.parse(JSON.stringify(definition));
+    }
+  };
 }
 
 /**

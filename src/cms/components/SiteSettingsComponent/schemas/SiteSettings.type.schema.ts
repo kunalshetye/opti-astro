@@ -182,8 +182,3 @@ export const SiteSettingsComponentDefinition = ComponentSchema({
       }
     },
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeSiteSettingsToJSON() {
-  return JSON.parse(JSON.stringify(SiteSettingsComponentDefinition));
-}

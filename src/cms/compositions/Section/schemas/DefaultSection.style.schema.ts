@@ -106,8 +106,3 @@ export const DefaultSectionStyleDefinition = StyleSchema({
       }
     },
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeDefaultSectionStyleToJSON() {
-  return JSON.parse(JSON.stringify(DefaultSectionStyleDefinition));
-}

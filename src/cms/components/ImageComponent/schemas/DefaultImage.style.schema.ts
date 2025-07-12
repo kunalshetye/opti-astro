@@ -99,8 +99,3 @@ export const DefaultImageStyleDefinition = StyleSchema({
       }
     },
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeDefaultImageStyleToJSON() {
-  return JSON.parse(JSON.stringify(DefaultImageStyleDefinition));
-}

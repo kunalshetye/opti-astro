@@ -38,8 +38,3 @@ export const CollapseComponentDefinition = ComponentSchema({
       }
     },
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeCollapseToJSON() {
-  return JSON.parse(JSON.stringify(CollapseComponentDefinition));
-}

@@ -14,8 +14,3 @@ export const CssMediaComponentDefinition = ComponentSchema({
   compositionBehaviors: [],
   properties: {},
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeCssMediaToJSON() {
-  return JSON.parse(JSON.stringify(CssMediaComponentDefinition));
-}

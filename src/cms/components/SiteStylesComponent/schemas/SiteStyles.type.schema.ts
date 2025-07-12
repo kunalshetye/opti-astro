@@ -871,8 +871,3 @@ export const SiteStylesComponentDefinition = ComponentSchema({
       }
     },
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeSiteStylesToJSON() {
-  return JSON.parse(JSON.stringify(SiteStylesComponentDefinition));
-}

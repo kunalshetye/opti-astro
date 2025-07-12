@@ -110,8 +110,3 @@ export const CardComponentDefinition = ComponentSchema({
       }
     },
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeCardToJSON() {
-  return JSON.parse(JSON.stringify(CardComponentDefinition));
-}

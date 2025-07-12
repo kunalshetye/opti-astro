@@ -28,8 +28,3 @@ export const ParagraphComponentDefinition = ComponentSchema({
       }
     },
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeParagraphToJSON() {
-  return JSON.parse(JSON.stringify(ParagraphComponentDefinition));
-}

@@ -53,8 +53,3 @@ export const CarouselComponentDefinition = ComponentSchema({
       }
     },
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeCarouselToJSON() {
-  return JSON.parse(JSON.stringify(CarouselComponentDefinition));
-}

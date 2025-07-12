@@ -8,8 +8,3 @@ export const CarouselRowStyleDefinition = StyleSchema({
   isDefault: false,
   settings: {},
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeCarouselRowStyleToJSON() {
-  return JSON.parse(JSON.stringify(CarouselRowStyleDefinition));
-}

@@ -82,8 +82,3 @@ export const CardRowStyleDefinition = StyleSchema({
       }
     },
 });
-
-// Function to serialize to JSON (returns a copy that can be safely modified)
-export function serializeCardRowStyleToJSON() {
-  return JSON.parse(JSON.stringify(CardRowStyleDefinition));
-}
