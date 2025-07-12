@@ -8,16 +8,16 @@ const componentSchemaRegistry = new Map<string, ComponentSchemaDefinition>();
 const styleSchemaRegistry = new Map<string, StyleSchemaDefinition>();
 
 /**
- * Enhanced component schema with built-in serialization
+ * Enhanced component schema with built-in methods
  */
-export type ComponentSchemaWithSerialization<T extends ComponentSchemaDefinition = ComponentSchemaDefinition> = T & {
+type EnhancedComponentSchema<T extends ComponentSchemaDefinition> = T & {
   serialize(): T;
 };
 
 /**
  * Auto-registering component schema builder with built-in serialize method
  */
-export function ComponentSchema<T extends ComponentSchemaDefinition>(definition: T): ComponentSchemaWithSerialization<T> {
+export function ComponentSchema<T extends ComponentSchemaDefinition>(definition: T): EnhancedComponentSchema<T> {
   if (componentSchemaRegistry.has(definition.key)) {
     throw new Error(`Duplicate component schema key: '${definition.key}'. Schema keys must be unique.`);
   }
@@ -34,16 +34,16 @@ export function ComponentSchema<T extends ComponentSchemaDefinition>(definition:
 }
 
 /**
- * Enhanced style schema with built-in serialization
+ * Enhanced style schema with built-in methods
  */
-export type StyleSchemaWithSerialization<T extends StyleSchemaDefinition = StyleSchemaDefinition> = T & {
+type EnhancedStyleSchema<T extends StyleSchemaDefinition> = T & {
   serialize(): T;
 };
 
 /**
  * Auto-registering style schema builder with built-in serialize method
  */
-export function StyleSchema<T extends StyleSchemaDefinition>(definition: T): StyleSchemaWithSerialization<T> {
+export function StyleSchema<T extends StyleSchemaDefinition>(definition: T): EnhancedStyleSchema<T> {
   if (styleSchemaRegistry.has(definition.key)) {
     throw new Error(`Duplicate style schema key: '${definition.key}'. Schema keys must be unique.`);
   }
