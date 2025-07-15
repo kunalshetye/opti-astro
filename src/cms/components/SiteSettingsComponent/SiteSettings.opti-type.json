@@ -34,7 +34,7 @@
 			"indexingType": "searchable",
 			"editorSettings": {}
 		},
-		"optiWebProjectId": {
+		"OptiWebProjectId": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "Optimizely Web Project ID",
