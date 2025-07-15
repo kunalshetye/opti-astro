@@ -82,6 +82,7 @@ query siteSettingsById($key: [String]!, $loc: [Locales]!, $ver: String!) {
             SocialTwitter
             SocialTikTok
             SocialGitHub
+            OptiWebProjectId
         }
     }
 }

@@ -9,7 +9,7 @@ import SiteStyles from '../cms/components/SiteStylesComponent/SiteStyles.astro';
 import { getSiteFont } from '../cms/shared/siteStylesHelper';
 import { EXTERNAL_PREVIEW_ENABLED } from 'astro:env/server';
 import ExtPreviewLinkBanner from '../cms/shared/ExtPreviewLink/ExtPreviewLinkBanner.astro';
-import { isDraftContent } from '../cms/shared/utils.ts';
+import { isDraftContent, isEditContext } from '../cms/shared/utils.ts';
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
 import '../styles/global.css';
@@ -37,6 +37,8 @@ const {
 } = Astro.props;
 const ctx = contentPayload.ctx || 'view';
 
+const isCmsEdit = isEditContext(Astro.url);
+
 const contentVersion = contentPayload.ver || '';
 const isDraft = await isDraftContent(contentVersion);
 
@@ -47,6 +49,8 @@ const siteSettings = await getOptimizelySdk(
     domain: host,
     locale: [contentPayload.loc as Locales],
 });
+
+const optiWebProjectId = siteSettings?.SiteSettings?.item?.OptiWebProjectId || null;
 
 const siteStyles = await getOptimizelySdk(contentPayload).siteStylesByHostname({
     domain: host,
@@ -65,9 +69,14 @@ const graphType = graphtype !== '-' ? graphtype : 'website';
 <!doctype html>
 <html data-theme="light" lang="en">
     <head>
+        <meta charset="UTF-8" />
+        {!isCmsEdit && optiWebProjectId && (
+            <link rel="preload" href={`//cdn.optimizely.com/js/${optiWebProjectId}.js`} as="script" />
+            <link rel="preconnect" href="//logx.optimizely.com" />
+            <script src={`https://cdn.optimizely.com/js/${optiWebProjectId}.js`} />
+        )}
         {siteStyles && <SiteStyles siteStyles={siteStyles} />}
         {siteFont && <Font cssVariable={siteFont} preload />}
-        <meta charset="UTF-8" />
         <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

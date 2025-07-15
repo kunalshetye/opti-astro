@@ -34,6 +34,18 @@
 			"indexingType": "searchable",
 			"editorSettings": {}
 		},
+		"optiWebProjectId": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "Optimizely Web Project ID",
+			"description": "Optimizely Web Project ID to load snippet on all pages",
+			"localized": false,
+			"required": false,
+			"group": "OptiTools",
+			"sortOrder": 10,
+			"editorSettings": {},
+			"maxLength": 20
+		},
 		"LogoResolution": {
 			"type": "string",
 			"format": "selectOne",

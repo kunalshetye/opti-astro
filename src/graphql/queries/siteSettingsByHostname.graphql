@@ -83,6 +83,7 @@ query siteSettingsByHostname($domain: String!, $locale: [Locales]!) {
             SocialTwitter
             SocialTikTok
             SocialGitHub
+            OptiWebProjectId
         }
     }
 }
