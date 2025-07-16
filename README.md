@@ -96,11 +96,33 @@ The `OPTIMIZELY_DAM_ENABLED` variable controls how GraphQL queries are generated
 
 ### Additional setup notes
 #### Site Settings
-Note: the Site Settings component currently allows you to update the site logo and footer tagline. Additional features coming soon.
+Note: the Site Settings component currently allows you to update the site logo, header/top nav, footer, and social accounts, and set an Optimizely Web Project ID. Additional features may follow.
 
 1. Create a new Shared Block of type "Site Settings". If using the existing content pack, a Site Settings block is included in the "For This Page" for the imported homepage.
-2. Set the "Site Domain" field to match your domain -- for a local setup, it should be "localhost:4321". (Without this value defined, the site won't use the block.)
-3. Update the Logo and the Footer Text as desired. Updates will be reflected on publish.
+2. Set the "Site Domain" field to match your domain, eg. "www.yoursite.com" -- for a local setup, it should be "localhost:4321". (Without this value defined, the site won't use the block.)
+3. Update the Site Settings as desired. Updates will be reflected on publish.
+
+#### Site Styles
+Note: the Site Styles component allows you to update the site colors, base font sizes, etc.
+
+1. Create a new Shared Block of type "Site Styles".
+2. Set the "Site Domain" field to match your domain, eg. "www.yoursite.com" -- for a local setup, it should be "localhost:4321". (Without this value defined, the site won't use the block.)
+3. Update the Site Styles as desired. Updates will be reflected on publish.
+
+Note: the site is built using daisyUI. You can create a new theme via [daisyUI's Theme Generator](https://daisyui.com/theme-generator/), and paste the full results (click the "CSS" button) into the "DaisyUI Theme" property text box.
+
+#### Optimizely Web
+Using the industry's leading testing and personalization platform? Set your Web Project ID in the Site Settings component, and the Web snippet will load on all pages.
+
+#### Additional Languages
+Want to create content in additional languages?
+
+You should be able to simply enable the language via the [CMS Settings UI](https://docs.developers.optimizely.com/content-management-system/v1.0.0-CMS-SaaS/docs/languages).
+
+If the new language does not render, or you want the new language to fallback to English (when a page in the new language doesn't exist):
+
+1. Run the Optimizely Graph Full Sync scheduled job
+2. Redeploy your site frontend to dynamically update the astro.config.mjs file based on enabled languages.
 
 ## Components
 
