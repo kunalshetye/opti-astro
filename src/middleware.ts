@@ -1,6 +1,7 @@
 import { defineMiddleware } from 'astro:middleware';
 import { getOptimizelySdk } from './graphql/getSdk';
 import { Locales } from '../__generated/sdk';
+import { sanitizeLocale } from './cms/shared/utils.ts';
 import type { ContentPayload } from './graphql/shared/ContentPayload';
 
 // Cache for placeholder data to avoid repeated GraphQL calls
@@ -16,7 +17,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
     
     // Extract domain from URL
     const domain = context.url.host;
-    const locale = context.currentLocale as Locales || Locales.En;
+    const locale = (sanitizeLocale(context.currentLocale || Locales.En)) as Locales || Locales.En;
     
     try {
       // Get placeholders from GraphQL

@@ -1,5 +1,6 @@
 ---
 import { Locales } from '../../__generated/sdk';
+import { sanitizeLocale } from '../cms/shared/utils.ts';
 import Components from '../cms/components/_Components.astro';
 import Experiences from '../cms/experiences/_Experiences.astro';
 import Pages from '../cms/pages/_Pages.astro';
@@ -43,6 +44,7 @@ if (!item?._metadata) {
     throw new Error('Metadata is missing in the content item');
 }
 
+item._metadata.locale = sanitizeLocale(item._metadata.locale || "");
 const contentByIdResponse = await getOptimizelySdk(contentPayload).contentById({
     key: item._metadata.key || '',
     ver: item._metadata.version || '',
