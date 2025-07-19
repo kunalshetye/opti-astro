@@ -3,6 +3,7 @@ import qs from 'query-string';
 
 import { OPTIMIZELY_CMS_URL } from 'astro:env/client';
 import type { Locales } from 'astro';
+import { sanitizeLocale } from '../cms/shared/utils.ts';
 import Component from '../cms/components/_Component.astro';
 import Experiences from '../cms/experiences/_Experiences.astro';
 import { getOptimizelySdk } from '../graphql/getSdk';
@@ -16,6 +17,8 @@ const cmsScript =
         : `/communicationinjector.js`;
 
 const previewPayload = qs.parse(Astro.url.search) as unknown as ContentPayload;
+
+previewPayload.loc = sanitizeLocale(previewPayload.loc);
 
 const optiResponse = await getOptimizelySdk(previewPayload).contentById({
     key: previewPayload.key,

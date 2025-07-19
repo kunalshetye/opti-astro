@@ -51,7 +51,7 @@ export function getGlobalStyles(component:
         | null) {
 
     var settings;
-    if ((component as CompositionStructureNode).displaySettings) {
+    if ((component as CompositionStructureNode)?.displaySettings) {
         settings = (component as CompositionStructureNode).displaySettings as DisplaySettingsFragment[]
     } else {
         settings = (component as DisplaySettingsFragment[]);
