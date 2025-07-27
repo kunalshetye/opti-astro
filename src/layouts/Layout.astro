@@ -40,7 +40,7 @@ const ctx = contentPayload.ctx || 'view';
 const isCmsEdit = isEditContext(Astro.url);
 
 const contentVersion = contentPayload.ver || '';
-const isDraft = await isDraftContent(contentVersion);
+const isDraft = EXTERNAL_PREVIEW_ENABLED && extPreviewEnabled && await isDraftContent(contentVersion);
 
 const { host } = Astro.url;
 const siteSettings = await getOptimizelySdk(
