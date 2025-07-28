@@ -33,7 +33,7 @@ export default defineConfig({
     i18n: {
         locales: [
         // DYNAMIC_LOCALES_START
-        'en', 'sv'
+       'en' 
         // DYNAMIC_LOCALES_END
         ],
         defaultLocale: 'en',
@@ -43,7 +43,7 @@ export default defineConfig({
         },
         fallback: {
             // DYNAMIC_FALLBACK_START
-            sv: 'en'
+            
             // DYNAMIC_FALLBACK_END
         },
     },
