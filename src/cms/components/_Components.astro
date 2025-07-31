@@ -29,6 +29,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'Text' && (
         <Text
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
@@ -38,6 +39,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'CallToAction' && (
         <CallToAction
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displayTemplateKey={displayTemplateKey}
@@ -48,6 +50,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'Image' && (
         <Image
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
@@ -57,6 +60,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'Video' && (
         <Video
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
@@ -66,6 +70,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'Paragraph' && (
         <Paragraph
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
@@ -75,6 +80,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'Card' && (
         <Card
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
@@ -132,6 +138,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'Button' && (
         <Button
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}

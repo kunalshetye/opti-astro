@@ -12,13 +12,18 @@ import { getGlobalStyles } from '../../shared/globalStylesHelper';
 import Asset from './Asset.astro';
 import Content from './Content.astro';
 import Wrapper from './Wrapper.astro';
+import { isEditContext } from '../../shared/utils.ts';
+
+const isCmsEdit = isEditContext(Astro.url);
+
 export interface Props {
+    key: string;
     data: CardFragment;
     displaySettings: DisplaySettingsFragment[];
     displayTemplateKey: string;
     contentPayload: ContentPayload;
 }
-const { data, displaySettings, displayTemplateKey, contentPayload } =
+const { key, data, displaySettings, displayTemplateKey, contentPayload } =
     Astro.props as Props;
 
 const dictionary = getDictionaryFromDisplaySettings(displaySettings);
@@ -30,23 +35,25 @@ const contentVerticalAlignClass = getContentVerticalAlignClass(displaySettings);
 const globalStyles = getGlobalStyles(displaySettings);
 ---
 
-<Wrapper DisplayAs={DisplayAs ?? ''} GlobalStyles={globalStyles}>
-    <Asset
-        data={data}
-        displaySettings={displaySettings}
-        displayTemplateKey={displayTemplateKey}
-        contentPayload={contentPayload}
-        DisplayAs={DisplayAs ?? undefined}
-        widthClass={assetWidthClass}
-        verticalAlignClass={assetVerticalAlignClass}
-    />
-    <Content
-        data={data}
-        displaySettings={displaySettings}
-        displayTemplateKey={displayTemplateKey}
-        contentPayload={contentPayload}
-        DisplayAs={DisplayAs ?? undefined}
-        widthClass={contentWidthClass}
-        verticalAlignClass={contentVerticalAlignClass}
-    />
-</Wrapper>
+<span data-epi-block-id={isCmsEdit && key || undefined}>
+    <Wrapper DisplayAs={DisplayAs ?? ''} GlobalStyles={globalStyles}>
+        <Asset
+            data={data}
+            displaySettings={displaySettings}
+            displayTemplateKey={displayTemplateKey}
+            contentPayload={contentPayload}
+            DisplayAs={DisplayAs ?? undefined}
+            widthClass={assetWidthClass}
+            verticalAlignClass={assetVerticalAlignClass}
+        />
+        <Content
+            data={data}
+            displaySettings={displaySettings}
+            displayTemplateKey={displayTemplateKey}
+            contentPayload={contentPayload}
+            DisplayAs={DisplayAs ?? undefined}
+            widthClass={contentWidthClass}
+            verticalAlignClass={contentVerticalAlignClass}
+        />
+    </Wrapper>
+</span>

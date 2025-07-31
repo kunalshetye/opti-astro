@@ -6,13 +6,17 @@ import type {
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers.ts';
 import { getHeadingElementStyles } from './TextStyling';
+import { isEditContext } from '../../shared/utils.ts';
+
+const isCmsEdit = isEditContext(Astro.url);
 
 export interface Props {
+    key: String;
     data: TextFragment;
     contentPayload: ContentPayload;
     displaySettings: DisplaySettingsFragment[];
 }
-const { data, displaySettings } = Astro.props as Props;
+const { key, data, displaySettings } = Astro.props as Props;
 
 const settings: Record<string, string> =
     getDictionaryFromDisplaySettings(displaySettings);
@@ -21,6 +25,6 @@ const HeadingStyle = (settings?.headingType == "plain" || settings?.headingType 
 
 ---
 
-<HeadingStyle class:list={getHeadingElementStyles(displaySettings)}>
+<HeadingStyle class:list={getHeadingElementStyles(displaySettings)} data-epi-block-id={isCmsEdit && key || undefined}>
     {data.Content}
 </HeadingStyle>
