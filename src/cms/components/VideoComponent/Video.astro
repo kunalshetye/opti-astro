@@ -63,15 +63,14 @@ const cssClasses = [
 ].filter(Boolean);
 ---
 { videoUrl &&
-    <span data-epi-block-id={isCmsEdit && key || undefined}>
-        <video
-            src={videoUrl}
-            poster={posterImageUrl}
-            class:list={cssClasses}
-            controls={showControls}
-            muted={muted}
-            loop={loop}
-            autoplay={autoPlay}
-            playsinline></video>
-    </span>
+    <video
+        data-epi-block-id={isCmsEdit && key || undefined}
+        src={videoUrl}
+        poster={posterImageUrl}
+        class:list={cssClasses}
+        controls={showControls}
+        muted={muted}
+        loop={loop}
+        autoplay={autoPlay}
+        playsinline></video>
 }

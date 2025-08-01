@@ -41,5 +41,7 @@ if(isLoginButton) {
     </span>
 }
 { isLoginButton &&
-    <LinkButton cssClasses={btnStyles} link={data?.ButtonLink?.url?.hierarchical}><Fragment set:html={loginButtonSlot}/></LinkButton>
+    <span data-epi-block-id={isCmsEdit && key || undefined}>
+        <LinkButton cssClasses={btnStyles} link={data?.ButtonLink?.url?.hierarchical}><Fragment set:html={loginButtonSlot}/></LinkButton>
+    </span>
 }

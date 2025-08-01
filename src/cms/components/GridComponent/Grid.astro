@@ -21,7 +21,5 @@ const { key, displayTemplateKey } = Astro.props as Props;
 const isBento = displayTemplateKey === 'GridBentoStyles';
 ---
 
-<span data-epi-block-id={isCmsEdit && key || undefined}>
-    {!isBento && <GridStandard {...Astro.props} />}
-    {isBento && <GridBento {...Astro.props} />}
-</span>
+{!isBento && <GridStandard {...Astro.props} data-epi-block-id={isCmsEdit && key || undefined}/>}
+{isBento && <GridBento {...Astro.props} data-epi-block-id={isCmsEdit && key || undefined} />}

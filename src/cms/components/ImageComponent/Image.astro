@@ -20,12 +20,11 @@ const imageUrl = (data.Image as any)?.item?.Url || data.Image?.url?.default || n
 ---
 
 {imageUrl && 
-    <span data-epi-block-id={isCmsEdit && key || undefined}>
-        <AstroImage
-            class:list={getImageElementStyles(displaySettings)}
-            src={imageUrl || ''}
-            alt={data.AltText || ''}
-            inferSize={true}
-        />
-    </span>
+    <AstroImage
+        data-epi-block-id={isCmsEdit && key || undefined}
+        class:list={getImageElementStyles(displaySettings)}
+        src={imageUrl || ''}
+        alt={data.AltText || ''}
+        inferSize={true}
+    />
 }
