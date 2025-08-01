@@ -23,7 +23,6 @@ const styles = [...rowStyles, ...globalStyles]
         <div
             class="vb:row flex flex-1 flex-col flex-wrap justify-start p-1 md:flex-row"
             class:list={styles}
-            data-epi-block-id={row.key}
         >
             {row.columns?.map((column: any) => (
                 <Column contentPayload={contentPayload} column={column} />
@@ -37,7 +36,6 @@ const styles = [...rowStyles, ...globalStyles]
         <div
             class="vb:row relative flex h-[30vh] flex-none flex-row flex-nowrap justify-start p-1 md:h-[40vh] lg:h-[50vh]"
             class:list={styles}
-            data-epi-block-id={row.key}
         >
             <CarouselRow contentPayload={contentPayload} row={row} />
         </div>
