@@ -11,6 +11,7 @@ import { getRelativeLocaleUrl } from 'astro:i18n';
 Astro.response.headers.set('Content-Type', 'text/html; charset=UTF-8');
 
 const lang = Astro.currentLocale;
+const pageVariation = Astro.url.searchParams.get('var') || null;;
 
 const ctx = 'view';
 
@@ -31,7 +32,8 @@ const contentByPathResponse = await getOptimizelySdk(
 ).contentByPath({
     base: urlBase,
     url: urlPath,
-    urlNoSlash: urlPathNoSlash
+    urlNoSlash: urlPathNoSlash,
+    variation: pageVariation
 });
 if (!contentByPathResponse._Content 
     || !contentByPathResponse._Content.item 
