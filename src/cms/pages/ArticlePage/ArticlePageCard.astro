@@ -4,12 +4,16 @@ import { format } from 'date-fns';
 import type { ArticlePageFragment } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import LinkButton from '../../components/ButtonComponent/LinkButton.astro';
+import { isEditContext } from '../../shared/utils.ts';
+
+const isCmsEdit = isEditContext(Astro.url);
 
 export interface Props {
+    key: string;
     data: ArticlePageFragment;
     contentPayload: ContentPayload;
 }
-const { data, contentPayload } = Astro.props as Props;
+const { key, data, contentPayload } = Astro.props as Props;
 
 const publishedDate = format(
     new Date(data?._metadata?.published ?? Date.now()),
@@ -19,7 +23,7 @@ const publishedDate = format(
 const articlePromoImage = (data.PromoImage as any)?.item?.Url || data.PromoImage?.url?.default;
 ---
 
-<div class="card bg-base-100 w-96 flex-shrink-0 shadow-sm flex flex-col">
+<div class="card bg-base-100 w-96 flex-shrink-0 shadow-sm flex flex-col" data-epi-block-id={isCmsEdit && key || undefined}>
     <figure>
         <AstroImage
             class="aspect-3/2 object-cover"

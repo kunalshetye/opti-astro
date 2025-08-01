@@ -6,14 +6,18 @@ import type {
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload.ts';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers.ts';
 // import { getHeadingElementStyles } from './IframeStyling.ts';
+import { isEditContext } from '../../shared/utils.ts';
+
+const isCmsEdit = isEditContext(Astro.url);
 
 export interface Props {
+    key: string;
     data: IframeFragment;
     contentPayload: ContentPayload;
     displayTemplateKey: string;
     displaySettings: DisplaySettingsFragment[];
 }
-const { data, displaySettings } = Astro.props as Props;
+const { key, data, displaySettings } = Astro.props as Props;
 
 const settings: Record<string, string> =
     getDictionaryFromDisplaySettings(displaySettings);
@@ -31,7 +35,7 @@ const width = allWidths[data?.Width || ''] || '';
 
 ---
 
-<div class={`mb-3`}>
+<div class={`mb-3`} data-epi-block-id={isCmsEdit && key || undefined}>
     <iframe class=`w-full ${width} border-0` height={data?.ManualHeight} src={data?.IframePageUrl} title={data?.Title} allow="" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </div>
 

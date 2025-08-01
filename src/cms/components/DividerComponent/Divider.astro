@@ -5,13 +5,17 @@ import type {
 } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { getDividerElementStyles } from './DividerStyling';
+import { isEditContext } from '../../shared/utils.ts';
+
+const isCmsEdit = isEditContext(Astro.url);
 
 export interface Props {
+    key: string;
     data: DividerFragment;
     contentPayload: ContentPayload;
     displaySettings: DisplaySettingsFragment[];
 }
-const { data, displaySettings } = Astro.props as Props;
+const { key, data, displaySettings } = Astro.props as Props;
 
 const dividerStyles = getDividerElementStyles(displaySettings, data?.DividerDirection || 'horizontal');
 
@@ -20,5 +24,5 @@ const directionClass = data?.DividerDirection === 'horizontal' ? '' : 'md:divide
 
 ---
 
-<div class:list={['divider', directionClass, dividerStyles]}
+<div class:list={['divider', directionClass, dividerStyles]} data-epi-block-id={isCmsEdit && key || undefined}
     >{data.DividerText && data.DividerText}</div>

@@ -9,13 +9,17 @@ import { getHeroStyles } from './HeroStyling';
 import { getGlobalStyles } from '../../shared/globalStylesHelper';
 import LinkButton from '../ButtonComponent/LinkButton.astro';
 import { getButtonStyles } from '../ButtonComponent/ButtonStyling';
+import { isEditContext } from '../../shared/utils.ts';
+
+const isCmsEdit = isEditContext(Astro.url);
 
 export interface Props {
+    key: string;
     data: HeroFragment;
     displaySettings: DisplaySettingsFragment[];
     contentPayload: ContentPayload;
 }
-const { data, displaySettings } = Astro.props as Props;
+const { key, data, displaySettings } = Astro.props as Props;
 const heroButtonStyles = getButtonStyles(displaySettings, false); // false: button type defined here
 
 const imageUrl = (data?.Image as any)?.item?.Url || data?.Image?.url?.default || null;
@@ -32,7 +36,7 @@ const globalStyles = getGlobalStyles(displaySettings);
 <section
     class="relative flex w-full items-center"
     class:list={[justifyClass, heightClass, globalStyles]}
-    
+    data-epi-block-id={isCmsEdit && key || undefined}    
 >
     {
         hasVideo && videoUrl && (

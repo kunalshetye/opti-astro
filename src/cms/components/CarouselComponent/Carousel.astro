@@ -6,14 +6,18 @@ import type {
 } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { getCarouselStyleConfig, getCarouselMode } from './CarouselStyling';
+import { isEditContext } from '../../shared/utils.ts';
+
+const isCmsEdit = isEditContext(Astro.url);
 
 export interface Props {
+    key: string;
     data: CarouselFragment;
     displaySettings: DisplaySettingsFragment[];
     displayTemplateKey?: string;
     contentPayload: ContentPayload;
 }
-const { data, displaySettings, displayTemplateKey = 'DefaultCarousel', contentPayload } = Astro.props as Props;
+const { key, data, displaySettings, displayTemplateKey = 'DefaultCarousel', contentPayload } = Astro.props as Props;
 
 // Determine carousel mode from settings or template key
 const carouselMode = getCarouselMode(displaySettings, displayTemplateKey);
@@ -29,7 +33,7 @@ const itemCount = carouselData.length;
 const carouselId = `carousel-${Math.random().toString(36).substring(2, 9)}`;
 ---
 
-<div class={`carousel-container ${styleConfig.carouselAlignment}`}>
+<div class={`carousel-container ${styleConfig.carouselAlignment}`} data-epi-block-id={isCmsEdit && key || undefined}>
     {/* Heading and Link */}
     {(data?.Heading?.trim() || data?.Link?.url?.default) && (
         <div class="carousel-header flex justify-between items-center mb-6">
