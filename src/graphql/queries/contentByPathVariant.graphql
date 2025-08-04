@@ -1,8 +1,19 @@
-query contentByPath($base: String, $url: String!, $urlNoSlash: String!) {
+query contentByPathVariant(
+    $base: String
+    $url: String!
+    $urlNoSlash: String!
+    $variation: String
+) {
     _Content(
+        limit: 1
+        variation: {
+            include: SOME
+            includeOriginal: false
+            value: [$variation]
+        }
         where: {
-            _metadata: { url: { base: { eq: $base } } }
             _and: [
+                { _metadata: { url: { base: { eq: $base } } } }
                 {
                     _or: [
                         { _metadata: { url: { default: { eq: $url } } } }
@@ -18,6 +29,7 @@ query contentByPath($base: String, $url: String!, $urlNoSlash: String!) {
                 key
                 version
                 locale
+                variation
             }
         }
     }

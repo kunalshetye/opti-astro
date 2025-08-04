@@ -27,14 +27,27 @@ var contentPayload: ContentPayload = {
 const urlPath = `${Astro.url.pathname.replace(/\/$/, '')}/`;
 const urlPathNoSlash = `${Astro.url.pathname.replace(/\/$/, '')}`;
 const urlBase = Astro.url.origin;
-const contentByPathResponse = await getOptimizelySdk(
-    contentPayload
-).contentByPath({
-    base: urlBase,
-    url: urlPath,
-    urlNoSlash: urlPathNoSlash,
-    variation: pageVariation
-});
+
+let contentByPathResponse;
+if (!pageVariation) {
+    contentByPathResponse = await getOptimizelySdk(
+        contentPayload
+    ).contentByPath({
+        base: urlBase,
+        url: urlPath,
+        urlNoSlash: urlPathNoSlash,
+    });
+} else {
+    contentByPathResponse = await getOptimizelySdk(
+        contentPayload
+    ).contentByPathVariant({
+        base: urlBase,
+        url: urlPath,
+        urlNoSlash: urlPathNoSlash,
+        variation: pageVariation
+    });
+}
+
 if (!contentByPathResponse._Content 
     || !contentByPathResponse._Content.item 
     || !contentByPathResponse._Content.item._metadata?.key) {
