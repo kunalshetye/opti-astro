@@ -6,16 +6,20 @@ import type {
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import GridBento from './GridBento.astro';
 import GridStandard from './GridStandard.astro';
+import { isEditContext } from '../../shared/utils.ts';
+
+const isCmsEdit = isEditContext(Astro.url);
 
 export interface Props {
+    key: string;
     data: GridFragment;
     displaySettings: DisplaySettingsFragment[];
     displayTemplateKey: string;
     contentPayload: ContentPayload;
 }
-const { displayTemplateKey } = Astro.props as Props;
+const { key, displayTemplateKey } = Astro.props as Props;
 const isBento = displayTemplateKey === 'GridBentoStyles';
 ---
 
-{!isBento && <GridStandard {...Astro.props} />}
-{isBento && <GridBento {...Astro.props} />}
+{!isBento && <GridStandard {...Astro.props} data-epi-block-id={isCmsEdit && key || undefined}/>}
+{isBento && <GridBento {...Astro.props} data-epi-block-id={isCmsEdit && key || undefined} />}

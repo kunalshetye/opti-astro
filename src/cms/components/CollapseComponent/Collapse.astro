@@ -4,16 +4,20 @@ import type {
     DisplaySettingsFragment,
 } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { isEditContext } from '../../shared/utils.ts';
+
+const isCmsEdit = isEditContext(Astro.url);
 
 export interface Props {
+    key: string;
     data: CollapseFragment;
     displaySettings: DisplaySettingsFragment[];
     contentPayload: ContentPayload;
 }
-const { data } = Astro.props as Props;
+const { key, data } = Astro.props as Props;
 ---
 
-<div class="collapse-plus bg-base-100 border-base-300 collapse border">
+<div class="collapse-plus bg-base-100 border-base-300 collapse border" data-epi-block-id={isCmsEdit && key || undefined}>
     <input type="checkbox" class="peer" />
     <div class="collapse-title font-semibold">{data?.Heading}</div>
     <div class="collapse-content text-sm" set:html={data?.Body?.html} />

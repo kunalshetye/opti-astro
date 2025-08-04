@@ -6,13 +6,17 @@ import type {
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
 import { YouTube, Vimeo } from 'astro-embed';
+import { isEditContext } from '../../shared/utils.ts';
+
+const isCmsEdit = isEditContext(Astro.url);
 
 export interface Props {
+    key: string;
     data: VideoExternalFragment;
     displaySettings: DisplaySettingsFragment[];
     contentPayload: ContentPayload;
 }
-const { data, displaySettings } = Astro.props as Props;
+const { key, data, displaySettings } = Astro.props as Props;
 
 // Get settings from display settings
 const settings = getDictionaryFromDisplaySettings(displaySettings);
@@ -25,7 +29,7 @@ const videoVimeo = data?.VideoExternal || '676247342'; // Default to a known Vim
 // TODO: Add CSS classes for styling
 ---
 
-<div class="max-w-full h-full" style={`width: ${displayWidth};`}>
+<div class="max-w-full h-full" style={`width: ${displayWidth};`} data-epi-block-id={isCmsEdit && key || undefined}>
     {
         provider === 'youtube' && (
             <YouTube

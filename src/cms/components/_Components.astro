@@ -29,6 +29,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'Text' && (
         <Text
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
@@ -38,6 +39,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'CallToAction' && (
         <CallToAction
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displayTemplateKey={displayTemplateKey}
@@ -48,6 +50,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'Image' && (
         <Image
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
@@ -57,6 +60,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'Video' && (
         <Video
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
@@ -66,6 +70,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'Paragraph' && (
         <Paragraph
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
@@ -75,6 +80,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'Card' && (
         <Card
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
@@ -85,6 +91,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'Hero' && (
         <Hero
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
@@ -94,6 +101,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'Carousel' && (
         <Carousel
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
@@ -104,6 +112,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'Collapse' && (
         <Collapse
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
@@ -113,6 +122,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'ArticleList' && (
         <ArticleList
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
@@ -122,6 +132,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'Grid' && (
         <Grid
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
@@ -132,6 +143,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'Button' && (
         <Button
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
@@ -143,6 +155,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'Iframe' && (
         <Iframe
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
@@ -153,6 +166,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'VideoExternal' && (
         <VideoExternal
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
@@ -163,6 +177,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'ArticlePage' && (
         <ArticlePageCard
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
         />
@@ -172,6 +187,7 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'Divider' && (
         <Divider
+            key={data?.key}
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}

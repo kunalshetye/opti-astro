@@ -9,13 +9,17 @@ DisplaySettingsFragment,
 import { getOptimizelySdk } from '../../../graphql/getSdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import LinkButton from '../ButtonComponent/LinkButton.astro';
+import { isEditContext } from '../../shared/utils.ts';
+
+const isCmsEdit = isEditContext(Astro.url);
 
 export interface Props {
+    key: string;
     data: ArticleListFragment;
     displaySettings: DisplaySettingsFragment[];
     contentPayload: ContentPayload;
 }
-const { data, contentPayload } = Astro.props as Props;
+const { key, data, contentPayload } = Astro.props as Props;
 const currentSite = Astro.url.origin;
 const articlesList = await getOptimizelySdk(contentPayload).getArticles({
     //@ts-ignore
@@ -27,33 +31,35 @@ const glideId = randomBytes(5).toString('hex');
 const items = articlesList.ArticlePage?.items || null;
 ---
 
-<h1 class="w-full basis-full">{data?.Title}</h1>
-<div class="mt-4 mb-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-    {
-        //@ts-ignore
-        items?.map((item: ArticlePageExcerptFragment, i) => {
-            return (
-                <div class="card bg-base-100 shadow-sm flex flex-col">      
-                    <figure>
-                        <AstroImage
-                            class="aspect-3/2 object-cover"
-                            src={((item.PromoImage as any)?.item?.Url || item.PromoImage?.url?.default) ?? '/placeholder.png'}
-                            alt={item.PromoImage?.item?.AltText || item.PromoImage?.item?._metadata?.displayName || `Promo image for ${item.Heading}` || 'Article promo image'}
-                            width={600}
-                            height={400}
-                        />
-                    </figure>
-                    <div class="card-body">
-                        <h2 class="card-title">{item.Heading}</h2>
-                        { item.Body?.html && 
-                            <div set:html={item.Body.html.replace(/<[^>]*>/g, '').split(' ').slice(0, 30).join(' ') + "..."} />
-                        }
-                        <div class="card-actions justify-end mt-auto">
-                          <LinkButton cssClasses="btn-primary" link={item._metadata?.url?.hierarchical}>Read more</LinkButton>
+<div data-epi-block-id={isCmsEdit && key || undefined}>
+    <h1 class="w-full basis-full">{data?.Title}</h1>
+    <div class="mt-4 mb-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        {
+            //@ts-ignore
+            items?.map((item: ArticlePageExcerptFragment, i) => {
+                return (
+                    <div class="card bg-base-100 shadow-sm flex flex-col">      
+                        <figure>
+                            <AstroImage
+                                class="aspect-3/2 object-cover"
+                                src={((item.PromoImage as any)?.item?.Url || item.PromoImage?.url?.default) ?? '/placeholder.png'}
+                                alt={item.PromoImage?.item?.AltText || item.PromoImage?.item?._metadata?.displayName || `Promo image for ${item.Heading}` || 'Article promo image'}
+                                width={600}
+                                height={400}
+                            />
+                        </figure>
+                        <div class="card-body">
+                            <h2 class="card-title">{item.Heading}</h2>
+                            { item.Body?.html && 
+                                <div set:html={item.Body.html.replace(/<[^>]*>/g, '').split(' ').slice(0, 30).join(' ') + "..."} />
+                            }
+                            <div class="card-actions justify-end mt-auto">
+                            <LinkButton cssClasses="btn-primary" link={item._metadata?.url?.hierarchical}>Read more</LinkButton>
+                            </div>
                         </div>
                     </div>
-                </div>
-            );
-        })
-    }
+                );
+            })
+        }
+    </div>
 </div>

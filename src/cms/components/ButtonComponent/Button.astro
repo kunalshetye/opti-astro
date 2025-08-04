@@ -7,14 +7,18 @@ import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import LinkButton from './LinkButton.astro';
 import { getButtonStyles } from './ButtonStyling';
 import { getLoginButtonStyles } from './LoginButtonStyling';
+import { isEditContext } from '../../shared/utils.ts';
+
+const isCmsEdit = isEditContext(Astro.url);
 
 export interface Props {
+    key: string;
     data: ButtonFragment;
     displaySettings: DisplaySettingsFragment[];
     displayTemplateKey: string;
     contentPayload: ContentPayload;
 }
-const { data, displaySettings, displayTemplateKey, contentPayload } = Astro.props as Props;
+const { key, data, displaySettings, displayTemplateKey, contentPayload } = Astro.props as Props;
 
 const isDefaultButton = displayTemplateKey === 'DefaultButton';
 const isLoginButton = displayTemplateKey === 'LoginButton';
@@ -32,8 +36,12 @@ if(isLoginButton) {
 
 ---
 { isDefaultButton &&
-    <LinkButton cssClasses={btnStyles} link={data?.ButtonLink?.url?.hierarchical}>{data?.ButtonLabel}</LinkButton>
+    <span data-epi-block-id={isCmsEdit && key || undefined}>
+        <LinkButton cssClasses={btnStyles} link={data?.ButtonLink?.url?.hierarchical}>{data?.ButtonLabel}</LinkButton>
+    </span>
 }
 { isLoginButton &&
-    <LinkButton cssClasses={btnStyles} link={data?.ButtonLink?.url?.hierarchical}><Fragment set:html={loginButtonSlot}/></LinkButton>
+    <span data-epi-block-id={isCmsEdit && key || undefined}>
+        <LinkButton cssClasses={btnStyles} link={data?.ButtonLink?.url?.hierarchical}><Fragment set:html={loginButtonSlot}/></LinkButton>
+    </span>
 }

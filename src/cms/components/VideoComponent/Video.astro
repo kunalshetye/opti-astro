@@ -5,13 +5,17 @@ import type {
 } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
+import { isEditContext } from '../../shared/utils.ts';
+
+const isCmsEdit = isEditContext(Astro.url);
 
 export interface Props {
+    key: string;
     data: VideoFragment;
     displaySettings: DisplaySettingsFragment[];
     contentPayload: ContentPayload;
 }
-const { data, displaySettings } = Astro.props as Props;
+const { key, data, displaySettings } = Astro.props as Props;
 
 const videoUrl = (data.Video as any)?.item?.Url || data.Video?.url?.default || null;
 const posterImageUrl = (data.VideoPosterImage as any)?.item?.Url || data.VideoPosterImage?.url?.default || null;
@@ -60,6 +64,7 @@ const cssClasses = [
 ---
 { videoUrl &&
     <video
+        data-epi-block-id={isCmsEdit && key || undefined}
         src={videoUrl}
         poster={posterImageUrl}
         class:list={cssClasses}
@@ -68,5 +73,4 @@ const cssClasses = [
         loop={loop}
         autoplay={autoPlay}
         playsinline></video>
-
 }

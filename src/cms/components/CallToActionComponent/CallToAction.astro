@@ -7,18 +7,22 @@ import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import LinkButton from '../ButtonComponent/LinkButton.astro';
 // import { getCtaStyles } from './CallToActionStyling';
 import { getButtonStyles } from '../ButtonComponent/ButtonStyling';
+import { isEditContext } from '../../shared/utils.ts';
+
+const isCmsEdit = isEditContext(Astro.url);
 
 export interface Props {
+    key: string;
     data: CallToActionFragment;
     displaySettings: DisplaySettingsFragment[];
     displayTemplateKey: string;
     contentPayload: ContentPayload;
 }
-const { data, displaySettings } = Astro.props as Props;
+const { key, data, displaySettings } = Astro.props as Props;
 const ctaButtonStyles = getButtonStyles(displaySettings, false); // false: button type defined here
 ---
 
-<div class="m-4 flex gap-4 flex-wrap">
+<div class="m-4 flex gap-4 flex-wrap" data-epi-block-id={isCmsEdit && key || undefined}>
     {
         data.Links?.map((link, i) => {
             const buttonType: string[] = [""];

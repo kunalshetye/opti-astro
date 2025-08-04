@@ -2,16 +2,21 @@
 import type { DisplaySettingsFragment, ParagraphFragment } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { getParagraphStyleConfig } from './ParagraphStyling';
+import { isEditContext } from '../../shared/utils.ts';
 
+const isCmsEdit = isEditContext(Astro.url);
 
 export interface Props {
+    key: string;
     data: ParagraphFragment;
     displaySettings: DisplaySettingsFragment[];
     contentPayload: ContentPayload;
 }
-const { data, displaySettings} = Astro.props as Props;
+const { key, data, displaySettings} = Astro.props as Props;
 
 const paragraphStyles = getParagraphStyleConfig(displaySettings);
 ---
 
-<div class={`${paragraphStyles.paragraphAlignment}`} set:html={data.Text?.html} />
+<div class={`${paragraphStyles.paragraphAlignment}`}
+    data-epi-block-id={isCmsEdit && key || undefined}
+    set:html={data.Text?.html} />
