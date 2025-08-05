@@ -46,17 +46,11 @@ const contentByPathResponse = await getOptimizelySdk(
     urlNoSlash: currentPagePathNoSlash,
 });
 
-if (
-    !EXTERNAL_PREVIEW_ENABLED ||
-    !isDraft ||
-    !isExtPreviewEnabled ||
-    !contentByPathResponse._Content ||
-    !contentByPathResponse._Content.item ||
-    !contentByPathResponse._Content.item._metadata?.key
-) {
+const item = contentByPathResponse?._Content?.items?.find(c => c?._metadata?.variation == null);
+
+if (!item?._metadata?.key) {
     return Astro.redirect(getRelativeLocaleUrl(extPreviewPayload.loc, '/404'), 404);
 }
-const item = contentByPathResponse._Content.item;
 
 extPreviewPayload.key = item?._metadata?.key || '';
 

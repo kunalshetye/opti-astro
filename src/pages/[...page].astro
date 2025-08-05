@@ -1,10 +1,12 @@
 ---
+import { undefined, unknown } from 'astro:schema';
 import { Locales } from '../../__generated/sdk';
 import Components from '../cms/components/_Components.astro';
 import Experiences from '../cms/experiences/_Experiences.astro';
 import Pages from '../cms/pages/_Pages.astro';
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
+import { optimizelyClient } from '../optimizely/client';
 
 import { getRelativeLocaleUrl } from 'astro:i18n';
 
@@ -25,6 +27,9 @@ var contentPayload: ContentPayload = {
 
 const urlPath = `${Astro.url.pathname.replace(/\/$/, '')}/`;
 const urlPathNoSlash = `${Astro.url.pathname.replace(/\/$/, '')}`;
+let contentVariation:string | null = null;
+
+// variation: { include: SOME, includeOriginal: true, value:$variation}
 const urlBase = Astro.url.origin;
 const contentByPathResponse = await getOptimizelySdk(
     contentPayload
@@ -33,12 +38,48 @@ const contentByPathResponse = await getOptimizelySdk(
     url: urlPath,
     urlNoSlash: urlPathNoSlash
 });
-if (!contentByPathResponse._Content 
-    || !contentByPathResponse._Content.item 
-    || !contentByPathResponse._Content.item._metadata?.key) {
+
+let defaultItem = contentByPathResponse?._Content?.items?.find(c => c?._metadata?.variation == null);
+
+if (!defaultItem?._metadata?.key) {
     return Astro.redirect(getRelativeLocaleUrl(lang, '/404'), 404);
 }
-const item = contentByPathResponse._Content.item;
+
+let item:any = defaultItem;
+
+// if (urlPathNoSlash.indexOf("GetGraphCredentials") < 0 && optimizelyClient) {
+if (optimizelyClient) {
+    // Get or create user ID from cookie
+    let userId = Astro.cookies.get('user_id')?.value;
+    if (!userId) {
+        userId = crypto.randomUUID();
+        Astro.cookies.set('user_id', userId, {
+            maxAge: 60 * 60 * 24 * 365, // 1 year
+            httpOnly: false, // Allow client-side access for consistency
+            secure: true,
+            sameSite: 'lax'
+        });
+    }
+    
+    const user = optimizelyClient.createUserContext(userId);
+    const { variationKey, variables } = user?.decide(`cms_${defaultItem?._metadata?.key?.replace("/", "")}`);
+    if (variationKey != null && variables != null && variables["VariationKey"] != unknown) {
+        contentVariation = typeof variables["VariationKey"] === 'string' ? variables["VariationKey"] : null;
+    
+        if (contentVariation != null) {
+            item = contentByPathResponse?._Content?.items?.find(c => c?._metadata?.variation == contentVariation);
+
+            if (item == null) {
+                item = defaultItem;
+            }
+        }
+    }
+}
+
+if (item == null) {
+    return Astro.redirect(getRelativeLocaleUrl(lang, '/404'), 404);
+}
+// const item = contentByPathResponse._Content.item;
 if (!item?._metadata) {
     throw new Error('Metadata is missing in the content item');
 }

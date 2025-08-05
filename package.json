@@ -30,6 +30,7 @@
         "@astrojs/node": "9.2.2",
         "@astrojs/ts-plugin": "1.10.4",
         "@astrojs/vercel": "8.2.0",
+        "@optimizely/optimizely-sdk": "^6.0.0",
         "@rollup/plugin-commonjs": "^28.0.3",
         "@splidejs/splide": "^4.1.4",
         "@tailwindcss/vite": "^4.0.12",
