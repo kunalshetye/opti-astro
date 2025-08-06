@@ -12,12 +12,14 @@ query contentByPath($base: String, $url: String!, $urlNoSlash: String!) {
                 }
             ]
         }
+        variation: { include: ALL}
     ) {
-        item {
+        items {
             _metadata {
                 key
                 version
                 locale
+                variation
             }
         }
     }
