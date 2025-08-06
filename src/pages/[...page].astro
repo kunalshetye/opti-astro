@@ -1,5 +1,4 @@
 ---
-import { undefined, unknown } from 'astro:schema';
 import { Locales } from '../../__generated/sdk';
 import Components from '../cms/components/_Components.astro';
 import Experiences from '../cms/experiences/_Experiences.astro';
@@ -63,7 +62,7 @@ if (optimizelyClient) {
     
     const user = optimizelyClient.createUserContext(userId);
     const { variationKey, variables } = user?.decide(`cms_${defaultItem?._metadata?.key?.replace("/", "")}`);
-    if (variationKey != null && variables != null && variables["VariationKey"] != unknown) {
+    if (variationKey != null && variables != null && variables["VariationKey"] != null) {
         contentVariation = typeof variables["VariationKey"] === 'string' ? variables["VariationKey"] : null;
     
         if (contentVariation != null) {
