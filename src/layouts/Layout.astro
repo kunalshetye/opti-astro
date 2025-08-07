@@ -64,6 +64,8 @@ const externalStylesUrl = siteStyles?.SiteStyles?.item?.cssFile?._metadata?.url?
 const canonicalUrl = Astro.url.origin + hierarchicalUrl;
 
 const graphType = graphtype !== '-' ? graphtype : 'website';
+const contentKey = contentPayload.key || '';
+
 ---
 
 <!doctype html>
@@ -93,7 +95,7 @@ const graphType = graphtype !== '-' ? graphtype : 'website';
         <title>{title}</title>
         <ClientRouter />
     </head>
-    <body>
+    <body data-content-key={contentKey}>
         {
             EXTERNAL_PREVIEW_ENABLED && extPreviewEnabled && isDraft 
                 && (ctx === 'edit' || ctx === 'ext_preview') && (
