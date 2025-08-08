@@ -45,6 +45,11 @@ export async function isDraftContent(contentVersion: string): Promise<boolean> {
     return isDraftContent;
 }
 
+// Function to sanitize locale strings to align CMS and Graph
+export function sanitizeLocale(locale: string): string {
+    return locale.replace('-', '_');
+}
+
 // Check if the current requested content version has external preview enabled
 export async function isExternalPreviewEnabled(contentVersion: string): Promise<boolean> {
     // Create content payload for GraphQL request
