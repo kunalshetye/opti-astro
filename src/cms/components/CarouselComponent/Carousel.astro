@@ -38,7 +38,7 @@ const carouselId = `carousel-${Math.random().toString(36).substring(2, 9)}`;
     {(data?.Heading?.trim() || data?.Link?.url?.default) && (
         <div class="carousel-header flex justify-between items-center mb-6">
             {data?.Heading?.trim() && (
-                <h2 class="text-3xl font-bold text-base-content">
+                <h2 class="text-3xl font-bold">
                     {data.Heading}
                 </h2>
             )}

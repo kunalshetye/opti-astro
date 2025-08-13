@@ -59,17 +59,17 @@ const cssClassesForText: string = cssTextClasses[displayAs];
 
 <div class={`${widthClass || 'flex-1'} ${cssClassesForSection} ${cardTextAlignmentStyle} ${verticalAlignClass || 'self-center'}`}>
     {data.Heading && (
-        <h2 class={`text-4xl font-bold text-base-content ${cardHeaderStyles}`} class:list={cssClassesForText}>
+        <h2 class={`text-4xl font-bold ${cardHeaderStyles}`} class:list={cssClassesForText}>
             {data.Heading}
         </h2>
     )}
     {data.SubHeading && (
-        <p class="text-sm font-semibold text-base-content opacity-80" class:list={cssClassesForText}>
+        <p class="text-sm font-semibold opacity-80" class:list={cssClassesForText}>
             {data.SubHeading}
         </p>
     )}
     {data.Body?.html && (
-        <div class={`${cssClassesForText} text-base-content opacity-75`} set:html={data.Body.html}></div>
+        <div class={`${cssClassesForText} opacity-75`} set:html={data.Body.html}></div>
     )}
     {data.Links && data.Links.length > 0 && (
         <div class={cssClassesForCallToAction}>
