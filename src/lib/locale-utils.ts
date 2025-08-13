@@ -9,6 +9,7 @@ let localeConfig = {
     defaultLocale: 'en',
     fallback: {} as Record<string, string>,
     genericFallback: 'en',
+    fallbackType: 'rewrite' as 'redirect' | 'rewrite',
     prefixDefaultLocale: false,
 };
 
@@ -55,19 +56,32 @@ export function normalizeLocale(locale: string): string {
 
 /**
  * Convert URL-friendly locale format back to GraphQL API format
- * Example: 'nb-NO' -> 'nb_NO'
+ * Example: 'nb-no' -> 'nb_NO', 'pt-br' -> 'pt_BR', 'fr-ca' -> 'fr_CA'
+ * Handles case conversion for region codes
  */
 export function denormalizeLocale(locale: string): string {
-    return locale.replace(/-/g, '_');
+    // First convert hyphens to underscores
+    let result = locale.replace(/-/g, '_');
+    
+    // If there's a region part (after underscore), make it uppercase
+    const parts = result.split('_');
+    if (parts.length === 2) {
+        result = parts[0].toLowerCase() + '_' + parts[1].toUpperCase();
+    } else {
+        result = result.toLowerCase();
+    }
+    
+    return result;
 }
 
 /**
  * Check if a locale code looks valid (basic format validation)
- * Accepts patterns like: en, de, fr, en-US, nb-NO, zh-CN, etc.
+ * Accepts patterns like: en, de, fr, en-US, pt-br, nb-no, zh-cn, etc.
+ * Case-insensitive for the region part to handle both pt-BR and pt-br
  */
 export function isValidLocale(locale: string): boolean {
-    // Basic regex for locale format: 2-3 letters, optionally followed by dash and 2-3 letters/numbers
-    const localePattern = /^[a-z]{2,3}(-[A-Z0-9]{2,3})?$/;
+    // Basic regex for locale format: 2-3 letters, optionally followed by dash and 2-3 letters/numbers (case-insensitive)
+    const localePattern = /^[a-z]{2,3}(-[a-zA-Z0-9]{2,3})?$/i;
     return localePattern.test(locale);
 }
 
@@ -121,7 +135,12 @@ export function getRelativeLocaleUrl(locale: string | undefined, path: string): 
     const config = getConfig();
     // Normalize inputs
     const normalizedLocale = locale ? normalizeLocale(locale) : config.defaultLocale;
-    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    let cleanPath = path.startsWith('/') ? path : `/${path}`;
+    
+    // Ensure trailing slash for consistency with CMS
+    if (!cleanPath.endsWith('/')) {
+        cleanPath = cleanPath + '/';
+    }
     
     // Check if we should prefix default locale based on configuration
     if (normalizedLocale === config.defaultLocale && !config.prefixDefaultLocale) {
@@ -195,4 +214,207 @@ export function getAlternativeLocaleUrls(currentPath: string, availableLocales: 
         locale,
         url: getRelativeLocaleUrl(locale, basePath)
     }));
+}
+
+/**
+ * Get fallback strategy details for a locale
+ * Returns information needed to implement Astro i18n-style fallback
+ */
+export function getFallbackStrategy(locale: string): {
+    fallbackLocale: string;
+    fallbackType: 'redirect' | 'rewrite';
+    needsFallback: boolean;
+} {
+    const config = getConfig();
+    const fallbackLocale = getFallbackLocale(locale);
+    
+    return {
+        fallbackLocale,
+        fallbackType: config.fallbackType || 'rewrite',
+        needsFallback: locale !== fallbackLocale && fallbackLocale !== config.defaultLocale
+    };
+}
+
+/**
+ * Apply Astro i18n-style fallback behavior
+ * Returns either a Response (for redirect) or locale to use for content (for rewrite)
+ */
+export function applyFallbackStrategy(
+    requestedLocale: string, 
+    currentPath: string,
+    hasContent: boolean
+): { response?: Response; localeToUse?: string } {
+    const config = getConfig();
+    
+    if (hasContent) {
+        // Content exists for requested locale, no fallback needed
+        return { localeToUse: requestedLocale };
+    }
+    
+    const fallbackLocale = getFallbackLocale(requestedLocale);
+    
+    // If fallback is the same as requested, return 404
+    if (fallbackLocale === requestedLocale) {
+        return {};
+    }
+    
+    if (config.fallbackType === 'redirect') {
+        // Redirect strategy: redirect to fallback locale URL
+        const fallbackPath = getPathWithoutLocale(currentPath);
+        const fallbackUrl = getRelativeLocaleUrl(fallbackLocale, fallbackPath);
+        
+        return {
+            response: new Response(null, {
+                status: 302,
+                headers: {
+                    'Location': fallbackUrl
+                }
+            })
+        };
+    } else {
+        // Rewrite strategy: serve fallback locale content at original URL
+        return { localeToUse: fallbackLocale };
+    }
+}
+
+/**
+ * Complex fallback content resolution logic
+ * Attempts to fetch content with fallback chain:
+ * 1. Try requested locale
+ * 2. Try configured fallback locale
+ * 3. Try generic fallback (English)
+ * Returns the content response and metadata about which locale was used
+ */
+export async function resolveContentWithFallback(
+    getOptimizelySdk: any,
+    contentPayload: any,
+    urlBase: string,
+    urlPath: string,
+    requestedLocale: string,
+    enableDebugLogs: boolean = false
+): Promise<{
+    contentResponse: any;
+    actualLocaleUsed: string;
+    shouldRedirect404: boolean;
+}> {
+    const urlPathNoSlash = urlPath.replace(/\/$/, '');
+    
+    // First, try to get content in the requested locale
+    let contentByPathResponse;
+    try {
+        if (enableDebugLogs) {
+            console.log(`🔍 Initial query: locale=${requestedLocale}, url=${urlPath}`);
+        }
+        contentByPathResponse = await getOptimizelySdk(contentPayload).contentByPath({
+            base: urlBase,
+            url: urlPath,
+            urlNoSlash: urlPathNoSlash
+        });
+        if (enableDebugLogs) {
+            console.log(`📊 Initial response: key=${contentByPathResponse._Content?.item?._metadata?.key}, ver=${contentByPathResponse._Content?.item?._metadata?.version}`);
+        }
+    } catch (error) {
+        if (enableDebugLogs) {
+            console.log(`❌ Initial query failed for ${requestedLocale}`);
+        }
+        contentByPathResponse = { _Content: null };
+    }
+    
+    const hasContent = !!(
+        contentByPathResponse._Content &&
+        contentByPathResponse._Content.item &&
+        contentByPathResponse._Content.item._metadata?.key
+    );
+    
+    // If content found, return it
+    if (hasContent) {
+        return {
+            contentResponse: contentByPathResponse,
+            actualLocaleUsed: requestedLocale,
+            shouldRedirect404: false
+        };
+    }
+    
+    // Apply fallback strategy
+    const fallbackResult = applyFallbackStrategy(requestedLocale, urlPath, false);
+    
+    if (fallbackResult.response) {
+        // Redirect strategy - let the caller handle the redirect
+        return {
+            contentResponse: null,
+            actualLocaleUsed: requestedLocale,
+            shouldRedirect404: false
+        };
+    }
+    
+    if (!fallbackResult.localeToUse) {
+        // No fallback available
+        return {
+            contentResponse: null,
+            actualLocaleUsed: requestedLocale,
+            shouldRedirect404: true
+        };
+    }
+    
+    // Try fallback locale
+    const fallbackPayload = { ...contentPayload };
+    fallbackPayload.loc = localeToSdkLocale(fallbackResult.localeToUse);
+    
+    // Construct fallback URL with proper locale prefix
+    const pathWithoutLocale = getPathWithoutLocale(urlPath);
+    const fallbackUrlPath = getRelativeLocaleUrl(fallbackResult.localeToUse, pathWithoutLocale);
+    const fallbackUrlPathNoSlash = fallbackUrlPath.replace(/\/$/, '');
+    
+    if (enableDebugLogs) {
+        console.log(`🔄 Fallback query: locale=${fallbackResult.localeToUse}, url=${fallbackUrlPath}, pathWithoutLocale=${pathWithoutLocale}`);
+    }
+    
+    const fallbackResponse = await getOptimizelySdk(fallbackPayload).contentByPath({
+        base: urlBase,
+        url: fallbackUrlPath,
+        urlNoSlash: fallbackUrlPathNoSlash
+    });
+    
+    if (fallbackResponse._Content?.item?._metadata?.key) {
+        if (enableDebugLogs) {
+            console.log(`📊 Fallback response: key=${fallbackResponse._Content.item._metadata.key}, ver=${fallbackResponse._Content.item._metadata.version}`);
+        }
+        return {
+            contentResponse: fallbackResponse,
+            actualLocaleUsed: fallbackResult.localeToUse,
+            shouldRedirect404: false
+        };
+    }
+    
+    // Try generic fallback (English) if different from already tried fallback
+    const config = getConfig();
+    if (fallbackResult.localeToUse !== config.genericFallback) {
+        const genericPayload = { ...contentPayload };
+        genericPayload.loc = localeToSdkLocale(config.genericFallback);
+        
+        // Use the same fallback URL path but with English locale
+        const genericFallbackResponse = await getOptimizelySdk(genericPayload).contentByPath({
+            base: urlBase,
+            url: fallbackUrlPath,
+            urlNoSlash: fallbackUrlPathNoSlash
+        });
+        
+        if (genericFallbackResponse._Content?.item?._metadata?.key) {
+            if (enableDebugLogs) {
+                console.log(`📊 Generic fallback response: key=${genericFallbackResponse._Content.item._metadata.key}`);
+            }
+            return {
+                contentResponse: genericFallbackResponse,
+                actualLocaleUsed: config.genericFallback,
+                shouldRedirect404: false
+            };
+        }
+    }
+    
+    // No content found in any fallback
+    return {
+        contentResponse: null,
+        actualLocaleUsed: requestedLocale,
+        shouldRedirect404: true
+    };
 }

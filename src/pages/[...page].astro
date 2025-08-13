@@ -6,7 +6,7 @@ import Pages from '../cms/pages/_Pages.astro';
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
 
-import { getCurrentLocale, getRelativeLocaleUrl } from '../lib/locale-utils';
+import { getCurrentLocale, getRelativeLocaleUrl, localeToSdkLocale, resolveContentWithFallback } from '../lib/locale-utils';
 
 Astro.response.headers.set('Content-Type', 'text/html; charset=UTF-8');
 
@@ -26,38 +26,60 @@ var contentPayload: ContentPayload = {
 const urlPath = `${Astro.url.pathname.replace(/\/$/, '')}/`;
 const urlPathNoSlash = `${Astro.url.pathname.replace(/\/$/, '')}`;
 const urlBase = Astro.url.origin;
-const contentByPathResponse = await getOptimizelySdk(
-    contentPayload
-).contentByPath({
-    base: urlBase,
-    url: urlPath,
-    urlNoSlash: urlPathNoSlash
-});
-if (!contentByPathResponse._Content 
-    || !contentByPathResponse._Content.item 
-    || !contentByPathResponse._Content.item._metadata?.key) {
+
+// Use the helper function to resolve content with fallback
+contentPayload.loc = localeToSdkLocale(lang) as Locales;
+
+const fallbackResult = await resolveContentWithFallback(
+    getOptimizelySdk,
+    contentPayload,
+    urlBase,
+    urlPath,
+    lang,
+    false // Disable debug logs for production
+);
+
+if (fallbackResult.shouldRedirect404) {
     return Astro.redirect(getRelativeLocaleUrl(lang, '/404'), 404);
 }
+
+const contentByPathResponse = fallbackResult.contentResponse;
+const actualLocaleUsed = fallbackResult.actualLocaleUsed;
 const item = contentByPathResponse._Content.item;
 if (!item?._metadata) {
     throw new Error('Metadata is missing in the content item');
 }
 
-const contentByIdResponse = await getOptimizelySdk(contentPayload).contentById({
-    key: item._metadata.key || '',
-    ver: item._metadata.version || '',
-    loc: item._metadata.locale as Locales,
-});
-contentPayload = {
-    ctx: ctx,
-    key: item._metadata.key || '',
-    ver: item._metadata.version || '',
-    loc: item._metadata.locale as Locales,
-    preview_token: '',
-    types:
-        (contentByIdResponse?._Content?.item?._metadata?.types as string[]) ||
-        [],
-};
+// For fallback content, use the contentByPath data directly instead of making another contentById call
+// which might fail or return incomplete data for cross-locale content
+if (actualLocaleUsed !== lang) {
+    // Use the item from contentByPath directly
+    contentPayload = {
+        ctx: ctx,
+        key: item._metadata.key || '',
+        ver: item._metadata.version || '',
+        loc: localeToSdkLocale(actualLocaleUsed) as Locales,
+        preview_token: '',
+        types: item._metadata?.types || ['BlankExperience', '_Experience', '_Page', '_Content'], // Default types for experiences
+    };
+} else {
+    // Normal flow - fetch by ID for same-locale content
+    const contentByIdLocale = actualLocaleUsed;
+    const contentByIdResponse = await getOptimizelySdk(contentPayload).contentById({
+        key: item._metadata.key || '',
+        ver: item._metadata.version || '',
+        loc: localeToSdkLocale(contentByIdLocale) as Locales,
+    });
+
+    contentPayload = {
+        ctx: ctx,
+        key: item._metadata.key || '',
+        ver: item._metadata.version || '',
+        loc: localeToSdkLocale(actualLocaleUsed) as Locales,
+        preview_token: '',
+        types: (contentByIdResponse?._Content?.item?._metadata?.types as string[]) || [],
+    };
+}
 const isComponentType = contentPayload.types.includes('_Component');
 const isExperienceType = contentPayload.types.includes('_Experience');
 const isPageType =

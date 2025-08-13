@@ -2,7 +2,7 @@ import { defineMiddleware } from 'astro:middleware';
 import { getOptimizelySdk } from './graphql/getSdk';
 import { Locales } from '../__generated/sdk';
 import type { ContentPayload } from './graphql/shared/ContentPayload';
-import { getLocaleFromPath, localeToSdkLocale } from './lib/locale-utils';
+import { getLocaleFromPath, localeToSdkLocale, getFallbackLocale } from './lib/locale-utils';
 // Initialize locale configuration
 import './lib/locale-init.js';
 
@@ -19,7 +19,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
     
     // Extract domain from URL
     const domain = context.url.host;
-    const locale = localeToSdkLocale(getLocaleFromPath(context.url.pathname)) as Locales;
+    const requestedLocale = getLocaleFromPath(context.url.pathname);
+    
+    // Use fallback locale if the requested locale doesn't exist in CMS
+    const fallbackLocale = getFallbackLocale(requestedLocale);
+    const localeToUse = requestedLocale === fallbackLocale ? requestedLocale : fallbackLocale;
+    const locale = localeToSdkLocale(localeToUse) as Locales;
     
     try {
       // Get placeholders from GraphQL

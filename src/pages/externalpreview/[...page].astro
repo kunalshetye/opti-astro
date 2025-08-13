@@ -2,7 +2,7 @@
 import qs from 'query-string';
 
 import type { Locales } from 'astro';
-import { getCurrentLocale, getRelativeLocaleUrl, localeToSdkLocale } from '../../lib/locale-utils';
+import { getCurrentLocale, getRelativeLocaleUrl, localeToSdkLocale, resolveContentWithFallback } from '../../lib/locale-utils';
 // Initialize locale configuration
 import '../../lib/locale-init.js';
 import Component from '../../cms/components/_Component.astro';
@@ -39,25 +39,25 @@ const currentPagePath = `${Astro.url.pathname.replace(/\/$/, '')}/`
     .join('/');
 const currentPagePathNoSlash = `${currentPagePath.replace(/\/$/, '')}`;
 
-// Search by page path to get the content item key
-const contentByPathResponse = await getOptimizelySdk(
-    extPreviewPayload
-).contentByPath({
-    base: urlBase,
-    url: currentPagePath,
-    urlNoSlash: currentPagePathNoSlash,
-});
-
-if (
-    !EXTERNAL_PREVIEW_ENABLED ||
-    !isDraft ||
-    !isExtPreviewEnabled ||
-    !contentByPathResponse._Content ||
-    !contentByPathResponse._Content.item ||
-    !contentByPathResponse._Content.item._metadata?.key
-) {
+if (!EXTERNAL_PREVIEW_ENABLED || !isDraft || !isExtPreviewEnabled) {
     return Astro.redirect(getRelativeLocaleUrl(getCurrentLocale(Astro), '/404'), 404);
 }
+
+// Use the helper function to resolve content with fallback
+const fallbackResult = await resolveContentWithFallback(
+    getOptimizelySdk,
+    extPreviewPayload,
+    urlBase,
+    currentPagePath,
+    getCurrentLocale(Astro),
+    false // No debug logs for external preview
+);
+
+if (fallbackResult.shouldRedirect404) {
+    return Astro.redirect(getRelativeLocaleUrl(getCurrentLocale(Astro), '/404'), 404);
+}
+
+const contentByPathResponse = fallbackResult.contentResponse;
 const item = contentByPathResponse._Content.item;
 
 extPreviewPayload.key = item?._metadata?.key || '';
