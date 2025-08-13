@@ -1,8 +1,9 @@
 ---
 import type { SiteStylesByHostnameQuery } from '../../../../__generated/sdk';
 import { getSiteStyles, getSiteFont } from '../../shared/siteStylesHelper';
+import { getCurrentLocale } from '../../../lib/locale-utils';
 
-const lang = Astro.currentLocale || '';
+const lang = getCurrentLocale(Astro);
 
 interface Props {
     siteStyles: SiteStylesByHostnameQuery;

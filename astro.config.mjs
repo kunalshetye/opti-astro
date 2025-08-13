@@ -10,6 +10,29 @@ import tailwindcss from '@tailwindcss/vite';
 
 const multiAdapter = await adapter();
 
+// Custom locale configuration for dynamic CMS locales
+const localeConfig = {
+    // Default locale (used when no locale is detected in URL)
+    defaultLocale: 'en',
+    
+    // Specific fallbacks for individual locales
+    fallback: {
+        // Examples of locale fallback configuration:
+        'de': 'en',        // German falls back to English
+        'fr-CA': 'fr',     // Canadian French falls back to French
+        'nb-NO': 'en',     // Norwegian Bokmål falls back to English
+        'nl-BE': 'nl',     // Belgian Dutch falls back to Dutch
+        'zh-Hans': 'en',   // Simplified Chinese falls back to English
+        // Add more fallbacks as needed based on your CMS locales
+    },
+    
+    // Generic fallback locale (used when specific fallback is not defined)
+    genericFallback: 'en',
+    
+    // Whether to prefix the default locale in URLs (false = /page, true = /en/page)
+    prefixDefaultLocale: false,
+};
+
 // https://astro.build/config
 export default defineConfig({
     devToolbar: {
@@ -30,23 +53,6 @@ export default defineConfig({
         ],
     },
 
-    i18n: {
-        locales: [
-        // DYNAMIC_LOCALES_START
-       'en' 
-        // DYNAMIC_LOCALES_END
-        ],
-        defaultLocale: 'en',
-        routing: {
-            prefixDefaultLocale: false,
-            fallbackType: 'rewrite',
-        },
-        fallback: {
-            // DYNAMIC_FALLBACK_START
-            
-            // DYNAMIC_FALLBACK_END
-        },
-    },
 
     output: 'server',
 
@@ -374,3 +380,6 @@ export default defineConfig({
         ]
     },
 });
+
+// Export locale configuration for use in locale utilities
+export { localeConfig };
