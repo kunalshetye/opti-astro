@@ -50,36 +50,27 @@ if (!item?._metadata) {
     throw new Error('Metadata is missing in the content item');
 }
 
-// For fallback content, use the contentByPath data directly instead of making another contentById call
-// which might fail or return incomplete data for cross-locale content
-if (actualLocaleUsed !== lang) {
-    // Use the item from contentByPath directly
-    contentPayload = {
-        ctx: ctx,
-        key: item._metadata.key || '',
-        ver: item._metadata.version || '',
-        loc: localeToSdkLocale(actualLocaleUsed) as Locales,
-        preview_token: '',
-        types: item._metadata?.types || ['BlankExperience', '_Experience', '_Page', '_Content'], // Default types for experiences
-    };
-} else {
-    // Normal flow - fetch by ID for same-locale content
-    const contentByIdLocale = actualLocaleUsed;
-    const contentByIdResponse = await getOptimizelySdk(contentPayload).contentById({
-        key: item._metadata.key || '',
-        ver: item._metadata.version || '',
-        loc: localeToSdkLocale(contentByIdLocale) as Locales,
-    });
+// Always fetch by ID to get the full content data
+// Update the payload to use the actual locale that has content
+const contentByIdPayload = {
+    ...contentPayload,
+    loc: localeToSdkLocale(actualLocaleUsed) as Locales,
+};
 
-    contentPayload = {
-        ctx: ctx,
-        key: item._metadata.key || '',
-        ver: item._metadata.version || '',
-        loc: localeToSdkLocale(actualLocaleUsed) as Locales,
-        preview_token: '',
-        types: (contentByIdResponse?._Content?.item?._metadata?.types as string[]) || [],
-    };
-}
+const contentByIdResponse = await getOptimizelySdk(contentByIdPayload).contentById({
+    key: item._metadata.key || '',
+    ver: item._metadata.version || '',
+    loc: localeToSdkLocale(actualLocaleUsed) as Locales,
+});
+
+contentPayload = {
+    ctx: ctx,
+    key: item._metadata.key || '',
+    ver: item._metadata.version || '',
+    loc: localeToSdkLocale(actualLocaleUsed) as Locales,
+    preview_token: '',
+    types: (contentByIdResponse?._Content?.item?._metadata?.types as string[]) || [],
+};
 const isComponentType = contentPayload.types.includes('_Component');
 const isExperienceType = contentPayload.types.includes('_Experience');
 const isPageType =

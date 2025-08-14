@@ -196,6 +196,34 @@ export function getFallbackLocale(locale: string): string {
 }
 
 /**
+ * Get the complete fallback chain for a locale
+ * Returns an array of locales to try in order
+ */
+export function getFallbackChain(locale: string, visited: Set<string> = new Set()): string[] {
+    const config = getConfig();
+    const chain: string[] = [];
+    
+    // Prevent infinite loops
+    if (visited.has(locale)) {
+        return chain;
+    }
+    visited.add(locale);
+    
+    // Check if there's a specific fallback configured for this locale
+    if (config.fallback[locale]) {
+        const fallback = config.fallback[locale];
+        chain.push(fallback);
+        // Recursively get the fallback chain for the fallback locale
+        chain.push(...getFallbackChain(fallback, visited));
+    } else if (locale !== config.genericFallback && locale !== config.defaultLocale) {
+        // If no specific fallback, use generic fallback
+        chain.push(config.genericFallback);
+    }
+    
+    return chain;
+}
+
+/**
  * Convert locale to GraphQL API format
  * Simply converts hyphens to underscores - no SDK dependency
  */
@@ -336,79 +364,48 @@ export async function resolveContentWithFallback(
         };
     }
     
-    // Apply fallback strategy
-    const fallbackResult = applyFallbackStrategy(requestedLocale, urlPath, false);
-    
-    if (fallbackResult.response) {
-        // Redirect strategy - let the caller handle the redirect
-        return {
-            contentResponse: null,
-            actualLocaleUsed: requestedLocale,
-            shouldRedirect404: false
-        };
-    }
-    
-    if (!fallbackResult.localeToUse) {
-        // No fallback available
-        return {
-            contentResponse: null,
-            actualLocaleUsed: requestedLocale,
-            shouldRedirect404: true
-        };
-    }
-    
-    // Try fallback locale
-    const fallbackPayload = { ...contentPayload };
-    fallbackPayload.loc = localeToSdkLocale(fallbackResult.localeToUse);
-    
-    // Construct fallback URL with proper locale prefix
+    // Get the complete fallback chain
+    const fallbackChain = getFallbackChain(requestedLocale);
     const pathWithoutLocale = getPathWithoutLocale(urlPath);
-    const fallbackUrlPath = getRelativeLocaleUrl(fallbackResult.localeToUse, pathWithoutLocale);
-    const fallbackUrlPathNoSlash = fallbackUrlPath.replace(/\/$/, '');
     
     if (enableDebugLogs) {
-        console.log(`🔄 Fallback query: locale=${fallbackResult.localeToUse}, url=${fallbackUrlPath}, pathWithoutLocale=${pathWithoutLocale}`);
+        console.log(`🔄 Fallback chain for ${requestedLocale}: ${fallbackChain.join(' -> ')}`);
     }
     
-    const fallbackResponse = await getOptimizelySdk(fallbackPayload).contentByPath({
-        base: urlBase,
-        url: fallbackUrlPath,
-        urlNoSlash: fallbackUrlPathNoSlash
-    });
-    
-    if (fallbackResponse._Content?.item?._metadata?.key) {
+    // Try each locale in the fallback chain
+    for (const fallbackLocale of fallbackChain) {
+        const fallbackPayload = { ...contentPayload };
+        fallbackPayload.loc = localeToSdkLocale(fallbackLocale);
+        
+        // Construct fallback URL with proper locale prefix
+        const fallbackUrlPath = getRelativeLocaleUrl(fallbackLocale, pathWithoutLocale);
+        const fallbackUrlPathNoSlash = fallbackUrlPath.replace(/\/$/, '');
+        
         if (enableDebugLogs) {
-            console.log(`📊 Fallback response: key=${fallbackResponse._Content.item._metadata.key}, ver=${fallbackResponse._Content.item._metadata.version}`);
+            console.log(`🔄 Trying fallback: locale=${fallbackLocale}, url=${fallbackUrlPath}`);
         }
-        return {
-            contentResponse: fallbackResponse,
-            actualLocaleUsed: fallbackResult.localeToUse,
-            shouldRedirect404: false
-        };
-    }
-    
-    // Try generic fallback (English) if different from already tried fallback
-    const config = getConfig();
-    if (fallbackResult.localeToUse !== config.genericFallback) {
-        const genericPayload = { ...contentPayload };
-        genericPayload.loc = localeToSdkLocale(config.genericFallback);
         
-        // Use the same fallback URL path but with English locale
-        const genericFallbackResponse = await getOptimizelySdk(genericPayload).contentByPath({
-            base: urlBase,
-            url: fallbackUrlPath,
-            urlNoSlash: fallbackUrlPathNoSlash
-        });
-        
-        if (genericFallbackResponse._Content?.item?._metadata?.key) {
-            if (enableDebugLogs) {
-                console.log(`📊 Generic fallback response: key=${genericFallbackResponse._Content.item._metadata.key}`);
+        try {
+            const fallbackResponse = await getOptimizelySdk(fallbackPayload).contentByPath({
+                base: urlBase,
+                url: fallbackUrlPath,
+                urlNoSlash: fallbackUrlPathNoSlash
+            });
+            
+            if (fallbackResponse._Content?.item?._metadata?.key) {
+                if (enableDebugLogs) {
+                    console.log(`📊 Fallback successful: locale=${fallbackLocale}, key=${fallbackResponse._Content.item._metadata.key}`);
+                }
+                return {
+                    contentResponse: fallbackResponse,
+                    actualLocaleUsed: fallbackLocale,
+                    shouldRedirect404: false
+                };
             }
-            return {
-                contentResponse: genericFallbackResponse,
-                actualLocaleUsed: config.genericFallback,
-                shouldRedirect404: false
-            };
+        } catch (error) {
+            if (enableDebugLogs) {
+                console.log(`❌ Fallback failed for ${fallbackLocale}`);
+            }
         }
     }
     
