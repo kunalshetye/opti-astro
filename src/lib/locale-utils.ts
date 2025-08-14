@@ -91,6 +91,8 @@ export function isValidLocale(locale: string): boolean {
  * - /en/path -> 'en'
  * - /de/about -> 'de'  
  * - /path -> configured default locale (no locale prefix)
+ * - /externalpreview/en/path -> 'en'
+ * - /externalpreview/de/path -> 'de'
  */
 export function getLocaleFromPath(pathname: string): string {
     const config = getConfig();
@@ -99,8 +101,7 @@ export function getLocaleFromPath(pathname: string): string {
     if (segments.length === 0) {
         return config.defaultLocale;
     }
-    
-    const potentialLocale = segments[0];
+    const potentialLocale = segments[0] === 'externalpreview' ? segments[1] : segments[0];
     
     if (isValidLocale(potentialLocale)) {
         return potentialLocale;
