@@ -14,6 +14,11 @@ const localeConfig = {
     // Default locale (used when no locale is detected in URL)
     defaultLocale: 'en',
 
+    // Enable or disable fallback completely
+    // - true: Enable fallback behavior (default)
+    // - false: Disable all fallback, show 404 if content doesn't exist in requested locale
+    enableFallback: true,
+
     // Specific fallbacks for individual locales
     fallback: {
         // Examples of locale fallback configuration:

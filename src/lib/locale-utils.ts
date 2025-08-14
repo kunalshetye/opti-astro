@@ -7,6 +7,7 @@
 // Default configuration - will be overridden by astro.config.mjs settings
 let localeConfig = {
     defaultLocale: 'en',
+    enableFallback: true,
     fallback: {} as Record<string, string>,
     genericFallback: 'en',
     fallbackType: 'rewrite' as 'redirect' | 'rewrite',
@@ -201,6 +202,12 @@ export function getFallbackLocale(locale: string): string {
  */
 export function getFallbackChain(locale: string, visited: Set<string> = new Set()): string[] {
     const config = getConfig();
+    
+    // Return empty chain if fallback is disabled
+    if (!config.enableFallback) {
+        return [];
+    }
+    
     const chain: string[] = [];
     
     // Prevent infinite loops
