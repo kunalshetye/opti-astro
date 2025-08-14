@@ -6,7 +6,7 @@ import { getRelativeLocaleUrl } from 'astro:i18n';
 import Component from '../../cms/components/_Component.astro';
 import Experiences from '../../cms/experiences/_Experiences.astro';
 import { getOptimizelySdk } from '../../graphql/getSdk';
-import { isDraftContent, isExternalPreviewEnabled, isValidExtPreviewToken } from '../../cms/shared/utils.ts';
+import { isDraftContent, isExternalPreviewEnabled, isValidExtPreviewToken, sanitizeLocale } from '../../cms/shared/utils.ts';
 import type { ContentPayload } from '../../graphql/shared/ContentPayload';
 import Pages from '../../cms/pages/_Pages.astro';
 
@@ -24,7 +24,7 @@ var extPreviewPayload: ContentPayload = {
 };
 
 var extPreviewPayload = qs.parse(Astro.url.search) as unknown as ContentPayload;
-extPreviewPayload.loc = Astro.currentLocale || 'en';
+extPreviewPayload.loc = sanitizeLocale(Astro.currentLocale || 'en');
 extPreviewPayload.ctx = ctx;
 
 const isDraft = await isDraftContent(extPreviewPayload.ver);
