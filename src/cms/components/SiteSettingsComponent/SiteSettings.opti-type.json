@@ -93,6 +93,17 @@
 			"indexingType": "searchable",
 			"editorSettings": {}
 		},
+		"OptiOdpScript": {
+			"type": "string",
+			"displayName": "Optimizely ODP Script",
+			"description": "Optimizely ODP (Data Platform) script to load on all pages",
+			"localized": false,
+			"required": false,
+			"group": "OptiTools",
+			"sortOrder": 20,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		},
 		"SocialTwitter": {
 			"type": "string",
 			"format": "shortString",

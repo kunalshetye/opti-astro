@@ -84,6 +84,7 @@ query siteSettingsByHostname($domain: String!, $locale: [Locales]!) {
             SocialTikTok
             SocialGitHub
             OptiWebProjectId
+            OptiOdpScript
         }
     }
 }
