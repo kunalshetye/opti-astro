@@ -24,11 +24,13 @@
     "dependencies": {
         "@astrojs/alpinejs": "0.4.8",
         "@astrojs/check": "^0.9.4",
+        "@astrojs/cloudflare": "^12.6.3",
         "@astrojs/compiler": "2.12.2",
         "@astrojs/netlify": "6.4.0",
         "@astrojs/node": "9.2.2",
         "@astrojs/ts-plugin": "1.10.4",
         "@astrojs/vercel": "8.2.0",
+        "@deno/astro-adapter": "^0.3.1",
         "@rollup/plugin-commonjs": "^28.0.3",
         "@splidejs/splide": "^4.1.4",
         "@tailwindcss/vite": "^4.0.12",
