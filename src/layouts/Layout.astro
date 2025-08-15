@@ -51,6 +51,7 @@ const siteSettings = await getOptimizelySdk(
 });
 
 const optiWebProjectId = siteSettings?.SiteSettings?.item?.OptiWebProjectId || null;
+const optiOdpScript = siteSettings?.SiteSettings?.item?.OptiOdpScript || null;
 
 const siteStyles = await getOptimizelySdk(contentPayload).siteStylesByHostname({
     domain: host,
@@ -76,6 +77,9 @@ const contentKey = contentPayload.key || '';
             <link rel="preload" href={`//cdn.optimizely.com/js/${optiWebProjectId}.js`} as="script" />
             <link rel="preconnect" href="//logx.optimizely.com" />
             <script src={`https://cdn.optimizely.com/js/${optiWebProjectId}.js`} />
+        )}
+        {optiOdpScript && (
+            <Fragment set:html={optiOdpScript} />
         )}
         {siteStyles && <SiteStyles siteStyles={siteStyles} />}
         {siteFont && <Font cssVariable={siteFont} preload />}

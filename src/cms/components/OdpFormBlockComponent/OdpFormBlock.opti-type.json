@@ -1,0 +1,26 @@
+{
+	"key": "OdpFormBlock",
+	"displayName": "ODP Form Block",
+	"description": "Optimizely Data Platform form integration block",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"sectionEnabled",
+		"elementEnabled"
+	],
+	"properties": {
+		"FormId": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "ODP Form ID",
+			"description": "The ID of the ODP form to embed",
+			"localized": false,
+			"required": true,
+			"group": "Content",
+			"sortOrder": 10,
+			"editorSettings": {}
+		}
+	}
+}
