@@ -10,7 +10,12 @@ Configure locales in `astro.config.mjs`:
 const localeConfig = {
     // Default locale (used when no locale is detected in URL)
     defaultLocale: 'en',
-    
+
+    // Enable or disable fallback completely
+    // - true: Enable fallback behavior (default)
+    // - false: Disable all fallback, show 404 if content doesn't exist in requested locale
+    enableFallback: true,
+
     // Specific fallbacks for individual locales
     fallback: {
         'de': 'en',        // German falls back to English
@@ -18,13 +23,19 @@ const localeConfig = {
         'nb-NO': 'en',     // Norwegian Bokmål falls back to English
         'nl-BE': 'nl',     // Belgian Dutch falls back to Dutch
         'zh-Hans': 'en',   // Simplified Chinese falls back to English
+        // Add more fallbacks as needed based on your CMS locales
     },
-    
+
     // Generic fallback locale (used when specific fallback is not defined)
     genericFallback: 'en',
-    
-    // Whether to prefix the default locale in URLs
-    prefixDefaultLocale: false, // false: /page, true: /en/page
+
+    // Fallback behavior type (like Astro's i18n fallbackType)
+    // - "redirect": Redirect to the fallback locale URL (e.g., /de -> /en)
+    // - "rewrite": Show fallback content at original URL (e.g., show English content at /de)
+    fallbackType: 'rewrite',
+
+    // Whether to prefix the default locale in URLs (false = /page, true = /en/page)
+    prefixDefaultLocale: false,
 };
 ```
 
@@ -47,9 +58,18 @@ const localeConfig = {
 - Automatic conversion handled by `localeToSdkLocale()`
 
 ### Fallback Chain
+**When `enableFallback: true` (default):**
 1. Check for **specific fallback** in `fallback` object
 2. Use **generic fallback** if no specific fallback defined
 3. Use **default locale** as final fallback
+
+**When `enableFallback: false`:**
+- Show 404 error if content doesn't exist in the requested locale
+- No fallback behavior occurs
+
+### Fallback Types
+- **`"rewrite"`** (default): Show fallback content at the original URL
+- **`"redirect"`**: Redirect user to the fallback locale URL
 
 ## Usage Examples
 
