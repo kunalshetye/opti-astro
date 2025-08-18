@@ -45,11 +45,12 @@ const localeConfig = {
 - **`/page`** → Default locale content
 - **`/de/page`** → German content  
 - **`/fr-CA/page`** → Canadian French content
+- **`/zh-Hans-HK/page`** → Simplified Chinese (Hong Kong) content
 - **`/any-locale/page`** → Dynamic locale support
 
 ### Locale Detection
-1. Extract locale from URL path (`/de/about` → `de`)
-2. Validate using regex pattern (supports `en`, `de`, `fr-CA`, `nb-NO`, etc.)
+1. Extract locale from URL path (`/de/about` → `de`, `/zh-Hans-HK/about` → `zh-Hans-HK`)
+2. Validate using regex pattern (supports `en`, `de`, `fr-CA`, `nb-NO`, `zh-Hans-HK`, etc.)
 3. Fall back to `defaultLocale` if no valid locale found
 
 ### GraphQL API Integration  
@@ -129,6 +130,7 @@ The system accepts these patterns:
 - ✅ `en`, `de`, `fr` (2-3 letters)
 - ✅ `en-US`, `fr-CA`, `nb-NO` (with region)
 - ✅ `zh-Hans`, `zh-Hant` (with script)
+- ✅ `zh-Hans-HK`, `zh-Hant-TW` (with script and region - 3-part locales)
 - ❌ `invalid123`, `x` (invalid patterns)
 
 ### Fallback Not Working

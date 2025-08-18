@@ -58,17 +58,28 @@ export function normalizeLocale(locale: string): string {
 /**
  * Convert URL-friendly locale format back to GraphQL API format
  * Example: 'nb-no' -> 'nb_NO', 'pt-br' -> 'pt_BR', 'fr-ca' -> 'fr_CA'
- * Handles case conversion for region codes
+ * Also handles 3-part locales: 'zh-hans-hk' -> 'zh_Hans_HK'
+ * Handles case conversion for script and region codes
  */
 export function denormalizeLocale(locale: string): string {
     // First convert hyphens to underscores
     let result = locale.replace(/-/g, '_');
     
-    // If there's a region part (after underscore), make it uppercase
+    // Split into parts to handle case conversion
     const parts = result.split('_');
+    
     if (parts.length === 2) {
+        // Standard 2-part locale: language_REGION
         result = parts[0].toLowerCase() + '_' + parts[1].toUpperCase();
+    } else if (parts.length === 3) {
+        // 3-part locale: language_Script_REGION
+        // First part is lowercase (language code)
+        // Second part is title case (script code)
+        // Third part is uppercase (region code)
+        const script = parts[1].charAt(0).toUpperCase() + parts[1].slice(1).toLowerCase();
+        result = parts[0].toLowerCase() + '_' + script + '_' + parts[2].toUpperCase();
     } else {
+        // Single part locale
         result = result.toLowerCase();
     }
     
@@ -77,12 +88,17 @@ export function denormalizeLocale(locale: string): string {
 
 /**
  * Check if a locale code looks valid (basic format validation)
- * Accepts patterns like: en, de, fr, en-US, pt-br, nb-no, zh-cn, etc.
- * Case-insensitive for the region part to handle both pt-BR and pt-br
+ * Accepts patterns like: en, de, fr, en-US, pt-br, nb-no, zh-cn, zh-Hans-HK, etc.
+ * Supports 3-part locales with script and region (e.g., zh-Hans-HK)
+ * Case-insensitive for all parts
  */
 export function isValidLocale(locale: string): boolean {
-    // Basic regex for locale format: 2-3 letters, optionally followed by dash and 2-3 letters/numbers (case-insensitive)
-    const localePattern = /^[a-z]{2,3}(-[a-zA-Z0-9]{2,3})?$/i;
+    // Updated regex to support:
+    // - Simple: en, de, fr (2-3 letters)
+    // - With region: en-US, pt-BR (2-3 letters + 2-3 letters/numbers)
+    // - With script: zh-Hans, zh-Hant (2-3 letters + 4-5 letters)
+    // - With script and region: zh-Hans-HK, zh-Hant-TW (2-3 letters + 4-5 letters + 2-3 letters/numbers)
+    const localePattern = /^[a-z]{2,3}(-[a-zA-Z]{4,5})?(-[a-zA-Z0-9]{2,3})?$/i;
     return localePattern.test(locale);
 }
 

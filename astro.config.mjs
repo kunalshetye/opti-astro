@@ -24,6 +24,7 @@ const localeConfig = {
         // Examples of locale fallback configuration:
         'fr-CA': 'fr', // Canadian French falls back to French
         'nl-BE': 'nl', // Belgian Dutch falls back to Dutch
+        'zh-Hans-HK': 'zh-Hans', // Simplified Chinese (Hong Kong) falls back to Simplified Chinese
         // Add more fallbacks as needed based on your CMS locales
     },
 
