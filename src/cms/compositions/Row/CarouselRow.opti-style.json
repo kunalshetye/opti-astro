@@ -3,5 +3,69 @@
 	"displayName": "Row Carousel",
 	"nodeType": "row",
 	"isDefault": false,
-	"settings": {}
+	"settings": {
+		"rowWidth": {
+			"displayName": "Width",
+			"editor": "",
+			"sortOrder": 3,
+			"choices": {
+				"inherit": {
+					"displayName": "Inherit from section",
+					"sortOrder": 10
+				},
+				"full": {
+					"displayName": "Full width",
+					"sortOrder": 20
+				},
+				"container": {
+					"displayName": "Container (default)",
+					"sortOrder": 30
+				},
+				"max7xl": {
+					"displayName": "7XL (80rem)",
+					"sortOrder": 40
+				},
+				"max6xl": {
+					"displayName": "6XL (72rem)",
+					"sortOrder": 50
+				},
+				"max5xl": {
+					"displayName": "5XL (64rem)",
+					"sortOrder": 60
+				},
+				"max4xl": {
+					"displayName": "4XL (56rem)",
+					"sortOrder": 70
+				},
+				"max3xl": {
+					"displayName": "3XL (48rem)",
+					"sortOrder": 80
+				},
+				"max2xl": {
+					"displayName": "2XL (42rem)",
+					"sortOrder": 90
+				},
+				"maxXl": {
+					"displayName": "XL (36rem)",
+					"sortOrder": 100
+				},
+				"maxLg": {
+					"displayName": "Large (32rem)",
+					"sortOrder": 110
+				},
+				"maxMd": {
+					"displayName": "Medium (28rem)",
+					"sortOrder": 120
+				},
+				"maxSm": {
+					"displayName": "Small (24rem)",
+					"sortOrder": 130
+				},
+				"maxXs": {
+					"displayName": "Extra Small (20rem)",
+					"sortOrder": 140
+				}
+			}
+		}
+	}
 }

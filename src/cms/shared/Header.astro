@@ -1,13 +1,13 @@
 ---
 import { Image as AstroImage } from 'astro:assets';
 
-import { getRelativeLocaleUrl } from 'astro:i18n';
+import { getCurrentLocale, getRelativeLocaleUrl } from '../../lib/locale-utils';
 import type { SiteSettingsByHostnameQuery } from '../../../__generated/sdk';
 import { getClassForLogo } from './siteSettingsHelper';
 import SearchPalette from './SearchPalette.astro';
 import ThemePicker from './ThemePicker.astro';
 // import { getMenuItems } from './siteSettingsHelper';
-const lang = Astro.currentLocale || '';
+const lang = getCurrentLocale(Astro);
 
 // Define interfaces for the menu items to fix TypeScript errors
 interface LinkType {
