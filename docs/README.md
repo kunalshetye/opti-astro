@@ -6,6 +6,12 @@ This folder contains comprehensive documentation for the Opti-Astro project, cov
 
 ### Configuration & Setup
 
+- **[Environment Variables Configuration](ENVIRONMENT-VARIABLES.md)** - Complete guide to all environment variables
+    - Required Optimizely Graph credentials
+    - Optional feature toggles (transitions, preview, dev mode)
+    - Development vs production configuration
+    - Security best practices and troubleshooting
+
 - **[Locale Configuration Guide](LOCALE-CONFIG.md)** - Complete guide to setting up and configuring dynamic locale support
     - Dynamic locale system overview
     - Configuration options in `astro.config.mjs`
@@ -27,8 +33,9 @@ This folder contains comprehensive documentation for the Opti-Astro project, cov
 
 New to this project? Start with these essential guides:
 
-1. **For Developers**: Read the [Locale Configuration Guide](LOCALE-CONFIG.md) to understand the internationalization system
-2. **For Content Editors**: Check out the [Row & Column Layout Guide](ROW-COLUMN-LAYOUT-GUIDE.md) to master the CMS layout tools
+1. **For Setup**: Start with [Environment Variables Configuration](ENVIRONMENT-VARIABLES.md) to configure your development environment
+2. **For Developers**: Read the [Locale Configuration Guide](LOCALE-CONFIG.md) to understand the internationalization system  
+3. **For Content Editors**: Check out the [Row & Column Layout Guide](ROW-COLUMN-LAYOUT-GUIDE.md) to master the CMS layout tools
 
 ## 📖 Project Overview
 
