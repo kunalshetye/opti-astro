@@ -6,11 +6,11 @@ import Pages from '../cms/pages/_Pages.astro';
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
 
-import { getRelativeLocaleUrl } from 'astro:i18n';
+import { getCurrentLocale, getRelativeLocaleUrl, localeToSdkLocale, resolveContentWithFallback } from '../lib/locale-utils';
 
 Astro.response.headers.set('Content-Type', 'text/html; charset=UTF-8');
 
-const lang = Astro.currentLocale;
+const lang = getCurrentLocale(Astro);
 
 const ctx = 'view';
 
@@ -26,37 +26,50 @@ var contentPayload: ContentPayload = {
 const urlPath = `${Astro.url.pathname.replace(/\/$/, '')}/`;
 const urlPathNoSlash = `${Astro.url.pathname.replace(/\/$/, '')}`;
 const urlBase = Astro.url.origin;
-const contentByPathResponse = await getOptimizelySdk(
-    contentPayload
-).contentByPath({
-    base: urlBase,
-    url: urlPath,
-    urlNoSlash: urlPathNoSlash
-});
-if (!contentByPathResponse._Content 
-    || !contentByPathResponse._Content.item 
-    || !contentByPathResponse._Content.item._metadata?.key) {
+
+// Use the helper function to resolve content with fallback
+contentPayload.loc = localeToSdkLocale(lang) as Locales;
+
+const fallbackResult = await resolveContentWithFallback(
+    getOptimizelySdk,
+    contentPayload,
+    urlBase,
+    urlPath,
+    lang,
+    false // Disable debug logs for production
+);
+
+if (fallbackResult.shouldRedirect404) {
     return Astro.redirect(getRelativeLocaleUrl(lang, '/404'), 404);
 }
+
+const contentByPathResponse = fallbackResult.contentResponse;
+const actualLocaleUsed = fallbackResult.actualLocaleUsed;
 const item = contentByPathResponse._Content.item;
 if (!item?._metadata) {
     throw new Error('Metadata is missing in the content item');
 }
 
-const contentByIdResponse = await getOptimizelySdk(contentPayload).contentById({
+// Always fetch by ID to get the full content data
+// Update the payload to use the actual locale that has content
+const contentByIdPayload = {
+    ...contentPayload,
+    loc: localeToSdkLocale(actualLocaleUsed) as Locales,
+};
+
+const contentByIdResponse = await getOptimizelySdk(contentByIdPayload).contentById({
     key: item._metadata.key || '',
     ver: item._metadata.version || '',
-    loc: item._metadata.locale as Locales,
+    loc: localeToSdkLocale(actualLocaleUsed) as Locales,
 });
+
 contentPayload = {
     ctx: ctx,
     key: item._metadata.key || '',
     ver: item._metadata.version || '',
-    loc: item._metadata.locale as Locales,
+    loc: localeToSdkLocale(actualLocaleUsed) as Locales,
     preview_token: '',
-    types:
-        (contentByIdResponse?._Content?.item?._metadata?.types as string[]) ||
-        [],
+    types: (contentByIdResponse?._Content?.item?._metadata?.types as string[]) || [],
 };
 const isComponentType = contentPayload.types.includes('_Component');
 const isExperienceType = contentPayload.types.includes('_Experience');

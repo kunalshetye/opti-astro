@@ -8,6 +8,54 @@ export function getColumnStyles(column: CompositionStructureNode) {
     // console.log(dictionary);
 
     let cssClasses: string[] = [];
+    
+    // Handle grid span using flexbox basis percentages for both DefaultColumn and CardColumn
+    // Using basis instead of width to work with flex-grow/shrink
+    // When a specific span is set, we override the default flex-1 behavior
+    switch (dictionary['gridSpan']) {
+        case 'span1':
+            cssClasses.push('md:basis-1/12 md:flex-none');
+            break;
+        case 'span2':
+            cssClasses.push('md:basis-2/12 md:flex-none');
+            break;
+        case 'span3':
+            cssClasses.push('md:basis-3/12 md:flex-none');
+            break;
+        case 'span4':
+            cssClasses.push('md:basis-4/12 md:flex-none');
+            break;
+        case 'span5':
+            cssClasses.push('md:basis-5/12 md:flex-none');
+            break;
+        case 'span6':
+            cssClasses.push('md:basis-6/12 md:flex-none');
+            break;
+        case 'span7':
+            cssClasses.push('md:basis-7/12 md:flex-none');
+            break;
+        case 'span8':
+            cssClasses.push('md:basis-8/12 md:flex-none');
+            break;
+        case 'span9':
+            cssClasses.push('md:basis-9/12 md:flex-none');
+            break;
+        case 'span10':
+            cssClasses.push('md:basis-10/12 md:flex-none');
+            break;
+        case 'span11':
+            cssClasses.push('md:basis-11/12 md:flex-none');
+            break;
+        case 'span12':
+            cssClasses.push('md:basis-full md:flex-none');
+            break;
+        case 'auto':
+        default:
+            // Let flexbox handle the width automatically with flex-1
+            cssClasses.push('md:flex-1');
+            break;
+    }
+    
     switch (column.displayTemplateKey) {
         case 'DefaultColumn':
             switch (dictionary['contentSpacing']) {
