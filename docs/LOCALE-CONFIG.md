@@ -18,11 +18,9 @@ const localeConfig = {
 
     // Specific fallbacks for individual locales
     fallback: {
-        'de': 'en',        // German falls back to English
         'fr-CA': 'fr',     // Canadian French falls back to French
-        'nb-NO': 'en',     // Norwegian Bokmål falls back to English
         'nl-BE': 'nl',     // Belgian Dutch falls back to Dutch
-        'zh-Hans': 'en',   // Simplified Chinese falls back to English
+        'zh-Hans-HK': 'zh-Hans', // Simplified Chinese (Hong Kong) falls back to Simplified Chinese
         // Add more fallbacks as needed based on your CMS locales
     },
 
@@ -54,9 +52,10 @@ const localeConfig = {
 3. Fall back to `defaultLocale` if no valid locale found
 
 ### GraphQL API Integration  
-- URL format: `nb-NO` (hyphens)
-- GraphQL format: `nb_NO` (underscores)
+- URL format: `nb-NO`, `zh-Hans-HK` (hyphens)
+- GraphQL format: `nb_NO`, `zh_Hans_HK` (underscores, proper casing)
 - Automatic conversion handled by `localeToSdkLocale()`
+- 3-part locales: `zh-Hans-HK` → `zh_Hans_HK` (script titlecase, region uppercase)
 
 ### Fallback Chain
 **When `enableFallback: true` (default):**
