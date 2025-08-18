@@ -94,6 +94,17 @@ export default defineConfig({
                 optional: true,
                 default: 0,
             }),
+            OPTIMIZELY_DATA_PLATFORM_ENDPOINT: envField.string({
+                context: 'server',
+                access: 'secret',
+                optional: true,
+                default: "https://api.zaius.com"
+            }),
+            OPTIMIZELY_DATA_PLATFORM_PRIVATE_KEY: envField.string({
+                context: 'server',
+                access: 'secret',
+                optional: true,
+            }),
             EXTERNAL_PREVIEW_ENABLED: envField.boolean({
                 context: 'server',
                 access: 'public',

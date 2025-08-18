@@ -7,8 +7,10 @@ import Footer from '../cms/shared/Footer.astro';
 import Header from '../cms/shared/Header.astro';
 import SiteStyles from '../cms/components/SiteStylesComponent/SiteStyles.astro';
 import { getSiteFont } from '../cms/shared/siteStylesHelper';
-import { EXTERNAL_PREVIEW_ENABLED } from 'astro:env/server';
+import { EXTERNAL_PREVIEW_ENABLED, OPTIMIZELY_DATA_PLATFORM_PRIVATE_KEY } from 'astro:env/server';
 import ExtPreviewLinkBanner from '../cms/shared/ExtPreviewLink/ExtPreviewLinkBanner.astro';
+import DataPlatform from '../cms/shared/DataPlatform/DataPlatform.astro';
+// import { getOdpScript } from '../cms/shared/DataPlatform/dataPlatform.ts';
 import { isDraftContent, isEditContext } from '../cms/shared/utils.ts';
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
@@ -52,6 +54,10 @@ const siteSettings = await getOptimizelySdk(
 
 const optiWebProjectId = siteSettings?.SiteSettings?.item?.OptiWebProjectId || null;
 
+const odpEnabled = OPTIMIZELY_DATA_PLATFORM_PRIVATE_KEY !== null;
+const odpPublicKey = odpEnabled && OPTIMIZELY_DATA_PLATFORM_PRIVATE_KEY?.split('.')[0];
+// const odpScript = odpPublicKey && getOdpScript(odpPublicKey);
+
 const siteStyles = await getOptimizelySdk(contentPayload).siteStylesByHostname({
     domain: host,
     locale: [contentPayload.loc as Locales],
@@ -76,6 +82,10 @@ const contentKey = contentPayload.key || '';
             <link rel="preload" href={`//cdn.optimizely.com/js/${optiWebProjectId}.js`} as="script" />
             <link rel="preconnect" href="//logx.optimizely.com" />
             <script src={`https://cdn.optimizely.com/js/${optiWebProjectId}.js`} />
+        )}
+        {!isCmsEdit && odpEnabled && (
+            <DataPlatform odpPublicKey={odpPublicKey} />
+            // <Fragment set:html=`${odpScript}`</Fragment>
         )}
         {siteStyles && <SiteStyles siteStyles={siteStyles} />}
         {siteFont && <Font cssVariable={siteFont} preload />}
