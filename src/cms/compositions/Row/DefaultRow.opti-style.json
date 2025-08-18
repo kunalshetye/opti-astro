@@ -155,10 +155,37 @@
                 }
             }
         },
+        "alignItems": {
+            "displayName": "Vertical Alignment (Row Mode)",
+            "editor": "",
+            "sortOrder": 35,
+            "choices": {
+                "start": {
+                    "displayName": "Top",
+                    "sortOrder": 10
+                },
+                "center": {
+                    "displayName": "Center",
+                    "sortOrder": 20
+                },
+                "end": {
+                    "displayName": "Bottom",
+                    "sortOrder": 30
+                },
+                "stretch": {
+                    "displayName": "Stretch",
+                    "sortOrder": 40
+                },
+                "baseline": {
+                    "displayName": "Baseline",
+                    "sortOrder": 50
+                }
+            }
+        },
         "verticalSpacing": {
             "displayName": "Vertical Spacing",
             "editor": "",
-            "sortOrder": 40,
+            "sortOrder": 45,
             "choices": {
                 "none": {
                     "displayName": "None",
@@ -185,7 +212,7 @@
         "backgroundColor": {
             "displayName": "Background Color",
             "editor": "",
-            "sortOrder": 50,
+            "sortOrder": 55,
             "choices": {
                 "transparent": {
                     "displayName": "Transparent",

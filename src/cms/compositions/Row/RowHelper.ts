@@ -34,6 +34,14 @@ export function getRowStyles(row: CompositionStructureNode) {
         start = 'content-start',
     }
 
+    enum AlignItemsClasses {
+        start = 'items-start',
+        center = 'items-center',
+        end = 'items-end',
+        stretch = 'items-stretch',
+        baseline = 'items-baseline',
+    }
+
     enum VerticalSpacingClasses {
         small = 'my-2',
         medium = 'my-4',
@@ -71,6 +79,17 @@ export function getRowStyles(row: CompositionStructureNode) {
         VerticalSpacingClasses[dictionary['verticalSpacing']] ?? ''
     );
     cssClasses.push(RowFromClasses[dictionary['showAsRowFrom']] ?? '');
+    
+    // Add responsive vertical alignment based on showAsRowFrom breakpoint
+    const rowBreakpoint = dictionary['showAsRowFrom'] ?? 'md';
+    const alignItems = dictionary['alignItems'];
+    if (alignItems && alignItems !== 'start') {
+        const alignItemsClass = AlignItemsClasses[alignItems];
+        if (alignItemsClass) {
+            // Apply alignment only when in row mode (horizontal layout)
+            cssClasses.push(`${rowBreakpoint}:${alignItemsClass}`);
+        }
+    }
     // Background color is now handled by globalStylesHelper
     return cssClasses;
 }
