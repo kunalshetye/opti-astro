@@ -133,6 +133,12 @@ export default defineConfig({
                 optional: true,
                 default: false,
             }),
+            ASTRO_TRANSITIONS_ENABLED: envField.boolean({
+                context: 'client',
+                access: 'public',
+                optional: true,
+                default: true,
+            }),
         },
     },
 

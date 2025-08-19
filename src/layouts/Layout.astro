@@ -1,6 +1,7 @@
 ---
-import { ClientRouter } from 'astro:transitions';
 import { Font } from 'astro:assets';
+import { ASTRO_TRANSITIONS_ENABLED } from 'astro:env/client';
+import { ClientRouter } from 'astro:transitions';
 
 import type { Locales } from '../../__generated/sdk';
 import Footer from '../cms/shared/Footer.astro';
@@ -103,7 +104,7 @@ const contentKey = contentPayload.key || '';
         {graphType && <meta property="og:type" content={graphType} />}
         {hierarchicalUrl && <link rel="canonical" href={canonicalUrl} />}
         <title>{title}</title>
-        <ClientRouter />
+        {ASTRO_TRANSITIONS_ENABLED && <ClientRouter />}
     </head>
     <body data-content-key={contentKey}>
         {

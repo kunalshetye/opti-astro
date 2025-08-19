@@ -1,0 +1,25 @@
+{
+	"key": "MockupPage",
+	"displayName": "Mockup Page",
+	"description": "Page type for showing HTML mockups (for example, from Google Stitch). Likely requires fully-structured HTML.",
+	"baseType": "page",
+	"sortOrder": 200,
+	"mayContainTypes": [
+		"*"
+	],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [],
+	"properties": {
+		"HtmlMockup": {
+			"type": "string",
+			"displayName": "Html Mockup",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 10,
+			"allowedTypes": [],
+			"restrictedTypes": []
+		}
+	}
+}
