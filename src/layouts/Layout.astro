@@ -86,7 +86,6 @@ const contentKey = contentPayload.key || '';
         )}
         {!isCmsEdit && odpEnabled && (
             <DataPlatform odpPublicKey={odpPublicKey} />
-            // <Fragment set:html=`${odpScript}`</Fragment>
         )}
         {siteStyles && <SiteStyles siteStyles={siteStyles} />}
         {siteFont && <Font cssVariable={siteFont} preload />}
