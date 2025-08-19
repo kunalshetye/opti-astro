@@ -131,6 +131,19 @@ If you need external preview functionality:
 - **Purpose**: Authentication token for external preview access
 - **Security**: ⚠️ **Keep this secure!**
 
+### OPTIMIZELY_DATA_PLATFORM_ENDPOINT
+- **Type**: String (URL)
+- **Access**: Secret (server-side only)
+- **Purpose**: ODP endpoint
+- **Example**: `https://api.zaius.com`
+
+### OPTIMIZELY_DATA_PLATFORM_PRIVATE_KEY
+- **Type**: String
+- **Access**: Secret (server-side only)
+- **Purpose**: Private key for Optimizely Data Platform
+- **Security**: ⚠️ **Keep this secure!**
+
+
 ## 🚀 Development vs Production
 
 ### Development (.env)
