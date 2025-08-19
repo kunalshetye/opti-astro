@@ -9,8 +9,6 @@ import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
 import { localeToSdkLocale } from '../lib/locale-utils';
 import Pages from '../cms/pages/_Pages.astro';
-import DataPlatform from '../cms/shared/DataPlatform/DataPlatform.astro';
-import { OPTIMIZELY_DATA_PLATFORM_PRIVATE_KEY } from 'astro:env/server';
 const cmsScript =
     OPTIMIZELY_CMS_URL &&
     OPTIMIZELY_CMS_URL.startsWith('https://') &&
@@ -33,10 +31,6 @@ previewPayload.types = types;
 const isComponentType = types?.includes('_Component');
 const isExperienceType = types?.includes('_Experience');
 const isPageType = types?.includes('_Page') && isExperienceType === false;
-
-const odpEnabled = !!OPTIMIZELY_DATA_PLATFORM_PRIVATE_KEY;
-const odpPublicKey =
-    (odpEnabled && OPTIMIZELY_DATA_PLATFORM_PRIVATE_KEY?.split('.')[0]) || null;
 ---
 
 <>
@@ -46,7 +40,6 @@ const odpPublicKey =
     {isPageType && <Pages data={previewPayload} />}
 </>
 <script src=`${cmsScript}` is:inline></script>
-{odpEnabled && <DataPlatform odpPublicKey={odpPublicKey} />}
 <script>
     import { PREVIEW_DELAY } from 'astro:env/client';
 
