@@ -2,15 +2,13 @@ import type { APIRoute } from 'astro';
 import fg from 'fast-glob';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { requireAdminAuth } from '../../../utils/admin-auth';
 
-export const GET: APIRoute = async ({ url }) => {
-    // Check for admin token in production
-    const adminToken = import.meta.env.ADMIN_DASHBOARD_TOKEN;
-    const isProduction = import.meta.env.PROD;
-    const token = url.searchParams.get('token');
-
-    if (isProduction && adminToken && token !== adminToken) {
-        return new Response('Unauthorized', { status: 401 });
+export const GET: APIRoute = async ({ request }) => {
+    // Check authentication
+    const authError = requireAdminAuth(request);
+    if (authError) {
+        return authError;
     }
 
     try {

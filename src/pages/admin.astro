@@ -1,16 +1,11 @@
 ---
 import AdminLayout from '../layouts/AdminLayout.astro';
+import { checkAdminAuth } from '../utils/admin-auth';
 
-// Check for admin token in production
-const adminToken = import.meta.env.ADMIN_DASHBOARD_TOKEN;
-const isProduction = import.meta.env.PROD;
-
-// Simple auth check - you can enhance this
-const url = Astro.url;
-const token = url.searchParams.get('token');
-
-if (isProduction && adminToken && token !== adminToken) {
-    return Astro.redirect('/404');
+// Check authentication
+const authError = checkAdminAuth(Astro.request);
+if (authError) {
+    return authError;
 }
 ---
 
@@ -175,11 +170,7 @@ if (isProduction && adminToken && token !== adminToken) {
         // Load available types
         async function loadTypes() {
             try {
-                const urlParams = new URLSearchParams(window.location.search);
-                const token = urlParams.get('token');
-                const tokenParam = token ? `?token=${encodeURIComponent(token)}` : '';
-                
-                const response = await fetch(`/api/admin/list-types.json${tokenParam}`);
+                const response = await fetch('/api/admin/list-types.json');
                 const data = await response.json();
                 
                 const typeSelect = document.getElementById('typeSelect');
@@ -227,11 +218,7 @@ if (isProduction && adminToken && token !== adminToken) {
         // Load available styles
         async function loadStyles() {
             try {
-                const urlParams = new URLSearchParams(window.location.search);
-                const token = urlParams.get('token');
-                const tokenParam = token ? `?token=${encodeURIComponent(token)}` : '';
-                
-                const response = await fetch(`/api/admin/list-styles.json${tokenParam}`);
+                const response = await fetch('/api/admin/list-styles.json');
                 const data = await response.json();
                 
                 const styleSelect = document.getElementById('styleSelect');
@@ -329,14 +316,9 @@ if (isProduction && adminToken && token !== adminToken) {
                 eventSource.close();
             }
             
-            // Get token if present
-            const urlParams = new URLSearchParams(window.location.search);
-            const token = urlParams.get('token');
-            const tokenParam = token ? `token=${encodeURIComponent(token)}&` : '';
-            const param = type === 'type' ? `type=${encodeURIComponent(name)}` : `style=${encodeURIComponent(name)}`;
-            
             // Create new EventSource connection
-            eventSource = new EventSource(`/api/admin/stream/${command}?${tokenParam}${param}`);
+            const param = type === 'type' ? `type=${encodeURIComponent(name)}` : `style=${encodeURIComponent(name)}`;
+            eventSource = new EventSource(`/api/admin/stream/${command}?${param}`);
             
             eventSource.onmessage = (event) => {
                 const data = JSON.parse(event.data);
@@ -446,13 +428,8 @@ if (isProduction && adminToken && token !== adminToken) {
                 eventSource.close();
             }
             
-            // Get token if present
-            const urlParams = new URLSearchParams(window.location.search);
-            const token = urlParams.get('token');
-            const tokenParam = token ? `?token=${encodeURIComponent(token)}` : '';
-            
             // Create new EventSource connection
-            eventSource = new EventSource(`/api/admin/stream/${command}${tokenParam}`);
+            eventSource = new EventSource(`/api/admin/stream/${command}`);
             
             eventSource.onmessage = (event) => {
                 const data = JSON.parse(event.data);

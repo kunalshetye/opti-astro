@@ -22,19 +22,20 @@ https://localhost:4321/admin
 ```
 
 ### Production Mode
-In production, you must provide an authentication token:
+The browser will prompt for username/password:
 ```
-https://your-domain.com/admin?token=YOUR_SECURE_TOKEN
+https://your-domain.com/admin
+# Enter: username=admin, password=your-secure-password
 ```
 
 ## Configuration
 
-### 1. Set Up Authentication Token
-
+### 1. Set Up Authentication
 Add the following to your `.env` file:
 ```bash
-# Admin Dashboard Token (required for production)
-ADMIN_DASHBOARD_TOKEN=your-secure-token-here
+# HTTP Basic Authentication (required in production)
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=your-secure-password-here
 ```
 
 ### 2. Ensure CMS Credentials Are Set
@@ -72,22 +73,52 @@ OPTIMIZELY_CMS_URL=https://app-your-instance.cms.optimizely.com/
   - 🟡 Yellow: Warning messages
   - ⚪ Default: Informational messages
 
+## Authentication
+
+### How It Works
+The admin dashboard uses **HTTP Basic Authentication** for secure access.
+
+#### HTTP Basic Authentication
+- **Environment Variables**: `ADMIN_USERNAME` (default: "admin") and `ADMIN_PASSWORD`
+- **User Experience**: Browser shows native login dialog
+- **Security**: Standard HTTP Basic Auth with Base64 encoding
+- **Compatibility**: Works on all hosting platforms (Vercel, Netlify, etc.)
+
+### Authentication Flow
+1. **Development**: No authentication required if `ADMIN_PASSWORD` is not set (convenient for local development)
+2. **Production**: 
+   - User visits `/admin`
+   - Browser prompts for username/password
+   - Credentials verified against environment variables
+   - Access granted on successful authentication
+
 ## Technical Implementation
 
 ### Architecture
 - **Frontend**: Astro page with AlpineJS for interactivity
 - **Backend**: Server-Sent Events (SSE) for real-time streaming
-- **Commands**: Executes `yarn types:push` and `yarn styles:push` via child processes
+- **CMS Operations**: Direct API calls using `@remkoj/optimizely-cms-api` client (serverless compatible)
+- **Authentication**: HTTP Basic Auth or token-based protection
 - **Styling**: TailwindCSS + daisyUI for modern UI
 
 ### API Endpoints
-- `/api/admin/stream/push-types`: Streams output from type synchronization
-- `/api/admin/stream/push-styles`: Streams output from style synchronization
+- `/api/admin/stream/push-types`: Streams output from bulk type synchronization
+- `/api/admin/stream/push-styles`: Streams output from bulk style synchronization
+- `/api/admin/stream/push-type?type=NAME`: Streams output from individual type push
+- `/api/admin/stream/push-style?style=NAME`: Streams output from individual style push
+- `/api/admin/list-types.json`: Returns available content types for dropdown
+- `/api/admin/list-styles.json`: Returns available styles for dropdown
+
+### Serverless Compatibility
+- **✅ Netlify/Vercel Compatible**: Uses direct API calls instead of child processes
+- **No Dependencies on CLI Tools**: No yarn/npm commands executed at runtime
+- **Optimizely CMS API**: Direct integration with `@remkoj/optimizely-cms-api`
+- **Real-time Progress**: SSE streaming with progress callbacks
 
 ### Security
 - Token-based authentication in production
-- Commands run with same permissions as the server process
-- No direct shell access or arbitrary command execution
+- Direct CMS API integration with proper credentials
+- No shell access or arbitrary command execution
 
 ## Troubleshooting
 
@@ -107,9 +138,11 @@ OPTIMIZELY_CMS_URL=https://app-your-instance.cms.optimizely.com/
 - Look for errors in server logs
 
 ### Authentication Issues
-- Ensure `ADMIN_DASHBOARD_TOKEN` is set in production
-- Verify token in URL matches environment variable
-- Check for typos in token value
+- Ensure `ADMIN_PASSWORD` is set in production
+- Verify browser prompts for username/password
+- Check credentials match environment variables (`ADMIN_USERNAME` and `ADMIN_PASSWORD`)
+- Try clearing browser cache/cookies
+- Verify environment variables are properly loaded in your hosting platform
 
 ## Development Tips
 

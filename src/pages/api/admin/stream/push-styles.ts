@@ -1,16 +1,12 @@
 import type { APIRoute } from 'astro';
-import { spawn } from 'child_process';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { pushAllStyles } from '../../../../services/cms-sync';
+import { requireAdminAuth } from '../../../../utils/admin-auth';
 
-export const GET: APIRoute = async ({ request, url }) => {
-    // Check for admin token
-    const adminToken = import.meta.env.ADMIN_DASHBOARD_TOKEN;
-    const isProduction = import.meta.env.PROD;
-    const token = url.searchParams.get('token');
-
-    if (isProduction && adminToken && token !== adminToken) {
-        return new Response('Unauthorized', { status: 401 });
+export const GET: APIRoute = async ({ request }) => {
+    // Check authentication
+    const authError = requireAdminAuth(request);
+    if (authError) {
+        return authError;
     }
 
     // Set up SSE headers
@@ -39,96 +35,56 @@ export const GET: APIRoute = async ({ request, url }) => {
                 }
             };
 
-            // Send initial message
-            sendMessage({ 
-                type: 'log', 
-                message: 'Starting component styles push to CMS...', 
-                level: 'info' 
-            });
-
-            // Get project root directory
-            const __filename = fileURLToPath(import.meta.url);
-            const __dirname = path.dirname(__filename);
-            const projectRoot = path.resolve(__dirname, '../../../../../');
-
-            // Spawn the yarn command
-            const child = spawn('yarn', ['styles:push'], {
-                cwd: projectRoot,
-                env: { ...process.env },
-                shell: false,
-            });
-
-            // Handle stdout
-            child.stdout.on('data', (data) => {
-                const lines = data.toString().split('\n').filter(line => line.trim());
-                lines.forEach(line => {
-                    // Detect different types of messages
-                    let level = 'info';
-                    if (line.includes('✅') || line.includes('Success') || line.includes('successfully')) {
-                        level = 'success';
-                    } else if (line.includes('❌') || line.includes('Error') || line.includes('Failed')) {
-                        level = 'error';
-                    } else if (line.includes('⚠️') || line.includes('Warning')) {
-                        level = 'warning';
-                    }
-
-                    sendMessage({ 
-                        type: 'log', 
-                        message: line, 
-                        level 
-                    });
+            // Progress callback for real-time updates
+            const onProgress = (progress: any) => {
+                sendMessage({
+                    type: 'log',
+                    message: progress.message,
+                    level: progress.level
                 });
-            });
-
-            // Handle stderr
-            child.stderr.on('data', (data) => {
-                const lines = data.toString().split('\n').filter(line => line.trim());
-                lines.forEach(line => {
-                    // Some tools output normal messages to stderr, so check content
-                    const isError = line.toLowerCase().includes('error') || 
-                                   line.toLowerCase().includes('failed');
-                    sendMessage({ 
-                        type: 'log', 
-                        message: line, 
-                        level: isError ? 'error' : 'warning' 
-                    });
-                });
-            });
-
-            // Handle process exit
-            child.on('close', (code) => {
-                const success = code === 0;
-                sendMessage({ 
-                    type: 'complete', 
-                    success, 
-                    message: success 
-                        ? 'Component styles pushed successfully!' 
-                        : `Process exited with code ${code}` 
-                });
-                
-                // Close the stream
-                if (!closed) {
-                    closed = true;
-                    controller.close();
-                }
-            });
-
-            // Handle process error
-            child.on('error', (error) => {
-                sendMessage({ 
-                    type: 'error', 
-                    message: `Failed to start process: ${error.message}` 
-                });
-                closed = true;
-                controller.close();
-            });
+            };
 
             // Handle client disconnect
             request.signal.addEventListener('abort', () => {
-                child.kill();
-                closed = true;
-                controller.close();
+                if (!closed) {
+                    closed = true;
+                    try {
+                        controller.close();
+                    } catch (error) {
+                        // Controller might already be closed
+                    }
+                }
             });
+
+            // Execute the push operation
+            pushAllStyles(onProgress)
+                .then((result) => {
+                    if (!closed) {
+                        sendMessage({
+                            type: 'complete',
+                            success: result.success,
+                            message: result.message
+                        });
+                    }
+                })
+                .catch((error) => {
+                    if (!closed) {
+                        sendMessage({
+                            type: 'error',
+                            message: `Failed to push styles: ${error.message}`
+                        });
+                    }
+                })
+                .finally(() => {
+                    if (!closed) {
+                        closed = true;
+                        try {
+                            controller.close();
+                        } catch (error) {
+                            // Controller might already be closed
+                        }
+                    }
+                });
         }
     });
 
