@@ -1,7 +1,7 @@
 ---
 // Astro frontmatter
 export interface Props {
-    odpPublicKey: string | false | undefined;
+    odpPublicKey: string | null | undefined;
 }
 const { odpPublicKey } = Astro.props as Props;
 
