@@ -13,16 +13,25 @@
 	"properties": {
 		"SelectorType": {
 			"type": "string",
-			"format": "select",
+			"format": "selectOne",
 			"displayName": "Selector Type",
 			"description": "Choose whether to target by ID or CSS class",
 			"localized": false,
-			"required": true,
+			"required": false,
 			"group": "Content",
 			"sortOrder": 10,
-			"editorSettings": {
-				"enum": ["id", "class"],
-				"enumLabels": ["ID (#)", "Class (.)"]
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "ID",
+						"value": "id"
+					},
+					{
+						"displayName": "Class",
+						"value": "class"
+					}
+				]
 			}
 		},
 		"SelectorName": {
