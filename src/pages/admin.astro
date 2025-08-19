@@ -1,0 +1,592 @@
+---
+import AdminLayout from '../layouts/AdminLayout.astro';
+
+// Check for admin token in production
+const adminToken = import.meta.env.ADMIN_DASHBOARD_TOKEN;
+const isProduction = import.meta.env.PROD;
+
+// Simple auth check - you can enhance this
+const url = Astro.url;
+const token = url.searchParams.get('token');
+
+if (isProduction && adminToken && token !== adminToken) {
+    return Astro.redirect('/404');
+}
+---
+
+<AdminLayout title="Admin Dashboard - CMS Management">
+    <div class="min-h-screen bg-base-200">
+        <div class="navbar bg-base-300 shadow-lg">
+            <div class="flex-1">
+                <h1 class="text-2xl font-bold px-4">🛠️ Admin Dashboard</h1>
+            </div>
+            <div class="flex-none">
+                <span class="badge badge-primary mr-4">CMS Management</span>
+            </div>
+        </div>
+
+        <div class="container mx-auto p-6">
+            <div class="grid lg:grid-cols-2 gap-6">
+                <!-- Push Types Card -->
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title text-xl">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                            </svg>
+                            Push Content Types
+                        </h2>
+                        <p class="text-sm opacity-70">Sync content type definitions to Optimizely CMS</p>
+                        
+                        <!-- Bulk Push -->
+                        <div class="flex gap-2 items-center mt-4">
+                            <button 
+                                id="pushTypesBtn" 
+                                class="btn btn-primary flex-1"
+                                onclick="executeCommand('push-types')"
+                            >
+                                <span class="loading loading-spinner hidden"></span>
+                                Push All Types
+                            </button>
+                        </div>
+
+                        <!-- Individual Push -->
+                        <div class="divider text-xs">OR</div>
+                        <div class="flex gap-2 items-center">
+                            <select id="typeSelect" class="select select-bordered select-sm flex-1">
+                                <option value="">Loading types...</option>
+                            </select>
+                            <button 
+                                id="pushSingleTypeBtn" 
+                                class="btn btn-secondary btn-sm"
+                                onclick="pushIndividual('type')"
+                                disabled
+                            >
+                                <span class="loading loading-spinner loading-xs hidden"></span>
+                                Push
+                            </button>
+                        </div>
+                        
+                        <span id="typesStatus" class="text-sm mt-2 block"></span>
+                    </div>
+                </div>
+
+                <!-- Push Styles Card -->
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title text-xl">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                            </svg>
+                            Push Component Styles
+                        </h2>
+                        <p class="text-sm opacity-70">Sync component styles to Optimizely CMS</p>
+                        
+                        <!-- Bulk Push -->
+                        <div class="flex gap-2 items-center mt-4">
+                            <button 
+                                id="pushStylesBtn" 
+                                class="btn btn-primary flex-1"
+                                onclick="executeCommand('push-styles')"
+                            >
+                                <span class="loading loading-spinner hidden"></span>
+                                Push All Styles
+                            </button>
+                        </div>
+
+                        <!-- Individual Push -->
+                        <div class="divider text-xs">OR</div>
+                        <div class="flex gap-2 items-center">
+                            <select id="styleSelect" class="select select-bordered select-sm flex-1">
+                                <option value="">Loading styles...</option>
+                            </select>
+                            <button 
+                                id="pushSingleStyleBtn" 
+                                class="btn btn-secondary btn-sm"
+                                onclick="pushIndividual('style')"
+                                disabled
+                            >
+                                <span class="loading loading-spinner loading-xs hidden"></span>
+                                Push
+                            </button>
+                        </div>
+                        
+                        <span id="stylesStatus" class="text-sm mt-2 block"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terminal Output -->
+            <div class="card bg-base-100 shadow-xl mt-6">
+                <div class="card-body">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="card-title">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            Terminal Output
+                        </h2>
+                        <div class="flex gap-2">
+                            <label class="swap swap-rotate btn btn-sm btn-ghost">
+                                <input type="checkbox" id="autoScrollToggle" checked />
+                                <div class="swap-on">📜 Auto-scroll ON</div>
+                                <div class="swap-off">📜 Auto-scroll OFF</div>
+                            </label>
+                            <button class="btn btn-sm btn-ghost" onclick="clearLogs()">
+                                Clear
+                            </button>
+                            <button class="btn btn-sm btn-ghost" onclick="copyLogs()">
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mockup-code bg-neutral text-neutral-content overflow-auto h-96" id="terminal">
+                        <div id="terminalContent" class="text-sm p-4">
+                            <div><code>$ Ready to execute commands...</code></div>
+                        </div>
+                    </div>
+
+                    <div id="executionInfo" class="mt-2 text-sm opacity-70 hidden">
+                        Executing... <span id="elapsedTime">0</span>s
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let eventSource = null;
+        let startTime = null;
+        let timerInterval = null;
+        let autoScroll = true;
+
+        // Auto-scroll toggle
+        document.getElementById('autoScrollToggle').addEventListener('change', (e) => {
+            autoScroll = e.target.checked;
+        });
+
+        // Load types and styles on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTypes();
+            loadStyles();
+        });
+
+        // Load available types
+        async function loadTypes() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const token = urlParams.get('token');
+                const tokenParam = token ? `?token=${encodeURIComponent(token)}` : '';
+                
+                const response = await fetch(`/api/admin/list-types.json${tokenParam}`);
+                const data = await response.json();
+                
+                const typeSelect = document.getElementById('typeSelect');
+                const pushBtn = document.getElementById('pushSingleTypeBtn');
+                
+                if (data.types && data.types.length > 0) {
+                    typeSelect.innerHTML = '<option value="">Select a type...</option>';
+                    
+                    // Group by category
+                    const byCategory = {};
+                    data.types.forEach(type => {
+                        if (!byCategory[type.category]) {
+                            byCategory[type.category] = [];
+                        }
+                        byCategory[type.category].push(type);
+                    });
+                    
+                    // Add options grouped by category
+                    Object.keys(byCategory).sort().forEach(category => {
+                        const optgroup = document.createElement('optgroup');
+                        optgroup.label = category.charAt(0).toUpperCase() + category.slice(1);
+                        
+                        byCategory[category].forEach(type => {
+                            const option = document.createElement('option');
+                            option.value = type.name;
+                            option.textContent = type.name;
+                            optgroup.appendChild(option);
+                        });
+                        
+                        typeSelect.appendChild(optgroup);
+                    });
+                    
+                    typeSelect.addEventListener('change', () => {
+                        pushBtn.disabled = !typeSelect.value;
+                    });
+                } else {
+                    typeSelect.innerHTML = '<option value="">No types found</option>';
+                }
+            } catch (error) {
+                console.error('Failed to load types:', error);
+                document.getElementById('typeSelect').innerHTML = '<option value="">Failed to load</option>';
+            }
+        }
+
+        // Load available styles
+        async function loadStyles() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const token = urlParams.get('token');
+                const tokenParam = token ? `?token=${encodeURIComponent(token)}` : '';
+                
+                const response = await fetch(`/api/admin/list-styles.json${tokenParam}`);
+                const data = await response.json();
+                
+                const styleSelect = document.getElementById('styleSelect');
+                const pushBtn = document.getElementById('pushSingleStyleBtn');
+                
+                if (data.styles && data.styles.length > 0) {
+                    styleSelect.innerHTML = '<option value="">Select a style...</option>';
+                    
+                    // Group by category
+                    const byCategory = {};
+                    data.styles.forEach(style => {
+                        if (!byCategory[style.category]) {
+                            byCategory[style.category] = [];
+                        }
+                        byCategory[style.category].push(style);
+                    });
+                    
+                    // Add options grouped by category
+                    Object.keys(byCategory).sort().forEach(category => {
+                        const optgroup = document.createElement('optgroup');
+                        optgroup.label = category.charAt(0).toUpperCase() + category.slice(1);
+                        
+                        byCategory[category].forEach(style => {
+                            const option = document.createElement('option');
+                            option.value = style.name;
+                            option.textContent = style.name;
+                            optgroup.appendChild(option);
+                        });
+                        
+                        styleSelect.appendChild(optgroup);
+                    });
+                    
+                    styleSelect.addEventListener('change', () => {
+                        pushBtn.disabled = !styleSelect.value;
+                    });
+                } else {
+                    styleSelect.innerHTML = '<option value="">No styles found</option>';
+                }
+            } catch (error) {
+                console.error('Failed to load styles:', error);
+                document.getElementById('styleSelect').innerHTML = '<option value="">Failed to load</option>';
+            }
+        }
+
+        // Push individual type or style
+        window.pushIndividual = function(type) {
+            if (type === 'type') {
+                const typeSelect = document.getElementById('typeSelect');
+                const selectedType = typeSelect.value;
+                if (!selectedType) return;
+                
+                executeIndividualCommand('push-type', selectedType, 'type');
+            } else if (type === 'style') {
+                const styleSelect = document.getElementById('styleSelect');
+                const selectedStyle = styleSelect.value;
+                if (!selectedStyle) return;
+                
+                executeIndividualCommand('push-style', selectedStyle, 'style');
+            }
+        }
+
+        function executeIndividualCommand(command, name, type) {
+            // Disable all buttons
+            const allButtons = [
+                'pushTypesBtn', 'pushStylesBtn', 
+                'pushSingleTypeBtn', 'pushSingleStyleBtn'
+            ];
+            allButtons.forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) btn.disabled = true;
+            });
+            
+            const btn = document.getElementById(type === 'type' ? 'pushSingleTypeBtn' : 'pushSingleStyleBtn');
+            const spinner = btn.querySelector('.loading');
+            spinner.classList.remove('hidden');
+            
+            const terminalContent = document.getElementById('terminalContent');
+            const executionInfo = document.getElementById('executionInfo');
+            const elapsedTime = document.getElementById('elapsedTime');
+            
+            // Clear terminal and show executing message
+            const commandText = type === 'type' ? `yarn type:push ${name}` : `yarn style:push ${name}`;
+            terminalContent.innerHTML = `<div><code>$ ${commandText}</code></div>`;
+            
+            // Start timer
+            startTime = Date.now();
+            executionInfo.classList.remove('hidden');
+            timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                elapsedTime.textContent = elapsed;
+            }, 1000);
+            
+            // Close existing connection if any
+            if (eventSource) {
+                eventSource.close();
+            }
+            
+            // Get token if present
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+            const tokenParam = token ? `token=${encodeURIComponent(token)}&` : '';
+            const param = type === 'type' ? `type=${encodeURIComponent(name)}` : `style=${encodeURIComponent(name)}`;
+            
+            // Create new EventSource connection
+            eventSource = new EventSource(`/api/admin/stream/${command}?${tokenParam}${param}`);
+            
+            eventSource.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                
+                if (data.type === 'log') {
+                    appendLog(data.message, data.level);
+                } else if (data.type === 'complete') {
+                    handleIndividualComplete(type, data.success, data.message);
+                } else if (data.type === 'error') {
+                    appendLog(data.message, 'error');
+                }
+            };
+            
+            eventSource.onerror = (error) => {
+                console.error('SSE Error:', error);
+                handleIndividualComplete(type, false, 'Connection error occurred');
+                eventSource.close();
+            };
+        }
+
+        function handleIndividualComplete(type, success, message) {
+            // Stop timer
+            clearInterval(timerInterval);
+            const executionInfo = document.getElementById('executionInfo');
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            
+            // Update status
+            const statusEl = document.getElementById(type === 'type' ? 'typesStatus' : 'stylesStatus');
+            statusEl.textContent = success 
+                ? `✅ Success (${elapsed}s)` 
+                : `❌ Failed (${elapsed}s)`;
+            statusEl.className = success ? 'text-success text-sm mt-2 block' : 'text-error text-sm mt-2 block';
+            
+            // Log completion
+            appendLog(`Command completed in ${elapsed} seconds`, success ? 'success' : 'error');
+            if (message) {
+                appendLog(message, success ? 'success' : 'error');
+            }
+            
+            // Re-enable buttons and hide spinner
+            const allButtons = [
+                'pushTypesBtn', 'pushStylesBtn'
+            ];
+            allButtons.forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) btn.disabled = false;
+            });
+            
+            // Re-enable individual buttons based on dropdown selection
+            const typeSelect = document.getElementById('typeSelect');
+            const styleSelect = document.getElementById('styleSelect');
+            const pushTypeBtn = document.getElementById('pushSingleTypeBtn');
+            const pushStyleBtn = document.getElementById('pushSingleStyleBtn');
+            
+            pushTypeBtn.disabled = !typeSelect.value;
+            pushStyleBtn.disabled = !styleSelect.value;
+            
+            const btn = document.getElementById(type === 'type' ? 'pushSingleTypeBtn' : 'pushSingleStyleBtn');
+            const spinner = btn.querySelector('.loading');
+            spinner.classList.add('hidden');
+            
+            executionInfo.classList.add('hidden');
+            
+            // Close EventSource
+            if (eventSource) {
+                eventSource.close();
+                eventSource = null;
+            }
+        }
+
+        window.executeCommand = function(command) {
+            // Disable all buttons
+            const allButtons = [
+                'pushTypesBtn', 'pushStylesBtn', 
+                'pushSingleTypeBtn', 'pushSingleStyleBtn'
+            ];
+            allButtons.forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) btn.disabled = true;
+            });
+            
+            const pushTypesBtn = document.getElementById('pushTypesBtn');
+            const pushStylesBtn = document.getElementById('pushStylesBtn');
+            const terminal = document.getElementById('terminal');
+            const terminalContent = document.getElementById('terminalContent');
+            const executionInfo = document.getElementById('executionInfo');
+            const elapsedTime = document.getElementById('elapsedTime');
+            
+            // Show loading spinner on the clicked button
+            const btn = command === 'push-types' ? pushTypesBtn : pushStylesBtn;
+            const spinner = btn.querySelector('.loading');
+            spinner.classList.remove('hidden');
+            
+            // Clear terminal and show executing message
+            terminalContent.innerHTML = `<div><code>$ yarn ${command.replace('-', ':')}</code></div>`;
+            
+            // Start timer
+            startTime = Date.now();
+            executionInfo.classList.remove('hidden');
+            timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                elapsedTime.textContent = elapsed;
+            }, 1000);
+            
+            // Close existing connection if any
+            if (eventSource) {
+                eventSource.close();
+            }
+            
+            // Get token if present
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+            const tokenParam = token ? `?token=${encodeURIComponent(token)}` : '';
+            
+            // Create new EventSource connection
+            eventSource = new EventSource(`/api/admin/stream/${command}${tokenParam}`);
+            
+            eventSource.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                
+                if (data.type === 'log') {
+                    appendLog(data.message, data.level);
+                } else if (data.type === 'complete') {
+                    handleComplete(command, data.success, data.message);
+                } else if (data.type === 'error') {
+                    appendLog(data.message, 'error');
+                }
+            };
+            
+            eventSource.onerror = (error) => {
+                console.error('SSE Error:', error);
+                handleComplete(command, false, 'Connection error occurred');
+                eventSource.close();
+            };
+        }
+
+        window.appendLog = function(message, level = 'info') {
+            const terminalContent = document.getElementById('terminalContent');
+            const timestamp = new Date().toLocaleTimeString();
+            
+            let colorClass = '';
+            let prefix = '';
+            
+            switch(level) {
+                case 'error':
+                    colorClass = 'text-error';
+                    prefix = '❌';
+                    break;
+                case 'success':
+                    colorClass = 'text-success';
+                    prefix = '✅';
+                    break;
+                case 'warning':
+                    colorClass = 'text-warning';
+                    prefix = '⚠️';
+                    break;
+                default:
+                    colorClass = '';
+                    prefix = '';
+            }
+            
+            // Create a div for each log line
+            const logDiv = document.createElement('div');
+            logDiv.innerHTML = `<code class="${colorClass}">[${timestamp}] ${prefix} ${escapeHtml(message)}</code>`;
+            terminalContent.appendChild(logDiv);
+            
+            if (autoScroll) {
+                const terminal = document.getElementById('terminal');
+                terminal.scrollTop = terminal.scrollHeight;
+            }
+        }
+
+        window.handleComplete = function(command, success, message) {
+            // Stop timer
+            clearInterval(timerInterval);
+            const executionInfo = document.getElementById('executionInfo');
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            
+            // Update status
+            const statusEl = command === 'push-types' 
+                ? document.getElementById('typesStatus') 
+                : document.getElementById('stylesStatus');
+            
+            statusEl.textContent = success 
+                ? `✅ Success (${elapsed}s)` 
+                : `❌ Failed (${elapsed}s)`;
+            statusEl.className = success ? 'text-success text-sm' : 'text-error text-sm';
+            
+            // Log completion
+            appendLog(`Command completed in ${elapsed} seconds`, success ? 'success' : 'error');
+            if (message) {
+                appendLog(message, success ? 'success' : 'error');
+            }
+            
+            // Re-enable bulk buttons and hide spinner
+            const pushTypesBtn = document.getElementById('pushTypesBtn');
+            const pushStylesBtn = document.getElementById('pushStylesBtn');
+            pushTypesBtn.disabled = false;
+            pushStylesBtn.disabled = false;
+            
+            // Re-enable individual buttons based on dropdown selection
+            const typeSelect = document.getElementById('typeSelect');
+            const styleSelect = document.getElementById('styleSelect');
+            const pushTypeBtn = document.getElementById('pushSingleTypeBtn');
+            const pushStyleBtn = document.getElementById('pushSingleStyleBtn');
+            
+            pushTypeBtn.disabled = !typeSelect.value;
+            pushStyleBtn.disabled = !styleSelect.value;
+            
+            const btn = command === 'push-types' ? pushTypesBtn : pushStylesBtn;
+            const spinner = btn.querySelector('.loading');
+            spinner.classList.add('hidden');
+            
+            executionInfo.classList.add('hidden');
+            
+            // Close EventSource
+            if (eventSource) {
+                eventSource.close();
+                eventSource = null;
+            }
+        }
+
+        window.clearLogs = function() {
+            const terminalContent = document.getElementById('terminalContent');
+            terminalContent.innerHTML = '<div><code>$ Ready to execute commands...</code></div>';
+        }
+
+        window.copyLogs = function() {
+            const terminalContent = document.getElementById('terminalContent');
+            const text = terminalContent.textContent || terminalContent.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                // Show toast or feedback
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        window.escapeHtml = function(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+    </script>
+</AdminLayout>

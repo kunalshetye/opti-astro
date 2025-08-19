@@ -143,6 +143,14 @@ If you need external preview functionality:
 - **Purpose**: Private key for Optimizely Data Platform
 - **Security**: ⚠️ **Keep this secure!**
 
+### ADMIN_DASHBOARD_TOKEN
+- **Type**: String
+- **Access**: Secret (server-side only)
+- **Purpose**: Authentication token for admin dashboard access
+- **Security**: ⚠️ **Keep this secure!**
+- **Usage**: Access dashboard at `/admin?token=YOUR_TOKEN_HERE`
+- **Note**: Only required in production. Dashboard is accessible without token in development
+
 
 ## 🚀 Development vs Production
 
