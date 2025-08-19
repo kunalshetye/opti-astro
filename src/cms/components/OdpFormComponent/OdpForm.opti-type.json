@@ -17,7 +17,7 @@
 			"displayName": "Selector Type",
 			"description": "Choose whether to target by ID or CSS class",
 			"localized": false,
-			"required": false,
+			"required": true,
 			"group": "Content",
 			"sortOrder": 10,
 			"editorSettings": {},
