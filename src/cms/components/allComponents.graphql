@@ -18,4 +18,5 @@ fragment AllComponentsExceptGrid on _IComponent {
     ...Iframe
     ...VideoExternal
     ...Divider
+    ...OdpForm
 }
