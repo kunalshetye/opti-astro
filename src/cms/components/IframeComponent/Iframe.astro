@@ -23,7 +23,7 @@ const settings: Record<string, string> =
     getDictionaryFromDisplaySettings(displaySettings);
 
  const allWidths : { [key: string]: any } = 
-    {'w-full': '',
+    {'w-full': 'w-full',
     'w-1/4': 'md:w-1/4',
     'w-1/3': 'md:w-1/3',
     'w-1/2': 'md:w-1/2',
@@ -33,9 +33,10 @@ const settings: Record<string, string> =
 
 const width = allWidths[data?.Width || ''] || '';
 
+console.log('iframe width', width)
 ---
 
-<div class={`mb-3`} data-epi-block-id={isCmsEdit && key || undefined}>
-    <iframe class=`w-full ${width} border-0` height={data?.ManualHeight} src={data?.IframePageUrl} title={data?.Title} allow="" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<div class={`mb-3 w-full`} data-epi-block-id={isCmsEdit && key || undefined}>
+    <iframe class=`border-0 ${width}` height={data?.ManualHeight} src={data?.IframePageUrl} title={data?.Title} allow="" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </div>
 

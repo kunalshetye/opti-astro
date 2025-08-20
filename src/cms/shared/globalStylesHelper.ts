@@ -50,6 +50,11 @@ export function getGlobalStyles(component:
         | undefined
         | null) {
 
+    // Handle null or undefined component
+    if (!component) {
+        return [];
+    }
+
     var settings;
     if ((component as CompositionStructureNode).displaySettings) {
         settings = (component as CompositionStructureNode).displaySettings as DisplaySettingsFragment[]
