@@ -16,12 +16,13 @@ export const GET: APIRoute = async ({ request }) => {
         const __filename = fileURLToPath(import.meta.url);
         const __dirname = path.dirname(__filename);
         const projectRoot = path.resolve(__dirname, '../../../../');
-        const cmsPath = path.join(projectRoot, 'src/cms');
 
-        // Find all *.opti-type.json files
-        const typeFiles = await fg(`${cmsPath}/**/*.opti-type.json`, {
-            absolute: false,
+        // Use fast-glob with proper cross-platform configuration
+        const typeFiles = await fg('src/cms/**/*.opti-type.json', {
             cwd: projectRoot,
+            absolute: false,
+            onlyFiles: true,
+            dot: false
         });
 
         // Extract type names from file paths

@@ -16,12 +16,13 @@ export const GET: APIRoute = async ({ request }) => {
         const __filename = fileURLToPath(import.meta.url);
         const __dirname = path.dirname(__filename);
         const projectRoot = path.resolve(__dirname, '../../../../');
-        const cmsPath = path.join(projectRoot, 'src/cms');
 
-        // Find all *.opti-style.json files
-        const styleFiles = await fg(`${cmsPath}/**/*.opti-style.json`, {
-            absolute: false,
+        // Use fast-glob with proper cross-platform configuration
+        const styleFiles = await fg('src/cms/**/*.opti-style.json', {
             cwd: projectRoot,
+            absolute: false,
+            onlyFiles: true,
+            dot: false
         });
 
         // Extract style names from file paths

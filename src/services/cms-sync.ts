@@ -40,12 +40,16 @@ function createCMSClient() {
 // Utility functions
 async function findFiles(pattern: string, baseDir?: string): Promise<string[]> {
     try {
-        const searchDir = baseDir || path.resolve('src/cms');
-        // Convert to forward slashes for fast-glob (cross-platform compatibility)
-        const normalizedSearchDir = searchDir.replace(/\\/g, '/');
-        const files = await fg(`${normalizedSearchDir}/**/${pattern}`, {
+        const projectRoot = process.cwd();
+        const searchPattern = baseDir ? `${baseDir}/**/${pattern}` : `src/cms/**/${pattern}`;
+        
+        const files = await fg(searchPattern, {
+            cwd: projectRoot,
             absolute: true,
+            onlyFiles: true,
+            dot: false
         });
+        
         return files;
     } catch (error) {
         console.error('Error finding files:', error);
