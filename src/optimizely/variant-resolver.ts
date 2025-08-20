@@ -97,15 +97,15 @@ export async function resolveContentVariant(
             updateContentInfo(debugInfo, { 
                 decision: {
                     enabled: decision?.enabled || false,
-                    variationKey: decision?.variationKey,
+                    variationKey: decision?.variables?.VariationKey,
                     flagKey: decision?.flagKey,
                     ruleKey: decision?.ruleKey,
                     reasons: decision?.reasons || []
                 }
             });
             
-            if (decision?.enabled && decision?.variationKey) {
-                variantKey = decision.variationKey;
+            if (decision?.enabled && decision?.variables?.VariationKey) {
+                variantKey = decision.variables?.VariationKey;
                 
                 updateContentInfo(debugInfo, { variantRequested: variantKey });
                 
