@@ -327,7 +327,8 @@ export async function resolveContentWithFallback(
     urlBase: string,
     urlPath: string,
     requestedLocale: string,
-    enableDebugLogs: boolean = false
+    enableDebugLogs: boolean = false,
+    variantKey?: string | null
 ): Promise<{
     contentResponse: any;
     actualLocaleUsed: string;
@@ -338,20 +339,49 @@ export async function resolveContentWithFallback(
     // First, try to get content in the requested locale
     let contentByPathResponse;
     try {
-        if (enableDebugLogs) {
-            console.log(`🔍 Initial query: locale=${requestedLocale}, url=${urlPath}`);
+        // Always log variant queries for debugging
+        const shouldLogVariant = variantKey !== null && variantKey !== undefined;
+        if (enableDebugLogs || shouldLogVariant) {
+            console.log(`[GraphQL] 🔍 Initial query: locale=${requestedLocale}, url=${urlPath}, variant=${variantKey || 'none'}`);
         }
-        contentByPathResponse = await getOptimizelySdk(contentPayload).contentByPath({
-            base: urlBase,
-            url: urlPath,
-            urlNoSlash: urlPathNoSlash
-        });
-        if (enableDebugLogs) {
-            console.log(`📊 Initial response: key=${contentByPathResponse._Content?.item?._metadata?.key}, ver=${contentByPathResponse._Content?.item?._metadata?.version}`);
+        
+        // Use variant query if variantKey is provided
+        if (variantKey) {
+            console.log(`[GraphQL Variant] Executing contentByPathVariant query with:`, {
+                base: urlBase,
+                url: urlPath,
+                urlNoSlash: urlPathNoSlash,
+                variation: variantKey,
+                locale: contentPayload.loc
+            });
+            
+            contentByPathResponse = await getOptimizelySdk(contentPayload).contentByPathVariant({
+                base: urlBase,
+                url: urlPath,
+                urlNoSlash: urlPathNoSlash,
+                variation: variantKey
+            });
+            
+            console.log(`[GraphQL Variant] Response received:`, {
+                hasContent: !!contentByPathResponse._Content?.item,
+                key: contentByPathResponse._Content?.item?._metadata?.key,
+                variation: contentByPathResponse._Content?.item?._metadata?.variation,
+                locale: contentByPathResponse._Content?.item?._metadata?.locale
+            });
+        } else {
+            contentByPathResponse = await getOptimizelySdk(contentPayload).contentByPath({
+                base: urlBase,
+                url: urlPath,
+                urlNoSlash: urlPathNoSlash
+            });
+        }
+        
+        if (enableDebugLogs || shouldLogVariant) {
+            console.log(`[GraphQL] 📊 Initial response: key=${contentByPathResponse._Content?.item?._metadata?.key}, ver=${contentByPathResponse._Content?.item?._metadata?.version}, variant=${contentByPathResponse._Content?.item?._metadata?.variation || 'none'}`);
         }
     } catch (error) {
-        if (enableDebugLogs) {
-            console.log(`❌ Initial query failed for ${requestedLocale}`);
+        if (enableDebugLogs || variantKey) {
+            console.log(`[GraphQL] ❌ Initial query failed for ${requestedLocale}`, error);
         }
         contentByPathResponse = { _Content: null };
     }
@@ -388,20 +418,28 @@ export async function resolveContentWithFallback(
         const fallbackUrlPath = getRelativeLocaleUrl(fallbackLocale, pathWithoutLocale);
         const fallbackUrlPathNoSlash = fallbackUrlPath.replace(/\/$/, '');
         
-        if (enableDebugLogs) {
-            console.log(`🔄 Trying fallback: locale=${fallbackLocale}, url=${fallbackUrlPath}`);
+        if (enableDebugLogs || variantKey) {
+            console.log(`[GraphQL] 🔄 Trying fallback: locale=${fallbackLocale}, url=${fallbackUrlPath}, variant=${variantKey || 'none'}`);
         }
         
         try {
-            const fallbackResponse = await getOptimizelySdk(fallbackPayload).contentByPath({
-                base: urlBase,
-                url: fallbackUrlPath,
-                urlNoSlash: fallbackUrlPathNoSlash
-            });
+            // Use variant query if variantKey is provided
+            const fallbackResponse = variantKey
+                ? await getOptimizelySdk(fallbackPayload).contentByPathVariant({
+                    base: urlBase,
+                    url: fallbackUrlPath,
+                    urlNoSlash: fallbackUrlPathNoSlash,
+                    variation: variantKey
+                })
+                : await getOptimizelySdk(fallbackPayload).contentByPath({
+                    base: urlBase,
+                    url: fallbackUrlPath,
+                    urlNoSlash: fallbackUrlPathNoSlash
+                });
             
             if (fallbackResponse._Content?.item?._metadata?.key) {
-                if (enableDebugLogs) {
-                    console.log(`📊 Fallback successful: locale=${fallbackLocale}, key=${fallbackResponse._Content.item._metadata.key}`);
+                if (enableDebugLogs || variantKey) {
+                    console.log(`[GraphQL] 📊 Fallback successful: locale=${fallbackLocale}, key=${fallbackResponse._Content.item._metadata.key}, variant=${fallbackResponse._Content.item._metadata.variation || 'none'}`);
                 }
                 return {
                     contentResponse: fallbackResponse,
@@ -410,8 +448,8 @@ export async function resolveContentWithFallback(
                 };
             }
         } catch (error) {
-            if (enableDebugLogs) {
-                console.log(`❌ Fallback failed for ${fallbackLocale}`);
+            if (enableDebugLogs || variantKey) {
+                console.log(`[GraphQL] ❌ Fallback failed for ${fallbackLocale}:`, error);
             }
         }
     }

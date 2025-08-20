@@ -5,12 +5,21 @@ import Experiences from '../cms/experiences/_Experiences.astro';
 import Pages from '../cms/pages/_Pages.astro';
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
+import { 
+    initFXDebugSession, 
+    updateContentInfo, 
+    addDebugError 
+} from '../optimizely/debug';
+import { resolveContentVariant } from '../optimizely/variant-resolver';
 
 import { getCurrentLocale, getRelativeLocaleUrl, localeToSdkLocale, resolveContentWithFallback } from '../lib/locale-utils';
 
 Astro.response.headers.set('Content-Type', 'text/html; charset=UTF-8');
 
 const lang = getCurrentLocale(Astro);
+
+// Initialize debug session
+const debugInfo = initFXDebugSession(Astro.url.toString(), lang);
 
 const ctx = 'view';
 
@@ -27,25 +36,64 @@ const urlPath = `${Astro.url.pathname.replace(/\/$/, '')}/`;
 const urlPathNoSlash = `${Astro.url.pathname.replace(/\/$/, '')}`;
 const urlBase = Astro.url.origin;
 
-// Use the helper function to resolve content with fallback
+// Use the helper function to resolve content with fallback first to get the default item
 contentPayload.loc = localeToSdkLocale(lang) as Locales;
 
-const fallbackResult = await resolveContentWithFallback(
+const defaultFallbackResult = await resolveContentWithFallback(
     getOptimizelySdk,
     contentPayload,
     urlBase,
     urlPath,
     lang,
-    false // Disable debug logs for production
+    false, // No debug logs for default content fetch
+    null // No variant for default content
 );
 
+if (defaultFallbackResult.shouldRedirect404) {
+    addDebugError(debugInfo, 'No default content found for URL');
+    return Astro.redirect(getRelativeLocaleUrl(lang, '/404'), 404);
+}
+
+const defaultItem = defaultFallbackResult.contentResponse._Content.item;
+
+updateContentInfo(debugInfo, {
+    defaultKey: defaultItem?._metadata?.key
+});
+
+// Resolve content variant using FX SDK
+const variantResult = await resolveContentVariant(
+    Astro,
+    defaultItem,
+    contentPayload,
+    getOptimizelySdk,
+    urlBase,
+    urlPath,
+    lang,
+    defaultFallbackResult,
+    debugInfo
+);
+
+const fallbackResult = {
+    contentResponse: variantResult.contentResponse,
+    actualLocaleUsed: variantResult.actualLocaleUsed,
+    shouldRedirect404: false
+};
+
 if (fallbackResult.shouldRedirect404) {
+    addDebugError(debugInfo, 'No content found after fallback');
     return Astro.redirect(getRelativeLocaleUrl(lang, '/404'), 404);
 }
 
 const contentByPathResponse = fallbackResult.contentResponse;
 const actualLocaleUsed = fallbackResult.actualLocaleUsed;
 const item = contentByPathResponse._Content.item;
+
+// Update final debug info
+updateContentInfo(debugInfo, { 
+    finalContentKey: item?._metadata?.key,
+    isVariantContent: variantResult.isVariantContent 
+});
+
 if (!item?._metadata) {
     throw new Error('Metadata is missing in the content item');
 }

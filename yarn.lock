@@ -3531,6 +3531,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@optimizely/optimizely-sdk@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "@optimizely/optimizely-sdk@npm:6.0.0"
+  dependencies:
+    decompress-response: "npm:^7.0.0"
+    json-schema: "npm:^0.4.0"
+    murmurhash: "npm:^2.0.1"
+    uuid: "npm:^10.0.0"
+  peerDependencies:
+    "@react-native-async-storage/async-storage": ">=1.0.0 <3.0.0"
+    "@react-native-community/netinfo": ">=5.0.0 <12.0.0"
+    fast-text-encoding: ^1.0.6
+    react-native-get-random-values: ^1.11.0
+    ua-parser-js: ^1.0.38
+  peerDependenciesMeta:
+    "@react-native-async-storage/async-storage":
+      optional: true
+    "@react-native-community/netinfo":
+      optional: true
+    fast-text-encoding:
+      optional: true
+    react-native-get-random-values:
+      optional: true
+    ua-parser-js:
+      optional: true
+  checksum: 10c0/293986913a6f3e9a752d116029a776ba915b1e85d9d326b66a848b15302c1fafc2d21a5c2ba2bafe1cc751e40c9bcd371f7b22dc89f090d8acc4700eb8abede3
+  languageName: node
+  linkType: hard
+
 "@oslojs/encoding@npm:^1.1.0":
   version: 1.1.0
   resolution: "@oslojs/encoding@npm:1.1.0"
@@ -6310,6 +6339,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"decompress-response@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "decompress-response@npm:7.0.0"
+  dependencies:
+    mimic-response: "npm:^3.1.0"
+  checksum: 10c0/925d5a34c9ae2c5026748feff4cbf1310b044be31618b188f1fe9f4ddfda4e013ebeeb0a7ec6d251095542ed3b3b879dac168e54cc65e5a82fb88ea0b287a788
+  languageName: node
+  linkType: hard
+
 "deepmerge@npm:^4.2.2":
   version: 4.3.1
   resolution: "deepmerge@npm:4.3.1"
@@ -8816,6 +8854,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"json-schema@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "json-schema@npm:0.4.0"
+  checksum: 10c0/d4a637ec1d83544857c1c163232f3da46912e971d5bf054ba44fdb88f07d8d359a462b4aec46f2745efbc57053365608d88bc1d7b1729f7b4fc3369765639ed3
+  languageName: node
+  linkType: hard
+
 "json-to-pretty-yaml@npm:^1.2.2":
   version: 1.2.2
   resolution: "json-to-pretty-yaml@npm:1.2.2"
@@ -10026,6 +10071,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mimic-response@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "mimic-response@npm:3.1.0"
+  checksum: 10c0/0d6f07ce6e03e9e4445bee655202153bdb8a98d67ee8dc965ac140900d7a2688343e6b4c9a72cfc9ef2f7944dfd76eef4ab2482eb7b293a68b84916bac735362
+  languageName: node
+  linkType: hard
+
 "miniflare@npm:4.20250813.1":
   version: 4.20250813.1
   resolution: "miniflare@npm:4.20250813.1"
@@ -10225,6 +10277,13 @@ __metadata:
   version: 9.9.0
   resolution: "multiformats@npm:9.9.0"
   checksum: 10c0/1fdb34fd2fb085142665e8bd402570659b50a5fae5994027e1df3add9e1ce1283ed1e0c2584a5c63ac0a58e871b8ee9665c4a99ca36ce71032617449d48aa975
+  languageName: node
+  linkType: hard
+
+"murmurhash@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "murmurhash@npm:2.0.1"
+  checksum: 10c0/f6c7cb12d6ebc9c1cfd232fe9406089e1ceb128d24245e852866ba28967271925d915140f77fef7c92ee29b13165f4537ce80a85c3d0550b1b5cdb9f8bcaa19f
   languageName: node
   linkType: hard
 
@@ -10608,6 +10667,7 @@ __metadata:
     "@graphql-codegen/typescript-generic-sdk": "npm:^4.0.1"
     "@graphql-codegen/typescript-graphql-request": "npm:6.2.0"
     "@graphql-codegen/typescript-operations": "npm:^4.5.1"
+    "@optimizely/optimizely-sdk": "npm:^6.0.0"
     "@parcel/watcher": "npm:^2.5.1"
     "@remkoj/optimizely-cms-api": "npm:^4.3.1"
     "@rollup/plugin-commonjs": "npm:^28.0.3"
@@ -13466,6 +13526,15 @@ __metadata:
   version: 1.0.2
   resolution: "util-deprecate@npm:1.0.2"
   checksum: 10c0/41a5bdd214df2f6c3ecf8622745e4a366c4adced864bc3c833739791aeeeb1838119af7daed4ba36428114b5c67dcda034a79c882e97e43c03e66a4dd7389942
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "uuid@npm:10.0.0"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 10c0/eab18c27fe4ab9fb9709a5d5f40119b45f2ec8314f8d4cf12ce27e4c6f4ffa4a6321dc7db6c515068fa373c075b49691ba969f0010bf37f44c37ca40cd6bf7fe
   languageName: node
   linkType: hard
 
