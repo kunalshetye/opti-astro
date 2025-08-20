@@ -9,6 +9,18 @@ export interface AuthCredentials {
 }
 
 /**
+ * Check if admin credentials are configured
+ * Returns true only if both username and password are set
+ */
+export function isAdminConfigured(): boolean {
+    const adminUsername = import.meta.env.ADMIN_DASHBOARD_USERNAME;
+    const adminPassword = import.meta.env.ADMIN_DASHBOARD_PASSWORD;
+    
+    // Both username and password must be set
+    return !!(adminUsername && adminPassword);
+}
+
+/**
  * Parse Basic Authentication header
  */
 function parseBasicAuth(authHeader: string | null): AuthCredentials | null {
@@ -28,24 +40,21 @@ function parseBasicAuth(authHeader: string | null): AuthCredentials | null {
 /**
  * Check admin authentication for a request
  * Uses HTTP Basic Authentication
+ * Returns 404 if credentials aren't configured
  */
 export function checkAdminAuth(request: Request): Response | null {
-    // Get auth credentials from environment
-    const adminUsername = import.meta.env.ADMIN_USERNAME || 'admin';
-    const adminPassword = import.meta.env.ADMIN_PASSWORD;
-    
-    // Skip authentication in development if no password is set
-    if (!adminPassword && !import.meta.env.PROD) {
-        return null;
-    }
-    
-    // Require password in production or when explicitly set
-    if (!adminPassword) {
-        return new Response('Admin dashboard requires ADMIN_PASSWORD environment variable to be set', {
-            status: 500,
+    // First check if admin is configured
+    if (!isAdminConfigured()) {
+        // Return 404 to hide the existence of the admin dashboard
+        return new Response('Not found', {
+            status: 404,
             headers: { 'Content-Type': 'text/plain' }
         });
     }
+    
+    // Get auth credentials from environment
+    const adminUsername = import.meta.env.ADMIN_DASHBOARD_USERNAME || 'admin';
+    const adminPassword = import.meta.env.ADMIN_DASHBOARD_PASSWORD;
     
     // Check Basic Auth header
     const authHeader = request.headers.get('authorization');
@@ -71,6 +80,7 @@ export function checkAdminAuth(request: Request): Response | null {
 
 /**
  * Middleware function for admin API routes
+ * Returns 404 if credentials aren't configured
  */
 export function requireAdminAuth(request: Request): Response | null {
     return checkAdminAuth(request);

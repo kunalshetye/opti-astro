@@ -33,9 +33,10 @@ https://your-domain.com/admin
 ### 1. Set Up Authentication
 Add the following to your `.env` file:
 ```bash
-# HTTP Basic Authentication (required in production)
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=your-secure-password-here
+# HTTP Basic Authentication
+# If not configured, the admin dashboard will return 404
+ADMIN_DASHBOARD_USERNAME=admin
+ADMIN_DASHBOARD_PASSWORD=your-secure-password-here
 ```
 
 ### 2. Ensure CMS Credentials Are Set
@@ -79,14 +80,14 @@ OPTIMIZELY_CMS_URL=https://app-your-instance.cms.optimizely.com/
 The admin dashboard uses **HTTP Basic Authentication** for secure access.
 
 #### HTTP Basic Authentication
-- **Environment Variables**: `ADMIN_USERNAME` (default: "admin") and `ADMIN_PASSWORD`
+- **Environment Variables**: `ADMIN_DASHBOARD_USERNAME` (default: "admin") and `ADMIN_DASHBOARD_PASSWORD`
 - **User Experience**: Browser shows native login dialog
 - **Security**: Standard HTTP Basic Auth with Base64 encoding
 - **Compatibility**: Works on all hosting platforms (Vercel, Netlify, etc.)
 
 ### Authentication Flow
-1. **Development**: No authentication required if `ADMIN_PASSWORD` is not set (convenient for local development)
-2. **Production**: 
+1. **If credentials not configured**: Returns 404 Not Found (hides admin dashboard existence)
+2. **If credentials configured**: 
    - User visits `/admin`
    - Browser prompts for username/password
    - Credentials verified against environment variables
@@ -138,9 +139,10 @@ The admin dashboard uses **HTTP Basic Authentication** for secure access.
 - Look for errors in server logs
 
 ### Authentication Issues
-- Ensure `ADMIN_PASSWORD` is set in production
+- Ensure both `ADMIN_DASHBOARD_USERNAME` and `ADMIN_DASHBOARD_PASSWORD` are set
+- If not set, the dashboard will return 404 to hide its existence
 - Verify browser prompts for username/password
-- Check credentials match environment variables (`ADMIN_USERNAME` and `ADMIN_PASSWORD`)
+- Check credentials match environment variables (`ADMIN_DASHBOARD_USERNAME` and `ADMIN_DASHBOARD_PASSWORD`)
 - Try clearing browser cache/cookies
 - Verify environment variables are properly loaded in your hosting platform
 

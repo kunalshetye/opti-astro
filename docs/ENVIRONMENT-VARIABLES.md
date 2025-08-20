@@ -143,20 +143,22 @@ If you need external preview functionality:
 - **Purpose**: Private key for Optimizely Data Platform
 - **Security**: ⚠️ **Keep this secure!**
 
-### ADMIN_USERNAME
+### ADMIN_DASHBOARD_USERNAME
 - **Type**: String
 - **Access**: Secret (server-side only)
 - **Default**: `admin`
 - **Purpose**: Username for HTTP Basic Authentication to admin dashboard
 - **Security**: ⚠️ **Keep this secure!**
+- **Note**: If not configured along with password, admin dashboard returns 404
 
-### ADMIN_PASSWORD
+### ADMIN_DASHBOARD_PASSWORD
 - **Type**: String
 - **Access**: Secret (server-side only)
 - **Purpose**: Password for HTTP Basic Authentication to admin dashboard
 - **Security**: ⚠️ **Keep this secure!**
-- **Requirement**: Required in production, optional in development
+- **Requirement**: Both username and password must be set for admin dashboard to be accessible
 - **Usage**: Enables Basic Auth protection for /admin route and all admin APIs
+- **Note**: If not configured, admin dashboard returns 404 to hide its existence
 
 
 ## 🚀 Development vs Production

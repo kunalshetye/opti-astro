@@ -118,3 +118,4 @@ Comprehensive documentation is available in the `docs/` folder:
 1. **Setup**: Configure environment variables (see docs/ENVIRONMENT-VARIABLES.md)
 2. **Locales**: Understand the internationalization system (see docs/LOCALE-CONFIG.md)
 3. **Layouts**: Master the CMS layout tools (see docs/ROW-COLUMN-LAYOUT-GUIDE.md)
+- Update the documentation under the docs folder when changing things to make sure that the documentation stays in sync
