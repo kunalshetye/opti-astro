@@ -30,9 +30,10 @@ export const GET: APIRoute = async ({ request }) => {
             // Remove .opti-style.json extension to get the style name
             const styleName = fileName.replace('.opti-style.json', '');
             
-            // Get the relative path for categorization
-            const relativePath = file.replace('src/cms/', '');
-            const category = path.dirname(relativePath).split('/')[0] || 'other';
+            // Get the relative path for categorization - cross-platform compatible
+            const cmsRelativePath = path.join('src', 'cms');
+            const relativePath = path.relative(cmsRelativePath, file);
+            const category = relativePath.split(path.sep)[0] || 'other';
             
             return {
                 name: styleName,

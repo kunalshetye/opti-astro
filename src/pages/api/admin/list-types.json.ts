@@ -30,9 +30,10 @@ export const GET: APIRoute = async ({ request }) => {
             // Remove .opti-type.json extension to get the type name
             const typeName = fileName.replace('.opti-type.json', '');
             
-            // Get the relative path for categorization
-            const relativePath = file.replace('src/cms/', '');
-            const category = path.dirname(relativePath).split('/')[0] || 'other';
+            // Get the relative path for categorization - cross-platform compatible
+            const cmsRelativePath = path.join('src', 'cms');
+            const relativePath = path.relative(cmsRelativePath, file);
+            const category = relativePath.split(path.sep)[0] || 'other';
             
             return {
                 name: typeName,

@@ -41,7 +41,9 @@ function createCMSClient() {
 async function findFiles(pattern: string, baseDir?: string): Promise<string[]> {
     try {
         const searchDir = baseDir || path.resolve('src/cms');
-        const files = await fg(`${searchDir}/**/${pattern}`, {
+        // Convert to forward slashes for fast-glob (cross-platform compatibility)
+        const normalizedSearchDir = searchDir.replace(/\\/g, '/');
+        const files = await fg(`${normalizedSearchDir}/**/${pattern}`, {
             absolute: true,
         });
         return files;
