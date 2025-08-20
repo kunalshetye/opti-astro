@@ -13,7 +13,6 @@ export const GET: APIRoute = async ({ request }) => {
     const headers = new Headers({
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
         'X-Accel-Buffering': 'no', // Disable Nginx buffering
     });
 
