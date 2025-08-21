@@ -13,10 +13,12 @@ const isCmsPreview = isPreviewContext(Astro.url);
 
 // Get FX debug sessions from global store, plus any current session
 const storedSessions = getFXDebugSessions();
-const fxDebugSessions = debugInfo ? [debugInfo, ...storedSessions] : storedSessions;
+const allSessions = debugInfo ? [debugInfo, ...storedSessions] : storedSessions;
+// Only show the most recent session
+const fxDebugSessions = allSessions.slice(0, 1);
 ---
 
-<DevToolsPanel title="Optimizely Feature Experimentation" sectionKey="optimizelyFX" badge={fxDebugSessions.length}>
+<DevToolsPanel title="Optimizely Feature Experimentation" sectionKey="optimizelyFX" badge={fxDebugSessions.length > 0 ? 1 : 0}>
     <div class="space-y-4">
         {fxDebugSessions.length === 0 ? (
             <p class="text-sm text-base-content opacity-70 font-mono">No FX debug sessions captured yet. Navigate to different pages to see FX SDK activity.</p>
@@ -32,7 +34,7 @@ const fxDebugSessions = debugInfo ? [debugInfo, ...storedSessions] : storedSessi
                     <div class="px-4 py-2 bg-base-200 border-b border-base-300 flex justify-between items-center">
                         <div class="flex items-center gap-2">
                             <span class="text-xs font-mono text-base-content opacity-70">
-                                Session #{fxDebugSessions.length - index} - {session.timestamp.toLocaleTimeString()}
+                                Last Session - {session.timestamp.toLocaleTimeString()}
                             </span>
                             <div class="flex gap-1">
                                 {session.sdk.enabled ? (
@@ -196,10 +198,10 @@ const fxDebugSessions = debugInfo ? [debugInfo, ...storedSessions] : storedSessi
                                     <span class="badge badge-error badge-xs ml-1">{session.errors.length}</span>
                                 </button>
                                 
-                                <div x-show="errorsOpen" x-transition class="bg-error bg-opacity-10 border border-error rounded p-3 text-xs">
-                                    <ul class="list-disc list-inside space-y-1 font-mono text-error">
+                                <div x-show="errorsOpen" x-transition class="bg-base-300 border border-error rounded p-3 text-xs">
+                                    <ul class="list-disc list-inside space-y-1 font-mono text-error-content">
                                         {session.errors.map(error => (
-                                            <li>{error}</li>
+                                            <li class="text-error">{error}</li>
                                         ))}
                                     </ul>
                                 </div>

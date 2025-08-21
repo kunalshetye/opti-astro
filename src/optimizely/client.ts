@@ -11,22 +11,30 @@ import { updateSDKInfo, type FXDebugInfo } from './debug';
 export async function createOptimizelyClient(
     debugInfo?: FXDebugInfo | null
 ): Promise<OptimizelySDK | null> {
-    const sdkKey = import.meta.env.OPTIMIZELY_FX_SDK_KEY;
+    // Try both import.meta.env and process.env for better compatibility
+    const sdkKey = import.meta.env.OPTIMIZELY_FX_SDK_KEY || process.env.OPTIMIZELY_FX_SDK_KEY;
 
-    if (!sdkKey) {
+    // Check for undefined, null, empty string, or "undefined" string
+    if (!sdkKey || sdkKey === 'undefined' || sdkKey === 'null' || sdkKey.trim() === '') {
         if (debugInfo) {
             updateSDKInfo(debugInfo, {
                 enabled: false,
-                error: 'OPTIMIZELY_FX_SDK_KEY not set',
+                sdkKey: 'Not configured',
+                error: 'OPTIMIZELY_FX_SDK_KEY not set or invalid',
             });
         }
         return null;
     }
 
+    // Always show the trimmed SDK key for troubleshooting
+    const trimmedKey = sdkKey.length > 16 
+        ? sdkKey.substring(0, 12) + '...' + sdkKey.substring(sdkKey.length - 4)
+        : sdkKey.substring(0, 12) + '...';
+
     if (debugInfo) {
         updateSDKInfo(debugInfo, {
             enabled: true,
-            sdkKey: sdkKey.substring(0, 12) + '...', // Show first 12 chars for identification
+            sdkKey: trimmedKey,
         });
     }
 
@@ -65,8 +73,14 @@ export async function createOptimizelyClient(
         }
     } catch (error) {
         if (debugInfo) {
+            // Keep the SDK key visible even on error
+            const trimmedKey = sdkKey.length > 16 
+                ? sdkKey.substring(0, 12) + '...' + sdkKey.substring(sdkKey.length - 4)
+                : sdkKey.substring(0, 12) + '...';
+            
             updateSDKInfo(debugInfo, {
                 enabled: true,
+                sdkKey: trimmedKey,
                 error: error instanceof Error ? error.message : String(error),
             });
         }
