@@ -128,7 +128,7 @@ const contentKey = contentPayload.key || '';
                         // We push events to this array to signal page changes, which is the
                         // standard practice for Single-Page Applications.
                         // See: https://docs.developers.optimizely.com/web-experimentation/docs/single-page-applications-and-dynamic-websites
-                        if (window.optimizely && !pageVariationWeb) {
+                        if (window.optimizely) {
                             window.optimizely.push({ type: 'activate' });
                         }
                     });
