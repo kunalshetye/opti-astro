@@ -54,6 +54,7 @@ const siteSettings = await getOptimizelySdk(
 });
 
 const optiWebProjectId = siteSettings?.SiteSettings?.item?.OptiWebProjectId || null;
+const pageVariationWeb = Astro.url.searchParams.get('var') || null;
 
 const odpEnabled = !!OPTIMIZELY_DATA_PLATFORM_PRIVATE_KEY;
 const odpPublicKey = odpEnabled && OPTIMIZELY_DATA_PLATFORM_PRIVATE_KEY?.split('.')[0];
@@ -127,7 +128,7 @@ const contentKey = contentPayload.key || '';
                         // We push events to this array to signal page changes, which is the
                         // standard practice for Single-Page Applications.
                         // See: https://docs.developers.optimizely.com/web-experimentation/docs/single-page-applications-and-dynamic-websites
-                        if (window.optimizely) {
+                        if (window.optimizely && !pageVariationWeb) {
                             window.optimizely.push({ type: 'activate' });
                         }
                     });
