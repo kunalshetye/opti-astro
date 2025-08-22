@@ -18,7 +18,7 @@ Astro.response.headers.set('Content-Type', 'text/html; charset=UTF-8');
 
 const lang = getCurrentLocale(Astro);
 
-const pageVariationWeb = Astro.cookies.get('variation')?.value || null;
+const pageVariationWeb = Astro.url.searchParams.get('var') || null;
 
 // Initialize debug session
 const debugInfo = initFXDebugSession(Astro.url.toString(), lang);
