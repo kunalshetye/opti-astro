@@ -18,11 +18,9 @@ const localeConfig = {
 
     // Specific fallbacks for individual locales
     fallback: {
-        'de': 'en',        // German falls back to English
         'fr-CA': 'fr',     // Canadian French falls back to French
-        'nb-NO': 'en',     // Norwegian Bokmål falls back to English
         'nl-BE': 'nl',     // Belgian Dutch falls back to Dutch
-        'zh-Hans': 'en',   // Simplified Chinese falls back to English
+        'zh-Hans-HK': 'zh-Hans', // Simplified Chinese (Hong Kong) falls back to Simplified Chinese
         // Add more fallbacks as needed based on your CMS locales
     },
 
@@ -45,17 +43,19 @@ const localeConfig = {
 - **`/page`** → Default locale content
 - **`/de/page`** → German content  
 - **`/fr-CA/page`** → Canadian French content
+- **`/zh-Hans-HK/page`** → Simplified Chinese (Hong Kong) content
 - **`/any-locale/page`** → Dynamic locale support
 
 ### Locale Detection
-1. Extract locale from URL path (`/de/about` → `de`)
-2. Validate using regex pattern (supports `en`, `de`, `fr-CA`, `nb-NO`, etc.)
+1. Extract locale from URL path (`/de/about` → `de`, `/zh-Hans-HK/about` → `zh-Hans-HK`)
+2. Validate using regex pattern (supports `en`, `de`, `fr-CA`, `nb-NO`, `zh-Hans-HK`, etc.)
 3. Fall back to `defaultLocale` if no valid locale found
 
 ### GraphQL API Integration  
-- URL format: `nb-NO` (hyphens)
-- GraphQL format: `nb_NO` (underscores)
+- URL format: `nb-NO`, `zh-Hans-HK` (hyphens)
+- GraphQL format: `nb_NO`, `zh_Hans_HK` (underscores, proper casing)
 - Automatic conversion handled by `localeToSdkLocale()`
+- 3-part locales: `zh-Hans-HK` → `zh_Hans_HK` (script titlecase, region uppercase)
 
 ### Fallback Chain
 **When `enableFallback: true` (default):**
@@ -129,6 +129,7 @@ The system accepts these patterns:
 - ✅ `en`, `de`, `fr` (2-3 letters)
 - ✅ `en-US`, `fr-CA`, `nb-NO` (with region)
 - ✅ `zh-Hans`, `zh-Hant` (with script)
+- ✅ `zh-Hans-HK`, `zh-Hant-TW` (with script and region - 3-part locales)
 - ❌ `invalid123`, `x` (invalid patterns)
 
 ### Fallback Not Working
