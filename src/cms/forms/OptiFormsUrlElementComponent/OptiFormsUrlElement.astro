@@ -1,0 +1,88 @@
+---
+import type {
+    DisplaySettingsFragment,
+    OptiFormsUrlElement,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import {
+    requiredValidatorMsg,
+    regExpValidatorMsg,
+    getRegularExpression,
+} from '../formHelper';
+
+// https://daisyui.com/components/input/
+//// Style ideas:
+// Show icon
+
+export interface Props {
+    data: OptiFormsUrlElement;
+    contentPayload: ContentPayload;
+    displaySettings: DisplaySettingsFragment[];
+    Label?: string;
+    Placeholder?: string;
+    Tooltip?: string;
+    PredefinedValue?: string;
+    Validators?: any;
+}
+const { data, displaySettings } = Astro.props as Props;
+const { Label, Placeholder, Tooltip, PredefinedValue, Validators } = data;
+
+const isRequiredErrorMsg = requiredValidatorMsg(Validators);
+const isRegExpErrorMsg = regExpValidatorMsg(Validators);
+
+const regularExpressionValue = isRegExpErrorMsg
+    ? getRegularExpression(Validators)
+    : undefined;
+
+const inputId = Label?.replace(/\s+/g, '_') || `url-${Math.random().toString(36).substr(2, 4)}`;
+
+// Add error IDs and ARIA support
+const errorIds = [
+    isRequiredErrorMsg && `${inputId}-required-error`,
+    isRegExpErrorMsg && `${inputId}-regexp-error`
+].filter(Boolean).join(' ');
+
+// Add URL format description
+const urlDescriptionId = `${inputId}-description`;
+const describedByIds = [
+    errorIds,
+    urlDescriptionId
+].filter(Boolean).join(' ');
+
+// Default URL validation pattern
+const defaultUrlPattern = '^https?://[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?)*(/.*)?$';
+---
+
+<label class="text-lg font-semibold" for={inputId}>
+    {Label}
+    {isRequiredErrorMsg && <span aria-label="required" class="text-red-500">*</span>}
+</label>
+
+<div id={urlDescriptionId} class="mb-1 text-sm text-gray-600">
+    Enter a valid URL (e.g., https://example.com)
+</div>
+
+<input
+    id={inputId}
+    name={inputId}
+    type="url"
+    class="input validator w-full"
+    required={isRequiredErrorMsg ? true : false}
+    aria-describedby={describedByIds}
+    placeholder={Placeholder || "https://example.com"}
+    value={PredefinedValue}
+    pattern={regularExpressionValue || defaultUrlPattern}
+    title={Tooltip || "Enter a valid URL starting with http:// or https://"}
+    autocomplete="url"
+/>
+
+{
+    isRequiredErrorMsg && (
+        <div id={`${inputId}-required-error`} class="validator-hint hidden">{isRequiredErrorMsg}</div>
+    )
+}
+{
+    isRegExpErrorMsg && (
+        <div id={`${inputId}-regexp-error`} class="validator-hint hidden">{isRegExpErrorMsg}</div>
+    )
+}

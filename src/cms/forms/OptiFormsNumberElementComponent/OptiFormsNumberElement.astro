@@ -1,0 +1,59 @@
+---
+import type {
+    DisplaySettingsFragment,
+    OptiFormsNumberElement,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { requiredValidatorMsg } from '../formHelper';
+
+// https://daisyui.com/components/input/
+
+export interface Props {
+    data: OptiFormsNumberElement;
+    contentPayload: ContentPayload;
+    displaySettings: DisplaySettingsFragment[];
+    Label?: string;
+    Placeholder?: string;
+    Tooltip?: string;
+    PredefinedValue?: string;
+    Validators?: any;
+    AutoComplete?: string;
+}
+const { data, displaySettings } = Astro.props as Props;
+const {
+    Label,
+    Placeholder,
+    Tooltip,
+    PredefinedValue,
+    Validators,
+    AutoComplete,
+} = data;
+
+const isRequiredErrorMsg = requiredValidatorMsg(Validators);
+const inputId = Label?.replace(/\s+/g, '_') || `number-${Math.random().toString(36).substr(2, 4)}`;
+
+// Add error IDs and ARIA support
+const errorIds = [
+    isRequiredErrorMsg && `${inputId}-required-error`
+].filter(Boolean).join(' ');
+---
+
+<label class="text-lg font-semibold" for={inputId}>
+    {Label}
+    {isRequiredErrorMsg && <span aria-label="required" class="text-red-500">*</span>}
+</label>
+<input
+    id={inputId}
+    name={inputId}
+    type="number"
+    class="input validator w-full"
+    required={isRequiredErrorMsg ? true : false}
+    aria-describedby={errorIds || undefined}
+    placeholder={Placeholder}
+    value={PredefinedValue}
+    autocomplete={AutoComplete || 'off'}
+    title={Tooltip}
+/>
+{isRequiredErrorMsg && (
+    <div class="validator-hint">{isRequiredErrorMsg}</div>
+)}

@@ -24,7 +24,7 @@ const styles = [...rowStyles, ...globalStyles]
             class="vb:row flex flex-1 flex-col flex-wrap justify-start p-1 md:flex-row"
             class:list={styles}
         >
-            {row.columns?.map((column: any) => (
+            {row.nodes?.map((column: any) => (
                 <Column contentPayload={contentPayload} column={column} />
             ))}
         </div>

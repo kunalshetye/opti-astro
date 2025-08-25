@@ -1,0 +1,38 @@
+---
+// TODO
+// Add form attribute for proper association + supporting multiple forms on page
+// form={FormId}
+
+import type {
+    DisplaySettingsFragment,
+    OptiFormsSubmitElement,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+
+export interface Props {
+    data: OptiFormsSubmitElement;
+    contentPayload: ContentPayload;
+    displaySettings: DisplaySettingsFragment[];
+    Label?: string;
+    Tooltip?: string;
+}
+const { data, contentPayload, displaySettings } = Astro.props as Props;
+const { Label, Tooltip } = data;
+
+const defaultLabel = Label || "Submit Form";
+
+const submitId = Label?.replace(/\s+/g, '_') || `submit-${Math.random().toString(36).substr(2, 4)}`;
+---
+
+<button class="btn btn-primary mt-4" type="submit"
+    title={Tooltip || `Submit the form`}
+    aria-describedby={Tooltip ? `${submitId}-tooltip` : undefined}
+>
+    {defaultLabel}
+</button>
+
+{Tooltip && (
+    <div id={`${submitId}-tooltip`} class="sr-only">
+        {Tooltip}
+    </div>
+)}

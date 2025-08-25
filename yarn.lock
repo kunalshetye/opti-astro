@@ -3756,10 +3756,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remkoj/optimizely-cms-api@npm:^4.3.1":
-  version: 4.3.1
-  resolution: "@remkoj/optimizely-cms-api@npm:4.3.1"
-  checksum: 10c0/67183c4bcbdd26be5986e05530a11e4802fb3584696cc425ec9e9a45b051c5fec57fc3a80c697df45579e2af2d2d192c429d43f47a1851f8917cab7a17e65a86
+"@remkoj/optimizely-cms-api@npm:5.1.1":
+  version: 5.1.1
+  resolution: "@remkoj/optimizely-cms-api@npm:5.1.1"
+  checksum: 10c0/63017c5e765de2247a97dcb1a5fba060ed2a0fd445614843d886f6238af44b8869f4c1b1e3b1680632ad7df55490343621f243427e79e11475b2262537159c51
   languageName: node
   linkType: hard
 
@@ -10669,7 +10669,7 @@ __metadata:
     "@graphql-codegen/typescript-operations": "npm:^4.5.1"
     "@optimizely/optimizely-sdk": "npm:^6.0.0"
     "@parcel/watcher": "npm:^2.5.1"
-    "@remkoj/optimizely-cms-api": "npm:^4.3.1"
+    "@remkoj/optimizely-cms-api": "npm:5.1.1"
     "@rollup/plugin-commonjs": "npm:^28.0.3"
     "@splidejs/splide": "npm:^4.1.4"
     "@tailwindcss/typography": "npm:^0.5.16"

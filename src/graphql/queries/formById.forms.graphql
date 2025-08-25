@@ -1,0 +1,120 @@
+query formById($key: String, $version: String) {
+    _Component(
+        where: {
+            _metadata: { key: { eq: $key } }
+            _and: { _metadata: { version: { eq: $version } } }
+        }
+    ) {
+        item {
+            ... on OptiFormsContainerData {
+                ...formContainerData
+                composition {
+                    nodes: nodes {
+                        key
+                        displayName
+                        displayTemplateKey
+                        displaySettings {
+                            ...DisplaySettings
+                        }
+                        nodeType
+                        type
+                        ... on CompositionStructureNode {
+                            key
+                            nodeType
+                            type
+                            component {
+                                ...formContainerData
+                            }
+                            nodes: nodes {
+                                ... on CompositionStructureNode {
+                                    key
+                                    nodeType
+                                    type
+                                    displayTemplateKey
+                                    displaySettings {
+                                        ...DisplaySettings
+                                    }
+                                    nodes: nodes {
+                                        ... on CompositionStructureNode {
+                                            key
+                                            nodeType
+                                            type
+                                            displayTemplateKey
+                                            displaySettings {
+                                                ...DisplaySettings
+                                            }
+                                            nodes: nodes {
+                                                ... on CompositionComponentNode {
+                                                    key
+                                                    nodeType
+                                                    type
+                                                    displayTemplateKey
+                                                    displaySettings {
+                                                        ...DisplaySettings
+                                                    }
+                                                    component {
+                                                        _metadata {
+                                                            types
+                                                        }
+                                                        ...AllComponents
+                                                        ...formContainerData
+                                                        ...AllFormComponents
+                                                    }
+                                                }
+                                                ... on CompositionStructureNode {
+                                                    key
+                                                    nodeType
+                                                    type
+                                                    displayTemplateKey
+                                                    displaySettings {
+                                                        ...DisplaySettings
+                                                    }
+                                                    nodes: nodes {
+                                                        ... on CompositionComponentNode {
+                                                            key
+                                                            nodeType
+                                                            type
+                                                            displayTemplateKey
+                                                            displaySettings {
+                                                                ...DisplaySettings
+                                                            }
+                                                            component {
+                                                                _metadata {
+                                                                    types
+                                                                }
+                                                                ...AllComponents
+                                                                ...AllFormComponents
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        ... on CompositionComponentNode {
+                            nodeType
+                            key
+                            displayTemplateKey
+                            displaySettings {
+                                ...DisplaySettings
+                            }
+                            component {
+                                _metadata {
+                                    types
+                                }
+                                ...AllComponents
+                            }
+                        }
+                    }
+                }
+            }
+            _metadata {
+                key
+                version
+            }
+        }
+    }
+}

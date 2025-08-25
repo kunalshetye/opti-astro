@@ -1,0 +1,12 @@
+fragment formContainerData on OptiFormsContainerData {
+    SubmitConfirmationMessage
+    ResetConfirmationMessage
+    SubmitUrl {
+        type
+        default
+        hierarchical
+    }
+    Title
+    Description
+    ShowSummaryMessageAfterSubmission
+}

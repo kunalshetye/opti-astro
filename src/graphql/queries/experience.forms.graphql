@@ -32,6 +32,9 @@ query getExperience($key: [String]!, $ver: String, $loc: [Locales]) {
                         key
                         nodeType
                         type
+                        component {
+                            ...formContainerData
+                        }
                         nodes: nodes {
                             ... on CompositionStructureNode {
                                 key
@@ -64,6 +67,7 @@ query getExperience($key: [String]!, $ver: String, $loc: [Locales]) {
                                                         types
                                                     }
                                                     ...AllComponents
+                                                    ...formContainerData
                                                 }
                                             }
                                             ... on CompositionStructureNode {
@@ -88,6 +92,7 @@ query getExperience($key: [String]!, $ver: String, $loc: [Locales]) {
                                                                 types
                                                             }
                                                             ...AllComponents
+                                                            ...AllFormComponents
                                                         }
                                                     }
                                                 }

@@ -1,0 +1,12 @@
+fragment AllFormComponents on _IComponent {
+    ...formContainerData
+    ...choiceElement
+    ...numberElement
+    ...rangeElement
+    ...resetElement
+    ...selectionElement
+    ...submitElement
+    ...textareaElement
+    ...textboxElement
+    ...urlElement
+}

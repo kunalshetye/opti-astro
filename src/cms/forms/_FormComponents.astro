@@ -1,0 +1,110 @@
+---
+import type { ContentPayload } from '../../graphql/shared/ContentPayload';
+
+import OptiFormsTextboxElement from '../forms/OptiFormsTextboxElementComponent/OptiFormsTextboxElement.astro';
+import OptiFormsNumberElement from '../forms/OptiFormsNumberElementComponent/OptiFormsNumberElement.astro';
+import OptiFormsRangeElement from '../forms/OptiFormsRangeElementComponent/OptiFormsRangeElement.astro';
+import OptiFormsSelectionElement from '../forms/OptiFormsSelectionElementComponent/OptiFormsSelectionElement.astro';
+import OptiFormsTextareaElement from '../forms/OptiFormsTextareaElementComponent/OptiFormsTextareaElement.astro';
+import OptiFormsUrlElement from '../forms/OptiFormsUrlElementComponent/OptiFormsUrlElement.astro';
+import OptiFormsChoiceElement from '../forms/OptiFormsChoiceElementComponent/OptiFormsChoiceElement.astro';
+import OptiFormsSubmitElement from '../forms/OptiFormsSubmitElementComponent/OptiFormsSubmitElement.astro';
+import OptiFormsResetElement from '../forms/OptiFormsResetElementComponent/OptiFormsResetElement.astro';
+
+interface Props {
+    contentPayload: ContentPayload;
+    data: any;
+}
+
+const { contentPayload, data } = Astro.props as Props;
+const { component, displaySettings, displayTemplateKey } = data;
+const componentType = component._metadata.types[0];
+---
+
+{
+    componentType === 'OptiFormsTextboxElement' && (
+        <OptiFormsTextboxElement
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+        />
+    )
+}
+
+{
+    componentType === 'OptiFormsTextareaElement' && (
+        <OptiFormsTextareaElement
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+        />
+    )
+}
+
+{
+    componentType === 'OptiFormsNumberElement' && (
+        <OptiFormsNumberElement
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+        />
+    )
+}
+{
+    componentType === 'OptiFormsUrlElement' && (
+        <OptiFormsUrlElement
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+        />
+    )
+}
+
+{
+    componentType === 'OptiFormsSelectionElement' && (
+        <OptiFormsSelectionElement
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+        />
+    )
+}
+
+{
+    componentType === 'OptiFormsRangeElement' && (
+        <OptiFormsRangeElement
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+        />
+    )
+}
+
+{
+    componentType === 'OptiFormsChoiceElement' && (
+        <OptiFormsChoiceElement
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+        />
+    )
+}
+
+{
+    componentType === 'OptiFormsSubmitElement' && (
+        <OptiFormsSubmitElement
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+        />
+    )
+}
+{
+    componentType === 'OptiFormsResetElement' && (
+        <OptiFormsResetElement
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+        />
+    )
+}
