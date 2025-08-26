@@ -1,9 +1,12 @@
 ---
 // SearchPalette.astro - Search palette with dynamic search
+import { getCurrentLocale } from '../../lib/locale-utils';
+
+const currentLocale = getCurrentLocale(Astro);
 ---
 
 <div
-    x-data="searchPalette()"
+    x-data="searchPalette('${currentLocale}')"
     x-show="isOpen"
     x-cloak
     @keydown.escape.window="isOpen = false"
@@ -281,7 +284,7 @@
 </style>
 
 <script is:inline>
-    function searchPalette() {
+    function searchPalette(currentLocale) {
         return {
             isOpen: false,
             query: '',
@@ -290,6 +293,7 @@
             error: null,
             useSemanticSearch: false,
             semanticWeight: '0.3',
+            locale: currentLocale,
 
             init() {
                 this.results = [];
@@ -307,7 +311,8 @@
                     this.error = null;
 
                     const searchParams = new URLSearchParams({
-                        q: this.query
+                        q: this.query,
+                        locale: this.locale
                     });
                     
                     if (this.useSemanticSearch) {
