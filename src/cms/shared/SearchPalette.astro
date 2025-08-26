@@ -6,7 +6,8 @@ const currentLocale = getCurrentLocale(Astro);
 ---
 
 <div
-    x-data="searchPalette('${currentLocale}')"
+    x-data="searchPalette()"
+    data-locale={currentLocale}
     x-show="isOpen"
     x-cloak
     @keydown.escape.window="isOpen = false"
@@ -284,7 +285,7 @@ const currentLocale = getCurrentLocale(Astro);
 </style>
 
 <script is:inline>
-    function searchPalette(currentLocale) {
+    function searchPalette() {
         return {
             isOpen: false,
             query: '',
@@ -293,11 +294,13 @@ const currentLocale = getCurrentLocale(Astro);
             error: null,
             useSemanticSearch: false,
             semanticWeight: '0.3',
-            locale: currentLocale,
+            locale: '',
 
             init() {
                 this.results = [];
                 this.isOpen = false;
+                // Get locale from data attribute
+                this.locale = this.$el.dataset.locale || 'en';
             },
 
             async search() {
