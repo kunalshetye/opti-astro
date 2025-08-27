@@ -10,7 +10,7 @@ export interface Props {
 const { row, contentPayload } = Astro.props as Props;
 let items:any = [];
 row.nodes?.map((column: any) => {
-    column.elements?.map((item: any) => {
+    column.nodes?.map((item: any) => {
         items.push(item);
     });
 });
