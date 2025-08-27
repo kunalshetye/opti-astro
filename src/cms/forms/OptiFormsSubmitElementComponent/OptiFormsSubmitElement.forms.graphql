@@ -1,0 +1,4 @@
+fragment submitElement on OptiFormsSubmitElement {
+    Label
+    Tooltip
+}

@@ -12,7 +12,7 @@
 			"type": "boolean",
 			"displayName": "Enable External Preview Link",
 			"description": "Select to enable external (non-CMS) preview link for draft content",
-			"localized": false,
+			"localized": true,
 			"required": false,
 			"group": "Information",
 			"sortOrder": 10,

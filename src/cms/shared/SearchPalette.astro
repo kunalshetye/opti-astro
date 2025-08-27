@@ -1,9 +1,13 @@
 ---
 // SearchPalette.astro - Search palette with dynamic search
+import { getCurrentLocale } from '../../lib/locale-utils';
+
+const currentLocale = getCurrentLocale(Astro);
 ---
 
 <div
     x-data="searchPalette()"
+    data-locale={currentLocale}
     x-show="isOpen"
     x-cloak
     @keydown.escape.window="isOpen = false"
@@ -290,10 +294,13 @@
             error: null,
             useSemanticSearch: false,
             semanticWeight: '0.3',
+            locale: '',
 
             init() {
                 this.results = [];
                 this.isOpen = false;
+                // Get locale from data attribute
+                this.locale = this.$el.dataset.locale || 'en';
             },
 
             async search() {
@@ -307,7 +314,8 @@
                     this.error = null;
 
                     const searchParams = new URLSearchParams({
-                        q: this.query
+                        q: this.query,
+                        locale: this.locale
                     });
                     
                     if (this.useSemanticSearch) {

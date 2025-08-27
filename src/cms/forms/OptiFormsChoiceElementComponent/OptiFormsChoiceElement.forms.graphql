@@ -1,0 +1,7 @@
+fragment choiceElement on OptiFormsChoiceElement {
+    Label
+    Tooltip
+    Options
+    Validators
+    AllowMultiSelect
+}

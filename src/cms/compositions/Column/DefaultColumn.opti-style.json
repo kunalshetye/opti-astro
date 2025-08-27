@@ -142,6 +142,65 @@
                 }
             }
         },
+        "gridSpan": {
+            "displayName": "Grid Span (out of 12)",
+            "editor": "",
+            "sortOrder": 5,
+            "choices": {
+                "auto": {
+                    "displayName": "Auto",
+                    "sortOrder": 5
+                },
+                "span1": {
+                    "displayName": "1 Column",
+                    "sortOrder": 10
+                },
+                "span2": {
+                    "displayName": "2 Columns",
+                    "sortOrder": 20
+                },
+                "span3": {
+                    "displayName": "3 Columns",
+                    "sortOrder": 30
+                },
+                "span4": {
+                    "displayName": "4 Columns",
+                    "sortOrder": 40
+                },
+                "span5": {
+                    "displayName": "5 Columns",
+                    "sortOrder": 50
+                },
+                "span6": {
+                    "displayName": "6 Columns",
+                    "sortOrder": 60
+                },
+                "span7": {
+                    "displayName": "7 Columns",
+                    "sortOrder": 70
+                },
+                "span8": {
+                    "displayName": "8 Columns",
+                    "sortOrder": 80
+                },
+                "span9": {
+                    "displayName": "9 Columns",
+                    "sortOrder": 90
+                },
+                "span10": {
+                    "displayName": "10 Columns",
+                    "sortOrder": 100
+                },
+                "span11": {
+                    "displayName": "11 Columns",
+                    "sortOrder": 110
+                },
+                "span12": {
+                    "displayName": "12 Columns (Full)",
+                    "sortOrder": 120
+                }
+            }
+        },
         "backgroundColor": {
             "displayName": "Background Color",
             "editor": "",

@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import type { Locales } from '../../../__generated/sdk';
 import { getOptimizelySdk } from '../../graphql/getSdk';
 import type { ContentPayload } from '../../graphql/shared/ContentPayload';
+import { localeToSdkLocale } from '../../lib/locale-utils';
 
 interface SearchResult {
     id: string;
@@ -12,11 +13,12 @@ interface SearchResult {
     url?: string;
 }
 
-export const GET: APIRoute = async ({ url, currentLocale, request }) => {
+export const GET: APIRoute = async ({ url, request }) => {
     try {
         const query = url.searchParams.get('q')?.toLowerCase() || '';
         const useSemanticSearch = url.searchParams.get('semantic') === 'true';
         const semanticWeight = parseFloat(url.searchParams.get('semanticWeight') || '0.3');
+        const locale = url.searchParams.get('locale') || 'en';
 
         if (!query) {
             return new Response(
@@ -38,7 +40,7 @@ export const GET: APIRoute = async ({ url, currentLocale, request }) => {
             ctx: 'view',
             key: '',
             ver: '',
-            loc: currentLocale as Locales || 'en',
+            loc: localeToSdkLocale(locale) as Locales,
             preview_token: '',
             types: [],
         };

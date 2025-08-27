@@ -3,6 +3,7 @@ import { Image as AstroImage } from 'astro:assets';
 import type { SiteSettingsByHostnameQuery } from '../../../__generated/sdk';
 import { getClassForLogo } from './siteSettingsHelper';
 import DevTools from './DevTools.astro';
+import type { FXDebugInfo } from '../../optimizely/debug';
 
 // Define interfaces for the menu items to fix TypeScript errors
 interface LinkType {
@@ -18,9 +19,10 @@ interface FooterItemType {
 
 interface Props {
     siteSettings: SiteSettingsByHostnameQuery;
+    fxDebugInfo?: FXDebugInfo;
 }
 
-const { siteSettings } = Astro.props;
+const { siteSettings, fxDebugInfo } = Astro.props;
 const settings = siteSettings?.SiteSettings?.item;
 
 const logoUrl = (settings?.Logo as any)?.item?.Url || settings?.Logo?.url?.default || null;
@@ -214,5 +216,5 @@ const socialLinkGitHub = "https://www.github.com/" + settings?.SocialGitHub;
     </div>
 
     <!-- Developer Tools -->
-    <DevTools />
+    <DevTools fxDebugInfo={fxDebugInfo} />
 </footer>

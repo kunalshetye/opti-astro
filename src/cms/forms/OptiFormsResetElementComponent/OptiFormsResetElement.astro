@@ -1,0 +1,28 @@
+---
+import type { 
+    DisplaySettingsFragment, OptiFormsResetElement } from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+
+export interface Props {
+    data: OptiFormsResetElement;
+    contentPayload: ContentPayload;
+    displaySettings: DisplaySettingsFragment[];
+    Label?: string;
+    Tooltip?: string;
+}
+const { data, displaySettings } = Astro.props as Props;
+const { Label, Tooltip } = data;
+
+const resetId = Label?.replace(/\s+/g, '_') || `reset-${Math.random().toString(36).substr(2, 4)}`;
+const defaultLabel = Label || "Reset Form";
+---
+
+<button 
+    type="button" 
+    id={resetId}
+    class="btn btn-secondary mt-4 form-reset-button"
+    aria-describedby={Tooltip ? `${resetId}-tooltip` : undefined}
+    title={Tooltip || `Reset the form: ${defaultLabel}`}
+>
+    {defaultLabel}
+</button>

@@ -1,0 +1,99 @@
+---
+// https://daisyui.com/components/select/
+
+import type {
+    DisplaySettingsFragment,
+    OptiFormsSelectionElement,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { requiredValidatorMsg } from '../formHelper';
+
+//// Example of Selection JSON structure:
+// "Options": [
+//   {
+//     "label": "Choice 1",
+//     "value": "Choice 1",
+//     "selected": false
+//   },
+//   {
+//     "label": "Choice 2",
+//     "value": "Choice 2",
+//     "selected": false
+//   }
+// ],
+// "AllowMultiSelect": true,
+
+export interface Props {
+    data: OptiFormsSelectionElement;
+    contentPayload: ContentPayload;
+    displaySettings: DisplaySettingsFragment[];
+    Label?: string;
+    Tooltip?: string;
+    Options?: any;
+    Validators?: any;
+    AllowMultiSelect?: boolean;
+    AutoComplete?: string;
+}
+const { data, displaySettings } = Astro.props as Props;
+const { Label, Tooltip, Options, Validators, AllowMultiSelect, AutoComplete } =
+    data;
+
+const isRequiredErrorMsg = requiredValidatorMsg(Validators);
+const inputId = Label?.replace(/\s+/g, '_') || `selection-${Math.random().toString(36).substr(2, 4)}`;
+
+// Generate error IDs for ARIA
+const errorIds = [
+    isRequiredErrorMsg && `${inputId}-required-error`
+].filter(Boolean).join(' ');
+
+// Add helpful description for multi-select
+const instructionText = AllowMultiSelect 
+    ? "Hold Ctrl (or Cmd on Mac) to select multiple options"
+    : "Select one option from the list";
+const instructionsId = `${inputId}-instructions`;
+
+const describedByIds = [
+    instructionsId,
+    errorIds
+].filter(Boolean).join(' ');
+---
+
+<fieldset class="fieldset w-full border border-gray-300 rounded p-4">
+    <legend class="fieldset-legend text-lg font-semibold px-2">
+        {Label}
+        {isRequiredErrorMsg && <span aria-label="required" class="text-red-500 ml-1">*</span>}
+    </legend>
+    
+    <div id={instructionsId} class="text-sm text-gray-600 mb-2">
+        {instructionText}
+    </div>
+    
+    <select
+        class="select validator w-full"
+        id={inputId}
+        name={AllowMultiSelect ? `${inputId}[]` : inputId}
+        autocomplete={AutoComplete || 'off'}
+        multiple={AllowMultiSelect}
+        required={isRequiredErrorMsg ? true : false}
+        aria-describedby={describedByIds}
+        title={Tooltip}
+        size={AllowMultiSelect ? Math.min((Options?.length || 1) + 1, 8) : 1}
+    >
+        {!AllowMultiSelect && (
+            <option value="" disabled selected>
+                {Tooltip || "Choose an option..."}
+            </option>
+        )}
+        {(Array.isArray(Options) ? Options : []).map(
+            (opt: { label: string; value: string; selected?: boolean }) => (
+                <option value={opt.value} selected={opt.selected}>
+                    {opt.label}
+                </option>
+            )
+        )}
+    </select>
+    
+    {isRequiredErrorMsg && (
+        <div class="validator-hint">{isRequiredErrorMsg}</div>
+    )}
+</fieldset>

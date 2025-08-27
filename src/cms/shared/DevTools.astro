@@ -3,6 +3,14 @@ import { OPTIMIZELY_DEV_MODE } from 'astro:env/client';
 import GraphQLPanel from './devtools/GraphQLPanel.astro';
 import EnvironmentPanel from './devtools/EnvironmentPanel.astro';
 import PerformancePanel from './devtools/PerformancePanel.astro';
+import OptimizelyFXPanel from './devtools/OptimizelyFXPanel.astro';
+import type { FXDebugInfo } from '../../optimizely/debug';
+
+export interface Props {
+    fxDebugInfo?: FXDebugInfo;
+}
+
+const { fxDebugInfo } = Astro.props;
 ---
 
 {OPTIMIZELY_DEV_MODE && (
@@ -12,6 +20,7 @@ import PerformancePanel from './devtools/PerformancePanel.astro';
                 Developer Tools
             </div>
             
+            <OptimizelyFXPanel debugInfo={fxDebugInfo} />
             <GraphQLPanel />
             <EnvironmentPanel />
             <PerformancePanel />

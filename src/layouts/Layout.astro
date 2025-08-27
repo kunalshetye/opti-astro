@@ -1,14 +1,17 @@
 ---
-import { ClientRouter } from 'astro:transitions';
 import { Font } from 'astro:assets';
+import { ASTRO_TRANSITIONS_ENABLED } from 'astro:env/client';
+import { ClientRouter } from 'astro:transitions';
 
 import type { Locales } from '../../__generated/sdk';
 import Footer from '../cms/shared/Footer.astro';
 import Header from '../cms/shared/Header.astro';
 import SiteStyles from '../cms/components/SiteStylesComponent/SiteStyles.astro';
 import { getSiteFont } from '../cms/shared/siteStylesHelper';
-import { EXTERNAL_PREVIEW_ENABLED } from 'astro:env/server';
+import { EXTERNAL_PREVIEW_ENABLED, OPTIMIZELY_DATA_PLATFORM_PRIVATE_KEY } from 'astro:env/server';
 import ExtPreviewLinkBanner from '../cms/shared/ExtPreviewLink/ExtPreviewLinkBanner.astro';
+import DataPlatform from '../cms/shared/DataPlatform/DataPlatform.astro';
+// import { getOdpScript } from '../cms/shared/DataPlatform/dataPlatform.ts';
 import { isDraftContent, isEditContext } from '../cms/shared/utils.ts';
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
@@ -51,6 +54,11 @@ const siteSettings = await getOptimizelySdk(
 });
 
 const optiWebProjectId = siteSettings?.SiteSettings?.item?.OptiWebProjectId || null;
+const pageVariationWeb = Astro.url.searchParams.get('var') || null;
+
+const odpEnabled = !!OPTIMIZELY_DATA_PLATFORM_PRIVATE_KEY;
+const odpPublicKey = odpEnabled && OPTIMIZELY_DATA_PLATFORM_PRIVATE_KEY?.split('.')[0];
+// const odpScript = odpPublicKey && getOdpScript(odpPublicKey);
 
 const siteStyles = await getOptimizelySdk(contentPayload).siteStylesByHostname({
     domain: host,
@@ -64,6 +72,8 @@ const externalStylesUrl = siteStyles?.SiteStyles?.item?.cssFile?._metadata?.url?
 const canonicalUrl = Astro.url.origin + hierarchicalUrl;
 
 const graphType = graphtype !== '-' ? graphtype : 'website';
+const contentKey = contentPayload.key || '';
+
 ---
 
 <!doctype html>
@@ -74,6 +84,9 @@ const graphType = graphtype !== '-' ? graphtype : 'website';
             <link rel="preload" href={`//cdn.optimizely.com/js/${optiWebProjectId}.js`} as="script" />
             <link rel="preconnect" href="//logx.optimizely.com" />
             <script src={`https://cdn.optimizely.com/js/${optiWebProjectId}.js`} />
+        )}
+        {odpEnabled && (
+            <DataPlatform odpPublicKey={odpPublicKey} />
         )}
         {siteStyles && <SiteStyles siteStyles={siteStyles} />}
         {siteFont && <Font cssVariable={siteFont} preload />}
@@ -91,9 +104,9 @@ const graphType = graphtype !== '-' ? graphtype : 'website';
         {graphType && <meta property="og:type" content={graphType} />}
         {hierarchicalUrl && <link rel="canonical" href={canonicalUrl} />}
         <title>{title}</title>
-        <ClientRouter />
+        {ASTRO_TRANSITIONS_ENABLED && <ClientRouter />}
     </head>
-    <body>
+    <body data-content-key={contentKey}>
         {
             EXTERNAL_PREVIEW_ENABLED && extPreviewEnabled && isDraft 
                 && (ctx === 'edit' || ctx === 'ext_preview') && (
@@ -107,6 +120,21 @@ const graphType = graphtype !== '-' ? graphtype : 'website';
         <slot />
         <Footer siteSettings={siteSettings} />
 
+        {
+            ASTRO_TRANSITIONS_ENABLED && !isCmsEdit && optiWebProjectId && (
+                <script is:inline>
+                    document.addEventListener('astro:page-load', () => {
+                        // The Optimizely snippet creates a global array `window.optimizely`.
+                        // We push events to this array to signal page changes, which is the
+                        // standard practice for Single-Page Applications.
+                        // See: https://docs.developers.optimizely.com/web-experimentation/docs/single-page-applications-and-dynamic-websites
+                        if (window.optimizely) {
+                            window.optimizely.push({ type: 'activate' });
+                        }
+                    });
+                </script>
+            )
+        }
         <script>
             import Alpine from 'alpinejs';
 

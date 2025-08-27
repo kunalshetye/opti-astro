@@ -34,5 +34,40 @@ export function getHeadingElementStyles(
             cssClasses.push('capitalize');
             break;
     }
+    switch (settings['color']) {
+        case 'primary':
+            cssClasses.push('text-primary');
+            break;
+        case 'secondary':
+            cssClasses.push('text-secondary');
+            break;
+        case 'accent':
+            cssClasses.push('text-accent');
+            break;
+        case 'neutral':
+            cssClasses.push('text-neutral');
+            break;
+        case 'base100':
+            cssClasses.push('text-base-100');
+            break;
+        case 'base200':
+            cssClasses.push('text-base-200');
+            break;
+        case 'base300':
+            cssClasses.push('text-base-300');
+            break;
+        case 'info':
+            cssClasses.push('text-info');
+            break;
+        case 'success':
+            cssClasses.push('text-success');
+            break;
+        case 'warning':
+            cssClasses.push('text-warning');
+            break;
+        case 'error':
+            cssClasses.push('text-error');
+            break;
+    }
     return cssClasses;
 }

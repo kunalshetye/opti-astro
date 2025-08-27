@@ -7,6 +7,7 @@ import Component from '../cms/components/_Component.astro';
 import Experiences from '../cms/experiences/_Experiences.astro';
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
+import { localeToSdkLocale } from '../lib/locale-utils';
 import Pages from '../cms/pages/_Pages.astro';
 const cmsScript =
     OPTIMIZELY_CMS_URL &&
@@ -16,11 +17,11 @@ const cmsScript =
         : `/communicationinjector.js`;
 
 const previewPayload = qs.parse(Astro.url.search) as unknown as ContentPayload;
+previewPayload.loc = localeToSdkLocale(previewPayload.loc);
 
 const optiResponse = await getOptimizelySdk(previewPayload).contentById({
     key: previewPayload.key,
-    //@ts-ignore
-    loc: previewPayload.loc as unknown as Locales,
+    loc: previewPayload.loc as Locales,
     ver: previewPayload.ver,
 });
 const types = optiResponse?._Content?.item?._metadata?.types;

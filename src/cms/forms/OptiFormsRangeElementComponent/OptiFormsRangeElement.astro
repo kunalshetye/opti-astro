@@ -1,0 +1,75 @@
+---
+import type {
+    DisplaySettingsFragment,
+    OptiFormsRangeElement,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+
+export interface Props {
+    data: OptiFormsRangeElement;
+    contentPayload: ContentPayload;
+    displaySettings: DisplaySettingsFragment[];
+    Label?: string;
+    Tooltip?: string;
+    PredefinedValue?: string;
+    Min?: number;
+    Max?: number;
+    Increment?: number;
+}
+const { data, displaySettings } = Astro.props as Props;
+const { Label, Tooltip, PredefinedValue, Min, Max, Increment } = data;
+
+// Ensure non-null numbers with defaults
+const safeMin: number = Min ?? 0;
+const safeMax: number = Max ?? 10;
+const safeIncrement: number = Increment ?? 1;
+// const safePredefinedValue: number = PredefinedValue ?? safeMin; // Ensure predefined value is safe
+
+// // Generate dynamic range labels
+// const rangeLabels = [];
+// for (let i = safeMin; i <= safeMax; i += safeIncrement) {
+//     rangeLabels.push(i);
+// }
+
+// Generate dynamic range labels
+const rangeLabels = [];
+const totalSteps = Math.floor((safeMax - safeMin) / safeIncrement) + 1;
+
+if (totalSteps <= 10) {
+    // Show all labels if reasonable number
+    for (let i = safeMin; i <= safeMax; i += safeIncrement) {
+        rangeLabels.push(i);
+    }
+} else {
+    // Show only key points
+    rangeLabels.push(safeMin, safeMax);
+}
+
+const inputId = Label?.replace(/\s+/g, '_') || `range-${Math.random().toString(36).substr(2, 4)}`;
+const rangeDescriptionId = `range-description-${inputId}`;
+---
+
+<fieldset class="fieldset w-full">
+    <legend class="fieldset-legend text-lg font-semibold"
+        >{Label}</legend
+    >
+    <div class="w-full max-w-xs">
+        <input
+            id={inputId}
+            name={inputId}
+            type="range"
+            class="range validator w-full"
+            min={safeMin}
+            max={safeMax}
+            value={PredefinedValue}
+            step={safeIncrement}
+            title={Tooltip}
+        />
+        <div class="mt-2 flex justify-between px-2.5 text-xs">
+            {rangeLabels.map((label) => <span>{label}</span>)}
+        </div>
+    </div>
+    <div id={rangeDescriptionId} class="text-sm text-gray-600 mb-2">
+        Range from {safeMin} to {safeMax}, step by {safeIncrement}. Use arrow keys to adjust.
+    </div>
+</fieldset>

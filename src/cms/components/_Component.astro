@@ -3,8 +3,8 @@ import { Locales } from '../../../__generated/sdk';
 import { getOptimizelySdk } from '../../graphql/getSdk';
 import type { ContentPayload } from '../../graphql/shared/ContentPayload';
 import ComponentPreviewLayout from '../../layouts/ComponentPreviewLayout.astro';
-import SiteSettingsPreviewLayout from "../../layouts/SiteSettingsPreviewLayout.astro"
-import SiteStylesPreviewLayout from "../../layouts/SiteStylesPreviewLayout.astro"
+import SiteSettingsPreviewLayout from '../../layouts/SiteSettingsPreviewLayout.astro';
+import SiteStylesPreviewLayout from '../../layouts/SiteStylesPreviewLayout.astro';
 
 import Components from './_Components.astro';
 
@@ -20,28 +20,35 @@ const component = { component: optiResponse?._Content?.item || null };
 ---
 
 {
-    component !== null && component.component !== null 
-        && !component.component._metadata?.types?.includes("SiteSettings")
-        && !component.component._metadata?.types?.includes("SiteStyles") && (
-        <ComponentPreviewLayout>
-            <div data-epi-block-id={contentPayload.key}>
-                <Components contentPayload={contentPayload} data={component} />
-            </div>
-        </ComponentPreviewLayout>
-    )
+    component !== null &&
+        component.component !== null &&
+        !component.component._metadata?.types?.includes('SiteSettings') &&
+        !component.component._metadata?.types?.includes('SiteStyles') && (
+            <ComponentPreviewLayout>
+                <div data-epi-block-id={contentPayload.key}>
+                    <Components
+                        contentPayload={contentPayload}
+                        data={component}
+                    />
+                </div>
+            </ComponentPreviewLayout>
+        )
 }
 
 <!-- Site Settings Component Preview -->
 {
-    component !== null && component.component !== null && component.component._metadata?.types?.includes("SiteSettings") && (
-        <SiteSettingsPreviewLayout contentPayload={contentPayload} />
-    )
-    
+    component !== null &&
+        component.component !== null &&
+        component.component._metadata?.types?.includes('SiteSettings') && (
+            <SiteSettingsPreviewLayout contentPayload={contentPayload} />
+        )
 }
 
 <!-- Site Styles Component Preview -->
 {
-    component !== null && component.component !== null && component.component._metadata?.types?.includes("SiteStyles") && (
-        <SiteStylesPreviewLayout contentPayload={contentPayload} />
-    )
+    component !== null &&
+        component.component !== null &&
+        component.component._metadata?.types?.includes('SiteStyles') && (
+            <SiteStylesPreviewLayout contentPayload={contentPayload} />
+        )
 }

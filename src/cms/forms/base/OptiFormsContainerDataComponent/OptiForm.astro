@@ -1,0 +1,271 @@
+---
+import type { Locales } from 'astro';
+import { getOptimizelySdk } from '../../../../graphql/getSdk';
+import type { ContentPayload } from '../../../../graphql/shared/ContentPayload';
+import { isEditContext } from '../../../shared/utils.ts';
+
+import FormComponents from '../../_FormComponents.astro';
+import { getRowStyles } from '../../../compositions/Row/RowHelper';
+import { getGlobalStyles } from '../../../shared/globalStylesHelper';
+import { getColumnStyles } from '../../../compositions/Column/ColumnHelper';
+
+const isCmsEdit = isEditContext(Astro.url);
+
+import { OPTIMIZELY_DATA_PLATFORM_PRIVATE_KEY } from 'astro:env/server';
+const odpPrivateKey = OPTIMIZELY_DATA_PLATFORM_PRIVATE_KEY;
+const odpTrackFormImpression = !!odpPrivateKey;
+
+
+export interface Props {
+    grid: any;
+    contentPayload: ContentPayload;
+}
+
+const { grid, contentPayload } = Astro.props as Props;
+const nodeType = grid.nodeType;
+
+nodeType && (contentPayload.key = grid.key);
+
+const optiResponse =
+    !nodeType &&
+    (await getOptimizelySdk(contentPayload).formById({
+        key: contentPayload.key,
+        //@ts-ignore
+        loc: contentPayload.loc as Locales,
+        ver: contentPayload.ver,
+    }));
+
+const formId = contentPayload.key || grid.key || 'opti-form';
+
+const formItem = optiResponse?.['_Component']?.item;
+const formComposition = formItem && 'composition' in formItem ? formItem.composition : formItem;
+
+const formGrid = formComposition ?? grid;
+const formNodes = formComposition?.nodes ?? grid.nodes;
+
+let nodeStyles: string[] = [];
+let globalStyles: string[] = [];
+
+if (nodeType === 'row') {
+	nodeStyles = getRowStyles(formGrid);
+} else if (nodeType === 'column') {
+	nodeStyles = getColumnStyles(formGrid);
+}
+
+if (nodeType === 'row' || nodeType === 'column') {
+	globalStyles = getGlobalStyles(formGrid);
+}
+
+const styles = [...nodeStyles, ...globalStyles];
+
+const getFormProperty = (propName: string): any => {
+	return formGrid?.component?.[propName] ?? formGrid?.[propName];
+};
+
+const formTitle: string = getFormProperty('Title') ?? '';
+const formDescription: string | null = getFormProperty('Description') ?? null;
+const formSubmitConfirmationMsg: string | null = getFormProperty('SubmitConfirmationMessage') ?? null;
+const formResetConfirmationMsg: string = getFormProperty('ResetConfirmationMessage') ?? 'Are you sure you want to reset the form?';
+const formSubmitUrl: string | null = getFormProperty('SubmitUrl')?.default ?? null;
+const showSummaryMessage: boolean = getFormProperty('ShowSummaryMessageAfterSubmission') ?? false;
+
+---
+
+{
+    (nodeType === 'section' || !nodeType) && (
+        <>
+            <div class="vb:section flex flex-col" data-epi-block-id={formGrid.key}>
+                <form
+                    id={formId}
+                    class="mx-auto mb-4 w-full rounded bg-white px-8 pt-6 pb-8 shadow-md"
+                >
+                    {formSubmitUrl && (
+                        <input type="hidden" name="formSubmitUrl" value={formSubmitUrl} />
+                    )}
+                    <input type="hidden" name="formTitle" value={formTitle} />
+                    {formTitle && (
+                        <h2 class="mb-4 text-2xl font-bold">{formTitle}</h2>
+                    )}
+                    {formDescription && <p class="mb-4">{formDescription}</p>}
+                    {formNodes?.map((step: any) => (
+                        <Astro.self contentPayload={contentPayload} grid={step} />
+                    ))}
+                </form>
+            </div>
+
+            <dialog id={`${formId}-reset-modal`} class="modal modal-middle">
+                <div class="modal-box">
+                    <h3 class="font-bold text-lg">Confirm Form Reset</h3>
+                    <p class="py-4">{formResetConfirmationMsg}</p>
+                    <div class="modal-action justify-center gap-8">
+                        <button class="btn btn-primary" id={`${formId}-reset-confirm-button`}>Confirm</button>
+                        <form method="dialog">
+                            <button class="btn btn-secondary">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+                <form method="dialog" class="modal-backdrop">
+                    <button>close</button>
+                </form>
+            </dialog>
+        </>
+
+        <div data-form-id={formId} 
+             data-submit-message={formSubmitConfirmationMsg}
+             data-reset-message={formResetConfirmationMsg}
+        ></div>
+        <script>
+            import { actions } from "astro:actions";
+            import { isInputError } from "astro:actions";
+
+            const element = document.querySelector('[data-form-id]') as HTMLElement;
+            const formId = element?.dataset.formId || 'opti-form';
+            const submitMessage = element?.dataset.submitMessage || "Form submitted, thank you.";
+            const resetMessage = element?.dataset.resetMessage || "Are you sure you want to reset the form?";
+
+            function clearPreviousMessage(id: string) {
+                const messageElement = document.getElementById(id);
+                if (messageElement) {
+                    messageElement.remove();
+                }
+            }
+
+            function addMessageElement(
+                message: string,
+                type: "error" | "success",
+                element: HTMLElement
+            ) {
+                const p = document.createElement("p");
+                p.id = "message";
+                p.className = `message ${type === "success" ? "text-teal-500" : "text-pink-500"} mt-2 px-2`;
+                p.innerText = message;
+                element.appendChild(p);
+            }
+
+            function clearInput(formElement: HTMLFormElement) {
+                formElement.reset();
+            }
+
+            function renderMessage(error: any, data: any, form: HTMLElement) {
+                if (error && isInputError(error)) {
+                    const message = error.fields.email && error.fields.email[0];
+                    addMessageElement(message || "", "error", form);
+                } else {
+                    if (data?.formSubmitErrors) {
+                        const message = data?.formSubmitErrors.message;
+                        addMessageElement(message, "error", form);
+                    } else {
+                        const message = submitMessage ?? "Form submitted successfully.";
+                        clearInput(form as HTMLFormElement);
+                        addMessageElement(message, "success", form);
+                    }
+                }
+            }
+
+            const form = document.getElementById(formId) as HTMLFormElement;
+
+            async function handleFormSubmit(e: Event) {
+                e.preventDefault();
+
+                const formData = new FormData(form);
+                const { data, error } = await actions.submitForm(formData);
+                clearPreviousMessage("message");
+                renderMessage(error, data, form);
+            }
+
+            form.addEventListener("submit", handleFormSubmit);
+
+            // Reset button confirmation logic
+            const resetButton = form.querySelector('.form-reset-button');
+            const resetModal = document.getElementById(`${formId}-reset-modal`) as HTMLDialogElement;
+            const confirmResetButton = document.getElementById(`${formId}-reset-confirm-button`);
+
+            if (resetButton && resetModal && confirmResetButton) {
+                // Open the modal when the form's reset button is clicked
+                resetButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    resetModal.showModal();
+                });
+
+                // Handle the actual reset on confirm
+                confirmResetButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    clearInput(form);
+                    clearPreviousMessage("message");
+                    resetModal.close();
+                });
+            }
+        </script>
+
+        <script is:inline define:vars={{ odpTrackFormImpression, formName: formTitle }}>
+            function trackFormImpression() {
+                if (odpTrackFormImpression && formName) {
+                    if (typeof zaius !== 'undefined') {
+                        zaius.event('web_form', {
+                            action: 'impression',
+                            form_name: formName,
+                            campaign: "Form Impression: " + formName
+                        });
+                    } else {
+                        console.warn("ODP script not available for form impression tracking.");
+                    }
+                }
+            }
+
+            // Run on initial page load
+            trackFormImpression();
+
+            // Run on subsequent client-side navigations for Astro View Transitions
+            document.addEventListener('astro:page-load', trackFormImpression);
+        </script>
+
+    )
+}
+
+{
+    nodeType === 'step' && (
+        <div class="vb:step flex flex-col" data-epi-block-id={formGrid.key}>
+            {formGrid.nodes?.map((row: any) => (
+                <Astro.self contentPayload={contentPayload} grid={row} />
+            ))}
+        </div>
+    )
+}
+
+{
+    nodeType === 'row' && (
+        <div
+            class="vb:row flex flex-row flex-wrap justify-start gap-4"
+            class:list={styles}
+            data-epi-block-id={formGrid.key}
+        >
+            {formGrid.nodes?.map((column: any) => (
+                <Astro.self contentPayload={contentPayload} grid={column} />
+            ))}
+        </div>
+    )
+}
+
+{
+    nodeType === 'column' && (
+        <div
+            class="vb:col flex flex-1 flex-col flex-nowrap justify-start"
+            class:list={styles}
+            data-epi-block-id={formGrid.key}
+        >
+            {formGrid.nodes?.map((item: any) => (
+                <FormComponents contentPayload={contentPayload} data={item} />
+            ))}
+        </div>
+    )
+}
+
+<style is:inline>
+    input:invalid {
+        border: 2px dashed red;
+    }
+
+    input:valid {
+        border: 2px solid black;
+    }
+</style>

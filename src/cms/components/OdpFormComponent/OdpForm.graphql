@@ -1,0 +1,4 @@
+fragment OdpForm on OdpForm {
+  SelectorType
+  SelectorName
+}

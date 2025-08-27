@@ -5,12 +5,23 @@ import Experiences from '../cms/experiences/_Experiences.astro';
 import Pages from '../cms/pages/_Pages.astro';
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
+import { 
+    initFXDebugSession, 
+    updateContentInfo, 
+    addDebugError 
+} from '../optimizely/debug';
+import { resolveContentVariant } from '../optimizely/variant-resolver';
 
-import { getRelativeLocaleUrl } from 'astro:i18n';
+import { getCurrentLocale, getRelativeLocaleUrl, localeToSdkLocale, resolveContentWithFallback } from '../lib/locale-utils';
 
 Astro.response.headers.set('Content-Type', 'text/html; charset=UTF-8');
 
-const lang = Astro.currentLocale;
+const lang = getCurrentLocale(Astro);
+
+const pageVariationWeb = Astro.cookies.get('cmsvariation')?.value || null;
+
+// Initialize debug session
+const debugInfo = initFXDebugSession(Astro.url.toString(), lang);
 
 const ctx = 'view';
 
@@ -26,37 +37,89 @@ var contentPayload: ContentPayload = {
 const urlPath = `${Astro.url.pathname.replace(/\/$/, '')}/`;
 const urlPathNoSlash = `${Astro.url.pathname.replace(/\/$/, '')}`;
 const urlBase = Astro.url.origin;
-const contentByPathResponse = await getOptimizelySdk(
-    contentPayload
-).contentByPath({
-    base: urlBase,
-    url: urlPath,
-    urlNoSlash: urlPathNoSlash
-});
-if (!contentByPathResponse._Content 
-    || !contentByPathResponse._Content.item 
-    || !contentByPathResponse._Content.item._metadata?.key) {
+
+// Use the helper function to resolve content with fallback first to get the default item
+contentPayload.loc = localeToSdkLocale(lang) as Locales;
+
+const defaultFallbackResult = await resolveContentWithFallback(
+    getOptimizelySdk,
+    contentPayload,
+    urlBase,
+    urlPath,
+    lang,
+    false, // No debug logs for default content fetch
+    pageVariationWeb // No variant for default content
+);
+
+if (defaultFallbackResult.shouldRedirect404) {
+    addDebugError(debugInfo, 'No default content found for URL');
     return Astro.redirect(getRelativeLocaleUrl(lang, '/404'), 404);
 }
+
+const defaultItem = defaultFallbackResult.contentResponse._Content.item;
+
+updateContentInfo(debugInfo, {
+    defaultKey: defaultItem?._metadata?.key
+});
+
+// Resolve content variant using FX SDK
+const variantResult = await resolveContentVariant(
+    Astro,
+    defaultItem,
+    contentPayload,
+    getOptimizelySdk,
+    urlBase,
+    urlPath,
+    lang,
+    defaultFallbackResult,
+    debugInfo
+);
+
+const fallbackResult = {
+    contentResponse: variantResult.contentResponse,
+    actualLocaleUsed: variantResult.actualLocaleUsed,
+    shouldRedirect404: false
+};
+
+if (fallbackResult.shouldRedirect404) {
+    addDebugError(debugInfo, 'No content found after fallback');
+    return Astro.redirect(getRelativeLocaleUrl(lang, '/404'), 404);
+}
+
+const contentByPathResponse = fallbackResult.contentResponse;
+const actualLocaleUsed = fallbackResult.actualLocaleUsed;
 const item = contentByPathResponse._Content.item;
+
+// Update final debug info
+updateContentInfo(debugInfo, { 
+    finalContentKey: item?._metadata?.key,
+    isVariantContent: variantResult.isVariantContent 
+});
+
 if (!item?._metadata) {
     throw new Error('Metadata is missing in the content item');
 }
 
-const contentByIdResponse = await getOptimizelySdk(contentPayload).contentById({
+// Always fetch by ID to get the full content data
+// Update the payload to use the actual locale that has content
+const contentByIdPayload = {
+    ...contentPayload,
+    loc: localeToSdkLocale(actualLocaleUsed) as Locales,
+};
+
+const contentByIdResponse = await getOptimizelySdk(contentByIdPayload).contentById({
     key: item._metadata.key || '',
     ver: item._metadata.version || '',
-    loc: item._metadata.locale as Locales,
+    loc: localeToSdkLocale(actualLocaleUsed) as Locales,
 });
+
 contentPayload = {
     ctx: ctx,
     key: item._metadata.key || '',
     ver: item._metadata.version || '',
-    loc: item._metadata.locale as Locales,
+    loc: localeToSdkLocale(actualLocaleUsed) as Locales,
     preview_token: '',
-    types:
-        (contentByIdResponse?._Content?.item?._metadata?.types as string[]) ||
-        [],
+    types: (contentByIdResponse?._Content?.item?._metadata?.types as string[]) || [],
 };
 const isComponentType = contentPayload.types.includes('_Component');
 const isExperienceType = contentPayload.types.includes('_Experience');

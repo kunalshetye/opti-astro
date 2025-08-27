@@ -1,0 +1,7 @@
+fragment urlElement on OptiFormsUrlElement {
+    Label
+    Placeholder
+    Tooltip
+    PredefinedValue
+    Validators
+}

@@ -1,6 +1,7 @@
 ---
 import { ClientRouter } from "astro:transitions";
 import { Font } from 'astro:assets';
+import { ASTRO_TRANSITIONS_ENABLED } from 'astro:env/client';
 
 import type { Locales } from '../../__generated/sdk';
 import SiteStyles from "../cms/components/SiteStylesComponent/SiteStyles.astro";
@@ -60,7 +61,7 @@ const indexedColorProperties = [
                 <link rel="stylesheet" href={externalStylesUrl} />
             </>
         )}
-        <ClientRouter />
+        {ASTRO_TRANSITIONS_ENABLED && <ClientRouter />}
     </head>
     <body>
         <!-- Theme switcher dropdown -->

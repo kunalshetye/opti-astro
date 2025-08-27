@@ -1,0 +1,97 @@
+---
+import type {
+    DisplaySettingsFragment,
+    OptiFormsTextboxElement,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import {
+    requiredValidatorMsg,
+    emailValidatorMsg,
+    numberValidatorMsg,
+    regExpValidatorMsg,
+    getRegularExpression,
+} from '../formHelper';
+
+// https://daisyui.com/components/input/
+
+export interface Props {
+    data: OptiFormsTextboxElement;
+    contentPayload: ContentPayload;
+    displaySettings: DisplaySettingsFragment[];
+    Label?: string;
+    Placeholder?: string;
+    Tooltip?: string;
+    PredefinedValue?: string;
+    Validators?: any;
+    AutoComplete?: string;
+}
+const { data, displaySettings } = Astro.props as Props;
+const {
+    Label,
+    Placeholder,
+    Tooltip,
+    PredefinedValue,
+    Validators,
+    AutoComplete,
+} = data;
+
+const isRequiredErrorMsg = requiredValidatorMsg(Validators);
+const isEmailErrorMsg = emailValidatorMsg(Validators);
+const isNumberErrorMsg = numberValidatorMsg(Validators);
+const isRegExpErrorMsg = regExpValidatorMsg(Validators);
+
+const regularExpressionValue = isRegExpErrorMsg
+    ? getRegularExpression(Validators)
+    : undefined;
+
+const inputType =
+    (isEmailErrorMsg && 'email') || (isNumberErrorMsg && 'number') || 'text';
+
+const inputId = Label?.replace(/\s+/g, '_') || `textbox-${Math.random().toString(36).substr(2, 4)}`;
+
+const errorIds = [
+    isRequiredErrorMsg && `${inputId}-required-error`,
+    isRegExpErrorMsg && `${inputId}-regexp-error`,
+    isEmailErrorMsg && `${inputId}-email-error`,
+    isNumberErrorMsg && `${inputId}-number-error`
+].filter(Boolean).join(' ');
+---
+
+<label class="text-lg font-semibold" for={inputId}>
+    {Label}
+    {isRequiredErrorMsg && <span aria-label="required">*</span>}
+</label>
+
+<input
+    id={inputId}
+    name={inputId}
+    type={inputType}
+    class="input validator w-full"
+    required={isRequiredErrorMsg ? true : false}
+    aria-describedby={errorIds || undefined}
+    placeholder={Placeholder}
+    value={PredefinedValue}
+    autocomplete={AutoComplete || 'off'}
+    {...regularExpressionValue ? { pattern: regularExpressionValue } : {}}
+    title={Tooltip}
+/>
+{
+    isRequiredErrorMsg && (
+        <div id={`${inputId}-required-error`} class="validator-hint hidden">{isRequiredErrorMsg}</div>
+    )
+}
+{
+    isRegExpErrorMsg && (
+        <div id={`${inputId}-regexp-error`} class="validator-hint hidden">{isRegExpErrorMsg}</div>
+    )
+}
+{
+    isEmailErrorMsg && (
+        <div id={`${inputId}-email-error`} class="validator-hint hidden">{isEmailErrorMsg}</div>
+    )
+}
+{
+    isNumberErrorMsg && (
+        <div id={`${inputId}-number-error`} class="validator-hint hidden">{isNumberErrorMsg}</div>
+    )
+}

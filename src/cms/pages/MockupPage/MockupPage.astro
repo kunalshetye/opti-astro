@@ -1,0 +1,30 @@
+---
+import type { Locales } from 'astro';
+import type { MockupPageFragment } from '../../../../__generated/sdk';
+import { getOptimizelySdk } from '../../../graphql/getSdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+
+export interface Props {
+    contentPayload: ContentPayload;
+}
+const { contentPayload } = Astro.props as Props;
+
+const optiResponse = await getOptimizelySdk(contentPayload).pageById({
+    key: contentPayload.key,
+    //@ts-ignore
+    loc: contentPayload.loc as Locales,
+    ver: contentPayload.ver,
+});
+
+const page = optiResponse?._Page?.item as MockupPageFragment;
+const htmlMockup = page?.HtmlMockup ?? '';
+
+console.log('MockupPage', {
+    contentPayload,
+    optiResponse,
+    page,
+    htmlMockup,
+});
+---
+
+<Fragment set:html={htmlMockup} />

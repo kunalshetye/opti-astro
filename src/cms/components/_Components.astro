@@ -1,21 +1,24 @@
 ---
 import type { ContentPayload } from '../../graphql/shared/ContentPayload';
-import ArticleList from './ArticleListComponent/ArticleList.astro';
 import ArticlePageCard from '../pages/ArticlePage/ArticlePageCard.astro';
+import ArticleList from './ArticleListComponent/ArticleList.astro';
 import Button from './ButtonComponent/Button.astro';
 import CallToAction from './CallToActionComponent/CallToAction.astro';
 import Card from './CardComponent/Card.astro';
 import Carousel from './CarouselComponent/Carousel.astro';
-import Divider from './DividerComponent/Divider.astro';
 import Collapse from './CollapseComponent/Collapse.astro';
+import Divider from './DividerComponent/Divider.astro';
 import Grid from './GridComponent/Grid.astro';
 import Hero from './HeroComponent/Hero.astro';
 import Iframe from './IframeComponent/Iframe.astro';
 import Image from './ImageComponent/Image.astro';
+import OdpForm from './OdpFormComponent/OdpForm.astro';
 import Paragraph from './ParagraphComponent/Paragraph.astro';
 import Text from './TextComponent/Text.astro';
 import Video from './VideoComponent/Video.astro';
 import VideoExternal from './VideoExternalComponent/VideoExternal.astro';
+import OptiForm from '../forms/base/OptiFormsContainerDataComponent/OptiForm.astro';
+
 interface Props {
     contentPayload: ContentPayload;
     data: any;
@@ -192,5 +195,23 @@ const componentType = component._metadata.types[0];
             data={component}
             displaySettings={displaySettings}
         />
+    )
+}
+
+{
+    componentType === 'OdpForm' && (
+        <OdpForm
+            key={data?.key}
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+        />
+    )
+}
+
+
+{
+    componentType === 'OptiFormsContainerData' && (
+        <OptiForm contentPayload={contentPayload} grid={component} />
     )
 }

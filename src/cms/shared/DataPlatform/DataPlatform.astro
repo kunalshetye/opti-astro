@@ -1,0 +1,36 @@
+---
+import { isEditContext } from '../utils.ts';
+
+export interface Props {
+    odpPublicKey: string | null | undefined;
+}
+const { odpPublicKey } = Astro.props as Props;
+
+const isCmsEdit = isEditContext(Astro.url);
+
+const shouldTrack = odpPublicKey && !isCmsEdit;
+---
+
+{odpPublicKey && (
+    <script is:inline define:vars={{ odpPublicKey }}>
+        // ODP Initialization (runs once)
+        var zaius = window['zaius']||(window['zaius']=[]);zaius.methods=["initialize","onload","customer","entity","event","subscribe","unsubscribe","consent","identify","anonymize","dispatch"];zaius.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);zaius.push(t);return zaius}};(function(){for(var i=0;i<zaius.methods.length;i++){var method=zaius.methods[i];zaius[method]=zaius.factory(method)}var e=document.createElement("script");e.type="text/javascript";e.async=true;e.src=("https:"===document.location.protocol?"https://":"http://")+"d1igp3oop3iho5.cloudfront.net/v2/" + odpPublicKey + "/zaius-min.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();
+    </script>
+)}
+
+{shouldTrack && (
+    <script is:inline>
+        // Pageview Tracking (runs on every navigation)
+        function trackPageview() {
+            // We check if the zaius object is ready before sending an event.
+            if (window.zaius && typeof window.zaius.event === 'function') {
+                console.log('ODP Pageview Tracked:', window.location.pathname);
+                window.zaius.event('pageview');
+            }
+        }
+        // Track the initial page load
+        trackPageview();
+        // Listen for Astro's client-side navigation event and track every subsequent pageview
+        document.addEventListener('astro:after-swap', trackPageview);
+    </script>
+)}

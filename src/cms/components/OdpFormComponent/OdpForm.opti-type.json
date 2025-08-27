@@ -1,0 +1,49 @@
+{
+	"key": "OdpForm",
+	"displayName": "ODP Form",
+	"description": "Optimizely Data Platform form integration block",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"sectionEnabled",
+		"elementEnabled"
+	],
+	"properties": {
+		"SelectorType": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Selector Type",
+			"description": "Choose whether to target by ID or CSS class",
+			"localized": false,
+			"required": true,
+			"group": "Content",
+			"sortOrder": 10,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "ID",
+						"value": "id"
+					},
+					{
+						"displayName": "Class",
+						"value": "class"
+					}
+				]
+			}
+		},
+		"SelectorName": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "Selector Name",
+			"description": "The ID or class name to target (without # or .)",
+			"localized": false,
+			"required": true,
+			"group": "Content",
+			"sortOrder": 20,
+			"editorSettings": {}
+		}
+	}
+}

@@ -1,0 +1,232 @@
+---
+import { getFXDebugSessions, type FXDebugInfo } from '../../../optimizely/debug';
+import DevToolsPanel from './DevToolsPanel.astro';
+import { isEditContext, isPreviewContext } from '../utils.ts';
+
+export interface Props {
+    debugInfo?: FXDebugInfo;
+}
+
+const { debugInfo } = Astro.props;
+const isCmsEdit = isEditContext(Astro.url);
+const isCmsPreview = isPreviewContext(Astro.url);
+
+// Get FX debug sessions from global store, plus any current session
+const storedSessions = getFXDebugSessions();
+const allSessions = debugInfo ? [debugInfo, ...storedSessions] : storedSessions;
+// Only show the most recent session
+const fxDebugSessions = allSessions.slice(0, 1);
+---
+
+<DevToolsPanel title="Optimizely Feature Experimentation" sectionKey="optimizelyFX" badge={fxDebugSessions.length > 0 ? 1 : 0}>
+    <div class="space-y-4">
+        {fxDebugSessions.length === 0 ? (
+            <p class="text-sm text-base-content opacity-70 font-mono">No FX debug sessions captured yet. Navigate to different pages to see FX SDK activity.</p>
+        ) : (
+            fxDebugSessions.map((session, index) => (
+                <div class="bg-base-100 rounded-lg border border-base-300 overflow-hidden" x-data="{ 
+                    sdkOpen: false, 
+                    userOpen: false, 
+                    contentOpen: false, 
+                    errorsOpen: false 
+                }">
+                    <!-- Session Header -->
+                    <div class="px-4 py-2 bg-base-200 border-b border-base-300 flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono text-base-content opacity-70">
+                                Last Session - {session.timestamp.toLocaleTimeString()}
+                            </span>
+                            <div class="flex gap-1">
+                                {session.sdk.enabled ? (
+                                    <span class="badge badge-success badge-xs">SDK Enabled</span>
+                                ) : (
+                                    <span class="badge badge-ghost badge-xs">SDK Disabled</span>
+                                )}
+                                {session.content.isVariantContent ? (
+                                    <span class="badge badge-primary badge-xs">Variant Content</span>
+                                ) : (
+                                    <span class="badge badge-ghost badge-xs">Default Content</span>
+                                )}
+                                {session.errors.length > 0 && (
+                                    <span class="badge badge-error badge-xs">{session.errors.length} Error{session.errors.length > 1 ? 's' : ''}</span>
+                                )}
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button 
+                                @click="const allOpen = sdkOpen && userOpen && contentOpen; sdkOpen = !allOpen; userOpen = !allOpen; contentOpen = !allOpen; if (errorsOpen) errorsOpen = !allOpen;"
+                                class="btn btn-xs btn-ghost gap-1"
+                                :title="(sdkOpen && userOpen && contentOpen) ? 'Collapse all sections' : 'Expand all sections'"
+                            >
+                                <span x-text="(sdkOpen && userOpen && contentOpen) ? '📁 Collapse All' : '📂 Expand All'"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="p-4 space-y-4">
+                        <!-- Page Info -->
+                        <div class="bg-base-200 rounded p-3">
+                            <h4 class="text-xs font-semibold text-base-content mb-2">Page Information</h4>
+                            <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                                <div><span class="text-base-content opacity-70">URL:</span> {session.page.url}</div>
+                                <div><span class="text-base-content opacity-70">Locale:</span> {session.page.locale}</div>
+                            </div>
+                        </div>
+
+                        <!-- SDK Information -->
+                        <div>
+                            <button 
+                                @click="sdkOpen = !sdkOpen"
+                                class="text-xs font-semibold text-base-content hover:text-primary transition-colors flex items-center gap-1 mb-2"
+                            >
+                                <span x-text="sdkOpen ? '▼' : '▶'"></span>
+                                SDK Information
+                                <span class="badge badge-xs ml-1" class:list={[
+                                    session.sdk.enabled ? "badge-success" : "badge-ghost"
+                                ]}>
+                                    {session.sdk.enabled ? 'Enabled' : 'Disabled'}
+                                </span>
+                            </button>
+                            
+                            <div x-show="sdkOpen" x-transition class="bg-neutral text-neutral-content p-3 rounded text-xs">
+                                <div class="grid grid-cols-1 gap-2 font-mono">
+                                    {session.sdk.sdkKey && (
+                                        <div><span class="opacity-70">SDK Key:</span> {session.sdk.sdkKey}</div>
+                                    )}
+                                    <div><span class="opacity-70">Status:</span> {session.sdk.enabled ? '✅ Enabled' : '❌ Disabled'}</div>
+                                    <div><span class="opacity-70">Available Flags:</span> {session.sdk.availableFlags.length > 0 ? session.sdk.availableFlags.join(', ') : 'None'}</div>
+                                    {session.sdk.error && (
+                                        <div class="text-error"><span class="opacity-70">Error:</span> {session.sdk.error}</div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- User Information -->
+                        <div>
+                            <button 
+                                @click="userOpen = !userOpen"
+                                class="text-xs font-semibold text-base-content hover:text-primary transition-colors flex items-center gap-1 mb-2"
+                            >
+                                <span x-text="userOpen ? '▼' : '▶'"></span>
+                                User Context
+                                <span class="badge badge-xs ml-1" class:list={[
+                                    session.user.isNew ? "badge-info" : "badge-ghost"
+                                ]}>
+                                    {session.user.isNew ? 'New User' : 'Returning User'}
+                                </span>
+                            </button>
+                            
+                            <div x-show="userOpen" x-transition class="bg-neutral text-neutral-content p-3 rounded text-xs">
+                                <div class="space-y-2 font-mono">
+                                    <div><span class="opacity-70">User ID:</span> {session.user.id}</div>
+                                    <div><span class="opacity-70">User Type:</span> {session.user.isNew ? 'New User' : 'Returning User'}</div>
+                                    {Object.keys(session.user.attributes).length > 0 && (
+                                        <div>
+                                            <span class="opacity-70">Attributes:</span>
+                                            <pre class="mt-1 bg-base-300 text-base-content p-2 rounded overflow-x-auto">{JSON.stringify(session.user.attributes, null, 2)}</pre>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Content Resolution -->
+                        <div>
+                            <button 
+                                @click="contentOpen = !contentOpen"
+                                class="text-xs font-semibold text-base-content hover:text-primary transition-colors flex items-center gap-1 mb-2"
+                            >
+                                <span x-text="contentOpen ? '▼' : '▶'"></span>
+                                Content Resolution
+                                <span class="badge badge-xs ml-1" class:list={[
+                                    session.content.isVariantContent ? "badge-primary" : "badge-ghost"
+                                ]}>
+                                    {session.content.isVariantContent ? 'Variant' : 'Default'}
+                                </span>
+                            </button>
+                            
+                            <div x-show="contentOpen" x-transition class="bg-neutral text-neutral-content p-3 rounded text-xs space-y-3">
+                                <div class="font-mono">
+                                    <div><span class="opacity-70">Default Content Key:</span> {session.content.defaultKey || 'N/A'}</div>
+                                    <div><span class="opacity-70">Flag Key Used:</span> {session.content.flagKey || 'N/A'}</div>
+                                    <div><span class="opacity-70">Final Content Key:</span> {session.content.finalContentKey || 'N/A'}</div>
+                                </div>
+
+                                {session.content.decision && (
+                                    <div>
+                                        <div class="opacity-70 mb-1">FX Decision:</div>
+                                        <div class="bg-base-300 text-base-content p-2 rounded">
+                                            <div class="grid grid-cols-2 gap-2 font-mono text-xs">
+                                                <div><span class="opacity-70">Enabled:</span> {session.content.decision.enabled ? '✅ Yes' : '❌ No'}</div>
+                                                <div><span class="opacity-70">Variation:</span> {session.content.decision.variationKey || 'None'}</div>
+                                                <div><span class="opacity-70">Rule Key:</span> {session.content.decision.ruleKey || 'None'}</div>
+                                                <div><span class="opacity-70">Flag Key:</span> {session.content.decision.flagKey || 'None'}</div>
+                                            </div>
+                                            {session.content.decision.reasons && session.content.decision.reasons.length > 0 && (
+                                                <div class="mt-2">
+                                                    <div class="opacity-70 text-xs">Reasons:</div>
+                                                    <ul class="list-disc list-inside text-xs">
+                                                        {session.content.decision.reasons.map((reason: string) => (
+                                                            <li>{reason}</li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div class="font-mono">
+                                    <div><span class="opacity-70">Variant Requested:</span> {session.content.variantRequested || 'None'}</div>
+                                    <div><span class="opacity-70">Variant Received:</span> {session.content.variantReceived || 'None'}</div>
+                                    <div><span class="opacity-70">Used Variant Content:</span> {session.content.isVariantContent ? '✅ Yes' : '❌ No'}</div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Errors -->
+                        {session.errors.length > 0 && (
+                            <div>
+                                <button 
+                                    @click="errorsOpen = !errorsOpen"
+                                    class="text-xs font-semibold text-error hover:text-error-focus transition-colors flex items-center gap-1 mb-2"
+                                >
+                                    <span x-text="errorsOpen ? '▼' : '▶'"></span>
+                                    Errors
+                                    <span class="badge badge-error badge-xs ml-1">{session.errors.length}</span>
+                                </button>
+                                
+                                <div x-show="errorsOpen" x-transition class="bg-base-300 border border-error rounded p-3 text-xs">
+                                    <ul class="list-disc list-inside space-y-1 font-mono text-error-content">
+                                        {session.errors.map(error => (
+                                            <li class="text-error">{error}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        )}
+
+                        {!isCmsEdit && !isCmsPreview && (
+                            <div class="flex gap-2 pt-2 border-t border-base-300">
+                                <button 
+                                    @click="navigator.clipboard.writeText(JSON.stringify($el.closest('.bg-base-100').querySelector('script').textContent, null, 2))"
+                                    class="btn btn-xs btn-primary"
+                                    title="Copy session data as JSON"
+                                >
+                                    📋 Copy Session Data
+                                </button>
+                            </div>
+                        )}
+
+                        <!-- Hidden data for copy functionality -->
+                        <script type="application/json" style="display: none;">
+                            {JSON.stringify(session, null, 2)}
+                        </script>
+                    </div>
+                </div>
+            ))
+        )}
+    </div>
+</DevToolsPanel>
