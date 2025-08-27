@@ -42,6 +42,13 @@ const fxDebugSessions = allSessions.slice(0, 1);
                                 ) : (
                                     <span class="badge badge-ghost badge-xs">SDK Disabled</span>
                                 )}
+                                {session.sdk.isValidKey !== undefined && (
+                                    session.sdk.isValidKey ? (
+                                        <span class="badge badge-success badge-xs">Valid SDK Key</span>
+                                    ) : (
+                                        <span class="badge badge-error badge-xs">Invalid SDK Key</span>
+                                    )
+                                )}
                                 {session.content.isVariantContent ? (
                                     <span class="badge badge-primary badge-xs">Variant Content</span>
                                 ) : (
@@ -86,14 +93,38 @@ const fxDebugSessions = allSessions.slice(0, 1);
                                 ]}>
                                     {session.sdk.enabled ? 'Enabled' : 'Disabled'}
                                 </span>
+                                {session.sdk.isValidKey !== undefined && (
+                                    <span class="badge badge-xs ml-1" class:list={[
+                                        session.sdk.isValidKey ? "badge-success" : "badge-error"
+                                    ]}>
+                                        {session.sdk.isValidKey ? '✓ Valid Key' : '✗ Invalid Key'}
+                                    </span>
+                                )}
                             </button>
                             
                             <div x-show="sdkOpen" x-transition class="bg-neutral text-neutral-content p-3 rounded text-xs">
                                 <div class="grid grid-cols-1 gap-2 font-mono">
                                     {session.sdk.sdkKey && (
-                                        <div><span class="opacity-70">SDK Key:</span> {session.sdk.sdkKey}</div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="opacity-70">SDK Key:</span> 
+                                            <span>{session.sdk.sdkKey}</span>
+                                            {session.sdk.isValidKey !== undefined && (
+                                                <span class="ml-auto">
+                                                    {session.sdk.isValidKey ? (
+                                                        <span class="text-success">✅ Valid</span>
+                                                    ) : (
+                                                        <span class="text-error">❌ Invalid</span>
+                                                    )}
+                                                </span>
+                                            )}
+                                        </div>
                                     )}
                                     <div><span class="opacity-70">Status:</span> {session.sdk.enabled ? '✅ Enabled' : '❌ Disabled'}</div>
+                                    {session.sdk.validationError && (
+                                        <div class="text-warning">
+                                            <span class="opacity-70">Validation:</span> {session.sdk.validationError}
+                                        </div>
+                                    )}
                                     <div><span class="opacity-70">Available Flags:</span> {session.sdk.availableFlags.length > 0 ? session.sdk.availableFlags.join(', ') : 'None'}</div>
                                     {session.sdk.error && (
                                         <div class="text-error"><span class="opacity-70">Error:</span> {session.sdk.error}</div>
