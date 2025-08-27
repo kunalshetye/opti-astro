@@ -390,6 +390,61 @@
 				}
 			}
 		},
+		"imageTintLevel": {
+			"displayName": "Image Tint Level",
+			"editor": "",
+			"sortOrder": 135,
+			"choices": {
+				"o_0": {
+					"displayName": "0 (No Tint)",
+					"sortOrder": 0
+				},
+				"o_10": {
+					"displayName": "10",
+					"sortOrder": 10
+				},
+				"o_20": {
+					"displayName": "20",
+					"sortOrder": 20
+				},
+				"o_30": {
+					"displayName": "30",
+					"sortOrder": 30
+				},
+				"o_40": {
+					"displayName": "40",
+					"sortOrder": 40
+				},
+				"o_50": {
+					"displayName": "50",
+					"sortOrder": 50
+				},
+				"o_60": {
+					"displayName": "60",
+					"sortOrder": 60
+				},
+				"o_70": {
+					"displayName": "70",
+					"sortOrder": 70
+				},
+				"o_75": {
+					"displayName": "75",
+					"sortOrder": 75
+				},
+				"o_80": {
+					"displayName": "80",
+					"sortOrder": 80
+				},
+				"o_90": {
+					"displayName": "90",
+					"sortOrder": 90
+				},
+				"o_100": {
+					"displayName": "100",
+					"sortOrder": 100
+				}
+			}
+		},
 		"overlayTintLevel": {
 			"displayName": "Overlay Tint Level",
 			"editor": "",

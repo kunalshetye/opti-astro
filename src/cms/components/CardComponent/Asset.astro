@@ -5,6 +5,7 @@ CardFragment,
 DisplaySettingsFragment,
 } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
 
 export interface Props {
     data: CardFragment;
@@ -22,6 +23,32 @@ const imageUrl = (data.Asset as any)?.item?.Url || data.Asset?.url?.default || n
 
 // Handle different display modes
 const isHoverMode = DisplayAs === 'hover';
+
+// Get image tint settings from display settings (only for hover mode)
+const dictionary = getDictionaryFromDisplaySettings(displaySettings);
+const imageTintLevel = dictionary['imageTintLevel'] || 'o_0'; // default no tint
+
+// Build image tint overlay class using bg-neutral with opacity (only for hover mode)
+let imageTintClass = '';
+if (isHoverMode && imageTintLevel !== 'o_0') {
+    const opacityMap: Record<string, string> = {
+        'o_0': '/0',
+        'o_10': '/10',
+        'o_20': '/20',
+        'o_30': '/30',
+        'o_40': '/40',
+        'o_50': '/50',
+        'o_60': '/60',
+        'o_70': '/70',
+        'o_75': '/75',
+        'o_80': '/80',
+        'o_90': '/90',
+        'o_100': '/100'
+    };
+
+    const opacityClass = opacityMap[imageTintLevel] || '/0';
+    imageTintClass = `bg-neutral${opacityClass}`;
+}
 
 
 const containerClasses = isFullSplit 
@@ -42,12 +69,18 @@ const finalContainerClasses = [containerClasses];
 <div class:list={finalContainerClasses}>
     {
         imageUrl && (
-            <AstroImage
-                alt={data.Asset?.item?.AltText || data.Asset?.item?._metadata?.displayName || data.Heading || 'Card image'}
-                class={imageClasses}
-                inferSize
-                src={imageUrl}
-            />
+            <>
+                <AstroImage
+                    alt={data.Asset?.item?.AltText || data.Asset?.item?._metadata?.displayName || data.Heading || 'Card image'}
+                    class={imageClasses}
+                    inferSize
+                    src={imageUrl}
+                />
+                {/* Image tint overlay (only for hover mode when tint is applied) */}
+                {isHoverMode && imageTintClass && (
+                    <div class={`absolute inset-0 ${imageTintClass} z-5`}></div>
+                )}
+            </>
         )
     }
 </div>
