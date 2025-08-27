@@ -33,10 +33,17 @@ const contentWidthClass = getContentWidthClass(dictionary);
 const assetVerticalAlignClass = getAssetVerticalAlignClass(displaySettings);
 const contentVerticalAlignClass = getContentVerticalAlignClass(displaySettings);
 const globalStyles = getGlobalStyles(displaySettings);
+
+// Build hover effect classes
+const hoverEffect = dictionary['hoverEffect'] || 'zoom_subtle';
+const hoverClasses = {
+    'transition-transform duration-300 hover:scale-105 overflow-hidden': hoverEffect === 'zoom',
+    'transition-transform duration-300 hover:scale-[1.02] overflow-hidden': hoverEffect === 'zoom_subtle',
+};
 ---
 
 <span data-epi-block-id={isCmsEdit && key || undefined}>
-    <Wrapper DisplayAs={DisplayAs ?? ''} GlobalStyles={globalStyles}>
+    <Wrapper DisplayAs={DisplayAs ?? ''} GlobalStyles={globalStyles} HoverClasses={hoverClasses}>
         <Asset
             data={data}
             displaySettings={displaySettings}

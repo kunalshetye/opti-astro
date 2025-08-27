@@ -5,6 +5,7 @@ import type {
     HeroFragment,
 } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
 import { getHeroStyles } from './HeroStyling';
 import { getGlobalStyles } from '../../shared/globalStylesHelper';
 import LinkButton from '../ButtonComponent/LinkButton.astro';
@@ -31,11 +32,21 @@ const hasVideo = videoUrl !== null;
 const { justifyClass, backgroundOpacityClass, textClasses, heightClass, imageFitClass } =
     getHeroStyles(displaySettings);
 const globalStyles = getGlobalStyles(displaySettings);
+
+// Get hover effect settings
+const dictionary = getDictionaryFromDisplaySettings(displaySettings);
+const hoverEffect = dictionary['hoverEffect'] || 'zoom_subtle';
+
+// Build hover effect classes
+const hoverClasses = {
+    'transition-transform duration-300 hover:scale-105 overflow-hidden': hoverEffect === 'zoom',
+    'transition-transform duration-300 hover:scale-[1.02] overflow-hidden': hoverEffect === 'zoom_subtle',
+};
 ---
 
 <section
     class="relative flex w-full items-center"
-    class:list={[justifyClass, heightClass, globalStyles]}
+    class:list={[justifyClass, heightClass, globalStyles, hoverClasses]}
     data-epi-block-id={isCmsEdit && key || undefined}    
 >
     {

@@ -1,0 +1,81 @@
+{
+	"key": "DefaultArticleList",
+	"displayName": "Article List Default",
+	"contentType": "ArticleList",
+	"isDefault": true,
+	"settings": {
+		"hoverEffect": {
+			"displayName": "Card Hover Effect",
+			"editor": "",
+			"sortOrder": 10,
+			"choices": {
+				"zoom_subtle": {
+					"displayName": "Zoom (Subtle) (Default)",
+					"sortOrder": 10
+				},
+				"zoom": {
+					"displayName": "Zoom",
+					"sortOrder": 20
+				},
+				"none": {
+					"displayName": "None",
+					"sortOrder": 30
+				}
+			}
+		},
+		"cardShadow": {
+			"displayName": "Card Shadow",
+			"editor": "",
+			"sortOrder": 20,
+			"choices": {
+				"none": {
+					"displayName": "None",
+					"sortOrder": 10
+				},
+				"sm": {
+					"displayName": "Small (Default)",
+					"sortOrder": 20
+				},
+				"md": {
+					"displayName": "Medium",
+					"sortOrder": 30
+				},
+				"lg": {
+					"displayName": "Large",
+					"sortOrder": 40
+				},
+				"xl": {
+					"displayName": "Extra Large",
+					"sortOrder": 50
+				}
+			}
+		},
+		"hoverShadow": {
+			"displayName": "Card Hover Shadow",
+			"editor": "",
+			"sortOrder": 30,
+			"choices": {
+				"none": {
+					"displayName": "None",
+					"sortOrder": 10
+				},
+				"md": {
+					"displayName": "Medium",
+					"sortOrder": 20
+				},
+				"lg": {
+					"displayName": "Large",
+					"sortOrder": 30
+				},
+				"xl": {
+					"displayName": "Extra Large",
+					"sortOrder": 40
+				},
+				"xxl": {
+					"displayName": "2x Large",
+					"sortOrder": 50
+				}
+			}
+		}
+	}
+}

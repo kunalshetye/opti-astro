@@ -4,6 +4,25 @@
 	"contentType": "Card",
 	"isDefault": true,
 	"settings": {
+		"hoverEffect": {
+			"displayName": "Card Hover Effect",
+			"editor": "",
+			"sortOrder": 1,
+			"choices": {
+				"zoom_subtle": {
+					"displayName": "Zoom (Subtle) (Default)",
+					"sortOrder": 10
+				},
+				"zoom": {
+					"displayName": "Zoom",
+					"sortOrder": 20
+				},
+				"none": {
+					"displayName": "None",
+					"sortOrder": 30
+				}
+			}
+		},
 		"transform": {
 			"displayName": "Button Text Transform",
 			"editor": "",

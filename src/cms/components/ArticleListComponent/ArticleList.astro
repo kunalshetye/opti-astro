@@ -8,6 +8,7 @@ DisplaySettingsFragment,
 } from '../../../../__generated/sdk';
 import { getOptimizelySdk } from '../../../graphql/getSdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
 import LinkButton from '../ButtonComponent/LinkButton.astro';
 import { isEditContext } from '../../shared/utils.ts';
 
@@ -19,7 +20,7 @@ export interface Props {
     displaySettings: DisplaySettingsFragment[];
     contentPayload: ContentPayload;
 }
-const { key, data, contentPayload } = Astro.props as Props;
+const { key, data, displaySettings, contentPayload } = Astro.props as Props;
 const currentSite = Astro.url.origin;
 const articlesList = await getOptimizelySdk(contentPayload).getArticles({
     //@ts-ignore
@@ -29,6 +30,34 @@ const articlesList = await getOptimizelySdk(contentPayload).getArticles({
 });
 const glideId = randomBytes(5).toString('hex');
 const items = articlesList.ArticlePage?.items || null;
+
+// Get style settings from display settings
+const styleDictionary = getDictionaryFromDisplaySettings(displaySettings);
+
+// Build dynamic classes for cards based on settings
+// Default to 'zoom_subtle' if no hover effect is specified
+const hoverEffect = styleDictionary['hoverEffect'] || 'zoom_subtle';
+const shadowValue = styleDictionary['cardShadow'] || 'sm';
+const hoverShadowValue = styleDictionary['hoverShadow'] || 'lg';
+
+// Build dynamic card class list for style-based classes
+const cardDynamicClasses = {
+    // Override default shadow if specified
+    'shadow-none': shadowValue === 'none',
+    'shadow-md': shadowValue === 'md',
+    'shadow-lg': shadowValue === 'lg',
+    'shadow-xl': shadowValue === 'xl',
+    // Hover shadow classes  
+    'hover:shadow-md': hoverShadowValue === 'md',
+    'hover:shadow-lg': hoverShadowValue === 'lg',
+    'hover:shadow-xl': hoverShadowValue === 'xl',
+    'hover:shadow-2xl': hoverShadowValue === 'xxl',
+    // Hover zoom effects
+    'transition-transform duration-300 hover:scale-105': hoverEffect === 'zoom',
+    'transition-transform duration-300 hover:scale-[1.02]': hoverEffect === 'zoom_subtle',
+    // Add overflow hidden for zoom effects
+    'overflow-hidden': hoverEffect === 'zoom' || hoverEffect === 'zoom_subtle',
+};
 ---
 
 <div data-epi-block-id={isCmsEdit && key || undefined}>
@@ -38,7 +67,7 @@ const items = articlesList.ArticlePage?.items || null;
             //@ts-ignore
             items?.map((item: ArticlePageExcerptFragment, i) => {
                 return (
-                    <div class="card bg-base-100 shadow-sm flex flex-col">      
+                    <div class="card bg-base-100 shadow-sm flex flex-col" class:list={[cardDynamicClasses]}>      
                         <figure>
                             <AstroImage
                                 class="aspect-3/2 object-cover"
