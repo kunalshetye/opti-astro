@@ -5,7 +5,7 @@
 	"isDefault": true,
 	"settings": {
 		"hoverEffect": {
-			"displayName": "Card Hover Effect",
+			"displayName": "Hover Effect",
 			"editor": "",
 			"sortOrder": 10,
 			"choices": {
