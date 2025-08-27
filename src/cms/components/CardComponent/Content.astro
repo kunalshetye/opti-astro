@@ -8,6 +8,7 @@ import LinkButton from '../ButtonComponent/LinkButton.astro';
 // import { getCardStyles } from './CardStyling';
 import { getButtonStyles } from '../ButtonComponent/ButtonStyling';
 import { getCardTextAlignmentStyle, getCardHeaderStyles } from './CardStyling';
+import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
 
 export interface Props {
     data: CardFragment;
@@ -34,33 +35,78 @@ const cssClassesSection = {
     textOnLeft: 'content-center',
     textAboveCard: 'text-center',
     textBelowCard: 'text-center',
+    hover: 'content-center text-center',
 };
 const cssTextClasses = {
     textOnRight: 'mt-0',
     textOnLeft: 'mt-0',
     textAboveCard: 'mt-2',
     textBelowCard: 'mt-2',
+    hover: 'mt-0',
 };
 const cssClassesCallToAction = {
     textOnRight: 'z-20 mt-8 flex gap-2 flex-wrap',
     textOnLeft: 'z-20 mt-8 flex gap-2 flex-wrap',
     textAboveCard: 'z-20 mt-8 flex justify-center gap-2 flex-wrap',
     textBelowCard: 'z-20 mt-8 flex justify-center gap-2 flex-wrap',
+    hover: 'z-20 mt-8 flex justify-center gap-2 flex-wrap',
 };
 type DisplayAsType =
     | 'textOnRight'
     | 'textOnLeft'
     | 'textAboveCard'
-    | 'textBelowCard';
+    | 'textBelowCard'
+    | 'hover';
 const displayAs: DisplayAsType =
     (DisplayAs as DisplayAsType) ?? (data?.DisplayAs as DisplayAsType) ?? 'textOnRight';
 const cssClassesForSection: string = cssClassesSection[displayAs];
 const cssClassesForCallToAction: string = cssClassesCallToAction[displayAs];
 const cssClassesForText: string = cssTextClasses[displayAs];
 
+// Handle different display modes
+const isHoverMode = displayAs === 'hover';
+
+
+// Get overlay settings from display settings  
+const dictionary = getDictionaryFromDisplaySettings(displaySettings);
+const overlayTintLevel = dictionary['overlayTintLevel'] || 'o_75';
+
+// Build overlay background class using bg-neutral with opacity
+let overlayBgClass = 'bg-neutral/75'; // default
+if (isHoverMode) {
+    const opacityMap: Record<string, string> = {
+        'o_0': '/0',
+        'o_10': '/10',
+        'o_20': '/20',
+        'o_30': '/30',
+        'o_40': '/40',
+        'o_50': '/50',
+        'o_60': '/60',
+        'o_70': '/70',
+        'o_75': '/75',
+        'o_80': '/80',
+        'o_90': '/90',
+        'o_100': '/100'
+    };
+
+    const opacityClass = opacityMap[overlayTintLevel] || '/75';
+    overlayBgClass = `bg-neutral${opacityClass}`;
+}
+
+// For hover mode, we need separate containers for heading (visible by default, hidden on hover) and overlay content
+const headingClasses = isHoverMode 
+    ? `absolute bottom-4 left-4 right-4 z-20 text-white drop-shadow-lg opacity-100 group-hover:opacity-0 transition-opacity duration-300`
+    : '';
+
+const overlayContentClasses = isHoverMode
+    ? `absolute inset-0 flex flex-col justify-center p-8 md:p-12 lg:p-16 ${cardTextAlignmentStyle} ${overlayBgClass} text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10`
+    : '';
+
 // For full split layout, content takes exactly 50% with background applied
 const containerClasses = isFullSplit 
     ? `w-full md:w-1/2 flex flex-col justify-center p-8 md:p-12 lg:p-16 ${cardTextAlignmentStyle} overflow-hidden`
+    : isHoverMode
+    ? 'absolute inset-0' // Container for positioning both heading and overlay
     : `${widthClass || 'flex-1'} ${cssClassesForSection} ${cardTextAlignmentStyle} ${verticalAlignClass || 'self-center'}`;
 
 // Build final classes including global styles for split mode
@@ -70,29 +116,70 @@ const contentClasses = isFullSplit
 ---
 
 <div class:list={contentClasses}>
-    {data.Heading && (
-        <h2 class={`text-4xl font-bold ${cardHeaderStyles}`} class:list={cssClassesForText}>
-            {data.Heading}
-        </h2>
-    )}
-    {data.SubHeading && (
-        <p class="text-sm font-semibold opacity-80" class:list={cssClassesForText}>
-            {data.SubHeading}
-        </p>
-    )}
-    {data.Body?.html && (
-        <div class={`${cssClassesForText} opacity-75`} set:html={data.Body.html}></div>
-    )}
-    {data.Links && data.Links.length > 0 && (
-        <div class={cssClassesForCallToAction}>
-            {
-                data.Links.map((link, i) => {
-                    const buttonType = ['', getButtonType(i)];
-                    return (
-                        <LinkButton cssClasses={[buttonType, cardButtonStyles]} link={link?.url?.default}>{link?.text}</LinkButton>
-                    );
-                })
-            }
-        </div>
+    {isHoverMode ? (
+        <!-- Hover Mode: Heading always visible at bottom, rest on hover overlay -->
+        <>
+            {/* Always visible heading */}
+            {data.Heading && (
+                <div class={headingClasses}>
+                    <h2 class={`text-4xl font-bold ${cardHeaderStyles}`}>
+                        {data.Heading}
+                    </h2>
+                </div>
+            )}
+            
+            {/* Hover overlay with remaining content */}
+            <div class={overlayContentClasses}>
+                {data.SubHeading && (
+                    <p class="text-sm font-semibold opacity-80 mb-4">
+                        {data.SubHeading}
+                    </p>
+                )}
+                {data.Body?.html && (
+                    <div class="opacity-75 mb-6" set:html={data.Body.html}></div>
+                )}
+                {data.Links && data.Links.length > 0 && (
+                    <div class={cssClassesForCallToAction}>
+                        {
+                            data.Links.map((link, i) => {
+                                const buttonType = ['', getButtonType(i)];
+                                return (
+                                    <LinkButton cssClasses={[buttonType, cardButtonStyles]} link={link?.url?.default}>{link?.text}</LinkButton>
+                                );
+                            })
+                        }
+                    </div>
+                )}
+            </div>
+        </>
+    ) : (
+        <!-- Normal Mode: All content together -->
+        <>
+            {data.Heading && (
+                <h2 class={`text-4xl font-bold ${cardHeaderStyles}`} class:list={cssClassesForText}>
+                    {data.Heading}
+                </h2>
+            )}
+            {data.SubHeading && (
+                <p class="text-sm font-semibold opacity-80" class:list={cssClassesForText}>
+                    {data.SubHeading}
+                </p>
+            )}
+            {data.Body?.html && (
+                <div class={`${cssClassesForText} opacity-75`} set:html={data.Body.html}></div>
+            )}
+            {data.Links && data.Links.length > 0 && (
+                <div class={cssClassesForCallToAction}>
+                    {
+                        data.Links.map((link, i) => {
+                            const buttonType = ['', getButtonType(i)];
+                            return (
+                                <LinkButton cssClasses={[buttonType, cardButtonStyles]} link={link?.url?.default}>{link?.text}</LinkButton>
+                            );
+                        })
+                    }
+                </div>
+            )}
+        </>
     )}
 </div>

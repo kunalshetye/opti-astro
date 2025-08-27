@@ -20,13 +20,20 @@ const { data, displaySettings, displayTemplateKey, contentPayload, DisplayAs, wi
     Astro.props as Props;
 const imageUrl = (data.Asset as any)?.item?.Url || data.Asset?.url?.default || null;
 
-// For full split layout, image takes exactly 50% with no rounding or padding
+// Handle different display modes
+const isHoverMode = DisplayAs === 'hover';
+
+
 const containerClasses = isFullSplit 
     ? 'relative w-full md:w-1/2 min-h-[500px] overflow-hidden'
+    : isHoverMode
+    ? 'w-full h-full'
     : `relative mx-auto max-w-4xl ${widthClass || 'flex-1'} ${verticalAlignClass || 'self-center'}`;
 
 const imageClasses = isFullSplit
     ? 'w-full min-h-[500px] object-cover'
+    : isHoverMode
+    ? 'w-full h-full object-cover block'
     : 'relative content-center rounded-xl object-cover';
 
 const finalContainerClasses = [containerClasses];

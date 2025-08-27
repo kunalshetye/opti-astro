@@ -38,11 +38,13 @@ const globalStyles = getGlobalStyles(displaySettings);
 const containerWidth = dictionary['containerWidth'] || 'default';
 const isFullSplit = containerWidth === 'fullSplit';
 
-// Build hover effect classes for the entire card
+// Build hover effect classes for the entire card (but not for hover overlay mode)
+const isHoverOverlayMode = DisplayAs === 'hover';
 const hoverEffect = dictionary['hoverEffect'] || 'zoom_subtle';
+
 const cardHoverClasses = {
-    'transition-transform duration-300 hover:scale-105': hoverEffect === 'zoom',
-    'transition-transform duration-300 hover:scale-[1.005]': hoverEffect === 'zoom_subtle',
+    'transition-transform duration-300 hover:scale-105': hoverEffect === 'zoom' && !isHoverOverlayMode,
+    'transition-transform duration-300 hover:scale-[1.005]': hoverEffect === 'zoom_subtle' && !isHoverOverlayMode,
     'overflow-hidden': true, // Always apply overflow-hidden for smooth scaling
 };
 

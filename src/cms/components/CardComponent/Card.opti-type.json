@@ -72,6 +72,10 @@
 					{
 						"displayName": "Text On Right",
 						"value": "textOnRight"
+					},
+					{
+						"displayName": "Hover Overlay",
+						"value": "hover"
 					}
 				]
 			}

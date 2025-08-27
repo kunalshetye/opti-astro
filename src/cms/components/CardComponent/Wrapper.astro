@@ -16,6 +16,8 @@ const defaultClasses = {
         'mx-auto max-w-7xl flex flex-col-reverse gap-4 rounded-xl p-5',
     textBelowCard:
         'mx-auto max-w-7xl flex flex-col gap-8 rounded-xl p-5',
+    hover:
+        'group relative mx-auto max-w-7xl rounded-xl overflow-hidden h-[400px]',
 };
 
 // CSS classes for full split layout (50/50 with no gaps or padding)
@@ -28,6 +30,8 @@ const fullSplitClasses = {
         'w-full flex flex-col-reverse min-h-[500px]',
     textBelowCard:
         'w-full flex flex-col min-h-[500px]',
+    hover:
+        'group relative w-full overflow-hidden h-[500px]',
 };
 
 const cssClasses = isFullSplit ? fullSplitClasses : defaultClasses;
