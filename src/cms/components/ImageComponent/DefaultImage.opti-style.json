@@ -4,6 +4,21 @@
 	"contentType": "Image",
 	"isDefault": true,
 	"settings": {
+		"displayAs": {
+			"displayName": "Display As",
+			"editor": "",
+			"sortOrder": 1,
+			"choices": {
+				"image": {
+					"displayName": "Image (Default)",
+					"sortOrder": 10
+				},
+				"icon": {
+					"displayName": "Icon",
+					"sortOrder": 20
+				}
+			}
+		},
 		"aspectRatio": {
 			"displayName": "Image aspect ratio",
 			"editor": "",
@@ -90,6 +105,64 @@
 				"full": {
 					"displayName": "Full",
 					"sortOrder": 90
+				}
+			}
+		},
+		"iconSize": {
+			"displayName": "Icon Size",
+			"editor": "",
+			"sortOrder": 100,
+			"choices": {
+				"xs": {
+					"displayName": "Extra Small (16px)",
+					"sortOrder": 10
+				},
+				"sm": {
+					"displayName": "Small (24px)",
+					"sortOrder": 20
+				},
+				"md": {
+					"displayName": "Medium (32px)",
+					"sortOrder": 30
+				},
+				"lg": {
+					"displayName": "Large (48px)",
+					"sortOrder": 40
+				},
+				"xl": {
+					"displayName": "Extra Large (64px)",
+					"sortOrder": 50
+				},
+				"xxl": {
+					"displayName": "2X Large (96px)",
+					"sortOrder": 60
+				},
+				"xxxl": {
+					"displayName": "3X Large (128px)",
+					"sortOrder": 70
+				}
+			}
+		},
+		"iconShape": {
+			"displayName": "Icon Shape",
+			"editor": "",
+			"sortOrder": 110,
+			"choices": {
+				"none": {
+					"displayName": "None",
+					"sortOrder": 10
+				},
+				"rounded": {
+					"displayName": "Rounded",
+					"sortOrder": 20
+				},
+				"circle": {
+					"displayName": "Circle",
+					"sortOrder": 30
+				},
+				"square": {
+					"displayName": "Square",
+					"sortOrder": 40
 				}
 			}
 		}
