@@ -71,14 +71,41 @@ export function getHeroStyles(displaySettings: DisplaySettingsFragment[]): {
 
     const textColor = settings['text_color'] ?? 'white';
     switch (textColor) {
+        case 'default':
+            // Don't add any class, use theme default
+            break;
         case 'white':
-            textClasses.push('text-base-100');
+            textClasses.push('text-white');
             break;
         case 'black':
-            textClasses.push('text-base-content');
+            textClasses.push('text-black');
+            break;
+        case 'neutral':
+            textClasses.push('text-neutral');
+            break;
+        case 'primary':
+            textClasses.push('text-primary');
+            break;
+        case 'secondary':
+            textClasses.push('text-secondary');
+            break;
+        case 'accent':
+            textClasses.push('text-accent');
+            break;
+        case 'info':
+            textClasses.push('text-info');
+            break;
+        case 'success':
+            textClasses.push('text-success');
+            break;
+        case 'warning':
+            textClasses.push('text-warning');
+            break;
+        case 'error':
+            textClasses.push('text-error');
             break;
         default:
-            textClasses.push('text-base-100');
+            textClasses.push('text-white');
             break;
     }
     const heroHeight = settings['hero_height'] ?? 'h_48rem';
