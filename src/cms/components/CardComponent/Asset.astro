@@ -14,18 +14,30 @@ export interface Props {
     DisplayAs?: string;
     widthClass?: string;
     verticalAlignClass?: string;
+    isFullSplit?: boolean;
 }
-const { data, displaySettings, displayTemplateKey, contentPayload, DisplayAs, widthClass, verticalAlignClass } =
+const { data, displaySettings, displayTemplateKey, contentPayload, DisplayAs, widthClass, verticalAlignClass, isFullSplit } =
     Astro.props as Props;
 const imageUrl = (data.Asset as any)?.item?.Url || data.Asset?.url?.default || null;
+
+// For full split layout, image takes exactly 50% with no rounding or padding
+const containerClasses = isFullSplit 
+    ? 'relative w-full md:w-1/2 min-h-[500px] overflow-hidden'
+    : `relative mx-auto max-w-4xl ${widthClass || 'flex-1'} ${verticalAlignClass || 'self-center'}`;
+
+const imageClasses = isFullSplit
+    ? 'w-full min-h-[500px] object-cover'
+    : 'relative content-center rounded-xl object-cover';
+
+const finalContainerClasses = [containerClasses];
 ---
 
-<div class={`relative mx-auto max-w-4xl ${widthClass || 'flex-1'} ${verticalAlignClass || 'self-center'}`}>
+<div class:list={finalContainerClasses}>
     {
         imageUrl && (
             <AstroImage
                 alt={data.Asset?.item?.AltText || data.Asset?.item?._metadata?.displayName || data.Heading || 'Card image'}
-                class="relative content-center rounded-xl object-cover"
+                class={imageClasses}
                 inferSize
                 src={imageUrl}
             />

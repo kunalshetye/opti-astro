@@ -2,10 +2,12 @@
 interface Props {
     DisplayAs: string;
     GlobalStyles?: string[];
-    HoverClasses?: Record<string, boolean>;
+    isFullSplit?: boolean;
 }
-const { DisplayAs, GlobalStyles, HoverClasses } = Astro.props as Props;
-const cssClasses = {
+const { DisplayAs, GlobalStyles, isFullSplit } = Astro.props as Props;
+
+// CSS classes for default max-w-7xl container
+const defaultClasses = {
     textOnRight:
         'mx-auto max-w-7xl flex flex-col gap-8 rounded-xl md:flex-row pe-5',
     textOnLeft:
@@ -15,9 +17,29 @@ const cssClasses = {
     textBelowCard:
         'mx-auto max-w-7xl flex flex-col gap-8 rounded-xl p-5',
 };
+
+// CSS classes for full split layout (50/50 with no gaps or padding)
+const fullSplitClasses = {
+    textOnRight:
+        'w-full flex flex-col md:flex-row min-h-[500px]',
+    textOnLeft:
+        'w-full flex flex-col-reverse md:flex-row-reverse min-h-[500px]',
+    textAboveCard:
+        'w-full flex flex-col-reverse min-h-[500px]',
+    textBelowCard:
+        'w-full flex flex-col min-h-[500px]',
+};
+
+const cssClasses = isFullSplit ? fullSplitClasses : defaultClasses;
+
 const cssClass = cssClasses[DisplayAs as keyof typeof cssClasses];
+
+// For full split, exclude GlobalStyles (applied to content section)
+const wrapperClasses = isFullSplit 
+    ? [cssClass]
+    : [cssClass, "opacity-100", ...(GlobalStyles ?? [])];
 ---
 
-<div class:list={[cssClass, "opacity-100", ...(GlobalStyles ?? []), HoverClasses]}>
+<div class:list={wrapperClasses}>
     <slot />
 </div>

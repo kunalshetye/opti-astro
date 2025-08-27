@@ -4,10 +4,25 @@
 	"contentType": "Card",
 	"isDefault": true,
 	"settings": {
+		"containerWidth": {
+			"displayName": "Container Width",
+			"editor": "",
+			"sortOrder": 1,
+			"choices": {
+				"default": {
+					"displayName": "Default (max-w-7xl)",
+					"sortOrder": 10
+				},
+				"fullSplit": {
+					"displayName": "Full Width (50/50 Split)",
+					"sortOrder": 20
+				}
+			}
+		},
 		"hoverEffect": {
 			"displayName": "Hover Effect",
 			"editor": "",
-			"sortOrder": 1,
+			"sortOrder": 2,
 			"choices": {
 				"zoom_subtle": {
 					"displayName": "Zoom (Subtle) (Default)",

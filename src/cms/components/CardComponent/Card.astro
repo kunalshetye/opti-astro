@@ -34,33 +34,49 @@ const assetVerticalAlignClass = getAssetVerticalAlignClass(displaySettings);
 const contentVerticalAlignClass = getContentVerticalAlignClass(displaySettings);
 const globalStyles = getGlobalStyles(displaySettings);
 
-// Build hover effect classes
+// Get container width setting
+const containerWidth = dictionary['containerWidth'] || 'default';
+const isFullSplit = containerWidth === 'fullSplit';
+
+// Build hover effect classes for the entire card
 const hoverEffect = dictionary['hoverEffect'] || 'zoom_subtle';
-const hoverClasses = {
-    'transition-transform duration-300 hover:scale-105 overflow-hidden': hoverEffect === 'zoom',
-    'transition-transform duration-300 hover:scale-[1.02] overflow-hidden': hoverEffect === 'zoom_subtle',
+const cardHoverClasses = {
+    'transition-transform duration-300 hover:scale-105': hoverEffect === 'zoom',
+    'transition-transform duration-300 hover:scale-[1.005]': hoverEffect === 'zoom_subtle',
+    'overflow-hidden': true, // Always apply overflow-hidden for smooth scaling
 };
+
+// Extract active hover classes and add negative margins for full split
+const activeCardHoverClasses = Object.keys(cardHoverClasses).filter(key => cardHoverClasses[key]);
+const cardContainerClasses = isFullSplit 
+    ? [...activeCardHoverClasses, '-m-2', 'sm:-m-3', 'md:-m-4']
+    : activeCardHoverClasses;
 ---
 
 <span data-epi-block-id={isCmsEdit && key || undefined}>
-    <Wrapper DisplayAs={DisplayAs ?? ''} GlobalStyles={globalStyles} HoverClasses={hoverClasses}>
-        <Asset
-            data={data}
-            displaySettings={displaySettings}
-            displayTemplateKey={displayTemplateKey}
-            contentPayload={contentPayload}
-            DisplayAs={DisplayAs ?? undefined}
-            widthClass={assetWidthClass}
-            verticalAlignClass={assetVerticalAlignClass}
-        />
-        <Content
-            data={data}
-            displaySettings={displaySettings}
-            displayTemplateKey={displayTemplateKey}
-            contentPayload={contentPayload}
-            DisplayAs={DisplayAs ?? undefined}
-            widthClass={contentWidthClass}
-            verticalAlignClass={contentVerticalAlignClass}
-        />
-    </Wrapper>
+    <div class:list={cardContainerClasses}>
+        <Wrapper DisplayAs={DisplayAs ?? ''} GlobalStyles={globalStyles} isFullSplit={isFullSplit}>
+            <Asset
+                data={data}
+                displaySettings={displaySettings}
+                displayTemplateKey={displayTemplateKey}
+                contentPayload={contentPayload}
+                DisplayAs={DisplayAs ?? undefined}
+                widthClass={assetWidthClass}
+                verticalAlignClass={assetVerticalAlignClass}
+                isFullSplit={isFullSplit}
+            />
+            <Content
+                data={data}
+                displaySettings={displaySettings}
+                displayTemplateKey={displayTemplateKey}
+                contentPayload={contentPayload}
+                DisplayAs={DisplayAs ?? undefined}
+                widthClass={contentWidthClass}
+                verticalAlignClass={contentVerticalAlignClass}
+                isFullSplit={isFullSplit}
+                globalStyles={isFullSplit ? globalStyles : undefined}
+            />
+        </Wrapper>
+    </div>
 </span>

@@ -17,8 +17,10 @@ export interface Props {
     DisplayAs?: string;
     widthClass?: string;
     verticalAlignClass?: string;
+    isFullSplit?: boolean;
+    globalStyles?: string[];
 }
-const { data, displaySettings, DisplayAs, widthClass, verticalAlignClass } = Astro.props as Props;
+const { data, displaySettings, DisplayAs, widthClass, verticalAlignClass, isFullSplit, globalStyles } = Astro.props as Props;
 const cardButtonStyles = getButtonStyles(displaySettings, false); // false: button type defined here
 const cardTextAlignmentStyle = getCardTextAlignmentStyle(displaySettings);
 const cardHeaderStyles = getCardHeaderStyles(displaySettings);
@@ -55,9 +57,19 @@ const displayAs: DisplayAsType =
 const cssClassesForSection: string = cssClassesSection[displayAs];
 const cssClassesForCallToAction: string = cssClassesCallToAction[displayAs];
 const cssClassesForText: string = cssTextClasses[displayAs];
+
+// For full split layout, content takes exactly 50% with background applied
+const containerClasses = isFullSplit 
+    ? `w-full md:w-1/2 flex flex-col justify-center p-8 md:p-12 lg:p-16 ${cardTextAlignmentStyle} overflow-hidden`
+    : `${widthClass || 'flex-1'} ${cssClassesForSection} ${cardTextAlignmentStyle} ${verticalAlignClass || 'self-center'}`;
+
+// Build final classes including global styles for split mode
+const contentClasses = isFullSplit
+    ? [containerClasses, ...(globalStyles ?? [])]
+    : [containerClasses];
 ---
 
-<div class={`${widthClass || 'flex-1'} ${cssClassesForSection} ${cardTextAlignmentStyle} ${verticalAlignClass || 'self-center'}`}>
+<div class:list={contentClasses}>
     {data.Heading && (
         <h2 class={`text-4xl font-bold ${cardHeaderStyles}`} class:list={cssClassesForText}>
             {data.Heading}
