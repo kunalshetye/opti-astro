@@ -1,0 +1,366 @@
+---
+import { Image as AstroImage } from 'astro:assets';
+import type {
+    DisplaySettingsFragment,
+    ProductFragment,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
+import { getProductStyles } from './ProductStyling';
+import { getGlobalStyles } from '../../shared/globalStylesHelper';
+import { isEditContext } from '../../shared/utils.ts';
+
+const isCmsEdit = isEditContext(Astro.url);
+
+export interface Props {
+    key: string;
+    data: ProductFragment;
+    displaySettings: DisplaySettingsFragment[];
+    contentPayload: ContentPayload;
+}
+
+const { key, data, displaySettings } = Astro.props as Props;
+
+// Get images
+const mainImageUrl = (data?.MainImage as any)?.item?.Url || data?.MainImage?.url?.default || null;
+const mainImageAlt = (data?.MainImage as any)?.item?.AltText || data?.ProductName || '';
+
+// Get gallery images
+const galleryImages = data?.GalleryImages?.map((img: any) => ({
+    url: img?.item?.Url || img?.url?.default || null,
+    alt: img?.item?.AltText || data?.ProductName || ''
+})).filter(img => img.url !== null) || [];
+
+// Combine main image with gallery images for display
+const allImages = mainImageUrl ? [{ url: mainImageUrl, alt: mainImageAlt }, ...galleryImages] : galleryImages;
+
+// Get styling
+const { 
+    layoutClass, 
+    imagePositionClass, 
+    textAlignClass, 
+    priceColorClass,
+    badgeColorClass,
+    buttonColorClass,
+    borderClass,
+    shadowClass,
+    roundedClass,
+    paddingClass,
+    marginClass
+} = getProductStyles(displaySettings);
+const globalStyles = getGlobalStyles(displaySettings);
+
+// Get settings dictionary
+const dictionary = getDictionaryFromDisplaySettings(displaySettings);
+const showGalleryThumbnails = dictionary['showGalleryThumbnails'] !== 'false';
+
+// Parse price to handle both string and display formats
+const parsePrice = (priceStr: string) => {
+    // Remove currency symbols and parse number
+    const numericPrice = parseFloat(priceStr?.replace(/[^0-9.-]+/g, '') || '0');
+    return numericPrice;
+};
+
+// Format price for display
+const formatPrice = (price: string | number) => {
+    if (typeof price === 'string') {
+        // If it's already formatted, return as is
+        if (price.includes('$') || price.includes('€') || price.includes('£')) {
+            return price;
+        }
+        // Otherwise format it
+        const numPrice = parsePrice(price);
+        return `$${numPrice.toFixed(2)}`;
+    }
+    return `$${price.toFixed(2)}`;
+};
+---
+
+<div 
+    class="product-component w-full"
+    class:list={[globalStyles, shadowClass, borderClass, roundedClass, marginClass]}
+    data-epi-block-id={isCmsEdit && key || undefined}
+    data-product-name={data?.ProductName}
+    data-brand={data?.Brand}
+    data-price={data?.Price}
+    data-image={mainImageUrl}
+    data-cart-text={data?.AddToCartText}
+>
+    <div class:list={[layoutClass, 'gap-8', paddingClass]}>
+        <!-- Image Section -->
+        {allImages.length > 0 && (
+            <div class:list={[imagePositionClass, 'space-y-4']}>
+                <!-- Main Image Display -->
+                <div class="relative w-full overflow-hidden rounded-lg bg-base-200">
+                    <div class="aspect-square flex items-center justify-center p-4">
+                        {allImages.map((img, index) => (
+                            <div
+                                class="w-full h-full absolute inset-0 flex items-center justify-center p-4 transition-opacity duration-300"
+                                data-image-index={index}
+                                style={index === 0 ? "opacity: 1;" : "opacity: 0;"}
+                            >
+                                <AstroImage
+                                    src={img.url}
+                                    alt={img.alt}
+                                    class="w-full h-full object-contain"
+                                    inferSize={true}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                    
+                    {data?.SnapEligible && (
+                        <div class="absolute top-2 left-2">
+                            <span class:list={['badge', badgeColorClass || 'badge-info']}>SNAP Eligible</span>
+                        </div>
+                    )}
+                </div>
+
+                <!-- Gallery Thumbnails -->
+                {showGalleryThumbnails && allImages.length > 1 && (
+                    <div class="flex gap-2 overflow-x-auto pb-2">
+                        {allImages.map((img, index) => (
+                            <button
+                                class="thumbnail-btn relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all hover:scale-105"
+                                class:list={[index === 0 ? 'border-primary ring-2 ring-primary/20' : 'border-base-300 hover:border-base-content/30']}
+                                data-thumbnail-index={index}
+                            >
+                                <AstroImage
+                                    src={img.url}
+                                    alt={img.alt}
+                                    class="w-full h-full object-cover"
+                                    inferSize={true}
+                                />
+                            </button>
+                        ))}
+                    </div>
+                )}
+            </div>
+        )}
+
+        <!-- Product Info Section -->
+        <div class="flex-1 space-y-6" class:list={[textAlignClass]}>
+            <!-- Brand and Name -->
+            <div>
+                {data?.Brand && (
+                    <p class="text-sm opacity-60 uppercase tracking-wider mb-1">{data.Brand}</p>
+                )}
+                <h1 class="text-3xl font-bold">{data?.ProductName}</h1>
+                {data?.Size && (
+                    <p class="text-lg opacity-80 mt-2">{data.Size}</p>
+                )}
+            </div>
+
+            <!-- Price Section -->
+            <div class="space-y-2">
+                {data?.Price && (
+                    <span class:list={['text-3xl font-bold', priceColorClass]}>
+                        {formatPrice(data.Price)}
+                    </span>
+                )}
+                
+                {data?.SnapEligible && (
+                    <div class="flex items-center gap-2 mt-2">
+                        <span class="text-sm opacity-75">SNAP EBT eligible product</span>
+                    </div>
+                )}
+            </div>
+
+            <!-- Stock Status -->
+            <div>
+                {data?.InStock !== false ? (
+                    <span class="badge badge-success gap-2">
+                        <div class="w-2 h-2 bg-current rounded-full"></div>
+                        In Stock
+                    </span>
+                ) : (
+                    <span class="badge badge-error gap-2">
+                        <div class="w-2 h-2 bg-current rounded-full"></div>
+                        Out of Stock
+                    </span>
+                )}
+            </div>
+
+            <!-- Add to Cart Section -->
+            <div class="space-y-4">
+                <div class="flex items-center gap-4">
+                    <!-- Quantity Selector -->
+                    <div class="join">
+                        <button 
+                            class="quantity-decrease btn btn-sm join-item"
+                            disabled
+                        >
+                            -
+                        </button>
+                        <input 
+                            type="number" 
+                            value="1"
+                            min="1"
+                            class="quantity-input input input-sm input-bordered join-item w-16 text-center"
+                        />
+                        <button 
+                            class="quantity-increase btn btn-sm join-item"
+                        >
+                            +
+                        </button>
+                    </div>
+
+                    <!-- Add to Cart Button -->
+                    <button 
+                        class:list={['btn flex-1 add-cart-btn', buttonColorClass || 'btn-primary']}
+                        disabled={data?.InStock === false}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        {data?.AddToCartText || 'Add to Cart'}
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product Description -->
+            {data?.ProductDescription && (
+                <div class="divider"></div>
+                <div class="space-y-4">
+                    <h3 class="text-lg font-semibold">Product Details</h3>
+                    <div set:html={data.ProductDescription.html} class="prose max-w-none"></div>
+                </div>
+            )}
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all product components on the page
+    document.querySelectorAll('.product-component').forEach(initProductComponent);
+});
+
+function initProductComponent(productEl) {
+    let selectedImageIndex = 0;
+    let quantity = 1;
+    
+    // Get elements
+    const thumbnailBtns = productEl.querySelectorAll('.thumbnail-btn');
+    const imageElements = productEl.querySelectorAll('[data-image-index]');
+    const quantityInput = productEl.querySelector('.quantity-input');
+    const quantityDecrease = productEl.querySelector('.quantity-decrease');
+    const quantityIncrease = productEl.querySelector('.quantity-increase');
+    const addToCartBtn = productEl.querySelector('.add-cart-btn');
+    
+    // Image gallery functionality
+    function showImage(index) {
+        selectedImageIndex = index;
+        
+        // Hide all images
+        imageElements.forEach((img, i) => {
+            img.style.opacity = i === index ? '1' : '0';
+        });
+        
+        // Update thumbnail states
+        thumbnailBtns.forEach((btn, i) => {
+            if (i === index) {
+                btn.classList.remove('border-base-300', 'hover:border-base-content/30');
+                btn.classList.add('border-primary', 'ring-2', 'ring-primary/20');
+            } else {
+                btn.classList.remove('border-primary', 'ring-2', 'ring-primary/20');
+                btn.classList.add('border-base-300', 'hover:border-base-content/30');
+            }
+        });
+    }
+    
+    // Thumbnail click handlers
+    thumbnailBtns.forEach((btn, index) => {
+        btn.addEventListener('click', () => showImage(index));
+    });
+    
+    // Quantity functionality
+    function updateQuantity(newQuantity) {
+        quantity = Math.max(1, newQuantity);
+        quantityInput.value = quantity;
+        quantityDecrease.disabled = quantity <= 1;
+    }
+    
+    // Quantity controls
+    if (quantityDecrease) {
+        quantityDecrease.addEventListener('click', () => {
+            updateQuantity(quantity - 1);
+        });
+    }
+    
+    if (quantityIncrease) {
+        quantityIncrease.addEventListener('click', () => {
+            updateQuantity(quantity + 1);
+        });
+    }
+    
+    if (quantityInput) {
+        quantityInput.addEventListener('input', (e) => {
+            updateQuantity(parseInt(e.target.value) || 1);
+        });
+    }
+    
+    // Add to cart functionality
+    if (addToCartBtn) {
+        addToCartBtn.addEventListener('click', () => {
+            const productData = {
+                productName: productEl.dataset.productName,
+                brand: productEl.dataset.brand,
+                price: productEl.dataset.price,
+                quantity: quantity,
+                image: productEl.dataset.image
+            };
+            
+            console.log('Adding to cart:', productData);
+            
+            // Dispatch custom event for cart integration
+            window.dispatchEvent(new CustomEvent('add-to-cart', {
+                detail: productData
+            }));
+            
+            // Visual feedback
+            addToCartBtn.classList.add('loading');
+            setTimeout(() => {
+                addToCartBtn.classList.remove('loading');
+                addToCartBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg> Added!';
+                setTimeout(() => {
+                    addToCartBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg> ' + (productEl.dataset.cartText || 'Add to Cart');
+                }, 2000);
+            }, 500);
+        });
+    }
+}
+</script>
+
+<style>
+    .product-component {
+        container-type: inline-size;
+    }
+
+    @container (max-width: 768px) {
+        .product-component .grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .btn.loading::after {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        margin: auto;
+        border: 2px solid transparent;
+        border-top-color: currentColor;
+        border-radius: 50%;
+        animation: button-loading-spinner 1s ease infinite;
+    }
+
+    @keyframes button-loading-spinner {
+        from {
+            transform: rotate(0turn);
+        }
+        to {
+            transform: rotate(1turn);
+        }
+    }
+</style>

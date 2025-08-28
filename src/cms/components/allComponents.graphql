@@ -19,4 +19,5 @@ fragment AllComponentsExceptGrid on _IComponent {
     ...VideoExternal
     ...Divider
     ...OdpForm
+    ...Product
 }

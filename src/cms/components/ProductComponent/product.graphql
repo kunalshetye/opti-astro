@@ -1,0 +1,18 @@
+fragment Product on Product {
+    Brand
+    ProductName
+    Price
+    Size
+    ProductDescription: Description {
+        html
+    }
+    MainImage {
+        ...ContentUrl
+    }
+    GalleryImages {
+        ...ContentUrl
+    }
+    InStock
+    SnapEligible
+    AddToCartText
+}

@@ -1,0 +1,131 @@
+{
+	"key": "Product",
+	"displayName": "Product",
+	"description": "A product display component with image gallery and purchase options",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"sectionEnabled",
+		"elementEnabled"
+	],
+	"properties": {
+		"Brand": {
+			"type": "string",
+			"displayName": "Brand",
+			"description": "Product brand or manufacturer name",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 10,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		},
+		"ProductName": {
+			"type": "string",
+			"displayName": "Product Name",
+			"description": "The name of the product",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 20,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		},
+		"Price": {
+			"type": "string",
+			"displayName": "Price",
+			"description": "Product price display",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 30,
+			"editorSettings": {}
+		},
+		"Size": {
+			"type": "string",
+			"displayName": "Size or Quantity",
+			"description": "Product size or quantity",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 40,
+			"editorSettings": {}
+		},
+		"Description": {
+			"type": "string",
+			"format": "html",
+			"displayName": "Product Description",
+			"description": "Detailed product description",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 50,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		},
+		"MainImage": {
+			"type": "contentReference",
+			"displayName": "Main Product Image",
+			"description": "Primary product image",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 60,
+			"editorSettings": {},
+			"allowedTypes": [
+				"Image"
+			],
+			"restrictedTypes": []
+		},
+		"GalleryImages": {
+			"type": "array",
+			"displayName": "Product Gallery",
+			"description": "Additional product images for gallery display",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 65,
+			"minItems": 0,
+			"maxItems": 10,
+			"editorSettings": {},
+			"items": {
+				"type": "contentReference",
+				"allowedTypes": [
+					"Image"
+				]
+			}
+		},
+		"InStock": {
+			"type": "boolean",
+			"displayName": "In Stock",
+			"description": "Product availability status",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 70,
+			"editorSettings": {}
+		},
+		"SnapEligible": {
+			"type": "boolean",
+			"displayName": "SNAP EBT Eligible",
+			"description": "Is this product eligible for SNAP EBT",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 80,
+			"editorSettings": {}
+		},
+		"AddToCartText": {
+			"type": "string",
+			"displayName": "Add to Cart Button Text",
+			"description": "Custom text for the add to cart button",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 90,
+			"editorSettings": {}
+		}
+	}
+}
