@@ -1,7 +1,7 @@
 {
 	"key": "Hero",
 	"displayName": "Hero",
-	"description": "A flexible Hero Component",
+	"description": "Flexible hero section with headline, description, and CTA for prominent page display.",
 	"baseType": "component",
 	"sortOrder": 0,
 	"mayContainTypes": [],

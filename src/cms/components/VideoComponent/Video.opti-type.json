@@ -1,7 +1,7 @@
 {
 	"key": "Video",
 	"displayName": "Video",
-	"description": "Video",
+	"description": "Embeds video content directly into your page.",
 	"baseType": "component",
 	"sortOrder": 0,
 	"mayContainTypes": [],

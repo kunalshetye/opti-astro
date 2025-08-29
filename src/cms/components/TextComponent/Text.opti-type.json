@@ -1,7 +1,7 @@
 {
 	"key": "Text",
 	"displayName": "Text",
-	"description": "",
+	"description": "Adds plain text content to your page.",
 	"baseType": "component",
 	"sortOrder": 0,
 	"mayContainTypes": [],

@@ -1,7 +1,7 @@
 {
 	"key": "LandingPage",
 	"displayName": "Landing Page",
-	"description": "",
+	"description": "Versatile page for marketing landing pages, supporting various components for engaging content.",
 	"baseType": "page",
 	"sortOrder": 0,
 	"mayContainTypes": [

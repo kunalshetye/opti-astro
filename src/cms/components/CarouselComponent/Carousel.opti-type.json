@@ -1,7 +1,7 @@
 {
 	"key": "Carousel",
 	"displayName": "Carousel",
-	"description": "",
+	"description": "Displays rotating images or content in a compact carousel.",
 	"baseType": "component",
 	"sortOrder": 0,
 	"mayContainTypes": [],

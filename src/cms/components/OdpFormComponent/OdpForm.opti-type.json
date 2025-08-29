@@ -1,7 +1,7 @@
 {
 	"key": "OdpForm",
 	"displayName": "ODP Form",
-	"description": "Optimizely Data Platform form integration block",
+	"description": "Embeds and manages Optimizely Data Platform forms directly in CMS content.",
 	"baseType": "component",
 	"sortOrder": 0,
 	"mayContainTypes": [],

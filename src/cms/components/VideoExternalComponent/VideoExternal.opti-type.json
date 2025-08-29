@@ -1,7 +1,7 @@
 {
 	"key": "VideoExternal",
 	"displayName": "Video (External)",
-	"description": "External video streaming - supports YouTube and Vimeo",
+	"description": "Embeds external video streams from platforms like YouTube and Vimeo.",
 	"baseType": "component",
 	"sortOrder": 0,
 	"mayContainTypes": [],

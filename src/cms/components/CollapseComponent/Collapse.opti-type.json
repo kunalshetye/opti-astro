@@ -1,7 +1,7 @@
 {
 	"key": "Collapse",
 	"displayName": "Collapse",
-	"description": "",
+	"description": "Toggable content component for FAQs or organizing large info.",
 	"baseType": "component",
 	"sortOrder": 0,
 	"mayContainTypes": [],

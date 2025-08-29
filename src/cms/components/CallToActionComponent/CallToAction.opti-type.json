@@ -1,7 +1,7 @@
 {
 	"key": "CallToAction",
 	"displayName": "Call To Action",
-	"description": "",
+	"description": "Component to drive engagement with a prominent call-to-action button and customizable text.",
 	"baseType": "component",
 	"sortOrder": 0,
 	"mayContainTypes": [],

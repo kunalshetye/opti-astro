@@ -1,7 +1,7 @@
 {
 	"key": "Button",
 	"displayName": "Button",
-	"description": "Single Button",
+	"description": "Simple clickable button component for calls-to-action or linking.",
 	"baseType": "component",
 	"sortOrder": 0,
 	"mayContainTypes": [],

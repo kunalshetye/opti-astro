@@ -1,7 +1,7 @@
 {
 	"key": "ArticleList",
 	"displayName": "Article List",
-	"description": "",
+	"description": "Reusable component to display article lists with customizable title and number of articles.",
 	"baseType": "component",
 	"sortOrder": 0,
 	"mayContainTypes": [],

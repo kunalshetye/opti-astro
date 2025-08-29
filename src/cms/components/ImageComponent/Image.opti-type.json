@@ -1,7 +1,7 @@
 {
 	"key": "Image",
 	"displayName": "Image",
-	"description": "",
+	"description": "Displays images with options for captions and links.",
 	"baseType": "component",
 	"sortOrder": 0,
 	"mayContainTypes": [],

@@ -1,7 +1,7 @@
 {
 	"key": "PlaceholdersConfiguration",
 	"displayName": "Placeholders Configuration",
-	"description": "",
+	"description": "Manages dynamic content placeholders, defining components for injection into specific areas.",
 	"baseType": "component",
 	"sortOrder": 0,
 	"mayContainTypes": [],

@@ -1,7 +1,7 @@
 {
 	"key": "SiteSettings",
 	"displayName": "Site Settings",
-	"description": "",
+	"description": "Manages global site settings: branding, analytics, and general configurations.",
 	"baseType": "component",
 	"sortOrder": 0,
 	"mayContainTypes": [],

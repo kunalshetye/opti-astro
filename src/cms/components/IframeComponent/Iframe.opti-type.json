@@ -1,7 +1,7 @@
 {
 	"key": "Iframe",
 	"displayName": "iframe",
-	"description": "",
+	"description": "Embeds external web content like videos or maps directly into your page.",
 	"baseType": "component",
 	"sortOrder": 0,
 	"mayContainTypes": [],

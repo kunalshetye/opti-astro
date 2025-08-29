@@ -1,7 +1,7 @@
 {
 	"key": "Paragraph",
 	"displayName": "Paragraph",
-	"description": "",
+	"description": "Basic text component for adding paragraph content.",
 	"baseType": "component",
 	"sortOrder": 0,
 	"mayContainTypes": [],

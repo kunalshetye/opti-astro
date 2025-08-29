@@ -1,7 +1,7 @@
 {
 	"key": "PageSeoSettings",
 	"displayName": "Page SEO Settings",
-	"description": "",
+	"description": "Configures page SEO settings: meta titles, descriptions, and social media tags.",
 	"baseType": "component",
 	"sortOrder": 100,
 	"mayContainTypes": [],

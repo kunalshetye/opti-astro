@@ -1,7 +1,7 @@
 {
 	"key": "Grid",
 	"displayName": "Grid",
-	"description": "",
+	"description": "Organizes content into a flexible grid for responsive layouts.",
 	"baseType": "component",
 	"sortOrder": 0,
 	"mayContainTypes": [],

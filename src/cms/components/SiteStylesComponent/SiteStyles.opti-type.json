@@ -1,7 +1,7 @@
 {
 	"key": "SiteStyles",
 	"displayName": "Site Styles",
-	"description": "Manage site colors and other display attributes via the CMS",
+	"description": "Manages site-wide colors and display attributes for consistent branding.",
 	"baseType": "component",
 	"sortOrder": 0,
 	"mayContainTypes": [],

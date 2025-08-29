@@ -1,7 +1,7 @@
 {
 	"key": "MockupPage",
 	"displayName": "Mockup Page",
-	"description": "Page type for showing HTML mockups (for example, from Google Stitch). Likely requires fully-structured HTML.",
+	"description": "Page for displaying HTML mockups, useful for design previews or integrating external HTML.",
 	"baseType": "page",
 	"sortOrder": 200,
 	"mayContainTypes": [

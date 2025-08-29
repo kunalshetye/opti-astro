@@ -1,7 +1,7 @@
 {
 	"key": "PlaceholderItem",
 	"displayName": "PlaceholderItem",
-	"description": "",
+	"description": "Defines a dynamic content placeholder with a key and component to display.",
 	"baseType": "component",
 	"sortOrder": 0,
 	"mayContainTypes": [],

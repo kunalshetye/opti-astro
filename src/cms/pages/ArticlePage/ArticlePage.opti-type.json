@@ -1,7 +1,7 @@
 {
 	"key": "ArticlePage",
 	"displayName": "Article",
-	"description": "",
+	"description": "Page for detailed articles with author, content, images, and SEO/admin settings.",
 	"baseType": "page",
 	"sortOrder": 0,
 	"mayContainTypes": [

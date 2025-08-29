@@ -1,7 +1,7 @@
 {
 	"key": "Divider",
 	"displayName": "Divider",
-	"description": "Divider component, to separate content vertically or horizontally",
+	"description": "Visually separates content sections, improving readability.",
 	"baseType": "component",
 	"sortOrder": 0,
 	"mayContainTypes": [],
