@@ -41,6 +41,7 @@
 			"required": false,
 			"group": "Information",
 			"sortOrder": 30,
+			"indexingType": "searchable",
 			"editorSettings": {}
 		},
 		"Size": {
@@ -51,6 +52,7 @@
 			"required": false,
 			"group": "Information",
 			"sortOrder": 40,
+			"indexingType": "searchable",
 			"editorSettings": {}
 		},
 		"Description": {

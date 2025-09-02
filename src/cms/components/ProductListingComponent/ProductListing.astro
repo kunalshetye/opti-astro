@@ -1,0 +1,668 @@
+---
+import type { 
+  ProductListingFragment,
+  DisplaySettingsFragment 
+} from "../../../../__generated/sdk";
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { getGlobalStyles } from "../../shared/globalStylesHelper";
+import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
+import { fetchProductsByCategory } from "./productApi";
+import { isEditContext } from '../../shared/utils.ts';
+
+const isCmsEdit = isEditContext(Astro.url);
+
+export interface Props {
+  key?: string;
+  data: ProductListingFragment;
+  displaySettings?: DisplaySettingsFragment[];
+  contentPayload?: ContentPayload;
+}
+
+const { key, data, displaySettings } = Astro.props;
+const styles = getGlobalStyles(displaySettings || []);
+const dictionary = getDictionaryFromDisplaySettings(displaySettings || []);
+
+// Get layout and page limit from display settings
+const layout = dictionary['Layout'] || 'carousel';
+const pageLimitKey = dictionary['PageLimit'] || 'limit_12';
+const pageLimit = parseInt(pageLimitKey.replace('limit_', ''), 10);
+
+// Debug logging
+console.log('Layout:', layout, 'PageLimit:', pageLimit, 'PageLimitKey:', pageLimitKey, 'Dictionary:', dictionary);
+console.log('DisplaySettings:', displaySettings);
+
+// Map category keys to display names and IDs
+const categoryData: Record<string, { name: string; id: number }> = {
+  "featured": { name: "Featured", id: 228 },
+  "price-drops": { name: "Price Drops", id: 280 },
+  "fall-products": { name: "Fall Products", id: 187 },
+  "halloween": { name: "Halloween", id: 193 },
+  "game-day": { name: "Game Day", id: 249 },
+  "back-to-school": { name: "Back to School", id: 244 },
+  "college-dorm-room": { name: "College & Dorm Room", id: 240 },
+  "bbq-picnic": { name: "BBQ & Picnic", id: 234 },
+  "seasonal-products": { name: "Seasonal Products", id: 238 },
+  "award-winning": { name: "Award-Winning Products", id: 269 },
+  "healthy-living": { name: "Healthy Living", id: 208 },
+  "charcuterie": { name: "Charcuterie", id: 253 },
+  "dairy-eggs": { name: "Dairy & Eggs", id: 10 },
+  "fresh-produce": { name: "Fresh Produce", id: 13 },
+  "fresh-meat-seafood": { name: "Fresh Meat & Seafood", id: 12 },
+  "deli": { name: "Deli", id: 11 },
+  "frozen-foods": { name: "Frozen Foods", id: 14 },
+  "bakery-bread": { name: "Bakery & Bread", id: 6 },
+  "snacks": { name: "Snacks", id: 20 },
+  "breakfast-cereals": { name: "Breakfast & Cereals", id: 9 },
+  "pantry-essentials": { name: "Pantry Essentials", id: 16 },
+  "beverages": { name: "Beverages", id: 7 },
+  "alcohol": { name: "Alcohol", id: 1 },
+  "pet-supplies": { name: "Pet Supplies", id: 18 },
+  "household-essentials": { name: "Household Essentials", id: 15 },
+  "personal-care": { name: "Personal Care", id: 17 },
+  "baby-items": { name: "Baby Items", id: 5 }
+};
+
+const selectedCategory = categoryData[data?.Category || "featured"] || categoryData["featured"];
+// Use custom category name if provided, otherwise use the category name
+const categoryTitle = data?.CustomCategoryName || selectedCategory.name;
+const categoryId = selectedCategory.id;
+
+// Fetch products from API with caching - use SKUs if provided, otherwise use category
+const skus = data?.SKUs ? data.SKUs.split(',').map(sku => sku.trim()).filter(sku => sku) : undefined;
+const result = await fetchProductsByCategory(categoryId, pageLimit, {}, skus);
+const products = result.products;
+
+// Extract metadata for future use
+const metadata = result.metadata;
+const totalCount = metadata.pagination?.totalCount || 0;
+const hasMoreProducts = totalCount > products.length;
+---
+
+<div class={`py-8 ${styles.wrapper}`} data-layout={layout} data-epi-block-id={isCmsEdit && key || undefined} data-products={JSON.stringify(products)}>
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-6 px-4">
+    <h2 class="text-2xl font-bold text-primary">{categoryTitle.toUpperCase()}</h2>
+    <div class="flex items-center gap-4">
+      <!-- Sort & Filter Toggle Button (only visible in grid mode) -->
+      <button 
+        class="bg-primary text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 hover:bg-primary-dark transition-colors sort-filter-toggle-btn"
+        style={layout === 'grid' ? 'display: flex' : 'display: none'}
+        onclick="
+          const filterSidebar = document.querySelector('.filter-sidebar');
+          if (filterSidebar.style.display === 'none' || !filterSidebar.style.display) {
+            filterSidebar.style.display = 'block';
+            this.classList.add('bg-primary-dark');
+          } else {
+            filterSidebar.style.display = 'none';
+            this.classList.remove('bg-primary-dark');
+          }
+        "
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m0 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75M9 12a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0m-3.75 0H7.5" />
+        </svg>
+        Sort & Filter
+      </button>
+      <button class="text-primary font-semibold hover:underline flex items-center">
+        Show All
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline ml-1">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Layout Container -->
+  <div class="flex gap-6">
+    <!-- Filter Sidebar -->
+    <div class="w-1/4 min-w-[250px] filter-sidebar" style="display: none">
+      <div class="bg-white rounded-lg shadow-sm border p-4 sticky top-4">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold text-lg">Sort & Filter</h3>
+          <button class="text-sm text-primary hover:underline clear-filters-btn">Clear Filters</button>
+        </div>
+        
+        <!-- Sort Section -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium mb-2">Sort by</label>
+          <select class="w-full border border-gray-300 rounded-md p-2 text-sm sort-select">
+            {metadata.sort?.map((sortOption) => (
+              <option value={sortOption.parameterValue} selected={sortOption.isActive}>
+                {sortOption.localizedName}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <!-- SNAP/EBT Filter -->
+        <div class="mb-6">
+          <div class="flex items-center justify-between">
+            <span class="font-medium text-sm">SNAP/EBT Products</span>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" class="sr-only snap-ebt-toggle">
+              <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Brand Filter -->
+        <div class="mb-4">
+          <button class="w-full flex items-center justify-between py-2 font-medium text-sm border-b expand-btn" data-target="brand-section">
+            <span>Brand</span>
+            <svg class="w-4 h-4 transition-transform expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div class="mt-2 space-y-2 max-h-32 overflow-y-auto brand-list" id="brand-section">
+            <!-- Brand checkboxes will be populated by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="mb-4">
+          <button class="w-full flex items-center justify-between py-2 font-medium text-sm border-b expand-btn" data-target="category-section">
+            <span>Category</span>
+            <svg class="w-4 h-4 transition-transform expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div class="mt-2 space-y-2 max-h-32 overflow-y-auto category-list" id="category-section">
+            <!-- Category checkboxes will be populated by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Country of Origin Filter -->
+        <div class="mb-4">
+          <button class="w-full flex items-center justify-between py-2 font-medium text-sm border-b expand-btn" data-target="origin-section">
+            <span>Country of Origin</span>
+            <svg class="w-4 h-4 transition-transform expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div class="mt-2 space-y-2 max-h-32 overflow-y-auto country-list" id="origin-section">
+            <!-- Country checkboxes will be populated by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Product Count -->
+        <div class="mt-6">
+          <button class="w-full bg-primary text-white py-3 px-4 rounded-lg font-medium show-products-btn">
+            Show <span class="product-count">{totalCount}</span> products
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 min-w-0">
+      <!-- Carousel Layout -->
+      <div class="relative product-carousel w-full overflow-hidden" style={layout === 'carousel' ? 'display: block' : 'display: none'}>
+        <button 
+          class="absolute top-1/2 -translate-y-1/2 z-20 bg-white rounded-full shadow-lg p-2 hover:bg-gray-100 transition-colors left-2 scroll-prev-btn"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+          </svg>
+        </button>
+
+        <div class="flex gap-4 overflow-x-auto scrollbar-hide px-12 scroll-smooth product-track relative">
+      {products.map((product) => (
+        <div class="product-card bg-white rounded-lg shadow-md p-4 min-w-[200px] max-w-[200px] flex-shrink-0 relative flex flex-col min-h-[380px]">
+          <div class="absolute top-2 left-2 flex gap-1 z-10">
+            {product.badges.map((badge) => (
+              <span class={`text-xs font-semibold px-2 py-1 rounded ${badge === 'Price Drop' ? 'bg-red-500 text-white' : 'bg-blue-500 text-white'}`}>
+                {badge}
+              </span>
+            ))}
+          </div>
+          
+          <img src={product.image} alt={product.name} class="w-full h-40 object-contain mb-4" />
+          
+          <div class="flex flex-col flex-grow space-y-2">
+            {product.brand && <p class="text-xs text-gray-500 uppercase">{product.brand}</p>}
+            <h3 class="text-sm font-semibold line-clamp-2">{product.name}</h3>
+            <p class="text-xs text-gray-600">{product.size}</p>
+            <div class="flex items-baseline gap-2 mb-2">
+              <span class="text-xl font-bold text-red-600">{product.price}</span>
+              {product.originalPrice && (
+                <span class="text-sm text-gray-500 line-through">{product.originalPrice}</span>
+              )}
+            </div>
+            
+            <button class="w-full mt-auto py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 inline mr-2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+              </svg>
+              Add
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+
+        <button 
+          class="absolute top-1/2 -translate-y-1/2 z-20 bg-white rounded-full shadow-lg p-2 hover:bg-gray-100 transition-colors right-2 scroll-next-btn"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Grid Layout -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4" style={layout === 'grid' ? 'display: grid' : 'display: none'}>
+        {products.map((product) => (
+          <div class="product-card bg-white rounded-lg shadow-md p-4 relative flex flex-col min-h-[380px]">
+            <div class="absolute top-2 left-2 flex gap-1 z-10">
+              {product.badges.map((badge) => (
+                <span class={`text-xs font-semibold px-2 py-1 rounded ${badge === 'Price Drop' ? 'bg-red-500 text-white' : 'bg-blue-500 text-white'}`}>
+                  {badge}
+                </span>
+              ))}
+            </div>
+            
+            <img src={product.image} alt={product.name} class="w-full h-40 object-contain mb-4" />
+            
+            <div class="flex flex-col flex-grow space-y-2">
+              {product.brand && <p class="text-xs text-gray-500 uppercase">{product.brand}</p>}
+              <h3 class="text-sm font-semibold line-clamp-2">{product.name}</h3>
+              <p class="text-xs text-gray-600">{product.size}</p>
+              <div class="flex items-baseline gap-2 mb-2">
+                <span class="text-xl font-bold text-red-600">{product.price}</span>
+                {product.originalPrice && (
+                  <span class="text-sm text-gray-500 line-through">{product.originalPrice}</span>
+                )}
+              </div>
+              
+              <button class="w-full mt-auto py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 inline mr-2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                </svg>
+                Add
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Hide scrollbar */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Ensure carousel container doesn't cause page overflow */
+  .product-carousel {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .product-track {
+    max-width: none;
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+</style>
+
+<script is:inline>
+  window.scrollPrev = function(button) {
+    console.log('scrollPrev called', button);
+    const carousel = button.closest('.product-carousel');
+    const track = carousel.querySelector('.product-track');
+    if (!track) {
+      console.error('Track not found');
+      return;
+    }
+    
+    const productCard = track.querySelector('.product-card');
+    if (!productCard) {
+      console.error('Product card not found');
+      return;
+    }
+    
+    const cardWidth = productCard.offsetWidth + 16; // width + gap
+    const scrollAmount = cardWidth * 3;
+    
+    console.log('Current scrollLeft:', track.scrollLeft);
+    console.log('Scrolling left by:', scrollAmount);
+    
+    track.scrollLeft -= scrollAmount;
+    
+    updateScrollButtons(carousel);
+  };
+  
+  window.scrollNext = function(button) {
+    console.log('scrollNext called', button);
+    const carousel = button.closest('.product-carousel');
+    const track = carousel.querySelector('.product-track');
+    if (!track) {
+      console.error('Track not found');
+      return;
+    }
+    
+    const productCard = track.querySelector('.product-card');
+    if (!productCard) {
+      console.error('Product card not found');
+      return;
+    }
+    
+    const cardWidth = productCard.offsetWidth + 16; // width + gap
+    const scrollAmount = cardWidth * 3;
+    
+    console.log('Current scrollLeft:', track.scrollLeft);
+    console.log('Scrolling right by:', scrollAmount);
+    
+    track.scrollLeft += scrollAmount;
+    
+    updateScrollButtons(carousel);
+  };
+  
+  function updateScrollButtons(carousel) {
+    const track = carousel.querySelector('.product-track');
+    const prevBtn = carousel.querySelector('.scroll-prev-btn');
+    const nextBtn = carousel.querySelector('.scroll-next-btn');
+    
+    const canScrollPrev = track.scrollLeft > 0;
+    const canScrollNext = track.scrollLeft < (track.scrollWidth - track.clientWidth - 10);
+    
+    // Update prev button
+    if (canScrollPrev) {
+      prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+      prevBtn.disabled = false;
+    } else {
+      prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      prevBtn.disabled = true;
+    }
+    
+    // Update next button
+    if (canScrollNext) {
+      nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+      nextBtn.disabled = false;
+    } else {
+      nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      nextBtn.disabled = true;
+    }
+  }
+  
+  // Filter state
+  let currentFilters = {
+    brands: [],
+    categories: [],
+    sortBy: 'relevance',
+    snapEbt: false,
+    countryOfOrigin: []
+  };
+
+  // Handle expandable filter sections
+  function toggleFilterSection(button) {
+    const target = button.getAttribute('data-target');
+    const section = document.getElementById(target);
+    const icon = button.querySelector('.expand-icon');
+    
+    if (section.style.display === 'none') {
+      section.style.display = 'block';
+      icon.style.transform = 'rotate(180deg)';
+    } else {
+      section.style.display = 'none';
+      icon.style.transform = 'rotate(0deg)';
+    }
+  }
+
+  // Populate filter sections based on actual products data
+  function populateFilters(products) {
+    // Extract unique brands from products
+    const brandCounts = {};
+    products.forEach(product => {
+      if (product.brand && product.brand.trim()) {
+        brandCounts[product.brand] = (brandCounts[product.brand] || 0) + 1;
+      }
+    });
+    
+    // Populate brands
+    const brandSection = document.getElementById('brand-section');
+    if (brandSection && Object.keys(brandCounts).length > 0) {
+      const sortedBrands = Object.entries(brandCounts)
+        .sort(([,a], [,b]) => b - a) // Sort by count descending
+        .slice(0, 15);
+      
+      brandSection.innerHTML = sortedBrands.map(([brand, count]) => `
+        <label class="flex items-center gap-2 text-sm cursor-pointer">
+          <input type="checkbox" class="brand-filter" value="${brand}" data-count="${count}">
+          <span>${brand} (${count})</span>
+        </label>
+      `).join('');
+    }
+
+    // Extract unique categories from products
+    const categoryCounts = {};
+    products.forEach(product => {
+      if (product.category && product.category.trim()) {
+        categoryCounts[product.category] = (categoryCounts[product.category] || 0) + 1;
+      }
+    });
+    
+    // Populate categories
+    const categorySection = document.getElementById('category-section');
+    if (categorySection && Object.keys(categoryCounts).length > 0) {
+      const sortedCategories = Object.entries(categoryCounts)
+        .sort(([,a], [,b]) => b - a) // Sort by count descending
+        .slice(0, 15);
+      
+      categorySection.innerHTML = sortedCategories.map(([category, count]) => `
+        <label class="flex items-center gap-2 text-sm cursor-pointer">
+          <input type="checkbox" class="category-filter" value="${category}" data-count="${count}">
+          <span>${category} (${count})</span>
+        </label>
+      `).join('');
+    }
+
+    // Extract unique countries from products
+    const countryCounts = {};
+    products.forEach(product => {
+      if (product.countryOfOrigin && product.countryOfOrigin.trim()) {
+        countryCounts[product.countryOfOrigin] = (countryCounts[product.countryOfOrigin] || 0) + 1;
+      }
+    });
+    
+    // Populate country of origin
+    const originSection = document.getElementById('origin-section');
+    if (originSection && Object.keys(countryCounts).length > 0) {
+      const sortedCountries = Object.entries(countryCounts)
+        .sort(([,a], [,b]) => b - a) // Sort by count descending
+        .slice(0, 15);
+      
+      originSection.innerHTML = sortedCountries.map(([country, count]) => `
+        <label class="flex items-center gap-2 text-sm cursor-pointer">
+          <input type="checkbox" class="origin-filter" value="${country}" data-count="${count}">
+          <span>${country} (${count})</span>
+        </label>
+      `).join('');
+    }
+
+    // Update SNAP/EBT section based on actual product data
+    const snapEligibleCount = products.filter(p => p.snapEligible).length;
+    const snapSection = document.querySelector('.snap-ebt-toggle').closest('.mb-6');
+    if (snapEligibleCount > 0 && snapSection) {
+      snapSection.style.display = 'block';
+    } else if (snapSection) {
+      snapSection.style.display = 'none';
+    }
+  }
+
+  // Initialize carousel functionality and filters on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize carousels
+    const carousels = document.querySelectorAll('.product-carousel');
+    carousels.forEach(carousel => {
+      const track = carousel.querySelector('.product-track');
+      const prevBtn = carousel.querySelector('.scroll-prev-btn');
+      const nextBtn = carousel.querySelector('.scroll-next-btn');
+      
+      if (track) {
+        updateScrollButtons(carousel);
+        track.addEventListener('scroll', () => {
+          updateScrollButtons(carousel);
+        });
+      }
+      
+      // Add click event listeners to buttons for this specific carousel
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function() {
+          window.scrollPrev(this);
+        });
+      }
+      
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+          window.scrollNext(this);
+        });
+      }
+    });
+
+    // Initialize filter functionality
+    const expandBtns = document.querySelectorAll('.expand-btn');
+    expandBtns.forEach(btn => {
+      btn.addEventListener('click', () => toggleFilterSection(btn));
+      
+      // Set initial state - sections collapsed by default
+      const target = btn.getAttribute('data-target');
+      const section = document.getElementById(target);
+      const icon = btn.querySelector('.expand-icon');
+      if (section) {
+        section.style.display = 'none';
+        icon.style.transform = 'rotate(0deg)';
+      }
+    });
+
+    // Populate filters from actual products data
+    const productsData = JSON.parse(document.querySelector('[data-products]')?.dataset.products || '[]');
+    populateFilters(productsData);
+
+
+    // Handle sort dropdown changes
+    const sortSelect = document.querySelector('.sort-select');
+    if (sortSelect) {
+      sortSelect.addEventListener('change', (e) => {
+        currentFilters.sortBy = e.target.value;
+        updateProductCount();
+      });
+    }
+
+    // Handle SNAP/EBT toggle
+    const snapToggle = document.querySelector('.snap-ebt-toggle');
+    if (snapToggle) {
+      snapToggle.addEventListener('change', (e) => {
+        currentFilters.snapEbt = e.target.checked;
+        updateProductCount();
+      });
+    }
+
+    // Handle Clear Filters
+    const clearBtn = document.querySelector('.clear-filters-btn');
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        // Reset all filters
+        currentFilters = {
+          brands: [],
+          categories: [],
+          sortBy: 'relevance',
+          snapEbt: false,
+          countryOfOrigin: []
+        };
+        
+        // Reset UI
+        document.querySelectorAll('.brand-filter, .category-filter, .origin-filter').forEach(cb => cb.checked = false);
+        if (snapToggle) snapToggle.checked = false;
+        if (sortSelect) sortSelect.value = 'relevance';
+        
+        updateProductCount();
+        applyFilters();
+      });
+    }
+
+    // Handle Show Products button
+    const showProductsBtn = document.querySelector('.show-products-btn');
+    if (showProductsBtn) {
+      showProductsBtn.addEventListener('click', () => {
+        applyFilters();
+      });
+    }
+
+    // Handle filter checkbox changes (delegated events)
+    document.addEventListener('change', (e) => {
+      if (e.target.classList.contains('brand-filter')) {
+        updateFilterArray('brands', e.target.value, e.target.checked);
+      } else if (e.target.classList.contains('category-filter')) {
+        updateFilterArray('categories', e.target.value, e.target.checked);
+      } else if (e.target.classList.contains('origin-filter')) {
+        updateFilterArray('countryOfOrigin', e.target.value, e.target.checked);
+      }
+    });
+  });
+
+  function updateFilterArray(filterType, value, checked) {
+    if (checked) {
+      if (!currentFilters[filterType].includes(value)) {
+        currentFilters[filterType].push(value);
+      }
+    } else {
+      currentFilters[filterType] = currentFilters[filterType].filter(v => v !== value);
+    }
+    updateProductCount();
+  }
+
+  function updateProductCount() {
+    // This would normally make an API call to get updated count
+    // For now, just indicate filters are active
+    const activeFilterCount = [
+      ...currentFilters.brands,
+      ...currentFilters.categories,
+      ...currentFilters.countryOfOrigin,
+      ...(currentFilters.snapEbt ? ['snap'] : []),
+      ...(currentFilters.sortBy !== 'relevance' ? ['sort'] : [])
+    ].length;
+    
+    const countSpan = document.querySelector('.product-count');
+    if (countSpan) {
+      countSpan.textContent = activeFilterCount > 0 ? '...' : '${totalCount}';
+    }
+  }
+
+  function applyFilters() {
+    // Build URL with current filters
+    const url = new URL(window.location);
+    
+    // Clear existing filter params
+    ['brands', 'categories', 'sortBy', 'snapEbt', 'countryOfOrigin'].forEach(key => {
+      url.searchParams.delete(key);
+    });
+    
+    // Add current filters
+    if (currentFilters.brands.length) {
+      currentFilters.brands.forEach(brand => url.searchParams.append('brands', brand));
+    }
+    if (currentFilters.categories.length) {
+      currentFilters.categories.forEach(cat => url.searchParams.append('categories', cat));
+    }
+    if (currentFilters.sortBy !== 'relevance') {
+      url.searchParams.set('sortBy', currentFilters.sortBy);
+    }
+    if (currentFilters.snapEbt) {
+      url.searchParams.set('snapEbt', 'true');
+    }
+    if (currentFilters.countryOfOrigin.length) {
+      currentFilters.countryOfOrigin.forEach(country => url.searchParams.append('countryOfOrigin', country));
+    }
+    
+    // Reload page with filters
+    window.location.href = url.toString();
+  }
+</script>

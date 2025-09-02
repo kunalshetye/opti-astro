@@ -1,0 +1,160 @@
+{
+	"key": "ProductListing",
+	"displayName": "Product Listing",
+	"description": "Displays products from a selected category in carousel or grid layout",
+	"baseType": "component",
+	"sortOrder": 100,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"sectionEnabled",
+		"elementEnabled"
+	],
+	"properties": {
+		"Category": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Product Category",
+			"description": "Select the category of products to display",
+			"localized": false,
+			"required": true,
+			"group": "Information",
+			"sortOrder": 10,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "Featured",
+						"value": "featured"
+					},
+					{
+						"displayName": "Price Drops",
+						"value": "price-drops"
+					},
+					{
+						"displayName": "Fall Products",
+						"value": "fall-products"
+					},
+					{
+						"displayName": "Halloween",
+						"value": "halloween"
+					},
+					{
+						"displayName": "Game Day",
+						"value": "game-day"
+					},
+					{
+						"displayName": "Back to School",
+						"value": "back-to-school"
+					},
+					{
+						"displayName": "College & Dorm Room",
+						"value": "college-dorm-room"
+					},
+					{
+						"displayName": "BBQ & Picnic",
+						"value": "bbq-picnic"
+					},
+					{
+						"displayName": "Seasonal Products",
+						"value": "seasonal-products"
+					},
+					{
+						"displayName": "Award-Winning Products",
+						"value": "award-winning"
+					},
+					{
+						"displayName": "Healthy Living",
+						"value": "healthy-living"
+					},
+					{
+						"displayName": "Charcuterie",
+						"value": "charcuterie"
+					},
+					{
+						"displayName": "Dairy & Eggs",
+						"value": "dairy-eggs"
+					},
+					{
+						"displayName": "Fresh Produce",
+						"value": "fresh-produce"
+					},
+					{
+						"displayName": "Fresh Meat & Seafood",
+						"value": "fresh-meat-seafood"
+					},
+					{
+						"displayName": "Deli",
+						"value": "deli"
+					},
+					{
+						"displayName": "Frozen Foods",
+						"value": "frozen-foods"
+					},
+					{
+						"displayName": "Bakery & Bread",
+						"value": "bakery-bread"
+					},
+					{
+						"displayName": "Snacks",
+						"value": "snacks"
+					},
+					{
+						"displayName": "Breakfast & Cereals",
+						"value": "breakfast-cereals"
+					},
+					{
+						"displayName": "Pantry Essentials",
+						"value": "pantry-essentials"
+					},
+					{
+						"displayName": "Beverages",
+						"value": "beverages"
+					},
+					{
+						"displayName": "Alcohol",
+						"value": "alcohol"
+					},
+					{
+						"displayName": "Pet Supplies",
+						"value": "pet-supplies"
+					},
+					{
+						"displayName": "Household Essentials",
+						"value": "household-essentials"
+					},
+					{
+						"displayName": "Personal Care",
+						"value": "personal-care"
+					},
+					{
+						"displayName": "Baby Items",
+						"value": "baby-items"
+					}
+				]
+			}
+		},
+		"CustomCategoryName": {
+			"type": "string",
+			"displayName": "Custom Category Name",
+			"description": "Override the category name displayed in the header",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 15,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		},
+		"SKUs": {
+			"type": "string",
+			"displayName": "SKU Override",
+			"description": "List of SKUs to display. If provided, this will override the category selection.",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 20,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		}
+	}
+}

@@ -1,0 +1,58 @@
+{
+  "key": "DefaultProductListing",
+  "displayName": "Default Product Listing",
+  "contentType": "ProductListing",
+  "isDefault": true,
+  "settings": {
+    "Layout": {
+      "displayName": "Layout",
+      "editor": "",
+      "sortOrder": 10,
+      "choices": {
+        "carousel": {
+          "displayName": "Carousel (Default)",
+          "sortOrder": 10
+        },
+        "grid": {
+          "displayName": "Grid",
+          "sortOrder": 20
+        }
+      }
+    },
+    "PageLimit": {
+      "displayName": "Page Limit",
+      "editor": "",
+      "sortOrder": 20,
+      "choices": {
+        "limit_12": {
+          "displayName": "12 products (Default)",
+          "sortOrder": 10
+        },
+        "limit_16": {
+          "displayName": "16 products",
+          "sortOrder": 20
+        },
+        "limit_24": {
+          "displayName": "24 products",
+          "sortOrder": 30
+        },
+        "limit_30": {
+          "displayName": "30 products",
+          "sortOrder": 40
+        },
+        "limit_32": {
+          "displayName": "32 products",
+          "sortOrder": 50
+        },
+        "limit_48": {
+          "displayName": "48 products",
+          "sortOrder": 60
+        },
+        "limit_60": {
+          "displayName": "60 products",
+          "sortOrder": 70
+        }
+      }
+    }
+  }
+}
