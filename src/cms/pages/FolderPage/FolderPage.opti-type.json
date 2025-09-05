@@ -1,0 +1,25 @@
+{
+	"key": "FolderPage",
+	"displayName": "Folder",
+	"description": "Folder type for organizing items in page tree",
+	"baseType": "page",
+	"sortOrder": 0,
+	"mayContainTypes": [
+		"*"
+	],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [],
+	"properties": {
+		"FolderDescription": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "Folder Description",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 7,
+			"editorSettings": {}
+		}
+	}
+}

@@ -125,6 +125,10 @@ const isComponentType = contentPayload.types.includes('_Component');
 const isExperienceType = contentPayload.types.includes('_Experience');
 const isPageType =
     contentPayload.types.includes('_Page') && isExperienceType === false;
+
+if(isPageType && contentPayload.types.includes('FolderPage')) {
+    return Astro.redirect(getRelativeLocaleUrl(lang, '/404'), 404);
+}
 ---
 
 <>

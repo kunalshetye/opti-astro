@@ -3,6 +3,7 @@ import type { ContentPayload } from '../../graphql/shared/ContentPayload';
 import ArticlePage from './ArticlePage/ArticlePage.astro';
 import LandingPage from './LandingPage/LandingPage.astro';
 import MockupPage from './MockupPage/MockupPage.astro';
+import FolderPage from './FolderPage/FolderPage.astro';
 const contentPayload = Astro.props.data as ContentPayload;
 const pageType = contentPayload.types[0];
 ---
@@ -10,3 +11,4 @@ const pageType = contentPayload.types[0];
 {pageType === 'ArticlePage' && <ArticlePage contentPayload={contentPayload} />}
 {pageType === 'LandingPage' && <LandingPage contentPayload={contentPayload} />}
 {pageType === 'MockupPage' && <MockupPage contentPayload={contentPayload} />}
+{pageType === 'FolderPage' && <FolderPage />}
