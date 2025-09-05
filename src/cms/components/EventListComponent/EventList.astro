@@ -250,7 +250,7 @@ allArticles.forEach(event => {
                 <!-- Results Count -->
                 <div class="text-sm text-base-content/70 mt-4">
                     <span id={`loading-spinner-${componentId}`} class="loading loading-spinner loading-sm mr-2" style="display: none;"></span>
-                    <span id={`results-count-${componentId}`}>Showing {filteredEvents.length} event{filteredEvents.length !== 1 ? 's' : ''}</span>
+                    <span id={`results-count-${componentId}`}>Showing {events.length} event{events.length !== 1 ? 's' : ''}</span>
                 </div>
             </div>
         </div>
@@ -277,7 +277,7 @@ allArticles.forEach(event => {
         ]}
     >
         {
-            filteredEvents.map((event: any) => {
+            events.map((event: any) => {
                 // Use actual event data from GraphQL response
                 const startDate = event.StartDateTime ? parseISO(event.StartDateTime) : null;
                 const endDate = event.EndDateTime ? parseISO(event.EndDateTime) : null;
@@ -398,7 +398,7 @@ allArticles.forEach(event => {
                 } else {
                     // Grid View (Default) - Keep existing card design
                     return (
-                        <div class:list={["card bg-base-100 shadow-sm flex flex-col h-full", cardDynamicClasses]} data-event-key={event._metadata?.key || event.Heading} data-event-index={filteredEvents.indexOf(event)}>
+                        <div class:list={["card bg-base-100 shadow-sm flex flex-col h-full", cardDynamicClasses]} data-event-key={event._metadata?.key || event.Heading} data-event-index={events.indexOf(event)}>
                         {/* Event Image */}
                         <figure class="relative">
                             <AstroImage
@@ -608,18 +608,13 @@ allArticles.forEach(event => {
         }
     </div>
 
-    {/* No Results Message */}
-    {filteredEvents.length === 0 && (
+    {/* No Results Message - This will be managed by JavaScript */}
+    {events.length === 0 && (
         <div class="text-center py-12">
             <div class="text-6xl mb-4">📅</div>
             <h3 class="text-2xl font-bold mb-2">No Content Found</h3>
             <p class="text-base-content/70">
-                {events.length === 0 
-                    ? "No events have been published yet. Check back soon!"
-                    : defaultFilter === 'upcoming' 
-                        ? "No upcoming events found. Try adjusting the filters to see all events."
-                        : `No events match the current filter criteria. Try changing the filter settings.`
-                }
+                No events have been published yet. Check back soon!
             </p>
         </div>
     )}
@@ -654,9 +649,8 @@ allArticles.forEach(event => {
             }
             
             this.bindEventListeners();
-            // Don't apply filters immediately to prevent flickering
-            // Just update the results count
-            this.updateResultsCount();
+            // Apply initial filter based on default settings
+            this.applyFilters();
         }
         
         bindEventListeners() {
@@ -861,37 +855,45 @@ allArticles.forEach(event => {
                 return;
             }
             
-            const allCards = eventsGrid.querySelectorAll('.card');
+            // Find all event items regardless of display mode - look for data-event-key attribute
+            const allEventItems = eventsGrid.querySelectorAll('[data-event-key]');
             // Use multiple identifiers - metadata key or heading as fallback
             const eventKeys = this.filteredEvents.map(event => event._metadata?.key || event.Heading).filter(Boolean);
             
+            console.log('Filtered events for display:', this.filteredEvents.map(e => ({
+                title: e.Heading,
+                key: e._metadata?.key,
+                fallbackKey: e._metadata?.key || e.Heading
+            })));
+            
             console.log('UpdateDisplay Debug:', {
-                totalCards: allCards.length,
+                totalEventItems: allEventItems.length,
                 filteredEventKeys: eventKeys,
                 filteredEventsCount: this.filteredEvents.length,
-                filteredEventTitles: this.filteredEvents.map(e => e.Heading)
+                filteredEventTitles: this.filteredEvents.map(e => e.Heading),
+                domEventKeys: Array.from(allEventItems).map(item => item.getAttribute('data-event-key'))
             });
             
             let visibleCount = 0;
             
-            // Show/hide cards based on filtered results
-            allCards.forEach((card, index) => {
-                const cardKey = card.getAttribute('data-event-key');
-                const shouldShow = eventKeys.length === 0 || eventKeys.includes(cardKey);
+            // Show/hide event items based on filtered results
+            allEventItems.forEach((eventItem, index) => {
+                const cardKey = eventItem.getAttribute('data-event-key');
+                const shouldShow = eventKeys.includes(cardKey);
                 
-                console.log(`Card ${index}:`, {cardKey, shouldShow, eventKeysInclude: eventKeys.includes(cardKey)});
+                console.log(`Event ${index}:`, {cardKey, shouldShow, eventKeysInclude: eventKeys.includes(cardKey)});
                 
                 if (cardKey && shouldShow) {
-                    card.style.display = ''; // Reset to default (grid item)
+                    eventItem.style.display = ''; // Reset to default display
                     visibleCount++;
-                    console.log('Showing card:', cardKey);
+                    console.log('Showing event:', cardKey);
                 } else {
-                    card.style.display = 'none';
-                    console.log('Hiding card:', cardKey);
+                    eventItem.style.display = 'none';
+                    console.log('Hiding event:', cardKey);
                 }
             });
             
-            console.log('Visible cards:', visibleCount);
+            console.log('Visible events:', visibleCount);
             
             // Update results count
             this.updateResultsCount();
@@ -922,7 +924,7 @@ allArticles.forEach(event => {
         // Check if the events grid exists before initializing
         const eventsGrid = document.getElementById(`events-grid-${componentId}`);
         if (eventsGrid) {
-            new EventListFilter(componentId, events, filteredEvents, defaultFilter, defaultSort);
+            new EventListFilter(componentId, events, events, defaultFilter, defaultSort);
         } else {
             // If not ready, try again after a short delay
             setTimeout(initEventList, 100);
