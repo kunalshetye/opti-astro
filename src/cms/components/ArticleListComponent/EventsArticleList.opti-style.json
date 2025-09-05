@@ -1,0 +1,292 @@
+{
+	"key": "EventsArticleList",
+	"displayName": "Events List",
+	"contentType": "ArticleList",
+	"isDefault": false,
+	"settings": {
+		"sortBy": {
+			"displayName": "Sort Events By",
+			"editor": "",
+			"sortOrder": 10,
+			"choices": {
+				"date_asc": {
+					"displayName": "Date (Upcoming First)",
+					"sortOrder": 10
+				},
+				"date_desc": {
+					"displayName": "Date (Recent First)",
+					"sortOrder": 20
+				},
+				"popularity": {
+					"displayName": "Popularity",
+					"sortOrder": 30
+				},
+				"alphabetical": {
+					"displayName": "Alphabetical",
+					"sortOrder": 40
+				}
+			}
+		},
+		"dateFilter": {
+			"displayName": "Date Filter",
+			"editor": "",
+			"sortOrder": 20,
+			"choices": {
+				"upcoming": {
+					"displayName": "Upcoming Events Only",
+					"sortOrder": 10
+				},
+				"past": {
+					"displayName": "Past Events Only",
+					"sortOrder": 20
+				},
+				"all": {
+					"displayName": "All Events",
+					"sortOrder": 30
+				},
+				"this_week": {
+					"displayName": "This Week",
+					"sortOrder": 40
+				},
+				"this_month": {
+					"displayName": "This Month",
+					"sortOrder": 50
+				},
+				"next_30_days": {
+					"displayName": "Next 30 Days",
+					"sortOrder": 60
+				}
+			}
+		},
+		"displayMode": {
+			"displayName": "Display Mode",
+			"editor": "",
+			"sortOrder": 30,
+			"choices": {
+				"card": {
+					"displayName": "Card View",
+					"sortOrder": 10
+				},
+				"calendar": {
+					"displayName": "Calendar View",
+					"sortOrder": 20
+				},
+				"list": {
+					"displayName": "List View",
+					"sortOrder": 30
+				},
+				"timeline": {
+					"displayName": "Timeline View",
+					"sortOrder": 40
+				}
+			}
+		},
+		"showEventDate": {
+			"displayName": "Show Event Date",
+			"editor": "",
+			"sortOrder": 40,
+			"choices": {
+				"prominent": {
+					"displayName": "Prominent (Large)",
+					"sortOrder": 10
+				},
+				"standard": {
+					"displayName": "Standard",
+					"sortOrder": 20
+				},
+				"compact": {
+					"displayName": "Compact",
+					"sortOrder": 30
+				},
+				"hidden": {
+					"displayName": "Hidden",
+					"sortOrder": 40
+				}
+			}
+		},
+		"showEventTime": {
+			"displayName": "Show Event Time",
+			"editor": "",
+			"sortOrder": 50,
+			"choices": {
+				"full": {
+					"displayName": "Full Time (e.g., 2:00 PM - 4:00 PM)",
+					"sortOrder": 10
+				},
+				"start_only": {
+					"displayName": "Start Time Only",
+					"sortOrder": 20
+				},
+				"duration": {
+					"displayName": "Duration (e.g., 2 hours)",
+					"sortOrder": 30
+				},
+				"hidden": {
+					"displayName": "Hidden",
+					"sortOrder": 40
+				}
+			}
+		},
+		"showEventLocation": {
+			"displayName": "Show Event Location",
+			"editor": "",
+			"sortOrder": 60,
+			"choices": {
+				"full": {
+					"displayName": "Full Address",
+					"sortOrder": 10
+				},
+				"venue_only": {
+					"displayName": "Venue Name Only",
+					"sortOrder": 20
+				},
+				"city_only": {
+					"displayName": "City Only",
+					"sortOrder": 30
+				},
+				"hidden": {
+					"displayName": "Hidden",
+					"sortOrder": 40
+				}
+			}
+		},
+		"showEventStatus": {
+			"displayName": "Show Event Status",
+			"editor": "",
+			"sortOrder": 70,
+			"choices": {
+				"badge": {
+					"displayName": "Badge (e.g., Sold Out, Few Spots Left)",
+					"sortOrder": 10
+				},
+				"text": {
+					"displayName": "Text",
+					"sortOrder": 20
+				},
+				"hidden": {
+					"displayName": "Hidden",
+					"sortOrder": 30
+				}
+			}
+		},
+		"eventCategoryFilter": {
+			"displayName": "Show Event Categories",
+			"editor": "",
+			"sortOrder": 80,
+			"choices": {
+				"tabs": {
+					"displayName": "Category Tabs",
+					"sortOrder": 10
+				},
+				"dropdown": {
+					"displayName": "Dropdown Filter",
+					"sortOrder": 20
+				},
+				"chips": {
+					"displayName": "Filter Chips",
+					"sortOrder": 30
+				},
+				"none": {
+					"displayName": "No Filter",
+					"sortOrder": 40
+				}
+			}
+		},
+		"registrationButton": {
+			"displayName": "Registration Button",
+			"editor": "",
+			"sortOrder": 90,
+			"choices": {
+				"prominent": {
+					"displayName": "Prominent (Primary)",
+					"sortOrder": 10
+				},
+				"standard": {
+					"displayName": "Standard",
+					"sortOrder": 20
+				},
+				"text_link": {
+					"displayName": "Text Link",
+					"sortOrder": 30
+				},
+				"hidden": {
+					"displayName": "Hidden",
+					"sortOrder": 40
+				}
+			}
+		},
+		"showAttendeeCount": {
+			"displayName": "Show Attendee Information",
+			"editor": "",
+			"sortOrder": 100,
+			"choices": {
+				"count": {
+					"displayName": "Show Count (e.g., 42 attending)",
+					"sortOrder": 10
+				},
+				"avatars": {
+					"displayName": "Show Avatar Stack",
+					"sortOrder": 20
+				},
+				"both": {
+					"displayName": "Count + Avatars",
+					"sortOrder": 30
+				},
+				"hidden": {
+					"displayName": "Hidden",
+					"sortOrder": 40
+				}
+			}
+		},
+		"hoverEffect": {
+			"displayName": "Hover Effect",
+			"editor": "",
+			"sortOrder": 110,
+			"choices": {
+				"zoom_subtle": {
+					"displayName": "Zoom (Subtle)",
+					"sortOrder": 10
+				},
+				"zoom": {
+					"displayName": "Zoom",
+					"sortOrder": 20
+				},
+				"lift": {
+					"displayName": "Lift Up",
+					"sortOrder": 30
+				},
+				"glow": {
+					"displayName": "Glow",
+					"sortOrder": 40
+				},
+				"none": {
+					"displayName": "None",
+					"sortOrder": 50
+				}
+			}
+		},
+		"cardStyle": {
+			"displayName": "Card Style",
+			"editor": "",
+			"sortOrder": 120,
+			"choices": {
+				"modern": {
+					"displayName": "Modern",
+					"sortOrder": 10
+				},
+				"minimal": {
+					"displayName": "Minimal",
+					"sortOrder": 20
+				},
+				"bold": {
+					"displayName": "Bold",
+					"sortOrder": 30
+				},
+				"gradient": {
+					"displayName": "Gradient",
+					"sortOrder": 40
+				}
+			}
+		}
+	}
+}

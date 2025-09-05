@@ -1,0 +1,937 @@
+---
+import { Image as AstroImage } from 'astro:assets';
+import { randomBytes } from 'crypto';
+import { format, parseISO, isAfter, isBefore, isWithinInterval, startOfWeek, endOfWeek, startOfMonth, endOfMonth, addDays } from 'date-fns';
+import type {
+    EventListFragment,
+    EventPageExcerptFragment,
+    DisplaySettingsFragment,
+} from '../../../../__generated/sdk';
+import { getOptimizelySdk } from '../../../graphql/getSdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
+import LinkButton from '../ButtonComponent/LinkButton.astro';
+import { isEditContext } from '../../shared/utils.ts';
+import { init } from '@graphql-codegen/cli';
+
+const isCmsEdit = isEditContext(Astro.url);
+
+export interface Props {
+    key: string;
+    data: EventListFragment;
+    displaySettings: DisplaySettingsFragment[];
+    contentPayload: ContentPayload;
+}
+
+const { key, data, displaySettings, contentPayload } = Astro.props as Props;
+const currentSite = Astro.url.origin;
+
+// Fetch events data (using ArticlePage for now until EventPage is available)
+const eventsResponse = await getOptimizelySdk(contentPayload).getArticles({
+    //@ts-ignore
+    loc: contentPayload.loc,
+    site: currentSite,
+    limit: data.NumberOfEvents || 50,
+});
+
+const componentId = randomBytes(5).toString('hex');
+const allArticles = eventsResponse.ArticlePage?.items || [];
+
+// Filter to only show actual events (items with IsEvent=true or event-specific data)
+const events = allArticles.filter(item => {
+    // Check if explicitly marked as event or has event-specific data
+    return item.IsEvent === true || 
+           item.StartDateTime || item.EndDateTime || item.EventDate || item.EventLocation || 
+           item.MaxCapacity || (item.CurrentAttendees !== null && item.CurrentAttendees !== undefined);
+});
+
+// Get default filter value
+const defaultFilter = data.DefaultFilter || 'all';
+
+// Debug logging
+console.log('Total articles fetched:', allArticles.length);
+console.log('Events identified:', events.length);
+console.log('Default filter:', defaultFilter);
+
+// Get style settings from display settings
+const styleDictionary = getDictionaryFromDisplaySettings(displaySettings);
+
+// Get display mode and other settings
+const displayMode = styleDictionary['displayMode'] || 'grid';
+const gridColumns = styleDictionary['gridColumns'] || 'auto';
+const cardStyle = styleDictionary['cardStyle'] || 'modern';
+const hoverEffect = styleDictionary['hoverEffect'] || 'zoom_subtle';
+const shadowValue = styleDictionary['cardShadow'] || 'sm';
+const hoverShadowValue = styleDictionary['hoverShadow'] || 'lg';
+const dateDisplayStyle = styleDictionary['dateDisplayStyle'] || 'badge';
+const statusBadgeStyle = styleDictionary['statusBadgeStyle'] || 'colored';
+
+console.log('Display settings:', { displayMode, gridColumns, cardStyle, dateDisplayStyle });
+
+const cardDynamicClasses = {
+    'shadow-none': shadowValue === 'none',
+    'shadow-md': shadowValue === 'md',
+    'shadow-lg': shadowValue === 'lg',
+    'shadow-xl': shadowValue === 'xl',
+    'hover:shadow-md': hoverShadowValue === 'md',
+    'hover:shadow-lg': hoverShadowValue === 'lg',
+    'hover:shadow-xl': hoverShadowValue === 'xl',
+    'hover:shadow-2xl': hoverShadowValue === 'xxl',
+    'transition-transform duration-300 hover:scale-105': hoverEffect === 'zoom',
+    'transition-transform duration-300 hover:scale-[1.02]': hoverEffect === 'zoom_subtle',
+    'overflow-hidden': hoverEffect === 'zoom' || hoverEffect === 'zoom_subtle',
+};
+
+// Server-side filtering helper functions
+const now = new Date();
+
+const filterEventsByDate = (events: any[], filter: string) => {
+    switch (filter) {
+        case 'upcoming':
+            return events.filter(event => {
+                const startDate = event.StartDateTime ? parseISO(event.StartDateTime) : null;
+                return startDate && isAfter(startDate, now);
+            });
+        case 'past':
+            return events.filter(event => {
+                const endDate = event.EndDateTime ? parseISO(event.EndDateTime) : event.StartDateTime ? parseISO(event.StartDateTime) : null;
+                return endDate && isBefore(endDate, now);
+            });
+        case 'this_week':
+            const weekStart = startOfWeek(now);
+            const weekEnd = endOfWeek(now);
+            return events.filter(event => {
+                const startDate = event.StartDateTime ? parseISO(event.StartDateTime) : null;
+                return startDate && isWithinInterval(startDate, { start: weekStart, end: weekEnd });
+            });
+        case 'this_month':
+            const monthStart = startOfMonth(now);
+            const monthEnd = endOfMonth(now);
+            return events.filter(event => {
+                const startDate = event.StartDateTime ? parseISO(event.StartDateTime) : null;
+                return startDate && isWithinInterval(startDate, { start: monthStart, end: monthEnd });
+            });
+        case 'next_30_days':
+            const thirtyDaysOut = addDays(now, 30);
+            return events.filter(event => {
+                const startDate = event.StartDateTime ? parseISO(event.StartDateTime) : null;
+                return startDate && isWithinInterval(startDate, { start: now, end: thirtyDaysOut });
+            });
+        case 'all':
+        default:
+            return events;
+    }
+};
+
+// Apply default filtering with actual date filtering
+let filteredEvents = filterEventsByDate(events, defaultFilter);
+
+// If no events match the default filter and it's not 'all', fall back to showing all events
+if (filteredEvents.length === 0 && defaultFilter !== 'all') {
+    console.log(`No events found for filter '${defaultFilter}', falling back to show all`);
+    filteredEvents = events;
+}
+
+// For debugging - log some event data
+console.log('Sample event data:', events.slice(0, 2).map(e => ({
+    title: e.Heading,
+    startDateTime: e.StartDateTime,
+    endDateTime: e.EndDateTime,
+    eventDate: e.EventDate,
+    isEvent: e.IsEvent
+})));
+
+console.log('Total articles fetched:', events.length);
+console.log('Default filter:', defaultFilter);
+console.log('Filtered events count:', filteredEvents.length);
+if (filteredEvents.length > 0) {
+    console.log('First few events:', filteredEvents.slice(0, 3).map(e => ({
+        title: e.Heading,
+        isEvent: e.IsEvent,
+        startDate: e.StartDateTime,
+        eventDate: e.EventDate
+    })));
+}
+
+// Get unique categories for filter options (ArticlePage doesn't have categories)
+const categories: string[] = [];
+
+// Prepare initial data for the interactive component
+const initialData = {
+    events: filteredEvents,
+    allEvents: events,
+    categories,
+    searchApiUrl: '/api/search.json',
+    locale: contentPayload.loc,
+};
+allArticles.forEach(event => {
+    console.log('Event category:', event);
+});
+---
+
+<div data-epi-block-id={isCmsEdit && key || undefined}>
+    {data?.Title && <h1 class="w-full basis-full mb-6">{data.Title}</h1>}
+    
+    <!-- Interactive Filters -->
+    {(data.EnableSearch || data.EnableCategoryFilter || data.EnableSorting) && (
+        <div class="mb-8" id={`event-filters-${componentId}`}>
+            <div class="bg-base-200 rounded-lg p-4">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <!-- Search -->
+                    {data.EnableSearch && (
+                        <div class="form-control flex-1">
+                            <label class="label">
+                                <span class="label-text">Search Events</span>
+                            </label>
+                            <input
+                                type="text"
+                                placeholder="Search by title, description, or author..."
+                                class="input input-bordered w-full"
+                                id={`search-input-${componentId}`}
+                            />
+                        </div>
+                    )}
+
+                    <!-- Category Filter -->
+                    {data.EnableCategoryFilter && categories.length > 0 && (
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Category</span>
+                            </label>
+                            <select 
+                                class="select select-bordered w-full max-w-xs"
+                                id={`category-select-${componentId}`}
+                            >
+                                <option value="">All Categories</option>
+                                {categories.map(category => (
+                                    <option value={category}>{category}</option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
+
+                    <!-- Date Filter -->
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">When</span>
+                        </label>
+                        <select 
+                            class="select select-bordered w-full max-w-xs"
+                            id={`date-filter-${componentId}`}
+                        >
+                            <option value="all">All Events</option>
+                            <option value="upcoming">Upcoming Events</option>
+                            <option value="past">Past Events</option>
+                            <option value="this_week">This Week</option>
+                            <option value="this_month">This Month</option>
+                            <option value="next_30_days">Next 30 Days</option>
+                        </select>
+                    </div>
+
+                    <!-- Sort -->
+                    {data.EnableSorting && (
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Sort By</span>
+                            </label>
+                            <select 
+                                class="select select-bordered w-full max-w-xs"
+                                id={`sort-select-${componentId}`}
+                            >
+                                <option value="date_asc">Date (Upcoming First)</option>
+                                <option value="date_desc">Date (Recent First)</option>
+                                <option value="popularity">Popularity</option>
+                                <option value="alphabetical">Alphabetical</option>
+                            </select>
+                        </div>
+                    )}
+                </div>
+
+                <!-- Results Count -->
+                <div class="text-sm text-base-content/70 mt-4">
+                    <span id={`loading-spinner-${componentId}`} class="loading loading-spinner loading-sm mr-2" style="display: none;"></span>
+                    <span id={`results-count-${componentId}`}>Showing {filteredEvents.length} event{filteredEvents.length !== 1 ? 's' : ''}</span>
+                </div>
+            </div>
+        </div>
+    )}
+
+    <!-- Events Container - Dynamic Layout Based on Display Mode -->
+    <div 
+        id={`events-grid-${componentId}`} 
+        class:list={[
+            // Grid mode classes
+            displayMode === 'grid' && {
+                'grid gap-8': true,
+                'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4': gridColumns === 'auto',
+                'grid-cols-1 sm:grid-cols-2': gridColumns === 'col2',
+                'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3': gridColumns === 'col3',
+                'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4': gridColumns === 'col4'
+            },
+            // List mode classes
+            displayMode === 'list' && 'flex flex-col gap-4',
+            // Timeline mode classes  
+            displayMode === 'timeline' && 'relative pl-8',
+            // Calendar mode classes
+            displayMode === 'calendar' && 'grid grid-cols-7 gap-2'
+        ]}
+    >
+        {
+            filteredEvents.map((event: any) => {
+                // Use actual event data from GraphQL response
+                const startDate = event.StartDateTime ? parseISO(event.StartDateTime) : null;
+                const endDate = event.EndDateTime ? parseISO(event.EndDateTime) : null;
+                
+                // Calculate event status based on actual dates
+                let eventStatus = 'upcoming';
+                const now = new Date();
+                
+                if (startDate && endDate) {
+                    if (now > startDate && now < endDate) {
+                        eventStatus = 'ongoing';
+                    } else if (now > endDate) {
+                        eventStatus = 'ended';
+                    }
+                } else if (startDate && now > startDate) {
+                    eventStatus = 'ended';
+                }
+                
+                // Use actual capacity data
+                const maxCapacity = event.MaxCapacity || null;
+                const currentAttendees = event.CurrentAttendees || 0;
+                const isFullyBooked = maxCapacity && currentAttendees >= maxCapacity;
+                const spotsLeft = maxCapacity && currentAttendees ? maxCapacity - currentAttendees : null;
+                
+                // Determine if this is an event - check IsEvent field or if event-specific fields are present
+                const isEventItem = event.IsEvent === true || 
+                    (event.StartDateTime || event.EndDateTime || event.EventDate || event.EventLocation || 
+                     event.MaxCapacity || (event.CurrentAttendees !== null && event.CurrentAttendees !== undefined));
+
+                // Conditional rendering based on display mode
+                if (displayMode === 'list') {
+                    // List View - Horizontal layout
+                    return (
+                        <div class:list={["card card-side bg-base-100 shadow-sm", cardDynamicClasses]} data-event-key={event._metadata?.key || event.Heading}>
+                            <figure class="w-48 flex-shrink-0">
+                                <AstroImage
+                                    class="w-full h-32 object-cover"
+                                    src={((event.PromoImage as any)?.item?.Url || event.PromoImage?.url?.default) ?? '/placeholder.png'}
+                                    alt={event.PromoImage?.item?.AltText || `Promo image for ${event.Heading}` || 'Event promo image'}
+                                    width={192}
+                                    height={128}
+                                />
+                            </figure>
+                            <div class="card-body flex-1">
+                                <h2 class="card-title">{event.Heading}</h2>
+                                {startDate && (
+                                    <div class="text-sm text-primary font-medium">
+                                        {format(startDate, 'EEEE, MMMM d, yyyy • h:mm a')}
+                                    </div>
+                                )}
+                                {event.EventLocation && (
+                                    <div class="text-sm text-base-content/70 flex items-center gap-1">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                        </svg>
+                                        {event.EventLocation}
+                                    </div>
+                                )}
+                                <div class="card-actions justify-end">
+                                    <LinkButton cssClasses="btn-primary btn-sm" link={event._metadata?.url?.hierarchical}>
+                                        View Details
+                                    </LinkButton>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                } else if (displayMode === 'timeline') {
+                    // Timeline View
+                    return (
+                        <div class="relative pb-8" data-event-key={event._metadata?.key || event.Heading}>
+                            {/* Timeline dot */}
+                            <div class="absolute -left-9 top-6 w-4 h-4 bg-primary rounded-full border-4 border-base-100 shadow-lg"></div>
+                            {/* Timeline line */}
+                            <div class="absolute -left-7 top-10 w-0.5 h-full bg-base-200"></div>
+                            
+                            <div class:list={["card bg-base-100 shadow-sm", cardDynamicClasses]}>
+                                <div class="card-body">
+                                    <div class="flex items-center gap-2 text-sm text-primary font-medium mb-2">
+                                        {startDate && format(startDate, 'MMM d, yyyy • h:mm a')}
+                                        {eventStatus === 'ongoing' && <div class="badge badge-success badge-sm">Live</div>}
+                                    </div>
+                                    <h2 class="card-title">{event.Heading}</h2>
+                                    {event.EventLocation && (
+                                        <div class="text-sm text-base-content/70 flex items-center gap-1">
+                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                            </svg>
+                                            {event.EventLocation}
+                                        </div>
+                                    )}
+                                    {event.Body && (
+                                        <div class="text-sm line-clamp-2">
+                                            {typeof event.Body === 'string' 
+                                                ? event.Body.replace(/<[^>]*>/g, '').substring(0, 120)
+                                                : (event.Body?.html || '').replace(/<[^>]*>/g, '').substring(0, 120)
+                                            }...
+                                        </div>
+                                    )}
+                                    <div class="card-actions justify-end mt-4">
+                                        <LinkButton cssClasses="btn-primary btn-sm" link={event._metadata?.url?.hierarchical}>
+                                            View Details
+                                        </LinkButton>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                } else if (displayMode === 'calendar') {
+                    // Calendar View - Simplified event block
+                    return (
+                        <div class="bg-primary text-primary-content p-2 rounded text-xs" data-event-key={event._metadata?.key || event.Heading}>
+                            <div class="font-medium line-clamp-1">{event.Heading}</div>
+                            {startDate && (
+                                <div class="opacity-90">{format(startDate, 'h:mm a')}</div>
+                            )}
+                        </div>
+                    );
+                } else {
+                    // Grid View (Default) - Keep existing card design
+                    return (
+                        <div class:list={["card bg-base-100 shadow-sm flex flex-col h-full", cardDynamicClasses]} data-event-key={event._metadata?.key || event.Heading} data-event-index={filteredEvents.indexOf(event)}>
+                        {/* Event Image */}
+                        <figure class="relative">
+                            <AstroImage
+                                class="aspect-video object-cover w-full"
+                                src={((event.PromoImage as any)?.item?.Url || event.PromoImage?.url?.default) ?? '/placeholder.png'}
+                                alt={event.PromoImage?.item?.AltText || `Promo image for ${event.Heading}` || 'Event promo image'}
+                                width={400}
+                                height={225}
+                            />
+                            
+                            {/* Event Status Badges */}
+                            <div class="absolute top-2 left-2 flex gap-2 flex-wrap">
+                                {eventStatus === 'ongoing' && <div class="badge badge-success badge-sm">Live</div>}
+                                {eventStatus === 'ended' && <div class="badge badge-neutral badge-sm">Ended</div>}
+                                {isFullyBooked && <div class="badge badge-warning badge-sm">Sold Out</div>}
+                                <div class:list={["badge", "badge-sm", isEventItem ? "badge-success" : "badge-primary"]}>{isEventItem ? 'Event' : 'Article'}</div>
+                            </div>
+
+                            {/* Date Badge */}
+                            {data.ShowEventDate && startDate && (
+                                <div class="absolute top-2 right-2 bg-base-100 rounded-lg p-2 shadow-lg text-center min-w-16">
+                                    <div class="text-xs font-medium text-primary uppercase">
+                                        {format(startDate, 'MMM')}
+                                    </div>
+                                    <div class="text-lg font-bold text-base-content">
+                                        {format(startDate, 'd')}
+                                    </div>
+                                </div>
+                            )}
+                        </figure>
+
+                        <div class="card-body flex-1 flex flex-col">
+                            <h2 class="card-title text-lg line-clamp-2">{event.Heading}</h2>
+                            
+                            {/* Event Details - Enhanced for Events */}
+                            <div class="space-y-2 text-sm text-base-content/70 flex-1">
+                                {isEventItem ? (
+                                    <>
+                                        {/* Event Date and Time - Enhanced */}
+                                        {startDate && (
+                                            <div class="flex items-start gap-2">
+                                                <svg class="w-4 h-4 text-primary mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                                                </svg>
+                                                <div>
+                                                    <div class="font-medium text-base-content">{format(startDate, 'EEEE, MMMM d, yyyy')}</div>
+                                                    <div class="text-xs">
+                                                        {format(startDate, 'h:mm a')}
+                                                        {endDate && (
+                                                            endDate.toDateString() === startDate.toDateString() 
+                                                                ? ` - ${format(endDate, 'h:mm a')}` 
+                                                                : ` - ${format(endDate, 'MMM d, h:mm a')}`
+                                                        )}
+                                                    </div>
+                                                    {/* Event Status */}
+                                                    <div class="mt-1">
+                                                        {eventStatus === 'upcoming' && <span class="text-xs text-success font-medium">Upcoming Event</span>}
+                                                        {eventStatus === 'ongoing' && <span class="text-xs text-warning font-medium">Event in Progress</span>}
+                                                        {eventStatus === 'ended' && <span class="text-xs text-neutral font-medium">Event Ended</span>}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Event Location */}
+                                        {event.EventLocation && (
+                                            <div class="flex items-center gap-2">
+                                                <svg class="w-4 h-4 text-secondary" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                                </svg>
+                                                <span class="font-medium text-base-content">{event.EventLocation}</span>
+                                            </div>
+                                        )}
+
+                                        {/* Event Duration */}
+                                        {startDate && endDate && (
+                                            <div class="flex items-center gap-2">
+                                                <svg class="w-4 h-4 text-info" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                                </svg>
+                                                <span>
+                                                    {(() => {
+                                                        const diffInHours = Math.abs(endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60);
+                                                        if (diffInHours < 1) {
+                                                            const diffInMinutes = Math.round(diffInHours * 60);
+                                                            return `${diffInMinutes} minute${diffInMinutes !== 1 ? 's' : ''}`;
+                                                        } else if (diffInHours < 24) {
+                                                            return `${Math.round(diffInHours)} hour${Math.round(diffInHours) !== 1 ? 's' : ''}`;
+                                                        } else {
+                                                            const diffInDays = Math.round(diffInHours / 24);
+                                                            return `${diffInDays} day${diffInDays !== 1 ? 's' : ''}`;
+                                                        }
+                                                    })()}
+                                                </span>
+                                            </div>
+                                        )}
+
+                                        {/* Event Capacity */}
+                                        {(maxCapacity || currentAttendees > 0) && (
+                                            <div class="bg-base-200 rounded-lg p-2 mt-2">
+                                                <div class="flex items-center justify-between text-xs">
+                                                    <span class="font-medium">Attendance</span>
+                                                    {isFullyBooked && <span class="badge badge-warning badge-xs">Full</span>}
+                                                </div>
+                                                <div class="flex items-center gap-2 mt-1">
+                                                    <svg class="w-4 h-4 text-info" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+                                                    </svg>
+                                                    <div class="flex-1">
+                                                        <div class="text-xs">
+                                                            {currentAttendees} {maxCapacity && `/ ${maxCapacity}`} attendees
+                                                        </div>
+                                                        {spotsLeft && spotsLeft > 0 && (
+                                                            <div class="text-xs text-success">{spotsLeft} spots available</div>
+                                                        )}
+                                                        {/* Progress bar for capacity */}
+                                                        {maxCapacity && (
+                                                            <div class="w-full bg-base-300 rounded-full h-1.5 mt-1">
+                                                                <div 
+                                                                    class={`h-1.5 rounded-full ${isFullyBooked ? 'bg-warning' : 'bg-info'}`}
+                                                                    style={`width: ${Math.min((currentAttendees / maxCapacity) * 100, 100)}%`}
+                                                                ></div>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </>
+                                ) : (
+                                    <>
+                                        {/* Regular Article Details */}
+                                        {/* Date and Time for regular articles */}
+                                        {(data.ShowEventDate || data.ShowEventTime) && startDate && (
+                                            <div class="flex items-center gap-2">
+                                                <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                                                </svg>
+                                                <div>
+                                                    {data.ShowEventDate && (
+                                                        <div>{format(startDate, 'MMM d, yyyy')}</div>
+                                                    )}
+                                                    {data.ShowEventTime && (
+                                                        <div>
+                                                            {format(startDate, 'h:mm a')}
+                                                            {endDate && ` - ${format(endDate, 'h:mm a')}`}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </>
+                                )}
+
+                                {/* Author */}
+                                {event.Author && (
+                                    <div class="flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                                        </svg>
+                                        <span class="truncate">By {event.Author}</span>
+                                    </div>
+                                )}
+
+
+                                {/* Description Preview */}
+                                {event.Body && (
+                                    <div class="line-clamp-2 text-xs">
+                                        {typeof event.Body === 'string' 
+                                            ? event.Body.replace(/<[^>]*>/g, '').substring(0, 120)
+                                            : (event.Body?.html || '').replace(/<[^>]*>/g, '').substring(0, 120)
+                                        }...
+                                    </div>
+                                )}
+                            </div>
+
+                            <div class="card-actions justify-end mt-4 pt-4 border-t border-base-200">
+                                {/* Registration Button */}
+                                {data.ShowRegistrationButton && eventStatus !== 'ended' && (
+                                    isFullyBooked ? (
+                                        <div class="btn btn-disabled btn-sm">Sold Out</div>
+                                    ) : (
+                                        <LinkButton 
+                                            cssClasses="btn-primary btn-sm" 
+                                            link={event._metadata?.url?.hierarchical}
+                                        >
+                                            View Details
+                                        </LinkButton>
+                                    )
+                                )}
+                                
+                                {/* View Details Button */}
+                                {!data.ShowRegistrationButton && (
+                                    <LinkButton 
+                                        cssClasses="btn-outline btn-sm" 
+                                        link={event._metadata?.url?.hierarchical}
+                                    >
+                                        Learn More
+                                    </LinkButton>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                    );
+                } // End of Grid View (else block)
+            })
+        }
+    </div>
+
+    {/* No Results Message */}
+    {filteredEvents.length === 0 && (
+        <div class="text-center py-12">
+            <div class="text-6xl mb-4">📅</div>
+            <h3 class="text-2xl font-bold mb-2">No Content Found</h3>
+            <p class="text-base-content/70">
+                {events.length === 0 
+                    ? "No events have been published yet. Check back soon!"
+                    : defaultFilter === 'upcoming' 
+                        ? "No upcoming events found. Try adjusting the filters to see all events."
+                        : `No events match the current filter criteria. Try changing the filter settings.`
+                }
+            </p>
+        </div>
+    )}
+</div>
+
+<script define:vars={{ componentId, filteredEvents, events, defaultFilter, defaultSort: data.DefaultSort || 'date_asc' }}>
+    // EventList JavaScript implementation
+    class EventListFilter {
+        constructor(componentId, allEvents, filteredEvents, defaultFilter, defaultSort) {
+            this.componentId = componentId;
+            this.allEvents = allEvents;
+            this.filteredEvents = filteredEvents;
+            this.searchTerm = '';
+            this.selectedCategory = '';
+            this.selectedDateFilter = defaultFilter;
+            this.selectedSort = defaultSort;
+            this.isLoading = false;
+            
+            this.init();
+        }
+        
+        init() {
+            // Set default values for select elements
+            const dateFilter = document.getElementById(`date-filter-${this.componentId}`);
+            const sortSelect = document.getElementById(`sort-select-${this.componentId}`);
+            
+            if (dateFilter) {
+                dateFilter.value = this.selectedDateFilter;
+            }
+            if (sortSelect) {
+                sortSelect.value = this.selectedSort;
+            }
+            
+            this.bindEventListeners();
+            // Don't apply filters immediately to prevent flickering
+            // Just update the results count
+            this.updateResultsCount();
+        }
+        
+        bindEventListeners() {
+            // Search input
+            const searchInput = document.getElementById(`search-input-${this.componentId}`);
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    this.searchTerm = e.target.value;
+                    this.applyFilters();
+                });
+            }
+            
+            // Category filter
+            const categorySelect = document.getElementById(`category-select-${this.componentId}`);
+            if (categorySelect) {
+                categorySelect.addEventListener('change', (e) => {
+                    this.selectedCategory = e.target.value;
+                    this.applyFilters();
+                });
+            }
+            
+            // Date filter
+            const dateFilter = document.getElementById(`date-filter-${this.componentId}`);
+            if (dateFilter) {
+                dateFilter.addEventListener('change', (e) => {
+                    this.selectedDateFilter = e.target.value;
+                    this.applyFilters();
+                });
+            }
+            
+            // Sort select
+            const sortSelect = document.getElementById(`sort-select-${this.componentId}`);
+            if (sortSelect) {
+                sortSelect.addEventListener('change', (e) => {
+                    this.selectedSort = e.target.value;
+                    this.applyFilters();
+                });
+            }
+        }
+        
+        filterEventsByDate(events, filter) {
+            const now = new Date();
+            console.log('Filtering events by date:', filter, 'Total events:', events.length);
+            
+            // Helper function to get the best available date for an event
+            const getEventDate = (event) => {
+                return event.StartDateTime || event.EventDate || event.EndDateTime;
+            };
+            
+            switch (filter) {
+                case 'upcoming':
+                    return events.filter(event => {
+                        const eventDate = getEventDate(event);
+                        if (!eventDate) {
+                            console.log('Event has no date:', event.Heading);
+                            return false; // No date info, can't determine if upcoming
+                        }
+                        const date = new Date(eventDate);
+                        const isUpcoming = date > now;
+                        console.log('Event:', event.Heading, 'Date:', date, 'Upcoming:', isUpcoming);
+                        return isUpcoming;
+                    });
+                case 'past':
+                    return events.filter(event => {
+                        const eventDate = event.EndDateTime || getEventDate(event);
+                        if (!eventDate) {
+                            console.log('Event has no date:', event.Heading);
+                            return false; // No date info, can't determine if past
+                        }
+                        const date = new Date(eventDate);
+                        const isPast = date < now;
+                        console.log('Event:', event.Heading, 'End Date:', date, 'Past:', isPast);
+                        return isPast;
+                    });
+                case 'this_week':
+                    const weekStart = new Date(now);
+                    weekStart.setDate(now.getDate() - now.getDay());
+                    weekStart.setHours(0, 0, 0, 0);
+                    const weekEnd = new Date(weekStart);
+                    weekEnd.setDate(weekStart.getDate() + 6);
+                    weekEnd.setHours(23, 59, 59, 999);
+                    
+                    return events.filter(event => {
+                        const eventDate = getEventDate(event);
+                        if (!eventDate) return false;
+                        const date = new Date(eventDate);
+                        const inWeek = date >= weekStart && date <= weekEnd;
+                        console.log('Event:', event.Heading, 'Date:', date, 'This week:', inWeek);
+                        return inWeek;
+                    });
+                case 'this_month':
+                    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+                    const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+                    
+                    return events.filter(event => {
+                        const eventDate = getEventDate(event);
+                        if (!eventDate) return false;
+                        const date = new Date(eventDate);
+                        const inMonth = date >= monthStart && date <= monthEnd;
+                        console.log('Event:', event.Heading, 'Date:', date, 'This month:', inMonth);
+                        return inMonth;
+                    });
+                case 'next_30_days':
+                    const thirtyDaysOut = new Date(now);
+                    thirtyDaysOut.setDate(now.getDate() + 30);
+                    thirtyDaysOut.setHours(23, 59, 59, 999);
+                    
+                    return events.filter(event => {
+                        const eventDate = getEventDate(event);
+                        if (!eventDate) return false;
+                        const date = new Date(eventDate);
+                        const inNext30 = date >= now && date <= thirtyDaysOut;
+                        console.log('Event:', event.Heading, 'Date:', date, 'Next 30 days:', inNext30);
+                        return inNext30;
+                    });
+                case 'all':
+                default:
+                    console.log('Showing all events');
+                    return events;
+            }
+        }
+        
+        sortEvents(events, sortBy) {
+            const sorted = [...events];
+            
+            switch (sortBy) {
+                case 'date_asc':
+                    return sorted.sort((a, b) => {
+                        const dateA = a.StartDateTime ? new Date(a.StartDateTime).getTime() : 0;
+                        const dateB = b.StartDateTime ? new Date(b.StartDateTime).getTime() : 0;
+                        return dateA - dateB;
+                    });
+                case 'date_desc':
+                    return sorted.sort((a, b) => {
+                        const dateA = a.StartDateTime ? new Date(a.StartDateTime).getTime() : 0;
+                        const dateB = b.StartDateTime ? new Date(b.StartDateTime).getTime() : 0;
+                        return dateB - dateA;
+                    });
+                case 'alphabetical':
+                    return sorted.sort((a, b) => a.Heading.localeCompare(b.Heading));
+                case 'popularity':
+                    return sorted;
+                default:
+                    return sorted;
+            }
+        }
+        
+        applyFilters() {
+            console.log('Applying filters:', {
+                dateFilter: this.selectedDateFilter,
+                searchTerm: this.searchTerm,
+                sort: this.selectedSort,
+                totalEvents: this.allEvents.length
+            });
+            
+            this.showLoading(true);
+            let filtered = this.allEvents;
+            
+            // Apply date filter
+            filtered = this.filterEventsByDate(filtered, this.selectedDateFilter);
+            console.log(`After date filter (${this.selectedDateFilter}):`, filtered.length, 'events');
+            
+            // Apply search term
+            if (this.searchTerm.trim()) {
+                const term = this.searchTerm.toLowerCase();
+                filtered = filtered.filter(event =>
+                    event.Heading.toLowerCase().includes(term) ||
+                    (event.SubHeading && String(event.SubHeading).toLowerCase().includes(term)) ||
+                    (event.Body && String(event.Body).toLowerCase().includes(term)) ||
+                    (event.Author && String(event.Author).toLowerCase().includes(term))
+                );
+                console.log(`After search filter (${this.searchTerm}):`, filtered.length, 'events');
+            }
+            
+            // Apply sorting
+            filtered = this.sortEvents(filtered, this.selectedSort);
+            
+            this.filteredEvents = filtered;
+            console.log('Final filtered events:', this.filteredEvents.length);
+            this.updateDisplay();
+            this.showLoading(false);
+        }
+        
+        showLoading(show) {
+            const spinner = document.getElementById(`loading-spinner-${this.componentId}`);
+            if (spinner) {
+                spinner.style.display = show ? 'inline-block' : 'none';
+            }
+        }
+        
+        updateResultsCount() {
+            const resultsCount = document.getElementById(`results-count-${this.componentId}`);
+            if (resultsCount) {
+                resultsCount.textContent = `Showing ${this.filteredEvents.length} event${this.filteredEvents.length !== 1 ? 's' : ''}`;
+            }
+        }
+        
+        updateDisplay() {
+            const eventsGrid = document.getElementById(`events-grid-${this.componentId}`);
+            if (!eventsGrid) {
+                console.error('Events grid not found!');
+                return;
+            }
+            
+            const allCards = eventsGrid.querySelectorAll('.card');
+            // Use multiple identifiers - metadata key or heading as fallback
+            const eventKeys = this.filteredEvents.map(event => event._metadata?.key || event.Heading).filter(Boolean);
+            
+            console.log('UpdateDisplay Debug:', {
+                totalCards: allCards.length,
+                filteredEventKeys: eventKeys,
+                filteredEventsCount: this.filteredEvents.length,
+                filteredEventTitles: this.filteredEvents.map(e => e.Heading)
+            });
+            
+            let visibleCount = 0;
+            
+            // Show/hide cards based on filtered results
+            allCards.forEach((card, index) => {
+                const cardKey = card.getAttribute('data-event-key');
+                const shouldShow = eventKeys.length === 0 || eventKeys.includes(cardKey);
+                
+                console.log(`Card ${index}:`, {cardKey, shouldShow, eventKeysInclude: eventKeys.includes(cardKey)});
+                
+                if (cardKey && shouldShow) {
+                    card.style.display = ''; // Reset to default (grid item)
+                    visibleCount++;
+                    console.log('Showing card:', cardKey);
+                } else {
+                    card.style.display = 'none';
+                    console.log('Hiding card:', cardKey);
+                }
+            });
+            
+            console.log('Visible cards:', visibleCount);
+            
+            // Update results count
+            this.updateResultsCount();
+            
+            // Update no results message
+            const noResultsMessage = eventsGrid.parentElement?.querySelector('.no-results-message');
+            if (this.filteredEvents.length === 0) {
+                if (!noResultsMessage) {
+                    const message = document.createElement('div');
+                    message.className = 'no-results-message text-center py-12';
+                    message.innerHTML = `
+                        <div class="text-6xl mb-4">🔍</div>
+                        <h3 class="text-2xl font-bold mb-2">No Events Found</h3>
+                        <p class="text-base-content/70">Try adjusting your search or filters.</p>
+                    `;
+                    eventsGrid.parentElement?.appendChild(message);
+                } else {
+                    noResultsMessage.style.display = 'block';
+                }
+            } else if (noResultsMessage) {
+                noResultsMessage.style.display = 'none';
+            }
+        }
+    }
+    
+    // Initialize the event list filter when DOM is loaded
+    function initEventList() {
+        // Check if the events grid exists before initializing
+        const eventsGrid = document.getElementById(`events-grid-${componentId}`);
+        if (eventsGrid) {
+            new EventListFilter(componentId, events, filteredEvents, defaultFilter, defaultSort);
+        } else {
+            // If not ready, try again after a short delay
+            setTimeout(initEventList, 100);
+        }
+    }
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initEventList);
+    } else {
+        initEventList();
+    }
+</script>

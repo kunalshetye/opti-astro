@@ -1,0 +1,14 @@
+fragment EventList on EventList {
+    Title
+    NumberOfEvents
+    DefaultFilter
+    EnableSearch
+    EnableCategoryFilter
+    EnableSorting
+    DefaultSort
+    ShowEventDate
+    ShowEventTime
+    ShowEventLocation
+    ShowRegistrationButton
+    ShowAttendeeCount
+}

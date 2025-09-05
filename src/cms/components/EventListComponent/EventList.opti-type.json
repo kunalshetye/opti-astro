@@ -1,0 +1,187 @@
+{
+	"key": "EventList",
+	"displayName": "Event List",
+	"description": "Reusable component to display event listings with search, filtering, and customizable display options.",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"sectionEnabled",
+		"elementEnabled"
+	],
+	"properties": {
+		"Title": {
+			"type": "string",
+			"displayName": "Title",
+			"description": "Heading for the event list section",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 0,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		},
+		"NumberOfEvents": {
+			"type": "integer",
+			"displayName": "Number of Events to Show",
+			"description": "Maximum number of events to display (0 for unlimited)",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 10,
+			"editorSettings": {},
+			"minimum": 0
+		},
+		"DefaultFilter": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Default Date Filter",
+			"description": "Which events to show by default",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 100,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "Upcoming Events Only",
+						"value": "upcoming"
+					},
+					{
+						"displayName": "All Events",
+						"value": "all"
+					},
+					{
+						"displayName": "Past Events Only",
+						"value": "past"
+					},
+					{
+						"displayName": "This Week",
+						"value": "this_week"
+					},
+					{
+						"displayName": "This Month",
+						"value": "this_month"
+					},
+					{
+						"displayName": "Next 30 Days",
+						"value": "next_30_days"
+					}
+				]
+			}
+		},
+		"DefaultSort": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Default Sort Order",
+			"description": "How to sort events by default",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 110,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "Date (Upcoming First)",
+						"value": "date_asc"
+					},
+					{
+						"displayName": "Date (Recent First)",
+						"value": "date_desc"
+					},
+					{
+						"displayName": "Popularity",
+						"value": "popularity"
+					},
+					{
+						"displayName": "Alphabetical",
+						"value": "alphabetical"
+					}
+				]
+			}
+		},
+		"EnableSearch": {
+			"type": "boolean",
+			"displayName": "Enable Search",
+			"description": "Show search box for filtering events",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 200,
+			"editorSettings": {}
+		},
+		"EnableCategoryFilter": {
+			"type": "boolean",
+			"displayName": "Enable Category Filter",
+			"description": "Show category/topic dropdown filter",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 210,
+			"editorSettings": {}
+		},
+		"EnableSorting": {
+			"type": "boolean",
+			"displayName": "Enable Sorting",
+			"description": "Allow users to sort events by different criteria",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 220,
+			"editorSettings": {}
+		},
+		"ShowEventDate": {
+			"type": "boolean",
+			"displayName": "Show Event Dates",
+			"description": "Display event dates on cards",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 300,
+			"editorSettings": {}
+		},
+		"ShowEventTime": {
+			"type": "boolean",
+			"displayName": "Show Event Times",
+			"description": "Display event times on cards",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 310,
+			"editorSettings": {}
+		},
+		"ShowEventLocation": {
+			"type": "boolean",
+			"displayName": "Show Event Location",
+			"description": "Display venue/location on cards",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 320,
+			"editorSettings": {}
+		},
+		"ShowRegistrationButton": {
+			"type": "boolean",
+			"displayName": "Show Registration Button",
+			"description": "Display registration/RSVP buttons on cards",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 330,
+			"editorSettings": {}
+		},
+		"ShowAttendeeCount": {
+			"type": "boolean",
+			"displayName": "Show Attendee Count",
+			"description": "Display current number of attendees",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 340,
+			"editorSettings": {}
+		}
+	}
+}

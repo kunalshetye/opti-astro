@@ -102,6 +102,86 @@
 			"sortOrder": 200,
 			"indexingType": "searchable",
 			"editorSettings": {}
+		},
+		"EventDate": {
+			"type": "dateTime",
+			"displayName": "Event Date",
+			"description": "Event date (if this is an event)",
+			"localized": false,
+			"required": false,
+			"group": "EventDetails",
+			"sortOrder": 10,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		},
+		"EventLocation": {
+			"type": "string",
+			"displayName": "Event Location",
+			"description": "Where the event takes place",
+			"localized": false,
+			"required": false,
+			"group": "EventDetails",
+			"sortOrder": 20,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		},
+		"StartDateTime": {
+			"type": "dateTime",
+			"displayName": "Event Start Date & Time",
+			"description": "When the event starts",
+			"localized": false,
+			"required": false,
+			"group": "EventDetails",
+			"sortOrder": 30,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		},
+		"EndDateTime": {
+			"type": "dateTime",
+			"displayName": "Event End Date & Time",
+			"description": "When the event ends",
+			"localized": false,
+			"required": false,
+			"group": "EventDetails",
+			"sortOrder": 40,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		},
+		"IsEvent": {
+			"type": "boolean",
+			"displayName": "Is Event",
+			"description": "Check if this is an event rather than an article",
+			"localized": false,
+			"required": false,
+			"group": "EventDetails",
+			"sortOrder": 50,
+			"editorSettings": {}
+		},
+		"MaxCapacity": {
+			"type": "integer",
+			"displayName": "Maximum Capacity",
+			"description": "Maximum number of attendees for this event",
+			"localized": false,
+			"required": false,
+			"group": "EventDetails",
+			"sortOrder": 60,
+			"minimum": 0,
+			"maximum": 10000,
+			"indexingType": "queryable",
+			"editorSettings": {}
+		},
+		"CurrentAttendees": {
+			"type": "integer",
+			"displayName": "Current Attendees",
+			"description": "Current number of registered attendees",
+			"localized": false,
+			"required": false,
+			"group": "EventDetails",
+			"sortOrder": 70,
+			"minimum": 0,
+			"maximum": 10000,
+			"indexingType": "queryable",
+			"editorSettings": {}
 		}
 	}
 }

@@ -1,0 +1,250 @@
+{
+	"key": "EventListStyles",
+	"displayName": "Event List Default",
+	"contentType": "EventList",
+	"isDefault": true,
+	"settings": {
+		"displayMode": {
+			"displayName": "Display Mode",
+			"editor": "",
+			"sortOrder": 10,
+			"choices": {
+				"grid": {
+					"displayName": "Grid View (Default)",
+					"sortOrder": 10
+				},
+				"list": {
+					"displayName": "List View",
+					"sortOrder": 20
+				},
+				"timeline": {
+					"displayName": "Timeline View",
+					"sortOrder": 30
+				},
+				"calendar": {
+					"displayName": "Calendar View",
+					"sortOrder": 40
+				}
+			}
+		},
+		"gridColumns": {
+			"displayName": "Grid Columns",
+			"editor": "",
+			"sortOrder": 20,
+			"choices": {
+				"auto": {
+					"displayName": "Auto (Responsive)",
+					"sortOrder": 10
+				},
+				"col2": {
+					"displayName": "2 Columns",
+					"sortOrder": 20
+				},
+				"col3": {
+					"displayName": "3 Columns",
+					"sortOrder": 30
+				},
+				"col4": {
+					"displayName": "4 Columns",
+					"sortOrder": 40
+				}
+			}
+		},
+		"cardStyle": {
+			"displayName": "Card Style",
+			"editor": "",
+			"sortOrder": 30,
+			"choices": {
+				"modern": {
+					"displayName": "Modern (Default)",
+					"sortOrder": 10
+				},
+				"minimal": {
+					"displayName": "Minimal",
+					"sortOrder": 20
+				},
+				"bold": {
+					"displayName": "Bold",
+					"sortOrder": 30
+				},
+				"gradient": {
+					"displayName": "Gradient",
+					"sortOrder": 40
+				}
+			}
+		},
+		"hoverEffect": {
+			"displayName": "Hover Effect",
+			"editor": "",
+			"sortOrder": 40,
+			"choices": {
+				"zoom_subtle": {
+					"displayName": "Zoom (Subtle)",
+					"sortOrder": 10
+				},
+				"zoom": {
+					"displayName": "Zoom",
+					"sortOrder": 20
+				},
+				"lift": {
+					"displayName": "Lift Up",
+					"sortOrder": 30
+				},
+				"glow": {
+					"displayName": "Glow",
+					"sortOrder": 40
+				},
+				"none": {
+					"displayName": "None",
+					"sortOrder": 50
+				}
+			}
+		},
+		"cardShadow": {
+			"displayName": "Card Shadow",
+			"editor": "",
+			"sortOrder": 50,
+			"choices": {
+				"none": {
+					"displayName": "None",
+					"sortOrder": 10
+				},
+				"sm": {
+					"displayName": "Small (Default)",
+					"sortOrder": 20
+				},
+				"md": {
+					"displayName": "Medium",
+					"sortOrder": 30
+				},
+				"lg": {
+					"displayName": "Large",
+					"sortOrder": 40
+				},
+				"xl": {
+					"displayName": "Extra Large",
+					"sortOrder": 50
+				}
+			}
+		},
+		"hoverShadow": {
+			"displayName": "Card Hover Shadow",
+			"editor": "",
+			"sortOrder": 60,
+			"choices": {
+				"none": {
+					"displayName": "None",
+					"sortOrder": 10
+				},
+				"md": {
+					"displayName": "Medium",
+					"sortOrder": 20
+				},
+				"lg": {
+					"displayName": "Large",
+					"sortOrder": 30
+				},
+				"xl": {
+					"displayName": "Extra Large",
+					"sortOrder": 40
+				},
+				"xxl": {
+					"displayName": "2x Large",
+					"sortOrder": 50
+				}
+			}
+		},
+		"dateDisplayStyle": {
+			"displayName": "Date Display Style",
+			"editor": "",
+			"sortOrder": 70,
+			"choices": {
+				"badge": {
+					"displayName": "Badge Overlay",
+					"sortOrder": 10
+				},
+				"inline": {
+					"displayName": "Inline with Content",
+					"sortOrder": 20
+				},
+				"prominent": {
+					"displayName": "Prominent Display",
+					"sortOrder": 30
+				},
+				"compact": {
+					"displayName": "Compact",
+					"sortOrder": 40
+				}
+			}
+		},
+		"statusBadgeStyle": {
+			"displayName": "Status Badge Style",
+			"editor": "",
+			"sortOrder": 80,
+			"choices": {
+				"colored": {
+					"displayName": "Colored Badges",
+					"sortOrder": 10
+				},
+				"subtle": {
+					"displayName": "Subtle Badges",
+					"sortOrder": 20
+				},
+				"outline": {
+					"displayName": "Outline Badges",
+					"sortOrder": 30
+				},
+				"none": {
+					"displayName": "No Badges",
+					"sortOrder": 40
+				}
+			}
+		},
+		"filterStyle": {
+			"displayName": "Filter Interface Style",
+			"editor": "",
+			"sortOrder": 90,
+			"choices": {
+				"card": {
+					"displayName": "Card Background",
+					"sortOrder": 10
+				},
+				"inline": {
+					"displayName": "Inline Filters",
+					"sortOrder": 20
+				},
+				"sidebar": {
+					"displayName": "Sidebar Filters",
+					"sortOrder": 30
+				},
+				"minimal": {
+					"displayName": "Minimal",
+					"sortOrder": 40
+				}
+			}
+		},
+		"loadingAnimation": {
+			"displayName": "Loading Animation",
+			"editor": "",
+			"sortOrder": 100,
+			"choices": {
+				"spinner": {
+					"displayName": "Loading Spinner",
+					"sortOrder": 10
+				},
+				"skeleton": {
+					"displayName": "Skeleton Cards",
+					"sortOrder": 20
+				},
+				"fade": {
+					"displayName": "Fade Transition",
+					"sortOrder": 30
+				},
+				"none": {
+					"displayName": "No Animation",
+					"sortOrder": 40
+				}
+			}
+		}
+	}
+}

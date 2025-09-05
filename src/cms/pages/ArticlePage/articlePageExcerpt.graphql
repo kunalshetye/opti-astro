@@ -11,4 +11,11 @@ fragment ArticlePageExcerpt on ArticlePage {
     Body {
         html
     }
+    EventDate
+    EventLocation
+    StartDateTime
+    EndDateTime
+    IsEvent
+    MaxCapacity
+    CurrentAttendees
 }
