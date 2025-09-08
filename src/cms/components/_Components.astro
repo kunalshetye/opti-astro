@@ -18,6 +18,7 @@ import Paragraph from './ParagraphComponent/Paragraph.astro';
 import Text from './TextComponent/Text.astro';
 import Video from './VideoComponent/Video.astro';
 import VideoExternal from './VideoExternalComponent/VideoExternal.astro';
+import DestinationPricing from './DestinationPricingComponent/DestinationPricing.astro';
 import OptiForm from '../forms/base/OptiFormsContainerDataComponent/OptiForm.astro';
 
 interface Props {
@@ -219,6 +220,18 @@ const componentType = component._metadata.types[0];
         />
     )
 }
+
+{
+    componentType === 'DestinationPricing' && (
+        <DestinationPricing
+            key={data?.key}
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+        />
+    )
+}
+
 
 
 {

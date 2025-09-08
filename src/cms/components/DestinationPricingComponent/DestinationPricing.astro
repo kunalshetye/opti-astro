@@ -1,0 +1,329 @@
+---
+import type {
+    DisplaySettingsFragment,
+    DestinationPricingFragment,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
+import { getGlobalStyles } from '../../shared/globalStylesHelper';
+import { isEditContext } from '../../shared/utils.ts';
+
+const isCmsEdit = isEditContext(Astro.url);
+
+export interface Props {
+    key: string;
+    data: DestinationPricingFragment;
+    displaySettings: DisplaySettingsFragment[];
+    contentPayload: ContentPayload;
+}
+
+const { key, data, displaySettings } = Astro.props as Props;
+const globalStyles = getGlobalStyles(displaySettings);
+const dictionary = getDictionaryFromDisplaySettings(displaySettings);
+
+// Style settings
+const layoutStyle = dictionary['layoutStyle'] || 'grid';
+const columnsPerRow = dictionary['columnsPerRow'] || 'three';
+const cardSpacing = dictionary['cardSpacing'] || 'normal';
+const selectorPosition = dictionary['selectorPosition'] || 'top_right';
+const containerWidth = dictionary['containerWidth'] || 'default';
+const backgroundColor = dictionary['backgroundColor'] || 'transparent';
+const seeMoreButtonStyle = dictionary['seeMoreButtonStyle'] || 'accent';
+const headingAlignment = dictionary['headingAlignment'] || 'left';
+
+// Container width classes
+const containerClasses = {
+    'max-w-7xl': containerWidth === 'default',
+    'max-w-9xl': containerWidth === 'wide',
+    'w-full': containerWidth === 'full',
+};
+
+// Grid columns classes
+const gridClasses = {
+    'grid-cols-1 sm:grid-cols-2': columnsPerRow === 'two',
+    'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3': columnsPerRow === 'three',
+    'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4': columnsPerRow === 'four',
+    'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4': columnsPerRow === 'responsive',
+};
+
+// Spacing classes
+const spacingClasses = {
+    'gap-2': cardSpacing === 'tight',
+    'gap-4': cardSpacing === 'normal',
+    'gap-6': cardSpacing === 'loose',
+};
+
+// Background classes
+const bgClasses = {
+    'bg-transparent': backgroundColor === 'transparent',
+    'bg-base-100': backgroundColor === 'base_100',
+    'bg-base-200': backgroundColor === 'base_200',
+    'bg-primary': backgroundColor === 'primary',
+    'bg-secondary': backgroundColor === 'secondary',
+};
+
+// Heading alignment classes
+const headingClasses = {
+    'text-left': headingAlignment === 'left',
+    'text-center': headingAlignment === 'center',
+    'text-right': headingAlignment === 'right',
+};
+
+// Button style classes
+const buttonClasses = {
+    'btn-primary': seeMoreButtonStyle === 'primary',
+    'btn-secondary': seeMoreButtonStyle === 'secondary',
+    'btn-accent': seeMoreButtonStyle === 'accent',
+    'btn-outline': seeMoreButtonStyle === 'outline',
+    'btn-ghost': seeMoreButtonStyle === 'ghost',
+};
+
+// Hardcoded airport list (as requested)
+const airports = [
+    { code: 'ANX', name: 'Andenes' },
+    { code: 'BGO', name: 'Bergen' },
+    { code: 'BVG', name: 'Berlevåg' },
+    { code: 'BLL', name: 'Billund' },
+    { code: 'BOO', name: 'Bodø' },
+    { code: 'BRU', name: 'Brussels' },
+    { code: 'BNN', name: 'Brønnøysund' },
+    { code: 'BJF', name: 'Båtsfjord' },
+    { code: 'CPH', name: 'Copenhagen' },
+    { code: 'DUB', name: 'Dublin' },
+    { code: 'FAE', name: 'Faroe Islands' },
+    { code: 'FLR', name: 'Florence' },
+    { code: 'FRO', name: 'Florø' },
+    { code: 'FDE', name: 'Førde' },
+    { code: 'GOT', name: 'Gothenburg' },
+    { code: 'HAM', name: 'Hamburg' },
+    { code: 'HFT', name: 'Hammerfest' },
+    { code: 'EVE', name: 'Harstad-Narvik, Evenes' },
+    { code: 'HAA', name: 'Hasvik' },
+    { code: 'HAU', name: 'Haugesund' },
+    { code: 'HVG', name: 'Honningsvåg' },
+    { code: 'KKN', name: 'Kirkenes' },
+    { code: 'KRS', name: 'Kristiansand' },
+    { code: 'KSU', name: 'Kristiansund' },
+    { code: 'LKL', name: 'Lakselv' },
+    { code: 'LKN', name: 'Leknes' },
+    { code: 'MEH', name: 'Mehamn' },
+    { code: 'MQN', name: 'Mo i Rana' },
+    { code: 'MOL', name: 'Molde' },
+    { code: 'MJF', name: 'Mosjøen' },
+    { code: 'MUC', name: 'Munich' },
+    { code: 'OSY', name: 'Namsos' },
+    { code: 'NCE', name: 'Nice' },
+    { code: 'OSL', name: 'Oslo, All Airports' },
+    { code: 'OSL+', name: 'Oslo, Gardermoen' },
+    { code: 'RVK', name: 'Rørvik' },
+    { code: 'RET', name: 'Røst' },
+    { code: 'SDN', name: 'Sandane' },
+    { code: 'TRF', name: 'Sandefjord, Torp' },
+    { code: 'SSJ', name: 'Sandnessjøen' },
+];
+
+// All available destinations
+const allDestinations = [
+    { name: 'Tromsø', price: '1 148', image: 'https://images.unsplash.com/photo-1551582045-6ec9c11d8697?w=400&h=300&fit=crop&crop=center' },
+    { name: 'Dublin', price: '699', image: 'https://images.unsplash.com/photo-1549918864-48ac978761a4?w=400&h=300&fit=crop&crop=center' },
+    { name: 'Trondheim', price: '648', image: 'https://images.unsplash.com/photo-1527838832700-5059252407fa?w=400&h=300&fit=crop&crop=center' },
+    { name: 'Munich', price: '649', image: 'https://images.unsplash.com/photo-1595867818082-083862f3d630?w=400&h=300&fit=crop&crop=center' },
+    { name: 'Bodø', price: '1 099', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center' },
+    { name: 'Sandefjord', price: '799', image: 'https://images.unsplash.com/photo-1551916775-9d80b3ba3a20?w=400&h=300&fit=crop&crop=center' },
+    { name: 'London', price: '1 299', image: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=400&h=300&fit=crop&crop=center' },
+    { name: 'Paris', price: '899', image: 'https://images.unsplash.com/photo-1431274172761-fca41d930114?w=400&h=300&fit=crop&crop=center' },
+    { name: 'Barcelona', price: '1 199', image: 'https://images.unsplash.com/photo-1583422409516-2895a77efded?w=400&h=300&fit=crop&crop=center' },
+    { name: 'Rome', price: '1 399', image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=400&h=300&fit=crop&crop=center' },
+    { name: 'Amsterdam', price: '999', image: 'https://images.unsplash.com/photo-1534351590666-13e3e96b5017?w=400&h=300&fit=crop&crop=center' },
+    { name: 'Copenhagen', price: '449', image: 'https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?w=400&h=300&fit=crop&crop=center' },
+    { name: 'Stockholm', price: '599', image: 'https://images.unsplash.com/photo-1509356843151-3e7d96241e11?w=400&h=300&fit=crop&crop=center' },
+    { name: 'Reykjavik', price: '849', image: 'https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=400&h=300&fit=crop&crop=center' },
+    { name: 'Helsinki', price: '699', image: 'https://images.unsplash.com/photo-1539593395743-7da5ee10ff07?w=400&h=300&fit=crop&crop=center' },
+    { name: 'Prague', price: '1 099', image: 'https://images.unsplash.com/photo-1541849546-216549ae216d?w=400&h=300&fit=crop&crop=center' },
+    { name: 'Vienna', price: '1 249', image: 'https://images.unsplash.com/photo-1516550893923-42d28e5677af?w=400&h=300&fit=crop&crop=center' },
+    { name: 'Berlin', price: '949', image: 'https://images.unsplash.com/photo-1560969184-10fe8719e047?w=400&h=300&fit=crop&crop=center' },
+    { name: 'Zurich', price: '1 599', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center' },
+    { name: 'Nice', price: '1 299', image: 'https://images.unsplash.com/photo-1541264161754-445bbdd7de52?w=400&h=300&fit=crop&crop=center' }
+];
+
+// Function to shuffle and get 6 destinations
+const getRandomDestinations = (seedString) => {
+    // Simple hash function for consistent shuffling based on seed
+    let hash = 0;
+    for (let i = 0; i < seedString.length; i++) {
+        const char = seedString.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+    }
+    
+    // Create a copy and shuffle based on hash
+    const destinations = [...allDestinations];
+    const random = (a) => {
+        hash = (hash * 9301 + 49297) % 233280;
+        return hash / 233280;
+    };
+    
+    // Fisher-Yates shuffle with seeded random
+    for (let i = destinations.length - 1; i > 0; i--) {
+        const j = Math.floor(random() * (i + 1));
+        [destinations[i], destinations[j]] = [destinations[j], destinations[i]];
+    }
+    
+    return destinations.slice(0, 6);
+};
+
+// Get default airport and generate initial destinations
+const defaultAirport = data.DefaultAirport || 'Bergen (BGO)';
+const mockDestinations = getRandomDestinations(defaultAirport);
+---
+
+<section
+    class="destination-pricing py-8"
+    class:list={[bgClasses, globalStyles]}
+    data-epi-block-id={isCmsEdit && key || undefined}
+>
+    <div class:list={['mx-auto px-4', containerClasses]}>
+        {/* Header with airport selector */}
+        <div class="flex flex-wrap items-center justify-between mb-6">
+            <h2 class:list={['text-2xl font-bold flex-grow', headingClasses]}>
+                {data.Heading || 'Our best prices right now'}
+            </h2>
+            
+            {selectorPosition === 'top_right' && (
+                <div class="airport-selector mt-4 sm:mt-0">
+                    <label class="text-sm text-gray-600 mr-2">
+                        {data.AirportSelectorLabel || 'My airport'}
+                    </label>
+                    <select 
+                        id="airport-selector"
+                        class="select select-bordered w-full max-w-xs"
+                        value={data.DefaultAirport || 'Bergen (BGO)'}
+                    >
+                        {airports.map(airport => (
+                            <option value={`${airport.name} (${airport.code})`}>
+                                {airport.name} ({airport.code})
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            )}
+        </div>
+
+        {/* Destination cards grid */}
+        <div id="destinations-grid" class:list={['grid', gridClasses, spacingClasses]}>
+            {mockDestinations.map((destination) => (
+                <div class="destination-card border rounded-lg p-0 hover:shadow-lg transition-shadow cursor-pointer">
+                    <div class="flex items-center gap-3 p-3">
+                        <div class="w-20 h-16 bg-gray-200 rounded overflow-hidden flex-shrink-0">
+                            <img 
+                                src={destination.image} 
+                                alt={destination.name}
+                                class="w-full h-full object-cover"
+                            />
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="font-semibold">{destination.name}</h3>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-2xl font-bold text-green-600">
+                                {destination.price}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+
+        {/* See More button */}
+        {data.ShowMoreButton && (
+            <div class="text-center mt-8">
+                <a 
+                    href={data.ShowMoreButtonLink || '#'}
+                    class:list={['btn', buttonClasses]}
+                >
+                    {data.ShowMoreButtonText || 'SEE MORE'}
+                </a>
+            </div>
+        )}
+    </div>
+</section>
+
+<script define:vars={{ allDestinations }}>
+    // Function to shuffle destinations based on airport selection
+    function getRandomDestinations(seedString, destinationList) {
+        // Simple hash function for consistent shuffling based on seed
+        let hash = 0;
+        for (let i = 0; i < seedString.length; i++) {
+            const char = seedString.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash;
+        }
+        
+        // Create a copy and shuffle based on hash
+        const destinations = [...destinationList];
+        const random = () => {
+            hash = (hash * 9301 + 49297) % 233280;
+            return hash / 233280;
+        };
+        
+        // Fisher-Yates shuffle with seeded random
+        for (let i = destinations.length - 1; i > 0; i--) {
+            const j = Math.floor(random() * (i + 1));
+            [destinations[i], destinations[j]] = [destinations[j], destinations[i]];
+        }
+        
+        return destinations.slice(0, 6);
+    }
+
+    // Function to create destination card HTML
+    function createDestinationCard(destination) {
+        return `
+            <div class="destination-card border rounded-lg p-0 hover:shadow-lg transition-shadow cursor-pointer">
+                <div class="flex items-center gap-3 p-3">
+                    <div class="w-20 h-16 bg-gray-200 rounded overflow-hidden flex-shrink-0">
+                        <img 
+                            src="${destination.image}" 
+                            alt="${destination.name}"
+                            class="w-full h-full object-cover"
+                        />
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="font-semibold">${destination.name}</h3>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-bold text-green-600">
+                            ${destination.price}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    // Function to update destinations display
+    function updateDestinations(selectedAirport) {
+        const destinationsGrid = document.getElementById('destinations-grid');
+        if (!destinationsGrid) return;
+        
+        const newDestinations = getRandomDestinations(selectedAirport, allDestinations);
+        const destinationsHTML = newDestinations.map(dest => createDestinationCard(dest)).join('');
+        
+        // Smooth transition
+        destinationsGrid.style.opacity = '0.5';
+        
+        setTimeout(() => {
+            destinationsGrid.innerHTML = destinationsHTML;
+            destinationsGrid.style.opacity = '1';
+        }, 150);
+    }
+
+    // Add event listener to airport selector
+    document.addEventListener('DOMContentLoaded', function() {
+        const airportSelector = document.getElementById('airport-selector');
+        if (airportSelector) {
+            airportSelector.addEventListener('change', function(e) {
+                updateDestinations(e.target.value);
+            });
+        }
+    });
+</script>

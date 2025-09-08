@@ -1,0 +1,8 @@
+fragment DestinationPricing on DestinationPricing {
+    Heading
+    AirportSelectorLabel
+    DefaultAirport
+    ShowMoreButton
+    ShowMoreButtonText
+    ShowMoreButtonLink
+}

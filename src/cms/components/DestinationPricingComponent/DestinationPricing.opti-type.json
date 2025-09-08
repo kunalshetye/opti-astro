@@ -1,0 +1,73 @@
+{
+	"key": "DestinationPricing",
+	"displayName": "Destination Pricing",
+	"description": "Displays flight destinations with pricing from selected airport",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"sectionEnabled",
+		"elementEnabled"
+	],
+	"properties": {
+		"Heading": {
+			"type": "string",
+			"displayName": "Heading",
+			"description": "Main heading for the pricing section",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 10,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		},
+		"AirportSelectorLabel": {
+			"type": "string",
+			"displayName": "Airport Selector Label",
+			"description": "Label for the airport dropdown (e.g., 'My airport')",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 20,
+			"editorSettings": {}
+		},
+		"DefaultAirport": {
+			"type": "string",
+			"displayName": "Default Airport",
+			"description": "Default selected airport (e.g., 'Bergen (BGO)')",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 30,
+			"editorSettings": {}
+		},
+		"ShowMoreButton": {
+			"type": "boolean",
+			"displayName": "Show 'See More' Button",
+			"description": "Display a 'See More' button at the bottom",
+			"required": false,
+			"group": "Information",
+			"sortOrder": 60
+		},
+		"ShowMoreButtonText": {
+			"type": "string",
+			"displayName": "See More Button Text",
+			"description": "Text for the See More button",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 70,
+			"editorSettings": {}
+		},
+		"ShowMoreButtonLink": {
+			"type": "string",
+			"displayName": "See More Button Link",
+			"description": "URL for the See More button",
+			"required": false,
+			"group": "Information",
+			"sortOrder": 80,
+			"editorSettings": {}
+		}
+	}
+}

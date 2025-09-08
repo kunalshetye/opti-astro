@@ -1,0 +1,184 @@
+{
+	"key": "DefaultDestinationPricing",
+	"displayName": "Destination Pricing Default",
+	"contentType": "DestinationPricing",
+	"isDefault": true,
+	"settings": {
+		"layoutStyle": {
+			"displayName": "Layout Style",
+			"editor": "",
+			"sortOrder": 10,
+			"choices": {
+				"grid": {
+					"displayName": "Grid Layout (Default)",
+					"sortOrder": 10
+				},
+				"carousel": {
+					"displayName": "Carousel Layout",
+					"sortOrder": 20
+				},
+				"list": {
+					"displayName": "List Layout",
+					"sortOrder": 30
+				}
+			}
+		},
+		"columnsPerRow": {
+			"displayName": "Columns Per Row",
+			"editor": "",
+			"sortOrder": 20,
+			"choices": {
+				"two": {
+					"displayName": "2 Columns",
+					"sortOrder": 10
+				},
+				"three": {
+					"displayName": "3 Columns (Default)",
+					"sortOrder": 20
+				},
+				"four": {
+					"displayName": "4 Columns",
+					"sortOrder": 30
+				},
+				"responsive": {
+					"displayName": "Responsive",
+					"sortOrder": 40
+				}
+			}
+		},
+		"cardSpacing": {
+			"displayName": "Card Spacing",
+			"editor": "",
+			"sortOrder": 30,
+			"choices": {
+				"tight": {
+					"displayName": "Tight",
+					"sortOrder": 10
+				},
+				"normal": {
+					"displayName": "Normal (Default)",
+					"sortOrder": 20
+				},
+				"loose": {
+					"displayName": "Loose",
+					"sortOrder": 30
+				}
+			}
+		},
+		"selectorPosition": {
+			"displayName": "Airport Selector Position",
+			"editor": "",
+			"sortOrder": 40,
+			"choices": {
+				"top_right": {
+					"displayName": "Top Right (Default)",
+					"sortOrder": 10
+				},
+				"top_left": {
+					"displayName": "Top Left",
+					"sortOrder": 20
+				},
+				"top_center": {
+					"displayName": "Top Center",
+					"sortOrder": 30
+				},
+				"above_heading": {
+					"displayName": "Above Heading",
+					"sortOrder": 40
+				}
+			}
+		},
+		"containerWidth": {
+			"displayName": "Container Width",
+			"editor": "",
+			"sortOrder": 50,
+			"choices": {
+				"default": {
+					"displayName": "Default (max-w-7xl)",
+					"sortOrder": 10
+				},
+				"wide": {
+					"displayName": "Wide (max-w-9xl)",
+					"sortOrder": 20
+				},
+				"full": {
+					"displayName": "Full Width",
+					"sortOrder": 30
+				}
+			}
+		},
+		"backgroundColor": {
+			"displayName": "Background Color",
+			"editor": "",
+			"sortOrder": 60,
+			"choices": {
+				"transparent": {
+					"displayName": "Transparent (Default)",
+					"sortOrder": 10
+				},
+				"base_100": {
+					"displayName": "Base 100",
+					"sortOrder": 20
+				},
+				"base_200": {
+					"displayName": "Base 200",
+					"sortOrder": 30
+				},
+				"primary": {
+					"displayName": "Primary",
+					"sortOrder": 40
+				},
+				"secondary": {
+					"displayName": "Secondary",
+					"sortOrder": 50
+				}
+			}
+		},
+		"seeMoreButtonStyle": {
+			"displayName": "See More Button Style",
+			"editor": "",
+			"sortOrder": 70,
+			"choices": {
+				"primary": {
+					"displayName": "Primary",
+					"sortOrder": 10
+				},
+				"secondary": {
+					"displayName": "Secondary",
+					"sortOrder": 20
+				},
+				"accent": {
+					"displayName": "Accent (Default)",
+					"sortOrder": 30
+				},
+				"outline": {
+					"displayName": "Outline",
+					"sortOrder": 40
+				},
+				"ghost": {
+					"displayName": "Ghost",
+					"sortOrder": 50
+				}
+			}
+		},
+		"headingAlignment": {
+			"displayName": "Heading Alignment",
+			"editor": "",
+			"sortOrder": 80,
+			"choices": {
+				"left": {
+					"displayName": "Left (Default)",
+					"sortOrder": 10
+				},
+				"center": {
+					"displayName": "Center",
+					"sortOrder": 20
+				},
+				"right": {
+					"displayName": "Right",
+					"sortOrder": 30
+				}
+			}
+		}
+	}
+}
