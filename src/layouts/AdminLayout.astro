@@ -4,7 +4,7 @@ export interface Props {
   description?: string;
 }
 
-const { title, description = "Optimizely Graph Admin Panel" } = Astro.props;
+const { title, description = "Optimizely Admin Panel" } = Astro.props;
 
 import '../styles/global.css';
 ---
@@ -86,11 +86,11 @@ import '../styles/global.css';
       <!-- Admin Header -->
       <header class="admin-header">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex justify-between items-center py-4">
+          <div class="flex flex-col md:flex-row md:justify-between md:items-center py-4 space-y-2 md:space-y-0 items-start">
             <div class="flex items-center space-x-4">
               <div class="flex-shrink-0">
                 <h1 class="text-2xl font-bold text-white">
-                  <span class="text-blue-200">Optimizely</span> Graph Admin
+                  <span class="text-blue-200">Optimizely</span> Site Admin
                 </h1>
               </div>
             </div>
@@ -99,17 +99,21 @@ import '../styles/global.css';
               <a href="/admin/graph-synonyms" class="admin-nav-link px-4 py-2 rounded-md text-sm font-medium text-white">
                 Synonyms Manager
               </a>
-              <!-- <a href="/admin/content-types" class="admin-nav-link px-4 py-2 rounded-md text-sm font-medium text-white opacity-60 cursor-not-allowed">
-                Content Types
+              <a href="/admin" class="admin-nav-link px-4 py-2 rounded-md text-sm font-medium text-white opacity-60 cursor-not-allowed">
+                Best Bets Manager [COMING SOON]
               </a>
-              <a href="/admin/indexing" class="admin-nav-link px-4 py-2 rounded-md text-sm font-medium text-white opacity-60 cursor-not-allowed">
-                Indexing
-              </a>
-              <a href="/admin/analytics" class="admin-nav-link px-4 py-2 rounded-md text-sm font-medium text-white opacity-60 cursor-not-allowed">
-                Analytics
-              </a> -->
             </nav>
-            
+
+            <!-- Add link to return to site home -->
+            <a
+              href="/"
+              class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 font-medium transition-colors
+                     inline-block text-center shadow-sm"
+              style="min-width:120px; "
+            >
+              Return to Site
+            </a>
+
             <!-- Mobile menu button -->
             <div class="md:hidden">
               <button id="mobile-menu-button" class="text-white hover:text-blue-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600">
@@ -128,14 +132,14 @@ import '../styles/global.css';
               Synonyms Manager
             </a>
             <span class="block px-3 py-2 rounded-md text-base font-medium text-white opacity-60">
-              Content Types (Coming Soon)
+              Best Bets Manager [COMING SOON]
             </span>
-            <span class="block px-3 py-2 rounded-md text-base font-medium text-white opacity-60">
+            <!-- <span class="block px-3 py-2 rounded-md text-base font-medium text-white opacity-60">
               Indexing (Coming Soon)
             </span>
             <span class="block px-3 py-2 rounded-md text-base font-medium text-white opacity-60">
               Analytics (Coming Soon)
-            </span>
+            </span> -->
           </div>
         </div>
       </header>
@@ -148,10 +152,14 @@ import '../styles/global.css';
               <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
             </svg>
             <a href="/admin" class="ml-2 text-sm font-medium text-gray-500 hover:text-gray-700">Admin</a>
-            <svg class="flex-shrink-0 mx-2 h-4 w-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-            </svg>
-            <span class="text-sm font-medium text-gray-900">{title.replace('Optimizely Graph - ', '')}</span>
+            {title !== "Optimizely Graph Admin Panel" && title !== "Optimizely Graph - Optimizations Manager" && (
+              <>
+                <svg class="flex-shrink-0 mx-2 h-4 w-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-sm font-medium text-gray-900">{title.replace('Optimizely Graph - ', '')}</span>
+              </>
+            )}
           </div>
         </div>
       </div>

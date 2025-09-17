@@ -1,0 +1,39 @@
+---
+import AdminLayout from '../layouts/AdminLayout.astro';
+import { checkAdminAuth } from '../../utils/admin-auth';
+
+// Check authentication
+const authError = checkAdminAuth(Astro.request);
+if (authError) {
+    return authError;
+}
+---
+
+<AdminLayout title="Optimizely Graph - Optimizations Manager">
+    <header class="flex justify-between items-center mb-8">
+        <h1>Optimizely Graph - Optimizations Manager</h1>
+    </header>
+
+    <div class="max-w-4xl pt-4">
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold mb-2">Synonyms Manager</h1>
+            <p class="text-gray-600">Manage synonym configurations for Optimizely Graph search functionality.</p>
+            <a
+                href="/admin/graph-synonyms"
+                class="inline-block mt-4 bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition-colors font-medium"
+            >
+                Go to Synonyms Manager
+            </a>
+        </div>
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold mb-2">Best Bets (Pinned Results) Manager</h1>
+            <p class="text-gray-600">Manage best bets (pinned results) configurations for Optimizely Graph search functionality.</p>
+            <a
+                href="/admin"
+                class="inline-block mt-4 bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition-colors font-medium"
+            >
+                Go to Best Bets Manager [COMING SOON]
+            </a>
+        </div>
+    </div>
+</AdminLayout>

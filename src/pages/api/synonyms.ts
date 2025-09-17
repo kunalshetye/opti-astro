@@ -1,8 +1,15 @@
 // /src/pages/api/synonyms.ts
 import type { APIRoute } from 'astro';
 import { getOptimizelyGraphConfig, uploadSynonyms } from '../../../utils/optimizely-hmac';
+import { checkAdminAuth } from '../../../utils/admin-auth';
 
 export const POST: APIRoute = async ({ request }) => {
+  // Basic Auth check
+  const authError = checkAdminAuth(request);
+  if (authError) {
+    return authError;
+  }
+
   try {
     const body = await request.json();
     const { synonyms, synonymSlot = '1', languageRouting = 'standard' } = body;
@@ -55,7 +62,13 @@ export const POST: APIRoute = async ({ request }) => {
   }
 };
 
-export const GET: APIRoute = async () => {
+export const GET: APIRoute = async ({ request }) => {
+  // Basic Auth check
+  const authError = checkAdminAuth(request);
+  if (authError) {
+    return authError;
+  }
+
   return new Response(
     JSON.stringify({ 
       message: 'Optimizely Graph Synonyms API - Use POST method to upload synonyms' 

@@ -1,6 +1,6 @@
 ---
 // /src/pages/admin/graph-synonyms.astro
-import GraphAdminLayout from '../../layouts/GraphAdminLayout.astro';
+import AdminLayout from '../../layouts/AdminLayout.astro';
 import { checkAdminAuth } from '../../../utils/admin-auth';
 
 // Check authentication
@@ -10,7 +10,7 @@ if (authError) {
 }
 ---
 
-<GraphAdminLayout title="Optimizely Graph - Synonyms Manager">
+<AdminLayout title="Optimizely Graph - Synonyms Manager">
   <div class="max-w-4xl">
     <div class="mb-8">
       <h1 class="text-3xl font-bold text-gray-900 mb-2">Synonyms Manager</h1>
