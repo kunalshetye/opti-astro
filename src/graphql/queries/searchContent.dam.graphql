@@ -9,7 +9,7 @@ query searchContent(
         locale: $locale
         orderBy: { _ranking: SEMANTIC, _semanticWeight: $semanticWeight }
         where: {
-            _fulltext: { match: $searchTerm, fuzzy: true }
+            _fulltext: { match: $searchTerm, fuzzy: true, synonyms: ONE }
             _metadata: { url: { base: { eq: $domain } } }
         }
         limit: 20
@@ -57,7 +57,7 @@ query searchContent(
     regularPages: _Page(
         locale: $locale
         where: {
-            _fulltext: { match: $searchTerm, fuzzy: true }
+            _fulltext: { match: $searchTerm, fuzzy: true, synonyms: ONE }
             _metadata: { url: { base: { eq: $domain } } }
         }
         limit: 20
