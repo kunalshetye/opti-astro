@@ -1,4 +1,4 @@
-import { createHash, createHmac } from 'crypto';
+import { createHash, createHmac, randomBytes } from 'crypto';
 
 export interface OptimizelyGraphConfig {
   gatewayUrl: string;
@@ -20,7 +20,7 @@ export function createHmacAuthHeader(
   body: string = ''
 ): HmacAuthHeader {
   const timestamp = Date.now();
-  const nonce = Math.random().toString(36).substring(7);
+  const nonce = randomBytes(16).toString('hex');
   
   // Create MD5 hash of the request body
   const bodyMd5 = createHash('md5').update(body, 'utf8').digest('base64');
