@@ -53,7 +53,7 @@ export function checkAdminAuth(request: Request): Response | null {
     }
     
     // Get auth credentials from environment
-    const adminUsername = import.meta.env.ADMIN_DASHBOARD_USERNAME || 'admin';
+    const adminUsername = import.meta.env.ADMIN_DASHBOARD_USERNAME;
     const adminPassword = import.meta.env.ADMIN_DASHBOARD_PASSWORD;
     
     // Check Basic Auth header
