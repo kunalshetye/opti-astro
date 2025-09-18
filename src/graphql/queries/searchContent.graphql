@@ -12,6 +12,7 @@ query searchContent(
             _fulltext: { match: $searchTerm, fuzzy: true, synonyms: ONE }
             _metadata: { url: { base: { eq: $domain } } }
         }
+        usePinned: { phrase: $searchTerm }
         limit: 20
     ) @include(if: $useSemanticSearch) {
         items {
