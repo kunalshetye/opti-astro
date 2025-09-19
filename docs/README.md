@@ -29,6 +29,12 @@ This folder contains comprehensive documentation for the Opti-Astro project, cov
     - Common layout patterns (forms, heroes, cards, sidebars)
     - Best practices and troubleshooting
 
+### Optimizely Graph
+
+- **Search Optimizations Guide** - How to use the Synonyms and Pinned Results managers to improve search relevance.
+    - Configuring synonyms for equivalent or replacement search terms
+    - Pinning specific content to the top of search results
+
 ## 🚀 Quick Start
 
 New to this project? Start with these essential guides:
