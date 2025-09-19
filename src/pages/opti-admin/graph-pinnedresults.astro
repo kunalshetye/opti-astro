@@ -14,7 +14,6 @@ export const prerender = false;
 let message = Astro.url.searchParams.get('message');
 let messageType = Astro.url.searchParams.get('status') || 'success';
 let collections = [];
-let contentSearchResults = [];
 
 // Handle form submissions
 if (Astro.request.method === 'POST') {
@@ -63,8 +62,8 @@ if (Astro.request.method === 'POST') {
           phrases,
           targetKey,
           language,
-          priority: priority.toString(),
-          isActive: isActive ? 'true' : 'false'
+          priority: priority,
+          isActive: isActive
         };
 
         const response = await makeHmacApiRequest(`/api/pinned/collections/${collectionId}/items`, {
@@ -82,44 +81,6 @@ if (Astro.request.method === 'POST') {
         }
       } catch (error) {
         message = error instanceof Error ? error.message : 'Failed to add pinned item';
-        messageType = 'error';
-      }
-    } else if (action === 'search-content') {
-      const searchQuery = formData.get('contentSearch') as string;
-      
-      try {
-        const { makeHmacApiRequest, transformContentItem, CONTENT_SEARCH_QUERY } = await import('../../../utils/optimizely-graph-utils');
-        
-        const response = await makeHmacApiRequest('/', {
-          method: 'POST',
-          body: {
-            query: CONTENT_SEARCH_QUERY,
-            variables: {
-              searchTerm: searchQuery.trim(),
-              limit: 10
-            }
-          }
-        });
-
-        if (response.ok) {
-          const result = await response.json();
-          
-          if (result.errors) {
-            message = `GraphQL errors: ${result.errors.map((e: any) => e.message).join(', ')}`;
-            messageType = 'error';
-          } else {
-            const items = result.data?.Content?.items || [];
-            contentSearchResults = items
-              .map(transformContentItem)
-              .filter((item: any) => item.guid);
-          }
-        } else {
-          const errorText = await response.text();
-          message = `Failed to search content: ${response.status} ${response.statusText} - ${errorText}`;
-          messageType = 'error';
-        }
-      } catch (error) {
-        message = error instanceof Error ? error.message : 'Failed to search content';
         messageType = 'error';
       }
     } else if (action === 'delete-collection') {
@@ -450,9 +411,7 @@ try {
           </div>
 
           <div id="contentSearchResultsContainer" style="display: none;">
-            {contentSearchResults.length > 0 && (
-              <div class="px-6 pb-6"><h3 class="font-medium text-gray-900 mb-3">Search Results:</h3><div class="space-y-2 max-h-64 overflow-y-auto">{contentSearchResults.map(item => `<div class="flex items-center justify-between p-3 border border-gray-200 rounded-md hover:bg-gray-50"><div><p class="font-medium text-gray-900 text-sm">${item.name || 'Untitled'}</p><p class="text-xs text-gray-500 font-mono">${item.guid}</p><p class="text-xs text-gray-400">${item.contentType} â€¢ ${item.language}</p></div><button type="button" onclick="copyGuid('${item.guid}')" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Use GUID</button></div>`).join('')}</div></div>
-            )}
+            {/* This container is now populated by client-side JavaScript */}
           </div>
         </div>
       </div>
@@ -648,12 +607,15 @@ try {
           const itemsHtml = result.data.map(item => `
             <div class="flex items-center justify-between p-3 border border-gray-200 rounded-md hover:bg-gray-50">
               <div>
-                <p class="font-medium text-gray-900 text-sm">${item.name || 'Untitled'}</p>
+                <p class="font-medium text-gray-900 text-sm">
+                  ${item.name || 'Untitled'}
+                  ${item.url ? ` <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline text-xs ml-2" title="Open content in new tab">[view page]</a>` : ''}
+                </p>
                 <p class="text-xs text-gray-500 font-mono">${item.guid}</p>
-                <p class="text-xs text-gray-400">${item.contentType} â€¢ ${item.language}</p>
+                <p class="text-xs text-gray-400">${item.contentType} • ${item.language}</p>
               </div>
               <button type="button" onclick="copyGuid('${item.guid}')" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
-                Use GUID
+                Select Page
               </button>
             </div>
           `).join('');
@@ -727,7 +689,7 @@ try {
 
       // Create form HTML directly and submit
       const formHtml = `
-        <form method="POST" action="/admin/graph-pinnedresults">
+        <form method="POST" action="/opti-admin/graph-pinnedresults">
           <input type="hidden" name="action" value="delete-collection">
           <input type="hidden" name="collectionId" value="${collectionId}">
           <input type="hidden" name="collectionTitle" value="${collectionTitle}">

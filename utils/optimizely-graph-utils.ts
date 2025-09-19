@@ -92,9 +92,7 @@ export async function makeGraphQLRequest(
     variables: variables || {}
   };
 
-  console.log('content search config', config);
   // Use the existing HMAC request helper to ensure proper authentication
-  console.log('content search payload:', payload);
   return makeOptimizelyGraphRequest(config, '/content/v2', {
     method: 'POST',
     body: JSON.stringify(payload),
@@ -106,21 +104,29 @@ export async function makeGraphQLRequest(
 
 // Content search utilities
 export const CONTENT_SEARCH_QUERY = `
-  query SearchContent($searchTerm: String!, $limit: Int!) {
+  query SearchContent($searchTerm: String!, $limit: Int) {
     _Content(
-      where: { _fulltext: { match: $searchTerm } }
+      where: {
+        _metadata: { types: { in: ["_Page"] } }
+        _or: [
+          { _fulltext: { match: $searchTerm } }
+          { _metadata: { displayName: { contains: $searchTerm, boost: 10 } } }
+        ]
+      }
       limit: $limit
-      orderBy: { _modified: DESC }
+      orderBy: { _ranking: SEMANTIC, _modified: DESC }
     ) {
       items {
-        _score
         _id
         _metadata {
           url {
             base
             default
           }
+          key
           displayName
+          types
+          locale
         }
       }
       total
@@ -128,11 +134,14 @@ export const CONTENT_SEARCH_QUERY = `
   }
 `;
 
-export const RECENT_CONTENT_QUERY = `
-  query RecentContent($limit: Int!) {
+export const getRecentContentQuery = (contentType?: string) => {
+  const whereClause = contentType ? `where: { ContentType: { eq: "${contentType}" } }` : '';
+  return `
+  query RecentContent($limit: Int!) {    
     Content(
       limit: $limit
       orderBy: { Modified: DESC }
+      ${whereClause}
     ) {
       items {
         _id
@@ -160,21 +169,68 @@ export const RECENT_CONTENT_QUERY = `
       total
     }
   }
-`;
-
+  `;
+};
 export function transformContentItem(item: any) {
   // Handle both _metadata structure and direct properties
+  let finalUrl = item.Url || item._metadata?.url?.default; // Default to path or old Url property
+  
+  // If we have both base and default from the new query, construct the full URL
+  if (item._metadata?.url?.base && item._metadata?.url?.default) {
+    try {
+      finalUrl = new URL(item._metadata.url.default, item._metadata.url.base).href;
+    } catch (e) {
+      console.error('Error constructing full URL:', e);
+    }
+  }
+
   return {
-    guid: item.ContentLink?.GuidValue || item._metadata?.key,
+    guid: item._id || item.ContentLink?.GuidValue || item._metadata?.key,
     name: item.Name || item.PageName || item._metadata?.displayName || 'Untitled',
-    contentType: item.ContentType?.[0] || 'Unknown',
+    contentType: item.ContentType?.[0] || item._metadata?.types?.[0] || 'Unknown',
     status: item.Status,
-    language: item.Language?.Name || 'Unknown',
-    url: item.Url || item._metadata?.url?.default,
-    score: item._score,
+    language: item.Language?.Name || item._metadata?.locale || 'Unknown',
+    url: finalUrl,
+    score: item._ranking?.semantic,
     modified: item.Modified,
     id: item._id
   };
+}
+
+export async function searchContent(
+  config: OptimizelyGraphConfig,
+  query: string,
+  variables: Record<string, any>
+): Promise<{ items: any[]; error?: string }> {
+  try {
+    const response = await makeGraphQLRequest(config, query, variables);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      return {
+        items: [],
+        error: `GraphQL query failed: ${response.status} ${response.statusText} - ${errorText}`
+      };
+    }
+
+    const result = await response.json();
+
+    if (result.errors) {
+      return {
+        items: [],
+        error: `GraphQL errors: ${result.errors.map((e: any) => e.message).join(', ')}`
+      };
+    }
+
+    const items = result.data?.Content?.items || result.data?._Content?.items || [];
+    const transformedItems = items
+      .map(transformContentItem)
+      .filter((item: any) => item.guid);
+
+    return { items: transformedItems };
+  } catch (error) {
+    return { items: [], error: error instanceof Error ? error.message : 'Unknown error during content search' };
+  }
 }
 
 // Pinned Results specific API helpers
@@ -198,12 +254,6 @@ export async function makeHmacApiRequest(
   const requestBody = typeof body === 'string' ? body : JSON.stringify(body);
   const contentType = endpoint.includes('/synonyms') ? 'text/plain' : 'application/json';
 
-  console.log('options', options);
-  console.log('Request body:', requestBody);
-  console.log('body:', body);
-  console.log('Request method:', method);
-  console.log('Request endpoint:', endpoint);
-  
   return makeOptimizelyGraphRequest(config, endpoint, {
     method,
     body: method !== 'GET' ? requestBody : undefined,

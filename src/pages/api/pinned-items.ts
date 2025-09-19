@@ -18,8 +18,8 @@ export const POST: APIRoute = async ({ request }) => {
       phrases,
       targetKey,
       language = 'en',
-      priority = '1',
-      isActive = 'true'
+      priority = 1,
+      isActive = true
     } = body;
 
     // Validation
@@ -34,7 +34,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     // Prepare request body as strings
-    const requestBody = {
+    const requestBody: Record<string, any> = {
       phrases: typeof phrases === 'string' ? phrases : Array.isArray(phrases) ? phrases.join('\n') : '',
       targetKey,
       language,
