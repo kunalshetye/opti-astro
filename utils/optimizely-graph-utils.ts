@@ -185,7 +185,7 @@ export function transformContentItem(item: any) {
   }
 
   return {
-    guid: item._id || item.ContentLink?.GuidValue || item._metadata?.key,
+    guid: item._metadata?.key || item._id || item.ContentLink?.GuidValue,
     name: item.Name || item.PageName || item._metadata?.displayName || 'Untitled',
     contentType: item.ContentType?.[0] || item._metadata?.types?.[0] || 'Unknown',
     status: item.Status,
