@@ -26,7 +26,10 @@ const siteStyles = await getOptimizelySdk(contentPayload).siteStylesById({
 
 const siteFont = getSiteFont(siteStyles?.SiteStyles?.item);
 
-const externalStylesUrl = siteStyles?.SiteStyles?.item?.cssFile?._metadata?.url?.default || null;
+const cssFileMeta = siteStyles?.SiteStyles?.item?.cssFile?._metadata;
+const externalStylesUrl = cssFileMeta?.url?.default && cssFileMeta?.lastModified
+    ? `${cssFileMeta.url.default}?${new Date(cssFileMeta.lastModified).getTime()}`
+    : null;
 
 const indexedColorProperties = [
     {class: 'primary', label: 'Primary'},

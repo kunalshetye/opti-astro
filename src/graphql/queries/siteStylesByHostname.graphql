@@ -53,6 +53,7 @@ query siteStylesByHostname($domain: String!, $locale: [Locales]!) {
             font
             cssFile {
                 _metadata {
+                    lastModified
                     url {
                         default
                     }

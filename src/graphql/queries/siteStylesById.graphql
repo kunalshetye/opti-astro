@@ -53,6 +53,7 @@ query siteStylesById($key: [String]!, $loc: [Locales]!, $ver: String!) {
             font
             cssFile {
                 _metadata {
+                    lastModified
                     url {
                         default
                     }
