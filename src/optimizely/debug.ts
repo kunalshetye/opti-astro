@@ -13,6 +13,8 @@ export interface FXDebugInfo {
     sdk: {
         enabled: boolean;
         sdkKey?: string;
+        isValidKey?: boolean;
+        validationError?: string;
         availableFlags: string[];
         error?: string;
     };
@@ -83,6 +85,8 @@ export function initFXDebugSession(url: string, locale: string): FXDebugInfo {
 export function updateSDKInfo(debugInfo: FXDebugInfo, data: {
     enabled: boolean;
     sdkKey?: string;
+    isValidKey?: boolean;
+    validationError?: string;
     availableFlags?: string[];
     error?: string;
 }) {
