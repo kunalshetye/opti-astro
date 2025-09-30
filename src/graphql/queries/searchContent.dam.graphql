@@ -9,9 +9,10 @@ query searchContent(
         locale: $locale
         orderBy: { _ranking: SEMANTIC, _semanticWeight: $semanticWeight }
         where: {
-            _fulltext: { match: $searchTerm, fuzzy: true }
+            _fulltext: { match: $searchTerm, fuzzy: true, synonyms: ONE }
             _metadata: { url: { base: { eq: $domain } } }
         }
+        usePinned: { phrase: $searchTerm }
         limit: 20
     ) @include(if: $useSemanticSearch) {
         items {
@@ -56,10 +57,12 @@ query searchContent(
     }
     regularPages: _Page(
         locale: $locale
+        orderBy: { _ranking: RELEVANCE }
         where: {
-            _fulltext: { match: $searchTerm, fuzzy: true }
+            _fulltext: { match: $searchTerm, fuzzy: true, synonyms: ONE }
             _metadata: { url: { base: { eq: $domain } } }
         }
+        usePinned: { phrase: $searchTerm }
         limit: 20
     ) @skip(if: $useSemanticSearch) {
         items {
