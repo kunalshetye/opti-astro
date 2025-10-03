@@ -3,15 +3,17 @@ query getArticles(
     $limit: Int! = 15
     $site: String
     $status: String! = "Published"
+    $rootUrl: String
 ) {
     ArticlePage(
         locale: $loc
         orderBy: { _metadata: { published: DESC } }
         limit: $limit
         where: {
-            _metadata: { 
-                status: { eq: $status }, 
-                url: { base: { eq: $site } } }
+            _metadata: {
+                status: { eq: $status }
+                url: { base: { eq: $site }, default: { startsWith: $rootUrl } }
+            }
         }
     ) {
         items {

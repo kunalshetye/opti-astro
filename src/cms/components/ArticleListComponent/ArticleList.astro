@@ -21,12 +21,13 @@ export interface Props {
     contentPayload: ContentPayload;
 }
 const { key, data, displaySettings, contentPayload } = Astro.props as Props;
-const currentSite = Astro.url.origin;
+const currentSite = data.IncludeAllSites ? null : Astro.url.origin;
 const articlesList = await getOptimizelySdk(contentPayload).getArticles({
     //@ts-ignore
     loc: contentPayload.loc,
     site: currentSite,
     limit: data.NumberOfArticles || 1,
+    rootUrl: data.ArticleRoot?.url?.default || '/',
 });
 const glideId = randomBytes(5).toString('hex');
 const items = articlesList.ArticlePage?.items || null;
