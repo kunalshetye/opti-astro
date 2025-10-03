@@ -18,7 +18,16 @@ Astro.response.headers.set('Content-Type', 'text/html; charset=UTF-8');
 
 const lang = getCurrentLocale(Astro);
 
-const pageVariationWeb = Astro.cookies.get('cmsvariation')?.value || null;
+// Opti Web variation cookie handling -- cookie name depends on page path
+const rawPath = Astro.url.pathname; 
+let pathSegment;
+if (rawPath === '/') {
+    pathSegment = 'homepage';
+} else {
+    pathSegment = rawPath.replace(/^\//, '').replace(/[\/|-]/g, '_');
+}
+const cookieName = `cmsvariation_${pathSegment}`;
+const pageVariationWeb = Astro.cookies.get(cookieName)?.value || null;
 
 // Initialize debug session
 const debugInfo = initFXDebugSession(Astro.url.toString(), lang);
