@@ -29,7 +29,7 @@ const carouselId = `carousel-row-${Math.random().toString(36).substring(2, 9)}`;
 
 <section
     id={carouselId}
-    class={`splide ${isContentCarousel ? 'content-carousel' : 'standard-carousel'} ${styleConfig.carouselHeight}`}
+    class={`splide ${isContentCarousel ? 'content-carousel' : 'standard-carousel'} ${styleConfig.carouselHeight} ${styleConfig.carouselWidth}`}
     aria-label="Carousel Row"
     data-content-mode={isContentCarousel ? 'true' : 'false'}
     data-show-arrows={styleConfig.showNavigation.toString()}

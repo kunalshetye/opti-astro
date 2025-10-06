@@ -3,6 +3,7 @@ import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displa
 
 export interface CarouselRowStyleConfig {
     carouselMode: 'standard' | 'content';
+    carouselWidth: string;
     carouselHeight: string;
     itemsPerViewDesktop: number;
     itemsPerViewTablet: number;
@@ -15,6 +16,24 @@ export interface CarouselRowStyleConfig {
     enableLoop: boolean;
     transitionSpeed: number;
 }
+
+const widthMap: Record<string, string> = {
+        'full': 'w-full',
+        'container': 'container mx-auto px-8',
+        'max7xl': 'max-w-7xl w-full mx-auto px-8',
+        'max6xl': 'max-w-6xl w-full mx-auto px-8',
+        'max5xl': 'max-w-5xl w-full mx-auto px-8',
+        'max4xl': 'max-w-4xl w-full mx-auto px-8',
+        'max3xl': 'max-w-3xl w-full mx-auto px-8',
+        'max2xl': 'max-w-2xl w-full mx-auto px-8',
+        'maxXl': 'max-w-xl w-full mx-auto px-8',
+        'maxLg': 'max-w-lg w-full mx-auto px-8',
+        'maxMd': 'max-w-md w-full mx-auto px-8',
+        'maxSm': 'max-w-sm w-full mx-auto px-8',
+        'maxXs': 'max-w-xs w-full mx-auto px-8',
+        'inherit': 'w-full',
+};
+
 
 const heightMap: Record<string, string> = {
     'h_auto': 'h-auto',
@@ -67,6 +86,9 @@ export function getCarouselRowStyleConfig(
     return {
         // Carousel mode
         carouselMode: carouselMode as 'standard' | 'content',
+
+        // Width settings
+        carouselWidth: widthMap[settingsDict['carouselWidth']] || 'w-full',
 
         // Height settings - different defaults based on mode
         carouselHeight: heightMap[settingsDict['carouselHeight']] || (isContentCarousel ? 'h-auto' : 'h-96'),
