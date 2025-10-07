@@ -26,10 +26,11 @@ const provider = data?.Provider;
 const videoYouTube = data?.VideoExternal || 'dQw4w9WgXcQ'; // Default to a known YouTube video if none provided
 const videoVimeo = data?.VideoExternal || '676247342'; // Default to a known Vimeo video if none provided
 
+const componentClass = 'component-videoexternal';
 // TODO: Add CSS classes for styling
 ---
 
-<div class="max-w-full h-full" style={`width: ${displayWidth};`} data-epi-block-id={isCmsEdit && key || undefined}>
+<div class={`max-w-full h-full ${componentClass}`} style={`width: ${displayWidth};`} data-epi-block-id={isCmsEdit && key || undefined}>
     {
         provider === 'youtube' && (
             <YouTube

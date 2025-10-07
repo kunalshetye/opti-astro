@@ -22,7 +22,8 @@ const dividerStyles = getDividerElementStyles(displaySettings, data?.DividerDire
 // Vertical divider line in DaisyUI uses class "divider-horizontal", since it's separating vertical components
 const directionClass = data?.DividerDirection === 'horizontal' ? '' : 'md:divider-horizontal md:flex-1 md:mx-auto';
 
+const componentClass = 'component-divider';
 ---
 
-<div class:list={['divider', directionClass, dividerStyles]} data-epi-block-id={isCmsEdit && key || undefined}
+<div class:list={['divider', directionClass, dividerStyles, componentClass]} data-epi-block-id={isCmsEdit && key || undefined}
     >{data.DividerText && data.DividerText}</div>
