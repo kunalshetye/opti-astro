@@ -135,7 +135,7 @@ const componentClass = 'component-articlelist';
                             <figure class:list={[figureClasses]}>
                                 <AstroImage
                                     class="aspect-3/2 object-cover w-full h-full"
-                                    src={((item.PromoImage as any)?.item?.Url || item.PromoImage?.url?.default) ?? '/article-list-placeholder-markus-winkler-aId-xYRTlEc-unsplash.jpg'}
+                                    src={((item.PromoImage as any)?.item?.Url || item.PromoImage?.url?.default) ?? '/article-list-placeholder.jpg'}
                                     alt={item.PromoImage?.item?.AltText || item.PromoImage?.item?._metadata?.displayName || `Promo image for ${item.Heading}` || 'Article promo image'}
                                     width={600}
                                     height={400}
