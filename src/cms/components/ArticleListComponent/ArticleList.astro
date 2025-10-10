@@ -9,8 +9,8 @@ DisplaySettingsFragment,
 import { getOptimizelySdk } from '../../../graphql/getSdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
-import LinkButton from '../ButtonComponent/LinkButton.astro';
 import { isEditContext } from '../../shared/utils.ts';
+import LinkButton from '../ButtonComponent/LinkButton.astro';
 
 const isCmsEdit = isEditContext(Astro.url);
 
@@ -119,9 +119,11 @@ const cardDynamicClasses = {
 const figureClasses = {
     'w-1/3 flex-shrink-0': layoutStyle === 'list' && (imagePosition === 'left' || imagePosition === 'right'),
 };
+
+const componentClass = 'component-articlelist';
 ---
 
-<div data-epi-block-id={isCmsEdit && key || undefined}>
+<div data-epi-block-id={isCmsEdit && key || undefined} class={componentClass}>
     <div class="w-full" class:list={[containerWrapperClasses]}>
         <h1 class="w-full basis-full" class:list={[titleClasses]}>{data?.Title}</h1>
         <div class="mt-4 mb-4" class:list={[gridContainerClasses]}>

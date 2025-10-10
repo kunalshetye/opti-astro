@@ -24,10 +24,12 @@ if (hasValidSelector) {
         selectorAttributes.class = data.SelectorName;
     }
 }
+
+const componentClass = 'component-odpform';
 ---
 
 <div 
-    class="odp-form-container w-full"
+    class=`odp-form-container w-full ${componentClass}`
 >
     {hasValidSelector ? (
         <!-- ODP Form will be rendered here -->

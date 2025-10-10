@@ -15,8 +15,10 @@ export interface Props {
 const { key, data, displaySettings} = Astro.props as Props;
 
 const paragraphStyles = getParagraphStyleConfig(displaySettings);
+
+const componentClass = 'component-paragraph';
 ---
 
-<div class={`${paragraphStyles.paragraphAlignment}`}
+<div class={`${paragraphStyles.paragraphAlignment} ${componentClass}`}
     data-epi-block-id={isCmsEdit && key || undefined}
     set:html={data.Text?.html} />

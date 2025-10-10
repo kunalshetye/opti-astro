@@ -69,12 +69,13 @@ const formResetConfirmationMsg: string = getFormProperty('ResetConfirmationMessa
 const formSubmitUrl: string | null = getFormProperty('SubmitUrl')?.default ?? formItem?.SubmitUrl?.default ?? null;
 const showSummaryMessage: boolean = getFormProperty('ShowSummaryMessageAfterSubmission') ?? formItem?.ShowSummaryMessageAfterSubmission ?? false;
 
+const componentClass = 'component-form';
 ---
 
 {
     (nodeType === 'section' || !nodeType) && (
         <>
-            <div class="vb:section flex flex-col" data-epi-block-id={formGrid.key}>
+            <div class={`vb:section flex flex-col ${componentClass}`} data-epi-block-id={formGrid.key}>
                 <form
                     id={formId}
                     class="mx-auto mb-4 w-full rounded bg-white px-8 pt-6 pb-8 shadow-md"

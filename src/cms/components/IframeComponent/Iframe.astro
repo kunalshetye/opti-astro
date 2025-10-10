@@ -33,10 +33,10 @@ const settings: Record<string, string> =
 
 const width = allWidths[data?.Width || ''] || '';
 
-console.log('iframe width', width)
+const componentClass = 'component-iframe';
 ---
 
-<div class={`mb-3 w-full`} data-epi-block-id={isCmsEdit && key || undefined}>
+<div class={`mb-3 w-full ${componentClass}`} data-epi-block-id={isCmsEdit && key || undefined}>
     <iframe class=`border-0 ${width}` height={data?.ManualHeight} src={data?.IframePageUrl} title={data?.Title} allow="" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </div>
 

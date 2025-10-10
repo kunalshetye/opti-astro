@@ -34,14 +34,15 @@ if(isLoginButton) {
     btnStyles = getButtonStyles(displaySettings);
 }
 
+const componentClass = 'component-button';
 ---
 { isDefaultButton &&
-    <span data-epi-block-id={isCmsEdit && key || undefined}>
+    <span data-epi-block-id={isCmsEdit && key || undefined} class={componentClass}>
         <LinkButton cssClasses={btnStyles} link={data?.ButtonLink?.url?.hierarchical}>{data?.ButtonLabel}</LinkButton>
     </span>
 }
 { isLoginButton &&
-    <span data-epi-block-id={isCmsEdit && key || undefined}>
+    <span data-epi-block-id={isCmsEdit && key || undefined} class={componentClass}>
         <LinkButton cssClasses={btnStyles} link={data?.ButtonLink?.url?.hierarchical}><Fragment set:html={loginButtonSlot}/></LinkButton>
     </span>
 }

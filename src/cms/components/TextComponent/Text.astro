@@ -23,8 +23,9 @@ const settings: Record<string, string> =
 const HeadingStyle = (settings?.headingType == "plain" || settings?.headingType == null) 
     ? "span" : settings.headingType;
 
+const componentClass = 'component-text';
 ---
 
-<HeadingStyle class:list={getHeadingElementStyles(displaySettings)} data-epi-block-id={isCmsEdit && key || undefined}>
+<HeadingStyle class:list={[getHeadingElementStyles(displaySettings), componentClass]} data-epi-block-id={isCmsEdit && key || undefined}>
     {data.Content}
 </HeadingStyle>

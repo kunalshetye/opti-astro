@@ -19,7 +19,9 @@ export interface Props {
 }
 const { key, displayTemplateKey } = Astro.props as Props;
 const isBento = displayTemplateKey === 'GridBentoStyles';
+
+const componentClass = 'component-grid';
 ---
 
-{!isBento && <GridStandard {...Astro.props} data-epi-block-id={isCmsEdit && key || undefined}/>}
-{isBento && <GridBento {...Astro.props} data-epi-block-id={isCmsEdit && key || undefined} />}
+{!isBento && <GridStandard {...Astro.props} data-epi-block-id={isCmsEdit && key || undefined} class:list={[componentClass]} />}
+{isBento && <GridBento {...Astro.props} data-epi-block-id={isCmsEdit && key || undefined} class:list={[componentClass]} />}
