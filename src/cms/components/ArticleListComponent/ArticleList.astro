@@ -35,6 +35,11 @@ const items = articlesList.ArticlePage?.items || null;
 // Get style settings from display settings
 const styleDictionary = getDictionaryFromDisplaySettings(displaySettings);
 
+// Container settings
+const maxWidth = styleDictionary['maxWidth'] || 'none';
+const contentAlignment = styleDictionary['contentAlignment'] || 'left';
+const titleAlignment = styleDictionary['titleAlignment'] || 'left';
+
 // Layout settings
 const layoutStyle = styleDictionary['layoutStyle'] || 'grid';
 const gridColumns = styleDictionary['gridColumns'] || 'col4';
@@ -45,6 +50,32 @@ const imagePosition = styleDictionary['imagePosition'] || 'top';
 const hoverEffect = styleDictionary['hoverEffect'] || 'zoom_subtle';
 const shadowValue = styleDictionary['cardShadow'] || 'sm';
 const hoverShadowValue = styleDictionary['hoverShadow'] || 'lg';
+
+// Container wrapper classes for max-width and alignment
+const containerWrapperClasses = {
+    // Max width
+    'max-w-xs': maxWidth === 'xs',
+    'max-w-sm': maxWidth === 'sm',
+    'max-w-md': maxWidth === 'md',
+    'max-w-lg': maxWidth === 'lg',
+    'max-w-xl': maxWidth === 'xl',
+    'max-w-2xl': maxWidth === 'tw_2xl',
+    'max-w-3xl': maxWidth === 'tw_3xl',
+    'max-w-4xl': maxWidth === 'tw_4xl',
+    'max-w-5xl': maxWidth === 'tw_5xl',
+    'max-w-6xl': maxWidth === 'tw_6xl',
+    'max-w-7xl': maxWidth === 'tw_7xl',
+    // Alignment
+    'mx-auto': contentAlignment === 'center',
+    'ml-auto': contentAlignment === 'right',
+};
+
+// Title alignment classes
+const titleClasses = {
+    'text-left': titleAlignment === 'left',
+    'text-center': titleAlignment === 'center',
+    'text-right': titleAlignment === 'right',
+};
 
 // Grid container classes based on settings
 const gridContainerClasses = {
@@ -91,34 +122,36 @@ const figureClasses = {
 ---
 
 <div data-epi-block-id={isCmsEdit && key || undefined}>
-    <h1 class="w-full basis-full">{data?.Title}</h1>
-    <div class="mt-4 mb-4" class:list={[gridContainerClasses]}>
-        {
-            //@ts-ignore
-            items?.map((item: ArticlePageExcerptFragment, i) => {
-                return (
-                    <div class="card bg-base-100 shadow-sm flex" class:list={[cardDynamicClasses]}>
-                        <figure class:list={[figureClasses]}>
-                            <AstroImage
-                                class="aspect-3/2 object-cover w-full h-full"
-                                src={((item.PromoImage as any)?.item?.Url || item.PromoImage?.url?.default) ?? '/article-list-placeholder-markus-winkler-aId-xYRTlEc-unsplash.jpg'}
-                                alt={item.PromoImage?.item?.AltText || item.PromoImage?.item?._metadata?.displayName || `Promo image for ${item.Heading}` || 'Article promo image'}
-                                width={600}
-                                height={400}
-                            />
-                        </figure>
-                        <div class="card-body">
-                            <h2 class="card-title">{item.Heading}</h2>
-                            { item.Body?.html &&
-                                <div set:html={item.Body.html.replace(/<[^>]*>/g, '').split(' ').slice(0, 30).join(' ') + "..."} />
-                            }
-                            <div class="card-actions justify-end mt-auto">
-                            <LinkButton cssClasses="btn-primary" link={item._metadata?.url?.hierarchical}>Read more</LinkButton>
+    <div class="w-full" class:list={[containerWrapperClasses]}>
+        <h1 class="w-full basis-full" class:list={[titleClasses]}>{data?.Title}</h1>
+        <div class="mt-4 mb-4" class:list={[gridContainerClasses]}>
+            {
+                //@ts-ignore
+                items?.map((item: ArticlePageExcerptFragment, i) => {
+                    return (
+                        <div class="card bg-base-100 shadow-sm flex" class:list={[cardDynamicClasses]}>
+                            <figure class:list={[figureClasses]}>
+                                <AstroImage
+                                    class="aspect-3/2 object-cover w-full h-full"
+                                    src={((item.PromoImage as any)?.item?.Url || item.PromoImage?.url?.default) ?? '/article-list-placeholder-markus-winkler-aId-xYRTlEc-unsplash.jpg'}
+                                    alt={item.PromoImage?.item?.AltText || item.PromoImage?.item?._metadata?.displayName || `Promo image for ${item.Heading}` || 'Article promo image'}
+                                    width={600}
+                                    height={400}
+                                />
+                            </figure>
+                            <div class="card-body">
+                                <h2 class="card-title">{item.Heading}</h2>
+                                { item.Body?.html &&
+                                    <div set:html={item.Body.html.replace(/<[^>]*>/g, '').split(' ').slice(0, 30).join(' ') + "..."} />
+                                }
+                                <div class="card-actions justify-end mt-auto">
+                                <LinkButton cssClasses="btn-primary" link={item._metadata?.url?.hierarchical}>Read more</LinkButton>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                );
-            })
-        }
+                    );
+                })
+            }
+        </div>
     </div>
 </div>
