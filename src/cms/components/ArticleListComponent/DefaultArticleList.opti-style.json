@@ -4,6 +4,65 @@
 	"contentType": "ArticleList",
 	"isDefault": true,
 	"settings": {
+		"layoutStyle": {
+			"displayName": "Layout Style",
+			"editor": "",
+			"sortOrder": 5,
+			"choices": {
+				"grid": {
+					"displayName": "Grid (Default)",
+					"sortOrder": 10
+				},
+				"list": {
+					"displayName": "List",
+					"sortOrder": 20
+				}
+			}
+		},
+		"gridColumns": {
+			"displayName": "Grid Columns (Desktop) - Use with Grid layout",
+			"description": "Number of columns to display when using Grid layout",
+			"editor": "",
+			"sortOrder": 6,
+			"choices": {
+				"col1": {
+					"displayName": "1 Column",
+					"sortOrder": 10
+				},
+				"col2": {
+					"displayName": "2 Columns",
+					"sortOrder": 20
+				},
+				"col3": {
+					"displayName": "3 Columns",
+					"sortOrder": 30
+				},
+				"col4": {
+					"displayName": "4 Columns (Default)",
+					"sortOrder": 40
+				}
+			}
+		},
+		"imagePosition": {
+			"displayName": "Image Position",
+			"description": "Top: Works with Grid and List layouts. Left/Right: Best used with List layout for horizontal cards.",
+			"editor": "",
+			"sortOrder": 7,
+			"choices": {
+				"top": {
+					"displayName": "Top (Default)",
+					"sortOrder": 10
+				},
+				"left": {
+					"displayName": "Left (Use with List layout)",
+					"sortOrder": 20
+				},
+				"right": {
+					"displayName": "Right (Use with List layout)",
+					"sortOrder": 30
+				}
+			}
+		},
 		"hoverEffect": {
 			"displayName": "Hover Effect",
 			"editor": "",

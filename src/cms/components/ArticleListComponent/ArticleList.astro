@@ -35,20 +35,44 @@ const items = articlesList.ArticlePage?.items || null;
 // Get style settings from display settings
 const styleDictionary = getDictionaryFromDisplaySettings(displaySettings);
 
+// Layout settings
+const layoutStyle = styleDictionary['layoutStyle'] || 'grid';
+const gridColumns = styleDictionary['gridColumns'] || 'col4';
+const imagePosition = styleDictionary['imagePosition'] || 'top';
+
 // Build dynamic classes for cards based on settings
 // Default to 'zoom_subtle' if no hover effect is specified
 const hoverEffect = styleDictionary['hoverEffect'] || 'zoom_subtle';
 const shadowValue = styleDictionary['cardShadow'] || 'sm';
 const hoverShadowValue = styleDictionary['hoverShadow'] || 'lg';
 
+// Grid container classes based on settings
+const gridContainerClasses = {
+    // Grid layout
+    'grid gap-8': layoutStyle === 'grid',
+    'grid-cols-1': layoutStyle === 'grid',
+    'sm:grid-cols-2': layoutStyle === 'grid' && (gridColumns === 'col2' || gridColumns === 'col3' || gridColumns === 'col4'),
+    'lg:grid-cols-3': layoutStyle === 'grid' && (gridColumns === 'col3' || gridColumns === 'col4'),
+    'xl:grid-cols-4': layoutStyle === 'grid' && gridColumns === 'col4',
+    'xl:grid-cols-3': layoutStyle === 'grid' && gridColumns === 'col3',
+    'xl:grid-cols-2': layoutStyle === 'grid' && gridColumns === 'col2',
+    'xl:grid-cols-1': layoutStyle === 'grid' && gridColumns === 'col1',
+    // List layout
+    'flex flex-col gap-6': layoutStyle === 'list',
+};
+
 // Build dynamic card class list for style-based classes
 const cardDynamicClasses = {
+    // Layout direction
+    'flex-row': layoutStyle === 'list' && imagePosition === 'left',
+    'flex-row-reverse': layoutStyle === 'list' && imagePosition === 'right',
+    'flex-col': imagePosition === 'top' || layoutStyle === 'grid',
     // Override default shadow if specified
     'shadow-none': shadowValue === 'none',
     'shadow-md': shadowValue === 'md',
     'shadow-lg': shadowValue === 'lg',
     'shadow-xl': shadowValue === 'xl',
-    // Hover shadow classes  
+    // Hover shadow classes
     'hover:shadow-md': hoverShadowValue === 'md',
     'hover:shadow-lg': hoverShadowValue === 'lg',
     'hover:shadow-xl': hoverShadowValue === 'xl',
@@ -59,20 +83,25 @@ const cardDynamicClasses = {
     // Add overflow hidden for zoom effects
     'overflow-hidden': hoverEffect === 'zoom' || hoverEffect === 'zoom_subtle',
 };
+
+// Figure classes for horizontal layout
+const figureClasses = {
+    'w-1/3 flex-shrink-0': layoutStyle === 'list' && (imagePosition === 'left' || imagePosition === 'right'),
+};
 ---
 
 <div data-epi-block-id={isCmsEdit && key || undefined}>
     <h1 class="w-full basis-full">{data?.Title}</h1>
-    <div class="mt-4 mb-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    <div class="mt-4 mb-4" class:list={[gridContainerClasses]}>
         {
             //@ts-ignore
             items?.map((item: ArticlePageExcerptFragment, i) => {
                 return (
-                    <div class="card bg-base-100 shadow-sm flex flex-col" class:list={[cardDynamicClasses]}>      
-                        <figure>
+                    <div class="card bg-base-100 shadow-sm flex" class:list={[cardDynamicClasses]}>
+                        <figure class:list={[figureClasses]}>
                             <AstroImage
-                                class="aspect-3/2 object-cover"
-                                src={((item.PromoImage as any)?.item?.Url || item.PromoImage?.url?.default) ?? '/placeholder.png'}
+                                class="aspect-3/2 object-cover w-full h-full"
+                                src={((item.PromoImage as any)?.item?.Url || item.PromoImage?.url?.default) ?? '/article-list-placeholder-markus-winkler-aId-xYRTlEc-unsplash.jpg'}
                                 alt={item.PromoImage?.item?.AltText || item.PromoImage?.item?._metadata?.displayName || `Promo image for ${item.Heading}` || 'Article promo image'}
                                 width={600}
                                 height={400}
@@ -80,7 +109,7 @@ const cardDynamicClasses = {
                         </figure>
                         <div class="card-body">
                             <h2 class="card-title">{item.Heading}</h2>
-                            { item.Body?.html && 
+                            { item.Body?.html &&
                                 <div set:html={item.Body.html.replace(/<[^>]*>/g, '').split(' ').slice(0, 30).join(' ') + "..."} />
                             }
                             <div class="card-actions justify-end mt-auto">
