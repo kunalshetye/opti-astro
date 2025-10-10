@@ -4,6 +4,161 @@
 	"contentType": "ArticleList",
 	"isDefault": true,
 	"settings": {
+		"maxWidth": {
+			"displayName": "Max Width",
+			"description": "Maximum width constraint for the article list container",
+			"editor": "",
+			"sortOrder": 1,
+			"choices": {
+				"none": {
+					"displayName": "None (Full Width) (Default)",
+					"sortOrder": 10
+				},
+				"xs": {
+					"displayName": "max-w-xs",
+					"sortOrder": 20
+				},
+				"sm": {
+					"displayName": "max-w-sm",
+					"sortOrder": 30
+				},
+				"md": {
+					"displayName": "max-w-md",
+					"sortOrder": 40
+				},
+				"lg": {
+					"displayName": "max-w-lg",
+					"sortOrder": 50
+				},
+				"xl": {
+					"displayName": "max-w-xl",
+					"sortOrder": 60
+				},
+				"tw_2xl": {
+					"displayName": "max-w-2xl",
+					"sortOrder": 70
+				},
+				"tw_3xl": {
+					"displayName": "max-w-3xl",
+					"sortOrder": 80
+				},
+				"tw_4xl": {
+					"displayName": "max-w-4xl",
+					"sortOrder": 90
+				},
+				"tw_5xl": {
+					"displayName": "max-w-5xl",
+					"sortOrder": 100
+				},
+				"tw_6xl": {
+					"displayName": "max-w-6xl",
+					"sortOrder": 110
+				},
+				"tw_7xl": {
+					"displayName": "max-w-7xl",
+					"sortOrder": 120
+				}
+			}
+		},
+		"contentAlignment": {
+			"displayName": "Content Alignment",
+			"description": "Horizontal alignment of the article list container",
+			"editor": "",
+			"sortOrder": 2,
+			"choices": {
+				"left": {
+					"displayName": "Left (Default)",
+					"sortOrder": 10
+				},
+				"center": {
+					"displayName": "Center",
+					"sortOrder": 20
+				},
+				"right": {
+					"displayName": "Right",
+					"sortOrder": 30
+				}
+			}
+		},
+		"titleAlignment": {
+			"displayName": "Title Alignment",
+			"description": "Text alignment for the title",
+			"editor": "",
+			"sortOrder": 3,
+			"choices": {
+				"left": {
+					"displayName": "Left (Default)",
+					"sortOrder": 10
+				},
+				"center": {
+					"displayName": "Center",
+					"sortOrder": 20
+				},
+				"right": {
+					"displayName": "Right",
+					"sortOrder": 30
+				}
+			}
+		},
+		"layoutStyle": {
+			"displayName": "Layout Style",
+			"editor": "",
+			"sortOrder": 5,
+			"choices": {
+				"grid": {
+					"displayName": "Grid (Default)",
+					"sortOrder": 10
+				},
+				"list": {
+					"displayName": "List",
+					"sortOrder": 20
+				}
+			}
+		},
+		"gridColumns": {
+			"displayName": "Grid Columns (Desktop) - Use with Grid layout",
+			"description": "Number of columns to display when using Grid layout",
+			"editor": "",
+			"sortOrder": 6,
+			"choices": {
+				"col1": {
+					"displayName": "1 Column",
+					"sortOrder": 10
+				},
+				"col2": {
+					"displayName": "2 Columns",
+					"sortOrder": 20
+				},
+				"col3": {
+					"displayName": "3 Columns",
+					"sortOrder": 30
+				},
+				"col4": {
+					"displayName": "4 Columns (Default)",
+					"sortOrder": 40
+				}
+			}
+		},
+		"imagePosition": {
+			"displayName": "Image Position",
+			"description": "Top: Works with Grid and List layouts. Left/Right: Best used with List layout for horizontal cards.",
+			"editor": "",
+			"sortOrder": 7,
+			"choices": {
+				"top": {
+					"displayName": "Top (Default)",
+					"sortOrder": 10
+				},
+				"left": {
+					"displayName": "Left (Use with List layout)",
+					"sortOrder": 20
+				},
+				"right": {
+					"displayName": "Right (Use with List layout)",
+					"sortOrder": 30
+				}
+			}
+		},
 		"hoverEffect": {
 			"displayName": "Hover Effect",
 			"editor": "",

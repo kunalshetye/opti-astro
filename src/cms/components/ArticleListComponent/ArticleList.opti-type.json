@@ -32,6 +32,30 @@
 			"sortOrder": 100,
 			"editorSettings": {},
 			"minimum": 1
+		},
+		"ArticleRoot": {
+			"type": "contentReference",
+			"displayName": "Article Root",
+			"description": "Section of the site to pull listed articles from",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 200,
+			"editorSettings": {},
+			"allowedTypes": [
+				"Page"
+			],
+			"restrictedTypes": []
+		},
+		"IncludeAllSites": {
+			"type": "boolean",
+			"displayName": "Include Articles from all sites",
+			"description": "Include Articles from all sites",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 400,
+			"editorSettings": {}
 		}
 	}
 }
