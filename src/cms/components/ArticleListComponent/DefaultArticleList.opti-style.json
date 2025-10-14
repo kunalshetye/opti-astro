@@ -6,9 +6,8 @@
 	"settings": {
 		"maxWidth": {
 			"displayName": "Max Width",
-			"description": "Maximum width constraint for the article list container",
 			"editor": "",
-			"sortOrder": 1,
+			"sortOrder": 10,
 			"choices": {
 				"none": {
 					"displayName": "None (Full Width) (Default)",
@@ -62,9 +61,8 @@
 		},
 		"contentAlignment": {
 			"displayName": "Content Alignment",
-			"description": "Horizontal alignment of the article list container",
 			"editor": "",
-			"sortOrder": 2,
+			"sortOrder": 20,
 			"choices": {
 				"left": {
 					"displayName": "Left (Default)",
@@ -82,9 +80,8 @@
 		},
 		"titleAlignment": {
 			"displayName": "Title Alignment",
-			"description": "Text alignment for the title",
 			"editor": "",
-			"sortOrder": 3,
+			"sortOrder": 30,
 			"choices": {
 				"left": {
 					"displayName": "Left (Default)",
@@ -103,7 +100,7 @@
 		"layoutStyle": {
 			"displayName": "Layout Style",
 			"editor": "",
-			"sortOrder": 5,
+			"sortOrder": 40,
 			"choices": {
 				"grid": {
 					"displayName": "Grid (Default)",
@@ -117,33 +114,58 @@
 		},
 		"gridColumns": {
 			"displayName": "Grid Columns (Desktop) - Use with Grid layout",
-			"description": "Number of columns to display when using Grid layout",
 			"editor": "",
-			"sortOrder": 6,
+			"sortOrder": 50,
 			"choices": {
+				"col4": {
+					"displayName": "4 Columns (Default)",
+					"sortOrder": 10
+				},
 				"col1": {
 					"displayName": "1 Column",
-					"sortOrder": 10
+					"sortOrder": 20
 				},
 				"col2": {
 					"displayName": "2 Columns",
-					"sortOrder": 20
+					"sortOrder": 30
 				},
 				"col3": {
 					"displayName": "3 Columns",
-					"sortOrder": 30
-				},
-				"col4": {
-					"displayName": "4 Columns (Default)",
 					"sortOrder": 40
+				},
+				"col5": {
+					"displayName": "5 Columns",
+					"sortOrder": 50
+				},
+				"col6": {
+					"displayName": "6 Columns",
+					"sortOrder": 60
+				}
+			}
+		},
+		"buttonPosition": {
+			"displayName": "Button Position",
+			"editor": "",
+			"sortOrder": 55,
+			"choices": {
+				"end": {
+					"displayName": "End (Button on Right - Default)",
+					"sortOrder": 10
+				},
+				"start": {
+					"displayName": "Start (Button on Left)",
+					"sortOrder": 20
+				},
+				"center": {
+					"displayName": "Center (Button in Center)",
+					"sortOrder": 30
 				}
 			}
 		},
 		"imagePosition": {
 			"displayName": "Image Position",
-			"description": "Top: Works with Grid and List layouts. Left/Right: Best used with List layout for horizontal cards.",
 			"editor": "",
-			"sortOrder": 7,
+			"sortOrder": 60,
 			"choices": {
 				"top": {
 					"displayName": "Top (Default)",
@@ -162,7 +184,7 @@
 		"hoverEffect": {
 			"displayName": "Hover Effect",
 			"editor": "",
-			"sortOrder": 10,
+			"sortOrder": 70,
 			"choices": {
 				"zoom_subtle": {
 					"displayName": "Zoom (Subtle) (Default)",
@@ -181,7 +203,7 @@
 		"cardShadow": {
 			"displayName": "Card Shadow",
 			"editor": "",
-			"sortOrder": 20,
+			"sortOrder": 80,
 			"choices": {
 				"none": {
 					"displayName": "None",
@@ -208,7 +230,7 @@
 		"hoverShadow": {
 			"displayName": "Card Hover Shadow",
 			"editor": "",
-			"sortOrder": 30,
+			"sortOrder": 90,
 			"choices": {
 				"none": {
 					"displayName": "None",

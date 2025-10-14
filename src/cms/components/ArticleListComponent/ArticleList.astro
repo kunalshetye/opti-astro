@@ -44,6 +44,7 @@ const titleAlignment = styleDictionary['titleAlignment'] || 'left';
 const layoutStyle = styleDictionary['layoutStyle'] || 'grid';
 const gridColumns = styleDictionary['gridColumns'] || 'col4';
 const imagePosition = styleDictionary['imagePosition'] || 'top';
+const buttonPosition = styleDictionary['buttonPosition'] || 'end';
 
 // Build dynamic classes for cards based on settings
 // Default to 'zoom_subtle' if no hover effect is specified
@@ -77,13 +78,22 @@ const titleClasses = {
     'text-right': titleAlignment === 'right',
 };
 
+// Button alignment classes
+const buttonClasses = {
+    'justify-start': buttonPosition === 'start',
+    'justify-end': buttonPosition === 'end',
+    'justify-center': buttonPosition === 'center',
+};
+
 // Grid container classes based on settings
 const gridContainerClasses = {
     // Grid layout
     'grid gap-8': layoutStyle === 'grid',
     'grid-cols-1': layoutStyle === 'grid',
-    'sm:grid-cols-2': layoutStyle === 'grid' && (gridColumns === 'col2' || gridColumns === 'col3' || gridColumns === 'col4'),
-    'lg:grid-cols-3': layoutStyle === 'grid' && (gridColumns === 'col3' || gridColumns === 'col4'),
+    'sm:grid-cols-2': layoutStyle === 'grid' && (gridColumns === 'col2' || gridColumns === 'col3' || gridColumns === 'col4' || gridColumns === 'col5' || gridColumns === 'col6'),
+    'lg:grid-cols-3': layoutStyle === 'grid' && (gridColumns === 'col3' || gridColumns === 'col4' || gridColumns === 'col5' || gridColumns === 'col6'),
+    'xl:grid-cols-6': layoutStyle === 'grid' && gridColumns === 'col6',
+    'xl:grid-cols-5': layoutStyle === 'grid' && gridColumns === 'col5',
     'xl:grid-cols-4': layoutStyle === 'grid' && gridColumns === 'col4',
     'xl:grid-cols-3': layoutStyle === 'grid' && gridColumns === 'col3',
     'xl:grid-cols-2': layoutStyle === 'grid' && gridColumns === 'col2',
@@ -146,8 +156,8 @@ const componentClass = 'component-articlelist';
                                 { item.Body?.html &&
                                     <div set:html={item.Body.html.replace(/<[^>]*>/g, '').split(' ').slice(0, 30).join(' ') + "..."} />
                                 }
-                                <div class="card-actions justify-end mt-auto">
-                                <LinkButton cssClasses="btn-primary" link={item._metadata?.url?.hierarchical}>Read more</LinkButton>
+                                <div class:list={["card-actions mt-auto", buttonClasses]}>
+                                    <LinkButton cssClasses="btn-primary" link={item._metadata?.url?.hierarchical}>Read more</LinkButton>
                                 </div>
                             </div>
                         </div>
