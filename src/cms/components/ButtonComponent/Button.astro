@@ -36,7 +36,6 @@ if(isLoginButton) {
 }
 
 const currentDomain = Astro.url.origin;
-console.log('Current Domain:', currentDomain);
 const safeButtonLink: ButtonLinkData = {
     url: {
         hierarchical: data?.ButtonLink?.url?.hierarchical ?? '#',

@@ -1,4 +1,3 @@
-
 import { getOptimizelySdk } from '../../graphql/getSdk';
 import type { ContentPayload } from '../../graphql/shared/ContentPayload';
 import { EXTERNAL_PREVIEW_TOKEN } from 'astro:env/server';
@@ -107,30 +106,24 @@ export interface ButtonLinkData {
 }
 
 export function getLink(buttonLinkData: ButtonLinkData | null | undefined, currentDomain: string): string {
-    let buttonLink = buttonLinkData?.url?.hierarchical || buttonLinkData?.url?.default || '#';
-    const buttonLinkType = buttonLinkData?.url?.type || 'HIERARCHICAL';
-    const linkDomain = buttonLinkData?.url?.base || '';
-    const isSameDomain = currentDomain === linkDomain;
+    const url = buttonLinkData?.url;
+    const type = url?.type || 'HIERARCHICAL';
+    const base = url?.base || '';
+    const isSameDomain = currentDomain === base;
 
-    if (buttonLinkType === 'EXTERNAL') {
-        buttonLink = buttonLinkData?.url?.default || '#';
-    } else if (buttonLinkType === 'SIMPLE') {
-        if (isSameDomain) {
-            buttonLink = buttonLinkData?.url?.hierarchical || '#';
-        } else {
-            buttonLink = linkDomain + buttonLinkData?.url?.hierarchical || '#';
-        }
-    } else {
-        if (isSameDomain) {
-            buttonLink = buttonLinkData?.url?.hierarchical || '#';
-        } else {
-            if (buttonLinkData?.url?.default?.startsWith('http')) {
-                buttonLink = buttonLinkData?.url?.default || '#';
-            } else {
-                buttonLink = linkDomain + buttonLinkData?.url?.hierarchical || '#';
-            }
-        }
+    if (type === 'EXTERNAL') {
+        return url?.default || '#';
     }
 
-    return buttonLink;
+    if (type === 'SIMPLE' || type === 'HIERARCHICAL') {
+        if (isSameDomain) {
+            return url?.hierarchical || '#';
+        }
+        if (url?.default && url.default.startsWith('http')) {
+            return url.default;
+        }
+        return base + (url?.hierarchical || '#');
+    }
+
+    return url?.hierarchical || url?.default || '#';
 }
