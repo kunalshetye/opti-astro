@@ -94,3 +94,43 @@ export function isValidExtPreviewToken(contentKey: string, contentVersion: strin
 
     return token === expectedToken;
 }
+
+// Build correct link for component
+interface ButtonLinkUrl {
+    hierarchical?: string;
+    default?: string;
+    type?: 'EXTERNAL' | 'SIMPLE' | 'HIERARCHICAL' | string;
+    base?: string;
+}
+export interface ButtonLinkData {
+    url?: ButtonLinkUrl;
+}
+
+export function getLink(buttonLinkData: ButtonLinkData | null | undefined, currentDomain: string): string {
+    let buttonLink = buttonLinkData?.url?.hierarchical || buttonLinkData?.url?.default || '#';
+    const buttonLinkType = buttonLinkData?.url?.type || 'HIERARCHICAL';
+    const linkDomain = buttonLinkData?.url?.base || '';
+    const isSameDomain = currentDomain === linkDomain;
+
+    if (buttonLinkType === 'EXTERNAL') {
+        buttonLink = buttonLinkData?.url?.default || '#';
+    } else if (buttonLinkType === 'SIMPLE') {
+        if (isSameDomain) {
+            buttonLink = buttonLinkData?.url?.hierarchical || '#';
+        } else {
+            buttonLink = linkDomain + buttonLinkData?.url?.hierarchical || '#';
+        }
+    } else {
+        if (isSameDomain) {
+            buttonLink = buttonLinkData?.url?.hierarchical || '#';
+        } else {
+            if (buttonLinkData?.url?.default?.startsWith('http')) {
+                buttonLink = buttonLinkData?.url?.default || '#';
+            } else {
+                buttonLink = linkDomain + buttonLinkData?.url?.hierarchical || '#';
+            }
+        }
+    }
+
+    return buttonLink;
+}
