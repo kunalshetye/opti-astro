@@ -66,6 +66,254 @@
 					"sortOrder": 140
 				}
 			}
+		},
+		"carouselMode": {
+			"displayName": "Carousel Mode",
+			"editor": "",
+			"sortOrder": 10,
+			"choices": {
+				"standard": {
+					"displayName": "Standard (Full Width, One Item)",
+					"sortOrder": 10
+				},
+				"content": {
+					"displayName": "Content (Multiple Items)",
+					"sortOrder": 20
+				}
+			}
+		},
+		"itemsPerViewDesktop": {
+			"displayName": "Items Per View (Desktop)",
+			"editor": "",
+			"sortOrder": 20,
+			"choices": {
+				"items1": {
+					"displayName": "1 item",
+					"sortOrder": 10
+				},
+				"items2": {
+					"displayName": "2 items",
+					"sortOrder": 20
+				},
+				"items3": {
+					"displayName": "3 items",
+					"sortOrder": 30
+				},
+				"items4": {
+					"displayName": "4 items",
+					"sortOrder": 40
+				},
+				"items5": {
+					"displayName": "5 items",
+					"sortOrder": 50
+				}
+			}
+		},
+		"itemsPerViewTablet": {
+			"displayName": "Items Per View (Tablet)",
+			"editor": "",
+			"sortOrder": 30,
+			"choices": {
+				"items1": {
+					"displayName": "1 item",
+					"sortOrder": 10
+				},
+				"items2": {
+					"displayName": "2 items",
+					"sortOrder": 20
+				},
+				"items3": {
+					"displayName": "3 items",
+					"sortOrder": 30
+				},
+				"items4": {
+					"displayName": "4 items",
+					"sortOrder": 40
+				}
+			}
+		},
+		"itemsPerViewMobile": {
+			"displayName": "Items Per View (Mobile)",
+			"editor": "",
+			"sortOrder": 40,
+			"choices": {
+				"items1": {
+					"displayName": "1 item",
+					"sortOrder": 10
+				},
+				"items2": {
+					"displayName": "2 items",
+					"sortOrder": 20
+				},
+				"items3": {
+					"displayName": "3 items",
+					"sortOrder": 30
+				}
+			}
+		},
+		"spaceBetween": {
+			"displayName": "Space Between Items",
+			"editor": "",
+			"sortOrder": 50,
+			"choices": {
+				"space16": {
+					"displayName": "Small (16px)",
+					"sortOrder": 10
+				},
+				"space24": {
+					"displayName": "Medium (24px)",
+					"sortOrder": 20
+				},
+				"space32": {
+					"displayName": "Large (32px)",
+					"sortOrder": 30
+				}
+			}
+		},
+		"showNavigation": {
+			"displayName": "Show Navigation Arrows",
+			"editor": "",
+			"sortOrder": 60,
+			"choices": {
+				"true": {
+					"displayName": "Yes",
+					"sortOrder": 10
+				},
+				"false": {
+					"displayName": "No",
+					"sortOrder": 20
+				}
+			}
+		},
+		"showPagination": {
+			"displayName": "Show Pagination Dots",
+			"editor": "",
+			"sortOrder": 70,
+			"choices": {
+				"true": {
+					"displayName": "Yes",
+					"sortOrder": 10
+				},
+				"false": {
+					"displayName": "No",
+					"sortOrder": 20
+				}
+			}
+		},
+		"autoplay": {
+			"displayName": "Enable Autoplay",
+			"editor": "",
+			"sortOrder": 80,
+			"choices": {
+				"true": {
+					"displayName": "Yes",
+					"sortOrder": 10
+				},
+				"false": {
+					"displayName": "No",
+					"sortOrder": 20
+				}
+			}
+		},
+		"autoplayDelay": {
+			"displayName": "Autoplay Delay",
+			"editor": "",
+			"sortOrder": 90,
+			"choices": {
+				"delay3s": {
+					"displayName": "3 seconds",
+					"sortOrder": 10
+				},
+				"delay5s": {
+					"displayName": "5 seconds",
+					"sortOrder": 20
+				},
+				"delay7s": {
+					"displayName": "7 seconds",
+					"sortOrder": 30
+				},
+				"delay10s": {
+					"displayName": "10 seconds",
+					"sortOrder": 40
+				}
+			}
+		},
+		"loop": {
+			"displayName": "Enable Loop",
+			"editor": "",
+			"sortOrder": 100,
+			"choices": {
+				"true": {
+					"displayName": "Yes",
+					"sortOrder": 10
+				},
+				"false": {
+					"displayName": "No",
+					"sortOrder": 20
+				}
+			}
+		},
+		"carouselHeight": {
+			"displayName": "Carousel Height",
+			"editor": "",
+			"sortOrder": 110,
+			"choices": {
+				"h_auto": {
+					"displayName": "Auto (Content Height)",
+					"sortOrder": 10
+				},
+				"h_64": {
+					"displayName": "Small (16rem)",
+					"sortOrder": 20
+				},
+				"h_80": {
+					"displayName": "Medium (20rem)",
+					"sortOrder": 30
+				},
+				"h_96": {
+					"displayName": "Large (24rem)",
+					"sortOrder": 40
+				},
+				"h_112": {
+					"displayName": "X-Large (28rem)",
+					"sortOrder": 50
+				},
+				"h_128": {
+					"displayName": "XX-Large (32rem)",
+					"sortOrder": 60
+				},
+				"h_144": {
+					"displayName": "XXX-Large (36rem)",
+					"sortOrder": 70
+				},
+				"h_screen": {
+					"displayName": "Full Screen",
+					"sortOrder": 80
+				}
+			}
+		},
+		"transitionSpeed": {
+			"displayName": "Transition Speed",
+			"editor": "",
+			"sortOrder": 120,
+			"choices": {
+				"speed300": {
+					"displayName": "Fast (300ms)",
+					"sortOrder": 10
+				},
+				"speed500": {
+					"displayName": "Normal (500ms)",
+					"sortOrder": 20
+				},
+				"speed800": {
+					"displayName": "Slow (800ms)",
+					"sortOrder": 30
+				},
+				"speed1000": {
+					"displayName": "Very Slow (1000ms)",
+					"sortOrder": 40
+				}
+			}
 		}
 	}
 }

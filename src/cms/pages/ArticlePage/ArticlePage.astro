@@ -39,6 +39,8 @@ const graphType = post?.SeoSettings?.GraphType && post?.SeoSettings?.GraphType !
 const defaultUrl = post?._metadata?.url?.default || '';
 const hierarchicalUrl = post?._metadata?.url?.type === "SIMPLE" ? post?._metadata?.url?.hierarchical : '';
 const extPreviewEnabled = post?.PageAdminSettings?.EnableExternalPreview ?? false;
+
+const pageClass = 'page-article';
 ---
 
 <Layout
@@ -51,7 +53,7 @@ const extPreviewEnabled = post?.PageAdminSettings?.EnableExternalPreview ?? fals
     hierarchicalUrl={hierarchicalUrl ?? ''}
     extPreviewEnabled={extPreviewEnabled}
 >
-    <div class="max-w-screen-6xl mx-auto">
+    <div class={`max-w-screen-6xl mx-auto ${pageClass}`}>
         <main class="mt-10">
             <div
                 class="relative mx-auto mb-4 w-full max-w-screen-xl md:mb-0 bg-base-200"

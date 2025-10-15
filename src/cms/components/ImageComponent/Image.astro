@@ -17,12 +17,14 @@ export interface Props {
 const { key, data, displaySettings } = Astro.props as Props;
 
 const imageUrl = (data.Image as any)?.item?.Url || data.Image?.url?.default || null;
+
+const componentClass = 'component-image';
 ---
 
 {imageUrl && 
     <AstroImage
         data-epi-block-id={isCmsEdit && key || undefined}
-        class:list={getImageElementStyles(displaySettings)}
+        class:list={[...getImageElementStyles(displaySettings), componentClass]}
         src={imageUrl || ''}
         alt={data.AltText || ''}
         inferSize={true}

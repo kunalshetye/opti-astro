@@ -31,9 +31,11 @@ const itemCount = carouselData.length;
 
 // Create a unique ID for this specific carousel instance
 const carouselId = `carousel-${Math.random().toString(36).substring(2, 9)}`;
+
+const componentClass = 'component-carousel';
 ---
 
-<div class={`carousel-container ${styleConfig.carouselAlignment}`} data-epi-block-id={isCmsEdit && key || undefined}>
+<div class={`carousel-container ${styleConfig.carouselAlignment} ${componentClass}`} data-epi-block-id={isCmsEdit && key || undefined}>
     {/* Heading and Link */}
     {(data?.Heading?.trim() || data?.Link?.url?.default) && (
         <div class="carousel-header flex justify-between items-center mb-6">

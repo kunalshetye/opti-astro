@@ -20,9 +20,11 @@ export interface Props {
 }
 const { key, data, displaySettings } = Astro.props as Props;
 const ctaButtonStyles = getButtonStyles(displaySettings, false); // false: button type defined here
+
+const componentClass = 'component-cta';
 ---
 
-<div class="m-4 flex gap-4 flex-wrap" data-epi-block-id={isCmsEdit && key || undefined}>
+<div class="m-4 flex gap-4 flex-wrap" class:list={componentClass} data-epi-block-id={isCmsEdit && key || undefined}>
     {
         data.Links?.map((link, i) => {
             const buttonType: string[] = [""];

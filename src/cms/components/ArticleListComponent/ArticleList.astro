@@ -58,9 +58,11 @@ const cardDynamicClasses = {
     // Add overflow hidden for zoom effects
     'overflow-hidden': hoverEffect === 'zoom' || hoverEffect === 'zoom_subtle',
 };
+
+const componentClass = 'component-articlelist';
 ---
 
-<div data-epi-block-id={isCmsEdit && key || undefined}>
+<div data-epi-block-id={isCmsEdit && key || undefined} class={componentClass}>
     <h1 class="w-full basis-full">{data?.Title}</h1>
     <div class="mt-4 mb-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {

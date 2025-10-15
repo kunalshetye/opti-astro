@@ -1,32 +1,235 @@
 ---
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import type { CompositionStructureNode } from '../../../../__generated/sdk';
 import Elements from '../../components/_Components.astro';
-import LinkButton from '../../components/ButtonComponent/LinkButton.astro';
+import { getCarouselRowStyleConfig } from './CarouselRowStyling';
 
 export interface Props {
     row: any;
     contentPayload: ContentPayload;
 }
 const { row, contentPayload } = Astro.props as Props;
-let items:any = [];
+
+// Flatten all items from columns into a single array
+let items: any[] = [];
 row.nodes?.map((column: any) => {
     column.nodes?.map((item: any) => {
         items.push(item);
     });
 });
+
+// Get carousel configuration from display settings
+const rowNode = row as CompositionStructureNode;
+const styleConfig = getCarouselRowStyleConfig((rowNode.displaySettings || []) as any);
+const isContentCarousel = styleConfig.carouselMode === 'content';
+
+// Create a unique ID for this specific carousel instance
+const carouselId = `carousel-row-${Math.random().toString(36).substring(2, 9)}`;
 ---
 
-<div class="carousel w-full">
-    {
-        items?.map((item: any, index: number) => (
-            <div id={`slide${index}`} class="carousel-item relative w-full">
-                <Elements contentPayload={contentPayload} data={item} />
-                <div class="absolute top-1/2 right-5 left-5 flex -translate-y-1/2 transform justify-between">
-                    <LinkButton cssClasses="btn-circle" link={`#slide${index === 0 ? items.length - 1 : index - 1}`}>❮</LinkButton>
+<section
+    id={carouselId}
+    class={`splide ${isContentCarousel ? 'content-carousel' : 'standard-carousel'} ${styleConfig.carouselHeight} ${styleConfig.carouselWidth}`}
+    aria-label="Carousel Row"
+    data-content-mode={isContentCarousel ? 'true' : 'false'}
+    data-show-arrows={styleConfig.showNavigation.toString()}
+    data-show-pagination={styleConfig.showPagination.toString()}
+    data-autoplay={styleConfig.enableAutoplay.toString()}
+    data-autoplay-delay={styleConfig.autoplayDelay.toString()}
+    data-loop={styleConfig.enableLoop.toString()}
+    data-items-desktop={styleConfig.itemsPerViewDesktop.toString()}
+    data-items-tablet={styleConfig.itemsPerViewTablet.toString()}
+    data-items-mobile={styleConfig.itemsPerViewMobile.toString()}
+    data-space-between={styleConfig.spaceBetween.toString()}
+    data-transition-speed={styleConfig.transitionSpeed.toString()}
+>
+    <div class="splide__track">
+        <ul class="splide__list">
+            {
+                items?.map((item: any) => (
+                    <li class={`splide__slide ${styleConfig.carouselHeight}`}>
+                        <div class={`carousel-row-slide-content w-full h-full ${isContentCarousel ? 'p-2' : ''}`}>
+                            <Elements contentPayload={contentPayload} data={item} />
+                        </div>
+                    </li>
+                ))
+            }
+        </ul>
+    </div>
+</section>
 
-                    <LinkButton cssClasses="btn-circle" link={`#slide${index === items.length - 1 ? 0 : index + 1}`}>❯</LinkButton>
-                </div>
-            </div>
-        ))
+<style>
+    /* Force equal heights for all slides */
+    .splide__track,
+    .splide__list {
+        height: 100%;
     }
-</div>
+
+    .splide__slide {
+        height: auto;
+    }
+
+    /* Content carousel styles - equal heights for multiple items */
+    .content-carousel .splide__slide {
+        display: flex !important;
+        align-items: stretch;
+    }
+
+    .content-carousel .carousel-row-slide-content {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+    }
+
+    .content-carousel .carousel-row-slide-content > :global(*) {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .content-carousel .carousel-row-slide-content > :global(section) {
+        height: 100%;
+    }
+
+    /* Standard carousel styles - centered content */
+    .standard-carousel .splide__slide {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 400px;
+    }
+
+    .standard-carousel .carousel-row-slide-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    /* Arrow styling */
+    .splide__arrow {
+        background: rgba(0, 0, 0, 0.7) !important;
+        border: none !important;
+        border-radius: 50% !important;
+        width: 3rem !important;
+        height: 3rem !important;
+        z-index: 10;
+    }
+
+    .splide__arrow svg {
+        fill: white !important;
+        width: 1.5rem !important;
+        height: 1.5rem !important;
+    }
+
+    /* Pagination styling */
+    .splide__pagination {
+        bottom: 1rem !important;
+        z-index: 10;
+    }
+
+    .splide__pagination__page {
+        background: rgba(255, 255, 255, 0.5) !important;
+        border: none !important;
+        border-radius: 50% !important;
+        width: 0.75rem !important;
+        height: 0.75rem !important;
+        margin: 0 0.25rem !important;
+    }
+
+    .splide__pagination__page.is-active {
+        background: white !important;
+        transform: scale(1.3);
+    }
+
+    /* Ensure cards and sections fill height properly */
+    .splide__slide :global(.card),
+    .splide__slide :global(.section) {
+        height: 100%;
+    }
+</style>
+
+<!-- Splide CSS -->
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css"
+/>
+
+<!-- Splide JS -->
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+
+<script>
+    document.addEventListener('astro:page-load', function () {
+        // Find all carousel row instances
+        const carousels = document.querySelectorAll('.splide');
+
+        carousels.forEach((carousel) => {
+            // Skip if already initialized
+            if ((carousel as any).splide) return;
+
+            // Get configuration from data attributes
+            const isContentMode = carousel.getAttribute('data-content-mode') === 'true';
+            const showArrows = carousel.getAttribute('data-show-arrows') === 'true';
+            const showPagination = carousel.getAttribute('data-show-pagination') === 'true';
+            const enableAutoplay = carousel.getAttribute('data-autoplay') === 'true';
+            const autoplayDelay = parseInt(carousel.getAttribute('data-autoplay-delay') || '5000');
+            const enableLoop = carousel.getAttribute('data-loop') === 'true';
+            const transitionSpeed = parseInt(carousel.getAttribute('data-transition-speed') || '500');
+
+            // Content carousel specific settings
+            const itemsDesktop = parseInt(carousel.getAttribute('data-items-desktop') || '3');
+            const itemsTablet = parseInt(carousel.getAttribute('data-items-tablet') || '2');
+            const itemsMobile = parseInt(carousel.getAttribute('data-items-mobile') || '1');
+            const spaceBetween = parseInt(carousel.getAttribute('data-space-between') || '24');
+
+            // Build configuration
+            let config: any = {
+                type: enableLoop ? 'loop' : 'slide',
+                arrows: showArrows,
+                pagination: showPagination,
+                autoplay: enableAutoplay,
+                interval: autoplayDelay,
+                pauseOnHover: true,
+                pauseOnFocus: true,
+                speed: transitionSpeed,
+                easing: 'ease-in-out',
+                updateOnMove: true,
+            };
+
+            if (isContentMode) {
+                // Content carousel with responsive breakpoints
+                config.perPage = itemsDesktop;
+                config.gap = `${spaceBetween}px`;
+                config.breakpoints = {
+                    1023: {
+                        perPage: itemsTablet,
+                        gap: `${spaceBetween}px`,
+                    },
+                    767: {
+                        perPage: itemsMobile,
+                        gap: `${spaceBetween}px`,
+                    },
+                };
+                // Force equal heights across all visible slides
+                config.height = 'auto';
+                config.heightRatio = 0;
+                config.fixedHeight = false;
+            } else {
+                // Standard carousel - one slide at a time with auto height
+                config.perPage = 1;
+                config.gap = 0;
+                config.height = 'auto';
+                config.heightRatio = 0;
+            }
+
+            // Initialize Splide
+            if (typeof (window as any).Splide !== 'undefined') {
+                new (window as any).Splide(carousel, config).mount();
+            } else {
+                console.error('Splide is not loaded');
+            }
+        });
+    });
+</script>

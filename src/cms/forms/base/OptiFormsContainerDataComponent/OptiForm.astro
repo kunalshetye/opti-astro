@@ -62,19 +62,20 @@ const getFormProperty = (propName: string): any => {
 	return formGrid?.component?.[propName] ?? formGrid?.[propName];
 };
 
-const formTitle: string = getFormProperty('Title') ?? '';
-const formDescription: string | null = getFormProperty('Description') ?? null;
-const formSubmitConfirmationMsg: string | null = getFormProperty('SubmitConfirmationMessage') ?? null;
-const formResetConfirmationMsg: string = getFormProperty('ResetConfirmationMessage') ?? 'Are you sure you want to reset the form?';
-const formSubmitUrl: string | null = getFormProperty('SubmitUrl')?.default ?? null;
-const showSummaryMessage: boolean = getFormProperty('ShowSummaryMessageAfterSubmission') ?? false;
+const formTitle: string = getFormProperty('Title') ?? formItem?.Title ?? '';
+const formDescription: string | null = getFormProperty('Description') ?? formItem?.Description ?? null;
+const formSubmitConfirmationMsg: string | null = getFormProperty('SubmitConfirmationMessage') ?? formItem?.SubmitConfirmationMessage ?? null;
+const formResetConfirmationMsg: string = getFormProperty('ResetConfirmationMessage') ?? formItem?.ResetConfirmationMessage ?? 'Are you sure you want to reset the form?';
+const formSubmitUrl: string | null = getFormProperty('SubmitUrl')?.default ?? formItem?.SubmitUrl?.default ?? null;
+const showSummaryMessage: boolean = getFormProperty('ShowSummaryMessageAfterSubmission') ?? formItem?.ShowSummaryMessageAfterSubmission ?? false;
 
+const componentClass = 'component-form';
 ---
 
 {
     (nodeType === 'section' || !nodeType) && (
         <>
-            <div class="vb:section flex flex-col" data-epi-block-id={formGrid.key}>
+            <div class={`vb:section flex flex-col ${componentClass}`} data-epi-block-id={formGrid.key}>
                 <form
                     id={formId}
                     class="mx-auto mb-4 w-full rounded bg-white px-8 pt-6 pb-8 shadow-md"
