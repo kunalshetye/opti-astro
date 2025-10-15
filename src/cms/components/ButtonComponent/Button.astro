@@ -7,7 +7,8 @@ import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import LinkButton from './LinkButton.astro';
 import { getButtonStyles } from './ButtonStyling';
 import { getLoginButtonStyles } from './LoginButtonStyling';
-import { isEditContext } from '../../shared/utils.ts';
+import { isEditContext, getLink } from '../../shared/utils.ts';
+import type { ButtonLinkData } from '../../shared/utils.ts';
 
 const isCmsEdit = isEditContext(Astro.url);
 
@@ -34,15 +35,27 @@ if(isLoginButton) {
     btnStyles = getButtonStyles(displaySettings);
 }
 
+const currentDomain = Astro.url.origin;
+console.log('Current Domain:', currentDomain);
+const safeButtonLink: ButtonLinkData = {
+    url: {
+        hierarchical: data?.ButtonLink?.url?.hierarchical ?? '#',
+        default: data?.ButtonLink?.url?.default ?? '#',
+        type: data?.ButtonLink?.url?.type ?? 'HIERARCHICAL',
+        base: data?.ButtonLink?.url?.base ?? currentDomain,
+    }
+};
+const buttonLink = getLink(safeButtonLink, currentDomain);
+
 const componentClass = 'component-button';
 ---
 { isDefaultButton &&
     <span data-epi-block-id={isCmsEdit && key || undefined} class={componentClass}>
-        <LinkButton cssClasses={btnStyles} link={data?.ButtonLink?.url?.hierarchical}>{data?.ButtonLabel}</LinkButton>
+        <LinkButton cssClasses={btnStyles} link={buttonLink}>{data?.ButtonLabel}</LinkButton>
     </span>
 }
 { isLoginButton &&
     <span data-epi-block-id={isCmsEdit && key || undefined} class={componentClass}>
-        <LinkButton cssClasses={btnStyles} link={data?.ButtonLink?.url?.hierarchical}><Fragment set:html={loginButtonSlot}/></LinkButton>
+        <LinkButton cssClasses={btnStyles} link={buttonLink}><Fragment set:html={loginButtonSlot}/></LinkButton>
     </span>
 }
