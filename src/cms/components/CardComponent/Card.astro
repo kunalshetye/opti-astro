@@ -53,9 +53,11 @@ const activeCardHoverClasses = Object.keys(cardHoverClasses).filter(key => cardH
 const cardContainerClasses = isFullSplit 
     ? [...activeCardHoverClasses, '-m-2', 'sm:-m-3', 'md:-m-4']
     : activeCardHoverClasses;
+
+const componentClass = 'component-card';
 ---
 
-<span data-epi-block-id={isCmsEdit && key || undefined}>
+<span data-epi-block-id={isCmsEdit && key || undefined} class:list={[componentClass]}>
     <div class:list={cardContainerClasses}>
         <Wrapper DisplayAs={DisplayAs ?? ''} GlobalStyles={globalStyles} isFullSplit={isFullSplit}>
             <Asset

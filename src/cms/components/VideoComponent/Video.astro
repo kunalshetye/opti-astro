@@ -61,13 +61,15 @@ const cssClasses = [
         settings['roundedCorners'] as keyof typeof roundedCornerClasses
     ] || '',
 ].filter(Boolean);
+
+const componentClass = 'component-video';
 ---
 { videoUrl &&
     <video
         data-epi-block-id={isCmsEdit && key || undefined}
         src={videoUrl}
         poster={posterImageUrl}
-        class:list={cssClasses}
+        class:list={[cssClasses, componentClass]}
         controls={showControls}
         muted={muted}
         loop={loop}

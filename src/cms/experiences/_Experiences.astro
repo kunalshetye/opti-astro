@@ -42,6 +42,8 @@ const hierarchicalUrl =
     experience?._metadata?.url?.type === 'SIMPLE'
         ? experience?._metadata?.url?.hierarchical
         : '';
+        
+const pageClass = 'page-experience';
 ---
 
 <Layout
@@ -54,7 +56,7 @@ const hierarchicalUrl =
     hierarchicalUrl={hierarchicalUrl ?? ''}
     extPreviewEnabled={extPreviewEnabled}
 >
-    <div class="vb:outline relative w-full flex-1">
+    <div class={`vb:outline relative w-full flex-1 ${pageClass}`}>
         {
             experience?.composition?.grids?.map((grid: any) => (
                 <Section contentPayload={previewPayload} grid={grid} />

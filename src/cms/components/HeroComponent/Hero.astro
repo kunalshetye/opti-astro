@@ -42,11 +42,13 @@ const hoverClasses = {
     'transition-transform duration-300 hover:scale-105 overflow-hidden': hoverEffect === 'zoom',
     'transition-transform duration-300 hover:scale-[1.02] overflow-hidden': hoverEffect === 'zoom_subtle',
 };
+
+const componentClass = 'component-hero';
 ---
 
 <section
     class="relative flex w-full items-center"
-    class:list={[justifyClass, heightClass, globalStyles, hoverClasses]}
+    class:list={[justifyClass, heightClass, globalStyles, hoverClasses, componentClass]}
     data-epi-block-id={isCmsEdit && key || undefined}    
 >
     {

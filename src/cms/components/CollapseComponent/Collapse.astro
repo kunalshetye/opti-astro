@@ -15,9 +15,11 @@ export interface Props {
     contentPayload: ContentPayload;
 }
 const { key, data } = Astro.props as Props;
+
+const componentClass = 'component-collapse';
 ---
 
-<div class="collapse-plus bg-base-100 border-base-300 collapse border" data-epi-block-id={isCmsEdit && key || undefined}>
+<div class={`collapse-plus bg-base-100 border-base-300 collapse border ${componentClass}`} data-epi-block-id={isCmsEdit && key || undefined}>
     <input type="checkbox" class="peer" />
     <div class="collapse-title font-semibold">{data?.Heading}</div>
     <div class="collapse-content text-sm" set:html={data?.Body?.html} />
