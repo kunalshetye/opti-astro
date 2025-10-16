@@ -146,8 +146,12 @@
 						"value": "standard"
 					},
 					{
-						"displayName": "Drawer",
-						"value": "drawer"
+						"displayName": "Drawer (Left)",
+						"value": "drawer-left"
+					},
+					{
+						"displayName": "Drawer (Right)",
+						"value": "drawer-right"
 					}
 				]
 			}
