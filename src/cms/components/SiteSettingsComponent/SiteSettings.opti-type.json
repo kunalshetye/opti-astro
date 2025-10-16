@@ -129,6 +129,29 @@
 			"indexingType": "searchable",
 			"editorSettings": {}
 		},
+		"TopNavStyle": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Top Nav Display Style",
+			"description": "Style to display the top navigation menu",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 50,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "Standard (Default)",
+						"value": "standard"
+					},
+					{
+						"displayName": "Drawer",
+						"value": "drawer"
+					}
+				]
+			}
+		},
 		"HeaderLinks": {
 			"type": "array",
 			"displayName": "Header Links",
