@@ -4,10 +4,187 @@
 	"contentType": "ArticleList",
 	"isDefault": true,
 	"settings": {
+		"maxWidth": {
+			"displayName": "Max Width",
+			"editor": "",
+			"sortOrder": 10,
+			"choices": {
+				"none": {
+					"displayName": "None (Full Width) (Default)",
+					"sortOrder": 10
+				},
+				"xs": {
+					"displayName": "max-w-xs",
+					"sortOrder": 20
+				},
+				"sm": {
+					"displayName": "max-w-sm",
+					"sortOrder": 30
+				},
+				"md": {
+					"displayName": "max-w-md",
+					"sortOrder": 40
+				},
+				"lg": {
+					"displayName": "max-w-lg",
+					"sortOrder": 50
+				},
+				"xl": {
+					"displayName": "max-w-xl",
+					"sortOrder": 60
+				},
+				"tw_2xl": {
+					"displayName": "max-w-2xl",
+					"sortOrder": 70
+				},
+				"tw_3xl": {
+					"displayName": "max-w-3xl",
+					"sortOrder": 80
+				},
+				"tw_4xl": {
+					"displayName": "max-w-4xl",
+					"sortOrder": 90
+				},
+				"tw_5xl": {
+					"displayName": "max-w-5xl",
+					"sortOrder": 100
+				},
+				"tw_6xl": {
+					"displayName": "max-w-6xl",
+					"sortOrder": 110
+				},
+				"tw_7xl": {
+					"displayName": "max-w-7xl",
+					"sortOrder": 120
+				}
+			}
+		},
+		"contentAlignment": {
+			"displayName": "Content Alignment",
+			"editor": "",
+			"sortOrder": 20,
+			"choices": {
+				"left": {
+					"displayName": "Left (Default)",
+					"sortOrder": 10
+				},
+				"center": {
+					"displayName": "Center",
+					"sortOrder": 20
+				},
+				"right": {
+					"displayName": "Right",
+					"sortOrder": 30
+				}
+			}
+		},
+		"titleAlignment": {
+			"displayName": "Title Alignment",
+			"editor": "",
+			"sortOrder": 30,
+			"choices": {
+				"left": {
+					"displayName": "Left (Default)",
+					"sortOrder": 10
+				},
+				"center": {
+					"displayName": "Center",
+					"sortOrder": 20
+				},
+				"right": {
+					"displayName": "Right",
+					"sortOrder": 30
+				}
+			}
+		},
+		"layoutStyle": {
+			"displayName": "Layout Style",
+			"editor": "",
+			"sortOrder": 40,
+			"choices": {
+				"grid": {
+					"displayName": "Grid (Default)",
+					"sortOrder": 10
+				},
+				"list": {
+					"displayName": "List",
+					"sortOrder": 20
+				}
+			}
+		},
+		"gridColumns": {
+			"displayName": "Grid Columns (Desktop) - Use with Grid layout",
+			"editor": "",
+			"sortOrder": 50,
+			"choices": {
+				"col4": {
+					"displayName": "4 Columns (Default)",
+					"sortOrder": 10
+				},
+				"col1": {
+					"displayName": "1 Column",
+					"sortOrder": 20
+				},
+				"col2": {
+					"displayName": "2 Columns",
+					"sortOrder": 30
+				},
+				"col3": {
+					"displayName": "3 Columns",
+					"sortOrder": 40
+				},
+				"col5": {
+					"displayName": "5 Columns",
+					"sortOrder": 50
+				},
+				"col6": {
+					"displayName": "6 Columns",
+					"sortOrder": 60
+				}
+			}
+		},
+		"buttonPosition": {
+			"displayName": "Button Position",
+			"editor": "",
+			"sortOrder": 55,
+			"choices": {
+				"end": {
+					"displayName": "End (Button on Right - Default)",
+					"sortOrder": 10
+				},
+				"start": {
+					"displayName": "Start (Button on Left)",
+					"sortOrder": 20
+				},
+				"center": {
+					"displayName": "Center (Button in Center)",
+					"sortOrder": 30
+				}
+			}
+		},
+		"imagePosition": {
+			"displayName": "Image Position",
+			"editor": "",
+			"sortOrder": 60,
+			"choices": {
+				"top": {
+					"displayName": "Top (Default)",
+					"sortOrder": 10
+				},
+				"left": {
+					"displayName": "Left (Use with List layout)",
+					"sortOrder": 20
+				},
+				"right": {
+					"displayName": "Right (Use with List layout)",
+					"sortOrder": 30
+				}
+			}
+		},
 		"hoverEffect": {
 			"displayName": "Hover Effect",
 			"editor": "",
-			"sortOrder": 10,
+			"sortOrder": 70,
 			"choices": {
 				"zoom_subtle": {
 					"displayName": "Zoom (Subtle) (Default)",
@@ -26,7 +203,7 @@
 		"cardShadow": {
 			"displayName": "Card Shadow",
 			"editor": "",
-			"sortOrder": 20,
+			"sortOrder": 80,
 			"choices": {
 				"none": {
 					"displayName": "None",
@@ -53,7 +230,7 @@
 		"hoverShadow": {
 			"displayName": "Card Hover Shadow",
 			"editor": "",
-			"sortOrder": 30,
+			"sortOrder": 90,
 			"choices": {
 				"none": {
 					"displayName": "None",

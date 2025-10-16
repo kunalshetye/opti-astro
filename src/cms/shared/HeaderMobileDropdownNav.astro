@@ -1,0 +1,88 @@
+---
+import type { MenuItemType } from './headerNavigationTypes';
+
+interface Props {
+    headerItems?: MenuItemType[];
+}
+
+const { headerItems } = Astro.props;
+const headerItemCount = headerItems?.length || 0;
+---
+
+<div class="dropdown lg:hidden">
+    <div tabindex="0" role="button" class="btn btn-ghost">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h8m-8 6h16"></path>
+        </svg>
+    </div>
+    <ul
+        tabindex="0"
+        class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 text-lg shadow"
+    >
+        {
+            headerItems &&
+                headerItemCount &&
+                headerItemCount > 0 &&
+                headerItems.map((data) => (
+                    <li>
+                        {(!data?.SubMenuItems ||
+                            data?.SubMenuItems?.length == 0) && (
+                            <a
+                                class="text-lg text-gray-500 transition hover:text-gray-500/75"
+                                href={
+                                    data?.Link?.url?.default || '#'
+                                }
+                            >
+                                {data?.LinkText || data?.Link?.text || ''}
+                            </a>
+                        )}
+
+                        {data?.SubMenuItems &&
+                            data?.SubMenuItems?.length > 0 && (
+                                <details>
+                                    <summary class="text-lg text-gray-500 transition hover:text-gray-500/75">
+                                        {data?.LinkText || data?.Link?.text || ''}
+                                    </summary>
+                                    <ul class="p-2">
+                                        {data?.SubMenuItems
+                                            ?.length > 0 &&
+                                            data?.SubMenuItems.map(
+                                                (subdata: any) => (
+                                                    <li class="text-lg text-gray-500 transition hover:text-gray-500/75">
+                                                        <a
+                                                            class="text-lg transition hover:text-gray-500/75"
+                                                            href={
+                                                                subdata
+                                                                    ?.Link
+                                                                    ?.url
+                                                                    ?.default ||
+                                                                '#'
+                                                            }
+                                                        >
+                                                            {subdata?.LinkText ||
+                                                             subdata
+                                                                ?.Link
+                                                                ?.text ||
+                                                                ''}
+                                                        </a>
+                                                    </li>
+                                                )
+                                            )}
+                                    </ul>
+                                </details>
+                            )}
+                    </li>
+                ))
+        }
+    </ul>
+</div>

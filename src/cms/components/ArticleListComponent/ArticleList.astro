@@ -9,8 +9,8 @@ DisplaySettingsFragment,
 import { getOptimizelySdk } from '../../../graphql/getSdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
-import LinkButton from '../ButtonComponent/LinkButton.astro';
 import { isEditContext } from '../../shared/utils.ts';
+import LinkButton from '../ButtonComponent/LinkButton.astro';
 
 const isCmsEdit = isEditContext(Astro.url);
 
@@ -21,12 +21,13 @@ export interface Props {
     contentPayload: ContentPayload;
 }
 const { key, data, displaySettings, contentPayload } = Astro.props as Props;
-const currentSite = Astro.url.origin;
+const currentSite = data.IncludeAllSites ? null : Astro.url.origin;
 const articlesList = await getOptimizelySdk(contentPayload).getArticles({
     //@ts-ignore
     loc: contentPayload.loc,
     site: currentSite,
     limit: data.NumberOfArticles || 1,
+    rootUrl: data.ArticleRoot?.url?.default || '/',
 });
 const glideId = randomBytes(5).toString('hex');
 const items = articlesList.ArticlePage?.items || null;
@@ -34,20 +35,85 @@ const items = articlesList.ArticlePage?.items || null;
 // Get style settings from display settings
 const styleDictionary = getDictionaryFromDisplaySettings(displaySettings);
 
+// Container settings
+const maxWidth = styleDictionary['maxWidth'] || 'none';
+const contentAlignment = styleDictionary['contentAlignment'] || 'left';
+const titleAlignment = styleDictionary['titleAlignment'] || 'left';
+
+// Layout settings
+const layoutStyle = styleDictionary['layoutStyle'] || 'grid';
+const gridColumns = styleDictionary['gridColumns'] || 'col4';
+const imagePosition = styleDictionary['imagePosition'] || 'top';
+const buttonPosition = styleDictionary['buttonPosition'] || 'end';
+
 // Build dynamic classes for cards based on settings
 // Default to 'zoom_subtle' if no hover effect is specified
 const hoverEffect = styleDictionary['hoverEffect'] || 'zoom_subtle';
 const shadowValue = styleDictionary['cardShadow'] || 'sm';
 const hoverShadowValue = styleDictionary['hoverShadow'] || 'lg';
 
+// Container wrapper classes for max-width and alignment
+const containerWrapperClasses = {
+    // Max width
+    'max-w-xs': maxWidth === 'xs',
+    'max-w-sm': maxWidth === 'sm',
+    'max-w-md': maxWidth === 'md',
+    'max-w-lg': maxWidth === 'lg',
+    'max-w-xl': maxWidth === 'xl',
+    'max-w-2xl': maxWidth === 'tw_2xl',
+    'max-w-3xl': maxWidth === 'tw_3xl',
+    'max-w-4xl': maxWidth === 'tw_4xl',
+    'max-w-5xl': maxWidth === 'tw_5xl',
+    'max-w-6xl': maxWidth === 'tw_6xl',
+    'max-w-7xl': maxWidth === 'tw_7xl',
+    // Alignment
+    'mx-auto': contentAlignment === 'center',
+    'ml-auto': contentAlignment === 'right',
+};
+
+// Title alignment classes
+const titleClasses = {
+    'text-left': titleAlignment === 'left',
+    'text-center': titleAlignment === 'center',
+    'text-right': titleAlignment === 'right',
+};
+
+// Button alignment classes
+const buttonClasses = {
+    'justify-start': buttonPosition === 'start',
+    'justify-end': buttonPosition === 'end',
+    'justify-center': buttonPosition === 'center',
+};
+
+// Grid container classes based on settings
+const gridContainerClasses = {
+    // Grid layout
+    'grid gap-8': layoutStyle === 'grid',
+    'grid-cols-1': layoutStyle === 'grid',
+    'sm:grid-cols-2': layoutStyle === 'grid' && (gridColumns === 'col2' || gridColumns === 'col3' || gridColumns === 'col4' || gridColumns === 'col5' || gridColumns === 'col6'),
+    'lg:grid-cols-3': layoutStyle === 'grid' && (gridColumns === 'col3' || gridColumns === 'col4' || gridColumns === 'col5' || gridColumns === 'col6'),
+    'xl:grid-cols-6': layoutStyle === 'grid' && gridColumns === 'col6',
+    'xl:grid-cols-5': layoutStyle === 'grid' && gridColumns === 'col5',
+    'xl:grid-cols-4': layoutStyle === 'grid' && gridColumns === 'col4',
+    'xl:grid-cols-3': layoutStyle === 'grid' && gridColumns === 'col3',
+    'xl:grid-cols-2': layoutStyle === 'grid' && gridColumns === 'col2',
+    'xl:grid-cols-1': layoutStyle === 'grid' && gridColumns === 'col1',
+    // List layout
+    'flex flex-col gap-6': layoutStyle === 'list',
+};
+
 // Build dynamic card class list for style-based classes
 const cardDynamicClasses = {
+    // Layout direction
+    'flex-row': layoutStyle === 'list' && imagePosition === 'left',
+    'flex-row-reverse': layoutStyle === 'list' && imagePosition === 'right',
+    'flex-col': imagePosition === 'top' || layoutStyle === 'grid',
     // Override default shadow if specified
     'shadow-none': shadowValue === 'none',
     'shadow-md': shadowValue === 'md',
     'shadow-lg': shadowValue === 'lg',
     'shadow-xl': shadowValue === 'xl',
-    // Hover shadow classes  
+    // Hover shadow classes
     'hover:shadow-md': hoverShadowValue === 'md',
     'hover:shadow-lg': hoverShadowValue === 'lg',
     'hover:shadow-xl': hoverShadowValue === 'xl',
@@ -59,38 +125,45 @@ const cardDynamicClasses = {
     'overflow-hidden': hoverEffect === 'zoom' || hoverEffect === 'zoom_subtle',
 };
 
+// Figure classes for horizontal layout
+const figureClasses = {
+    'w-1/3 flex-shrink-0': layoutStyle === 'list' && (imagePosition === 'left' || imagePosition === 'right'),
+};
+
 const componentClass = 'component-articlelist';
 ---
 
 <div data-epi-block-id={isCmsEdit && key || undefined} class={componentClass}>
-    <h1 class="w-full basis-full">{data?.Title}</h1>
-    <div class="mt-4 mb-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-        {
-            //@ts-ignore
-            items?.map((item: ArticlePageExcerptFragment, i) => {
-                return (
-                    <div class="card bg-base-100 shadow-sm flex flex-col" class:list={[cardDynamicClasses]}>      
-                        <figure>
-                            <AstroImage
-                                class="aspect-3/2 object-cover"
-                                src={((item.PromoImage as any)?.item?.Url || item.PromoImage?.url?.default) ?? '/placeholder.png'}
-                                alt={item.PromoImage?.item?.AltText || item.PromoImage?.item?._metadata?.displayName || `Promo image for ${item.Heading}` || 'Article promo image'}
-                                width={600}
-                                height={400}
-                            />
-                        </figure>
-                        <div class="card-body">
-                            <h2 class="card-title">{item.Heading}</h2>
-                            { item.Body?.html && 
-                                <div set:html={item.Body.html.replace(/<[^>]*>/g, '').split(' ').slice(0, 30).join(' ') + "..."} />
-                            }
-                            <div class="card-actions justify-end mt-auto">
-                            <LinkButton cssClasses="btn-primary" link={item._metadata?.url?.hierarchical}>Read more</LinkButton>
+    <div class="w-full" class:list={[containerWrapperClasses]}>
+        <h1 class="w-full basis-full" class:list={[titleClasses]}>{data?.Title}</h1>
+        <div class="mt-4 mb-4" class:list={[gridContainerClasses]}>
+            {
+                //@ts-ignore
+                items?.map((item: ArticlePageExcerptFragment, i) => {
+                    return (
+                        <div class="card bg-base-100 shadow-sm flex" class:list={[cardDynamicClasses]}>
+                            <figure class:list={[figureClasses]}>
+                                <AstroImage
+                                    class="aspect-3/2 object-cover w-full h-full"
+                                    src={((item.PromoImage as any)?.item?.Url || item.PromoImage?.url?.default) ?? '/article-list-placeholder.jpg'}
+                                    alt={item.PromoImage?.item?.AltText || item.PromoImage?.item?._metadata?.displayName || `Promo image for ${item.Heading}` || 'Article promo image'}
+                                    width={600}
+                                    height={400}
+                                />
+                            </figure>
+                            <div class="card-body">
+                                <h2 class="card-title">{item.Heading}</h2>
+                                { item.Body?.html &&
+                                    <div set:html={item.Body.html.replace(/<[^>]*>/g, '').split(' ').slice(0, 30).join(' ') + "..."} />
+                                }
+                                <div class:list={["card-actions mt-auto", buttonClasses]}>
+                                    <LinkButton cssClasses="btn-primary" link={item._metadata?.url?.hierarchical}>Read more</LinkButton>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                );
-            })
-        }
+                    );
+                })
+            }
+        </div>
     </div>
 </div>

@@ -13,6 +13,7 @@ query siteSettingsByHostname($domain: String!, $locale: [Locales]!) {
                 ...ContentReferenceItem
             }
             FooterText
+            TopNavStyle
             HeaderLinks {
                 ... on MenuItem {
                     Link {

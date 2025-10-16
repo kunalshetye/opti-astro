@@ -1,0 +1,73 @@
+---
+import type { MenuItemType } from './headerNavigationTypes';
+
+interface Props {
+    headerItems?: MenuItemType[];
+}
+
+const { headerItems } = Astro.props;
+const headerItemCount = headerItems?.length || 0;
+---
+
+<div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1 text-lg">
+        {
+            headerItems &&
+                headerItemCount > 0 &&
+                headerItems.map((data) => (
+                    <li>
+                        {(!data?.SubMenuItems ||
+                            data?.SubMenuItems?.length == 0) && (
+                            <a
+                                class="text-gray-500 transition hover:text-gray-500/75"
+                                href={data?.Link?.url?.default || '#'}
+                            >
+                                {data?.LinkText || data?.Link?.text || ''}
+                            </a>
+                        )}
+
+                        {data?.SubMenuItems &&
+                            data?.SubMenuItems?.length > 0 && (
+                                <div class="dropdown dropdown-hover pb-2">
+                                    <div
+                                        tabindex="0"
+                                        role="button"
+                                        class="mb-2 text-gray-500 transition hover:text-gray-500/75"
+                                    >
+                                        {data?.LinkText || data?.Link?.text || ''}
+                                    </div>
+                                    <ul
+                                        tabindex="0"
+                                        class="dropdown-content menu bg-base-200 rounded-box z-1 w-52 text-lg shadow-sm"
+                                    >
+                                        {data?.SubMenuItems?.length >
+                                            0 &&
+                                            data?.SubMenuItems.map(
+                                                (subdata: any) => (
+                                                    <li class="text-gray-500 transition hover:text-gray-500/75">
+                                                        <a
+                                                            href={
+                                                                subdata
+                                                                    ?.Link
+                                                                    ?.url
+                                                                    ?.default ||
+                                                                '#'
+                                                            }
+                                                        >
+                                                            {subdata?.LinkText ||
+                                                                subdata
+                                                                ?.Link
+                                                                ?.text ||
+                                                                ''}
+                                                        </a>
+                                                    </li>
+                                                )
+                                            )}
+                                    </ul>
+                                </div>
+                            )}
+                    </li>
+                ))
+        }
+    </ul>
+</div>

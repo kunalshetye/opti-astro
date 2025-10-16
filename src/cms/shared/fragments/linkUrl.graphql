@@ -1,7 +1,9 @@
 fragment LinkUrl on Link {
     url {
+        base
         default
         hierarchical
+        type
     }
     title
     target
