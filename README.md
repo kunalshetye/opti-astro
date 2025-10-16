@@ -81,6 +81,8 @@ The following environment variables are required for the application to function
 | `EXTERNAL_PREVIEW_ENABLED` | Enable external preview feature | `false` | Set to `true` to enable external preview links |
 | `EXTERNAL_PREVIEW_TOKEN` | String token for external preview feature | `OptiPreview123` | Required to enable external preview links |
 | `OPTIMIZELY_DEV_MODE` | Enable GraphQL debug panel in footer | `false` | Set to `true` to show GraphQL queries being executed |
+| `ADMIN_DASHBOARD_USERNAME` | Enable + set username for basic auth in Opti Admin page to manage Graph optimizations, etc | `admin` | Change to your preferred username |
+| `ADMIN_DASHBOARD_PASSWORD` | Enable + set password for basic auth in Opti Admin page to manage Graph optimizations, etc | `your-secure-password-here` | Change to your preferred password |
 
 ### DAM Configuration
 The `OPTIMIZELY_DAM_ENABLED` variable controls how GraphQL queries are generated:
