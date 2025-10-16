@@ -6,22 +6,13 @@ import type { SiteSettingsByHostnameQuery } from '../../../__generated/sdk';
 import { getClassForLogo } from './siteSettingsHelper';
 import SearchPalette from './SearchPalette.astro';
 import ThemePicker from './ThemePicker.astro';
-// import { getMenuItems } from './siteSettingsHelper';
+import HeaderDrawerMenuButton from './HeaderDrawerMenuButton.astro';
+import HeaderMobileDropdownNav from './HeaderMobileDropdownNav.astro';
+import HeaderDesktopHorizontalNav from './HeaderDesktopHorizontalNav.astro';
+import HeaderDrawerNavigation from './HeaderDrawerNavigation.astro';
+import type { MenuItemType } from './headerNavigationTypes';
+
 const lang = getCurrentLocale(Astro);
-
-// Define interfaces for the menu items to fix TypeScript errors
-interface LinkType {
-    text: string;
-    url: {
-        default: string;
-    };
-}
-
-interface MenuItemType {
-    Link: LinkType;
-    LinkText?: string;
-    SubMenuItems?: MenuItemType[];
-}
 
 interface Props {
     siteSettings: SiteSettingsByHostnameQuery;
@@ -30,93 +21,28 @@ interface Props {
 const { siteSettings } = Astro.props;
 const settings = siteSettings?.SiteSettings?.item;
 
+const topNavStyle = settings?.TopNavStyle || 'standard';
+// Backward compatibility: treat old "drawer" value as "drawer-left"
+const normalizedTopNavStyle = topNavStyle === 'drawer' ? 'drawer-left' : topNavStyle;
+const isDrawerMode = normalizedTopNavStyle === 'drawer-left' || normalizedTopNavStyle === 'drawer-right';
+const isDrawerRight = normalizedTopNavStyle === 'drawer-right';
 const logoUrl = (settings?.Logo as any)?.item?.Url || settings?.Logo?.url?.default || null;
 const logoCss = getClassForLogo(settings?.LogoResolution);
 
 const headerItems = settings?.HeaderLinks as MenuItemType[] | undefined;
-const headerItemCount = headerItems?.length || 0;
 ---
 
 <header class="sticky top-0 z-50 bg-gray-50/70 backdrop-blur-sm">
     <div class="navbar bg-base-100 shadow-sm">
         <div class="navbar-start">
-            <div class="dropdown">
-                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M4 6h16M4 12h8m-8 6h16"></path>
-                    </svg>
-                </div>
-                <ul
-                    tabindex="0"
-                    class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 text-lg shadow"
-                >
-                    {
-                        headerItems &&
-                            headerItemCount &&
-                            headerItemCount > 0 &&
-                            headerItems.map((data) => (
-                                <li>
-                                    {(!data?.SubMenuItems ||
-                                        data?.SubMenuItems?.length == 0) && (
-                                        <a
-                                            class="text-lg text-gray-500 transition hover:text-gray-500/75"
-                                            href={
-                                                data?.Link?.url?.default || '#'
-                                            }
-                                        >
-                                            {data?.LinkText || data?.Link?.text || ''}
-                                        </a>
-                                    )}
+            <!-- Navigation: Standard Mobile or Drawer Left -->
+            {!isDrawerMode ? (
+                <HeaderMobileDropdownNav headerItems={headerItems} />
+            ) : !isDrawerRight ? (
+                <HeaderDrawerMenuButton direction="left" />
+            ) : null}
 
-                                    {data?.SubMenuItems &&
-                                        data?.SubMenuItems?.length > 0 && (
-                                            <details>
-                                                <summary class="text-lg text-gray-500 transition hover:text-gray-500/75">
-                                                    {data?.LinkText || data?.Link?.text || ''}
-                                                </summary>
-                                                <ul class="p-2">
-                                                    {data?.SubMenuItems
-                                                        ?.length > 0 &&
-                                                        data?.SubMenuItems.map(
-                                                            (subdata: any) => (
-                                                                <li class="text-lg text-gray-500 transition hover:text-gray-500/75">
-                                                                    <a
-                                                                        class="text-lg transition hover:text-gray-500/75"
-                                                                        href={
-                                                                            subdata
-                                                                                ?.Link
-                                                                                ?.url
-                                                                                ?.default ||
-                                                                            '#'
-                                                                        }
-                                                                    >
-                                                                        {subdata?.LinkText ||
-                                                                         subdata
-                                                                            ?.Link
-                                                                            ?.text ||
-                                                                            ''}
-                                                                    </a>
-                                                                </li>
-                                                            )
-                                                        )}
-                                                </ul>
-                                            </details>
-                                        )}
-                                </li>
-                            ))
-                    }
-                </ul>
-            </div>
+            <!-- Logo -->
             <a
                 class="block px-8 text-teal-600"
                 href={getRelativeLocaleUrl(lang, '/')}
@@ -131,68 +57,11 @@ const headerItemCount = headerItems?.length || 0;
                 />
             </a>
         </div>
-        <div class="navbar-center hidden lg:flex">
-            <ul class="menu menu-horizontal px-1 text-lg">
-                {
-                    headerItems &&
-                        headerItemCount > 0 &&
-                        headerItems.map((data) => (
-                            <li>
-                                {(!data?.SubMenuItems ||
-                                    data?.SubMenuItems?.length == 0) && (
-                                    <a
-                                        class="text-gray-500 transition hover:text-gray-500/75"
-                                        href={data?.Link?.url?.default || '#'}
-                                    >
-                                        {data?.LinkText || data?.Link?.text || ''}
-                                    </a>
-                                )}
 
-                                {data?.SubMenuItems &&
-                                    data?.SubMenuItems?.length > 0 && (
-                                        <div class="dropdown dropdown-hover pb-2">
-                                            <div
-                                                tabindex="0"
-                                                role="button"
-                                                class="mb-2 text-gray-500 transition hover:text-gray-500/75"
-                                            >
-                                                {data?.LinkText || data?.Link?.text || ''}
-                                            </div>
-                                            <ul
-                                                tabindex="0"
-                                                class="dropdown-content menu bg-base-200 rounded-box z-1 w-52 text-lg shadow-sm"
-                                            >
-                                                {data?.SubMenuItems?.length >
-                                                    0 &&
-                                                    data?.SubMenuItems.map(
-                                                        (subdata: any) => (
-                                                            <li class="text-gray-500 transition hover:text-gray-500/75">
-                                                                <a
-                                                                    href={
-                                                                        subdata
-                                                                            ?.Link
-                                                                            ?.url
-                                                                            ?.default ||
-                                                                        '#'
-                                                                    }
-                                                                >
-                                                                    {subdata?.LinkText ||
-                                                                        subdata
-                                                                        ?.Link
-                                                                        ?.text ||
-                                                                        ''}
-                                                                </a>
-                                                            </li>
-                                                        )
-                                                    )}
-                                            </ul>
-                                        </div>
-                                    )}
-                            </li>
-                        ))
-                }
-            </ul>
-        </div>
+        <!-- Desktop Navigation: Only show when NOT in drawer mode -->
+        {!isDrawerMode && <HeaderDesktopHorizontalNav headerItems={headerItems} />}
+
+        <!-- Right Side Actions -->
         <div class="navbar-end" x-data>
             <!-- Search input -->
             <div class="relative hidden lg:block">
@@ -233,7 +102,6 @@ const headerItemCount = headerItems?.length || 0;
                     stroke-width="1.5"
                     stroke="currentColor"
                     class="h-5 w-5"
-                    class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
                 >
                     <path
                         stroke-linecap="round"
@@ -245,9 +113,14 @@ const headerItemCount = headerItems?.length || 0;
             <!-- Theme switcher dropdown -->
             <ThemePicker />
             <a class="btn" href="https://home.optimizely.com/">Log In</a>
+            <!-- Drawer Right mode: Hamburger button on ALL breakpoints (RIGHT side, after login) -->
+            {isDrawerRight && <HeaderDrawerMenuButton direction="right" />}
         </div>
     </div>
 </header>
+
+<!-- Drawer Navigation Component -->
+{isDrawerMode && <HeaderDrawerNavigation headerItems={headerItems} isDrawerRight={isDrawerRight} />}
 
 <!-- Search Palette Component -->
 <SearchPalette />

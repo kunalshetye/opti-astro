@@ -1,0 +1,366 @@
+---
+import type { MenuItemType } from './headerNavigationTypes';
+
+interface Props {
+    headerItems?: MenuItemType[];
+    isDrawerRight: boolean;
+}
+
+const { headerItems, isDrawerRight } = Astro.props;
+const headerItemCount = headerItems?.length || 0;
+---
+
+<!-- ============================================ -->
+<!-- DRAWER NAVIGATION SYSTEM -->
+<!-- ============================================ -->
+<div id="drawer-container" data-drawer-direction={isDrawerRight ? 'right' : 'left'}>
+    <!-- Overlay -->
+    <div
+        id="drawer-overlay"
+        class="fixed inset-0 bg-black/50 z-[60] opacity-0 pointer-events-none transition-opacity duration-700 ease-in-out"
+    ></div>
+
+    <!-- Main Drawer -->
+    <div
+        id="main-drawer"
+        class:list={[
+            "fixed top-0 h-full w-full sm:w-80 bg-base-100 shadow-xl z-[70] transition-all duration-700 ease-in-out",
+            isDrawerRight ? "right-0 translate-x-full" : "left-0 -translate-x-full"
+        ]}
+    >
+        <div class="flex flex-col h-full">
+            <!-- Drawer Header -->
+            <div class="flex items-center justify-between p-4 border-b border-base-300">
+                <h2 class="text-xl font-semibold">Menu</h2>
+                <button
+                    id="close-drawer-button"
+                    class="btn btn-ghost btn-sm btn-circle"
+                    aria-label="Close menu"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"
+                        />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Main Menu Items -->
+            <nav class="flex-1 overflow-y-auto">
+                <ul class="menu p-4 text-lg">
+                    {
+                        headerItems &&
+                            headerItemCount > 0 &&
+                            headerItems.map((data, index) => (
+                                <li>
+                                    {(!data?.SubMenuItems ||
+                                        data?.SubMenuItems?.length == 0) ? (
+                                        <a
+                                            class="text-gray-500 transition hover:text-gray-500/75 py-3"
+                                            href={data?.Link?.url?.default || '#'}
+                                        >
+                                            {data?.LinkText || data?.Link?.text || ''}
+                                        </a>
+                                    ) : (
+                                        <button
+                                            class="submenu-trigger text-gray-500 transition hover:text-gray-500/75 py-3 flex items-center justify-between w-full"
+                                            data-index={index}
+                                            data-title={data?.LinkText || data?.Link?.text || ''}
+                                            data-items={JSON.stringify(data?.SubMenuItems || [])}
+                                        >
+                                            <span>{data?.LinkText || data?.Link?.text || ''}</span>
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="h-5 w-5"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M9 5l7 7-7 7"
+                                                />
+                                            </svg>
+                                        </button>
+                                    )}
+                                </li>
+                            ))
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Submenu Drawer -->
+    <div
+        id="submenu-drawer"
+        class:list={[
+            "fixed top-0 h-full w-full sm:w-80 bg-base-100 shadow-xl z-[65] transition-all duration-700 ease-in-out",
+            isDrawerRight ? "right-0 translate-x-full" : "left-0 -translate-x-full"
+        ]}
+    >
+        <div class="flex flex-col h-full">
+            <!-- Submenu Header -->
+            <div class="flex items-center justify-between p-4 border-b border-base-300">
+                <button
+                    id="back-button"
+                    class="btn btn-ghost btn-sm gap-2"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M15 19l-7-7 7-7"
+                        />
+                    </svg>
+                    Back
+                </button>
+                <h2 id="submenu-title" class="text-xl font-semibold"></h2>
+                <!-- Close button for mobile -->
+                <button
+                    id="close-submenu-drawer-button"
+                    class="btn btn-ghost btn-sm btn-circle sm:hidden"
+                    aria-label="Close menu"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"
+                        />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Submenu Items -->
+            <nav class="flex-1 overflow-y-auto">
+                <ul id="submenu-items" class="menu p-4 text-lg">
+                    <!-- Submenu items will be inserted here dynamically -->
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- DRAWER NAVIGATION JAVASCRIPT -->
+<!-- ============================================ -->
+<script>
+    function initializeDrawer() {
+        const drawerMenuButton = document.getElementById('drawer-menu-button');
+        const closeDrawerButton = document.getElementById('close-drawer-button');
+        const closeSubmenuDrawerButton = document.getElementById('close-submenu-drawer-button');
+        const backButton = document.getElementById('back-button');
+        const overlay = document.getElementById('drawer-overlay');
+        const mainDrawer = document.getElementById('main-drawer');
+        const submenuDrawer = document.getElementById('submenu-drawer');
+        const submenuTitle = document.getElementById('submenu-title');
+        const submenuItems = document.getElementById('submenu-items');
+        const drawerContainer = document.getElementById('drawer-container');
+
+        // Get drawer direction from container
+        const drawerDirection = drawerContainer?.getAttribute('data-drawer-direction') || 'left';
+        const isRight = drawerDirection === 'right';
+
+        // Open main drawer
+        function openMainDrawer() {
+            overlay?.classList.remove('pointer-events-none', 'opacity-0');
+            overlay?.classList.add('pointer-events-auto', 'opacity-100');
+
+            if (isRight) {
+                mainDrawer?.classList.remove('translate-x-full');
+                mainDrawer?.classList.add('translate-x-0');
+            } else {
+                mainDrawer?.classList.remove('-translate-x-full');
+                mainDrawer?.classList.add('translate-x-0');
+            }
+
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close all drawers
+        function closeAllDrawers() {
+            const isSubmenuOpen = submenuDrawer?.classList.contains('translate-x-0');
+
+            // First, trigger the submenu to close.
+            closeSubmenuDrawer();
+
+            const closeMain = () => {
+                overlay?.classList.remove('pointer-events-auto', 'opacity-100');
+                overlay?.classList.add('pointer-events-none', 'opacity-0');
+                mainDrawer?.classList.remove('translate-x-0');
+
+                if (isRight) {
+                    mainDrawer?.classList.add('translate-x-full');
+                } else {
+                    mainDrawer?.classList.add('-translate-x-full');
+                }
+
+                document.body.style.overflow = '';
+            };
+
+            if (isSubmenuOpen) {
+                // If submenu was open, delay closing the main drawer for a sequential animation.
+                setTimeout(closeMain, 650);
+            } else {
+                // If only main drawer was open, close it immediately.
+                closeMain();
+            }
+        }
+
+        // Open submenu drawer
+        function openSubmenuDrawer(title: string, items: any[]) {
+            if (submenuTitle) submenuTitle.textContent = title;
+
+            // Clear existing items
+            if (submenuItems) submenuItems.innerHTML = '';
+
+            // Add new items
+            items.forEach(item => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.className = 'text-gray-500 transition hover:text-gray-500/75 py-3';
+                a.href = item?.Link?.url?.default || '#';
+                a.textContent = item?.LinkText || item?.Link?.text || '';
+                li.appendChild(a);
+                submenuItems?.appendChild(li);
+            });
+
+            // Position submenu drawer based on screen size and direction
+            if (submenuDrawer) {
+                const isSmallScreen = window.matchMedia('(max-width: 639px)').matches;
+
+                if (isSmallScreen) {
+                    // Mobile: full overlay regardless of direction
+                    if (isRight) {
+                        submenuDrawer.style.right = '0';
+                        submenuDrawer.style.left = '';
+                    } else {
+                        submenuDrawer.style.left = '0';
+                        submenuDrawer.style.right = '';
+                    }
+                } else {
+                    // Desktop: position submenu next to main drawer
+                    if (isRight) {
+                        // For right drawer, submenu appears to the left
+                        submenuDrawer.style.left = '';
+                        submenuDrawer.style.right = '0';
+                        setTimeout(() => submenuDrawer.style.right = '320px', 0);
+                    } else {
+                        // For left drawer, submenu appears to the right
+                        submenuDrawer.style.right = '';
+                        submenuDrawer.style.left = '0';
+                        setTimeout(() => submenuDrawer.style.left = '320px', 0);
+                    }
+                }
+
+                submenuDrawer.style.zIndex = isSmallScreen ? '75' : '65';
+
+                if (isRight) {
+                    submenuDrawer.classList.remove('translate-x-full');
+                    submenuDrawer.classList.add('translate-x-0');
+                } else {
+                    submenuDrawer.classList.remove('-translate-x-full');
+                    submenuDrawer.classList.add('translate-x-0');
+                }
+            }
+        }
+
+        // Close submenu drawer
+        function closeSubmenuDrawer() {
+            const isSmallScreen = window.matchMedia('(max-width: 639px)').matches;
+            if (submenuDrawer && !isSmallScreen) {
+                // On non-mobile, first slide it back behind the main drawer
+                if (isRight) {
+                    submenuDrawer.style.right = '0';
+                } else {
+                    submenuDrawer.style.left = '0';
+                }
+
+                // After the transition finishes, then hide it completely
+                setTimeout(() => {
+                    submenuDrawer.classList.remove('translate-x-0');
+                    if (isRight) {
+                        submenuDrawer.classList.add('translate-x-full');
+                    } else {
+                        submenuDrawer.classList.add('-translate-x-full');
+                    }
+                }, 700); // This must match the CSS transition duration
+            } else {
+                // On mobile, just slide it out immediately
+                submenuDrawer?.classList.remove('translate-x-0');
+                if (isRight) {
+                    submenuDrawer?.classList.add('translate-x-full');
+                } else {
+                    submenuDrawer?.classList.add('-translate-x-full');
+                }
+            }
+        }
+
+        // Event listeners
+        drawerMenuButton?.addEventListener('click', openMainDrawer);
+        closeDrawerButton?.addEventListener('click', closeAllDrawers);
+        closeSubmenuDrawerButton?.addEventListener('click', closeAllDrawers);
+        overlay?.addEventListener('click', closeAllDrawers);
+        backButton?.addEventListener('click', closeSubmenuDrawer);
+
+        // Handle submenu triggers
+        document.querySelectorAll<HTMLButtonElement>('.submenu-trigger').forEach(button => {
+            button.addEventListener('click', function(this: HTMLButtonElement) {
+                const title = this.getAttribute('data-title') || '';
+                const itemsJson = this.getAttribute('data-items') || '[]';
+                try {
+                    const items = JSON.parse(itemsJson);
+                    openSubmenuDrawer(title, items);
+                } catch (e) {
+                    console.error('Error parsing submenu items:', e);
+                }
+            });
+        });
+    }
+
+    // Initialize on page load (for Astro View Transitions)
+    document.addEventListener('astro:page-load', initializeDrawer);
+</script>
+
+<style>
+    /* Ensure smooth transitions with custom timing */
+    #submenu-drawer {
+        /* By default, only transition the transform property (for closing on mobile) */
+        transition: transform 700ms ease-in-out;
+    }
+    #submenu-drawer.translate-x-0 {
+        /* When open, transition both transform and left/right to slide out/in from behind */
+        transition: transform 700ms ease-in-out, left 700ms ease-in-out, right 700ms ease-in-out;
+    }
+
+    /* Prevent body scroll when drawer is open */
+    body.drawer-open {
+        overflow: hidden;
+    }
+</style>

@@ -1,4 +1,3 @@
-
 import { getOptimizelySdk } from '../../graphql/getSdk';
 import type { ContentPayload } from '../../graphql/shared/ContentPayload';
 import { EXTERNAL_PREVIEW_TOKEN } from 'astro:env/server';
@@ -93,4 +92,38 @@ export function isValidExtPreviewToken(contentKey: string, contentVersion: strin
         .substring(0, 16);
 
     return token === expectedToken;
+}
+
+// Build correct link for component
+interface ButtonLinkUrl {
+    hierarchical?: string;
+    default?: string;
+    type?: 'EXTERNAL' | 'SIMPLE' | 'HIERARCHICAL' | string;
+    base?: string;
+}
+export interface ButtonLinkData {
+    url?: ButtonLinkUrl;
+}
+
+export function getLink(buttonLinkData: ButtonLinkData | null | undefined, currentDomain: string): string {
+    const url = buttonLinkData?.url;
+    const type = url?.type || 'HIERARCHICAL';
+    const base = url?.base || '';
+    const isSameDomain = currentDomain === base;
+
+    if (type === 'EXTERNAL') {
+        return url?.default || '#';
+    }
+
+    if (type === 'SIMPLE' || type === 'HIERARCHICAL') {
+        if (isSameDomain) {
+            return url?.hierarchical || '#';
+        }
+        if (url?.default && url.default.startsWith('http')) {
+            return url.default;
+        }
+        return base + (url?.hierarchical || '#');
+    }
+
+    return url?.hierarchical || url?.default || '#';
 }
