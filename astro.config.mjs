@@ -11,7 +11,7 @@ const multiAdapter = await adapter();
 
 // Parse i18n configuration from environment variable or use defaults
 const defaultI18nConfig = {
-    locales: ['en', 'nl', 'nl-BE', 'sv', 'no', 'fr', 'fr-CA', 'es', 'it', 'ar'],
+    locales: ['en', 'nl', 'nl-BE', 'sv', 'no', 'fr', 'fr-CA', 'es', 'it', 'ar', 'zh', 'zh-Hans-HK'],
     defaultLocale: 'en',
     routing: {
         prefixDefaultLocale: false,
@@ -20,6 +20,7 @@ const defaultI18nConfig = {
     fallback: {
         'nl-BE': 'nl',
         'fr-CA': 'fr',
+        'zh-Hans-HK': 'zh',
         'nl': 'en',
         'sv': 'en',
         'no': 'en',
@@ -27,6 +28,7 @@ const defaultI18nConfig = {
         'es': 'en',
         'it': 'en',
         'ar': 'en',
+        'zh': 'en',
     },
 };
 

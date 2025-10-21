@@ -52,18 +52,27 @@ export type GetOptimizelySdk = (payload: ContentPayload) => OptimizelySdk;
 
 /**
  * Convert URL-friendly locale format to GraphQL API format
- * Example: 'nb-no' -> 'nb_NO', 'pt-br' -> 'pt_BR', 'fr-ca' -> 'fr_CA'
- * Handles case conversion for region codes
+ * Examples:
+ * - 2-part: 'fr-ca' -> 'fr_CA', 'pt-br' -> 'pt_BR'
+ * - 3-part: 'zh-Hans-HK' -> 'zh_Hans_HK', 'zh-Hant-TW' -> 'zh_Hant_TW'
+ * Handles case conversion for language, script, and region codes
  */
 export function localeToSdkLocale(locale: string): string {
     // First convert hyphens to underscores
     let result = locale.replace(/-/g, '_');
 
-    // If there's a region part (after underscore), make it uppercase
+    // Split into parts
     const parts = result.split('_');
+
     if (parts.length === 2) {
+        // 2-part locale: language-region (e.g., 'fr_CA')
         result = parts[0].toLowerCase() + '_' + parts[1].toUpperCase();
+    } else if (parts.length === 3) {
+        // 3-part locale: language-script-region (e.g., 'zh_Hans_HK')
+        // Language: lowercase, Script: preserve case, Region: uppercase
+        result = parts[0].toLowerCase() + '_' + parts[1] + '_' + parts[2].toUpperCase();
     } else {
+        // Single part locale: just lowercase
         result = result.toLowerCase();
     }
 
