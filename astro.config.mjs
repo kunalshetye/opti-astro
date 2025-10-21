@@ -9,35 +9,53 @@ import tailwindcss from '@tailwindcss/vite';
 
 const multiAdapter = await adapter();
 
-// Custom locale configuration for dynamic CMS locales
-const localeConfig = {
-    // Default locale (used when no locale is detected in URL)
+// Parse i18n configuration from environment variable or use defaults
+const defaultI18nConfig = {
+    locales: ['en', 'nl', 'nl-BE', 'sv', 'no', 'fr', 'fr-CA', 'es', 'it', 'ar'],
     defaultLocale: 'en',
-
-    // Enable or disable fallback completely
-    // - true: Enable fallback behavior (default)
-    // - false: Disable all fallback, show 404 if content doesn't exist in requested locale
-    enableFallback: true,
-
-    // Specific fallbacks for individual locales
-    fallback: {
-        // Examples of locale fallback configuration:
-        'fr-CA': 'fr', // Canadian French falls back to French
-        'nl-BE': 'nl', // Belgian Dutch falls back to Dutch
-        // Add more fallbacks as needed based on your CMS locales
+    routing: {
+        prefixDefaultLocale: false,
+        fallbackType: 'rewrite',
     },
-
-    // Generic fallback locale (used when specific fallback is not defined)
-    genericFallback: 'en',
-
-    // Fallback behavior type (like Astro's i18n fallbackType)
-    // - "redirect": Redirect to the fallback locale URL (e.g., /de -> /en)
-    // - "rewrite": Show fallback content at original URL (e.g., show English content at /de)
-    fallbackType: 'rewrite',
-
-    // Whether to prefix the default locale in URLs (false = /page, true = /en/page)
-    prefixDefaultLocale: false,
+    fallback: {
+        'nl-BE': 'nl',
+        'fr-CA': 'fr',
+        'nl': 'en',
+        'sv': 'en',
+        'no': 'en',
+        'fr': 'en',
+        'es': 'en',
+        'it': 'en',
+        'ar': 'en',
+    },
 };
+
+let i18nConfig = defaultI18nConfig;
+
+try {
+    const envI18nConfig = process.env.ASTRO_I18N_CONFIG;
+    if (envI18nConfig) {
+        const parsedConfig = JSON.parse(envI18nConfig);
+        // Merge with defaults to ensure all required fields are present
+        if (parsedConfig && typeof parsedConfig === 'object') {
+            i18nConfig = {
+                locales: parsedConfig.locales || defaultI18nConfig.locales,
+                defaultLocale: parsedConfig.defaultLocale || defaultI18nConfig.defaultLocale,
+                routing: {
+                    prefixDefaultLocale: parsedConfig.routing?.prefixDefaultLocale ?? defaultI18nConfig.routing.prefixDefaultLocale,
+                    fallbackType: parsedConfig.routing?.fallbackType || defaultI18nConfig.routing.fallbackType,
+                },
+                fallback: parsedConfig.fallback || defaultI18nConfig.fallback,
+            };
+        }
+        console.log('✅ Loaded i18n config from ASTRO_I18N_CONFIG environment variable');
+    } else {
+        console.log('ℹ️  Using default i18n config (set ASTRO_I18N_CONFIG env var to customize)');
+    }
+} catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.warn('⚠️  Failed to parse ASTRO_I18N_CONFIG, using defaults:', errorMessage);
+}
 
 // https://astro.build/config
 export default defineConfig({
@@ -58,6 +76,9 @@ export default defineConfig({
             },
         ],
     },
+
+    // @ts-ignore - Astro's type definitions don't properly handle dynamic fallback configurations
+    i18n: i18nConfig,
 
     output: 'server',
 
@@ -138,6 +159,12 @@ export default defineConfig({
                 access: 'public',
                 optional: true,
                 default: true,
+            }),
+            ASTRO_I18N_CONFIG: envField.string({
+                context: 'server',
+                access: 'public',
+                optional: true,
+                default: '',
             }),
         },
     },
@@ -402,6 +429,3 @@ export default defineConfig({
         ],
     },
 });
-
-// Export locale configuration for use in locale utilities
-export { localeConfig };

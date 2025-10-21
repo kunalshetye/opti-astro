@@ -4,13 +4,14 @@
  */
 
 import { getOptimizelyClient } from './client';
-import { 
-    updateUserInfo, 
-    updateContentInfo, 
+import {
+    updateUserInfo,
+    updateContentInfo,
     addDebugError,
-    type FXDebugInfo 
+    type FXDebugInfo
 } from './debug';
-import { resolveContentWithFallback } from '../lib/locale-utils';
+import { resolveContentWithFallback } from '../lib/locale-helpers';
+import config from '../../astro.config.mjs';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
 
 export interface VariantResolutionResult {
@@ -116,6 +117,7 @@ export async function resolveContentVariant(
                     urlBase,
                     urlPath,
                     lang,
+                    config,
                     true, // Enable debug logs for variant
                     variantKey
                 );

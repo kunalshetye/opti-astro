@@ -2,12 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 import type { Locales } from '../../__generated/sdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
-import { getCurrentLocale, localeToSdkLocale } from '../lib/locale-utils';
+import { localeToSdkLocale } from '../lib/locale-helpers';
 import '../styles/global.css';
 
 const title = "404";
 const description = "This page can't be found 😭";
-const lang = getCurrentLocale(Astro);
+const lang = Astro.currentLocale;
 
 const ctx = 'view';
 

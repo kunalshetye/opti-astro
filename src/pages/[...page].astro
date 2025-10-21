@@ -5,18 +5,20 @@ import Experiences from '../cms/experiences/_Experiences.astro';
 import Pages from '../cms/pages/_Pages.astro';
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
-import { 
-    initFXDebugSession, 
-    updateContentInfo, 
-    addDebugError 
+import {
+    initFXDebugSession,
+    updateContentInfo,
+    addDebugError
 } from '../optimizely/debug';
 import { resolveContentVariant } from '../optimizely/variant-resolver';
 
-import { getCurrentLocale, getRelativeLocaleUrl, localeToSdkLocale, resolveContentWithFallback } from '../lib/locale-utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { localeToSdkLocale, resolveContentWithFallback } from '../lib/locale-helpers';
+import config from '../../astro.config.mjs';
 
 Astro.response.headers.set('Content-Type', 'text/html; charset=UTF-8');
 
-const lang = getCurrentLocale(Astro);
+const lang = Astro.currentLocale;
 
 // Opti Web variation cookie handling -- cookie name depends on page path
 const rawPath = Astro.url.pathname; 
@@ -56,6 +58,7 @@ const defaultFallbackResult = await resolveContentWithFallback(
     urlBase,
     urlPath,
     lang,
+    config,
     false, // No debug logs for default content fetch
     pageVariationWeb // No variant for default content
 );

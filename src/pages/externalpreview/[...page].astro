@@ -2,9 +2,9 @@
 import qs from 'query-string';
 
 import type { Locales } from 'astro';
-import { getCurrentLocale, getRelativeLocaleUrl, localeToSdkLocale, resolveContentWithFallback } from '../../lib/locale-utils';
-// Initialize locale configuration
-import '../../lib/locale-init.js';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { localeToSdkLocale, resolveContentWithFallback } from '../../lib/locale-helpers';
+import config from '../../../astro.config.mjs';
 import Component from '../../cms/components/_Component.astro';
 import Experiences from '../../cms/experiences/_Experiences.astro';
 import { getOptimizelySdk } from '../../graphql/getSdk';
@@ -26,7 +26,7 @@ var extPreviewPayload: ContentPayload = {
 };
 
 var extPreviewPayload = qs.parse(Astro.url.search) as unknown as ContentPayload;
-extPreviewPayload.loc = localeToSdkLocale(getCurrentLocale(Astro));
+extPreviewPayload.loc = localeToSdkLocale(Astro.currentLocale);
 extPreviewPayload.ctx = ctx;
 
 const isDraft = await isDraftContent(extPreviewPayload.ver);
@@ -40,7 +40,7 @@ const currentPagePath = `${Astro.url.pathname.replace(/\/$/, '')}/`
 const currentPagePathNoSlash = `${currentPagePath.replace(/\/$/, '')}`;
 
 if (!EXTERNAL_PREVIEW_ENABLED || !isDraft || !isExtPreviewEnabled) {
-    return Astro.redirect(getRelativeLocaleUrl(getCurrentLocale(Astro), '/404'), 404);
+    return Astro.redirect(getRelativeLocaleUrl(Astro.currentLocale, '/404'), 404);
 }
 
 // Use the helper function to resolve content with fallback
@@ -49,12 +49,13 @@ const fallbackResult = await resolveContentWithFallback(
     extPreviewPayload,
     urlBase,
     currentPagePath,
-    getCurrentLocale(Astro),
+    Astro.currentLocale,
+    config,
     false // No debug logs for external preview
 );
 
 if (fallbackResult.shouldRedirect404) {
-    return Astro.redirect(getRelativeLocaleUrl(getCurrentLocale(Astro), '/404'), 404);
+    return Astro.redirect(getRelativeLocaleUrl(Astro.currentLocale, '/404'), 404);
 }
 
 const contentByPathResponse = fallbackResult.contentResponse;
@@ -65,7 +66,7 @@ extPreviewPayload.key = item?._metadata?.key || '';
 
 const token = Astro.url.searchParams.get('token') || '';
 if (!token || !isValidExtPreviewToken(extPreviewPayload.key, extPreviewPayload.ver, token)) {
-    return Astro.redirect(getRelativeLocaleUrl(getCurrentLocale(Astro), '/404'), 404);
+    return Astro.redirect(getRelativeLocaleUrl(Astro.currentLocale, '/404'), 404);
 }
 
 // Update the payload to use the actual locale that has content
