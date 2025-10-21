@@ -6,6 +6,51 @@
 import { getRelativeLocaleUrl } from 'astro:i18n';
 
 /**
+ * Astro i18n configuration interface
+ */
+export interface AstroI18nConfig {
+    i18n: {
+        locales: string[];
+        defaultLocale: string;
+        routing?: {
+            prefixDefaultLocale?: boolean;
+            fallbackType?: string;
+        };
+        fallback?: Record<string, string>;
+    };
+}
+
+/**
+ * GraphQL content payload interface
+ */
+export interface ContentPayload {
+    loc: string;
+    [key: string]: any;
+}
+
+/**
+ * Optimizely SDK methods interface
+ */
+export interface OptimizelySdk {
+    contentByPath: (params: {
+        base: string;
+        url: string;
+        urlNoSlash: string;
+    }) => Promise<any>;
+    contentByPathVariant: (params: {
+        base: string;
+        url: string;
+        urlNoSlash: string;
+        variation: string;
+    }) => Promise<any>;
+}
+
+/**
+ * Function type for getting Optimizely SDK with payload
+ */
+export type GetOptimizelySdk = (payload: ContentPayload) => OptimizelySdk;
+
+/**
  * Convert URL-friendly locale format to GraphQL API format
  * Example: 'nb-no' -> 'nb_NO', 'pt-br' -> 'pt_BR', 'fr-ca' -> 'fr_CA'
  * Handles case conversion for region codes
@@ -37,7 +82,7 @@ export function normalizeLocale(locale: string): string {
  * Get fallback locale for content fetching
  * Uses Astro's i18n configuration
  */
-export function getFallbackLocale(locale: string, config: any): string {
+export function getFallbackLocale(locale: string, config: AstroI18nConfig): string {
     // Check if there's a specific fallback configured for this locale
     if (config.i18n.fallback && config.i18n.fallback[locale]) {
         return config.i18n.fallback[locale];
@@ -56,7 +101,7 @@ export function getFallbackLocale(locale: string, config: any): string {
  * Get the complete fallback chain for a locale from Astro config
  * Returns an array of locales to try in order
  */
-export function getFallbackChain(locale: string, config: any, visited: Set<string> = new Set()): string[] {
+export function getFallbackChain(locale: string, config: AstroI18nConfig, visited: Set<string> = new Set()): string[] {
     const chain: string[] = [];
 
     // Prevent infinite loops
@@ -108,12 +153,12 @@ export function getPathWithoutLocale(pathname: string, locales: string[]): strin
  * Relies on Astro's i18n for routing, only handles GraphQL content fetching
  */
 export async function resolveContentWithFallback(
-    getOptimizelySdk: any,
-    contentPayload: any,
+    getOptimizelySdk: GetOptimizelySdk,
+    contentPayload: ContentPayload,
     urlBase: string,
     urlPath: string,
     requestedLocale: string,
-    config: any,
+    config: AstroI18nConfig,
     enableDebugLogs: boolean = false,
     variantKey?: string | null
 ): Promise<{
