@@ -1,9 +1,9 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import type { Locales } from '../../__generated/sdk';
-import type { ContentPayload } from '../graphql/shared/ContentPayload';
-import { localeToSdkLocale } from '../lib/locale-helpers';
-import '../styles/global.css';
+import Layout from '../../layouts/Layout.astro';
+import type { Locales } from '../../../__generated/sdk';
+import type { ContentPayload } from '../../graphql/shared/ContentPayload';
+import { localeToSdkLocale } from '../../lib/locale-helpers';
+import '../../styles/global.css';
 
 const lang = Astro.currentLocale || 'en';
 

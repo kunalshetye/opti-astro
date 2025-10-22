@@ -65,7 +65,7 @@ const defaultFallbackResult = await resolveContentWithFallback(
 
 if (defaultFallbackResult.shouldRedirect404) {
     addDebugError(debugInfo, 'No default content found for URL');
-    return Astro.redirect(getRelativeLocaleUrl(lang, '/404'), 404);
+    return Astro.rewrite(getRelativeLocaleUrl(lang, '/404'));
 }
 
 const defaultItem = defaultFallbackResult.contentResponse._Content.item;
@@ -95,7 +95,7 @@ const fallbackResult = {
 
 if (fallbackResult.shouldRedirect404) {
     addDebugError(debugInfo, 'No content found after fallback');
-    return Astro.redirect(getRelativeLocaleUrl(lang, '/404'), 404);
+    return Astro.rewrite(getRelativeLocaleUrl(lang, '/404'));
 }
 
 const contentByPathResponse = fallbackResult.contentResponse;
@@ -139,7 +139,7 @@ const isPageType =
     contentPayload.types.includes('_Page') && isExperienceType === false;
 
 if (isPageType && contentPayload.types.includes('FolderPage')) {
-    return Astro.redirect(getRelativeLocaleUrl(lang, '/404'), 404);
+    return Astro.rewrite(getRelativeLocaleUrl(lang, '/404'));
 }
 ---
 
