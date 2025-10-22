@@ -14,7 +14,7 @@ import { resolveContentVariant } from '../optimizely/variant-resolver';
 
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { localeToSdkLocale, resolveContentWithFallback } from '../lib/locale-helpers';
-import config from '../../astro.config.mjs';
+import { getAstroI18nConfig } from '../config/i18n.config';
 
 Astro.response.headers.set('Content-Type', 'text/html; charset=UTF-8');
 
@@ -58,7 +58,7 @@ const defaultFallbackResult = await resolveContentWithFallback(
     urlBase,
     urlPath,
     lang,
-    config,
+    getAstroI18nConfig(),
     false, // No debug logs for default content fetch
     pageVariationWeb // No variant for default content
 );

@@ -11,7 +11,7 @@ import {
     type FXDebugInfo
 } from './debug';
 import { resolveContentWithFallback } from '../lib/locale-helpers';
-import config from '../../astro.config.mjs';
+import { getAstroI18nConfig } from '../config/i18n.config';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
 
 export interface VariantResolutionResult {
@@ -117,7 +117,7 @@ export async function resolveContentVariant(
                     urlBase,
                     urlPath,
                     lang,
-                    config,
+                    getAstroI18nConfig(),
                     true, // Enable debug logs for variant
                     variantKey
                 );

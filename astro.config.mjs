@@ -6,58 +6,13 @@ import { adapter } from 'astro-auto-adapter';
 
 import alpinejs from '@astrojs/alpinejs';
 import tailwindcss from '@tailwindcss/vite';
+import { loadI18nConfig } from './src/config/i18n.config.ts';
 
 const multiAdapter = await adapter();
 
-// Parse i18n configuration from environment variable or use defaults
-const defaultI18nConfig = {
-    locales: ['en', 'nl', 'nl-BE', 'sv', 'no', 'fr', 'fr-CA', 'es', 'it', 'ar', 'zh', 'zh-Hans-HK'],
-    defaultLocale: 'en',
-    routing: {
-        prefixDefaultLocale: false,
-        fallbackType: 'rewrite',
-    },
-    fallback: {
-        'nl-BE': 'nl',
-        'fr-CA': 'fr',
-        'zh-Hans-HK': 'zh',
-        'nl': 'en',
-        'sv': 'en',
-        'no': 'en',
-        'fr': 'en',
-        'es': 'en',
-        'it': 'en',
-        'ar': 'en',
-        'zh': 'en',
-    },
-};
-
-let i18nConfig = defaultI18nConfig;
-
-try {
-    const envI18nConfig = process.env.ASTRO_I18N_CONFIG;
-    if (envI18nConfig) {
-        const parsedConfig = JSON.parse(envI18nConfig);
-        // Merge with defaults to ensure all required fields are present
-        if (parsedConfig && typeof parsedConfig === 'object') {
-            i18nConfig = {
-                locales: parsedConfig.locales || defaultI18nConfig.locales,
-                defaultLocale: parsedConfig.defaultLocale || defaultI18nConfig.defaultLocale,
-                routing: {
-                    prefixDefaultLocale: parsedConfig.routing?.prefixDefaultLocale ?? defaultI18nConfig.routing.prefixDefaultLocale,
-                    fallbackType: parsedConfig.routing?.fallbackType || defaultI18nConfig.routing.fallbackType,
-                },
-                fallback: parsedConfig.fallback || defaultI18nConfig.fallback,
-            };
-        }
-        console.log('✅ Loaded i18n config from ASTRO_I18N_CONFIG environment variable');
-    } else {
-        console.log('ℹ️  Using default i18n config (set ASTRO_I18N_CONFIG env var to customize)');
-    }
-} catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    console.warn('⚠️  Failed to parse ASTRO_I18N_CONFIG, using defaults:', errorMessage);
-}
+// Load i18n configuration (with optional environment variable override)
+// This happens at build time only, not at runtime
+const i18nConfig = loadI18nConfig();
 
 // https://astro.build/config
 export default defineConfig({
@@ -90,6 +45,7 @@ export default defineConfig({
     vite: {
         ssr: {
             noExternal: ['graphql', 'graphql-request'],
+            external: ['vite'],
         },
         plugins: [mkcert(), tailwindcss()],
     },
@@ -162,12 +118,8 @@ export default defineConfig({
                 optional: true,
                 default: true,
             }),
-            ASTRO_I18N_CONFIG: envField.string({
-                context: 'server',
-                access: 'public',
-                optional: true,
-                default: '',
-            }),
+            // Note: ASTRO_I18N_CONFIG is a build-time only variable (used in astro.config.mjs)
+            // It's not included in the env schema since it's not needed at runtime
         },
     },
 

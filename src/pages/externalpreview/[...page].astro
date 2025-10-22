@@ -4,7 +4,7 @@ import qs from 'query-string';
 import type { Locales } from 'astro';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { localeToSdkLocale, resolveContentWithFallback } from '../../lib/locale-helpers';
-import config from '../../../astro.config.mjs';
+import { getAstroI18nConfig } from '../../config/i18n.config';
 import Component from '../../cms/components/_Component.astro';
 import Experiences from '../../cms/experiences/_Experiences.astro';
 import { getOptimizelySdk } from '../../graphql/getSdk';
@@ -50,7 +50,7 @@ const fallbackResult = await resolveContentWithFallback(
     urlBase,
     currentPagePath,
     Astro.currentLocale,
-    config,
+    getAstroI18nConfig(),
     false // No debug logs for external preview
 );
 
