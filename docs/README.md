@@ -29,13 +29,25 @@ This folder contains comprehensive documentation for the Opti-Astro project, cov
     - Common layout patterns (forms, heroes, cards, sidebars)
     - Best practices and troubleshooting
 
+### Forms & Data Integration
+
+- **[Forms Guide](FORMS.md)** - Complete guide to Optimizely Forms with ODP integration
+    - Form types (Optimizely Forms vs ODP Forms)
+    - Creating and configuring forms in CMS
+    - Form field components and validation
+    - ODP integration for data collection and tracking
+    - Event tracking (impressions, submissions, pageviews)
+    - Testing, verification, and troubleshooting
+    - Best practices and advanced configuration
+
 ## 🚀 Quick Start
 
 New to this project? Start with these essential guides:
 
 1. **For Setup**: Start with [Environment Variables Configuration](ENVIRONMENT-VARIABLES.md) to configure your development environment
-2. **For Developers**: Read the [Locale Configuration Guide](LOCALE-CONFIG.md) to understand the internationalization system  
+2. **For Developers**: Read the [Locale Configuration Guide](LOCALE-CONFIG.md) to understand the internationalization system
 3. **For Content Editors**: Check out the [Row & Column Layout Guide](ROW-COLUMN-LAYOUT-GUIDE.md) to master the CMS layout tools
+4. **For Forms**: Read the [Forms Guide](FORMS.md) to create forms and set up ODP integration
 
 ## 📖 Project Overview
 
