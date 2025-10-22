@@ -22,7 +22,7 @@ export interface I18nConfig {
  * This is the fallback if no environment variable override is provided
  */
 export const defaultI18nConfig: I18nConfig = {
-    locales: ['en', 'nl', 'nl-BE', 'sv', 'no', 'fr', 'fr-CA', 'es', 'it', 'ar', 'zh', 'zh-Hans-HK'],
+    locales: ['en', 'nl', 'nl-BE', 'sv', 'no', 'fr', 'fr-CA', 'es', 'it', 'ar', 'zh', 'zh-Hans-HK', 'de', 'de-AT'],
     defaultLocale: 'en',
     routing: {
         prefixDefaultLocale: false,
@@ -32,6 +32,7 @@ export const defaultI18nConfig: I18nConfig = {
         'nl-BE': 'nl',
         'fr-CA': 'fr',
         'zh-Hans-HK': 'zh',
+        'de-AT': 'de',
         'nl': 'en',
         'sv': 'en',
         'no': 'en',
@@ -40,6 +41,7 @@ export const defaultI18nConfig: I18nConfig = {
         'it': 'en',
         'ar': 'en',
         'zh': 'en',
+        'de': 'en',
     },
 };
 

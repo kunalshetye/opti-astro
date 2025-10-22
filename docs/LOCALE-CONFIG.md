@@ -18,6 +18,8 @@ The project comes with default support for these locales:
 - 🇸🇦 **Arabic** (`ar`)
 - 🇨🇳 **Chinese** (`zh`)
 - 🇭🇰 **Chinese Hong Kong** (`zh-Hans-HK`) → falls back to `zh` → `en`
+- 🇩🇪 **German** (`de`)
+- 🇦🇹 **Austrian German** (`de-AT`) → falls back to `de` → `en`
 
 **No configuration needed** - these work out of the box!
 
@@ -29,6 +31,8 @@ With default configuration:
 - `/nl/about` → Dutch content
 - `/nl-BE/about` → Dutch Belgian content (falls back to Dutch if missing)
 - `/fr-CA/about` → Canadian French content (falls back to French if missing)
+- `/de/about` → German content (falls back to English if missing)
+- `/de-AT/about` → Austrian German content (falls back to German if missing)
 - `/ar/about` → Arabic content (falls back to English if missing)
 - `/zh/about` → Chinese content (falls back to English if missing)
 - `/zh-Hans-HK/about` → Chinese Hong Kong content (falls back to Chinese if missing)
