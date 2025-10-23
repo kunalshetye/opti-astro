@@ -1,4 +1,4 @@
-// /public/js/synonyms.js
+// /public/opti-admin/js/synonyms.js
 document.addEventListener('DOMContentLoaded', function() {
   const form = document.getElementById('synonymsForm');
   const messageDiv = document.getElementById('message');
@@ -8,11 +8,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function showMessage(text, isSuccess) {
     if (isSuccess === undefined) isSuccess = false;
-    
-    const className = isSuccess 
+
+    const className = isSuccess
       ? 'p-4 rounded-md mb-6 bg-green-50 text-green-800 border border-green-200'
       : 'p-4 rounded-md mb-6 bg-red-50 text-red-800 border border-red-200';
-    
+
     messageDiv.className = className;
     messageDiv.textContent = text;
     messageDiv.classList.remove('hidden');
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   form.addEventListener('submit', function(e) {
     e.preventDefault();
-    
+
     setLoading(true);
     messageDiv.classList.add('hidden');
 
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
       languageRouting: formData.get('languageRouting')
     };
 
-    fetch('/api/synonyms', {
+    fetch('/opti-admin/api/synonyms.json', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

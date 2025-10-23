@@ -1,13 +1,13 @@
-// /src/pages/api/pinned-items.ts
+// /src/pages/opti-admin/api/pinned-items.json.ts
 import type { APIRoute } from 'astro';
-import { 
+import {
   makeHmacApiRequest,
   isValidGuid,
   createSuccessResponse,
   createErrorResponse,
   handleApiError,
   clampNumber
-} from '../../../utils/optimizely-graph-utils';
+} from '../../../../utils/optimizely-graph-utils';
 
 // POST - Add pinned item to collection
 export const POST: APIRoute = async ({ request }) => {
@@ -78,15 +78,15 @@ export const POST: APIRoute = async ({ request }) => {
 export const GET: APIRoute = async ({ url }) => {
   try {
     const collectionId = url.searchParams.get('collectionId');
-    
+
     if (!collectionId) {
       return createErrorResponse('Collection ID is required', 400);
     }
-    
+
     const response = await makeHmacApiRequest(`/api/pinned/collections/${collectionId}/items`, {
       method: 'GET'
     });
-    
+
     if (!response.ok) {
       const errorText = await response.text();
       return createErrorResponse(
@@ -94,13 +94,13 @@ export const GET: APIRoute = async ({ url }) => {
         response.status
       );
     }
-    
+
     const items = await response.json();
-    
+
     return createSuccessResponse(
       Array.isArray(items) ? items : [items]
     );
-    
+
   } catch (error) {
     return handleApiError(error);
   }
@@ -111,15 +111,15 @@ export const DELETE: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
     const { collectionId, itemId } = body;
-    
+
     if (!collectionId || !itemId) {
       return createErrorResponse('Collection ID and Item ID are required', 400);
     }
-    
+
     const response = await makeHmacApiRequest(`/api/pinned/collections/${collectionId}/items/${itemId}`, {
       method: 'DELETE'
     });
-    
+
     if (!response.ok) {
       const errorText = await response.text();
       return createErrorResponse(
@@ -127,9 +127,9 @@ export const DELETE: APIRoute = async ({ request }) => {
         response.status
       );
     }
-    
+
     return createSuccessResponse(undefined, 'Pinned item deleted successfully');
-    
+
   } catch (error) {
     return handleApiError(error);
   }

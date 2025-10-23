@@ -9,6 +9,7 @@
         "build": "graphql-codegen --config codegen.ts && astro build",
         "preview": "astro preview",
         "astro": "astro",
+        "check": "astro check",
         "codegen": "graphql-codegen --config codegen.ts",
         "codegen:watch": "graphql-codegen --watch --config codegen.ts",
         "styles:push": "node --env-file=.env ./utils/styles/push.mjs",
