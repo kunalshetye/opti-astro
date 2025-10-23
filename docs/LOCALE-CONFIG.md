@@ -166,29 +166,30 @@ const graphqlLocale = localeToSdkLocale(locale); // 'fr_CA'
 
 ### Content Fallback System
 
-When content doesn't exist in the requested locale:
+**The project now relies entirely on Astro's built-in i18n fallback system!**
 
-**1. Try requested locale**
-```
-User requests: /fr-CA/about
-Tries: fr_CA content in GraphQL
-```
+When content doesn't exist in the requested locale, Astro automatically handles the fallback:
 
-**2. Try configured fallback**
-```
-Falls back to: 'fr' (from fallback config)
-Tries: fr content in GraphQL
-```
+**How it works:**
 
-**3. Try default locale**
-```
-Falls back to: 'en' (defaultLocale)
-Tries: en content in GraphQL
-```
+1. **User requests:** `/fr-CA/about`
+2. **Page renders** with `Astro.currentLocale = 'fr-CA'`
+3. **GraphQL query** for `fr_CA` content
+4. **If not found:** Return 404 to Astro
+5. **Astro's i18n** automatically rewrites to `/fr/about` (based on fallback config)
+6. **Page re-renders** with `Astro.currentLocale = 'fr'`
+7. **GraphQL query** for `fr` content
+8. **If still not found:** Repeats until default locale or 404
 
-**4. Behavior based on `fallbackType`**
-- `rewrite`: Show fallback content at `/fr-CA/about`
-- `redirect`: Redirect user to `/fr/about` or `/about`
+**Key benefits:**
+- ✅ Simpler code - no manual fallback logic
+- ✅ Leverages Astro's optimized routing
+- ✅ Consistent with Astro best practices
+- ✅ Automatic based on `fallbackType` configuration
+
+**Behavior based on `fallbackType`:**
+- `rewrite` (default): Server-side rewrite, URL stays `/fr-CA/about`
+- `redirect`: Client-side redirect to `/fr/about` or `/about`
 
 ### Feature Experimentation (FX) Integration
 
@@ -367,13 +368,13 @@ const defaultI18nConfig = {
 **Possible causes:**
 1. Content doesn't exist in CMS for that locale
 2. Fallback locale also missing content
-3. Check fallback chain is properly configured
+3. Check fallback chain is properly configured in `astro.config.mjs`
 
 **Debug steps:**
 ```javascript
 // Add to page to see what's happening
 console.log('Current locale:', Astro.currentLocale);
-console.log('Fallback chain:', getFallbackChain(Astro.currentLocale, config));
+console.log('Fallback config:', import.meta.env.ASTRO_I18N_CONFIG);
 ```
 
 ### GraphQL Query Failing
@@ -433,12 +434,15 @@ This is a limitation in Astro's type definitions. Runtime behavior is correct.
 
 **Enable debug logging:**
 ```typescript
-// In [...page].astro
+// In [...page].astro or variant-resolver.ts
 const debugEnabled = true;
-const result = await resolveContentWithFallback(
-    // ...
-    debugEnabled, // Set to true
-    variantKey
+const result = await fetchContentByPath(
+    getOptimizelySdk,
+    contentPayload,
+    urlBase,
+    urlPath,
+    debugEnabled, // Set to true for debug logs
+    variantKey // Optional variant key
 );
 ```
 
@@ -476,18 +480,24 @@ astro.config.mjs                # i18n configuration
 - ❌ `isValidLocale()` function
 - ❌ `utils/sync-locales.mjs` script
 - ❌ Build-time locale synchronization
+- ❌ Manual fallback logic (`getFallbackChain()`, `getFallbackLocale()`)
+- ❌ `resolveContentWithFallback()` complexity (~150 lines)
+- ❌ `getPathWithoutLocale()` helper
 
 **Added:**
 - ✅ Astro's `i18n` config block
 - ✅ Environment variable support
 - ✅ `@ts-ignore` for type limitations
+- ✅ Simple `fetchContentByPath()` function (~80 lines)
 
 **Kept:**
-- ✅ `localeToSdkLocale()` - Essential for GraphQL
-- ✅ `resolveContentWithFallback()` - Essential for FX
+- ✅ `localeToSdkLocale()` - Essential for GraphQL format conversion
+- ✅ `normalizeLocale()` - For reverse conversion
 - ✅ All FX integration code
 
-**Result:** 500+ lines of custom code removed, more reliable routing! 🎉
+**Result:** 700+ lines of custom code removed, more reliable routing, simpler architecture! 🎉
+
+**Key architectural change:** Now leverages Astro's built-in i18n fallback system instead of manually implementing fallback logic in GraphQL queries.
 
 ## Migration Notes
 

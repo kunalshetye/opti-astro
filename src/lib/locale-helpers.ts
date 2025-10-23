@@ -3,30 +3,7 @@
  * Provides locale format conversion for Optimizely Graph API
  */
 
-import { getRelativeLocaleUrl } from 'astro:i18n';
-
-/**
- * Astro i18n configuration interface
- */
-export interface AstroI18nConfig {
-    i18n: {
-        locales: string[];
-        defaultLocale: string;
-        routing?: {
-            prefixDefaultLocale?: boolean;
-            fallbackType?: string;
-        };
-        fallback?: Record<string, string>;
-    };
-}
-
-/**
- * GraphQL content payload interface
- */
-export interface ContentPayload {
-    loc: string;
-    [key: string]: any;
-}
+import type { ContentPayload } from '../graphql/shared/ContentPayload';
 
 /**
  * Optimizely SDK methods interface
@@ -48,7 +25,7 @@ export interface OptimizelySdk {
 /**
  * Function type for getting Optimizely SDK with payload
  */
-export type GetOptimizelySdk = (payload: ContentPayload) => OptimizelySdk;
+export type GetOptimizelySdk = (contentPayload: ContentPayload) => OptimizelySdk;
 
 /**
  * Convert URL-friendly locale format to GraphQL API format
@@ -88,102 +65,38 @@ export function normalizeLocale(locale: string): string {
 }
 
 /**
- * Get fallback locale for content fetching
- * Uses Astro's i18n configuration
+ * Simplified content fetching for GraphQL
+ * Queries GraphQL for content in the current locale only
+ * Relies on Astro's i18n fallback system to handle locale fallbacks via rewrites
+ *
+ * @param getOptimizelySdk - Function to get the Optimizely SDK instance
+ * @param contentPayload - Content payload with locale already set
+ * @param urlBase - Base URL
+ * @param urlPath - URL path
+ * @param enableDebugLogs - Enable debug logging
+ * @param variantKey - Optional variant key for A/B testing
+ * @returns Content response and whether content was found
  */
-export function getFallbackLocale(locale: string, config: AstroI18nConfig): string {
-    // Check if there's a specific fallback configured for this locale
-    if (config.i18n.fallback && config.i18n.fallback[locale]) {
-        return config.i18n.fallback[locale];
-    }
-
-    // Check if the locale is the default locale
-    if (locale === config.i18n.defaultLocale) {
-        return config.i18n.defaultLocale;
-    }
-
-    // Use default locale as generic fallback
-    return config.i18n.defaultLocale;
-}
-
-/**
- * Get the complete fallback chain for a locale from Astro config
- * Returns an array of locales to try in order
- */
-export function getFallbackChain(locale: string, config: AstroI18nConfig, visited: Set<string> = new Set()): string[] {
-    const chain: string[] = [];
-
-    // Prevent infinite loops
-    if (visited.has(locale)) {
-        return chain;
-    }
-    visited.add(locale);
-
-    // Check if there's a specific fallback configured for this locale
-    if (config.i18n.fallback && config.i18n.fallback[locale]) {
-        const fallback = config.i18n.fallback[locale];
-        chain.push(fallback);
-        // Recursively get the fallback chain for the fallback locale
-        chain.push(...getFallbackChain(fallback, config, visited));
-    } else if (locale !== config.i18n.defaultLocale) {
-        // If no specific fallback, use default locale
-        chain.push(config.i18n.defaultLocale);
-    }
-
-    return chain;
-}
-
-/**
- * Remove locale prefix from path
- * Useful for getting the base path without locale
- */
-export function getPathWithoutLocale(pathname: string, locales: string[]): string {
-    const segments = pathname.split('/').filter(Boolean);
-
-    if (segments.length === 0) {
-        return '/';
-    }
-
-    const potentialLocale = segments[0];
-
-    // Check if first segment is a known locale
-    if (locales.includes(potentialLocale)) {
-        // Remove locale segment and reconstruct path
-        const pathSegments = segments.slice(1);
-        return pathSegments.length > 0 ? `/${pathSegments.join('/')}` : '/';
-    }
-
-    return pathname;
-}
-
-/**
- * Simplified content fallback resolution for GraphQL
- * Attempts to fetch content with fallback chain
- * Relies on Astro's i18n for routing, only handles GraphQL content fetching
- */
-export async function resolveContentWithFallback(
+export async function fetchContentByPath(
     getOptimizelySdk: GetOptimizelySdk,
     contentPayload: ContentPayload,
     urlBase: string,
     urlPath: string,
-    requestedLocale: string,
-    config: AstroI18nConfig,
     enableDebugLogs: boolean = false,
     variantKey?: string | null
 ): Promise<{
     contentResponse: any;
-    actualLocaleUsed: string;
-    shouldRedirect404: boolean;
+    found: boolean;
 }> {
     const urlPathNoSlash = urlPath.replace(/\/$/, '');
 
-    // First, try to get content in the requested locale
+    // Query GraphQL for content in the current locale
     let contentByPathResponse;
     try {
         // Always log variant queries for debugging
         const shouldLogVariant = variantKey !== null && variantKey !== undefined;
         if (enableDebugLogs || shouldLogVariant) {
-            console.log(`[GraphQL] 🔍 Initial query: locale=${requestedLocale}, url=${urlPath}, variant=${variantKey || 'none'}`);
+            console.log(`[GraphQL] 🔍 Query: locale=${contentPayload.loc}, url=${urlPath}, variant=${variantKey || 'none'}`);
         }
 
         // Use variant query if variantKey is provided
@@ -218,11 +131,11 @@ export async function resolveContentWithFallback(
         }
 
         if (enableDebugLogs || shouldLogVariant) {
-            console.log(`[GraphQL] 📊 Initial response: key=${contentByPathResponse._Content?.item?._metadata?.key}, ver=${contentByPathResponse._Content?.item?._metadata?.version}, variant=${contentByPathResponse._Content?.item?._metadata?.variation || 'none'}`);
+            console.log(`[GraphQL] 📊 Response: key=${contentByPathResponse._Content?.item?._metadata?.key}, ver=${contentByPathResponse._Content?.item?._metadata?.version}, variant=${contentByPathResponse._Content?.item?._metadata?.variation || 'none'}`);
         }
     } catch (error) {
         if (enableDebugLogs || variantKey) {
-            console.log(`[GraphQL] ❌ Initial query failed for ${requestedLocale}`, error);
+            console.log(`[GraphQL] ❌ Query failed:`, error);
         }
         contentByPathResponse = { _Content: null };
     }
@@ -233,72 +146,8 @@ export async function resolveContentWithFallback(
         contentByPathResponse._Content.item._metadata?.key
     );
 
-    // If content found, return it
-    if (hasContent) {
-        return {
-            contentResponse: contentByPathResponse,
-            actualLocaleUsed: requestedLocale,
-            shouldRedirect404: false
-        };
-    }
-
-    // Get the complete fallback chain from Astro config
-    const fallbackChain = getFallbackChain(requestedLocale, config);
-    const pathWithoutLocale = getPathWithoutLocale(urlPath, config.i18n.locales);
-
-    if (enableDebugLogs) {
-        console.log(`🔄 Fallback chain for ${requestedLocale}: ${fallbackChain.join(' -> ')}`);
-    }
-
-    // Try each locale in the fallback chain
-    for (const fallbackLocale of fallbackChain) {
-        const fallbackPayload = { ...contentPayload };
-        fallbackPayload.loc = localeToSdkLocale(fallbackLocale);
-
-        // Construct fallback URL with proper locale prefix using Astro's i18n helper
-        const fallbackUrlPath = getRelativeLocaleUrl(fallbackLocale, pathWithoutLocale);
-        const fallbackUrlPathNoSlash = fallbackUrlPath.replace(/\/$/, '');
-
-        if (enableDebugLogs || variantKey) {
-            console.log(`[GraphQL] 🔄 Trying fallback: locale=${fallbackLocale}, url=${fallbackUrlPath}, variant=${variantKey || 'none'}`);
-        }
-
-        try {
-            // Use variant query if variantKey is provided
-            const fallbackResponse = variantKey
-                ? await getOptimizelySdk(fallbackPayload).contentByPathVariant({
-                    base: urlBase,
-                    url: fallbackUrlPath,
-                    urlNoSlash: fallbackUrlPathNoSlash,
-                    variation: variantKey
-                })
-                : await getOptimizelySdk(fallbackPayload).contentByPath({
-                    base: urlBase,
-                    url: fallbackUrlPath,
-                    urlNoSlash: fallbackUrlPathNoSlash
-                });
-
-            if (fallbackResponse._Content?.item?._metadata?.key) {
-                if (enableDebugLogs || variantKey) {
-                    console.log(`[GraphQL] 📊 Fallback successful: locale=${fallbackLocale}, key=${fallbackResponse._Content.item._metadata.key}, variant=${fallbackResponse._Content.item._metadata.variation || 'none'}`);
-                }
-                return {
-                    contentResponse: fallbackResponse,
-                    actualLocaleUsed: fallbackLocale,
-                    shouldRedirect404: false
-                };
-            }
-        } catch (error) {
-            if (enableDebugLogs || variantKey) {
-                console.log(`[GraphQL] ❌ Fallback failed for ${fallbackLocale}:`, error);
-            }
-        }
-    }
-
-    // No content found in any fallback
     return {
-        contentResponse: null,
-        actualLocaleUsed: requestedLocale,
-        shouldRedirect404: true
+        contentResponse: contentByPathResponse,
+        found: hasContent
     };
 }
