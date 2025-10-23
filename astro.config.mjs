@@ -7,6 +7,8 @@ import { adapter } from 'astro-auto-adapter';
 import alpinejs from '@astrojs/alpinejs';
 import tailwindcss from '@tailwindcss/vite';
 
+import svelte from '@astrojs/svelte';
+
 const multiAdapter = await adapter();
 
 // Custom locale configuration for dynamic CMS locales
@@ -70,7 +72,7 @@ export default defineConfig({
         },
         plugins: [mkcert(), tailwindcss()],
     },
-    integrations: [alpinejs()],
+    integrations: [alpinejs(), svelte()],
 
     env: {
         schema: {
