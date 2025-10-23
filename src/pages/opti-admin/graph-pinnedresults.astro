@@ -1,7 +1,7 @@
 ---
 // /src/pages/opti-admin/graph-pinnedresults.astro
 import AdminLayout from '../../layouts/AdminLayout.astro';
-import { checkAdminAuth } from '../../../utils/admin-auth';
+import { checkAdminAuth } from './auth-opti-admin';
 
 // Check authentication
 const authError = checkAdminAuth(Astro.request);
@@ -142,15 +142,89 @@ try {
       </p>
     </div>
 
-    <!-- Information Banner -->
-    <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
-      <h2 class="text-lg font-semibold text-blue-800 mb-2">How Pinned Results Work</h2>
-      <div class="text-sm text-blue-700">
-        <p class="mb-2"><strong>Collections:</strong> Group related pinned results together for easier management</p>
-        <p class="mb-2"><strong>Search Phrases:</strong> When users search for these terms, your pinned content appears first</p>
-        <p class="mb-2"><strong>Content GUIDs:</strong> Each pinned result targets specific content using its unique identifier</p>
-        <p class="text-xs mt-3">Higher priority items (1-100) appear before lower priority items when multiple results match the same phrase.</p>
-      </div>
+    <!-- Notes Section -->
+    <div class="mb-6 space-y-3">
+      <h2 class="text-xl font-semibold text-gray-900 mb-3">Notes</h2>
+
+      <!-- How Pinned Results Work -->
+      <details class="bg-blue-50 border-l-4 border-blue-400 rounded group">
+        <summary class="cursor-pointer p-4 hover:bg-blue-100 transition-colors select-none list-none [&::-webkit-details-marker]:hidden">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-semibold text-blue-800 inline-flex items-center">
+              <svg class="w-5 h-5 mr-2 transform transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+              How Pinned Results Work
+            </h3>
+            <span class="text-xs text-blue-600 font-medium">Click to expand</span>
+          </div>
+        </summary>
+        <div class="px-4 pb-4 text-sm text-blue-700">
+          <p class="mb-2"><strong>Collections:</strong> Group related pinned results together for easier management</p>
+          <p class="mb-2"><strong>Search Phrases:</strong> When users search for these terms, your pinned content appears first</p>
+          <p class="mb-2"><strong>Content GUIDs:</strong> Each pinned result targets specific content using its unique identifier</p>
+          <p class="text-xs mt-3">Higher priority items (1-100) appear before lower priority items when multiple results match the same phrase.</p>
+        </div>
+      </details>
+
+      <!-- Important Notes -->
+      <details class="bg-yellow-50 border-l-4 border-yellow-400 rounded group">
+        <summary class="cursor-pointer p-4 hover:bg-yellow-100 transition-colors select-none list-none [&::-webkit-details-marker]:hidden">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-semibold text-yellow-800 inline-flex items-center">
+              <svg class="w-5 h-5 mr-2 transform transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+              Important Notes
+            </h3>
+            <span class="text-xs text-yellow-600 font-medium">Click to expand</span>
+          </div>
+        </summary>
+        <div class="px-4 pb-4 text-sm text-yellow-700">
+          <ul class="list-disc list-inside space-y-1">
+            <li>Only the top 5 pinned items per phrase are displayed in search results</li>
+            <li>Changes are available in near real-time after creating pinned results</li>
+            <li>Pinned items receive higher boost weights and appear before organic results</li>
+            <li>If multiple items have the same phrase, priority determines display order</li>
+            <li>Both collections and individual items must be active to appear in results</li>
+          </ul>
+        </div>
+      </details>
+
+      <!-- Example Usage in GraphQL -->
+      <details class="bg-green-50 border-l-4 border-green-400 rounded group">
+        <summary class="cursor-pointer p-4 hover:bg-green-100 transition-colors select-none list-none [&::-webkit-details-marker]:hidden">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-semibold text-green-800 inline-flex items-center">
+              <svg class="w-5 h-5 mr-2 transform transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+              Example Usage in GraphQL
+            </h3>
+            <span class="text-xs text-green-600 font-medium">Click to expand</span>
+          </div>
+        </summary>
+        <div class="px-4 pb-4 text-sm text-green-700">
+          <p class="mb-2">To use pinned results in your GraphQL queries, use the usePinned parameter:</p>
+          <pre class="bg-green-100 p-3 rounded text-xs overflow-x-auto"><code>{`
+  Content(
+    where: { _fulltext: { match: "water" } }
+    usePinned: {
+      phrase: "water",
+      collectionId: "your-collection-id"
+    }
+  ) {
+    items {
+      _score
+      _id
+      Name
+      MainBody
+    }
+  }
+`}</code></pre>
+          <p class="mt-2 text-xs">Pinned results will appear at the top with higher boost weights when the search phrase matches.</p>
+        </div>
+      </details>
     </div>
 
     <!-- Status Messages -->
@@ -175,63 +249,29 @@ try {
       </div>
     )}
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:items-start">
       <!-- Left Column: Collections Management -->
       <div class="space-y-8">
-        <!-- Create New Collection -->
-        <div class="bg-white shadow-lg rounded-lg border border-gray-200">
-          <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 rounded-t-lg">
-            <h2 class="text-xl font-semibold text-gray-900">Create Collection</h2>
-            <p class="text-sm text-gray-600 mt-1">Collections group pinned results together for management</p>
-          </div>
-          <form method="POST" class="p-6 space-y-4">
-            <input type="hidden" name="action" value="create-collection" />            
-            
-            <div>
-              <label for="collectionTitle" class="block text-sm font-medium text-gray-700 mb-2">
-                Collection Title
-              </label>
-              <input 
-                type="text" 
-                id="collectionTitle" 
-                name="collectionTitle" 
-                required
-                placeholder="e.g., Homepage Promotions"
-                class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
+        <!-- Browsing Section -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-700 mb-4 flex items-center h-7">
+            <svg class="w-5 h-5 mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+            </svg>
+            Browse Collections & Items
+          </h2>
 
-            <div class="flex items-center">
-              <input 
-                type="checkbox" 
-                id="collectionActive" 
-                name="collectionActive" 
-                checked
-                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-              />
-              <label for="collectionActive" class="ml-2 block text-sm text-gray-700">
-                Active (collection and its items will be used in search)
-              </label>
-            </div>
-
-            <button 
-              type="submit"
-              class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200"
-            >
-              Create Collection
-            </button>
-          </form>
-        </div>
-
-        <!-- Existing Collections -->
-        <div class="bg-white shadow-lg rounded-lg border border-gray-200">
+          <div class="space-y-6">
+            <!-- Existing Collections -->
+            <div class="bg-white shadow-lg rounded-lg border border-gray-200">
           <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 rounded-t-lg">
             <h2 class="text-xl font-semibold text-gray-900">Existing Collections</h2>
             <p class="text-sm text-gray-600 mt-1">Select a collection to manage its pinned results</p>
           </div>
           <div class="p-6">
             {collections.length === 0 ? (
-              <p class="text-gray-500 text-center py-4">No collections found. Create one above to get started.</p>
+              <p class="text-gray-500 text-center py-4">No collections found. Create one below to get started.</p>
             ) : (
               <div class="space-y-3">
                 {collections.map((collection: any) => (
@@ -244,14 +284,14 @@ try {
                       </div>
                     </div>
                     <div class="flex items-center space-x-2">
-                      <button 
+                      <button
                         type="button"
                         onclick={`selectCollection('${collection.id}', '${collection.title.replace(/'/g, "\\\'")}')`}
                         class="text-blue-600 hover:text-blue-800 text-sm font-medium px-2 py-1 rounded hover:bg-blue-50"
                       >
                         Select
                       </button>
-                      <button 
+                      <button
                         type="button"
                         onclick={`showDeleteDialog('${collection.id}', '${collection.title.replace(/'/g, "\\'")}')`}
                         class="text-red-600 hover:text-red-800 text-sm font-medium px-2 py-1 rounded hover:bg-red-50"
@@ -280,13 +320,119 @@ try {
             <div id="pinnedItemsList" class="space-y-3"></div>
           </div>
         </div>
+          </div>
+        </div>
+
+        <!-- Creation Section -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-700 mb-4 flex items-center h-7">
+            <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            Create New Collection
+          </h2>
+
+          <!-- Create New Collection -->
+          <div class="bg-white shadow-lg rounded-lg border border-gray-200">
+          <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 rounded-t-lg">
+            <h2 class="text-xl font-semibold text-gray-900">Create Collection</h2>
+            <p class="text-sm text-gray-600 mt-1">Collections group pinned results together for management</p>
+          </div>
+          <form method="POST" class="p-6 space-y-4">
+            <input type="hidden" name="action" value="create-collection" />
+
+            <div>
+              <label for="collectionTitle" class="block text-sm font-medium text-gray-700 mb-2">
+                Collection Title
+              </label>
+              <input
+                type="text"
+                id="collectionTitle"
+                name="collectionTitle"
+                required
+                placeholder="e.g., Homepage Promotions"
+                class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+
+            <div class="flex items-center">
+              <input
+                type="checkbox"
+                id="collectionActive"
+                name="collectionActive"
+                checked
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              />
+              <label for="collectionActive" class="ml-2 block text-sm text-gray-700">
+                Active (collection and its items will be used in search)
+              </label>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200"
+            >
+              Create Collection
+            </button>
+          </form>
+        </div>
+        </div>
 
       </div>
 
       <!-- Right Column: Pinned Items Management -->
       <div class="space-y-8">
-        <!-- Add Pinned Item -->
-        <div class="bg-white shadow-lg rounded-lg border border-gray-200">
+        <!-- Search Section -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-700 mb-4 flex items-center h-7">
+            <svg class="w-5 h-5 mr-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            Search for Content
+          </h2>
+
+          <!-- Content Search Helper -->
+          <div class="bg-white shadow-lg rounded-lg border border-gray-200">
+          <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 rounded-t-lg">
+            <h2 class="text-xl font-semibold text-gray-900">Find Content</h2>
+            <p class="text-sm text-gray-600 mt-1">Search for content to get its GUID for pinned results</p>
+          </div>
+          <div class="p-6">
+            <div class="flex space-x-2">
+              <input
+                type="text"
+                id="contentSearchInput"
+                placeholder="Search for content..."
+                class="flex-1 p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+              <button
+                type="button"
+                id="contentSearchButton"
+                onclick="searchContent()"
+                class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-200"
+              >
+                Search
+              </button>
+            </div>
+          </div>
+
+          <div id="contentSearchResultsContainer" style="display: none;">
+            {/* This container is now populated by client-side JavaScript */}
+          </div>
+        </div>
+        </div>
+
+        <!-- Add/Update Section -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-700 mb-4 flex items-center h-7">
+            <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+            </svg>
+            Add Pinned Result
+          </h2>
+
+          <!-- Add Pinned Item -->
+          <div class="bg-white shadow-lg rounded-lg border border-gray-200">
           <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 rounded-t-lg">
             <h2 class="text-xl font-semibold text-gray-900">Add Pinned Result</h2>
             <p class="text-sm text-gray-600 mt-1">Add content to be pinned for specific search phrases</p>
@@ -384,75 +530,10 @@ try {
             </div>
           </form>
         </div>
-
-        <!-- Content Search Helper -->
-        <div class="bg-white shadow-lg rounded-lg border border-gray-200">
-          <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 rounded-t-lg">
-            <h2 class="text-xl font-semibold text-gray-900">Find Content</h2>
-            <p class="text-sm text-gray-600 mt-1">Search for content to get its GUID for pinned results</p>
-          </div>
-          <div class="p-6">
-            <div class="flex space-x-2">
-              <input 
-                type="text" 
-                id="contentSearchInput"
-                placeholder="Search for content..."
-                class="flex-1 p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-              <button 
-                type="button"
-                id="contentSearchButton"
-                onclick="searchContent()"
-                class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-200"
-              >
-                Search
-              </button>
-            </div>
-          </div>
-
-          <div id="contentSearchResultsContainer" style="display: none;">
-            {/* This container is now populated by client-side JavaScript */}
-          </div>
         </div>
       </div>
     </div>
 
-    <!-- Usage Information -->
-    <div class="mt-8 bg-green-50 border-l-4 border-green-400 p-4">
-      <h3 class="text-lg font-semibold text-green-800 mb-2">Example Usage in GraphQL</h3>
-      <div class="text-sm text-green-700">
-        <p class="mb-2">To use pinned results in your GraphQL queries, use the usePinned parameter:</p>
-        <pre class="bg-green-100 p-3 rounded text-xs overflow-x-auto"><code>{`
-  Content(
-    where: { _fulltext: { match: "water" } }
-    usePinned: { 
-      phrase: "water", 
-      collectionId: "your-collection-id" 
-    }
-  ) {
-    items {
-      _score
-      _id
-      Name
-      MainBody
-    }
-  }
-`}</code></pre>
-        <p class="mt-2 text-xs">Pinned results will appear at the top with higher boost weights when the search phrase matches.</p>
-      </div>
-    </div>
-
-    <!-- Important Notes -->
-    <div class="mt-6 bg-yellow-50 border-l-4 border-yellow-400 p-4">
-      <h3 class="text-lg font-semibold text-yellow-800 mb-2">Important Notes</h3>
-      <ul class="text-sm text-yellow-700 list-disc list-inside space-y-1">
-        <li>Only the top 5 pinned items per phrase are displayed in search results</li>
-        <li>Changes are available in near real-time after creating pinned results</li>
-        <li>Pinned items receive higher boost weights and appear before organic results</li>
-        <li>If multiple items have the same phrase, priority determines display order</li>
-        <li>Both collections and individual items must be active to appear in results</li>
-      </ul>
-    </div>
   </div>
 
   <!-- Delete Collection Confirmation Dialog -->
@@ -575,7 +656,7 @@ try {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ collectionId, itemId })
-      }).then(response => {
+      }).then(() => {
         document.getElementById(`pinned-item-${itemId}`)?.remove();
       });
     };
@@ -614,7 +695,7 @@ try {
                 <p class="text-xs text-gray-500 font-mono">${item.guid}</p>
                 <p class="text-xs text-gray-400">${item.contentType} • ${item.language}</p>
               </div>
-              <button type="button" onclick="copyGuid('${item.guid}')" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+              <button type="button" onclick="copyGuid('${item.guid}', event)" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
                 Select Page
               </button>
             </div>
@@ -630,15 +711,15 @@ try {
       }
     };
 
-    window.copyGuid = function(guid) {
+    window.copyGuid = function(guid, event) {
       document.getElementById('targetKey').value = guid;
-      
+
       // Show feedback
       const button = event.target;
       const originalText = button.textContent;
       button.textContent = 'Copied!';
       button.className = 'text-green-600 hover:text-green-800 text-sm font-medium';
-      
+
       setTimeout(() => {
         button.textContent = originalText;
         button.className = 'text-blue-600 hover:text-blue-800 text-sm font-medium';

@@ -1,7 +1,7 @@
 // /src/pages/api/synonyms.ts
 import type { APIRoute } from 'astro';
 import { getOptimizelyGraphConfig, uploadSynonyms } from '../../../utils/optimizely-hmac';
-import { checkAdminAuth } from '../../../utils/admin-auth';
+import { checkAdminAuth } from '../opti-admin/auth-opti-admin';
 
 export const POST: APIRoute = async ({ request }) => {
   // Basic Auth check

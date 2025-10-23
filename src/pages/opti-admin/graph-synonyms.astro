@@ -1,7 +1,7 @@
 ---
 // /src/pages/opti-admin/graph-synonyms.astro
 import AdminLayout from '../../layouts/AdminLayout.astro';
-import { checkAdminAuth } from '../../../utils/admin-auth';
+import { checkAdminAuth } from './auth-opti-admin';
 
 // Check authentication
 const authError = checkAdminAuth(Astro.request);

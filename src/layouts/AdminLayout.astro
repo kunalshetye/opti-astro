@@ -5,6 +5,7 @@ export interface Props {
 }
 
 const { title, description = "Optimizely Admin Panel" } = Astro.props;
+const currentPath = Astro.url.pathname;
 
 import '../styles/global.css';
 ---
@@ -17,197 +18,342 @@ import '../styles/global.css';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
-    
+
     <style>
       body {
         font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         background-color: #f8fafc;
+        margin: 0;
+        padding: 0;
       }
-      
-      .admin-container {
+
+      .admin-layout {
+        display: flex;
         min-height: 100vh;
+      }
+
+      /* Sidebar Styles */
+      .admin-sidebar {
+        width: 260px;
+        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        height: 100vh;
+        left: 0;
+        top: 0;
+        z-index: 40;
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .sidebar-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .sidebar-logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: white;
+        text-decoration: none;
+        display: block;
+      }
+
+      .sidebar-logo:hover {
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .sidebar-nav {
+        flex: 1;
+        padding: 1rem 0;
+        overflow-y: auto;
+      }
+
+      .nav-section {
+        padding: 0 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .nav-section-title {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom: 0.5rem;
+        padding: 0 0.75rem;
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        border-radius: 0.5rem;
+        transition: all 0.2s;
+        margin-bottom: 0.25rem;
+      }
+
+      .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+      }
+
+      .nav-link.active {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: white;
+        font-weight: 600;
+      }
+
+      .nav-link svg {
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-right: 0.75rem;
+      }
+
+      .sidebar-footer {
+        padding: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .return-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+        text-decoration: none;
+        border-radius: 0.5rem;
+        transition: all 0.2s;
+        font-weight: 500;
+      }
+
+      .return-link:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      /* Main Content Area */
+      .admin-content {
+        flex: 1;
+        margin-left: 260px;
         display: flex;
         flex-direction: column;
       }
-      
-      .admin-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+
+      .content-header {
+        background: white;
+        border-bottom: 1px solid #e5e7eb;
+        padding: 1.5rem 2rem;
+        position: sticky;
+        top: 0;
+        z-index: 10;
       }
-      
-      .admin-nav-link {
-        transition: all 0.2s ease-in-out;
+
+      .content-title {
+        font-size: 1.875rem;
+        font-weight: 700;
+        color: #111827;
+        margin: 0;
       }
-      
-      .admin-nav-link:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-        transform: translateY(-1px);
-      }
-      
-      .admin-main {
+
+      .content-main {
         flex: 1;
-        background-color: #ffffff;
-        margin: 2rem;
-        border-radius: 12px;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        padding: 2rem;
       }
-      
-      .admin-breadcrumb {
-        background: linear-gradient(90deg, #f1f5f9 0%, #e2e8f0 100%);
+
+      /* Mobile Styles */
+      .mobile-header {
+        display: none;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 1rem;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
-      
+
+      .mobile-menu-button {
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+        padding: 0.5rem;
+      }
+
+      .mobile-menu-button svg {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+
+      @media (max-width: 768px) {
+        .admin-sidebar {
+          transform: translateX(-100%);
+          transition: transform 0.3s ease-in-out;
+        }
+
+        .admin-sidebar.mobile-open {
+          transform: translateX(0);
+        }
+
+        .admin-content {
+          margin-left: 0;
+        }
+
+        .mobile-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .sidebar-overlay {
+          display: none;
+          position: fixed;
+          inset: 0;
+          background-color: rgba(0, 0, 0, 0.5);
+          z-index: 30;
+        }
+
+        .sidebar-overlay.active {
+          display: block;
+        }
+      }
+
       code {
         font-family: 'JetBrains Mono', 'Fira Code', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
       }
-      
+
       /* Custom scrollbar */
       ::-webkit-scrollbar {
         width: 8px;
       }
-      
+
       ::-webkit-scrollbar-track {
         background: #f1f1f1;
         border-radius: 4px;
       }
-      
+
       ::-webkit-scrollbar-thumb {
         background: #c1c1c1;
         border-radius: 4px;
       }
-      
+
       ::-webkit-scrollbar-thumb:hover {
         background: #a8a8a8;
       }
     </style>
   </head>
-  
+
   <body>
-    <div class="admin-container">
-      <!-- Admin Header -->
-      <header class="admin-header">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex flex-col md:flex-row md:justify-between md:items-center py-4 space-y-2 md:space-y-0 items-start">
-            <a href="/opti-admin" class="group">
-              <div class="flex items-center space-x-4">
-                <div class="flex-shrink-0">
-                  <h1 class="text-2xl font-bold text-white group-hover:text-blue-100 transition-colors">
-                    <span class="text-blue-200">Optimizely</span> Site Admin
-                  </h1>
-                </div>
-              </div>
-            </a>
-            
-            <nav class="hidden md:flex space-x-1">
-              <a href="/opti-admin/graph-synonyms" class="admin-nav-link px-4 py-2 rounded-md text-sm font-medium text-white">
-                Synonyms Manager
-              </a>
-              <a href="/opti-admin/graph-pinnedresults" class="admin-nav-link px-4 py-2 rounded-md text-sm font-medium text-white">
-                Pinned Results Manager
-              </a>
-            </nav>
-
-            <!-- Add link to return to site home -->
-            <a
-              href="/"
-              class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 font-medium transition-colors
-                     inline-block text-center shadow-sm"
-              style="min-width:120px; "
-            >
-              Return to Site
-            </a>
-
-            <!-- Mobile menu button -->
-            <div class="md:hidden">
-              <button id="mobile-menu-button" class="text-white hover:text-blue-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600">
-                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-blue-700 bg-opacity-50">
-          <div class="px-2 pt-2 pb-3 space-y-1">
-            <a href="/opti-admin/graph-synonyms" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-blue-600">
-              Synonyms Manager
-            </a>
-            <a href="/opti-admin/graph-pinnedresults" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-blue-600">
-              Pinned Results Manager
-            </a>
-          </div>
-        </div>
-      </header>
-      
-      <!-- Breadcrumb -->
-      <div class="admin-breadcrumb border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex items-center py-3">
-            <svg class="flex-shrink-0 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-            </svg>
-            <a href="/opti-admin" class="ml-2 text-sm font-medium text-gray-500 hover:text-gray-700">Admin</a>
-            {title !== "Optimizely Graph Admin Panel" && title !== "Optimizely Graph - Optimizations Manager" && (
-              <>
-                <svg class="flex-shrink-0 mx-2 h-4 w-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                </svg>
-                <span class="text-sm font-medium text-gray-900">{title.replace('Optimizely Graph - ', '')}</span>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-      
-      <!-- Main Content -->
-      <main class="admin-main">
-        <div class="p-8">
-          <slot />
-        </div>
-      </main>
-      
-      <!-- Footer -->
-      <footer class="bg-gray-50 border-t border-gray-200">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-4">
-              <p class="text-sm text-gray-600">
-                Optimizely Graph Admin Panel
-              </p>
-              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                Connected
-              </span>
-            </div>
-            
-            <div class="flex items-center space-x-6 text-sm text-gray-500">
-              <a href="https://docs.developers.optimizely.com/platform-optimizely/docs/synonyms" target="_blank" class="hover:text-gray-700">
-                Synonyms Docs
-              </a>
-              <a href="https://docs.developers.optimizely.com/platform-optimizely/docs/pinned-results" target="_blank" class="hover:text-gray-700">
-                Pinned Results Docs
-              </a>
-              <a href="https://cg.optimizely.com/app/graphiql" target="_blank" class="hover:text-gray-700">
-                GraphiQL
-              </a>
-              <span>v1.0.0</span>
-            </div>
-          </div>
-        </div>
-      </footer>
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+      <button id="mobile-menu-button" class="mobile-menu-button" aria-label="Toggle menu">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+      <span class="text-white font-bold text-lg">Optimizely Admin</span>
+      <div style="width: 2rem;"></div>
     </div>
-    
+
+    <!-- Sidebar Overlay (Mobile) -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <div class="admin-layout">
+      <!-- Sidebar -->
+      <aside id="admin-sidebar" class="admin-sidebar">
+        <div class="sidebar-header">
+          <a href="/opti-admin" class="sidebar-logo">
+            <span style="color: rgba(255, 255, 255, 0.8);">Optimizely</span> Admin
+          </a>
+        </div>
+
+        <nav class="sidebar-nav">
+          <div class="nav-section">
+            <div class="nav-section-title">Main</div>
+            <a href="/opti-admin" class={`nav-link ${currentPath === '/opti-admin' || currentPath === '/opti-admin/' ? 'active' : ''}`}>
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+              </svg>
+              Dashboard
+            </a>
+          </div>
+
+          <div class="nav-section">
+            <div class="nav-section-title">CMS Tools</div>
+            <a href="/opti-admin/cms-sync" class={`nav-link ${currentPath.includes('/cms-sync') ? 'active' : ''}`}>
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+              </svg>
+              CMS Sync
+            </a>
+          </div>
+
+          <div class="nav-section">
+            <div class="nav-section-title">Graph Optimizations</div>
+            <a href="/opti-admin/graph-synonyms" class={`nav-link ${currentPath.includes('/graph-synonyms') ? 'active' : ''}`}>
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+              </svg>
+              Synonyms
+            </a>
+            <a href="/opti-admin/graph-pinnedresults" class={`nav-link ${currentPath.includes('/graph-pinnedresults') ? 'active' : ''}`}>
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+              </svg>
+              Pinned Results
+            </a>
+          </div>
+        </nav>
+
+        <div class="sidebar-footer">
+          <a href="/" class="return-link">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 1.25rem; height: 1.25rem; margin-right: 0.5rem;">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            Return to Site
+          </a>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <div class="admin-content">
+        <header class="content-header">
+          <h1 class="content-title">{title.replace('Optimizely Graph - ', '')}</h1>
+        </header>
+
+        <main class="content-main">
+          <slot />
+        </main>
+      </div>
+    </div>
+
     <!-- Mobile menu toggle script -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        if (mobileMenuButton && mobileMenu) {
-          mobileMenuButton.addEventListener('click', function() {
-            mobileMenu.classList.toggle('hidden');
-          });
+        const sidebar = document.getElementById('admin-sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+
+        function toggleSidebar() {
+          sidebar?.classList.toggle('mobile-open');
+          overlay?.classList.toggle('active');
         }
+
+        mobileMenuButton?.addEventListener('click', toggleSidebar);
+        overlay?.addEventListener('click', toggleSidebar);
+
+        // Close sidebar when clicking a link on mobile
+        const navLinks = sidebar?.querySelectorAll('.nav-link');
+        navLinks?.forEach(link => {
+          link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+              toggleSidebar();
+            }
+          });
+        });
       });
     </script>
   </body>
