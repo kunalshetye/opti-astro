@@ -2,6 +2,7 @@
 import CmsSync from './components/_CmsSync.svelte';
 import GraphPinnedResults from './components/_GraphPinnedResults.svelte';
 import GraphSynonyms from './components/_GraphSynonyms.svelte';
+import RedirectManagement from './components/_RedirectManagement.svelte';
 import AdminLayout from './layouts/AdminLayout.astro';
 
 // Get view parameter from URL
@@ -18,6 +19,8 @@ if (view === 'synonyms') {
   pageTitle = "Pinned Results Manager";
 } else if (view === 'cms-sync') {
   pageTitle = "CMS Sync";
+} else if (view === 'redirects') {
+  pageTitle = "Redirect Management";
 }
 
 export const prerender = false;
@@ -88,6 +91,24 @@ export const prerender = false;
                         </div>
                         <h4 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">Pinned Results</h4>
                         <p class="text-sm text-gray-600">Manage best bets to promote specific content for targeted search queries</p>
+                    </div>
+                </a>
+
+                <!-- Redirect Management Card -->
+                <a href="/opti-admin?view=redirects" class="group block bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-200 overflow-hidden border border-gray-200 hover:border-green-500">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="p-3 bg-green-100 rounded-lg group-hover:bg-green-200 transition-colors">
+                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                                </svg>
+                            </div>
+                            <svg class="w-5 h-5 text-gray-400 group-hover:text-green-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">Redirects</h4>
+                        <p class="text-sm text-gray-600">Manage URL redirects with support for 301, 302, 307, and 308 redirect types</p>
                     </div>
                 </a>
             </div>
@@ -246,6 +267,21 @@ export const prerender = false;
         </a>
       </div>
       <CmsSync {cmsUrl} client:load />
+    </div>
+  )}
+
+  {view === 'redirects' && (
+    <div>
+      <!-- Back to Dashboard -->
+      <div class="mb-6">
+        <a href="/opti-admin" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Back to Dashboard
+        </a>
+      </div>
+      <RedirectManagement client:load />
     </div>
   )}
 </AdminLayout>
