@@ -1,14 +1,7 @@
 import type { APIRoute } from 'astro';
-import { requireAdminAuth } from '../../auth-opti-admin';
 import { pushContentType } from '../../services/cms-sync';
 
 export const GET: APIRoute = async ({ request, url }) => {
-    // Check authentication
-    const authError = requireAdminAuth(request);
-    if (authError) {
-        return authError;
-    }
-
     const typeName = url.searchParams.get('type');
     if (!typeName) {
         return new Response('Type name is required', { status: 400 });

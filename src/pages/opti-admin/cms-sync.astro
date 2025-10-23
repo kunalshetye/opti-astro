@@ -1,12 +1,5 @@
 ---
-import AdminLayout from '../../layouts/AdminLayout.astro';
-import { checkAdminAuth } from './auth-opti-admin';
-
-// Check authentication
-const authError = checkAdminAuth(Astro.request);
-if (authError) {
-    return authError;
-}
+import AdminLayout from './layouts/AdminLayout.astro';
 
 // Get CMS URL from environment variables
 const cmsUrl = import.meta.env.OPTIMIZELY_CMS_URL || process.env.OPTIMIZELY_CMS_URL;

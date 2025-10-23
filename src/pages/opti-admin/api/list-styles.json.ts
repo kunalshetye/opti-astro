@@ -2,15 +2,8 @@ import type { APIRoute } from 'astro';
 import fg from 'fast-glob';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { requireAdminAuth } from '../auth-opti-admin';
 
 export const GET: APIRoute = async ({ request }) => {
-    // Check authentication
-    const authError = requireAdminAuth(request);
-    if (authError) {
-        return authError;
-    }
-
     try {
         // Get project root directory
         const __filename = fileURLToPath(import.meta.url);

@@ -1,14 +1,7 @@
 import type { APIRoute } from 'astro';
-import { requireAdminAuth } from '../../auth-opti-admin';
 import { pushAllStyles } from '../../services/cms-sync';
 
 export const GET: APIRoute = async ({ request }) => {
-    // Check authentication
-    const authError = requireAdminAuth(request);
-    if (authError) {
-        return authError;
-    }
-
     // Set up SSE headers
     const headers = new Headers({
         'Content-Type': 'text/event-stream',
