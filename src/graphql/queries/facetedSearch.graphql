@@ -5,10 +5,11 @@ query facetedSearch(
     $limit: Int = 20
     $offset: Int = 0
     $orderBy: ArticlePageOrderByInput
+    $orderByExperience: _ExperienceOrderByInput
     $authorFilters: [String!]
     $typeFilters: [String!]
 ) {
-    # Main content results
+    # Main content results - ArticlePage
     ArticlePage(
         locale: $locale
         limit: $limit
@@ -73,6 +74,63 @@ query facetedSearch(
                 name
                 count
             }
+            # Content types facet
+            _metadata {
+                types(
+                    filters: $typeFilters
+                    orderType: COUNT
+                    orderBy: DESC
+                    limit: 20
+                ) {
+                    name
+                    count
+                }
+            }
+        }
+    }
+
+    # Experience results
+    _Experience(
+        locale: $locale
+        limit: $limit
+        skip: $offset
+        orderBy: $orderByExperience
+        where: {
+            _and: [
+                # Domain filter (always applied)
+                { _metadata: { url: { base: { eq: $domain } } } }
+                # Content type filter (optional - null value is ignored)
+                { _metadata: { types: { in: $typeFilters } } }
+                # Status filter - only show published content
+                { _metadata: { status: { eq: "Published" } } }
+            ]
+            # Full-text search filter (optional - null value is ignored)
+            _fulltext: { match: $searchTerm, fuzzy: true }
+        }
+    ) {
+        total
+        items {
+            _metadata {
+                key
+                displayName
+                published
+                url {
+                    default
+                    hierarchical
+                    base
+                }
+                types
+            }
+            _fulltext
+            # Get SEO settings for specific Experience types
+            ... on BlankExperience {
+                BlankExperienceSeoSettings {
+                    MetaTitle
+                    MetaDescription
+                }
+            }
+        }
+        facets {
             # Content types facet
             _metadata {
                 types(
