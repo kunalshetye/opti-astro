@@ -1,0 +1,13 @@
+fragment FacetedSearch on FacetedSearch {
+    Title
+    IntroText {
+        html
+    }
+    ResultsPerPage
+    DefaultSortOrder
+    ShowSearchInput
+    ShowAuthorFacet
+    ShowTypeFacet
+    SearchPlaceholder
+    NoResultsMessage
+}

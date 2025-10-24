@@ -1,0 +1,176 @@
+---
+import type {
+	FacetedSearchFragment,
+	DisplaySettingsFragment,
+} from '../../../../__generated/sdk';
+import { getOptimizelySdk } from '../../../graphql/getSdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
+import { isEditContext } from '../../shared/utils.ts';
+import FacetedSearchClient from './FacetedSearch.svelte';
+
+const isCmsEdit = isEditContext(Astro.url);
+
+export interface Props {
+	key: string;
+	data: FacetedSearchFragment;
+	displaySettings: DisplaySettingsFragment[];
+	contentPayload: ContentPayload;
+}
+
+const { key, data, displaySettings, contentPayload } = Astro.props as Props;
+
+// Get style settings from display settings
+const styleDictionary = getDictionaryFromDisplaySettings(displaySettings);
+
+// Container settings
+const maxWidth = styleDictionary['maxWidth'] || 'tw_7xl';
+const contentAlignment = styleDictionary['contentAlignment'] || 'left';
+
+// Container wrapper classes
+const containerWrapperClasses = {
+	'max-w-xs': maxWidth === 'xs',
+	'max-w-sm': maxWidth === 'sm',
+	'max-w-md': maxWidth === 'md',
+	'max-w-lg': maxWidth === 'lg',
+	'max-w-xl': maxWidth === 'xl',
+	'max-w-2xl': maxWidth === 'tw_2xl',
+	'max-w-3xl': maxWidth === 'tw_3xl',
+	'max-w-4xl': maxWidth === 'tw_4xl',
+	'max-w-5xl': maxWidth === 'tw_5xl',
+	'max-w-6xl': maxWidth === 'tw_6xl',
+	'max-w-7xl': maxWidth === 'tw_7xl',
+	'mx-auto': contentAlignment === 'center',
+	'ml-auto': contentAlignment === 'right',
+};
+
+// Configuration
+const config = {
+	resultsPerPage: data.ResultsPerPage || 20,
+	defaultSortOrder: data.DefaultSortOrder || 'relevance',
+	showSearchInput: data.ShowSearchInput !== false,
+	showAuthorFacet: data.ShowAuthorFacet !== false,
+	showTypeFacet: data.ShowTypeFacet !== false,
+	searchPlaceholder: data.SearchPlaceholder || 'Search articles...',
+	noResultsMessage: data.NoResultsMessage || 'No results found. Try adjusting your filters.',
+	locale: contentPayload.loc || 'en',
+	domain: Astro.url.origin,
+	useSemanticSearch: data.UseSemanticSearch || false,
+	semanticWeight: data.SemanticWeight ? parseFloat(data.SemanticWeight) : 0.3,
+};
+
+// Map sort order to GraphQL orderBy
+const baseSortOrderMap: Record<string, any> = {
+	relevance: { _ranking: 'RELEVANCE' },
+	semantic: { _ranking: 'SEMANTIC' },
+	date_desc: { _metadata: { published: 'DESC' } },
+	date_asc: { _metadata: { published: 'ASC' } },
+	title_asc: { Heading: 'ASC' },
+	title_desc: { Heading: 'DESC' },
+};
+
+// Function to apply semantic weight to orderBy if enabled
+const applySemanticWeight = (orderBy: any, searchTerm: string | null) => {
+	// Only apply semantic weight if enabled, search term exists, and not already using pure semantic
+	if (config.useSemanticSearch && searchTerm && orderBy._ranking !== 'SEMANTIC') {
+		return { ...orderBy, _semanticWeight: config.semanticWeight };
+	}
+	return orderBy;
+};
+
+// Get initial filters from URL
+const searchParams = Astro.url.searchParams;
+const initialSearchTerm = searchParams.get('q') || null;
+const initialAuthors = searchParams.getAll('authors[]');
+const initialTypes = searchParams.getAll('types[]');
+const initialSort = searchParams.get('sort') || config.defaultSortOrder;
+const initialPage = parseInt(searchParams.get('page') || '1');
+const initialOffset = (initialPage - 1) * config.resultsPerPage;
+
+// Build orderBy with optional semantic weight
+const baseOrderBy = baseSortOrderMap[initialSort] || baseSortOrderMap['relevance'];
+const orderBy = applySemanticWeight(baseOrderBy, initialSearchTerm);
+
+// Fetch initial results
+const searchResults = await getOptimizelySdk(contentPayload).facetedSearch({
+	searchTerm: initialSearchTerm,
+	locale: [contentPayload.loc as any],
+	domain: config.domain,
+	limit: config.resultsPerPage,
+	offset: initialOffset,
+	orderBy: orderBy,
+	authorFilters: initialAuthors.length > 0 ? initialAuthors : null,
+	typeFilters: initialTypes.length > 0 ? initialTypes : null,
+});
+
+// Extract data
+const items = searchResults.ArticlePage?.items || [];
+const total = searchResults.ArticlePage?.total || 0;
+const facetsData = searchResults.ArticlePage?.facets;
+
+// Process facets
+const authorFacets = facetsData?.Author?.filter((f: any) => f?.name) || [];
+const typeFacets = facetsData?._metadata?.types?.filter((f: any) => f?.name) || [];
+
+const initialFacets = {
+	authors: authorFacets.map((f: any) => ({ name: f.name, count: f.count })),
+	types: typeFacets.map((f: any) => ({ name: f.name, count: f.count })),
+};
+
+// Component classes
+const componentClass = 'component-facetedsearch';
+---
+
+<div data-epi-block-id={isCmsEdit && key || undefined} class={componentClass}>
+	<div class="w-full" class:list={[containerWrapperClasses]}>
+		{data.Title && (
+			<div class="mb-6">
+				<h2 class="text-3xl font-bold">{data.Title}</h2>
+				{data.IntroText?.html && (
+					<div class="mt-2 prose" set:html={data.IntroText.html} />
+				)}
+			</div>
+		)}
+
+		{
+			isCmsEdit && (
+				<div class="alert alert-info mb-4">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						class="stroke-current shrink-0 w-6 h-6"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+						/>
+					</svg>
+					<span>
+						Faceted Search component with {total} results. Interactive features are
+						disabled in edit mode.
+					</span>
+				</div>
+			)
+		}
+
+		<FacetedSearchClient
+			client:load
+			initialResults={items}
+			initialFacets={initialFacets}
+			initialTotal={total}
+			config={config}
+			baseUrl={Astro.url.pathname}
+			isEditMode={isCmsEdit}
+		/>
+	</div>
+</div>
+
+<style>
+	.component-facetedsearch {
+		padding-top: 2rem;
+		padding-bottom: 2rem;
+	}
+</style>

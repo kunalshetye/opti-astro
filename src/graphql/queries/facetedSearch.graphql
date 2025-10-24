@@ -1,0 +1,90 @@
+query facetedSearch(
+    $searchTerm: String
+    $locale: [Locales]
+    $domain: String
+    $limit: Int = 20
+    $offset: Int = 0
+    $orderBy: ArticlePageOrderByInput
+    $authorFilters: [String!]
+    $typeFilters: [String!]
+) {
+    # Main content results
+    ArticlePage(
+        locale: $locale
+        limit: $limit
+        skip: $offset
+        orderBy: $orderBy
+        where: {
+            _and: [
+                # Domain filter (always applied)
+                { _metadata: { url: { base: { eq: $domain } } } }
+                # Content type filter (optional - null value is ignored)
+                { _metadata: { types: { in: $typeFilters } } }
+                # Status filter - only show published content
+                { _metadata: { status: { eq: "Published" } } }
+            ]
+            # Full-text search filter (optional - null value is ignored)
+            _fulltext: { match: $searchTerm, fuzzy: true }
+            # Author filter (optional - null value is ignored)
+            Author: { in: $authorFilters }
+        }
+    ) {
+        total
+        items {
+            _metadata {
+                key
+                displayName
+                published
+                url {
+                    default
+                    hierarchical
+                    base
+                }
+                types
+            }
+            Heading
+            SubHeading
+            Author
+            PromoImage {
+                url {
+                    default
+                }
+                item {
+                    ... on Image {
+                        AltText
+                        _metadata {
+                            displayName
+                        }
+                    }
+                }
+            }
+            Body {
+                html
+            }
+        }
+        facets {
+            # Author facet
+            Author(
+                filters: $authorFilters
+                orderType: COUNT
+                orderBy: DESC
+                limit: 50
+            ) {
+                name
+                count
+            }
+            # Content types facet
+            _metadata {
+                types(
+                    filters: $typeFilters
+                    orderType: COUNT
+                    orderBy: DESC
+                    limit: 20
+                ) {
+                    name
+                    count
+                }
+            }
+        }
+    }
+}
