@@ -8,6 +8,8 @@ fragment FacetedSearch on FacetedSearch {
     ShowSearchInput
     ShowAuthorFacet
     ShowTypeFacet
+    UseSemanticSearch
+    SemanticWeight
     SearchPlaceholder
     NoResultsMessage
 }
