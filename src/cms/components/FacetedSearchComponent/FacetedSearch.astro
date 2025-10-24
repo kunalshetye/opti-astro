@@ -50,6 +50,7 @@ const config = {
 	resultsPerPage: data.ItemsPerPage || data.ResultsPerPage || 20, // Support both old and new property names
 	gridColumns: parseInt(data.GridColumns || '2'),
 	defaultViewMode: data.DefaultViewMode || 'list', // 'list' or 'grid'
+	defaultFiltersState: data.DefaultFiltersState || 'show', // 'show' or 'hide'
 	defaultSortOrder: data.DefaultSortOrder || 'relevance',
 	showSearchInput: data.ShowSearchInput !== false,
 	showAuthorFacet: data.ShowAuthorFacet !== false,

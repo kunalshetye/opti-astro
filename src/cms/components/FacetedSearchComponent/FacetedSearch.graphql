@@ -8,6 +8,7 @@ fragment FacetedSearch on FacetedSearch {
     GridColumns
     DefaultSortOrder
     ShowSearchInput
+    DefaultFiltersState
     ShowAuthorFacet
     ShowTypeFacet
     UseSemanticSearch
