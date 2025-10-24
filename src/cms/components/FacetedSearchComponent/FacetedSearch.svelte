@@ -33,6 +33,10 @@
 		};
 		baseUrl: string;
 		isEditMode?: boolean;
+		isModal?: boolean;
+		compact?: boolean;
+		onResultClick?: (result: any) => void;
+		persistState?: boolean;
 	}
 
 	let {
@@ -41,7 +45,11 @@
 		initialTotal,
 		config,
 		baseUrl,
-		isEditMode = false
+		isEditMode = false,
+		isModal = false,
+		compact = false,
+		onResultClick,
+		persistState = false
 	}: Props = $props();
 
 	// State
@@ -92,9 +100,65 @@
 		'md:grid-cols-2'
 	);
 
-	// Read URL parameters on mount
+	// LocalStorage helpers for modal state persistence
+	const STORAGE_KEY = 'faceted-search-modal-state';
+
+	function saveStateToLocalStorage() {
+		if (!isModal || !persistState) return;
+		try {
+			const state = {
+				searchTerm,
+				selectedAuthors,
+				selectedTypes,
+				sortOrder,
+				viewMode,
+				filtersVisible,
+				timestamp: Date.now()
+			};
+			localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+		} catch (error) {
+			console.error('Error saving search state:', error);
+		}
+	}
+
+	function loadStateFromLocalStorage() {
+		if (!isModal || !persistState) return false;
+		try {
+			const stored = localStorage.getItem(STORAGE_KEY);
+			if (!stored) return false;
+
+			const state = JSON.parse(stored);
+			// Only restore if less than 24 hours old
+			if (Date.now() - state.timestamp > 24 * 60 * 60 * 1000) {
+				localStorage.removeItem(STORAGE_KEY);
+				return false;
+			}
+
+			searchTerm = state.searchTerm || '';
+			selectedAuthors = state.selectedAuthors || [];
+			selectedTypes = state.selectedTypes || [];
+			sortOrder = state.sortOrder || config.defaultSortOrder;
+			viewMode = state.viewMode || config.defaultViewMode;
+			filtersVisible = state.filtersVisible !== undefined ? state.filtersVisible : config.defaultFiltersState === 'show';
+
+			return true;
+		} catch (error) {
+			console.error('Error loading search state:', error);
+			return false;
+		}
+	}
+
+	// Read URL parameters on mount (or localStorage for modal mode)
 	onMount(() => {
 		if (isEditMode) return;
+
+		// In modal mode with persistState, try loading from localStorage first
+		if (isModal && persistState) {
+			const restored = loadStateFromLocalStorage();
+			// Always fetch results in modal mode to show initial content
+			fetchResults();
+			return;
+		}
 
 		const params = queryString.parse(window.location.search);
 
@@ -129,9 +193,10 @@
 		}
 	});
 
-	// Update URL when filters or view mode change
+	// Update URL when filters or view mode change (disabled in modal mode)
 	$effect(() => {
 		if (isEditMode) return;
+		if (isModal) return; // Don't update URL in modal mode
 		if (typeof window === 'undefined') return;
 
 		const params: any = {};
@@ -154,6 +219,20 @@
 		const newUrl = query ? `${baseUrl}?${query}` : baseUrl;
 
 		window.history.pushState({}, '', newUrl);
+	});
+
+	// Save state to localStorage in modal mode when state changes
+	$effect(() => {
+		if (!isModal || !persistState) return;
+		// Track changes to state
+		searchTerm;
+		selectedAuthors;
+		selectedTypes;
+		sortOrder;
+		viewMode;
+		filtersVisible;
+		// Save to localStorage
+		saveStateToLocalStorage();
 	});
 
 	// Event handlers
@@ -267,8 +346,8 @@
 	}
 </script>
 
-<div class="faceted-search-container">
-	<div class="grid gap-6" class:lg:grid-cols-4={filtersVisible} class:lg:grid-cols-1={!filtersVisible}>
+<div class="faceted-search-container" class:compact-mode={compact}>
+	<div class="grid" class:gap-6={!compact} class:gap-3={compact} class:lg:grid-cols-4={filtersVisible} class:lg:grid-cols-1={!filtersVisible}>
 		<!-- Sidebar with Facets -->
 		{#if filtersVisible}
 			<FacetedSearchSidebar
@@ -308,7 +387,7 @@
 			/>
 
 			<!-- Results Container with dynamic min-height to prevent jumping -->
-			<div class="results-container" style="min-height: {minHeight}px;">
+			<div class="results-container" class:max-h-96={compact} class:overflow-y-auto={compact} style={!compact ? `min-height: ${minHeight}px;` : ''}>
 				<!-- Loading State with Skeleton Cards -->
 				{#if isLoading}
 					<div class:space-y-6={viewMode === 'list'} class:grid={viewMode === 'grid'} class:grid-cols-1={viewMode === 'grid'} class={viewMode === 'grid' ? gridColsClass : ''} class:gap-6={viewMode === 'grid'}>
@@ -322,7 +401,7 @@
 				{#if !isLoading && results.length > 0}
 					<div class:space-y-6={viewMode === 'list'} class:grid={viewMode === 'grid'} class:grid-cols-1={viewMode === 'grid'} class={viewMode === 'grid' ? gridColsClass : ''} class:gap-6={viewMode === 'grid'}>
 						{#each results as result}
-							<SearchResultCard {result} locale={config.locale} {viewMode} />
+							<SearchResultCard {result} locale={config.locale} {viewMode} onClick={onResultClick} />
 						{/each}
 					</div>
 				{/if}
@@ -364,5 +443,27 @@
 <style>
 	.faceted-search-container {
 		container-type: inline-size;
+	}
+
+	.faceted-search-container.compact-mode {
+		font-size: 0.9rem;
+	}
+
+	.compact-mode .results-container {
+		scrollbar-width: thin;
+		scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
+	}
+
+	.compact-mode .results-container::-webkit-scrollbar {
+		width: 6px;
+	}
+
+	.compact-mode .results-container::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	.compact-mode .results-container::-webkit-scrollbar-thumb {
+		background-color: rgba(155, 155, 155, 0.5);
+		border-radius: 3px;
 	}
 </style>
