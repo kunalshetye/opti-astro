@@ -57,3 +57,66 @@ export function getContentExcerpt(result: any): string {
 export function isExperience(result: any): boolean {
 	return result.__contentType === 'Experience';
 }
+
+/**
+ * Get image URL from a search result
+ * Returns the PromoImage URL for ArticlePage, SharingImage for Experience, or null if missing
+ * Handles both Content Reference URLs (url.default) and DAM asset URLs (item.Url)
+ */
+export function getImageUrl(result: any): string | null {
+	if (result.__contentType === 'Experience') {
+		// Experience: get SharingImage from SEO settings
+		// Try Content Reference URL first, then DAM asset URL
+		return result.BlankExperienceSeoSettings?.SharingImage?.url?.default ||
+		       result.BlankExperienceSeoSettings?.SharingImage?.item?.Url ||
+		       null;
+	}
+	// ArticlePage: get PromoImage
+	// Try Content Reference URL first, then DAM asset URL
+	return result.PromoImage?.url?.default ||
+	       result.PromoImage?.item?.Url ||
+	       null;
+}
+
+/**
+ * Get image alt text from a search result
+ */
+export function getImageAlt(result: any): string {
+	if (result.__contentType === 'Experience') {
+		// Experience: get alt text from SharingImage
+		return result.BlankExperienceSeoSettings?.SharingImage?.item?.AltText ||
+		       result.BlankExperienceSeoSettings?.SharingImage?.item?._metadata?.displayName ||
+		       getTitle(result);
+	}
+	// ArticlePage: get alt text from PromoImage
+	return result.PromoImage?.item?.AltText || result.PromoImage?.item?._metadata?.displayName || getTitle(result);
+}
+
+/**
+ * Generate a deterministic gradient class based on content title
+ * Returns consistent colors for the same title (for placeholders)
+ */
+export function getPlaceholderGradient(result: any): string {
+	const title = getTitle(result);
+	// Simple hash function to get a number from the title
+	let hash = 0;
+	for (let i = 0; i < title.length; i++) {
+		hash = ((hash << 5) - hash) + title.charCodeAt(i);
+		hash = hash & hash; // Convert to 32-bit integer
+	}
+
+	// Use hash to pick from predefined gradient combinations
+	const gradients = [
+		'bg-gradient-to-br from-primary/20 to-secondary/20',
+		'bg-gradient-to-br from-accent/20 to-primary/20',
+		'bg-gradient-to-br from-secondary/20 to-accent/20',
+		'bg-gradient-to-br from-info/20 to-primary/20',
+		'bg-gradient-to-br from-success/20 to-secondary/20',
+		'bg-gradient-to-br from-primary/20 to-accent/20',
+		'bg-gradient-to-br from-secondary/20 to-info/20',
+		'bg-gradient-to-br from-accent/20 to-success/20',
+	];
+
+	const index = Math.abs(hash) % gradients.length;
+	return gradients[index];
+}

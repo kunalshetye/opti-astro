@@ -5,6 +5,7 @@
 	import FacetedSearchControls from './FacetedSearchControls.svelte';
 	import SearchResultCard from './SearchResultCard.svelte';
 	import SearchPagination from './SearchPagination.svelte';
+	import SkeletonCard from './SkeletonCard.svelte';
 
 	// Props
 	interface Props {
@@ -16,6 +17,8 @@
 		initialTotal: number;
 		config: {
 			resultsPerPage: number;
+			gridColumns: number;
+			defaultViewMode: string;
 			defaultSortOrder: string;
 			showSearchInput: boolean;
 			showAuthorFacet: boolean;
@@ -51,6 +54,11 @@
 	let currentPage = $state(1);
 	let isLoading = $state(false);
 	let searchTimeout: number | null = $state(null);
+	let viewMode = $state<'list' | 'grid'>(
+		(config.defaultViewMode === 'list' || config.defaultViewMode === 'grid')
+			? config.defaultViewMode
+			: 'list'
+	);
 
 	// Derived values
 	let activeFilterCount = $derived(
@@ -59,11 +67,37 @@
 	let totalPages = $derived(Math.ceil(total / config.resultsPerPage));
 	let offset = $derived((currentPage - 1) * config.resultsPerPage);
 
+	// Calculate dynamic min-height based on view mode and results per page
+	let minHeight = $derived.by(() => {
+		if (viewMode === 'grid') {
+			// Grid: variable columns on desktop, ~400px per card
+			// Add extra space for gaps (24px between cards)
+			const rows = Math.ceil(config.resultsPerPage / config.gridColumns);
+			return rows * 400 + (rows - 1) * 24; // card height + gap
+		} else {
+			// List: 1 column, ~220px per card
+			// Add extra space for gaps (24px between cards)
+			return config.resultsPerPage * 220 + (config.resultsPerPage - 1) * 24;
+		}
+	});
+
+	// Get grid column class based on configuration
+	let gridColsClass = $derived(
+		config.gridColumns === 3 ? 'md:grid-cols-3' :
+		config.gridColumns === 4 ? 'md:grid-cols-4' :
+		'md:grid-cols-2'
+	);
+
 	// Read URL parameters on mount
 	onMount(() => {
 		if (isEditMode) return;
 
 		const params = queryString.parse(window.location.search);
+
+		// Override viewMode if URL param is present
+		if (params.view && typeof params.view === 'string' && (params.view === 'list' || params.view === 'grid')) {
+			viewMode = params.view;
+		}
 
 		if (params.q && typeof params.q === 'string') {
 			searchTerm = params.q;
@@ -86,7 +120,7 @@
 		}
 	});
 
-	// Update URL when filters change
+	// Update URL when filters or view mode change
 	$effect(() => {
 		if (isEditMode) return;
 		if (typeof window === 'undefined') return;
@@ -98,6 +132,11 @@
 		if (selectedTypes.length > 0) params.types = selectedTypes;
 		if (sortOrder !== config.defaultSortOrder) params.sort = sortOrder;
 		if (currentPage > 1) params.page = currentPage;
+		// Add view param if different from default
+		const defaultView = (config.defaultViewMode === 'list' || config.defaultViewMode === 'grid')
+			? config.defaultViewMode
+			: 'list';
+		if (viewMode !== defaultView) params.view = viewMode;
 
 		const query = queryString.stringify(params, { arrayFormat: 'bracket' });
 		const newUrl = query ? `${baseUrl}?${query}` : baseUrl;
@@ -169,6 +208,10 @@
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
+	function handleViewModeChange(mode: 'list' | 'grid') {
+		viewMode = mode;
+	}
+
 	// Fetch results from API
 	async function fetchResults() {
 		isLoading = true;
@@ -231,6 +274,7 @@
 			<FacetedSearchControls
 				{searchTerm}
 				{sortOrder}
+				{viewMode}
 				{isLoading}
 				{total}
 				{offset}
@@ -240,48 +284,59 @@
 				{isEditMode}
 				onSearchInput={handleSearchInput}
 				onSortChange={handleSortChange}
+				onViewModeChange={handleViewModeChange}
 			/>
 
-			<!-- Loading State -->
-			{#if isLoading}
-				<div class="flex justify-center items-center py-12">
-					<span class="loading loading-spinner loading-lg"></span>
+			<!-- Results Container with dynamic min-height to prevent jumping -->
+			<div class="results-container" style="min-height: {minHeight}px;">
+				<!-- Loading State with Skeleton Cards -->
+				{#if isLoading}
+					<div class:space-y-6={viewMode === 'list'} class:grid={viewMode === 'grid'} class:grid-cols-1={viewMode === 'grid'} class={viewMode === 'grid' ? gridColsClass : ''} class:gap-6={viewMode === 'grid'}>
+						{#each Array(config.resultsPerPage) as _, index}
+							<SkeletonCard {viewMode} />
+						{/each}
+					</div>
+				{/if}
+
+				<!-- Results -->
+				{#if !isLoading && results.length > 0}
+					<div class:space-y-6={viewMode === 'list'} class:grid={viewMode === 'grid'} class:grid-cols-1={viewMode === 'grid'} class={viewMode === 'grid' ? gridColsClass : ''} class:gap-6={viewMode === 'grid'}>
+						{#each results as result}
+							<SearchResultCard {result} locale={config.locale} {viewMode} />
+						{/each}
+					</div>
+				{/if}
+
+				<!-- No Results -->
+				{#if !isLoading && results.length === 0}
+					<div class="text-center py-12">
+						<svg class="w-16 h-16 mx-auto text-base-content/30 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+						</svg>
+						<p class="text-lg text-base-content/70">
+							{config.noResultsMessage || 'No results found'}
+						</p>
+						{#if activeFilterCount > 0}
+							<button class="btn btn-primary mt-4" onclick={clearAllFilters} disabled={isEditMode}>
+								Clear all filters
+							</button>
+						{/if}
+					</div>
+				{/if}
+			</div>
+
+			<!-- Pagination - Always visible, disabled during loading -->
+			{#if totalPages > 1}
+				<div class:opacity-50={isLoading} class:pointer-events-none={isLoading}>
+					<SearchPagination
+						{currentPage}
+						{totalPages}
+						isEditMode={isEditMode || isLoading}
+						onPageChange={goToPage}
+					/>
 				</div>
 			{/if}
 
-			<!-- Results -->
-			{#if !isLoading && results.length > 0}
-				<div class="space-y-6">
-					{#each results as result}
-						<SearchResultCard {result} locale={config.locale} />
-					{/each}
-				</div>
-
-				<!-- Pagination -->
-				<SearchPagination
-					{currentPage}
-					{totalPages}
-					{isEditMode}
-					onPageChange={goToPage}
-				/>
-			{/if}
-
-			<!-- No Results -->
-			{#if !isLoading && results.length === 0}
-				<div class="text-center py-12">
-					<svg class="w-16 h-16 mx-auto text-base-content/30 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-					</svg>
-					<p class="text-lg text-base-content/70">
-						{config.noResultsMessage || 'No results found'}
-					</p>
-					{#if activeFilterCount > 0}
-						<button class="btn btn-primary mt-4" onclick={clearAllFilters} disabled={isEditMode}>
-							Clear all filters
-						</button>
-					{/if}
-				</div>
-			{/if}
 		</main>
 	</div>
 </div>

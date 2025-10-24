@@ -3,11 +3,15 @@ fragment FacetedSearch on FacetedSearch {
     IntroText {
         html
     }
-    ResultsPerPage
+    ItemsPerPage
+    DefaultViewMode
+    GridColumns
     DefaultSortOrder
     ShowSearchInput
     ShowAuthorFacet
     ShowTypeFacet
+    UseSemanticSearch
+    SemanticWeight
     SearchPlaceholder
     NoResultsMessage
 }

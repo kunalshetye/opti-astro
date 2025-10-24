@@ -34,17 +34,67 @@
 			"indexingType": "searchable",
 			"editorSettings": {}
 		},
-		"ResultsPerPage": {
+		"ItemsPerPage": {
 			"type": "integer",
-			"displayName": "Results Per Page",
-			"description": "Number of results to display per page (default: 20)",
+			"displayName": "Items Per Page",
+			"description": "Number of search results to display per page (applies to both list and grid views)",
 			"localized": false,
 			"required": false,
-			"group": "Configuration",
+			"group": "Layout",
 			"sortOrder": 100,
 			"editorSettings": {},
 			"minimum": 1,
 			"maximum": 100
+		},
+		"DefaultViewMode": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Default View Mode",
+			"description": "Set the default view mode (users can toggle and share their preference via URL)",
+			"localized": false,
+			"required": false,
+			"group": "Layout",
+			"sortOrder": 105,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "List View",
+						"value": "list"
+					},
+					{
+						"displayName": "Grid View",
+						"value": "grid"
+					}
+				]
+			}
+		},
+		"GridColumns": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Grid View Columns",
+			"description": "Number of columns to display in grid view layout",
+			"localized": false,
+			"required": false,
+			"group": "Layout",
+			"sortOrder": 110,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "2 Columns (Spacious)",
+						"value": "2"
+					},
+					{
+						"displayName": "3 Columns (Balanced)",
+						"value": "3"
+					},
+					{
+						"displayName": "4 Columns (Compact)",
+						"value": "4"
+					}
+				]
+			}
 		},
 		"DefaultSortOrder": {
 			"type": "string",
@@ -54,7 +104,7 @@
 			"localized": false,
 			"required": false,
 			"group": "Configuration",
-			"sortOrder": 110,
+			"sortOrder": 200,
 			"editorSettings": {},
 			"enum": {
 				"values": [
@@ -92,7 +142,7 @@
 			"localized": false,
 			"required": false,
 			"group": "Configuration",
-			"sortOrder": 120,
+			"sortOrder": 210,
 			"editorSettings": {}
 		},
 		"ShowAuthorFacet": {
@@ -101,8 +151,8 @@
 			"description": "Display author facet filter (default: true)",
 			"localized": false,
 			"required": false,
-			"group": "Facets",
-			"sortOrder": 200,
+			"group": "Filters",
+			"sortOrder": 300,
 			"editorSettings": {}
 		},
 		"ShowTypeFacet": {
@@ -111,8 +161,8 @@
 			"description": "Display content type facet filter (default: true)",
 			"localized": false,
 			"required": false,
-			"group": "Facets",
-			"sortOrder": 210,
+			"group": "Filters",
+			"sortOrder": 310,
 			"editorSettings": {}
 		},
 		"UseSemanticSearch": {
@@ -121,19 +171,19 @@
 			"description": "Use AI-powered semantic search for better relevance (requires search term)",
 			"localized": false,
 			"required": false,
-			"group": "Configuration",
-			"sortOrder": 125,
+			"group": "Advanced",
+			"sortOrder": 400,
 			"editorSettings": {}
 		},
 		"SemanticWeight": {
 			"type": "string",
 			"format": "selectOne",
-			"displayName": "Semantic Weight",
-			"description": "Weight for semantic search results: 0.0 = keyword only, 1.0 = semantic only, 0.3 recommended for balanced hybrid search",
+			"displayName": "Semantic Search Weight",
+			"description": "Balance between keyword and semantic search: 0.0 = keyword only, 1.0 = semantic only, 0.3 recommended for balanced results",
 			"localized": false,
 			"required": false,
-			"group": "Configuration",
-			"sortOrder": 126,
+			"group": "Advanced",
+			"sortOrder": 410,
 			"editorSettings": {},
 			"enum": {
 				"values": [
@@ -186,23 +236,23 @@
 		},
 		"SearchPlaceholder": {
 			"type": "string",
-			"displayName": "Search Placeholder",
-			"description": "Placeholder text for search input",
+			"displayName": "Search Placeholder Text",
+			"description": "Placeholder text for search input field",
 			"localized": true,
 			"required": false,
 			"group": "Labels",
-			"sortOrder": 300,
+			"sortOrder": 500,
 			"indexingType": "searchable",
 			"editorSettings": {}
 		},
 		"NoResultsMessage": {
 			"type": "string",
 			"displayName": "No Results Message",
-			"description": "Message displayed when no results are found",
+			"description": "Message displayed when search returns no results",
 			"localized": true,
 			"required": false,
 			"group": "Labels",
-			"sortOrder": 310,
+			"sortOrder": 510,
 			"indexingType": "searchable",
 			"editorSettings": {}
 		}
