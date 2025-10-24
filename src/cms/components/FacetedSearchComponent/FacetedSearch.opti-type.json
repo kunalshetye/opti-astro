@@ -145,6 +145,29 @@
 			"sortOrder": 210,
 			"editorSettings": {}
 		},
+		"DefaultFiltersState": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Default Filters State",
+			"description": "Set the default filters panel visibility (users can toggle)",
+			"localized": false,
+			"required": false,
+			"group": "Filters",
+			"sortOrder": 290,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "Show Filters",
+						"value": "show"
+					},
+					{
+						"displayName": "Hide Filters",
+						"value": "hide"
+					}
+				]
+			}
+		},
 		"ShowAuthorFacet": {
 			"type": "boolean",
 			"displayName": "Show Author Filter",

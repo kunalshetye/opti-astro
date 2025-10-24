@@ -19,6 +19,7 @@
 			resultsPerPage: number;
 			gridColumns: number;
 			defaultViewMode: string;
+			defaultFiltersState: string;
 			defaultSortOrder: string;
 			showSearchInput: boolean;
 			showAuthorFacet: boolean;
@@ -58,6 +59,9 @@
 		(config.defaultViewMode === 'list' || config.defaultViewMode === 'grid')
 			? config.defaultViewMode
 			: 'list'
+	);
+	let filtersVisible = $state<boolean>(
+		config.defaultFiltersState === 'show'
 	);
 
 	// Derived values
@@ -99,6 +103,11 @@
 			viewMode = params.view;
 		}
 
+		// Override filtersVisible if URL param is present
+		if (params.filters && typeof params.filters === 'string') {
+			filtersVisible = params.filters === 'show';
+		}
+
 		if (params.q && typeof params.q === 'string') {
 			searchTerm = params.q;
 		}
@@ -137,6 +146,9 @@
 			? config.defaultViewMode
 			: 'list';
 		if (viewMode !== defaultView) params.view = viewMode;
+		// Add filters param if different from default
+		const defaultFiltersVisible = config.defaultFiltersState === 'show';
+		if (filtersVisible !== defaultFiltersVisible) params.filters = filtersVisible ? 'show' : 'hide';
 
 		const query = queryString.stringify(params, { arrayFormat: 'bracket' });
 		const newUrl = query ? `${baseUrl}?${query}` : baseUrl;
@@ -212,6 +224,10 @@
 		viewMode = mode;
 	}
 
+	function toggleFilters() {
+		filtersVisible = !filtersVisible;
+	}
+
 	// Fetch results from API
 	async function fetchResults() {
 		isLoading = true;
@@ -252,29 +268,32 @@
 </script>
 
 <div class="faceted-search-container">
-	<div class="grid lg:grid-cols-4 gap-6">
+	<div class="grid gap-6" class:lg:grid-cols-4={filtersVisible} class:lg:grid-cols-1={!filtersVisible}>
 		<!-- Sidebar with Facets -->
-		<FacetedSearchSidebar
-			{facets}
-			{selectedAuthors}
-			{selectedTypes}
-			{searchTerm}
-			{activeFilterCount}
-			showAuthorFacet={config.showAuthorFacet}
-			showTypeFacet={config.showTypeFacet}
-			{isEditMode}
-			onClearAll={clearAllFilters}
-			onRemoveFilter={removeFilter}
-			onToggleFacet={toggleFacet}
-		/>
+		{#if filtersVisible}
+			<FacetedSearchSidebar
+				{facets}
+				{selectedAuthors}
+				{selectedTypes}
+				{searchTerm}
+				{activeFilterCount}
+				showAuthorFacet={config.showAuthorFacet}
+				showTypeFacet={config.showTypeFacet}
+				{isEditMode}
+				onClearAll={clearAllFilters}
+				onRemoveFilter={removeFilter}
+				onToggleFacet={toggleFacet}
+			/>
+		{/if}
 
 		<!-- Main Content Area -->
-		<main class="lg:col-span-3">
+		<main class:lg:col-span-3={filtersVisible} class:lg:col-span-1={!filtersVisible}>
 			<!-- Search Bar and Controls -->
 			<FacetedSearchControls
 				{searchTerm}
 				{sortOrder}
 				{viewMode}
+				{filtersVisible}
 				{isLoading}
 				{total}
 				{offset}
@@ -285,6 +304,7 @@
 				onSearchInput={handleSearchInput}
 				onSortChange={handleSortChange}
 				onViewModeChange={handleViewModeChange}
+				onToggleFilters={toggleFilters}
 			/>
 
 			<!-- Results Container with dynamic min-height to prevent jumping -->
