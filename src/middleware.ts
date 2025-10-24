@@ -3,6 +3,7 @@ import { getOptimizelySdk } from './graphql/getSdk';
 import { Locales } from '../__generated/sdk';
 import type { ContentPayload } from './graphql/shared/ContentPayload';
 import { getLocaleFromPath, localeToSdkLocale, getFallbackLocale } from './lib/locale-utils';
+import { checkAdminAuth } from './pages/opti-admin/auth-opti-admin';
 // Initialize locale configuration
 import './lib/locale-init.js';
 
@@ -11,6 +12,14 @@ const placeholderCache = new Map<string, Map<string, string>>();
 const CACHE_DURATION = 60000; // 1 minute
 
 export const onRequest = defineMiddleware(async (context, next) => {
+  // Check if this is an admin route
+  if (context.url.pathname.startsWith('/opti-admin')) {
+    const authError = checkAdminAuth(context.request);
+    if (authError) {
+      return authError;
+    }
+  }
+
   const response = await next();
   
   // Only process HTML responses
