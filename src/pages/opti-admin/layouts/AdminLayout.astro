@@ -1,0 +1,361 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Optimizely Admin Panel" } = Astro.props;
+const currentPath = Astro.url.pathname;
+const currentView = Astro.url.searchParams.get('view');
+
+import '../../../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+
+    <style>
+      body {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background-color: #f8fafc;
+        margin: 0;
+        padding: 0;
+      }
+
+      .admin-layout {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* Sidebar Styles */
+      .admin-sidebar {
+        width: 260px;
+        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        height: 100vh;
+        left: 0;
+        top: 0;
+        z-index: 40;
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .sidebar-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .sidebar-logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: white;
+        text-decoration: none;
+        display: block;
+      }
+
+      .sidebar-logo:hover {
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .sidebar-nav {
+        flex: 1;
+        padding: 1rem 0;
+        overflow-y: auto;
+      }
+
+      .nav-section {
+        padding: 0 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .nav-section-title {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom: 0.5rem;
+        padding: 0 0.75rem;
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        border-radius: 0.5rem;
+        transition: all 0.2s;
+        margin-bottom: 0.25rem;
+      }
+
+      .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+      }
+
+      .nav-link.active {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: white;
+        font-weight: 600;
+      }
+
+      .nav-link svg {
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-right: 0.75rem;
+      }
+
+      .sidebar-footer {
+        padding: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .return-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+        text-decoration: none;
+        border-radius: 0.5rem;
+        transition: all 0.2s;
+        font-weight: 500;
+      }
+
+      .return-link:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      /* Main Content Area */
+      .admin-content {
+        flex: 1;
+        margin-left: 260px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .content-header {
+        background: white;
+        border-bottom: 1px solid #e5e7eb;
+        padding: 1.5rem 2rem;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .content-title {
+        font-size: 1.875rem;
+        font-weight: 700;
+        color: #111827;
+        margin: 0;
+      }
+
+      .content-main {
+        flex: 1;
+        padding: 2rem;
+      }
+
+      /* Mobile Styles */
+      .mobile-header {
+        display: none;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 1rem;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .mobile-menu-button {
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+        padding: 0.5rem;
+      }
+
+      .mobile-menu-button svg {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+
+      @media (max-width: 768px) {
+        .admin-sidebar {
+          transform: translateX(-100%);
+          transition: transform 0.3s ease-in-out;
+        }
+
+        .admin-sidebar.mobile-open {
+          transform: translateX(0);
+        }
+
+        .admin-content {
+          margin-left: 0;
+        }
+
+        .mobile-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .sidebar-overlay {
+          display: none;
+          position: fixed;
+          inset: 0;
+          background-color: rgba(0, 0, 0, 0.5);
+          z-index: 30;
+        }
+
+        .sidebar-overlay.active {
+          display: block;
+        }
+      }
+
+      code {
+        font-family: 'JetBrains Mono', 'Fira Code', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      }
+
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+      <button id="mobile-menu-button" class="mobile-menu-button" aria-label="Toggle menu">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+      <span class="text-white font-bold text-lg">Optimizely Admin</span>
+      <div style="width: 2rem;"></div>
+    </div>
+
+    <!-- Sidebar Overlay (Mobile) -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <div class="admin-layout">
+      <!-- Sidebar -->
+      <aside id="admin-sidebar" class="admin-sidebar">
+        <div class="sidebar-header">
+          <a href="/opti-admin" class="sidebar-logo">
+            <span style="color: rgba(255, 255, 255, 0.8);">Optimizely</span> Admin
+          </a>
+        </div>
+
+        <nav class="sidebar-nav">
+          <div class="nav-section">
+            <div class="nav-section-title">Main</div>
+            <a href="/opti-admin" class={`nav-link ${!currentView && (currentPath === '/opti-admin' || currentPath === '/opti-admin/') ? 'active' : ''}`}>
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+              </svg>
+              Dashboard
+            </a>
+          </div>
+
+          <div class="nav-section">
+            <div class="nav-section-title">CMS Tools</div>
+            <a href="/opti-admin?view=cms-sync" class={`nav-link ${currentView === 'cms-sync' ? 'active' : ''}`}>
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+              </svg>
+              CMS Sync
+            </a>
+          </div>
+
+          <div class="nav-section">
+            <div class="nav-section-title">Graph Optimizations</div>
+            <a href="/opti-admin?view=synonyms" class={`nav-link ${currentView === 'synonyms' ? 'active' : ''}`}>
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+              </svg>
+              Synonyms
+            </a>
+            <a href="/opti-admin?view=pinned" class={`nav-link ${currentView === 'pinned' ? 'active' : ''}`}>
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+              </svg>
+              Pinned Results
+            </a>
+          </div>
+        </nav>
+
+        <div class="sidebar-footer">
+          <a href="/" class="return-link">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 1.25rem; height: 1.25rem; margin-right: 0.5rem;">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            Return to Site
+          </a>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <div class="admin-content">
+        <header class="content-header">
+          <h1 class="content-title">{title.replace('Optimizely Graph - ', '')}</h1>
+        </header>
+
+        <main class="content-main">
+          <slot />
+        </main>
+      </div>
+    </div>
+
+    <!-- Mobile menu toggle script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const sidebar = document.getElementById('admin-sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+
+        function toggleSidebar() {
+          sidebar?.classList.toggle('mobile-open');
+          overlay?.classList.toggle('active');
+        }
+
+        mobileMenuButton?.addEventListener('click', toggleSidebar);
+        overlay?.addEventListener('click', toggleSidebar);
+
+        // Close sidebar when clicking a link on mobile
+        const navLinks = sidebar?.querySelectorAll('.nav-link');
+        navLinks?.forEach(link => {
+          link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+              toggleSidebar();
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

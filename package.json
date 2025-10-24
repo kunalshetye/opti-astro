@@ -9,6 +9,7 @@
         "build": "graphql-codegen --config codegen.ts && astro build",
         "preview": "astro preview",
         "astro": "astro",
+        "check": "astro check",
         "codegen": "graphql-codegen --config codegen.ts",
         "codegen:watch": "graphql-codegen --watch --config codegen.ts",
         "styles:push": "node --env-file=.env ./utils/styles/push.mjs",
@@ -28,6 +29,7 @@
         "@astrojs/compiler": "2.13.0",
         "@astrojs/netlify": "6.5.13",
         "@astrojs/node": "9.5.0",
+        "@astrojs/svelte": "^7.2.0",
         "@astrojs/ts-plugin": "1.10.5",
         "@astrojs/vercel": "8.2.10",
         "@deno/astro-adapter": "^0.3.1",
@@ -47,8 +49,9 @@
         "graphql-request": "6.1.0",
         "path-to-regexp": "6.3.0",
         "query-string": "^9.1.1",
+        "svelte": "^5.41.2",
         "tailwindcss": "^4.0.12",
-        "typescript": "^5.8.2"
+        "typescript": "^5.9.3"
     },
     "devDependencies": {
         "@babel/parser": "^7.27.0",

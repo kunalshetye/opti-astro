@@ -1,11 +1,11 @@
 // @ts-check
+import alpinejs from '@astrojs/alpinejs';
+import svelte from '@astrojs/svelte';
+import tailwindcss from '@tailwindcss/vite';
+import { adapter } from 'astro-auto-adapter';
 import { defineConfig, envField, fontProviders } from 'astro/config';
 import mkcert from 'vite-plugin-mkcert';
 
-import { adapter } from 'astro-auto-adapter';
-
-import alpinejs from '@astrojs/alpinejs';
-import tailwindcss from '@tailwindcss/vite';
 import { loadI18nConfig } from './src/config/i18n.config.ts';
 
 const multiAdapter = await adapter();
@@ -49,7 +49,7 @@ export default defineConfig({
         },
         plugins: [mkcert(), tailwindcss()],
     },
-    integrations: [alpinejs()],
+    integrations: [alpinejs(), svelte()],
 
     env: {
         schema: {
