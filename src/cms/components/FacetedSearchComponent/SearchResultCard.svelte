@@ -13,13 +13,21 @@
 		result: any;
 		locale: string;
 		viewMode?: 'list' | 'grid';
+		onClick?: (result: any) => void;
 	}
 
-	let { result, locale, viewMode = 'list' }: Props = $props();
+	let { result, locale, viewMode = 'list', onClick }: Props = $props();
 
 	const imageUrl = getImageUrl(result);
 	const imageAlt = getImageAlt(result);
 	const placeholderGradient = getPlaceholderGradient(result);
+
+	function handleClick(event: Event) {
+		if (onClick) {
+			event.preventDefault();
+			onClick(result);
+		}
+	}
 </script>
 
 {#if viewMode === 'grid'}
@@ -51,7 +59,7 @@
 		<!-- Content Section -->
 		<div class="card-body p-4">
 			<h2 class="card-title text-base">
-				<a href={result._metadata.url.hierarchical} class="hover:text-primary line-clamp-2">
+				<a href={result._metadata.url.hierarchical} class="hover:text-primary line-clamp-2" onclick={handleClick}>
 					{getTitle(result)}
 				</a>
 			</h2>
@@ -71,7 +79,7 @@
 			{/if}
 
 			<div class="card-actions justify-end mt-auto">
-				<a href={result._metadata.url.hierarchical} class="btn btn-primary btn-sm">
+				<a href={result._metadata.url.hierarchical} class="btn btn-primary btn-sm" onclick={handleClick}>
 					Read more
 				</a>
 			</div>
@@ -104,7 +112,7 @@
 			<!-- Content Section -->
 			<div class="flex-1 min-w-0">
 				<h2 class="card-title text-lg mb-2">
-					<a href={result._metadata.url.hierarchical} class="hover:text-primary">
+					<a href={result._metadata.url.hierarchical} class="hover:text-primary" onclick={handleClick}>
 						{getTitle(result)}
 					</a>
 				</h2>
@@ -129,7 +137,7 @@
 				{/if}
 
 				<div class="card-actions">
-					<a href={result._metadata.url.hierarchical} class="btn btn-primary btn-sm">
+					<a href={result._metadata.url.hierarchical} class="btn btn-primary btn-sm" onclick={handleClick}>
 						Read more
 					</a>
 				</div>
