@@ -1,0 +1,177 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { getI18nConfig } from '../../config/i18n.config';
+import type { ContentPayload } from '../../graphql/shared/ContentPayload';
+import { getOptimizelySdk } from '../../graphql/getSdk';
+import { normalizeLocale } from '../../lib/locale-helpers';
+import type { Locales } from '../../../__generated/sdk';
+
+interface Props {
+    contentPayload: ContentPayload;
+}
+
+const { contentPayload } = Astro.props;
+
+const currentLocale = Astro.currentLocale || 'en';
+const i18nConfig = getI18nConfig();
+
+// Fetch all available locales from CMS using facets
+// This discovers ALL locales that have any content, not just SiteSettings
+const availableLocalesResponse = await getOptimizelySdk(contentPayload).getAvailableLocales();
+
+// Extract locales from facets
+const cmsLocales = availableLocalesResponse?._Content?.facets?._metadata?.locale
+    ?.map(facet => facet?.name)
+    .filter((locale): locale is string => {
+        // Filter out null, undefined, empty strings, and special enum values
+        return locale !== null
+            && locale !== undefined
+            && locale !== ''
+            && locale.trim() !== ''
+            && locale !== 'ALL'
+            && locale !== 'NEUTRAL';
+    })
+    .map(normalizeLocale)
+    .filter((locale): locale is string => {
+        // Filter out any invalid results from normalizeLocale
+        return locale !== null
+            && locale !== undefined
+            && locale !== ''
+            && locale.trim() !== '';
+    });
+
+// Debug: Log what we got from the query
+if (import.meta.env.DEV) {
+    console.log('[LocaleSelector] CMS Locales from facets:', cmsLocales);
+    console.log('[LocaleSelector] Facet data:', availableLocalesResponse?._Content?.facets?._metadata?.locale);
+    console.log('[LocaleSelector] i18n config locales:', i18nConfig.locales);
+}
+
+// Use CMS locales if available, otherwise fall back to i18n config
+// Also validate that CMS locales are actually in the i18n config to prevent errors
+let availableLocales: string[];
+if (cmsLocales && cmsLocales.length > 0) {
+    // Only use locales that are both in CMS AND in i18n config
+    availableLocales = cmsLocales.filter(locale => i18nConfig.locales.includes(locale));
+
+    // If filtering resulted in no locales, fall back to i18n config
+    if (availableLocales.length === 0) {
+        console.warn('[LocaleSelector] No CMS locales matched i18n config, using i18n config');
+        availableLocales = i18nConfig.locales;
+    }
+} else {
+    availableLocales = i18nConfig.locales;
+}
+
+if (import.meta.env.DEV) {
+    console.log('[LocaleSelector] Final available locales:', availableLocales);
+}
+
+// Get the current path without the locale prefix
+const currentPath = Astro.url.pathname;
+const pathWithoutLocale = currentLocale === i18nConfig.defaultLocale && !i18nConfig.routing.prefixDefaultLocale
+    ? currentPath
+    : currentPath.replace(new RegExp(`^/${currentLocale}(/|$)`), '/');
+
+// Locale display names with flag emojis and native names
+const localeNames: Record<string, { name: string; flag: string }> = {
+    'en': { name: 'English', flag: '🇬🇧' },
+    'en-GB': { name: 'English (United Kingdom)', flag: '🇬🇧' },
+    'en-NZ': { name: 'English (New Zealand)', flag: '🇳🇿' },
+    'en-ZA': { name: 'English (South Africa)', flag: '🇿🇦' },
+    'nl': { name: 'Nederlands', flag: '🇳🇱' },
+    'nl-BE': { name: 'Nederlands (België)', flag: '🇧🇪' },
+    'sv': { name: 'Svenska', flag: '🇸🇪' },
+    'no': { name: 'Norsk', flag: '🇳🇴' },
+    'da': { name: 'Dansk', flag: '🇩🇰' },
+    'fr': { name: 'Français', flag: '🇫🇷' },
+    'fr-CA': { name: 'Français (Canada)', flag: '🇨🇦' },
+    'es': { name: 'Español', flag: '🇪🇸' },
+    'it': { name: 'Italiano', flag: '🇮🇹' },
+    'pt-BR': { name: 'Português (Brasil)', flag: '🇧🇷' },
+    'ar': { name: 'العربية', flag: '🇸🇦' },
+    'zh': { name: '中文', flag: '🇨🇳' },
+    'zh-Hans-HK': { name: '中文 (香港)', flag: '🇭🇰' },
+    'de': { name: 'Deutsch', flag: '🇩🇪' },
+    'de-AT': { name: 'Deutsch (Österreich)', flag: '🇦🇹' },
+    'fi': { name: 'Suomi', flag: '🇫🇮' },
+    'hi': { name: 'हिन्दी', flag: '🇮🇳' },
+    'sw': { name: 'Kiswahili', flag: '🇰🇪' },
+};
+---
+
+<div class="dropdown dropdown-end" x-data="{ open: false }">
+    <button
+        @click="open = !open"
+        @click.away="open = false"
+        class="btn btn-ghost btn-circle"
+        aria-label="Select language"
+        type="button"
+    >
+        <!-- Globe icon -->
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="h-5 w-5"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5a17.92 17.92 0 0 1-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"
+            ></path>
+        </svg>
+    </button>
+    <ul
+        x-show="open"
+        x-transition
+        class="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow-lg mt-2"
+    >
+        {availableLocales.filter(locale => locale && locale.trim() !== '').map((locale) => {
+            const localeInfo = localeNames[locale] || { name: locale, flag: '🌐' };
+            const isActive = locale === currentLocale;
+
+            // Safely generate locale URL with error handling
+            let localeUrl: string;
+            try {
+                localeUrl = getRelativeLocaleUrl(locale, pathWithoutLocale);
+            } catch (error) {
+                console.error(`[LocaleSelector] Error generating URL for locale "${locale}":`, error);
+                return null; // Skip this locale if URL generation fails
+            }
+
+            return (
+                <li>
+                    <a
+                        href={localeUrl}
+                        class:list={[
+                            "flex items-center gap-2",
+                            { "active bg-base-200 font-bold": isActive }
+                        ]}
+                    >
+                        <span>{localeInfo.flag}</span>
+                        <span>{localeInfo.name}</span>
+                        {isActive && (
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="2"
+                                stroke="currentColor"
+                                class="ml-auto h-4 w-4"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="m4.5 12.75 6 6 9-13.5"
+                                ></path>
+                            </svg>
+                        )}
+                    </a>
+                </li>
+            );
+        })}
+    </ul>
+</div>

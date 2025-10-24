@@ -2,10 +2,13 @@
 import { Image as AstroImage } from 'astro:assets';
 
 import { getRelativeLocaleUrl } from 'astro:i18n';
-import type { SiteSettingsByHostnameQuery } from '../../../__generated/sdk';
+import type { SiteSettingsByHostnameQuery, Locales } from '../../../__generated/sdk';
+import type { ContentPayload } from '../../graphql/shared/ContentPayload';
+import { localeToSdkLocale } from '../../lib/locale-helpers';
 import { getClassForLogo } from './siteSettingsHelper';
 import SearchPalette from './SearchPalette.astro';
 import ThemePicker from './ThemePicker.astro';
+import LocaleSelector from './LocaleSelector.astro';
 import HeaderDrawerMenuButton from './HeaderDrawerMenuButton.astro';
 import HeaderMobileDropdownNav from './HeaderMobileDropdownNav.astro';
 import HeaderDesktopHorizontalNav from './HeaderDesktopHorizontalNav.astro';
@@ -13,6 +16,16 @@ import HeaderDrawerNavigation from './HeaderDrawerNavigation.astro';
 import type { MenuItemType } from './headerNavigationTypes';
 
 const lang = Astro.currentLocale;
+
+// Create minimal content payload for LocaleSelector
+const contentPayload: ContentPayload = {
+    ctx: 'view',
+    key: '',
+    ver: '',
+    loc: localeToSdkLocale(lang || 'en') as Locales,
+    preview_token: '',
+    types: [],
+};
 
 interface Props {
     siteSettings: SiteSettingsByHostnameQuery;
@@ -110,6 +123,8 @@ const headerItems = settings?.HeaderLinks as MenuItemType[] | undefined;
                     ></path>
                 </svg>
             </button>
+            <!-- Locale selector -->
+            <LocaleSelector contentPayload={contentPayload} />
             <!-- Theme switcher dropdown -->
             <ThemePicker />
             <a class="btn" href="https://home.optimizely.com/">Log In</a>
