@@ -8,6 +8,7 @@ import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
 import { isEditContext } from '../../shared/utils.ts';
 import FacetedSearchClient from './FacetedSearch.svelte';
+import { getSortOrderBy, mergeAndSortResults, mergeFacets } from './lib/facetedSearchHelpers';
 
 const isCmsEdit = isEditContext(Astro.url);
 
@@ -59,25 +60,6 @@ const config = {
 	semanticWeight: data.SemanticWeight ? parseFloat(data.SemanticWeight) : 0.3,
 };
 
-// Map sort order to GraphQL orderBy
-const baseSortOrderMap: Record<string, any> = {
-	relevance: { _ranking: 'RELEVANCE' },
-	semantic: { _ranking: 'SEMANTIC' },
-	date_desc: { _metadata: { published: 'DESC' } },
-	date_asc: { _metadata: { published: 'ASC' } },
-	title_asc: { Heading: 'ASC' },
-	title_desc: { Heading: 'DESC' },
-};
-
-// Function to apply semantic weight to orderBy if enabled
-const applySemanticWeight = (orderBy: any, searchTerm: string | null) => {
-	// Only apply semantic weight if enabled, search term exists, and not already using pure semantic
-	if (config.useSemanticSearch && searchTerm && orderBy._ranking !== 'SEMANTIC') {
-		return { ...orderBy, _semanticWeight: config.semanticWeight };
-	}
-	return orderBy;
-};
-
 // Get initial filters from URL
 const searchParams = Astro.url.searchParams;
 const initialSearchTerm = searchParams.get('q') || null;
@@ -87,35 +69,49 @@ const initialSort = searchParams.get('sort') || config.defaultSortOrder;
 const initialPage = parseInt(searchParams.get('page') || '1');
 const initialOffset = (initialPage - 1) * config.resultsPerPage;
 
-// Build orderBy with optional semantic weight
-const baseOrderBy = baseSortOrderMap[initialSort] || baseSortOrderMap['relevance'];
-const orderBy = applySemanticWeight(baseOrderBy, initialSearchTerm);
+// Build orderBy with optional semantic weight using shared helper
+const { articlePageOrderBy: orderBy, experienceOrderBy: orderByExperience } = getSortOrderBy(
+	initialSort,
+	initialSearchTerm,
+	config.useSemanticSearch,
+	config.semanticWeight
+);
 
-// Fetch initial results
+// Fetch initial results with a buffer to account for merging
+// We fetch 3x the limit from each query to ensure we have enough results after merging
+const fetchLimit = Math.max(config.resultsPerPage * 3, 60);
 const searchResults = await getOptimizelySdk(contentPayload).facetedSearch({
 	searchTerm: initialSearchTerm,
 	locale: [contentPayload.loc as any],
 	domain: config.domain,
-	limit: config.resultsPerPage,
-	offset: initialOffset,
+	limit: fetchLimit,
+	offset: 0, // Always fetch from start, we'll slice after merging
 	orderBy: orderBy,
+	orderByExperience: orderByExperience,
 	authorFilters: initialAuthors.length > 0 ? initialAuthors : null,
 	typeFilters: initialTypes.length > 0 ? initialTypes : null,
 });
 
 // Extract data
-const items = searchResults.ArticlePage?.items || [];
-const total = searchResults.ArticlePage?.total || 0;
-const facetsData = searchResults.ArticlePage?.facets;
+const articleItems = searchResults.ArticlePage?.items || [];
+const articleTotal = searchResults.ArticlePage?.total || 0;
+const articleFacets = searchResults.ArticlePage?.facets;
 
-// Process facets
-const authorFacets = facetsData?.Author?.filter((f: any) => f?.name) || [];
-const typeFacets = facetsData?._metadata?.types?.filter((f: any) => f?.name) || [];
+const experienceItems = searchResults._Experience?.items || [];
+const experienceTotal = searchResults._Experience?.total || 0;
+const experienceFacets = searchResults._Experience?.facets;
 
-const initialFacets = {
-	authors: authorFacets.map((f: any) => ({ name: f.name, count: f.count })),
-	types: typeFacets.map((f: any) => ({ name: f.name, count: f.count })),
-};
+// Merge and sort ALL results using shared helper
+const allMergedItems = mergeAndSortResults(articleItems, experienceItems, initialSort);
+
+// Apply pagination to merged results
+const items = allMergedItems.slice(initialOffset, initialOffset + config.resultsPerPage);
+
+// Combine totals - this represents the total number of items available across both types
+const total = articleTotal + experienceTotal;
+
+// Merge facets using shared helper
+const initialFacets = mergeFacets(articleFacets, experienceFacets);
 
 // Component classes
 const componentClass = 'component-facetedsearch';

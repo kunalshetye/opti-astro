@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import queryString from 'query-string';
+	import FacetedSearchSidebar from './FacetedSearchSidebar.svelte';
+	import FacetedSearchControls from './FacetedSearchControls.svelte';
+	import SearchResultCard from './SearchResultCard.svelte';
+	import SearchPagination from './SearchPagination.svelte';
 
 	// Props
 	interface Props {
@@ -47,10 +51,6 @@
 	let currentPage = $state(1);
 	let isLoading = $state(false);
 	let searchTimeout: number | null = $state(null);
-	let expandedFacets = $state({
-		authors: true,
-		types: true
-	});
 
 	// Derived values
 	let activeFilterCount = $derived(
@@ -59,19 +59,8 @@
 	let totalPages = $derived(Math.ceil(total / config.resultsPerPage));
 	let offset = $derived((currentPage - 1) * config.resultsPerPage);
 
-	// Sort options
-	const sortOptions = [
-		{ value: 'relevance', label: 'Relevance' },
-		{ value: 'semantic', label: 'Semantic (AI-powered)' },
-		{ value: 'date_desc', label: 'Newest First' },
-		{ value: 'date_asc', label: 'Oldest First' },
-		{ value: 'title_asc', label: 'Title A-Z' },
-		{ value: 'title_desc', label: 'Title Z-A' }
-	];
-
 	// Read URL parameters on mount
 	onMount(() => {
-		// Skip in edit mode - just show initial results
 		if (isEditMode) return;
 
 		const params = queryString.parse(window.location.search);
@@ -92,7 +81,6 @@
 			currentPage = parseInt(params.page) || 1;
 		}
 
-		// If we have URL params, fetch results
 		if (activeFilterCount > 0 || currentPage > 1 || sortOrder !== config.defaultSortOrder) {
 			fetchResults();
 		}
@@ -100,7 +88,6 @@
 
 	// Update URL when filters change
 	$effect(() => {
-		// Skip in edit mode
 		if (isEditMode) return;
 		if (typeof window === 'undefined') return;
 
@@ -118,7 +105,7 @@
 		window.history.pushState({}, '', newUrl);
 	});
 
-	// Debounced search
+	// Event handlers
 	function handleSearchInput(event: Event) {
 		const target = event.target as HTMLInputElement;
 		searchTerm = target.value;
@@ -133,26 +120,27 @@
 		}, 500);
 	}
 
-	// Toggle facet selection
+	function handleSortChange(event: Event) {
+		const target = event.target as HTMLSelectElement;
+		sortOrder = target.value;
+		currentPage = 1;
+		fetchResults();
+	}
+
 	function toggleFacet(type: 'author' | 'type', value: string) {
 		if (type === 'author') {
-			if (selectedAuthors.includes(value)) {
-				selectedAuthors = selectedAuthors.filter(a => a !== value);
-			} else {
-				selectedAuthors = [...selectedAuthors, value];
-			}
+			selectedAuthors = selectedAuthors.includes(value)
+				? selectedAuthors.filter(a => a !== value)
+				: [...selectedAuthors, value];
 		} else {
-			if (selectedTypes.includes(value)) {
-				selectedTypes = selectedTypes.filter(t => t !== value);
-			} else {
-				selectedTypes = [...selectedTypes, value];
-			}
+			selectedTypes = selectedTypes.includes(value)
+				? selectedTypes.filter(t => t !== value)
+				: [...selectedTypes, value];
 		}
 		currentPage = 1;
 		fetchResults();
 	}
 
-	// Remove single filter
 	function removeFilter(type: 'author' | 'type' | 'search', value?: string) {
 		if (type === 'search') {
 			searchTerm = '';
@@ -165,7 +153,6 @@
 		fetchResults();
 	}
 
-	// Clear all filters
 	function clearAllFilters() {
 		searchTerm = '';
 		selectedAuthors = [];
@@ -175,15 +162,6 @@
 		fetchResults();
 	}
 
-	// Change sort order
-	function handleSortChange(event: Event) {
-		const target = event.target as HTMLSelectElement;
-		sortOrder = target.value;
-		currentPage = 1;
-		fetchResults();
-	}
-
-	// Change page
 	function goToPage(page: number) {
 		if (page < 1 || page > totalPages) return;
 		currentPage = page;
@@ -191,17 +169,11 @@
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
-	// Toggle facet expansion
-	function toggleFacetExpansion(facetName: 'authors' | 'types') {
-		expandedFacets[facetName] = !expandedFacets[facetName];
-	}
-
 	// Fetch results from API
 	async function fetchResults() {
 		isLoading = true;
 
 		try {
-			// Build query parameters
 			const params = new URLSearchParams({
 				locale: config.locale,
 				domain: config.domain,
@@ -212,22 +184,11 @@
 				semanticWeight: config.semanticWeight.toString()
 			});
 
-			// Add search term if present
-			if (searchTerm) {
-				params.append('q', searchTerm);
-			}
+			if (searchTerm) params.append('q', searchTerm);
 
-			// Add author filters
-			selectedAuthors.forEach(author => {
-				params.append('authors[]', author);
-			});
+			selectedAuthors.forEach(author => params.append('authors[]', author));
+			selectedTypes.forEach(type => params.append('types[]', type));
 
-			// Add type filters
-			selectedTypes.forEach(type => {
-				params.append('types[]', type);
-			});
-
-			// Fetch from API
 			const response = await fetch(`/api/faceted-search.json?${params.toString()}`);
 
 			if (!response.ok) {
@@ -236,223 +197,50 @@
 
 			const data = await response.json();
 
-			// Update state with new results
 			results = data.items || [];
 			facets = data.facets || { authors: [], types: [] };
 			total = data.total || 0;
-
 		} catch (error) {
 			console.error('Error fetching results:', error);
-			// Keep existing results on error
 		} finally {
 			isLoading = false;
 		}
-	}
-
-	// Format date
-	function formatDate(dateString: string): string {
-		const date = new Date(dateString);
-		return date.toLocaleDateString(config.locale, {
-			year: 'numeric',
-			month: 'long',
-			day: 'numeric'
-		});
-	}
-
-	// Truncate HTML content
-	function getExcerpt(html: string, maxLength: number = 200): string {
-		const text = html?.replace(/<[^>]*>/g, '') || '';
-		return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
 	}
 </script>
 
 <div class="faceted-search-container">
 	<div class="grid lg:grid-cols-4 gap-6">
 		<!-- Sidebar with Facets -->
-		<aside class="lg:col-span-1">
-			<div class="sticky top-4">
-				<div class="bg-base-100 rounded-lg shadow-md p-4">
-					<div class="flex items-center justify-between mb-4">
-						<h3 class="font-semibold text-lg">Filters</h3>
-						{#if activeFilterCount > 0}
-							<button
-								class="btn btn-sm btn-ghost"
-								onclick={clearAllFilters}
-								disabled={isEditMode}
-							>
-								Clear all
-							</button>
-						{/if}
-					</div>
-
-					<!-- Active Filters -->
-					{#if activeFilterCount > 0}
-						<div class="mb-4 pb-4 border-b border-base-300">
-							<p class="text-sm text-base-content/70 mb-2">
-								Active filters ({activeFilterCount})
-							</p>
-							<div class="flex flex-wrap gap-2">
-								{#if searchTerm}
-									<button
-										class="badge badge-primary gap-2"
-										onclick={() => removeFilter('search')}
-										disabled={isEditMode}
-									>
-										{searchTerm}
-										<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-										</svg>
-									</button>
-								{/if}
-								{#each selectedAuthors as author}
-									<button
-										class="badge badge-secondary gap-2"
-										onclick={() => removeFilter('author', author)}
-										disabled={isEditMode}
-									>
-										{author}
-										<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-										</svg>
-									</button>
-								{/each}
-								{#each selectedTypes as type}
-									<button
-										class="badge badge-accent gap-2"
-										onclick={() => removeFilter('type', type)}
-										disabled={isEditMode}
-									>
-										{type}
-										<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-										</svg>
-									</button>
-								{/each}
-							</div>
-						</div>
-					{/if}
-
-					<!-- Author Facet -->
-					{#if config.showAuthorFacet && facets.authors.length > 0}
-						<div class="mb-4">
-							<button
-								class="flex items-center justify-between w-full text-left font-medium mb-2"
-								onclick={() => toggleFacetExpansion('authors')}
-							>
-								<span>Author</span>
-								<svg
-									class="w-4 h-4 transition-transform"
-									class:rotate-180={!expandedFacets.authors}
-									fill="none"
-									stroke="currentColor"
-									viewBox="0 0 24 24"
-								>
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-								</svg>
-							</button>
-							{#if expandedFacets.authors}
-								<div class="space-y-2">
-									{#each facets.authors as author}
-										<label class="flex items-center gap-2 cursor-pointer hover:bg-base-200 p-2 rounded">
-											<input
-												type="checkbox"
-												class="checkbox checkbox-sm"
-												checked={selectedAuthors.includes(author.name)}
-												onchange={() => toggleFacet('author', author.name)}
-												disabled={isEditMode}
-											/>
-											<span class="flex-1 text-sm">{author.name}</span>
-											<span class="text-xs text-base-content/50">({author.count})</span>
-										</label>
-									{/each}
-								</div>
-							{/if}
-						</div>
-					{/if}
-
-					<!-- Content Type Facet -->
-					{#if config.showTypeFacet && facets.types.length > 0}
-						<div class="mb-4">
-							<button
-								class="flex items-center justify-between w-full text-left font-medium mb-2"
-								onclick={() => toggleFacetExpansion('types')}
-							>
-								<span>Content Type</span>
-								<svg
-									class="w-4 h-4 transition-transform"
-									class:rotate-180={!expandedFacets.types}
-									fill="none"
-									stroke="currentColor"
-									viewBox="0 0 24 24"
-								>
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-								</svg>
-							</button>
-							{#if expandedFacets.types}
-								<div class="space-y-2">
-									{#each facets.types as type}
-										<label class="flex items-center gap-2 cursor-pointer hover:bg-base-200 p-2 rounded">
-											<input
-												type="checkbox"
-												class="checkbox checkbox-sm"
-												checked={selectedTypes.includes(type.name)}
-												onchange={() => toggleFacet('type', type.name)}
-												disabled={isEditMode}
-											/>
-											<span class="flex-1 text-sm">{type.name}</span>
-											<span class="text-xs text-base-content/50">({type.count})</span>
-										</label>
-									{/each}
-								</div>
-							{/if}
-						</div>
-					{/if}
-				</div>
-			</div>
-		</aside>
+		<FacetedSearchSidebar
+			{facets}
+			{selectedAuthors}
+			{selectedTypes}
+			{searchTerm}
+			{activeFilterCount}
+			showAuthorFacet={config.showAuthorFacet}
+			showTypeFacet={config.showTypeFacet}
+			{isEditMode}
+			onClearAll={clearAllFilters}
+			onRemoveFilter={removeFilter}
+			onToggleFacet={toggleFacet}
+		/>
 
 		<!-- Main Content Area -->
 		<main class="lg:col-span-3">
 			<!-- Search Bar and Controls -->
-			<div class="bg-base-100 rounded-lg shadow-md p-4 mb-6">
-				<div class="flex flex-col md:flex-row gap-4">
-					{#if config.showSearchInput}
-						<div class="flex-1">
-							<input
-								type="text"
-								class="input input-bordered w-full"
-								placeholder={config.searchPlaceholder || 'Search...'}
-								value={searchTerm}
-								oninput={handleSearchInput}
-								disabled={isEditMode}
-							/>
-						</div>
-					{/if}
-					<div class="flex items-center gap-4">
-						<select
-							class="select select-bordered"
-							value={sortOrder}
-							onchange={handleSortChange}
-							disabled={isEditMode}
-						>
-							{#each sortOptions as option}
-								<option value={option.value}>{option.label}</option>
-							{/each}
-						</select>
-					</div>
-				</div>
-			</div>
-
-			<!-- Results Count -->
-			<div class="mb-4">
-				<p class="text-sm text-base-content/70">
-					{#if isLoading}
-						Loading...
-					{:else}
-						Showing {total > 0 ? offset + 1 : 0}–{Math.min(offset + config.resultsPerPage, total)} of {total} results
-					{/if}
-				</p>
-			</div>
+			<FacetedSearchControls
+				{searchTerm}
+				{sortOrder}
+				{isLoading}
+				{total}
+				{offset}
+				resultsPerPage={config.resultsPerPage}
+				showSearchInput={config.showSearchInput}
+				searchPlaceholder={config.searchPlaceholder}
+				{isEditMode}
+				onSearchInput={handleSearchInput}
+				onSortChange={handleSortChange}
+			/>
 
 			<!-- Loading State -->
 			{#if isLoading}
@@ -465,73 +253,17 @@
 			{#if !isLoading && results.length > 0}
 				<div class="space-y-6">
 					{#each results as result}
-						<article class="card bg-base-100 shadow-md hover:shadow-lg transition-shadow">
-							<div class="card-body">
-								<h2 class="card-title">
-									<a href={result._metadata.url.hierarchical} class="hover:text-primary">
-										{result.Heading || result._metadata.displayName}
-									</a>
-								</h2>
-								{#if result.SubHeading}
-									<p class="text-base-content/70">{result.SubHeading}</p>
-								{/if}
-								<div class="flex items-center gap-4 text-sm text-base-content/60">
-									{#if result.Author}
-										<span>By {result.Author}</span>
-									{/if}
-									{#if result._metadata.published}
-										<span>{formatDate(result._metadata.published)}</span>
-									{/if}
-								</div>
-								{#if result.Body?.html}
-									<p class="text-sm">{getExcerpt(result.Body.html)}</p>
-								{/if}
-								<div class="card-actions justify-end">
-									<a href={result._metadata.url.hierarchical} class="btn btn-primary btn-sm">
-										Read more
-									</a>
-								</div>
-							</div>
-						</article>
+						<SearchResultCard {result} locale={config.locale} />
 					{/each}
 				</div>
 
 				<!-- Pagination -->
-				{#if totalPages > 1}
-					<div class="flex justify-center mt-8">
-						<div class="join">
-							<button
-								class="join-item btn"
-								disabled={currentPage === 1 || isEditMode}
-								onclick={() => goToPage(currentPage - 1)}
-							>
-								«
-							</button>
-							{#each Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
-								if (totalPages <= 7) return i + 1;
-								if (currentPage <= 4) return i + 1;
-								if (currentPage >= totalPages - 3) return totalPages - 6 + i;
-								return currentPage - 3 + i;
-							}) as page}
-								<button
-									class="join-item btn"
-									class:btn-active={page === currentPage}
-									onclick={() => goToPage(page)}
-									disabled={isEditMode}
-								>
-									{page}
-								</button>
-							{/each}
-							<button
-								class="join-item btn"
-								disabled={currentPage === totalPages || isEditMode}
-								onclick={() => goToPage(currentPage + 1)}
-							>
-								»
-							</button>
-						</div>
-					</div>
-				{/if}
+				<SearchPagination
+					{currentPage}
+					{totalPages}
+					{isEditMode}
+					onPageChange={goToPage}
+				/>
 			{/if}
 
 			<!-- No Results -->

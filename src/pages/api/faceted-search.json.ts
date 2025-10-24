@@ -3,6 +3,7 @@ import type { Locales } from '../../../__generated/sdk';
 import { getOptimizelySdk } from '../../graphql/getSdk';
 import type { ContentPayload } from '../../graphql/shared/ContentPayload';
 import { localeToSdkLocale } from '../../lib/locale-helpers';
+import { getSortOrderBy, mergeAndSortResults, mergeFacets } from '../../cms/components/FacetedSearchComponent/lib/facetedSearchHelpers';
 
 export const GET: APIRoute = async ({ url }) => {
 	try {
@@ -21,23 +22,13 @@ export const GET: APIRoute = async ({ url }) => {
 		const authorFilters = url.searchParams.getAll('authors[]');
 		const typeFilters = url.searchParams.getAll('types[]');
 
-		// Map sort order to GraphQL orderBy
-		const baseSortOrderMap: Record<string, any> = {
-			'relevance': { _ranking: 'RELEVANCE' },
-			'semantic': { _ranking: 'SEMANTIC' },
-			'date_desc': { _metadata: { published: 'DESC' } },
-			'date_asc': { _metadata: { published: 'ASC' } },
-			'title_asc': { Heading: 'ASC' },
-			'title_desc': { Heading: 'DESC' }
-		};
-
-		// Build orderBy with optional semantic weight
-		let orderBy = baseSortOrderMap[sortOrder] || baseSortOrderMap['relevance'];
-
-		// Apply semantic weight if enabled, search term exists, and not already using pure semantic
-		if (useSemanticSearch && searchTerm && orderBy._ranking !== 'SEMANTIC') {
-			orderBy = { ...orderBy, _semanticWeight: semanticWeight };
-		}
+		// Build orderBy with optional semantic weight using shared helper
+		const { articlePageOrderBy: orderBy, experienceOrderBy: orderByExperience } = getSortOrderBy(
+			sortOrder,
+			searchTerm,
+			useSemanticSearch,
+			semanticWeight
+		);
 
 		// Create content payload
 		const contentPayload: ContentPayload = {
@@ -49,32 +40,42 @@ export const GET: APIRoute = async ({ url }) => {
 			types: [],
 		};
 
-		// Fetch results from GraphQL
+		// Fetch results from GraphQL with a buffer to account for merging
+		// We fetch 3x the limit from each query to ensure we have enough results after merging
+		const fetchLimit = Math.max(limit * 3, 60);
 		const sdk = getOptimizelySdk(contentPayload);
 		const searchResults = await sdk.facetedSearch({
 			searchTerm: searchTerm,
 			locale: [contentPayload.loc as Locales],
 			domain: domain,
-			limit: limit,
-			offset: offset,
+			limit: fetchLimit,
+			offset: 0, // Always fetch from start, we'll slice after merging
 			orderBy: orderBy,
+			orderByExperience: orderByExperience,
 			authorFilters: authorFilters.length > 0 ? authorFilters : null,
 			typeFilters: typeFilters.length > 0 ? typeFilters : null,
 		});
 
 		// Extract data
-		const items = searchResults.ArticlePage?.items || [];
-		const total = searchResults.ArticlePage?.total || 0;
-		const facetsData = searchResults.ArticlePage?.facets;
+		const articleItems = searchResults.ArticlePage?.items || [];
+		const articleTotal = searchResults.ArticlePage?.total || 0;
+		const articleFacets = searchResults.ArticlePage?.facets;
 
-		// Process facets
-		const authorFacets = facetsData?.Author?.filter((f: any) => f?.name) || [];
-		const typeFacets = facetsData?._metadata?.types?.filter((f: any) => f?.name) || [];
+		const experienceItems = searchResults._Experience?.items || [];
+		const experienceTotal = searchResults._Experience?.total || 0;
+		const experienceFacets = searchResults._Experience?.facets;
 
-		const facets = {
-			authors: authorFacets.map((f: any) => ({ name: f.name, count: f.count })),
-			types: typeFacets.map((f: any) => ({ name: f.name, count: f.count })),
-		};
+		// Merge and sort ALL results using shared helper
+		const allMergedItems = mergeAndSortResults(articleItems, experienceItems, sortOrder);
+
+		// Apply pagination to merged results
+		const items = allMergedItems.slice(offset, offset + limit);
+
+		// Combine totals - this represents the total number of items available across both types
+		const total = articleTotal + experienceTotal;
+
+		// Merge facets using shared helper
+		const facets = mergeFacets(articleFacets, experienceFacets);
 
 		return new Response(
 			JSON.stringify({
