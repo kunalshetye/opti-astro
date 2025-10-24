@@ -2,6 +2,7 @@
 	interface Props {
 		searchTerm: string;
 		sortOrder: string;
+		viewMode: 'list' | 'grid';
 		isLoading: boolean;
 		total: number;
 		offset: number;
@@ -11,11 +12,13 @@
 		isEditMode?: boolean;
 		onSearchInput: (event: Event) => void;
 		onSortChange: (event: Event) => void;
+		onViewModeChange: (mode: 'list' | 'grid') => void;
 	}
 
 	let {
 		searchTerm,
 		sortOrder,
+		viewMode,
 		isLoading,
 		total,
 		offset,
@@ -24,7 +27,8 @@
 		searchPlaceholder = 'Search...',
 		isEditMode = false,
 		onSearchInput,
-		onSortChange
+		onSortChange,
+		onViewModeChange
 	}: Props = $props();
 
 	const sortOptions = [
@@ -52,9 +56,46 @@
 				/>
 			</div>
 		{/if}
-		<div class="flex items-center gap-4">
+		<div class="flex items-center gap-2">
+			<!-- View Mode Toggle -->
+			<div class="join">
+				<button
+					class="join-item btn btn-sm"
+					class:btn-active={viewMode === 'list'}
+					onclick={() => onViewModeChange('list')}
+					disabled={isEditMode}
+					aria-label="List view"
+				>
+					<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M4 6h16M4 12h16M4 18h16"
+						/>
+					</svg>
+				</button>
+				<button
+					class="join-item btn btn-sm"
+					class:btn-active={viewMode === 'grid'}
+					onclick={() => onViewModeChange('grid')}
+					disabled={isEditMode}
+					aria-label="Grid view"
+				>
+					<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M4 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zM14 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"
+						/>
+					</svg>
+				</button>
+			</div>
+
+			<!-- Sort Dropdown -->
 			<select
-				class="select select-bordered"
+				class="select select-bordered select-sm"
 				value={sortOrder}
 				onchange={onSortChange}
 				disabled={isEditMode}
