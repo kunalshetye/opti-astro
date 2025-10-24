@@ -8,7 +8,7 @@ This is an **Astro v5 SSR project** with **Optimizely SaaS CMS integration** fea
 - **Dynamic locale system** - No hardcoded locale lists, fully CMS-driven
 - **Flexible layout system** - Responsive rows and columns with extensive styling options
 - **GraphQL integration** - Type-safe content fetching from Optimizely Graph
-- **Modern tech stack** - TailwindCSS v4, AlpineJS, TypeScript, Node.js 22.x
+- **Modern tech stack** - TailwindCSS v4, AlpineJS, Svelte5, TypeScript, Node.js 22.x
 
 ## Available Commands
 
@@ -39,7 +39,8 @@ This is an Astro v5 SSR project with Optimizely SaaS CMS integration using:
 - **Node.js 22.x** runtime environment
 - **GraphQL** for content fetching via Optimizely Graph
 - **TailwindCSS v4 + daisyUI** for styling system
-- **AlpineJS** for client-side interactivity
+- **AlpineJS** for lightweight client-side interactivity
+- **Svelte5** for complex UI components requiring extensive JavaScript interactivity
 - **Splide.js** for carousel functionality
 - **TypeScript** for type safety
 
@@ -139,6 +140,18 @@ Optional environment variables:
 - GraphQL code generation runs before dev/build to ensure types are current
 - Locale synchronization integrated into build process
 
+### Client-Side Interactivity Guidelines
+**When to use AlpineJS:**
+- Simple interactions (dropdowns, toggles, accordions)
+- Lightweight DOM manipulations
+- Small components with minimal state management
+
+**When to use Svelte5:**
+- Complex UI components with extensive interactivity
+- Components requiring significant state management
+- Advanced user interactions (drag-and-drop, complex forms, data visualizations)
+- When component logic becomes too complex for AlpineJS
+
 ## Documentation
 
 Comprehensive documentation is available in the `docs/` folder:
@@ -154,3 +167,4 @@ Comprehensive documentation is available in the `docs/` folder:
 1. **Setup**: Configure environment variables (see docs/ENVIRONMENT-VARIABLES.md)
 2. **Locales**: Understand the internationalization system (see docs/LOCALE-CONFIG.md)
 3. **Layouts**: Master the CMS layout tools (see docs/ROW-COLUMN-LAYOUT-GUIDE.md)
+4. **Interactivity**: Choose between AlpineJS and Svelte5 based on complexity (see Client-Side Interactivity Guidelines)
