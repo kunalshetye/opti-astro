@@ -17,8 +17,15 @@ import type { MenuItemType } from './headerNavigationTypes';
 
 const lang = Astro.currentLocale;
 
-// Create minimal content payload for LocaleSelector
-const contentPayload: ContentPayload = {
+interface Props {
+    siteSettings: SiteSettingsByHostnameQuery;
+    contentPayload?: ContentPayload;
+}
+
+const { siteSettings, contentPayload: providedContentPayload } = Astro.props;
+
+// Use provided contentPayload if available, otherwise create minimal one
+const contentPayload: ContentPayload = providedContentPayload || {
     ctx: 'view',
     key: '',
     ver: '',
@@ -26,12 +33,6 @@ const contentPayload: ContentPayload = {
     preview_token: '',
     types: [],
 };
-
-interface Props {
-    siteSettings: SiteSettingsByHostnameQuery;
-}
-
-const { siteSettings } = Astro.props;
 const settings = siteSettings?.SiteSettings?.item;
 
 const topNavStyle = settings?.TopNavStyle || 'standard';

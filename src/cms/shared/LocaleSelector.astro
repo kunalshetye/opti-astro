@@ -67,11 +67,40 @@ if (import.meta.env.DEV) {
     console.log('[LocaleSelector] Final available locales:', availableLocales);
 }
 
-// Get the current path without the locale prefix
-const currentPath = Astro.url.pathname;
-const pathWithoutLocale = currentLocale === i18nConfig.defaultLocale && !i18nConfig.routing.prefixDefaultLocale
-    ? currentPath
-    : currentPath.replace(new RegExp(`^/${currentLocale}(/|$)`), '/');
+// Fetch language alternatives for the current content using its key
+// This gets the actual URLs for each locale variant (respecting localized slugs)
+const languageAlternativesMap = new Map<string, string>();
+
+if (contentPayload.key) {
+    try {
+        const languageAlternatives = await getOptimizelySdk(contentPayload).getContentLanguageAlternatives({
+            key: [contentPayload.key]
+        });
+
+        if (import.meta.env.DEV) {
+            console.log('[LocaleSelector] Language alternatives response:', languageAlternatives);
+        }
+
+        // Build a map of normalized locale -> URL
+        languageAlternatives?._Content?.items?.forEach(item => {
+            const locale = item?._metadata?.locale;
+            const url = item?._metadata?.url?.hierarchical || item?._metadata?.url?.default;
+
+            if (locale && url) {
+                const normalizedLocale = normalizeLocale(locale);
+                if (normalizedLocale) {
+                    languageAlternativesMap.set(normalizedLocale, url);
+                }
+            }
+        });
+
+        if (import.meta.env.DEV) {
+            console.log('[LocaleSelector] Language alternatives map:', Object.fromEntries(languageAlternativesMap));
+        }
+    } catch (error) {
+        console.error('[LocaleSelector] Error fetching language alternatives:', error);
+    }
+}
 
 // Locale display names with flag emojis and native names
 const localeNames: Record<string, { name: string; flag: string }> = {
@@ -133,13 +162,22 @@ const localeNames: Record<string, { name: string; flag: string }> = {
             const localeInfo = localeNames[locale] || { name: locale, flag: '🌐' };
             const isActive = locale === currentLocale;
 
-            // Safely generate locale URL with error handling
+            // Try to get the actual URL from language alternatives (CMS)
+            // This respects localized slugs (e.g., /en/about-us vs /es/acerca-de-nosotros)
             let localeUrl: string;
-            try {
-                localeUrl = getRelativeLocaleUrl(locale, pathWithoutLocale);
-            } catch (error) {
-                console.error(`[LocaleSelector] Error generating URL for locale "${locale}":`, error);
-                return null; // Skip this locale if URL generation fails
+            const cmsUrl = languageAlternativesMap.get(locale);
+
+            if (cmsUrl) {
+                // Use the actual CMS URL for this locale variant
+                localeUrl = cmsUrl;
+            } else {
+                // Content doesn't exist in this locale, fall back to homepage
+                try {
+                    localeUrl = getRelativeLocaleUrl(locale, '/');
+                } catch (error) {
+                    console.error(`[LocaleSelector] Error generating URL for locale "${locale}":`, error);
+                    return null; // Skip this locale if URL generation fails
+                }
             }
 
             return (
@@ -150,6 +188,7 @@ const localeNames: Record<string, { name: string; flag: string }> = {
                             "flex items-center gap-2",
                             { "active bg-base-200 font-bold": isActive }
                         ]}
+                        title={!cmsUrl && locale !== currentLocale ? `Go to ${localeInfo.name} homepage` : undefined}
                     >
                         <span>{localeInfo.flag}</span>
                         <span>{localeInfo.name}</span>
