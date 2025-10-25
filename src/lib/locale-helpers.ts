@@ -31,7 +31,7 @@ export type GetOptimizelySdk = (contentPayload: ContentPayload) => OptimizelySdk
  * Convert URL-friendly locale format to GraphQL API format
  * Examples:
  * - 2-part: 'fr-ca' -> 'fr_CA', 'pt-br' -> 'pt_BR'
- * - 3-part: 'zh-Hans-HK' -> 'zh_Hans_HK', 'zh-Hant-TW' -> 'zh_Hant_TW'
+ * - 3-part: 'zh-hans-hk' -> 'zh_Hans_HK', 'zh-hant-tw' -> 'zh_Hant_TW'
  * Handles case conversion for language, script, and region codes
  */
 export function localeToSdkLocale(locale: string): string {
@@ -46,8 +46,9 @@ export function localeToSdkLocale(locale: string): string {
         result = parts[0].toLowerCase() + '_' + parts[1].toUpperCase();
     } else if (parts.length === 3) {
         // 3-part locale: language-script-region (e.g., 'zh_Hans_HK')
-        // Language: lowercase, Script: preserve case, Region: uppercase
-        result = parts[0].toLowerCase() + '_' + parts[1] + '_' + parts[2].toUpperCase();
+        // Language: lowercase, Script: title case, Region: uppercase
+        const script = parts[1].charAt(0).toUpperCase() + parts[1].slice(1).toLowerCase();
+        result = parts[0].toLowerCase() + '_' + script + '_' + parts[2].toUpperCase();
     } else {
         // Single part locale: just lowercase
         result = result.toLowerCase();
