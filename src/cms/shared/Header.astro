@@ -1,7 +1,7 @@
 ---
 import { Image as AstroImage } from 'astro:assets';
 
-import { getCurrentLocale, getRelativeLocaleUrl } from '../../lib/locale-utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import type { SiteSettingsByHostnameQuery } from '../../../__generated/sdk';
 import { getClassForLogo } from './siteSettingsHelper';
 import SearchPalette from './SearchPalette.astro';
@@ -12,7 +12,7 @@ import HeaderDesktopHorizontalNav from './HeaderDesktopHorizontalNav.astro';
 import HeaderDrawerNavigation from './HeaderDrawerNavigation.astro';
 import type { MenuItemType } from './headerNavigationTypes';
 
-const lang = getCurrentLocale(Astro);
+const lang = Astro.currentLocale;
 
 interface Props {
     siteSettings: SiteSettingsByHostnameQuery;

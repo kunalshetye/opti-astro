@@ -5,18 +5,19 @@ import Experiences from '../cms/experiences/_Experiences.astro';
 import Pages from '../cms/pages/_Pages.astro';
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
-import { 
-    initFXDebugSession, 
-    updateContentInfo, 
-    addDebugError 
+import {
+    initFXDebugSession,
+    updateContentInfo,
+    addDebugError
 } from '../optimizely/debug';
 import { resolveContentVariant } from '../optimizely/variant-resolver';
 
-import { getCurrentLocale, getRelativeLocaleUrl, localeToSdkLocale, resolveContentWithFallback } from '../lib/locale-utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { localeToSdkLocale, fetchContentByPath } from '../lib/locale-helpers';
 
 Astro.response.headers.set('Content-Type', 'text/html; charset=UTF-8');
 
-const lang = getCurrentLocale(Astro);
+const lang = Astro.currentLocale || 'en';
 
 // Opti Web variation cookie handling -- cookie name depends on page path
 const rawPath = Astro.url.pathname; 
@@ -44,28 +45,26 @@ var contentPayload: ContentPayload = {
 };
 
 const urlPath = `${Astro.url.pathname.replace(/\/$/, '')}/`;
-const urlPathNoSlash = `${Astro.url.pathname.replace(/\/$/, '')}`;
 const urlBase = Astro.url.origin;
 
-// Use the helper function to resolve content with fallback first to get the default item
+// Fetch content in the current locale (Astro's i18n handles fallback via rewrites)
 contentPayload.loc = localeToSdkLocale(lang) as Locales;
 
-const defaultFallbackResult = await resolveContentWithFallback(
+const defaultResult = await fetchContentByPath(
     getOptimizelySdk,
     contentPayload,
     urlBase,
     urlPath,
-    lang,
     false, // No debug logs for default content fetch
-    pageVariationWeb // No variant for default content
+    pageVariationWeb
 );
 
-if (defaultFallbackResult.shouldRedirect404) {
-    addDebugError(debugInfo, 'No default content found for URL');
-    return Astro.redirect(getRelativeLocaleUrl(lang, '/404'), 404);
+if (!defaultResult.found) {
+    addDebugError(debugInfo, 'No content found for URL in current locale');
+    return Astro.rewrite(getRelativeLocaleUrl(lang, '/404'));
 }
 
-const defaultItem = defaultFallbackResult.contentResponse._Content.item;
+const defaultItem = defaultResult.contentResponse._Content.item;
 
 updateContentInfo(debugInfo, {
     defaultKey: defaultItem?._metadata?.key
@@ -80,23 +79,11 @@ const variantResult = await resolveContentVariant(
     urlBase,
     urlPath,
     lang,
-    defaultFallbackResult,
+    defaultResult,
     debugInfo
 );
 
-const fallbackResult = {
-    contentResponse: variantResult.contentResponse,
-    actualLocaleUsed: variantResult.actualLocaleUsed,
-    shouldRedirect404: false
-};
-
-if (fallbackResult.shouldRedirect404) {
-    addDebugError(debugInfo, 'No content found after fallback');
-    return Astro.redirect(getRelativeLocaleUrl(lang, '/404'), 404);
-}
-
-const contentByPathResponse = fallbackResult.contentResponse;
-const actualLocaleUsed = fallbackResult.actualLocaleUsed;
+const contentByPathResponse = variantResult.contentResponse;
 const item = contentByPathResponse._Content.item;
 
 // Update final debug info
@@ -110,23 +97,17 @@ if (!item?._metadata) {
 }
 
 // Always fetch by ID to get the full content data
-// Update the payload to use the actual locale that has content
-const contentByIdPayload = {
-    ...contentPayload,
-    loc: localeToSdkLocale(actualLocaleUsed) as Locales,
-};
-
-const contentByIdResponse = await getOptimizelySdk(contentByIdPayload).contentById({
+const contentByIdResponse = await getOptimizelySdk(contentPayload).contentById({
     key: item._metadata.key || '',
     ver: item._metadata.version || '',
-    loc: localeToSdkLocale(actualLocaleUsed) as Locales,
+    loc: localeToSdkLocale(lang) as Locales,
 });
 
 contentPayload = {
     ctx: ctx,
     key: item._metadata.key || '',
     ver: item._metadata.version || '',
-    loc: localeToSdkLocale(actualLocaleUsed) as Locales,
+    loc: localeToSdkLocale(lang) as Locales,
     preview_token: '',
     types: (contentByIdResponse?._Content?.item?._metadata?.types as string[]) || [],
 };
@@ -136,7 +117,7 @@ const isPageType =
     contentPayload.types.includes('_Page') && isExperienceType === false;
 
 if (isPageType && contentPayload.types.includes('FolderPage')) {
-    return Astro.redirect(getRelativeLocaleUrl(lang, '/404'), 404);
+    return Astro.rewrite(getRelativeLocaleUrl(lang, '/404'));
 }
 ---
 

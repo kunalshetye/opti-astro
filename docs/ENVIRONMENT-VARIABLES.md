@@ -61,6 +61,21 @@ EXTERNAL_PREVIEW_TOKEN=your_preview_token_here
 OPTIMIZELY_CMS_URL=https://cms.optimizely.com
 ```
 
+### Admin Dashboard Authentication
+
+```bash
+## HTTP Basic Authentication credentials for /admin route
+## If not configured, the admin dashboard will return 404
+
+# Admin username for HTTP Basic Authentication (default: admin)
+# Only required if using admin dashboard
+ADMIN_DASHBOARD_USERNAME=your-admin-username-here
+
+# Admin password for HTTP Basic Authentication (keep secure!)
+# Only required if using admin dashboard
+ADMIN_DASHBOARD_PASSWORD=your-secure-password-here
+```
+
 ## 🏗️ Environment Setup
 
 ### 1. Create .env File

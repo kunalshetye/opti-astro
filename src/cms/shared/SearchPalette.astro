@@ -1,8 +1,6 @@
 ---
 // SearchPalette.astro - Search palette with dynamic search
-import { getCurrentLocale } from '../../lib/locale-utils';
-
-const currentLocale = getCurrentLocale(Astro);
+const currentLocale = Astro.currentLocale;
 ---
 
 <div

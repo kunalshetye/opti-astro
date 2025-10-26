@@ -7,7 +7,7 @@ import Component from '../cms/components/_Component.astro';
 import Experiences from '../cms/experiences/_Experiences.astro';
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
-import { localeToSdkLocale } from '../lib/locale-utils';
+import { localeToSdkLocale } from '../lib/locale-helpers';
 import Pages from '../cms/pages/_Pages.astro';
 const cmsScript =
     OPTIMIZELY_CMS_URL &&

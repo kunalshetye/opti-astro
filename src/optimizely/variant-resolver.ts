@@ -4,18 +4,17 @@
  */
 
 import { getOptimizelyClient } from './client';
-import { 
-    updateUserInfo, 
-    updateContentInfo, 
+import {
+    updateUserInfo,
+    updateContentInfo,
     addDebugError,
-    type FXDebugInfo 
+    type FXDebugInfo
 } from './debug';
-import { resolveContentWithFallback } from '../lib/locale-utils';
+import { fetchContentByPath } from '../lib/locale-helpers';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
 
 export interface VariantResolutionResult {
     contentResponse: any;
-    actualLocaleUsed: string;
     variantKey: string | null;
     isVariantContent: boolean;
 }
@@ -108,23 +107,22 @@ export async function resolveContentVariant(
                 variantKey = decision.variables?.VariationKey;
                 
                 updateContentInfo(debugInfo, { variantRequested: variantKey });
-                
+
                 // Fetch the variant content
-                const variantResult = await resolveContentWithFallback(
+                const variantResult = await fetchContentByPath(
                     getOptimizelySdk,
                     contentPayload,
                     urlBase,
                     urlPath,
-                    lang,
                     true, // Enable debug logs for variant
                     variantKey
                 );
-                
-                if (variantResult.contentResponse?._Content?.item?._metadata?.key) {
+
+                if (variantResult.found) {
                     finalResult = variantResult;
-                    updateContentInfo(debugInfo, { 
+                    updateContentInfo(debugInfo, {
                         variantReceived: variantResult.contentResponse._Content.item._metadata.variation,
-                        isVariantContent: true 
+                        isVariantContent: true
                     });
                 } else {
                     addDebugError(debugInfo, `Variant content not found for variant: ${variantKey}`);
@@ -144,7 +142,6 @@ export async function resolveContentVariant(
 
     return {
         contentResponse: finalResult.contentResponse,
-        actualLocaleUsed: finalResult.actualLocaleUsed,
         variantKey,
         isVariantContent: !!variantKey && !!finalResult.contentResponse._Content.item._metadata.variation
     };
