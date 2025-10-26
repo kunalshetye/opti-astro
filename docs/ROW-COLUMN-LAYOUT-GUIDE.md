@@ -529,7 +529,7 @@ Column Settings:
 The system now offers **two row styles**:
 
 - **Simple Row** (NEW DEFAULT): Streamlined with 6 essential settings for 90% of layouts
-- **Advanced Row**: Full-featured with 12 settings for complex layouts (replaces old DefaultRow)
+- **Advanced Row**: Full-featured with 12 settings for complex layouts
 
 **Default Values**
 
@@ -561,7 +561,7 @@ All new content uses these defaults:
 - Test existing pages after migration
 - **New rows use Simple Row style** - cleaner interface with essential options
 - For complex layouts (auto-fit grids, dense packing), switch to "Advanced Row" style
-- Existing content with AdvancedRow (formerly DefaultRow) continues to work
+- Existing content with AdvancedRow continues to work
 - Column alignment simplified - use new unified "Content Alignment" option
 - Removed rarely-used options (minWidth, overflow) - contact support if you need these
 

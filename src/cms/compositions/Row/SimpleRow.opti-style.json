@@ -24,6 +24,38 @@
                 }
             }
         },
+        "columnsPerRow": {
+            "displayName": "Columns per row",
+            "editor": "",
+            "sortOrder": 15,
+            "choices": {
+                "auto": {
+                    "displayName": "Auto (columns control their own width)",
+                    "sortOrder": 10,
+                    "default": true
+                },
+                "col1": {
+                    "displayName": "1 column (full width)",
+                    "sortOrder": 20
+                },
+                "col2": {
+                    "displayName": "2 columns (50/50)",
+                    "sortOrder": 30
+                },
+                "col3": {
+                    "displayName": "3 columns (33/33/33)",
+                    "sortOrder": 40
+                },
+                "col4": {
+                    "displayName": "4 columns (25/25/25/25)",
+                    "sortOrder": 50
+                },
+                "col6": {
+                    "displayName": "6 columns",
+                    "sortOrder": 60
+                }
+            }
+        },
         "gap": {
             "displayName": "Gap between columns",
             "editor": "",

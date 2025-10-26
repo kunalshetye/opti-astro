@@ -105,25 +105,36 @@ export function getRowStyles(row: CompositionStructureNode) {
     }
 
     // Grid template mode
-    const gridTemplateMode = dictionary['gridTemplateMode'] ?? 'fixed';
     const showAsRowFrom = dictionary['showAsRowFrom'] ?? 'md';
+    const columnsPerRow = dictionary['columnsPerRow'] ?? 'auto';
 
-    switch (gridTemplateMode) {
-        case 'fixed':
-            // Traditional 12-column grid
-            cssClasses.push(`grid-cols-1 ${showAsRowFrom}:grid-cols-12`);
-            break;
-        case 'autoFit': {
-            // Auto-fit: cells shrink to fit content
-            const minWidth = AutoColumnMinWidthClasses[dictionary['autoColumnMinWidth']] ?? '20rem';
-            cssClasses.push(`grid-cols-1 ${showAsRowFrom}:grid-cols-[repeat(auto-fit,minmax(${minWidth},1fr))]`);
-            break;
-        }
-        case 'autoFill': {
-            // Auto-fill: cells maintain size even if empty
-            const minWidth = AutoColumnMinWidthClasses[dictionary['autoColumnMinWidth']] ?? '20rem';
-            cssClasses.push(`grid-cols-1 ${showAsRowFrom}:grid-cols-[repeat(auto-fill,minmax(${minWidth},1fr))]`);
-            break;
+    // Check if columnsPerRow is set (takes precedence over gridTemplateMode)
+    if (columnsPerRow !== 'auto') {
+        // Fixed number of equal-width columns
+        // Convert col1, col2, col3, etc. to actual numbers
+        const numColumns = columnsPerRow.replace('col', '');
+        cssClasses.push(`grid-cols-1 ${showAsRowFrom}:grid-cols-${numColumns}`);
+    } else {
+        // Use gridTemplateMode
+        const gridTemplateMode = dictionary['gridTemplateMode'] ?? 'fixed';
+
+        switch (gridTemplateMode) {
+            case 'fixed':
+                // Traditional 12-column grid
+                cssClasses.push(`grid-cols-1 ${showAsRowFrom}:grid-cols-12`);
+                break;
+            case 'autoFit': {
+                // Auto-fit: cells shrink to fit content
+                const minWidth = AutoColumnMinWidthClasses[dictionary['autoColumnMinWidth']] ?? '20rem';
+                cssClasses.push(`grid-cols-1 ${showAsRowFrom}:grid-cols-[repeat(auto-fit,minmax(${minWidth},1fr))]`);
+                break;
+            }
+            case 'autoFill': {
+                // Auto-fill: cells maintain size even if empty
+                const minWidth = AutoColumnMinWidthClasses[dictionary['autoColumnMinWidth']] ?? '20rem';
+                cssClasses.push(`grid-cols-1 ${showAsRowFrom}:grid-cols-[repeat(auto-fill,minmax(${minWidth},1fr))]`);
+                break;
+            }
         }
     }
 

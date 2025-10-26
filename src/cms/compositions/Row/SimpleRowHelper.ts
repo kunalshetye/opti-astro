@@ -43,9 +43,19 @@ export function getSimpleRowStyles(row: CompositionStructureNode) {
     const gap = dictionary['gap'] ?? 'medium';
     cssClasses.push(GapClasses[gap as keyof typeof GapClasses] ?? 'gap-4');
 
-    // Fixed 12-column grid (no template mode options)
+    // Grid columns - either fixed column count or traditional 12-column grid
     const showAsRowFrom = dictionary['showAsRowFrom'] ?? 'md';
-    cssClasses.push(`grid-cols-1 ${showAsRowFrom}:grid-cols-12`);
+    const columnsPerRow = dictionary['columnsPerRow'] ?? 'auto';
+
+    if (columnsPerRow === 'auto') {
+        // Traditional 12-column grid where columns control their own spans
+        cssClasses.push(`grid-cols-1 ${showAsRowFrom}:grid-cols-12`);
+    } else {
+        // Fixed number of equal-width columns
+        // Convert col1, col2, col3, etc. to actual numbers
+        const numColumns = columnsPerRow.replace('col', '');
+        cssClasses.push(`grid-cols-1 ${showAsRowFrom}:grid-cols-${numColumns}`);
+    }
 
     // Simple grid flow (always row)
     cssClasses.push('grid-flow-row');

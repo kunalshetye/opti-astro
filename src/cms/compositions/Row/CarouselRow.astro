@@ -29,7 +29,7 @@ const carouselId = `carousel-row-${Math.random().toString(36).substring(2, 9)}`;
 
 <section
     id={carouselId}
-    class={`splide ${isContentCarousel ? 'content-carousel' : 'standard-carousel'} ${styleConfig.carouselHeight} ${styleConfig.carouselWidth}`}
+    class={`splide ${isContentCarousel ? 'content-carousel' : 'standard-carousel'} ${styleConfig.carouselHeight} w-full`}
     aria-label="Carousel Row"
     data-content-mode={isContentCarousel ? 'true' : 'false'}
     data-show-arrows={styleConfig.showNavigation.toString()}
@@ -93,19 +93,25 @@ const carouselId = `carousel-row-${Math.random().toString(36).substring(2, 9)}`;
         height: 100%;
     }
 
-    /* Standard carousel styles - centered content */
+    /* Standard carousel styles - full width items */
     .standard-carousel .splide__slide {
         display: flex;
-        align-items: center;
-        justify-content: center;
+        align-items: stretch;
+        justify-content: stretch;
         min-height: 400px;
     }
 
     .standard-carousel .carousel-row-slide-content {
         display: flex;
-        align-items: center;
-        justify-content: center;
+        align-items: stretch;
+        justify-content: stretch;
         width: 100%;
+    }
+
+    /* Force cards to fill full width in standard mode */
+    .standard-carousel .carousel-row-slide-content > :global(*) {
+        width: 100%;
+        max-width: 100%;
     }
 
     /* Arrow styling */

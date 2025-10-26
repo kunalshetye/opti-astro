@@ -8,9 +8,10 @@ import { getGlobalStyles } from '../../shared/globalStylesHelper';
 export interface Props {
     column: CompositionStructureNode;
     contentPayload: ContentPayload;
+    parentColumnsPerRow?: string;
 }
-const { column, contentPayload } = Astro.props as Props;
-const styles = getColumnStyles(column);
+const { column, contentPayload, parentColumnsPerRow = 'auto' } = Astro.props as Props;
+const styles = getColumnStyles(column, parentColumnsPerRow);
 const globalStyles = getGlobalStyles(column);
 const allStyles = [...styles, ...globalStyles];
 ---

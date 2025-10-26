@@ -14,7 +14,7 @@ Updated all CMS style definition files and helpers to have sensible defaults tha
 - ✅ `rowGap`: **small** (0.5rem gap between rows)
 - ✅ `sectionColor`: **transparent** (no background)
 
-### Row (DefaultRow.opti-style.json)
+### Row (AdvancedRow.opti-style.json)
 - ✅ `rowWidth`: **inherit** (use section width)
 - ✅ `showAsRowFrom`: **md** (tablet breakpoint - matches old flex md:flex-row)
 - ✅ `contentSpacing`: **medium** (deprecated, but defaults for backward compat)
@@ -101,7 +101,7 @@ Column 2: gridSpan = "span4" (33%)
 
 ### Style Definitions (3 files)
 1. `src/cms/compositions/Section/DefaultSection.opti-style.json` - 4 defaults added
-2. `src/cms/compositions/Row/DefaultRow.opti-style.json` - 13 defaults added
+2. `src/cms/compositions/Row/AdvancedRow.opti-style.json` - 13 defaults added
 3. `src/cms/compositions/Column/DefaultColumn.opti-style.json` - 10 defaults added
 
 ### Helper Functions (1 file)

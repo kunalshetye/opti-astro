@@ -4,7 +4,7 @@
 
 ### ✅ CMS Style Definitions
 - [x] Update DefaultSection.opti-style.json with grid gap settings
-- [x] Update DefaultRow.opti-style.json with grid settings (gapX, gapY, autoFlow, template)
+- [x] Update AdvancedRow.opti-style.json with grid settings (gapX, gapY, autoFlow, template)
 - [x] Update DefaultColumn.opti-style.json with rowSpan and subgrid settings
 
 ### ✅ Helper Functions

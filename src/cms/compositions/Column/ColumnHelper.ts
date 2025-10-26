@@ -1,14 +1,22 @@
 import type { CompositionStructureNode } from '../../../../__generated/sdk.ts';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers.ts';
 
-export function getColumnStyles(column: CompositionStructureNode) {
+export function getColumnStyles(column: CompositionStructureNode, parentColumnsPerRow: string = 'auto') {
     const displaySettings = column.displaySettings;
     const dictionary = getDictionaryFromDisplaySettings(displaySettings);
 
     let cssClasses: string[] = [];
 
-    // Handle grid column span - convert from basis to col-span
-    switch (dictionary['gridSpan']) {
+    const gridSpan = dictionary['gridSpan'] ?? 'auto';
+
+    // If parent Row has a specific columnsPerRow set AND this column's span is 'auto',
+    // skip the span and let the grid auto-place it equally.
+    // BUT if the column has an explicit span set (span1-span12), respect that.
+    const shouldSkipSpan = parentColumnsPerRow !== 'auto' && gridSpan === 'auto';
+
+    if (!shouldSkipSpan) {
+        // Handle grid column span - convert from basis to col-span
+        switch (gridSpan) {
         case 'span1':
             cssClasses.push('md:col-span-1');
             break;
@@ -52,8 +60,10 @@ export function getColumnStyles(column: CompositionStructureNode) {
             // New grid behavior: col-span-12 (full width, stacks vertically like flex)
             // For equal side-by-side columns: Use explicit spans (span6, span4, etc.)
             //   OR use Row gridTemplateMode='autoFit' for automatic equal distribution
+            //   OR use Row columnsPerRow setting for fixed equal-width columns
             cssClasses.push('col-span-12');
             break;
+        }
     }
 
     // Handle row span for vertical spanning

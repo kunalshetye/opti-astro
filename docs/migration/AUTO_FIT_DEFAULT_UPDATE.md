@@ -54,7 +54,7 @@ Add Column 5 (auto) → All split to ~20/20/20/20/20 ✓
 
 ## Files Modified
 
-### 1. DefaultRow.opti-style.json
+### 1. AdvancedRow.opti-style.json
 **Changed:**
 ```diff
 "gridTemplateMode": {
