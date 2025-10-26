@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 import type { Locales } from '../../../__generated/sdk';
 import { getOptimizelySdk } from '../../graphql/getSdk';
 import type { ContentPayload } from '../../graphql/shared/ContentPayload';
-import { localeToSdkLocale } from '../../lib/locale-utils';
+import { localeToSdkLocale } from '../../lib/locale-helpers';
 
 interface SearchResult {
     id: string;

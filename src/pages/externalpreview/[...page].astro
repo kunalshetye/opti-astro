@@ -2,9 +2,8 @@
 import qs from 'query-string';
 
 import type { Locales } from 'astro';
-import { getCurrentLocale, getRelativeLocaleUrl, localeToSdkLocale, resolveContentWithFallback } from '../../lib/locale-utils';
-// Initialize locale configuration
-import '../../lib/locale-init.js';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { localeToSdkLocale, fetchContentByPath } from '../../lib/locale-helpers';
 import Component from '../../cms/components/_Component.astro';
 import Experiences from '../../cms/experiences/_Experiences.astro';
 import { getOptimizelySdk } from '../../graphql/getSdk';
@@ -26,7 +25,7 @@ var extPreviewPayload: ContentPayload = {
 };
 
 var extPreviewPayload = qs.parse(Astro.url.search) as unknown as ContentPayload;
-extPreviewPayload.loc = localeToSdkLocale(getCurrentLocale(Astro));
+extPreviewPayload.loc = localeToSdkLocale(Astro.currentLocale);
 extPreviewPayload.ctx = ctx;
 
 const isDraft = await isDraftContent(extPreviewPayload.ver);
@@ -40,57 +39,45 @@ const currentPagePath = `${Astro.url.pathname.replace(/\/$/, '')}/`
 const currentPagePathNoSlash = `${currentPagePath.replace(/\/$/, '')}`;
 
 if (!EXTERNAL_PREVIEW_ENABLED || !isDraft || !isExtPreviewEnabled) {
-    return Astro.redirect(getRelativeLocaleUrl(getCurrentLocale(Astro), '/404'), 404);
+    return Astro.redirect(getRelativeLocaleUrl(Astro.currentLocale, '/404'), 404);
 }
 
-// Use the helper function to resolve content with fallback
-const fallbackResult = await resolveContentWithFallback(
+// Fetch content in the current locale (Astro's i18n handles fallback via rewrites)
+const result = await fetchContentByPath(
     getOptimizelySdk,
     extPreviewPayload,
     urlBase,
     currentPagePath,
-    getCurrentLocale(Astro),
     false // No debug logs for external preview
 );
 
-if (fallbackResult.shouldRedirect404) {
-    return Astro.redirect(getRelativeLocaleUrl(getCurrentLocale(Astro), '/404'), 404);
+if (!result.found) {
+    return Astro.redirect(getRelativeLocaleUrl(Astro.currentLocale, '/404'), 404);
 }
 
-const contentByPathResponse = fallbackResult.contentResponse;
-const actualLocaleUsed = fallbackResult.actualLocaleUsed;
+const contentByPathResponse = result.contentResponse;
 const item = contentByPathResponse._Content.item;
 
 extPreviewPayload.key = item?._metadata?.key || '';
 
 const token = Astro.url.searchParams.get('token') || '';
 if (!token || !isValidExtPreviewToken(extPreviewPayload.key, extPreviewPayload.ver, token)) {
-    return Astro.redirect(getRelativeLocaleUrl(getCurrentLocale(Astro), '/404'), 404);
+    return Astro.redirect(getRelativeLocaleUrl(Astro.currentLocale, '/404'), 404);
 }
 
-// Update the payload to use the actual locale that has content
-const contentByIdPayload = {
-    ...extPreviewPayload,
-    loc: localeToSdkLocale(actualLocaleUsed) as Locales,
-};
-
 // Search by content ID to get the content item
-const optiPreviewResponse = await getOptimizelySdk(
-    contentByIdPayload
-).contentById({
+const optiPreviewResponse = await getOptimizelySdk(extPreviewPayload).contentById({
     key: extPreviewPayload.key,
-    loc: localeToSdkLocale(actualLocaleUsed) as Locales,
+    loc: localeToSdkLocale(Astro.currentLocale) as Locales,
     ver: extPreviewPayload.ver,
 });
 
 const types = optiPreviewResponse?._Content?.item?._metadata?.types;
 if (!types || types.length === 0 || types === null) {
-    return Astro.redirect(getRelativeLocaleUrl(getCurrentLocale(Astro), '/404'), 404);
+    return Astro.redirect(getRelativeLocaleUrl(Astro.currentLocale, '/404'), 404);
 } else {
     const filteredTypes = types.filter((type): type is string => type !== null);
     extPreviewPayload.types = filteredTypes;
-    // Update the payload to use the actual locale for rendering
-    extPreviewPayload.loc = localeToSdkLocale(actualLocaleUsed) as Locales;
 }
 
 const isComponentType = extPreviewPayload.types?.includes('_Component');

@@ -1,11 +1,9 @@
 import { defineMiddleware } from 'astro:middleware';
-import { getOptimizelySdk } from './graphql/getSdk';
 import { Locales } from '../__generated/sdk';
+import { getOptimizelySdk } from './graphql/getSdk';
 import type { ContentPayload } from './graphql/shared/ContentPayload';
-import { getLocaleFromPath, localeToSdkLocale, getFallbackLocale } from './lib/locale-utils';
+import { localeToSdkLocale } from './lib/locale-helpers';
 import { checkAdminAuth } from './pages/opti-admin/auth-opti-admin';
-// Initialize locale configuration
-import './lib/locale-init.js';
 
 // Cache for placeholder data to avoid repeated GraphQL calls
 const placeholderCache = new Map<string, Map<string, string>>();
@@ -25,15 +23,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // Only process HTML responses
   if (response.headers.get('content-type')?.includes('text/html')) {
     const html = await response.text();
-    
+
     // Extract domain from URL
     const domain = context.url.host;
-    const requestedLocale = getLocaleFromPath(context.url.pathname);
-    
-    // Use fallback locale if the requested locale doesn't exist in CMS
-    const fallbackLocale = getFallbackLocale(requestedLocale);
-    const localeToUse = requestedLocale === fallbackLocale ? requestedLocale : fallbackLocale;
-    const locale = localeToSdkLocale(localeToUse) as Locales;
+    // Use Astro's current locale
+    const locale = localeToSdkLocale(context.currentLocale) as Locales;
     
     try {
       // Get placeholders from GraphQL

@@ -1,45 +1,18 @@
 // @ts-check
+import alpinejs from '@astrojs/alpinejs';
+import svelte from '@astrojs/svelte';
+import tailwindcss from '@tailwindcss/vite';
+import { adapter } from 'astro-auto-adapter';
 import { defineConfig, envField, fontProviders } from 'astro/config';
 import mkcert from 'vite-plugin-mkcert';
 
-import { adapter } from 'astro-auto-adapter';
-
-import alpinejs from '@astrojs/alpinejs';
-import tailwindcss from '@tailwindcss/vite';
-
-import svelte from '@astrojs/svelte';
+import { loadI18nConfig } from './src/config/i18n.config.ts';
 
 const multiAdapter = await adapter();
 
-// Custom locale configuration for dynamic CMS locales
-const localeConfig = {
-    // Default locale (used when no locale is detected in URL)
-    defaultLocale: 'en',
-
-    // Enable or disable fallback completely
-    // - true: Enable fallback behavior (default)
-    // - false: Disable all fallback, show 404 if content doesn't exist in requested locale
-    enableFallback: true,
-
-    // Specific fallbacks for individual locales
-    fallback: {
-        // Examples of locale fallback configuration:
-        'fr-CA': 'fr', // Canadian French falls back to French
-        'nl-BE': 'nl', // Belgian Dutch falls back to Dutch
-        // Add more fallbacks as needed based on your CMS locales
-    },
-
-    // Generic fallback locale (used when specific fallback is not defined)
-    genericFallback: 'en',
-
-    // Fallback behavior type (like Astro's i18n fallbackType)
-    // - "redirect": Redirect to the fallback locale URL (e.g., /de -> /en)
-    // - "rewrite": Show fallback content at original URL (e.g., show English content at /de)
-    fallbackType: 'rewrite',
-
-    // Whether to prefix the default locale in URLs (false = /page, true = /en/page)
-    prefixDefaultLocale: false,
-};
+// Load i18n configuration (with optional environment variable override)
+// This happens at build time only, not at runtime
+const i18nConfig = loadI18nConfig();
 
 // https://astro.build/config
 export default defineConfig({
@@ -61,6 +34,9 @@ export default defineConfig({
         ],
     },
 
+    // @ts-ignore - Astro's type definitions don't properly handle dynamic fallback configurations
+    i18n: i18nConfig,
+
     output: 'server',
 
     adapter: multiAdapter,
@@ -69,6 +45,7 @@ export default defineConfig({
     vite: {
         ssr: {
             noExternal: ['graphql', 'graphql-request'],
+            external: ['vite'],
         },
         plugins: [mkcert(), tailwindcss()],
     },
@@ -141,6 +118,8 @@ export default defineConfig({
                 optional: true,
                 default: true,
             }),
+            // Note: ASTRO_I18N_CONFIG is a build-time only variable (used in astro.config.mjs)
+            // It's not included in the env schema since it's not needed at runtime
         },
     },
 
@@ -404,6 +383,3 @@ export default defineConfig({
         ],
     },
 });
-
-// Export locale configuration for use in locale utilities
-export { localeConfig };
