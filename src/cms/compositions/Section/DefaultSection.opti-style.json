@@ -11,7 +11,8 @@
 			"choices": {
 				"default": {
 					"displayName": "Default",
-					"sortOrder": 10
+					"sortOrder": 10,
+					"default": true
 				},
 				"full": {
 					"displayName": "Full width",
@@ -34,7 +35,8 @@
 			"choices": {
 				"default": {
 					"displayName": "Default",
-					"sortOrder": 10
+					"sortOrder": 10,
+					"default": true
 				},
 				"small": {
 					"displayName": "Small",
@@ -46,6 +48,34 @@
 				}
 			}
 		},
+		"rowGap": {
+			"displayName": "Gap Between Rows",
+			"editor": "",
+			"sortOrder": 25,
+			"choices": {
+				"none": {
+					"displayName": "None",
+					"sortOrder": 10
+				},
+				"small": {
+					"displayName": "Small",
+					"sortOrder": 20,
+					"default": true
+				},
+				"medium": {
+					"displayName": "Medium",
+					"sortOrder": 30
+				},
+				"large": {
+					"displayName": "Large",
+					"sortOrder": 40
+				},
+				"xl": {
+					"displayName": "Extra Large",
+					"sortOrder": 50
+				}
+			}
+		},
 		"sectionColor": {
 			"displayName": "Color",
 			"editor": "",
@@ -53,7 +83,8 @@
 			"choices": {
 				"transparent": {
 					"displayName": "Transparent",
-					"sortOrder": 5
+					"sortOrder": 5,
+					"default": true
 				},
 				"base_100": {
 					"displayName": "Base 100",

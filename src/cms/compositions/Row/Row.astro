@@ -4,6 +4,7 @@ import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import Column from '../Column/Column.astro';
 import CarouselRow from './CarouselRow.astro';
 import { getRowStyles } from './RowHelper';
+import { getSimpleRowStyles } from './SimpleRowHelper';
 import { getGlobalStyles } from '../../shared/globalStylesHelper';
 export interface Props {
     row: any;
@@ -12,7 +13,16 @@ export interface Props {
 const { row, contentPayload } = Astro.props as Props;
 const rowNode = row as CompositionStructureNode;
 const displayTemplateKey = rowNode.displayTemplateKey;
-const rowStyles = getRowStyles(rowNode);
+
+// Use appropriate helper based on template
+let rowStyles;
+if (displayTemplateKey === 'SimpleRow') {
+    rowStyles = getSimpleRowStyles(rowNode);
+} else {
+    // AdvancedRow, DefaultRow (backward compat), or any other row template
+    rowStyles = getRowStyles(rowNode);
+}
+
 const globalStyles = getGlobalStyles(rowNode);
 const styles = [...rowStyles, ...globalStyles]
 ---
@@ -21,7 +31,7 @@ const styles = [...rowStyles, ...globalStyles]
 {
     displayTemplateKey !== 'CarouselRow' && (
         <div
-            class="vb:row flex flex-1 flex-col flex-wrap justify-start p-1 md:flex-row"
+            class="vb:row grid w-full justify-start p-1"
             class:list={styles}
         >
             {row.nodes?.map((column: any) => (
@@ -34,7 +44,7 @@ const styles = [...rowStyles, ...globalStyles]
 {
     displayTemplateKey === 'CarouselRow' && (
         <div
-            class="vb:row row-carousel flex flex-1 flex-col flex-wrap justify-start p-1 md:flex-row"
+            class="vb:row row-carousel grid w-full justify-start p-1"
             class:list={styles}
         >
             <CarouselRow contentPayload={contentPayload} row={row} />

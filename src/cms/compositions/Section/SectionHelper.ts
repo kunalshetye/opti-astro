@@ -33,6 +33,30 @@ export function getSectionStyles(grid: CompositionStructureNode): string[] {
                     cssClasses.push('py-8 md:py-16 lg:py-24');
                     break;
             }
+
+            // Grid row gap support
+            switch (dictionary['rowGap']) {
+                case 'none':
+                    cssClasses.push('gap-y-0');
+                    break;
+                case 'small':
+                    cssClasses.push('gap-y-2');
+                    break;
+                case 'medium':
+                    cssClasses.push('gap-y-4');
+                    break;
+                case 'large':
+                    cssClasses.push('gap-y-8');
+                    break;
+                case 'xl':
+                    cssClasses.push('gap-y-12');
+                    break;
+                default:
+                    // Default gap if not specified
+                    cssClasses.push('gap-y-4');
+                    break;
+            }
+
             // Background color is now handled by globalStylesHelper
             break;
         default:

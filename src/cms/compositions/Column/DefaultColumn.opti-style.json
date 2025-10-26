@@ -19,7 +19,8 @@
                 },
                 "medium": {
                     "displayName": "Medium",
-                    "sortOrder": 30
+                    "sortOrder": 30,
+                    "default": true
                 },
                 "large": {
                     "displayName": "Large",
@@ -35,40 +36,22 @@
                 }
             }
         },
-        "justifyContent": {
-            "displayName": "Justify content",
+        "alignment": {
+            "displayName": "Content Alignment",
             "editor": "",
             "sortOrder": 20,
             "choices": {
                 "start": {
-                    "displayName": "Start",
-                    "sortOrder": 10
+                    "displayName": "Top Left",
+                    "sortOrder": 10,
+                    "default": true
                 },
                 "center": {
                     "displayName": "Center",
                     "sortOrder": 20
                 },
                 "end": {
-                    "displayName": "End",
-                    "sortOrder": 30
-                }
-            }
-        },
-        "alignContent": {
-            "displayName": "Align content",
-            "editor": "",
-            "sortOrder": 30,
-            "choices": {
-                "start": {
-                    "displayName": "Start",
-                    "sortOrder": 10
-                },
-                "center": {
-                    "displayName": "Center",
-                    "sortOrder": 20
-                },
-                "end": {
-                    "displayName": "End",
+                    "displayName": "Bottom Right",
                     "sortOrder": 30
                 }
             }
@@ -80,7 +63,8 @@
             "choices": {
                 "always": {
                     "displayName": "All screen sizes",
-                    "sortOrder": 10
+                    "sortOrder": 10,
+                    "default": true
                 },
                 "fromSmall": {
                     "displayName": "Small and up",
@@ -96,52 +80,6 @@
                 }
             }
         },
-        "minWidth": {
-            "displayName": "Minimal width",
-            "editor": "",
-            "sortOrder": 50,
-            "choices": {
-                "auto": {
-                    "displayName": "Automatic",
-                    "sortOrder": 10
-                },
-                "small": {
-                    "displayName": "Small",
-                    "sortOrder": 20
-                },
-                "medium": {
-                    "displayName": "Medium",
-                    "sortOrder": 30
-                },
-                "large": {
-                    "displayName": "Large",
-                    "sortOrder": 40
-                }
-            }
-        },
-        "overflow": {
-            "displayName": "Overflow (if available width is less then minimal)",
-            "editor": "",
-            "sortOrder": 60,
-            "choices": {
-                "full": {
-                    "displayName": "Overflow both",
-                    "sortOrder": 10
-                },
-                "clip": {
-                    "displayName": "None (hide content)",
-                    "sortOrder": 20
-                },
-                "left": {
-                    "displayName": "Overflow left",
-                    "sortOrder": 30
-                },
-                "right": {
-                    "displayName": "Overflow right",
-                    "sortOrder": 40
-                }
-            }
-        },
         "gridSpan": {
             "displayName": "Grid Span (out of 12)",
             "editor": "",
@@ -149,7 +87,8 @@
             "choices": {
                 "auto": {
                     "displayName": "Auto",
-                    "sortOrder": 5
+                    "sortOrder": 5,
+                    "default": true
                 },
                 "span1": {
                     "displayName": "1 Column",
@@ -201,6 +140,38 @@
                 }
             }
         },
+        "rowSpan": {
+            "displayName": "Row Span (vertical spanning)",
+            "editor": "",
+            "sortOrder": 6,
+            "choices": {
+                "auto": {
+                    "displayName": "Auto (1 row)",
+                    "sortOrder": 5,
+                    "default": true
+                },
+                "span2": {
+                    "displayName": "2 Rows",
+                    "sortOrder": 20
+                },
+                "span3": {
+                    "displayName": "3 Rows",
+                    "sortOrder": 30
+                },
+                "span4": {
+                    "displayName": "4 Rows",
+                    "sortOrder": 40
+                },
+                "span5": {
+                    "displayName": "5 Rows",
+                    "sortOrder": 50
+                },
+                "span6": {
+                    "displayName": "6 Rows",
+                    "sortOrder": 60
+                }
+            }
+        },
         "backgroundColor": {
             "displayName": "Background Color",
             "editor": "",
@@ -208,7 +179,8 @@
             "choices": {
                 "transparent": {
                     "displayName": "Transparent",
-                    "sortOrder": 5
+                    "sortOrder": 5,
+                    "default": true
                 },
                 "base_100": {
                     "displayName": "Base 100",

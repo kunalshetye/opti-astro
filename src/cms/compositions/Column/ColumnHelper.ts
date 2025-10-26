@@ -4,58 +4,81 @@ import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displa
 export function getColumnStyles(column: CompositionStructureNode) {
     const displaySettings = column.displaySettings;
     const dictionary = getDictionaryFromDisplaySettings(displaySettings);
-    // console.log(column.displayTemplateKey);
-    // console.log(dictionary);
 
     let cssClasses: string[] = [];
-    
-    // Handle grid span using flexbox basis percentages for both DefaultColumn and CardColumn
-    // Using basis instead of width to work with flex-grow/shrink
-    // When a specific span is set, we override the default flex-1 behavior
+
+    // Handle grid column span - convert from basis to col-span
     switch (dictionary['gridSpan']) {
         case 'span1':
-            cssClasses.push('md:basis-1/12 md:flex-none');
+            cssClasses.push('md:col-span-1');
             break;
         case 'span2':
-            cssClasses.push('md:basis-2/12 md:flex-none');
+            cssClasses.push('md:col-span-2');
             break;
         case 'span3':
-            cssClasses.push('md:basis-3/12 md:flex-none');
+            cssClasses.push('md:col-span-3');
             break;
         case 'span4':
-            cssClasses.push('md:basis-4/12 md:flex-none');
+            cssClasses.push('md:col-span-4');
             break;
         case 'span5':
-            cssClasses.push('md:basis-5/12 md:flex-none');
+            cssClasses.push('md:col-span-5');
             break;
         case 'span6':
-            cssClasses.push('md:basis-6/12 md:flex-none');
+            cssClasses.push('md:col-span-6');
             break;
         case 'span7':
-            cssClasses.push('md:basis-7/12 md:flex-none');
+            cssClasses.push('md:col-span-7');
             break;
         case 'span8':
-            cssClasses.push('md:basis-8/12 md:flex-none');
+            cssClasses.push('md:col-span-8');
             break;
         case 'span9':
-            cssClasses.push('md:basis-9/12 md:flex-none');
+            cssClasses.push('md:col-span-9');
             break;
         case 'span10':
-            cssClasses.push('md:basis-10/12 md:flex-none');
+            cssClasses.push('md:col-span-10');
             break;
         case 'span11':
-            cssClasses.push('md:basis-11/12 md:flex-none');
+            cssClasses.push('md:col-span-11');
             break;
         case 'span12':
-            cssClasses.push('md:basis-full md:flex-none');
+            cssClasses.push('md:col-span-12');
             break;
         case 'auto':
         default:
-            // Let flexbox handle the width automatically with flex-1
-            cssClasses.push('md:flex-1');
+            // FLEX MIGRATION NOTE:
+            // Old flex behavior: md:flex-1 (columns grow equally to fill space)
+            // New grid behavior: col-span-12 (full width, stacks vertically like flex)
+            // For equal side-by-side columns: Use explicit spans (span6, span4, etc.)
+            //   OR use Row gridTemplateMode='autoFit' for automatic equal distribution
+            cssClasses.push('col-span-12');
             break;
     }
-    
+
+    // Handle row span for vertical spanning
+    switch (dictionary['rowSpan']) {
+        case 'span2':
+            cssClasses.push('md:row-span-2');
+            break;
+        case 'span3':
+            cssClasses.push('md:row-span-3');
+            break;
+        case 'span4':
+            cssClasses.push('md:row-span-4');
+            break;
+        case 'span5':
+            cssClasses.push('md:row-span-5');
+            break;
+        case 'span6':
+            cssClasses.push('md:row-span-6');
+            break;
+        case 'auto':
+        default:
+            // Auto row span (single row)
+            break;
+    }
+
     switch (column.displayTemplateKey) {
         case 'DefaultColumn':
             switch (dictionary['contentSpacing']) {
@@ -79,41 +102,18 @@ export function getColumnStyles(column: CompositionStructureNode) {
                     break;
             }
 
-            switch (dictionary['justifyContent']) {
+            // Consolidated alignment - handles both horizontal and vertical
+            switch (dictionary['alignment']) {
                 case 'center':
-                    cssClasses.push('justify-center justify-items-center');
+                    cssClasses.push('justify-center justify-items-center content-center items-center');
                     break;
                 case 'end':
-                    cssClasses.push('justify-end justify-items-end');
+                    cssClasses.push('justify-end justify-items-end content-end items-end');
                     break;
                 default:
-                    cssClasses.push('justify-start justify-items-start');
+                    cssClasses.push('justify-start justify-items-start content-start items-start');
                     break;
             }
-
-            switch (dictionary['alignContent']) {
-                case 'center':
-                    cssClasses.push('content-center items-center');
-                    break;
-                case 'end':
-                    cssClasses.push('content-end items-end');
-                    break;
-                default:
-                    cssClasses.push('content-start items-start');
-                    break;
-            }
-
-            // switch (dictionary['alignItems']) {
-            //     case 'center':
-            //         cssClasses.push('items-center');
-            //         break;
-            //     case 'end':
-            //         cssClasses.push('items-end');
-            //         break;
-            //     default:
-            //         cssClasses.push('items-start');
-            //         break;
-            // }
 
             switch (dictionary['showFrom']) {
                 case 'fromSmall':
@@ -127,35 +127,7 @@ export function getColumnStyles(column: CompositionStructureNode) {
                     break;
             }
 
-            switch (dictionary['minWidth']) {
-                case 'small':
-                    cssClasses.push('lg:min-w-[24rem]');
-                    break;
-                case 'medium':
-                    cssClasses.push('lg:min-w-[48rem]');
-                    break;
-                case 'large':
-                    cssClasses.push('lg:min-w-[64rem]');
-                    break;
-            }
-
             // Background color is now handled by globalStylesHelper
-
-            cssClasses.push('relative top-0');
-            let useChildContainer = false;
-            switch (dictionary['overflow']) {
-                case 'right':
-                    useChildContainer = true;
-                    cssClasses.push('left-0');
-                    break;
-                case 'left':
-                    useChildContainer = true;
-                    cssClasses.push('right-0');
-                    break;
-                case 'clip':
-                    cssClasses.push('overflow-hidden');
-                    break;
-            }
 
             break;
         default:
