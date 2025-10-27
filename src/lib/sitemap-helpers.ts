@@ -61,10 +61,11 @@ export async function fetchPagesForSitemap(
 
                 // Check if page should be excluded from indexing
                 // Indexing field = true means NOINDEX (exclude from sitemap)
-                const shouldIndex = !item.SeoSettings?.Indexing;
+                // isNoIndex = true means the page should NOT be indexed
+                const isNoIndex = !!item.SeoSettings?.Indexing;
 
                 // Skip pages with Indexing = true (noindex)
-                if (!shouldIndex) {
+                if (isNoIndex) {
                     continue;
                 }
 
