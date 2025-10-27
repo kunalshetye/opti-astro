@@ -11,7 +11,7 @@ query getAllPagesForSitemap(
         where: {
             _metadata: {
                 status: { eq: $status }
-                url: { base: { eq: $site } }
+                # url.base filter omitted; client should add dynamically if $site is defined
             }
         }
         limit: $limit
