@@ -1,73 +1,38 @@
 import type { DisplaySettingsFragment } from '../../../../__generated/sdk.ts';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers.ts';
+import { getTextAlignmentClass, getTextTransformClass, getTextColorClass } from '../../shared/styleHelpers/index.ts';
 
 export function getHeadingElementStyles(
     displaySettings: DisplaySettingsFragment[]
 ): string[] {
     const settings: Record<string, string> =
         getDictionaryFromDisplaySettings(displaySettings);
-    let cssClasses: string[] = [];
-    switch (settings['textAlign']) {
-        case 'left':
-            cssClasses.push('text-left mr-auto');
-            break;
-        case 'center':
-            cssClasses.push('text-center mx-auto');
-            break;
-        case 'right':
-            cssClasses.push('text-right ml-auto');
-            break;
-        case 'justify':
-            cssClasses.push('text-justify');
-            break;
-        default:
-            break;
+    const cssClasses: string[] = [];
+
+    // Text alignment with margin utilities
+    const textAlign = settings['textAlign'];
+    const textAlignClass = getTextAlignmentClass(textAlign);
+    if (textAlignClass) {
+        cssClasses.push(textAlignClass);
+        // Add margin utilities based on alignment
+        if (textAlign === 'left') cssClasses.push('mr-auto');
+        else if (textAlign === 'center') cssClasses.push('mx-auto');
+        else if (textAlign === 'right') cssClasses.push('ml-auto');
     }
-    switch (settings['transform']) {
-        case 'uppercase':
-            cssClasses.push('uppercase');
-            break;
-        case 'lowercase':
-            cssClasses.push('lowercase');
-            break;
-        case 'capitalize':
-            cssClasses.push('capitalize');
-            break;
+
+    // Text transform (support both 'textTransform' and legacy 'transform')
+    const textTransformClass = getTextTransformClass(settings['textTransform'] || settings['transform']);
+    if (textTransformClass) {
+        cssClasses.push(textTransformClass);
     }
-    switch (settings['color']) {
-        case 'primary':
-            cssClasses.push('text-primary');
-            break;
-        case 'secondary':
-            cssClasses.push('text-secondary');
-            break;
-        case 'accent':
-            cssClasses.push('text-accent');
-            break;
-        case 'neutral':
-            cssClasses.push('text-neutral');
-            break;
-        case 'base100':
-            cssClasses.push('text-base-100');
-            break;
-        case 'base200':
-            cssClasses.push('text-base-200');
-            break;
-        case 'base300':
-            cssClasses.push('text-base-300');
-            break;
-        case 'info':
-            cssClasses.push('text-info');
-            break;
-        case 'success':
-            cssClasses.push('text-success');
-            break;
-        case 'warning':
-            cssClasses.push('text-warning');
-            break;
-        case 'error':
-            cssClasses.push('text-error');
-            break;
+
+    // Text color (support both base_100 and legacy base100)
+    const color = settings['color'];
+    const normalizedColor = color?.replace(/base(\d+)/, 'base_$1'); // Convert base100 → base_100
+    const textColorClass = getTextColorClass(normalizedColor);
+    if (textColorClass) {
+        cssClasses.push(textColorClass);
     }
+
     return cssClasses;
 }

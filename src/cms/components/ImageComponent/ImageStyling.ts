@@ -1,5 +1,6 @@
 import type { DisplaySettingsFragment } from '../../../../__generated/sdk.ts';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers.ts';
+import { getBorderRadiusClass, getAspectRatioClass } from '../../shared/styleHelpers/index.ts';
 
 export function getImageElementStyles(
     displaySettings: DisplaySettingsFragment[]
@@ -15,44 +16,23 @@ export function getImageElementStyles(
     }
 
     // Otherwise, use regular image styles
-    const portraitAspectRatioClasses = {
-        square: 'aspect-square',
-        banner: 'aspect-[1/4]',
-        photo: 'aspect-[2/3]',
-        monitor: 'aspect-[3/4]',
-        widescreen: 'aspect-[9/16]',
-    } as const;
-
-    const landscapeAspectRatioClasses = {
-        default: 'aspect-auto',
-        square: 'aspect-square',
-        banner: 'aspect-[4/1]',
-        photo: 'aspect-[3/2]',
-        monitor: 'aspect-[4/3]',
-        widescreen: 'aspect-[16/9]',
-    } as const;
-
-    const roundedCornersClasses = {
-        small: 'rounded',
-        medium: 'rounded-md',
-        large: 'rounded-lg',
-        xlarge: 'rounded-xl',
-        x3large: 'rounded-3xl',
-        huge: 'rounded-[40px]',
-        xhuge: 'rounded-[80px]',
-        full: 'rounded-full',
-        none: '',
-    } as const;
-
     const cssClasses: string[] = ['relative w-full object-cover not-prose'];
-    const isPortrait = settings['orientation'] == 'portrait';
-    cssClasses.push(
-        (isPortrait
-            ? portraitAspectRatioClasses[settings['aspectRatio'] as keyof typeof portraitAspectRatioClasses]
-            : landscapeAspectRatioClasses[settings['aspectRatio'] as keyof typeof landscapeAspectRatioClasses]) ?? ''
-    ); //Add aspect ratio
 
-    cssClasses.push(roundedCornersClasses[settings['roundedCorners'] as keyof typeof roundedCornersClasses] ?? ''); // Add rounded corners
+    // Aspect ratio using centralized helper
+    const aspectRatioClass = getAspectRatioClass(settings['aspectRatio']);
+    if (aspectRatioClass) {
+        cssClasses.push(aspectRatioClass);
+    }
+
+    // Border radius using centralized helper (support both 'borderRadius' and legacy 'roundedCorners')
+    const borderRadiusClass = getBorderRadiusClass(
+        settings['borderRadius'] || settings['roundedCorners'],
+        'image'
+    );
+    if (borderRadiusClass) {
+        cssClasses.push(borderRadiusClass);
+    }
+
     return cssClasses;
 }
 

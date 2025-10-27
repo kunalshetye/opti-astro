@@ -1,5 +1,6 @@
 import type { CompositionStructureNode } from '../../../../__generated/sdk.ts';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers.ts';
+import { getRowGapClass } from '../../shared/styleHelpers/index.ts';
 
 export function getSectionStyles(grid: CompositionStructureNode): string[] {
     const displaySettings = grid.displaySettings;
@@ -8,6 +9,7 @@ export function getSectionStyles(grid: CompositionStructureNode): string[] {
     let cssClasses: string[] = [];
     switch (grid.displayTemplateKey) {
         case 'DefaultSection':
+            // Component-specific width options (keep as-is)
             switch (dictionary['gridWidth']) {
                 case 'default':
                     cssClasses.push('container mx-auto px-8');
@@ -22,6 +24,8 @@ export function getSectionStyles(grid: CompositionStructureNode): string[] {
                     cssClasses.push('max-w-7xl w-full mx-auto px-8');
                     break;
             }
+
+            // Component-specific responsive vertical spacing (keep as-is)
             switch (dictionary['vSpacing']) {
                 case 'default':
                     cssClasses.push('my-8');
@@ -34,27 +38,13 @@ export function getSectionStyles(grid: CompositionStructureNode): string[] {
                     break;
             }
 
-            // Grid row gap support
-            switch (dictionary['rowGap']) {
-                case 'none':
-                    cssClasses.push('gap-y-0');
-                    break;
-                case 'small':
-                    cssClasses.push('gap-y-2');
-                    break;
-                case 'medium':
-                    cssClasses.push('gap-y-4');
-                    break;
-                case 'large':
-                    cssClasses.push('gap-y-8');
-                    break;
-                case 'xl':
-                    cssClasses.push('gap-y-12');
-                    break;
-                default:
-                    // Default gap if not specified
-                    cssClasses.push('gap-y-4');
-                    break;
+            // Grid row gap using centralized helper
+            const rowGap = dictionary['rowGap'];
+            if (rowGap === 'none') {
+                cssClasses.push('gap-y-0');  // Explicit zero gap
+            } else {
+                const rowGapClass = getRowGapClass(rowGap) || 'gap-y-4';  // Default medium gap
+                cssClasses.push(rowGapClass);
             }
 
             // Background color is now handled by globalStylesHelper

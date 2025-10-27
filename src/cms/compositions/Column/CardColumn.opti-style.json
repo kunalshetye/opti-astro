@@ -63,38 +63,58 @@
 				}
 			}
 		},
-		"colBackgroundColor": {
-			"displayName": "Background color",
+		"backgroundColor": {
+			"displayName": "Background Color",
 			"editor": "",
 			"sortOrder": 10,
 			"choices": {
-				"white": {
-					"displayName": "White",
+				"transparent": {
+					"displayName": "Transparent",
+					"sortOrder": 5
+				},
+				"base_100": {
+					"displayName": "Base 100",
 					"sortOrder": 10
 				},
-				"blue": {
-					"displayName": "Blue",
+				"base_200": {
+					"displayName": "Base 200",
 					"sortOrder": 20
 				},
-				"dark_blue": {
-					"displayName": "Dark blue",
+				"base_300": {
+					"displayName": "Base 300",
 					"sortOrder": 30
 				},
-				"orange": {
-					"displayName": "Orange",
+				"primary": {
+					"displayName": "Primary",
 					"sortOrder": 40
 				},
-				"green": {
-					"displayName": "Green",
+				"secondary": {
+					"displayName": "Secondary",
 					"sortOrder": 50
 				},
-				"red": {
-					"displayName": "Red",
+				"accent": {
+					"displayName": "Accent",
 					"sortOrder": 60
 				},
-				"purple": {
-					"displayName": "Purple",
+				"neutral": {
+					"displayName": "Neutral",
 					"sortOrder": 70
+				},
+				"info": {
+					"displayName": "Info",
+					"sortOrder": 80
+				},
+				"success": {
+					"displayName": "Success",
+					"sortOrder": 90
+				},
+				"warning": {
+					"displayName": "Warning",
+					"sortOrder": 100
+				},
+				"error": {
+					"displayName": "Error",
+					"sortOrder": 110
 				}
 			}
 		},

@@ -1,5 +1,12 @@
 import type { DisplaySettingsFragment } from '../../../../__generated/sdk.ts';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers.ts';
+import {
+    getBackgroundTintClasses,
+    getTextAlignmentClass,
+    getJustifyContentClass,
+    getTextColorClass,
+    getImageFitClass
+} from '../../shared/styleHelpers/index.ts';
 
 export function getHeroStyles(displaySettings: DisplaySettingsFragment[]): {
     backgroundOpacityClass: string;
@@ -10,104 +17,30 @@ export function getHeroStyles(displaySettings: DisplaySettingsFragment[]): {
 } {
     const settings: Record<string, string> =
         getDictionaryFromDisplaySettings(displaySettings);
-    const backgroundTintLevel = settings['background_tint_level'] ?? '60';
-    let backgroundOpacityClass = '';
-    switch (backgroundTintLevel) {
-        case 'o_0':
-            backgroundOpacityClass = 'bg-neutral/0';
-            break;
-        case 'o_10':
-            backgroundOpacityClass = 'bg-neutral/10';
-            break;
-        case 'o_20':
-            backgroundOpacityClass = 'bg-neutral/20';
-            break;
-        case 'o_30':
-            backgroundOpacityClass = 'bg-neutral/30';
-            break;
-        case 'o_40':
-            backgroundOpacityClass = 'bg-neutral/40';
-            break;
-        case 'o_50':
-            backgroundOpacityClass = 'bg-neutral/50';
-            break;
-        case 'o_60':
-            backgroundOpacityClass = 'bg-neutral/60';
-            break;
-        case 'o_70':
-            backgroundOpacityClass = 'bg-neutral/70';
-            break;
-        case 'o_80':
-            backgroundOpacityClass = 'bg-neutral/80';
-            break;
-        case 'o_90':
-            backgroundOpacityClass = 'bg-neutral/90';
-            break;
-        case 'o_100':
-            backgroundOpacityClass = 'bg-neutral/100';
-            break;
-        default:
-            backgroundOpacityClass = 'bg-neutral/60';
-            break;
-    }
 
-    const textPlacemenTintLevel = settings['text_placement'] ?? 'center';
-    let justifyClass = '';
-    let textClasses = [];
-    switch (textPlacemenTintLevel) {
-        case 'left':
-            textClasses.push('text-left');
-            justifyClass = 'justify-start';
-            break;
-        case 'right':
-            textClasses.push('text-right');
-            justifyClass = 'justify-end';
-            break;
-        default:
-            textClasses.push('text-center');
-            justifyClass = 'justify-center';
-            break;
-    }
+    // Background tint using centralized helper
+    const tintClasses = getBackgroundTintClasses(settings['background_tint_level'], 'neutral');
+    const backgroundOpacityClass = tintClasses[0] || 'bg-neutral/60';
 
+    // Text placement and alignment
+    const textPlacement = settings['text_placement'] ?? 'center';
+    const textClasses: string[] = [];
+    const textAlignClass = getTextAlignmentClass(textPlacement);
+    if (textAlignClass) {
+        textClasses.push(textAlignClass);
+    }
+    const justifyClass = getJustifyContentClass(textPlacement) || 'justify-center';
+
+    // Text color using centralized helper
     const textColor = settings['text_color'] ?? 'white';
-    switch (textColor) {
-        case 'default':
-            // Don't add any class, use theme default
-            break;
-        case 'white':
-            textClasses.push('text-white');
-            break;
-        case 'black':
-            textClasses.push('text-black');
-            break;
-        case 'neutral':
-            textClasses.push('text-neutral');
-            break;
-        case 'primary':
-            textClasses.push('text-primary');
-            break;
-        case 'secondary':
-            textClasses.push('text-secondary');
-            break;
-        case 'accent':
-            textClasses.push('text-accent');
-            break;
-        case 'info':
-            textClasses.push('text-info');
-            break;
-        case 'success':
-            textClasses.push('text-success');
-            break;
-        case 'warning':
-            textClasses.push('text-warning');
-            break;
-        case 'error':
-            textClasses.push('text-error');
-            break;
-        default:
-            textClasses.push('text-white');
-            break;
+    const textColorClass = getTextColorClass(textColor);
+    if (textColorClass) {
+        textClasses.push(textColorClass);
+    } else if (textColor === 'white') {
+        textClasses.push('text-white');
     }
+
+    // Hero height (component-specific)
     const heroHeight = settings['hero_height'] ?? 'h_48rem';
     let heightClass = '';
     switch (heroHeight) {
@@ -127,22 +60,9 @@ export function getHeroStyles(displaySettings: DisplaySettingsFragment[]): {
             heightClass = 'h-[48rem]';
             break;
     }
-    const imageFit = settings['image_fit'] ?? 'object_cover';
-    let imageFitClass = '';
-    switch (imageFit) {
-        case 'object_cover':
-            imageFitClass = 'object-cover';
-            break;
-        case 'object_contain':
-            imageFitClass = 'object-contain';
-            break;
-        case 'object_fill':
-            imageFitClass = 'object-fill';
-            break;
-        default:
-            imageFitClass = 'object-cover';
-            break;
-    }
-    
+
+    // Image fit using centralized helper
+    const imageFitClass = getImageFitClass(settings['image_fit']) || 'object-cover';
+
     return { backgroundOpacityClass, textClasses, justifyClass, heightClass, imageFitClass };
 }

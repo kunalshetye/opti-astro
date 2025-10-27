@@ -334,7 +334,7 @@
 		"buttonSize": {
 			"displayName": "Button Size",
 			"editor": "",
-			"sortOrder": 130,
+			"sortOrder": 140,
 			"choices": {
 				"medium": {
 					"displayName": "Medium (Default)",
@@ -363,17 +363,13 @@
 			}
 		},
 		"buttonRadius": {
-			"displayName": "Rounded Buttons",
+			"displayName": "Button Corners",
 			"editor": "",
 			"sortOrder": 150,
 			"choices": {
 				"none": {
-					"displayName": "None",
+					"displayName": "None (Square)",
 					"sortOrder": 10
-				},
-				"full": {
-					"displayName": "Full (pill button)",
-					"sortOrder": 15
 				},
 				"xs": {
 					"displayName": "Extra Small",
@@ -385,27 +381,31 @@
 				},
 				"md": {
 					"displayName": "Medium",
-					"sortOrder": 30
+					"sortOrder": 40
 				},
 				"lg": {
 					"displayName": "Large",
-					"sortOrder": 40
+					"sortOrder": 50
 				},
 				"xl": {
 					"displayName": "X-Large",
-					"sortOrder": 50
-				},
-				"xl2": {
-					"displayName": "2x-Large",
 					"sortOrder": 60
 				},
-				"xl3": {
-					"displayName": "3x-Large",
+				"xl2": {
+					"displayName": "2X-Large",
 					"sortOrder": 70
 				},
-				"xl4": {
-					"displayName": "4x-Large",
+				"xl3": {
+					"displayName": "3X-Large",
 					"sortOrder": 80
+				},
+				"xl4": {
+					"displayName": "4X-Large",
+					"sortOrder": 90
+				},
+				"full": {
+					"displayName": "Fully Rounded",
+					"sortOrder": 100
 				}
 			}
 		},

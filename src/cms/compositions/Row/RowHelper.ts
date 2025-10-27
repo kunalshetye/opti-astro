@@ -2,11 +2,19 @@
 
 import type { CompositionStructureNode } from '../../../../__generated/sdk.ts';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers.ts';
+import {
+    getGapClass,
+    getAlignContentClass,
+    getAlignItemsClass,
+    getMarginClass,
+    getGridAutoFlowClass,
+} from '../../shared/styleHelpers/index.ts';
 
 export function getRowStyles(row: CompositionStructureNode) {
     const displaySettings = row.displaySettings;
     const dictionary = getDictionaryFromDisplaySettings(displaySettings);
 
+    // Component-specific width classes (keep as-is)
     enum RowWidthClasses {
         full = 'w-full',
         container = 'container mx-auto px-8',
@@ -24,24 +32,7 @@ export function getRowStyles(row: CompositionStructureNode) {
         inherit = '', // No additional width classes, inherit from parent
     }
 
-    enum GapXClasses {
-        none = 'gap-x-0',
-        small = 'gap-x-2',
-        medium = 'gap-x-4',
-        large = 'gap-x-8',
-        xl = 'gap-x-12',
-        xxl = 'gap-x-24',
-    }
-
-    enum GapYClasses {
-        none = 'gap-y-0',
-        small = 'gap-y-2',
-        medium = 'gap-y-4',
-        large = 'gap-y-8',
-        xl = 'gap-y-12',
-        xxl = 'gap-y-24',
-    }
-
+    // Component-specific justify-items classes (includes 'stretch' not in centralized helper)
     enum JustifyItemsClasses {
         center = 'justify-items-center',
         end = 'justify-items-end',
@@ -49,34 +40,7 @@ export function getRowStyles(row: CompositionStructureNode) {
         stretch = 'justify-items-stretch',
     }
 
-    enum AlignContentClasses {
-        center = 'content-center',
-        end = 'content-end',
-        start = 'content-start',
-    }
-
-    enum AlignItemsClasses {
-        start = 'items-start',
-        center = 'items-center',
-        end = 'items-end',
-        stretch = 'items-stretch',
-        baseline = 'items-baseline',
-    }
-
-    enum VerticalSpacingClasses {
-        small = 'my-2',
-        medium = 'my-4',
-        large = 'my-8',
-        verylarge = 'lg:my-40 my-20',
-        none = 'my-0',
-    }
-
-    enum GridAutoFlowClasses {
-        row = 'grid-flow-row',
-        dense = 'grid-flow-dense',
-        column = 'grid-flow-col',
-    }
-
+    // Component-specific auto column min width (keep as-is)
     enum AutoColumnMinWidthClasses {
         small = '15rem',
         medium = '20rem',
@@ -91,18 +55,12 @@ export function getRowStyles(row: CompositionStructureNode) {
         cssClasses.push(RowWidthClasses[dictionary['rowWidth']] ?? '');
     }
 
-    // Gap handling - separate X and Y controls
-    if (dictionary['gapX']) {
-        cssClasses.push(GapXClasses[dictionary['gapX']] ?? 'gap-x-4');
-    } else {
-        cssClasses.push('gap-x-4'); // Default horizontal gap
-    }
+    // Gap handling - separate X and Y controls using centralized helpers
+    const gapXClass = getGapClass(dictionary['gapX'], 'x') || 'gap-x-4';
+    cssClasses.push(gapXClass);
 
-    if (dictionary['gapY']) {
-        cssClasses.push(GapYClasses[dictionary['gapY']] ?? 'gap-y-4');
-    } else {
-        cssClasses.push('gap-y-4'); // Default vertical gap
-    }
+    const gapYClass = getGapClass(dictionary['gapY'], 'y') || 'gap-y-4';
+    cssClasses.push(gapYClass);
 
     // Grid template mode
     const showAsRowFrom = dictionary['showAsRowFrom'] ?? 'md';
@@ -138,21 +96,30 @@ export function getRowStyles(row: CompositionStructureNode) {
         }
     }
 
-    // Grid auto flow
+    // Grid auto flow using centralized helper
     const gridAutoFlow = dictionary['gridAutoFlow'] ?? 'row';
-    cssClasses.push(GridAutoFlowClasses[gridAutoFlow] ?? 'grid-flow-row');
+    const gridAutoFlowClass = getGridAutoFlowClass(gridAutoFlow);
+    cssClasses.push(gridAutoFlowClass);
 
-    // Alignment
+    // Alignment using centralized and component-specific helpers
     cssClasses.push(JustifyItemsClasses[dictionary['justifyContent']] ?? 'justify-items-start');
-    cssClasses.push(AlignContentClasses[dictionary['alignContent']] ?? '');
-    cssClasses.push(VerticalSpacingClasses[dictionary['verticalSpacing']] ?? '');
+
+    const alignContentClass = getAlignContentClass(dictionary['alignContent']);
+    if (alignContentClass && alignContentClass !== 'content-start') {
+        cssClasses.push(alignContentClass);
+    }
+
+    const verticalSpacingClass = getMarginClass(dictionary['verticalSpacing'], 'y');
+    if (verticalSpacingClass) {
+        cssClasses.push(verticalSpacingClass);
+    }
 
     // Add responsive vertical alignment based on showAsRowFrom breakpoint
     const rowBreakpoint = dictionary['showAsRowFrom'] ?? 'md';
     const alignItems = dictionary['alignItems'];
     if (alignItems && alignItems !== 'start') {
-        const alignItemsClass = AlignItemsClasses[alignItems];
-        if (alignItemsClass) {
+        const alignItemsClass = getAlignItemsClass(alignItems);
+        if (alignItemsClass && alignItemsClass !== 'items-start') {
             // Apply alignment when in grid mode
             cssClasses.push(`${rowBreakpoint}:${alignItemsClass}`);
         }

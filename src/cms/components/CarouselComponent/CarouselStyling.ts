@@ -1,5 +1,6 @@
 import type { DisplaySettingsFragment } from '../../../../__generated/sdk';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
+import { getImageFitClass } from '../../shared/styleHelpers/index.ts';
 
 export interface CarouselStyleConfig {
     carouselHeight: string;
@@ -25,12 +26,6 @@ const heightMap: Record<string, string> = {
     'h_128': 'h-128',
     'h_144': 'h-144',
     'h_screen': 'h-screen'
-};
-
-const imageFitMap: Record<string, string> = {
-    'object_cover': 'object-cover',
-    'object_contain': 'object-contain',
-    'object_fill': 'object-fill'
 };
 
 const alignmentMap: Record<string, string> = {
@@ -76,8 +71,8 @@ export function getCarouselStyleConfig(
         // Height settings - different defaults based on mode
         carouselHeight: heightMap[settingsDict['carousel_height']] || (isContentCarousel ? 'h-auto' : 'h-96'),
         
-        // Image fit settings
-        imageFit: imageFitMap[settingsDict['image_fit']] || 'object-cover',
+        // Image fit settings using centralized helper
+        imageFit: getImageFitClass(settingsDict['image_fit']) || 'object-cover',
         
         // Alignment settings
         carouselAlignment: alignmentMap[settingsDict['carousel_alignment']] || 'w-full',

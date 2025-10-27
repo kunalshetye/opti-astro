@@ -15,46 +15,18 @@ export function getColumnStyles(column: CompositionStructureNode, parentColumnsP
     const shouldSkipSpan = parentColumnsPerRow !== 'auto' && gridSpan === 'auto';
 
     if (!shouldSkipSpan) {
-        // Handle grid column span - convert from basis to col-span
-        switch (gridSpan) {
-        case 'span1':
-            cssClasses.push('md:col-span-1');
-            break;
-        case 'span2':
-            cssClasses.push('md:col-span-2');
-            break;
-        case 'span3':
-            cssClasses.push('md:col-span-3');
-            break;
-        case 'span4':
-            cssClasses.push('md:col-span-4');
-            break;
-        case 'span5':
-            cssClasses.push('md:col-span-5');
-            break;
-        case 'span6':
-            cssClasses.push('md:col-span-6');
-            break;
-        case 'span7':
-            cssClasses.push('md:col-span-7');
-            break;
-        case 'span8':
-            cssClasses.push('md:col-span-8');
-            break;
-        case 'span9':
-            cssClasses.push('md:col-span-9');
-            break;
-        case 'span10':
-            cssClasses.push('md:col-span-10');
-            break;
-        case 'span11':
-            cssClasses.push('md:col-span-11');
-            break;
-        case 'span12':
-            cssClasses.push('md:col-span-12');
-            break;
-        case 'auto':
-        default:
+        // Handle grid column span - simplified logic
+        if (gridSpan && gridSpan.startsWith('span') && gridSpan !== 'auto') {
+            // Extract number from 'span1', 'span2', etc.
+            const spanNumber = gridSpan.replace('span', '');
+            const spanValue = parseInt(spanNumber, 10);
+            if (!isNaN(spanValue) && spanValue >= 1 && spanValue <= 12) {
+                cssClasses.push(`md:col-span-${spanValue}`);
+            } else {
+                cssClasses.push('col-span-12');  // Fallback to full width
+            }
+        } else {
+            // Auto or default case
             // FLEX MIGRATION NOTE:
             // Old flex behavior: md:flex-1 (columns grow equally to fill space)
             // New grid behavior: col-span-12 (full width, stacks vertically like flex)
@@ -62,31 +34,19 @@ export function getColumnStyles(column: CompositionStructureNode, parentColumnsP
             //   OR use Row gridTemplateMode='autoFit' for automatic equal distribution
             //   OR use Row columnsPerRow setting for fixed equal-width columns
             cssClasses.push('col-span-12');
-            break;
         }
     }
 
-    // Handle row span for vertical spanning
-    switch (dictionary['rowSpan']) {
-        case 'span2':
-            cssClasses.push('md:row-span-2');
-            break;
-        case 'span3':
-            cssClasses.push('md:row-span-3');
-            break;
-        case 'span4':
-            cssClasses.push('md:row-span-4');
-            break;
-        case 'span5':
-            cssClasses.push('md:row-span-5');
-            break;
-        case 'span6':
-            cssClasses.push('md:row-span-6');
-            break;
-        case 'auto':
-        default:
-            // Auto row span (single row)
-            break;
+    // Handle row span for vertical spanning - simplified logic
+    const rowSpan = dictionary['rowSpan'];
+    if (rowSpan && rowSpan.startsWith('span') && rowSpan !== 'auto') {
+        // Extract number from 'span2', 'span3', etc.
+        const spanNumber = rowSpan.replace('span', '');
+        const spanValue = parseInt(spanNumber, 10);
+        if (!isNaN(spanValue) && spanValue >= 2 && spanValue <= 6) {
+            cssClasses.push(`md:row-span-${spanValue}`);
+        }
+        // Otherwise auto row span (single row) - no class needed
     }
 
     switch (column.displayTemplateKey) {

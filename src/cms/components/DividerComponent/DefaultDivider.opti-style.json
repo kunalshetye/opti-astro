@@ -101,13 +101,13 @@
 				}
 			}
 		},
-		"transform": {
+		"textTransform": {
 			"displayName": "Text Transform",
 			"editor": "",
 			"sortOrder": 40,
 			"choices": {
-				"middle": {
-					"displayName": "None (as entered)",
+				"normal": {
+					"displayName": "Normal (As Entered)",
 					"sortOrder": 10
 				},
 				"uppercase": {

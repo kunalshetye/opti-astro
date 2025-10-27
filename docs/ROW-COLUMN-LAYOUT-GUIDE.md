@@ -2,6 +2,13 @@
 
 This guide explains how to use the Row and Column styling options in the Optimizely CMS to create flexible, responsive layouts using **CSS Grid**.
 
+## Related Documentation
+
+For detailed information about style standards and development:
+- **[Style Standards Reference](STYLE-STANDARDS.md)** - Complete list of all standardized style values and their CSS classes
+- **[Component Styling Guide](COMPONENT-STYLING-GUIDE.md)** - Developer guide for implementing styling in components
+- **[Migration Guide](migrations/2025-style-consolidation.md)** - Details about the 2025 style consolidation migration
+
 ## Overview
 
 The layout system uses **CSS Grid** with a combination of **Sections**, **Rows**, and **Columns** to create advanced, responsive designs:
@@ -117,7 +124,11 @@ Margin spacing above and below the row:
 - **Very Large**: 5rem on desktop, 10rem on large screens
 
 #### Background Color
-Background color for the entire row (same options as Section)
+Background color for the entire row using the standardized theme color system (same options as Section).
+
+Available colors: `transparent`, `base_100`, `base_200`, `base_300`, `primary`, `secondary`, `accent`, `neutral`, `info`, `success`, `warning`, `error`
+
+See [Style Standards Reference](STYLE-STANDARDS.md#color-system) for complete color documentation.
 
 ---
 
@@ -221,7 +232,11 @@ Controls which screen sizes display this column:
 - **Large and up**: Only visible on large screens
 
 ### Background Color
-Background color for the column (same color options as Section and Row)
+Background color for the column using the standardized theme color system (same color options as Section and Row).
+
+Available colors: `transparent`, `base_100`, `base_200`, `base_300`, `primary`, `secondary`, `accent`, `neutral`, `info`, `success`, `warning`, `error`
+
+See [Style Standards Reference](STYLE-STANDARDS.md#color-system) for complete color documentation.
 
 ## Common Layout Patterns
 
@@ -576,5 +591,11 @@ Remember: The CMS preview shows your desktop layout. Always test on actual devic
 
 ## Further Reading
 
+### External Resources
 - [CSS Grid Layout Guide (MDN)](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout)
 - [CSS Grid Auto-fit vs Auto-fill](https://css-tricks.com/auto-sizing-columns-css-grid-auto-fill-vs-auto-fit/)
+
+### Internal Documentation
+- **[Style Standards Reference](STYLE-STANDARDS.md)** - Complete reference for all standardized style values including colors, spacing, alignment, and more
+- **[Component Styling Guide](COMPONENT-STYLING-GUIDE.md)** - Developer guide for implementing component styling using the centralized helpers library
+- **[Migration Guide](migrations/2025-style-consolidation.md)** - Details about the 2025 style consolidation project and how styles are now managed

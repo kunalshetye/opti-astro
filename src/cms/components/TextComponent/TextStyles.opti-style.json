@@ -77,13 +77,13 @@
 				}
 			}
 		},
-		"transform": {
+		"textTransform": {
 			"displayName": "Text transform",
 			"editor": "",
 			"sortOrder": 40,
 			"choices": {
-				"keep": {
-					"displayName": "As entered",
+				"normal": {
+					"displayName": "Normal (As Entered)",
 					"sortOrder": 10
 				},
 				"uppercase": {
@@ -125,15 +125,15 @@
 					"displayName": "Neutral",
 					"sortOrder": 50
 				},
-				"base100": {
+				"base_100": {
 					"displayName": "Base 100",
 					"sortOrder": 60
 				},
-				"base200": {
+				"base_200": {
 					"displayName": "Base 200",
 					"sortOrder": 70
 				},
-				"base300": {
+				"base_300": {
 					"displayName": "Base 300",
 					"sortOrder": 80
 				},

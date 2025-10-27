@@ -1,12 +1,12 @@
 import type { DisplaySettingsFragment } from '../../../../__generated/sdk.ts';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers.ts';
+import { getTextAlignmentClass, getTextTransformClass, getVerticalAlignmentClass } from '../../shared/styleHelpers/index.ts';
 
-export function getCardStyles(displaySettings: DisplaySettingsFragment[]): {
-} {
+export function getCardStyles(displaySettings: DisplaySettingsFragment[]): string[] {
     const settings: Record<string, string> =
         getDictionaryFromDisplaySettings(displaySettings);
-    
-    let cssClasses: string[] = [];
+
+    const cssClasses: string[] = [];
 
     // Note: button styles managed via: src\cms\components\ButtonComponent\ButtonStyling.ts
 
@@ -15,50 +15,22 @@ export function getCardStyles(displaySettings: DisplaySettingsFragment[]): {
 
 export function getCardTextAlignmentStyle(displaySettings: DisplaySettingsFragment[]): string {
     const dictionary = getDictionaryFromDisplaySettings(displaySettings);
-    const textAlign = dictionary['textAlign'];
-    
-    switch (textAlign) {
-        case 'left': return 'text-left';
-        case 'center': return 'text-center';
-        case 'right': return 'text-right';
-        case 'justify': return 'text-justify';
-        default: return 'text-left';
-    }
+    return getTextAlignmentClass(dictionary['textAlign']) || 'text-left';
 }
 
 export function getCardHeaderStyles(displaySettings: DisplaySettingsFragment[]): string {
     const dictionary = getDictionaryFromDisplaySettings(displaySettings);
-    const transformHeader = dictionary['transformHeader'];
-    
-    switch (transformHeader) {
-        case 'uppercase': return 'uppercase';
-        case 'lowercase': return 'lowercase';
-        case 'capitalize': return 'capitalize';
-        case 'normal_case':
-        default: return 'normal-case';
-    }
+    // Support both 'headerTextTransform' and legacy 'transformHeader'
+    const transform = dictionary['headerTextTransform'] || dictionary['transformHeader'];
+    return getTextTransformClass(transform) || 'normal-case';
 }
 
 export function getAssetVerticalAlignClass(displaySettings: DisplaySettingsFragment[]): string {
     const dictionary = getDictionaryFromDisplaySettings(displaySettings);
-    const assetVerticalAlign = dictionary['assetVerticalAlign'];
-    
-    switch (assetVerticalAlign) {
-        case 'start': return 'self-start';
-        case 'end': return 'self-end';
-        case 'center':
-        default: return 'self-center';
-    }
+    return getVerticalAlignmentClass(dictionary['assetVerticalAlign'], 'self') || 'self-center';
 }
 
 export function getContentVerticalAlignClass(displaySettings: DisplaySettingsFragment[]): string {
     const dictionary = getDictionaryFromDisplaySettings(displaySettings);
-    const contentVerticalAlign = dictionary['contentVerticalAlign'];
-    
-    switch (contentVerticalAlign) {
-        case 'start': return 'self-start';
-        case 'end': return 'self-end';
-        case 'center':
-        default: return 'self-center';
-    }
+    return getVerticalAlignmentClass(dictionary['contentVerticalAlign'], 'self') || 'self-center';
 }

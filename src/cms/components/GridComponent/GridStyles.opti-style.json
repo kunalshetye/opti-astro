@@ -9,21 +9,25 @@
 			"editor": "",
 			"sortOrder": 10,
 			"choices": {
-				"c1": {
-					"displayName": "1",
+				"col1": {
+					"displayName": "1 column",
 					"sortOrder": 10
 				},
-				"c2": {
-					"displayName": "2",
+				"col2": {
+					"displayName": "2 columns",
 					"sortOrder": 20
 				},
-				"c3": {
-					"displayName": "3",
+				"col3": {
+					"displayName": "3 columns",
 					"sortOrder": 30
 				},
-				"c4": {
-					"displayName": "4",
+				"col4": {
+					"displayName": "4 columns",
 					"sortOrder": 40
+				},
+				"col6": {
+					"displayName": "6 columns",
+					"sortOrder": 50
 				}
 			}
 		},
@@ -32,20 +36,20 @@
 			"editor": "",
 			"sortOrder": 20,
 			"choices": {
-				"c1": {
-					"displayName": "1",
+				"col1": {
+					"displayName": "1 column",
 					"sortOrder": 10
 				},
-				"c2": {
-					"displayName": "2",
+				"col2": {
+					"displayName": "2 columns",
 					"sortOrder": 20
 				},
-				"c3": {
-					"displayName": "3",
+				"col3": {
+					"displayName": "3 columns",
 					"sortOrder": 30
 				},
-				"c4": {
-					"displayName": "4",
+				"col4": {
+					"displayName": "4 columns",
 					"sortOrder": 40
 				}
 			}
@@ -55,21 +59,13 @@
 			"editor": "",
 			"sortOrder": 30,
 			"choices": {
-				"c1": {
-					"displayName": "1",
+				"col1": {
+					"displayName": "1 column",
 					"sortOrder": 10
 				},
-				"c2": {
-					"displayName": "2",
+				"col2": {
+					"displayName": "2 columns",
 					"sortOrder": 20
-				},
-				"c3": {
-					"displayName": "3",
-					"sortOrder": 30
-				},
-				"c4": {
-					"displayName": "4",
-					"sortOrder": 40
 				}
 			}
 		}

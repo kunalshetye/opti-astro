@@ -1,5 +1,6 @@
 import type { DisplaySettingsFragment } from '../../../../__generated/sdk.ts';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers.ts';
+import { getTextColorClass, getTextTransformClass } from '../../shared/styleHelpers/index.ts';
 
 export function getDividerElementStyles(
     displaySettings: DisplaySettingsFragment[],
@@ -38,45 +39,16 @@ export function getDividerElementStyles(
             break;
     }
 
-    switch (settings['textColor']) {
-        case 'default':
-            cssClasses.push('');
-            break;
-        case 'neutral':
-            cssClasses.push('text-neutral');
-            break;
-        case 'primary':
-            cssClasses.push('text-primary');
-            break;
-        case 'secondary':
-            cssClasses.push('text-secondary');
-            break;
-        case 'accent':
-            cssClasses.push('text-accent');
-            break;
-        case 'success':
-            cssClasses.push('text-success');
-            break;
-        case 'warning':
-            cssClasses.push('text-warning');
-            break;
-        case 'info':
-            cssClasses.push('text-info');
-            break;
-        default:
-            break;
+    // Text color using centralized helper
+    const textColorClass = getTextColorClass(settings['textColor']);
+    if (textColorClass) {
+        cssClasses.push(textColorClass);
     }
 
-    switch (settings['transform']) {
-        case 'uppercase':
-            cssClasses.push('uppercase');
-            break;
-        case 'lowercase':
-            cssClasses.push('lowercase');
-            break;
-        case 'capitalize':
-            cssClasses.push('capitalize');
-            break;
+    // Text transform using centralized helper (support both 'textTransform' and legacy 'transform')
+    const textTransformClass = getTextTransformClass(settings['textTransform'] || settings['transform']);
+    if (textTransformClass) {
+        cssClasses.push(textTransformClass);
     }
 
     switch (settings['textPosition']) {

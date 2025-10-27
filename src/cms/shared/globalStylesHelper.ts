@@ -5,76 +5,27 @@ import type {
 } from '../../../__generated/sdk.ts';
 
 import { getDictionaryFromDisplaySettings } from '../../graphql/shared/displaySettingsHelpers.ts';
+import { getBackgroundColorClass as getCentralizedBgColor, getTextColorClass as getCentralizedTextColor } from './styleHelpers/colorHelpers.ts';
 
 /**
  * Get background color class based on style setting
  * Supports both 'backgroundColor' and 'sectionColor' keys
+ * WRAPPER: Delegates to centralized colorHelpers
  */
 export function getBackgroundColorClass(dictionary: Record<string, string>): string {
     // Check both possible keys for background color
     const colorValue = dictionary['backgroundColor'] || dictionary['sectionColor'];
-    
-    switch (colorValue) {
-        case 'transparent':
-            return ''; // No background color applied
-        case 'base_100':
-            return 'bg-base-100';
-        case 'base_200':
-            return 'bg-base-200';
-        case 'base_300':
-            return 'bg-base-300';
-        case 'primary':
-            return 'bg-primary';
-        case 'secondary':
-            return 'bg-secondary';
-        case 'accent':
-            return 'bg-accent';
-        case 'neutral':
-            return 'bg-neutral';
-        case 'info':
-            return 'bg-info';
-        case 'success':
-            return 'bg-success';
-        case 'warning':
-            return 'bg-warning';
-        case 'error':
-            return 'bg-error';
-        default:
-            return ''; // No background color applied
-    }
+    return getCentralizedBgColor(colorValue);
 }
 
 /**
  * Get text color class based on background color setting
  * Maps background colors to their corresponding content colors
+ * WRAPPER: Delegates to centralized colorHelpers
  */
 export function getTextColorClass(dictionary: Record<string, string>): string {
     const colorValue = dictionary['backgroundColor'] || dictionary['sectionColor'];
-    
-    switch (colorValue) {
-        case 'primary':
-            return 'text-primary-content';
-        case 'secondary':
-            return 'text-secondary-content';
-        case 'accent':
-            return 'text-accent-content';
-        case 'neutral':
-            return 'text-neutral-content';
-        case 'info':
-            return 'text-info-content';
-        case 'success':
-            return 'text-success-content';
-        case 'warning':
-            return 'text-warning-content';
-        case 'error':
-            return 'text-error-content';
-        case 'base_100':
-        case 'base_200':
-        case 'base_300':
-            return 'text-base-content';
-        default:
-            return ''; // No text color override
-    }
+    return getCentralizedTextColor(colorValue);
 }
 
 export function getGlobalStyles(component: 

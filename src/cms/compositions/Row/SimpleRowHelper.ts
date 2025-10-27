@@ -1,39 +1,15 @@
 import type { CompositionStructureNode } from '../../../../__generated/sdk.ts';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers.ts';
+import {
+    getGapClass,
+    getHorizontalAlignmentClass,
+    getVerticalAlignmentClass,
+    getMarginClass,
+} from '../../shared/styleHelpers/index.ts';
 
 export function getSimpleRowStyles(row: CompositionStructureNode) {
     const displaySettings = row.displaySettings;
     const dictionary = getDictionaryFromDisplaySettings(displaySettings);
-
-    enum GapClasses {
-        none = 'gap-0',
-        small = 'gap-2',
-        medium = 'gap-4',
-        large = 'gap-8',
-        xl = 'gap-12',
-        xxl = 'gap-24',
-    }
-
-    enum HorizontalAlignmentClasses {
-        center = 'justify-items-center',
-        end = 'justify-items-end',
-        start = 'justify-items-start',
-    }
-
-    enum VerticalAlignmentClasses {
-        start = 'items-start',
-        center = 'items-center',
-        end = 'items-end',
-        stretch = 'items-stretch',
-    }
-
-    enum VerticalSpacingClasses {
-        small = 'my-2',
-        medium = 'my-4',
-        large = 'my-8',
-        verylarge = 'lg:my-40 my-20',
-        none = 'my-0',
-    }
 
     let cssClasses = [];
 
@@ -41,7 +17,8 @@ export function getSimpleRowStyles(row: CompositionStructureNode) {
 
     // Unified gap (applies to both horizontal and vertical)
     const gap = dictionary['gap'] ?? 'medium';
-    cssClasses.push(GapClasses[gap as keyof typeof GapClasses] ?? 'gap-4');
+    const gapClass = getGapClass(gap, 'both') || 'gap-4';
+    cssClasses.push(gapClass);
 
     // Grid columns - either fixed column count or traditional 12-column grid
     const showAsRowFrom = dictionary['showAsRowFrom'] ?? 'md';
@@ -60,20 +37,22 @@ export function getSimpleRowStyles(row: CompositionStructureNode) {
     // Simple grid flow (always row)
     cssClasses.push('grid-flow-row');
 
-    // Horizontal alignment
+    // Horizontal alignment using centralized helper
     const horizontalAlignment = dictionary['horizontalAlignment'] ?? 'start';
-    cssClasses.push(HorizontalAlignmentClasses[horizontalAlignment as keyof typeof HorizontalAlignmentClasses] ?? 'justify-items-start');
+    const horizontalAlignClass = getHorizontalAlignmentClass(horizontalAlignment);
+    cssClasses.push(horizontalAlignClass);
 
     // Vertical alignment (responsive - only applies when in grid mode)
     const verticalAlignment = dictionary['verticalAlignment'] ?? 'stretch';
-    const verticalAlignmentClass = VerticalAlignmentClasses[verticalAlignment as keyof typeof VerticalAlignmentClasses];
-    if (verticalAlignmentClass) {
-        cssClasses.push(`${showAsRowFrom}:${verticalAlignmentClass}`);
+    const verticalAlignClass = getVerticalAlignmentClass(verticalAlignment);
+    if (verticalAlignClass) {
+        cssClasses.push(`${showAsRowFrom}:${verticalAlignClass}`);
     }
 
-    // Vertical spacing (margin)
+    // Vertical spacing (margin) using centralized helper
     const verticalSpacing = dictionary['verticalSpacing'] ?? 'medium';
-    cssClasses.push(VerticalSpacingClasses[verticalSpacing as keyof typeof VerticalSpacingClasses] ?? 'my-4');
+    const verticalSpacingClass = getMarginClass(verticalSpacing, 'y') || 'my-4';
+    cssClasses.push(verticalSpacingClass);
 
     // Background color is now handled by globalStylesHelper
     return cssClasses;
