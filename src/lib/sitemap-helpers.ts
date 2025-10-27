@@ -98,12 +98,23 @@ function getPageType(types?: string[]): string {
         return 'Page';
     }
 
-    // Find the most specific type (not interface or base types)
+    // Assumption: Interface types start with 'I' (e.g., 'IPageData').
+    // This is a naming convention and may not always hold.
+    // For a more robust solution, maintain a list of known interface types or use metadata if available.
     const concreteTypes = types.filter(
-        type => !type.startsWith('_') && !type.startsWith('I')
+        type => !type.startsWith('_') && !isInterfaceType(type)
     );
 
     return concreteTypes[0] || types[0] || 'Page';
+}
+
+/**
+ * Returns true if the type name is considered an interface type.
+ * Assumes interface types start with 'I' (e.g., 'IPageData').
+ * Update this function if your codebase uses a different convention.
+ */
+function isInterfaceType(type: string): boolean {
+    return type.startsWith('I');
 }
 
 /**
