@@ -3,6 +3,7 @@ import CmsSync from './components/_CmsSync.svelte';
 import GraphPinnedResults from './components/_GraphPinnedResults.svelte';
 import GraphSynonyms from './components/_GraphSynonyms.svelte';
 import RedirectManagement from './components/_RedirectManagement.svelte';
+import PublishedPagesDashboard from './components/_PublishedPagesDashboard.svelte';
 import AdminLayout from './layouts/AdminLayout.astro';
 
 // Get view parameter from URL
@@ -21,6 +22,8 @@ if (view === 'synonyms') {
   pageTitle = "CMS Sync";
 } else if (view === 'redirects') {
   pageTitle = "Redirect Management";
+} else if (view === 'published-pages') {
+  pageTitle = "Published Pages Dashboard";
 }
 
 export const prerender = false;
@@ -109,6 +112,24 @@ export const prerender = false;
                         </div>
                         <h4 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">Redirects</h4>
                         <p class="text-sm text-gray-600">Manage URL redirects with support for 301, 302, 307, and 308 redirect types</p>
+                    </div>
+                </a>
+
+                <!-- Published Pages Dashboard Card -->
+                <a href="/opti-admin?view=published-pages" class="group block bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-200 overflow-hidden border border-gray-200 hover:border-orange-500">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="p-3 bg-orange-100 rounded-lg group-hover:bg-orange-200 transition-colors">
+                                <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                            </div>
+                            <svg class="w-5 h-5 text-gray-400 group-hover:text-orange-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors">Published Pages</h4>
+                        <p class="text-sm text-gray-600">View and manage the latest published pages with action tracking</p>
                     </div>
                 </a>
             </div>
@@ -282,6 +303,21 @@ export const prerender = false;
         </a>
       </div>
       <RedirectManagement client:load />
+    </div>
+  )}
+
+  {view === 'published-pages' && (
+    <div>
+      <!-- Back to Dashboard -->
+      <div class="mb-6">
+        <a href="/opti-admin" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Back to Dashboard
+        </a>
+      </div>
+      <PublishedPagesDashboard client:load />
     </div>
   )}
 </AdminLayout>
