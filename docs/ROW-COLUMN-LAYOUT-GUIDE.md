@@ -37,7 +37,7 @@ A streamlined row style with just **6 essential settings**:
 - ✅ 90% of typical CMS use cases
 
 ### Advanced Row 🔧 For Power Users
-Full-featured row style with **12 settings** for complex layouts:
+Full-featured row style with **13 settings** for complex layouts:
 - All Simple Row features, PLUS:
 - Width override (independent from Section width)
 - Grid template modes (fixed 12-column, auto-fit, auto-fill)
@@ -74,6 +74,7 @@ Controls the maximum width of the section:
 - **Full width**: Stretch across entire viewport
 - **Wide**: 7XL (80rem) max width
 - **Narrow**: 3XL (48rem) max width
+- **Edge to Edge (no padding)** ⭐ NEW: No width constraints or padding - content spans complete viewport width
 
 ### Gap Between Rows
 Controls the vertical spacing between rows in the section:
@@ -85,7 +86,12 @@ Controls the vertical spacing between rows in the section:
 
 ## Row Layout Options
 
-### Simple Row Options (6 Settings)
+### Simple Row Options (7 Settings)
+
+#### Horizontal Padding ⭐ NEW
+Controls padding on the left and right sides of the row:
+- **Default**: Standard padding (0.25rem)
+- **None (Edge to Edge)**: No horizontal padding - content extends to row edges
 
 #### Gap Between Columns
 Unified spacing that applies both horizontally and vertically:
@@ -132,9 +138,9 @@ See [Style Standards Reference](STYLE-STANDARDS.md#color-system) for complete co
 
 ---
 
-### Advanced Row Options (12 Settings)
+### Advanced Row Options (13 Settings)
 
-Advanced Row includes all Simple Row options PLUS the following:
+Advanced Row includes all Simple Row options (including Horizontal Padding) PLUS the following:
 
 #### Grid Template Mode ⭐ NEW
 Controls how the grid columns are defined:
@@ -188,6 +194,19 @@ Controls the maximum width of the row (overrides section width):
 
 ## Column Layout Options
 
+### Width ⭐ NEW
+Controls the maximum width of the column:
+- **Default (inherit)**: No width constraints, inherits from parent
+- **Full width**: `w-full` - full width
+- **Wide (max-w-7xl)**: Wide but centered with 80rem max-width
+- **Narrow (max-w-3xl)**: Narrow centered column with 48rem max-width
+- **Edge to Edge (no constraints)**: `w-full max-w-full` - truly unrestricted width
+
+### Padding ⭐ NEW
+Controls padding inside the column:
+- **Default**: Responsive padding (0.5rem on mobile, 0.75rem on tablet, 1rem on desktop)
+- **None (Edge to Edge)**: No padding - content extends to column edges
+
 ### Grid Span (out of 12)
 Controls how many columns (out of 12) this column occupies:
 
@@ -240,7 +259,25 @@ See [Style Standards Reference](STYLE-STANDARDS.md#color-system) for complete co
 
 ## Common Layout Patterns
 
-### 1. Text + Form Side by Side (Centered)
+### 1. Edge-to-Edge Hero Image ⭐ NEW
+**Use Case**: Full-width hero image or video spanning complete viewport
+
+**Row Style**: **Simple Row** ✨
+
+**Section Settings**:
+- Width: **Edge to Edge (no padding)**
+
+**Row Settings**:
+- Horizontal Padding: **None (Edge to Edge)**
+
+**Column Settings**:
+- Width: **Edge to Edge (no constraints)**
+- Padding: **None (Edge to Edge)**
+- Grid Span: **12 Columns** (full width)
+
+> **Note**: This creates a truly full-width element with no margins or padding at any level
+
+### 2. Text + Form Side by Side (Centered)
 **Use Case**: Align introductory text with a signup form
 
 **Row Style**: **Simple Row** ✨
@@ -257,7 +294,7 @@ See [Style Standards Reference](STYLE-STANDARDS.md#color-system) for complete co
 
 > **Note**: For exact 50/50 split, you could also use Advanced Row with Fixed 12-column mode
 
-### 2. Responsive Card Grid
+### 3. Responsive Card Grid
 **Use Case**: Cards that automatically adjust to screen width
 
 **Row Style**: **Simple Row** ✨ (easiest option)
@@ -272,7 +309,7 @@ See [Style Standards Reference](STYLE-STANDARDS.md#color-system) for complete co
 
 > **Advanced Alternative**: Use **Advanced Row** with Auto-fit mode for truly dynamic column count
 
-### 3. Magazine Layout with Hero Image
+### 4. Magazine Layout with Hero Image
 **Use Case**: Large image spanning multiple rows of text
 
 **Row Style**: **Advanced Row** 🔧 (requires dense packing)
@@ -287,7 +324,7 @@ See [Style Standards Reference](STYLE-STANDARDS.md#color-system) for complete co
 - Hero Image: Grid Span **6 Columns**, Row Span **3 Rows** ⭐
 - Text Columns: Grid Span **6 Columns** each (will flow around hero)
 
-### 4. Sidebar Layout
+### 5. Sidebar Layout
 **Use Case**: Main content with sidebar
 
 **Row Style**: **Simple Row** ✨
@@ -301,7 +338,7 @@ See [Style Standards Reference](STYLE-STANDARDS.md#color-system) for complete co
 - Main Content: Grid Span **8 Columns**
 - Sidebar: Grid Span **4 Columns**
 
-### 5. Pinterest-Style Masonry
+### 6. Pinterest-Style Masonry
 **Use Case**: Cards of varying heights that pack tightly
 
 **Row Style**: **Advanced Row** 🔧 (requires auto-fill + dense)
@@ -558,6 +595,7 @@ All new content uses these defaults:
 
 **Simple Row** (Default):
 - Show as Row From: Medium
+- Horizontal Padding: Default
 - Gap: Medium (unified horizontal/vertical)
 - Horizontal Alignment: Left
 - Vertical Alignment: Stretch
@@ -565,6 +603,8 @@ All new content uses these defaults:
 - Background: Transparent
 
 **Column**:
+- Width: Default (inherit)
+- Padding: Default
 - Grid Span: Auto
 - Row Span: Auto
 - Content Alignment: Top Left

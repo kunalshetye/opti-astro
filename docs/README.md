@@ -35,6 +35,13 @@ This folder contains comprehensive documentation for the Opti-Astro project, cov
     - Common layout patterns (forms, heroes, cards, sidebars)
     - Best practices and troubleshooting
 
+- **[Edge-to-Edge Layout Guide](EDGE-TO-EDGE-LAYOUTS.md)** ⭐ NEW - Create full-width, viewport-spanning layouts
+    - Understanding the layout hierarchy
+    - Edge-to-edge options for Sections, Rows, Columns, and Components
+    - Two setup methods (traditional vs. component-as-section)
+    - Common use cases (heroes, carousels, split screens, galleries)
+    - Best practices and troubleshooting
+
 ### Optimizely Graph & Admin Tools
 
 - **[Search Optimizations Guide](GRAPH-OPTIMIZATIONS.md)** - How to use the Synonyms and Pinned Results managers to improve search relevance

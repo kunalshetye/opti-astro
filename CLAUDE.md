@@ -113,6 +113,7 @@ Comprehensive documentation is available in the `docs/` folder:
 
 ### Layout & Design
 - **[Row & Column Layout Guide](docs/ROW-COLUMN-LAYOUT-GUIDE.md)** - How to use Row and Column styling options in the CMS with responsive behavior and common layout patterns
+- **[Edge-to-Edge Layout Guide](docs/EDGE-TO-EDGE-LAYOUTS.md)** - Create full-width, viewport-spanning layouts with no padding or margins
 
 ### Quick Start for New Developers
 1. **Setup**: Configure environment variables (see docs/ENVIRONMENT-VARIABLES.md)
