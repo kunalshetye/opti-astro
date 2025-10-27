@@ -4,6 +4,7 @@ import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import Elements from '../../components/_Components.astro';
 import { getColumnStyles } from './ColumnHelper';
 import { getGlobalStyles } from '../../shared/globalStylesHelper';
+import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers.ts';
 
 export interface Props {
     column: CompositionStructureNode;
@@ -14,11 +15,17 @@ const { column, contentPayload, parentColumnsPerRow = 'auto' } = Astro.props as 
 const styles = getColumnStyles(column, parentColumnsPerRow);
 const globalStyles = getGlobalStyles(column);
 const allStyles = [...styles, ...globalStyles];
+
+// Check if padding should be removed
+const displaySettings = column.displaySettings;
+const dictionary = getDictionaryFromDisplaySettings(displaySettings);
+const noPadding = dictionary['padding'] === 'none';
+const paddingClasses = noPadding ? '' : 'p-2 sm:p-3 md:p-4';
 ---
 
 <div
     class:list={allStyles}
-    class="vb:col grid w-full grid-cols-1 p-2 sm:p-3 md:p-4"
+    class={`vb:col grid w-full grid-cols-1 ${paddingClasses}`}
 >
     {
         column.nodes?.map((item: any) => (

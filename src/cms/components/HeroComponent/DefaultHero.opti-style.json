@@ -4,6 +4,22 @@
   "contentType": "Hero",
   "isDefault": true,
   "settings": {
+    "containerPadding": {
+      "displayName": "Container Padding (when used as section)",
+      "editor": "",
+      "sortOrder": 0,
+      "choices": {
+        "default": {
+          "displayName": "Default",
+          "sortOrder": 10,
+          "default": true
+        },
+        "none": {
+          "displayName": "None (Edge to Edge)",
+          "sortOrder": 20
+        }
+      }
+    },
     "hoverEffect": {
       "displayName": "Hover Effect",
       "editor": "",

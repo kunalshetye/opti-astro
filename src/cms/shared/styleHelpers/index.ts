@@ -75,6 +75,8 @@ export {
     getGridRowSpanClass,
     getGridAutoFlowClass,
     getContentAlignmentClasses,
+    isEdgeToEdgeMode,
+    getContainerPaddingClasses,
 } from './layoutHelpers';
 
 // Effect helpers

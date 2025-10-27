@@ -160,6 +160,22 @@
                 }
             }
         },
+        "horizontalPadding": {
+            "displayName": "Horizontal Padding",
+            "editor": "",
+            "sortOrder": 55,
+            "choices": {
+                "default": {
+                    "displayName": "Default",
+                    "sortOrder": 10,
+                    "default": true
+                },
+                "none": {
+                    "displayName": "None (Edge to Edge)",
+                    "sortOrder": 20
+                }
+            }
+        },
         "backgroundColor": {
             "displayName": "Background Color",
             "editor": "",

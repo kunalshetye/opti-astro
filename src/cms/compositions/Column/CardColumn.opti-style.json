@@ -4,6 +4,34 @@
 	"nodeType": "column",
 	"isDefault": false,
 	"settings": {
+		"columnWidth": {
+			"displayName": "Width",
+			"editor": "",
+			"sortOrder": 3,
+			"choices": {
+				"default": {
+					"displayName": "Default (inherit)",
+					"sortOrder": 10,
+					"default": true
+				},
+				"full": {
+					"displayName": "Full width",
+					"sortOrder": 20
+				},
+				"wide": {
+					"displayName": "Wide (max-w-7xl)",
+					"sortOrder": 30
+				},
+				"narrow": {
+					"displayName": "Narrow (max-w-3xl)",
+					"sortOrder": 40
+				},
+				"edgeToEdge": {
+					"displayName": "Edge to Edge (no constraints)",
+					"sortOrder": 50
+				}
+			}
+		},
 		"gridSpan": {
 			"displayName": "Grid Span (out of 12)",
 			"editor": "",
@@ -60,6 +88,22 @@
 				"span12": {
 					"displayName": "12 Columns (Full)",
 					"sortOrder": 120
+				}
+			}
+		},
+		"padding": {
+			"displayName": "Padding",
+			"editor": "",
+			"sortOrder": 7,
+			"choices": {
+				"default": {
+					"displayName": "Default",
+					"sortOrder": 10,
+					"default": true
+				},
+				"none": {
+					"displayName": "None (Edge to Edge)",
+					"sortOrder": 20
 				}
 			}
 		},

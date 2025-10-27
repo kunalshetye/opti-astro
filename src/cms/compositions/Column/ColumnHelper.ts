@@ -7,6 +7,27 @@ export function getColumnStyles(column: CompositionStructureNode, parentColumnsP
 
     let cssClasses: string[] = [];
 
+    // Handle column width
+    const columnWidth = dictionary['columnWidth'];
+    switch (columnWidth) {
+        case 'full':
+            cssClasses.push('w-full');
+            break;
+        case 'wide':
+            cssClasses.push('max-w-7xl w-full mx-auto');
+            break;
+        case 'narrow':
+            cssClasses.push('max-w-3xl w-full mx-auto');
+            break;
+        case 'edgeToEdge':
+            cssClasses.push('w-full max-w-full');
+            break;
+        case 'default':
+        default:
+            // No additional width classes - inherit from parent
+            break;
+    }
+
     const gridSpan = dictionary['gridSpan'] ?? 'auto';
 
     // If parent Row has a specific columnsPerRow set AND this column's span is 'auto',

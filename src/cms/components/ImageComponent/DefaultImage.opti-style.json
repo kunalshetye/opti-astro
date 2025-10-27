@@ -1,174 +1,190 @@
 {
-	"key": "DefaultImage",
-	"displayName": "Image Default",
-	"contentType": "Image",
-	"isDefault": true,
-	"settings": {
-		"displayAs": {
-			"displayName": "Display As",
-			"editor": "",
-			"sortOrder": 1,
-			"choices": {
-				"image": {
-					"displayName": "Image (Default)",
-					"sortOrder": 10
-				},
-				"icon": {
-					"displayName": "Icon",
-					"sortOrder": 20
-				}
-			}
-		},
-		"aspectRatio": {
-			"displayName": "Image aspect ratio",
-			"editor": "",
-			"sortOrder": 5,
-			"choices": {
-				"default": {
-					"displayName": "Default/Auto",
-					"sortOrder": 10
-				},
-				"square": {
-					"displayName": "Square (1:1)",
-					"sortOrder": 20
-				},
-				"banner": {
-					"displayName": "Banner (4:1)",
-					"sortOrder": 30
-				},
-				"monitor": {
-					"displayName": "Classic Monitor (4:3)",
-					"sortOrder": 40
-				},
-				"photo": {
-					"displayName": "Photo (3:2)",
-					"sortOrder": 50
-				},
-				"widescreen": {
-					"displayName": "Widescreen (16:9)",
-					"sortOrder": 60
-				}
-			}
-		},
-		"orientation": {
-			"displayName": "Image orientation",
-			"editor": "",
-			"sortOrder": 10,
-			"choices": {
-				"landscape": {
-					"displayName": "Landscape",
-					"sortOrder": 10
-				},
-				"portrait": {
-					"displayName": "Portrait",
-					"sortOrder": 20
-				}
-			}
-		},
-		"borderRadius": {
-			"displayName": "Rounded Corners",
-			"editor": "",
-			"sortOrder": 20,
-			"choices": {
-				"none": {
-					"displayName": "None (Square)",
-					"sortOrder": 10
-				},
-				"xs": {
-					"displayName": "Extra Small",
-					"sortOrder": 20
-				},
-				"sm": {
-					"displayName": "Small",
-					"sortOrder": 30
-				},
-				"md": {
-					"displayName": "Medium",
-					"sortOrder": 40
-				},
-				"lg": {
-					"displayName": "Large",
-					"sortOrder": 50
-				},
-				"xl": {
-					"displayName": "X-Large",
-					"sortOrder": 60
-				},
-				"xl2": {
-					"displayName": "2X-Large",
-					"sortOrder": 70
-				},
-				"xl3": {
-					"displayName": "3X-Large",
-					"sortOrder": 80
-				},
-				"xl4": {
-					"displayName": "4X-Large",
-					"sortOrder": 90
-				},
-				"full": {
-					"displayName": "Fully Rounded",
-					"sortOrder": 100
-				}
-			}
-		},
-		"iconSize": {
-			"displayName": "Icon Size",
-			"editor": "",
-			"sortOrder": 100,
-			"choices": {
-				"xs": {
-					"displayName": "Extra Small (16px)",
-					"sortOrder": 10
-				},
-				"sm": {
-					"displayName": "Small (24px)",
-					"sortOrder": 20
-				},
-				"md": {
-					"displayName": "Medium (32px)",
-					"sortOrder": 30
-				},
-				"lg": {
-					"displayName": "Large (48px)",
-					"sortOrder": 40
-				},
-				"xl": {
-					"displayName": "Extra Large (64px)",
-					"sortOrder": 50
-				},
-				"xxl": {
-					"displayName": "2X Large (96px)",
-					"sortOrder": 60
-				},
-				"xxxl": {
-					"displayName": "3X Large (128px)",
-					"sortOrder": 70
-				}
-			}
-		},
-		"iconShape": {
-			"displayName": "Icon Shape",
-			"editor": "",
-			"sortOrder": 110,
-			"choices": {
-				"none": {
-					"displayName": "None",
-					"sortOrder": 10
-				},
-				"rounded": {
-					"displayName": "Rounded",
-					"sortOrder": 20
-				},
-				"circle": {
-					"displayName": "Circle",
-					"sortOrder": 30
-				},
-				"square": {
-					"displayName": "Square",
-					"sortOrder": 40
-				}
-			}
-		}
-	}
+  "key": "DefaultImage",
+  "displayName": "Image Default",
+  "contentType": "Image",
+  "isDefault": true,
+  "settings": {
+    "containerPadding": {
+      "displayName": "Container Padding (when used as section)",
+      "editor": "",
+      "sortOrder": 0,
+      "choices": {
+        "default": {
+          "displayName": "Default",
+          "sortOrder": 10,
+          "default": true
+        },
+        "none": {
+          "displayName": "None (Edge to Edge)",
+          "sortOrder": 20
+        }
+      }
+    },
+    "displayAs": {
+      "displayName": "Display As",
+      "editor": "",
+      "sortOrder": 1,
+      "choices": {
+        "image": {
+          "displayName": "Image (Default)",
+          "sortOrder": 10
+        },
+        "icon": {
+          "displayName": "Icon",
+          "sortOrder": 20
+        }
+      }
+    },
+    "aspectRatio": {
+      "displayName": "Image aspect ratio",
+      "editor": "",
+      "sortOrder": 5,
+      "choices": {
+        "default": {
+          "displayName": "Default/Auto",
+          "sortOrder": 10
+        },
+        "square": {
+          "displayName": "Square (1:1)",
+          "sortOrder": 20
+        },
+        "banner": {
+          "displayName": "Banner (4:1)",
+          "sortOrder": 30
+        },
+        "monitor": {
+          "displayName": "Classic Monitor (4:3)",
+          "sortOrder": 40
+        },
+        "photo": {
+          "displayName": "Photo (3:2)",
+          "sortOrder": 50
+        },
+        "widescreen": {
+          "displayName": "Widescreen (16:9)",
+          "sortOrder": 60
+        }
+      }
+    },
+    "orientation": {
+      "displayName": "Image orientation",
+      "editor": "",
+      "sortOrder": 10,
+      "choices": {
+        "landscape": {
+          "displayName": "Landscape",
+          "sortOrder": 10
+        },
+        "portrait": {
+          "displayName": "Portrait",
+          "sortOrder": 20
+        }
+      }
+    },
+    "borderRadius": {
+      "displayName": "Rounded Corners",
+      "editor": "",
+      "sortOrder": 20,
+      "choices": {
+        "none": {
+          "displayName": "None (Square)",
+          "sortOrder": 10
+        },
+        "xs": {
+          "displayName": "Extra Small",
+          "sortOrder": 20
+        },
+        "sm": {
+          "displayName": "Small",
+          "sortOrder": 30
+        },
+        "md": {
+          "displayName": "Medium",
+          "sortOrder": 40
+        },
+        "lg": {
+          "displayName": "Large",
+          "sortOrder": 50
+        },
+        "xl": {
+          "displayName": "X-Large",
+          "sortOrder": 60
+        },
+        "xl2": {
+          "displayName": "2X-Large",
+          "sortOrder": 70
+        },
+        "xl3": {
+          "displayName": "3X-Large",
+          "sortOrder": 80
+        },
+        "xl4": {
+          "displayName": "4X-Large",
+          "sortOrder": 90
+        },
+        "full": {
+          "displayName": "Fully Rounded",
+          "sortOrder": 100
+        }
+      }
+    },
+    "iconSize": {
+      "displayName": "Icon Size",
+      "editor": "",
+      "sortOrder": 100,
+      "choices": {
+        "xs": {
+          "displayName": "Extra Small (16px)",
+          "sortOrder": 10
+        },
+        "sm": {
+          "displayName": "Small (24px)",
+          "sortOrder": 20
+        },
+        "md": {
+          "displayName": "Medium (32px)",
+          "sortOrder": 30
+        },
+        "lg": {
+          "displayName": "Large (48px)",
+          "sortOrder": 40
+        },
+        "xl": {
+          "displayName": "Extra Large (64px)",
+          "sortOrder": 50
+        },
+        "xxl": {
+          "displayName": "2X Large (96px)",
+          "sortOrder": 60
+        },
+        "xxxl": {
+          "displayName": "3X Large (128px)",
+          "sortOrder": 70
+        }
+      }
+    },
+    "iconShape": {
+      "displayName": "Icon Shape",
+      "editor": "",
+      "sortOrder": 110,
+      "choices": {
+        "none": {
+          "displayName": "None",
+          "sortOrder": 10
+        },
+        "rounded": {
+          "displayName": "Rounded",
+          "sortOrder": 20
+        },
+        "circle": {
+          "displayName": "Circle",
+          "sortOrder": 30
+        },
+        "square": {
+          "displayName": "Square",
+          "sortOrder": 40
+        }
+      }
+    }
+  }
 }

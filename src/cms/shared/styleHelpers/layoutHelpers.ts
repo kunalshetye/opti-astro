@@ -262,3 +262,49 @@ export function getContentAlignmentClasses(alignment: string | undefined | null)
 
     return alignmentClassMap[alignment] || ['justify-start', 'items-start'];
 }
+
+/**
+ * Check if edge-to-edge mode is enabled based on CMS settings
+ * Checks multiple setting keys that can indicate edge-to-edge mode:
+ * - gridWidth === 'edgeToEdge' (Sections)
+ * - containerPadding === 'none' (Components)
+ * - containerWidth === 'edgeToEdge' (Alternative naming)
+ *
+ * @param dictionary - Display settings dictionary from CMS
+ * @returns True if edge-to-edge mode should be enabled
+ *
+ * @example
+ * const dict = { gridWidth: 'edgeToEdge' };
+ * isEdgeToEdgeMode(dict) // Returns true
+ *
+ * const dict2 = { containerPadding: 'none' };
+ * isEdgeToEdgeMode(dict2) // Returns true
+ */
+export function isEdgeToEdgeMode(dictionary: Record<string, string>): boolean {
+    return (
+        dictionary['gridWidth'] === 'edgeToEdge' ||
+        dictionary['containerPadding'] === 'none' ||
+        dictionary['containerWidth'] === 'edgeToEdge'
+    );
+}
+
+/**
+ * Get container padding classes based on CMS settings
+ * Returns responsive padding classes unless edge-to-edge mode is enabled
+ *
+ * @param dictionary - Display settings dictionary from CMS
+ * @returns Tailwind padding classes or empty string for edge-to-edge
+ *
+ * @example
+ * const dict = { containerPadding: 'default' };
+ * getContainerPaddingClasses(dict) // Returns 'p-2 sm:p-3 md:p-4'
+ *
+ * const edgeDict = { containerPadding: 'none' };
+ * getContainerPaddingClasses(edgeDict) // Returns ''
+ */
+export function getContainerPaddingClasses(dictionary: Record<string, string>): string {
+    if (isEdgeToEdgeMode(dictionary)) {
+        return '';
+    }
+    return 'p-2 sm:p-3 md:p-4';
+}

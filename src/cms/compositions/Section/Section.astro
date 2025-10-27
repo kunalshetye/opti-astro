@@ -5,6 +5,8 @@ import Row from '../Row/Row.astro';
 import OptiForm from '../../forms/base/OptiFormsContainerDataComponent/OptiForm.astro';
 import { getSectionStyles } from './SectionHelper';
 import { getGlobalStyles } from '../../shared/globalStylesHelper';
+import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers.ts';
+import { getContainerPaddingClasses } from '../../shared/styleHelpers';
 export interface Props {
     grid: any;
     contentPayload: ContentPayload;
@@ -17,11 +19,16 @@ const isFormContainer = grid.type === 'OptiFormsContainerData';
 const sectionStyles = getSectionStyles(grid);
 const globalStyles = getGlobalStyles(grid);
 const styles = [...sectionStyles, ...globalStyles];
+
+// Get container padding classes based on CMS settings
+const displaySettings = grid.displaySettings;
+const dictionary = getDictionaryFromDisplaySettings(displaySettings);
+const paddingClasses = getContainerPaddingClasses(dictionary);
 ---
 
 <div
     class:list={styles}
-    class="vb:grid relative grid w-full grid-cols-1 justify-start p-2 sm:p-3 md:p-4"
+    class={`vb:grid relative grid w-full grid-cols-1 justify-start ${paddingClasses}`}
     data-epi-block-id={grid.key}
 >
     {

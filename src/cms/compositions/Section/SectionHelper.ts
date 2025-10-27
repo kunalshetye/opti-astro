@@ -8,6 +8,39 @@ export function getSectionStyles(grid: CompositionStructureNode): string[] {
     const dictionary = getDictionaryFromDisplaySettings(displaySettings);
     let cssClasses: string[] = [];
     switch (grid.displayTemplateKey) {
+        case 'DefaultGrid':
+            // Handle DefaultGrid (used for components as sections)
+            switch (dictionary['gridWidth']) {
+                case 'default':
+                    cssClasses.push('container mx-auto px-8');
+                    break;
+                case 'full':
+                    cssClasses.push('w-full');
+                    break;
+                case 'narrow':
+                    cssClasses.push('max-w-3xl w-full mx-auto px-8');
+                    break;
+                case 'wide':
+                    cssClasses.push('max-w-7xl w-full mx-auto px-8');
+                    break;
+                case 'edgeToEdge':
+                    cssClasses.push('w-full max-w-full');
+                    break;
+            }
+
+            // Vertical spacing for DefaultGrid
+            switch (dictionary['vSpacing']) {
+                case 'default':
+                    cssClasses.push('my-8');
+                    break;
+                case 'small':
+                    cssClasses.push('py-4 md:py-8 lg:py-12');
+                    break;
+                case 'large':
+                    cssClasses.push('py-8 md:py-16 lg:py-24');
+                    break;
+            }
+            break;
         case 'DefaultSection':
             // Component-specific width options (keep as-is)
             switch (dictionary['gridWidth']) {
@@ -22,6 +55,9 @@ export function getSectionStyles(grid: CompositionStructureNode): string[] {
                     break;
                 case 'wide':
                     cssClasses.push('max-w-7xl w-full mx-auto px-8');
+                    break;
+                case 'edgeToEdge':
+                    cssClasses.push('w-full max-w-full');
                     break;
             }
 

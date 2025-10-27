@@ -11,7 +11,8 @@
 			"choices": {
 				"default": {
 					"displayName": "Default",
-					"sortOrder": 10
+					"sortOrder": 10,
+					"default": true
 				},
 				"full": {
 					"displayName": "Full width",
@@ -24,6 +25,10 @@
 				"narrow": {
 					"displayName": "Narrow",
 					"sortOrder": 40
+				},
+				"edgeToEdge": {
+					"displayName": "Edge to Edge (no padding)",
+					"sortOrder": 50
 				}
 			}
 		},

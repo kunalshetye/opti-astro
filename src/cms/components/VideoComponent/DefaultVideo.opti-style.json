@@ -1,146 +1,162 @@
 {
-	"key": "DefaultVideo",
-	"displayName": "Video Default",
-	"contentType": "Video",
-	"isDefault": true,
-	"settings": {
-		"aspectRatio": {
-			"displayName": "Aspect Ratio",
-			"editor": "",
-			"sortOrder": 10,
-			"choices": {
-				"auto": {
-					"displayName": "Original",
-					"sortOrder": 10
-				},
-				"ratio_16_9": {
-					"displayName": "16:9",
-					"sortOrder": 20
-				},
-				"ratio_4_3": {
-					"displayName": "4:3",
-					"sortOrder": 30
-				},
-				"ratio_1_1": {
-					"displayName": "1:1",
-					"sortOrder": 40
-				},
-				"ratio_3_4": {
-					"displayName": "3:4",
-					"sortOrder": 50
-				},
-				"ratio_9_16": {
-					"displayName": "9:16",
-					"sortOrder": 60
-				}
-			}
-		},
-		"showControls": {
-			"displayName": "Show player controls",
-			"editor": "",
-			"sortOrder": 20,
-			"choices": {
-				"true": {
-					"displayName": "Yes",
-					"sortOrder": 10
-				},
-				"false": {
-					"displayName": "No",
-					"sortOrder": 20
-				}
-			}
-		},
-		"autoPlay": {
-			"displayName": "Start playback automatically",
-			"editor": "",
-			"sortOrder": 30,
-			"choices": {
-				"true": {
-					"displayName": "Yes",
-					"sortOrder": 10
-				},
-				"false": {
-					"displayName": "No",
-					"sortOrder": 20
-				}
-			}
-		},
-		"loop": {
-			"displayName": "Loop video",
-			"editor": "",
-			"sortOrder": 40,
-			"choices": {
-				"true": {
-					"displayName": "Yes",
-					"sortOrder": 10
-				},
-				"false": {
-					"displayName": "No",
-					"sortOrder": 20
-				}
-			}
-		},
-		"muted": {
-			"displayName": "Mute audio",
-			"editor": "",
-			"sortOrder": 50,
-			"choices": {
-				"true": {
-					"displayName": "Yes",
-					"sortOrder": 10
-				},
-				"false": {
-					"displayName": "No",
-					"sortOrder": 20
-				}
-			}
-		},
-		"borderRadius": {
-			"displayName": "Rounded Corners",
-			"editor": "",
-			"sortOrder": 60,
-			"choices": {
-				"none": {
-					"displayName": "None (Square)",
-					"sortOrder": 10
-				},
-				"xs": {
-					"displayName": "Extra Small",
-					"sortOrder": 20
-				},
-				"sm": {
-					"displayName": "Small",
-					"sortOrder": 30
-				},
-				"md": {
-					"displayName": "Medium",
-					"sortOrder": 40
-				},
-				"lg": {
-					"displayName": "Large",
-					"sortOrder": 50
-				},
-				"xl": {
-					"displayName": "X-Large",
-					"sortOrder": 60
-				},
-				"xl2": {
-					"displayName": "2X-Large",
-					"sortOrder": 70
-				},
-				"xl3": {
-					"displayName": "3X-Large",
-					"sortOrder": 80
-				},
-				"xl4": {
-					"displayName": "4X-Large",
-					"sortOrder": 90
-				},
-				"full": {
-					"displayName": "Fully Rounded",
-					"sortOrder": 100
-				}
-			}
-		}
-	}
+  "key": "DefaultVideo",
+  "displayName": "Video Default",
+  "contentType": "Video",
+  "isDefault": true,
+  "settings": {
+    "containerPadding": {
+      "displayName": "Container Padding (when used as section)",
+      "editor": "",
+      "sortOrder": 0,
+      "choices": {
+        "default": {
+          "displayName": "Default",
+          "sortOrder": 10,
+          "default": true
+        },
+        "none": {
+          "displayName": "None (Edge to Edge)",
+          "sortOrder": 20
+        }
+      }
+    },
+    "aspectRatio": {
+      "displayName": "Aspect Ratio",
+      "editor": "",
+      "sortOrder": 10,
+      "choices": {
+        "auto": {
+          "displayName": "Original",
+          "sortOrder": 10
+        },
+        "ratio_16_9": {
+          "displayName": "16:9",
+          "sortOrder": 20
+        },
+        "ratio_4_3": {
+          "displayName": "4:3",
+          "sortOrder": 30
+        },
+        "ratio_1_1": {
+          "displayName": "1:1",
+          "sortOrder": 40
+        },
+        "ratio_3_4": {
+          "displayName": "3:4",
+          "sortOrder": 50
+        },
+        "ratio_9_16": {
+          "displayName": "9:16",
+          "sortOrder": 60
+        }
+      }
+    },
+    "showControls": {
+      "displayName": "Show player controls",
+      "editor": "",
+      "sortOrder": 20,
+      "choices": {
+        "true": {
+          "displayName": "Yes",
+          "sortOrder": 10
+        },
+        "false": {
+          "displayName": "No",
+          "sortOrder": 20
+        }
+      }
+    },
+    "autoPlay": {
+      "displayName": "Start playback automatically",
+      "editor": "",
+      "sortOrder": 30,
+      "choices": {
+        "true": {
+          "displayName": "Yes",
+          "sortOrder": 10
+        },
+        "false": {
+          "displayName": "No",
+          "sortOrder": 20
+        }
+      }
+    },
+    "loop": {
+      "displayName": "Loop video",
+      "editor": "",
+      "sortOrder": 40,
+      "choices": {
+        "true": {
+          "displayName": "Yes",
+          "sortOrder": 10
+        },
+        "false": {
+          "displayName": "No",
+          "sortOrder": 20
+        }
+      }
+    },
+    "muted": {
+      "displayName": "Mute audio",
+      "editor": "",
+      "sortOrder": 50,
+      "choices": {
+        "true": {
+          "displayName": "Yes",
+          "sortOrder": 10
+        },
+        "false": {
+          "displayName": "No",
+          "sortOrder": 20
+        }
+      }
+    },
+    "borderRadius": {
+      "displayName": "Rounded Corners",
+      "editor": "",
+      "sortOrder": 60,
+      "choices": {
+        "none": {
+          "displayName": "None (Square)",
+          "sortOrder": 10
+        },
+        "xs": {
+          "displayName": "Extra Small",
+          "sortOrder": 20
+        },
+        "sm": {
+          "displayName": "Small",
+          "sortOrder": 30
+        },
+        "md": {
+          "displayName": "Medium",
+          "sortOrder": 40
+        },
+        "lg": {
+          "displayName": "Large",
+          "sortOrder": 50
+        },
+        "xl": {
+          "displayName": "X-Large",
+          "sortOrder": 60
+        },
+        "xl2": {
+          "displayName": "2X-Large",
+          "sortOrder": 70
+        },
+        "xl3": {
+          "displayName": "3X-Large",
+          "sortOrder": 80
+        },
+        "xl4": {
+          "displayName": "4X-Large",
+          "sortOrder": 90
+        },
+        "full": {
+          "displayName": "Fully Rounded",
+          "sortOrder": 100
+        }
+      }
+    }
+  }
 }

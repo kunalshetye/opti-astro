@@ -25,6 +25,10 @@
 				"narrow": {
 					"displayName": "Narrow",
 					"sortOrder": 40
+				},
+				"edgeToEdge": {
+					"displayName": "Edge to Edge (no padding)",
+					"sortOrder": 50
 				}
 			}
 		},
