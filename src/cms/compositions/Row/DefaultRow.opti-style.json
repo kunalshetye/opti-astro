@@ -67,27 +67,43 @@
                 }
             }
         },
-        "showAsRowFrom": {
-            "displayName": "Show as row from (screen width)",
+        "columnLayout": {
+            "displayName": "Column Layout",
             "editor": "",
             "sortOrder": 5,
             "choices": {
-                "md": {
-                    "displayName": "Medium",
+                "col12_grid": {
+                    "displayName": "12-Column Grid - Flexible layout with custom column spans",
                     "sortOrder": 10
                 },
-                "lg": {
-                    "displayName": "Large",
+                "col_1": {
+                    "displayName": "1 Column (100)",
                     "sortOrder": 20
                 },
-                "xl": {
-                    "displayName": "Extra large",
+                "col_2": {
+                    "displayName": "2 Equal Columns (50/50)",
                     "sortOrder": 30
+                },
+                "col_3": {
+                    "displayName": "3 Equal Columns (33/33/33)",
+                    "sortOrder": 40
+                },
+                "col_4": {
+                    "displayName": "4 Equal Columns (25/25/25/25)",
+                    "sortOrder": 50
+                },
+                "col_6": {
+                    "displayName": "6 Equal Columns (17/17/17/17/17/17)",
+                    "sortOrder": 60
+                },
+                "auto_fit": {
+                    "displayName": "Auto-Fit Responsive (min 250px per column)",
+                    "sortOrder": 70
                 }
             }
         },
-        "contentSpacing": {
-            "displayName": "Content Spacing",
+        "rowGap": {
+            "displayName": "Row Gap (Vertical Spacing Between Items)",
             "editor": "",
             "sortOrder": 10,
             "choices": {
@@ -96,29 +112,137 @@
                     "sortOrder": 10
                 },
                 "small": {
-                    "displayName": "Small",
+                    "displayName": "Small (0.5rem)",
                     "sortOrder": 20
                 },
                 "medium": {
-                    "displayName": "Medium",
+                    "displayName": "Medium (1rem)",
                     "sortOrder": 30
                 },
                 "large": {
-                    "displayName": "Large",
+                    "displayName": "Large (1.5rem)",
                     "sortOrder": 40
                 },
                 "xl": {
-                    "displayName": "Extra Large",
+                    "displayName": "XL (2rem)",
                     "sortOrder": 50
                 },
                 "xxl": {
-                    "displayName": "Extra Extra Large",
+                    "displayName": "2XL (3rem)",
                     "sortOrder": 60
+                },
+                "xxxl": {
+                    "displayName": "3XL (4rem)",
+                    "sortOrder": 70
+                },
+                "xxxxl": {
+                    "displayName": "4XL (6rem)",
+                    "sortOrder": 80
+                }
+            }
+        },
+        "columnGap": {
+            "displayName": "Column Gap (Horizontal Spacing Between Items)",
+            "editor": "",
+            "sortOrder": 11,
+            "choices": {
+                "none": {
+                    "displayName": "None",
+                    "sortOrder": 10
+                },
+                "small": {
+                    "displayName": "Small (0.5rem)",
+                    "sortOrder": 20
+                },
+                "medium": {
+                    "displayName": "Medium (1rem)",
+                    "sortOrder": 30
+                },
+                "large": {
+                    "displayName": "Large (1.5rem)",
+                    "sortOrder": 40
+                },
+                "xl": {
+                    "displayName": "XL (2rem)",
+                    "sortOrder": 50
+                },
+                "xxl": {
+                    "displayName": "2XL (3rem)",
+                    "sortOrder": 60
+                },
+                "xxxl": {
+                    "displayName": "3XL (4rem)",
+                    "sortOrder": 70
+                },
+                "xxxxl": {
+                    "displayName": "4XL (6rem)",
+                    "sortOrder": 80
+                }
+            }
+        },
+        "mobileColumns": {
+            "displayName": "Mobile Columns (Optional Override)",
+            "editor": "",
+            "sortOrder": 12,
+            "choices": {
+                "c1": {
+                    "displayName": "1 Column",
+                    "sortOrder": 10
+                },
+                "c2": {
+                    "displayName": "2 Columns",
+                    "sortOrder": 20
+                },
+                "c3": {
+                    "displayName": "3 Columns",
+                    "sortOrder": 30
+                }
+            }
+        },
+        "tabletColumns": {
+            "displayName": "Tablet Columns (Optional Override)",
+            "editor": "",
+            "sortOrder": 13,
+            "choices": {
+                "c2": {
+                    "displayName": "2 Columns",
+                    "sortOrder": 10
+                },
+                "c3": {
+                    "displayName": "3 Columns",
+                    "sortOrder": 20
+                },
+                "c4": {
+                    "displayName": "4 Columns",
+                    "sortOrder": 30
+                }
+            }
+        },
+        "desktopColumns": {
+            "displayName": "Desktop Columns (Optional Override)",
+            "editor": "",
+            "sortOrder": 14,
+            "choices": {
+                "c3": {
+                    "displayName": "3 Columns",
+                    "sortOrder": 10
+                },
+                "c4": {
+                    "displayName": "4 Columns",
+                    "sortOrder": 20
+                },
+                "c5": {
+                    "displayName": "5 Columns",
+                    "sortOrder": 30
+                },
+                "c6": {
+                    "displayName": "6 Columns",
+                    "sortOrder": 40
                 }
             }
         },
         "justifyContent": {
-            "displayName": "Justify content",
+            "displayName": "Justify Content (Horizontal Alignment)",
             "editor": "",
             "sortOrder": 20,
             "choices": {
@@ -133,11 +257,15 @@
                 "end": {
                     "displayName": "End",
                     "sortOrder": 30
+                },
+                "stretch": {
+                    "displayName": "Stretch",
+                    "sortOrder": 40
                 }
             }
         },
         "alignContent": {
-            "displayName": "Align content",
+            "displayName": "Align Content (Vertical Distribution)",
             "editor": "",
             "sortOrder": 30,
             "choices": {
@@ -152,11 +280,15 @@
                 "end": {
                     "displayName": "End",
                     "sortOrder": 30
+                },
+                "stretch": {
+                    "displayName": "Stretch",
+                    "sortOrder": 40
                 }
             }
         },
         "alignItems": {
-            "displayName": "Vertical Alignment (Row Mode)",
+            "displayName": "Align Items (Vertical Alignment Within Cells)",
             "editor": "",
             "sortOrder": 35,
             "choices": {
@@ -175,15 +307,34 @@
                 "stretch": {
                     "displayName": "Stretch",
                     "sortOrder": 40
+                }
+            }
+        },
+        "justifyItems": {
+            "displayName": "Justify Items (Horizontal Alignment Within Cells)",
+            "editor": "",
+            "sortOrder": 36,
+            "choices": {
+                "start": {
+                    "displayName": "Start",
+                    "sortOrder": 10
                 },
-                "baseline": {
-                    "displayName": "Baseline",
-                    "sortOrder": 50
+                "center": {
+                    "displayName": "Center",
+                    "sortOrder": 20
+                },
+                "end": {
+                    "displayName": "End",
+                    "sortOrder": 30
+                },
+                "stretch": {
+                    "displayName": "Stretch",
+                    "sortOrder": 40
                 }
             }
         },
         "verticalSpacing": {
-            "displayName": "Vertical Spacing",
+            "displayName": "Vertical Spacing (Margin Around Row)",
             "editor": "",
             "sortOrder": 45,
             "choices": {

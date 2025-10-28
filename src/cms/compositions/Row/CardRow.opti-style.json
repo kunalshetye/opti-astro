@@ -1,144 +1,257 @@
 {
-	"key": "CardRow",
-	"displayName": "Row Card",
-	"nodeType": "row",
-	"isDefault": false,
-	"settings": {
-		"rowWidth": {
-			"displayName": "Width",
-			"editor": "",
-			"sortOrder": 3,
-			"choices": {
-				"inherit": {
-					"displayName": "Inherit from section",
-					"sortOrder": 10
-				},
-				"full": {
-					"displayName": "Full width",
-					"sortOrder": 20
-				},
-				"container": {
-					"displayName": "Container (default)",
-					"sortOrder": 30
-				},
-				"max7xl": {
-					"displayName": "7XL (80rem)",
-					"sortOrder": 40
-				},
-				"max6xl": {
-					"displayName": "6XL (72rem)",
-					"sortOrder": 50
-				},
-				"max5xl": {
-					"displayName": "5XL (64rem)",
-					"sortOrder": 60
-				},
-				"max4xl": {
-					"displayName": "4XL (56rem)",
-					"sortOrder": 70
-				},
-				"max3xl": {
-					"displayName": "3XL (48rem)",
-					"sortOrder": 80
-				},
-				"max2xl": {
-					"displayName": "2XL (42rem)",
-					"sortOrder": 90
-				},
-				"maxXl": {
-					"displayName": "XL (36rem)",
-					"sortOrder": 100
-				},
-				"maxLg": {
-					"displayName": "Large (32rem)",
-					"sortOrder": 110
-				},
-				"maxMd": {
-					"displayName": "Medium (28rem)",
-					"sortOrder": 120
-				},
-				"maxSm": {
-					"displayName": "Small (24rem)",
-					"sortOrder": 130
-				},
-				"maxXs": {
-					"displayName": "Extra Small (20rem)",
-					"sortOrder": 140
-				}
-			}
-		},
-		"vSpacing": {
-			"displayName": "Vertical Spacing",
-			"editor": "",
-			"sortOrder": 5,
-			"choices": {
-				"none": {
-					"displayName": "None",
-					"sortOrder": 10
-				},
-				"small": {
-					"displayName": "Small",
-					"sortOrder": 20
-				},
-				"medium": {
-					"displayName": "Medium",
-					"sortOrder": 30
-				},
-				"large": {
-					"displayName": "Large",
-					"sortOrder": 40
-				}
-			}
-		},
-		"rowBackgroundColor": {
-			"displayName": "Background color",
-			"editor": "",
-			"sortOrder": 10,
-			"choices": {
-				"white": {
-					"displayName": "White",
-					"sortOrder": 10
-				},
-				"blue": {
-					"displayName": "Blue",
-					"sortOrder": 20
-				},
-				"dark_blue": {
-					"displayName": "Dark blue",
-					"sortOrder": 30
-				},
-				"orange": {
-					"displayName": "Orange",
-					"sortOrder": 40
-				},
-				"green": {
-					"displayName": "Green",
-					"sortOrder": 50
-				},
-				"red": {
-					"displayName": "Red",
-					"sortOrder": 60
-				},
-				"purple": {
-					"displayName": "Purple",
-					"sortOrder": 70
-				}
-			}
-		},
-		"columnOrderOnSmallScreen": {
-			"displayName": "Colums on small screen",
-			"editor": "",
-			"sortOrder": 20,
-			"choices": {
-				"normal": {
-					"displayName": "Normal",
-					"sortOrder": 10
-				},
-				"reversed": {
-					"displayName": "Reversed",
-					"sortOrder": 20
-				}
-			}
-		}
-	}
+    "key": "CardRow",
+    "displayName": "Row Card",
+    "nodeType": "row",
+    "isDefault": false,
+    "settings": {
+        "rowWidth": {
+            "displayName": "Width",
+            "editor": "",
+            "sortOrder": 3,
+            "choices": {
+                "inherit": {
+                    "displayName": "Inherit from section",
+                    "sortOrder": 10
+                },
+                "full": {
+                    "displayName": "Full width",
+                    "sortOrder": 20
+                },
+                "container": {
+                    "displayName": "Container (default)",
+                    "sortOrder": 30
+                },
+                "max7xl": {
+                    "displayName": "7XL (80rem)",
+                    "sortOrder": 40
+                },
+                "max6xl": {
+                    "displayName": "6XL (72rem)",
+                    "sortOrder": 50
+                },
+                "max5xl": {
+                    "displayName": "5XL (64rem)",
+                    "sortOrder": 60
+                },
+                "max4xl": {
+                    "displayName": "4XL (56rem)",
+                    "sortOrder": 70
+                },
+                "max3xl": {
+                    "displayName": "3XL (48rem)",
+                    "sortOrder": 80
+                },
+                "max2xl": {
+                    "displayName": "2XL (42rem)",
+                    "sortOrder": 90
+                },
+                "maxXl": {
+                    "displayName": "XL (36rem)",
+                    "sortOrder": 100
+                },
+                "maxLg": {
+                    "displayName": "Large (32rem)",
+                    "sortOrder": 110
+                },
+                "maxMd": {
+                    "displayName": "Medium (28rem)",
+                    "sortOrder": 120
+                },
+                "maxSm": {
+                    "displayName": "Small (24rem)",
+                    "sortOrder": 130
+                },
+                "maxXs": {
+                    "displayName": "Extra Small (20rem)",
+                    "sortOrder": 140
+                }
+            }
+        },
+        "columnLayout": {
+            "displayName": "Column Layout",
+            "editor": "",
+            "sortOrder": 5,
+            "choices": {
+                "col12_grid": {
+                    "displayName": "12-Column Grid - Flexible layout with custom column spans",
+                    "sortOrder": 10
+                },
+                "col_1": {
+                    "displayName": "1 Column (100)",
+                    "sortOrder": 20
+                },
+                "col_2": {
+                    "displayName": "2 Equal Columns (50/50)",
+                    "sortOrder": 30
+                },
+                "col_3": {
+                    "displayName": "3 Equal Columns (33/33/33)",
+                    "sortOrder": 40
+                },
+                "col_4": {
+                    "displayName": "4 Equal Columns (25/25/25/25)",
+                    "sortOrder": 50
+                },
+                "col_6": {
+                    "displayName": "6 Equal Columns (17/17/17/17/17/17)",
+                    "sortOrder": 60
+                },
+                "auto_fit": {
+                    "displayName": "Auto-Fit Responsive (min 250px per column)",
+                    "sortOrder": 70
+                }
+            }
+        },
+        "rowGap": {
+            "displayName": "Row Gap (Vertical Spacing)",
+            "editor": "",
+            "sortOrder": 10,
+            "choices": {
+                "none": {
+                    "displayName": "None",
+                    "sortOrder": 10
+                },
+                "small": {
+                    "displayName": "Small",
+                    "sortOrder": 20
+                },
+                "medium": {
+                    "displayName": "Medium",
+                    "sortOrder": 30
+                },
+                "large": {
+                    "displayName": "Large",
+                    "sortOrder": 40
+                },
+                "xl": {
+                    "displayName": "XL",
+                    "sortOrder": 50
+                },
+                "xxl": {
+                    "displayName": "2XL",
+                    "sortOrder": 60
+                },
+                "xxxl": {
+                    "displayName": "3XL",
+                    "sortOrder": 70
+                },
+                "xxxxl": {
+                    "displayName": "4XL",
+                    "sortOrder": 80
+                }
+            }
+        },
+        "columnGap": {
+            "displayName": "Column Gap (Horizontal Spacing)",
+            "editor": "",
+            "sortOrder": 11,
+            "choices": {
+                "none": {
+                    "displayName": "None",
+                    "sortOrder": 10
+                },
+                "small": {
+                    "displayName": "Small",
+                    "sortOrder": 20
+                },
+                "medium": {
+                    "displayName": "Medium",
+                    "sortOrder": 30
+                },
+                "large": {
+                    "displayName": "Large",
+                    "sortOrder": 40
+                },
+                "xl": {
+                    "displayName": "XL",
+                    "sortOrder": 50
+                },
+                "xxl": {
+                    "displayName": "2XL",
+                    "sortOrder": 60
+                },
+                "xxxl": {
+                    "displayName": "3XL",
+                    "sortOrder": 70
+                },
+                "xxxxl": {
+                    "displayName": "4XL",
+                    "sortOrder": 80
+                }
+            }
+        },
+        "vSpacing": {
+            "displayName": "Vertical Spacing (Margin Around Row)",
+            "editor": "",
+            "sortOrder": 12,
+            "choices": {
+                "none": {
+                    "displayName": "None",
+                    "sortOrder": 10
+                },
+                "small": {
+                    "displayName": "Small",
+                    "sortOrder": 20
+                },
+                "medium": {
+                    "displayName": "Medium",
+                    "sortOrder": 30
+                },
+                "large": {
+                    "displayName": "Large",
+                    "sortOrder": 40
+                }
+            }
+        },
+        "rowBackgroundColor": {
+            "displayName": "Background color",
+            "editor": "",
+            "sortOrder": 20,
+            "choices": {
+                "white": {
+                    "displayName": "White",
+                    "sortOrder": 10
+                },
+                "blue": {
+                    "displayName": "Blue",
+                    "sortOrder": 20
+                },
+                "dark_blue": {
+                    "displayName": "Dark blue",
+                    "sortOrder": 30
+                },
+                "orange": {
+                    "displayName": "Orange",
+                    "sortOrder": 40
+                },
+                "green": {
+                    "displayName": "Green",
+                    "sortOrder": 50
+                },
+                "red": {
+                    "displayName": "Red",
+                    "sortOrder": 60
+                },
+                "purple": {
+                    "displayName": "Purple",
+                    "sortOrder": 70
+                }
+            }
+        },
+        "columnOrderOnSmallScreen": {
+            "displayName": "Columns on small screen",
+            "editor": "",
+            "sortOrder": 30,
+            "choices": {
+                "normal": {
+                    "displayName": "Normal",
+                    "sortOrder": 10
+                },
+                "reversed": {
+                    "displayName": "Reversed",
+                    "sortOrder": 20
+                }
+            }
+        }
+    }
 }

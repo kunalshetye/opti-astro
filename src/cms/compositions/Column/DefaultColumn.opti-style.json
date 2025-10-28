@@ -201,6 +201,221 @@
                 }
             }
         },
+        "gridColumnStart": {
+            "displayName": "Grid Column Start (Advanced)",
+            "editor": "",
+            "sortOrder": 6,
+            "choices": {
+                "c1": {
+                    "displayName": "Column 1",
+                    "sortOrder": 10
+                },
+                "c2": {
+                    "displayName": "Column 2",
+                    "sortOrder": 20
+                },
+                "c3": {
+                    "displayName": "Column 3",
+                    "sortOrder": 30
+                },
+                "c4": {
+                    "displayName": "Column 4",
+                    "sortOrder": 40
+                },
+                "c5": {
+                    "displayName": "Column 5",
+                    "sortOrder": 50
+                },
+                "c6": {
+                    "displayName": "Column 6",
+                    "sortOrder": 60
+                },
+                "c7": {
+                    "displayName": "Column 7",
+                    "sortOrder": 70
+                },
+                "c8": {
+                    "displayName": "Column 8",
+                    "sortOrder": 80
+                },
+                "c9": {
+                    "displayName": "Column 9",
+                    "sortOrder": 90
+                },
+                "c10": {
+                    "displayName": "Column 10",
+                    "sortOrder": 100
+                },
+                "c11": {
+                    "displayName": "Column 11",
+                    "sortOrder": 110
+                },
+                "c12": {
+                    "displayName": "Column 12",
+                    "sortOrder": 120
+                },
+                "c13": {
+                    "displayName": "Column 13",
+                    "sortOrder": 130
+                },
+                "auto": {
+                    "displayName": "Auto",
+                    "sortOrder": 1
+                }
+            }
+        },
+        "gridColumnEnd": {
+            "displayName": "Grid Column End (Advanced)",
+            "editor": "",
+            "sortOrder": 7,
+            "choices": {
+                "c1": {
+                    "displayName": "Column 1",
+                    "sortOrder": 10
+                },
+                "c2": {
+                    "displayName": "Column 2",
+                    "sortOrder": 20
+                },
+                "c3": {
+                    "displayName": "Column 3",
+                    "sortOrder": 30
+                },
+                "c4": {
+                    "displayName": "Column 4",
+                    "sortOrder": 40
+                },
+                "c5": {
+                    "displayName": "Column 5",
+                    "sortOrder": 50
+                },
+                "c6": {
+                    "displayName": "Column 6",
+                    "sortOrder": 60
+                },
+                "c7": {
+                    "displayName": "Column 7",
+                    "sortOrder": 70
+                },
+                "c8": {
+                    "displayName": "Column 8",
+                    "sortOrder": 80
+                },
+                "c9": {
+                    "displayName": "Column 9",
+                    "sortOrder": 90
+                },
+                "c10": {
+                    "displayName": "Column 10",
+                    "sortOrder": 100
+                },
+                "c11": {
+                    "displayName": "Column 11",
+                    "sortOrder": 110
+                },
+                "c12": {
+                    "displayName": "Column 12",
+                    "sortOrder": 120
+                },
+                "c13": {
+                    "displayName": "Column 13",
+                    "sortOrder": 130
+                },
+                "auto": {
+                    "displayName": "Auto",
+                    "sortOrder": 1
+                }
+            }
+        },
+        "gridRowStart": {
+            "displayName": "Grid Row Start (Advanced)",
+            "editor": "",
+            "sortOrder": 8,
+            "choices": {
+                "c1": {
+                    "displayName": "Row 1",
+                    "sortOrder": 10
+                },
+                "c2": {
+                    "displayName": "Row 2",
+                    "sortOrder": 20
+                },
+                "c3": {
+                    "displayName": "Row 3",
+                    "sortOrder": 30
+                },
+                "c4": {
+                    "displayName": "Row 4",
+                    "sortOrder": 40
+                },
+                "c5": {
+                    "displayName": "Row 5",
+                    "sortOrder": 50
+                },
+                "auto": {
+                    "displayName": "Auto",
+                    "sortOrder": 1
+                }
+            }
+        },
+        "gridRowEnd": {
+            "displayName": "Grid Row End (Advanced)",
+            "editor": "",
+            "sortOrder": 9,
+            "choices": {
+                "c1": {
+                    "displayName": "Row 1",
+                    "sortOrder": 10
+                },
+                "c2": {
+                    "displayName": "Row 2",
+                    "sortOrder": 20
+                },
+                "c3": {
+                    "displayName": "Row 3",
+                    "sortOrder": 30
+                },
+                "c4": {
+                    "displayName": "Row 4",
+                    "sortOrder": 40
+                },
+                "c5": {
+                    "displayName": "Row 5",
+                    "sortOrder": 50
+                },
+                "auto": {
+                    "displayName": "Auto",
+                    "sortOrder": 1
+                }
+            }
+        },
+        "gridArea": {
+            "displayName": "Grid Area Name (Advanced)",
+            "editor": "",
+            "sortOrder": 9,
+            "choices": {
+                "none": {
+                    "displayName": "None",
+                    "sortOrder": 1
+                },
+                "header": {
+                    "displayName": "Header",
+                    "sortOrder": 10
+                },
+                "sidebar": {
+                    "displayName": "Sidebar",
+                    "sortOrder": 20
+                },
+                "content": {
+                    "displayName": "Content",
+                    "sortOrder": 30
+                },
+                "footer": {
+                    "displayName": "Footer",
+                    "sortOrder": 40
+                }
+            }
+        },
         "backgroundColor": {
             "displayName": "Background Color",
             "editor": "",

@@ -7,41 +7,91 @@ export function getRowStyles(row: CompositionStructureNode) {
     const displaySettings = row.displaySettings;
     const dictionary = getDictionaryFromDisplaySettings(displaySettings);
 
-    enum RowFromClasses {
-        md = 'md:flex-row',
-        lg = 'lg:flex-row',
-        xl = 'xl:flex-row',
+    // COLUMN LAYOUT OPTIONS - Easy column configurations
+    enum ColumnLayoutClasses {
+        'col12_grid' = 'grid-cols-1 md:grid-cols-12', // Default flexible grid (was: 12-column-grid)
+        'col_1' = 'grid-cols-1', // (was: 1-column)
+        'col_2' = 'grid-cols-1 md:grid-cols-2', // (was: 2-columns)
+        'col_3' = 'grid-cols-1 md:grid-cols-3', // (was: 3-columns)
+        'col_4' = 'grid-cols-1 md:grid-cols-4', // (was: 4-columns)
+        'col_6' = 'grid-cols-1 md:grid-cols-6', // (was: 6-columns)
+        'auto_fit' = 'grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(250px,1fr))]', // (was: auto-fit)
     }
 
-    enum ContentSpacingClasses {
-        small = 'gap-2',
-        medium = 'gap-4',
-        large = 'gap-4 lg:gap-8',
-        xl = 'gap-4 lg:gap-24',
-        xxl = 'gap-4 lg:gap-72',
-        none = 'gap-0',
+    // ROW GAP OPTIONS - Vertical spacing between rows
+    enum RowGapClasses {
+        none = 'gap-y-0',
+        small = 'gap-y-2',
+        medium = 'gap-y-4',
+        large = 'gap-y-6',
+        xl = 'gap-y-8',
+        xxl = 'gap-y-12',
+        xxxl = 'gap-y-16',
+        xxxxl = 'gap-y-24',
     }
 
-    enum JustifyContentClasses {
-        center = 'justify-center',
-        end = 'justify-end',
-        start = 'justify-start',
+    // COLUMN GAP OPTIONS - Horizontal spacing between columns
+    enum ColumnGapClasses {
+        none = 'gap-x-0',
+        small = 'gap-x-2',
+        medium = 'gap-x-4',
+        large = 'gap-x-6',
+        xl = 'gap-x-8',
+        xxl = 'gap-x-12',
+        xxxl = 'gap-x-16',
+        xxxxl = 'gap-x-24',
     }
 
-    enum AlignContentClasses {
-        center = 'content-center',
-        end = 'content-end',
-        start = 'content-start',
+    // RESPONSIVE COLUMN OVERRIDES - Mobile/Tablet/Desktop specific columns
+    enum MobileColumnsClasses {
+        'c1' = 'sm:grid-cols-1', // (was: 1)
+        'c2' = 'sm:grid-cols-2', // (was: 2)
+        'c3' = 'sm:grid-cols-3', // (was: 3)
     }
 
+    enum TabletColumnsClasses {
+        'c2' = 'md:grid-cols-2', // (was: 2)
+        'c3' = 'md:grid-cols-3', // (was: 3)
+        'c4' = 'md:grid-cols-4', // (was: 4)
+    }
+
+    enum DesktopColumnsClasses {
+        'c3' = 'lg:grid-cols-3', // (was: 3)
+        'c4' = 'lg:grid-cols-4', // (was: 4)
+        'c5' = 'lg:grid-cols-5', // (was: 5)
+        'c6' = 'lg:grid-cols-6', // (was: 6)
+    }
+
+    // ALIGNMENT OPTIONS - Grid-specific alignment
     enum AlignItemsClasses {
         start = 'items-start',
         center = 'items-center',
         end = 'items-end',
         stretch = 'items-stretch',
-        baseline = 'items-baseline',
     }
 
+    enum JustifyItemsClasses {
+        start = 'justify-items-start',
+        center = 'justify-items-center',
+        end = 'justify-items-end',
+        stretch = 'justify-items-stretch',
+    }
+
+    enum AlignContentClasses {
+        start = 'content-start',
+        center = 'content-center',
+        end = 'content-end',
+        stretch = 'content-stretch',
+    }
+
+    enum JustifyContentClasses {
+        start = 'justify-start',
+        center = 'justify-center',
+        end = 'justify-end',
+        stretch = 'justify-stretch',
+    }
+
+    // VERTICAL SPACING - Margin spacing around the row
     enum VerticalSpacingClasses {
         small = 'my-2',
         medium = 'my-4',
@@ -50,6 +100,7 @@ export function getRowStyles(row: CompositionStructureNode) {
         none = 'my-0',
     }
 
+    // WIDTH OPTIONS - Row width constraints
     enum RowWidthClasses {
         full = 'w-full',
         container = 'container mx-auto px-8',
@@ -68,28 +119,74 @@ export function getRowStyles(row: CompositionStructureNode) {
     }
 
     let cssClasses = [];
+
     // Apply width classes if specified, otherwise inherit from section
     if (dictionary['rowWidth'] && dictionary['rowWidth'] !== 'inherit') {
         cssClasses.push(RowWidthClasses[dictionary['rowWidth']] ?? '');
     }
-    cssClasses.push(ContentSpacingClasses[dictionary['contentSpacing']] ?? '');
-    cssClasses.push(JustifyContentClasses[dictionary['justifyContent']] ?? '');
-    cssClasses.push(AlignContentClasses[dictionary['alignContent']] ?? '');
+
+    // Apply column layout (priority feature)
+    const columnLayout = dictionary['columnLayout'] || 'col12_grid';
+    cssClasses.push(ColumnLayoutClasses[columnLayout] ?? ColumnLayoutClasses['col12_grid']);
+
+    // Apply responsive column overrides if specified
+    if (dictionary['mobileColumns']) {
+        cssClasses.push(MobileColumnsClasses[dictionary['mobileColumns']] ?? '');
+    }
+    if (dictionary['tabletColumns']) {
+        cssClasses.push(TabletColumnsClasses[dictionary['tabletColumns']] ?? '');
+    }
+    if (dictionary['desktopColumns']) {
+        cssClasses.push(DesktopColumnsClasses[dictionary['desktopColumns']] ?? '');
+    }
+
+    // Apply separate row and column gaps
+    // Check for new gap settings first, then fall back to legacy contentSpacing
+    let rowGap = dictionary['rowGap'];
+    let columnGap = dictionary['columnGap'];
+
+    // Backward compatibility: Map old contentSpacing to both gaps if new settings not present
+    if (!rowGap && !columnGap && dictionary['contentSpacing']) {
+        const legacySpacing = dictionary['contentSpacing'];
+        // Map old values to new gap values
+        const spacingMap = {
+            'none': 'none',
+            'small': 'small',
+            'medium': 'medium',
+            'large': 'large',
+            'xl': 'xl',
+            'xxl': 'xxl',
+        };
+        rowGap = spacingMap[legacySpacing] || 'medium';
+        columnGap = spacingMap[legacySpacing] || 'medium';
+    }
+
+    if (rowGap) {
+        cssClasses.push(RowGapClasses[rowGap] ?? '');
+    }
+    if (columnGap) {
+        cssClasses.push(ColumnGapClasses[columnGap] ?? '');
+    }
+
+    // Apply alignment options
+    if (dictionary['alignItems']) {
+        cssClasses.push(AlignItemsClasses[dictionary['alignItems']] ?? '');
+    }
+    if (dictionary['justifyItems']) {
+        cssClasses.push(JustifyItemsClasses[dictionary['justifyItems']] ?? '');
+    }
+    if (dictionary['alignContent']) {
+        cssClasses.push(AlignContentClasses[dictionary['alignContent']] ?? '');
+    }
+    if (dictionary['justifyContent']) {
+        cssClasses.push(JustifyContentClasses[dictionary['justifyContent']] ?? '');
+    }
+
+    // Apply vertical spacing (margin around the row)
     cssClasses.push(
         VerticalSpacingClasses[dictionary['verticalSpacing']] ?? ''
     );
-    cssClasses.push(RowFromClasses[dictionary['showAsRowFrom']] ?? '');
-    
-    // Add responsive vertical alignment based on showAsRowFrom breakpoint
-    const rowBreakpoint = dictionary['showAsRowFrom'] ?? 'md';
-    const alignItems = dictionary['alignItems'];
-    if (alignItems && alignItems !== 'start') {
-        const alignItemsClass = AlignItemsClasses[alignItems];
-        if (alignItemsClass) {
-            // Apply alignment only when in row mode (horizontal layout)
-            cssClasses.push(`${rowBreakpoint}:${alignItemsClass}`);
-        }
-    }
-    // Background color is now handled by globalStylesHelper
+
+    // Background color is handled by globalStylesHelper
     return cssClasses;
 }
