@@ -341,7 +341,7 @@ import '../../../styles/global.css';
     <!-- Toast Notifications -->
     <Toast client:load />
 
-    <!-- Mobile menu toggle script -->
+    <!-- Mobile menu toggle and navigation interception script -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         const mobileMenuButton = document.getElementById('mobile-menu-button');
@@ -356,12 +356,49 @@ import '../../../styles/global.css';
         mobileMenuButton?.addEventListener('click', toggleSidebar);
         overlay?.addEventListener('click', toggleSidebar);
 
-        // Close sidebar when clicking a link on mobile
+        // Intercept navigation link clicks for SPA behavior
         const navLinks = sidebar?.querySelectorAll('.nav-link');
         navLinks?.forEach(link => {
-          link.addEventListener('click', () => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // Close sidebar on mobile
             if (window.innerWidth <= 768) {
               toggleSidebar();
+            }
+
+            // Extract view from href
+            const href = link.getAttribute('href');
+            if (!href) return;
+
+            const url = new URL(href, window.location.origin);
+            const view = url.searchParams.get('view') || 'dashboard';
+
+            // Update active state
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+
+            // Dispatch navigation event for AdminApp to handle
+            window.dispatchEvent(new CustomEvent('admin-navigate-request', {
+              detail: { view }
+            }));
+          });
+        });
+
+        // Listen for navigation events from AdminApp to update active state
+        window.addEventListener('admin-navigate', (e) => {
+          const view = e.detail.view;
+          navLinks?.forEach(link => {
+            const href = link.getAttribute('href');
+            if (!href) return;
+
+            const url = new URL(href, window.location.origin);
+            const linkView = url.searchParams.get('view') || 'dashboard';
+
+            if (linkView === view) {
+              link.classList.add('active');
+            } else {
+              link.classList.remove('active');
             }
           });
         });
