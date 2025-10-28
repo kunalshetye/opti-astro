@@ -19,7 +19,7 @@
         <h3 class="text-xl font-semibold text-gray-900 mb-4">Quick Actions</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- CMS Sync Card -->
-            <button onclick={() => navigateTo('cms-sync')} class="group block bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-200 overflow-hidden border border-gray-200 hover:border-blue-500 text-left">
+            <button onclick={() => navigateTo('cms-sync')} class="group block bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-200 overflow-hidden border border-gray-200 hover:border-blue-500 text-left cursor-pointer">
                 <div class="p-6">
                     <div class="flex items-center justify-between mb-4">
                         <div class="p-3 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
@@ -37,7 +37,7 @@
             </button>
 
             <!-- Synonyms Manager Card -->
-            <button onclick={() => navigateTo('synonyms')} class="group block bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-200 overflow-hidden border border-gray-200 hover:border-purple-500 text-left">
+            <button onclick={() => navigateTo('synonyms')} class="group block bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-200 overflow-hidden border border-gray-200 hover:border-purple-500 text-left cursor-pointer">
                 <div class="p-6">
                     <div class="flex items-center justify-between mb-4">
                         <div class="p-3 bg-purple-100 rounded-lg group-hover:bg-purple-200 transition-colors">
@@ -55,7 +55,7 @@
             </button>
 
             <!-- Pinned Results Card -->
-            <button onclick={() => navigateTo('pinned')} class="group block bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-200 overflow-hidden border border-gray-200 hover:border-indigo-500 text-left">
+            <button onclick={() => navigateTo('pinned')} class="group block bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-200 overflow-hidden border border-gray-200 hover:border-indigo-500 text-left cursor-pointer">
                 <div class="p-6">
                     <div class="flex items-center justify-between mb-4">
                         <div class="p-3 bg-indigo-100 rounded-lg group-hover:bg-indigo-200 transition-colors">
@@ -73,7 +73,7 @@
             </button>
 
             <!-- Style Manager Card -->
-            <button onclick={() => navigateTo('style-manager')} class="group block bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-200 overflow-hidden border border-gray-200 hover:border-green-500 text-left">
+            <button onclick={() => navigateTo('style-manager')} class="group block bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-200 overflow-hidden border border-gray-200 hover:border-green-500 text-left cursor-pointer">
                 <div class="p-6">
                     <div class="flex items-center justify-between mb-4">
                         <div class="p-3 bg-green-100 rounded-lg group-hover:bg-green-200 transition-colors">
@@ -87,6 +87,42 @@
                     </div>
                     <h4 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">Style Manager</h4>
                     <p class="text-sm text-gray-600">Create and manage display templates with form-based editing interface</p>
+                </div>
+            </button>
+
+            <!-- Redirect Management Card -->
+            <button onclick={() => navigateTo('redirects')} class="group block bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-200 overflow-hidden border border-gray-200 hover:border-orange-500 text-left cursor-pointer">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="p-3 bg-orange-100 rounded-lg group-hover:bg-orange-200 transition-colors">
+                            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <svg class="w-5 h-5 text-gray-400 group-hover:text-orange-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors">Redirect Management</h4>
+                    <p class="text-sm text-gray-600">Manage URL redirects with support for 301, 302, 307, and 308 redirect types</p>
+                </div>
+            </button>
+
+            <!-- Published Pages Dashboard Card -->
+            <button onclick={() => navigateTo('published-pages')} class="group block bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-200 overflow-hidden border border-gray-200 hover:border-teal-500 text-left cursor-pointer">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="p-3 bg-teal-100 rounded-lg group-hover:bg-teal-200 transition-colors">
+                            <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                        </div>
+                        <svg class="w-5 h-5 text-gray-400 group-hover:text-teal-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-teal-600 transition-colors">Published Pages Dashboard</h4>
+                    <p class="text-sm text-gray-600">Track recently published pages and plan content migration actions</p>
                 </div>
             </button>
         </div>

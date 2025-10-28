@@ -80,11 +80,47 @@ Components are dynamically rendered through `_Component.astro` and `_Components.
 - `codegen.ts` - GraphQL code generation configuration
 - `src/graphql/getSdk.ts` - GraphQL SDK for CMS data fetching
 - `src/cms/shared/globalStylesHelper.ts` - Style mapping system
-- `src/middleware.ts` - Astro middleware
+- `src/middleware.ts` - Astro middleware (includes redirect checking)
+- `src/lib/redirect-utils.ts` - URL redirect management utilities
 - `utils/styles/` - CMS style sync utilities
 - `utils/types/` - CMS type sync utilities
 - `utils/sync-locales.mjs` - Locale synchronization
 - `__generated/` - Generated GraphQL types and schema
+
+### Admin Dashboard (`/opti-admin`)
+The project includes a comprehensive admin dashboard built with Svelte 5 and Astro:
+
+#### Features
+- **CMS Sync** - Push/pull content types and component styles
+- **Synonyms Manager** - Configure search synonym mappings for Optimizely Graph
+- **Pinned Results** - Manage best bets for targeted search queries
+- **Style Manager** - Create and edit display templates with form-based UI
+- **Redirect Management** - Manage URL redirects with middleware integration
+- **Published Pages Dashboard** - Track recently published pages and plan content migrations
+
+#### Redirect Management
+- **Location**: `/opti-admin?view=redirects`
+- **Features**:
+  - Create, edit, delete, and toggle redirects
+  - Support for 301, 302, 307, and 308 redirect types
+  - CSV bulk upload with validation
+  - Search and filter by type and status
+  - Real-time middleware integration
+- **Storage**: Client-side (localStorage) + server-side (in-memory cache)
+- **Middleware**: `checkRedirects()` in `src/middleware.ts` handles redirect logic
+- **APIs**:
+  - `GET/POST /opti-admin/api/redirects.json` - List/sync redirects to cache
+  - `POST /opti-admin/api/redirects-upload.json` - CSV file upload with persistence to `data/redirects.json`
+
+#### Published Pages Dashboard
+- **Location**: `/opti-admin?view=published-pages`
+- **Features**:
+  - View pages published in the last 10 days
+  - Filter by locale and search by title/owner/URL
+  - Track action decisions (Copy as is, Copy + changes, Ignore)
+  - Action tracking persists to localStorage
+- **Data Source**: Direct GraphQL queries to Optimizely Graph
+- **No server API required** - Uses client-side GraphQL calls with `astro:env/client`
 
 ### Environment Setup
 Requires `.env` file with Optimizely Graph credentials:
