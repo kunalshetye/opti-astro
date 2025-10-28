@@ -43,6 +43,7 @@
         "astro-auto-adapter": "^2.3.0",
         "astro-embed": "^0.9.0",
         "autoprefixer": "^10.4.21",
+        "chart.js": "^4.5.1",
         "daisyui": "^5.0.43",
         "date-fns": "^4.1.0",
         "graphql": "^16.10.0",
