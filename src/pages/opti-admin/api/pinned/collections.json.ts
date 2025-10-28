@@ -1,12 +1,11 @@
 // /src/pages/opti-admin/api/pinned-collections.json.ts
 import type { APIRoute } from 'astro';
 import {
-  getOptimizelyGraphConfig,
-  makeHmacApiRequest,
-  createSuccessResponse,
   createErrorResponse,
-  handleApiError
-} from '../../../../utils/optimizely-graph-utils';
+  createSuccessResponse,
+  handleApiError,
+  makeHmacApiRequest
+} from '../../../../../utils/optimizely-graph-utils';
 
 // GET - List all collections
 export const GET: APIRoute = async () => {

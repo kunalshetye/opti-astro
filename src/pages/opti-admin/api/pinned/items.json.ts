@@ -1,13 +1,11 @@
 // /src/pages/opti-admin/api/pinned-items.json.ts
 import type { APIRoute } from 'astro';
 import {
-  makeHmacApiRequest,
-  isValidGuid,
-  createSuccessResponse,
   createErrorResponse,
+  createSuccessResponse,
   handleApiError,
-  clampNumber
-} from '../../../../utils/optimizely-graph-utils';
+  makeHmacApiRequest
+} from '../../../../../utils/optimizely-graph-utils';
 
 // POST - Add pinned item to collection
 export const POST: APIRoute = async ({ request }) => {
