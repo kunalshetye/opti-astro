@@ -5,6 +5,9 @@
   import GraphPinnedResults from './components/_GraphPinnedResults.svelte';
   import StyleManager from './style-manager/_StyleManager.svelte';
   import Dashboard from './components/_Dashboard.svelte';
+  import RedirectManagement from './components/_RedirectManagement.svelte';
+  import PublishedPagesDashboard from './components/_PublishedPagesDashboard.svelte';
+  import Sidebar from './components/_Sidebar.svelte';
 
   interface Props {
     cmsUrl?: string;
@@ -43,7 +46,9 @@
       'synonyms': 'Synonyms Manager',
       'pinned': 'Pinned Results Manager',
       'cms-sync': 'CMS Sync',
-      'style-manager': 'Style Manager'
+      'style-manager': 'Style Manager',
+      'redirects': 'Redirect Management',
+      'published-pages': 'Published Pages Dashboard'
     };
     document.title = `${titles[view] || 'Dashboard'} | Optimizely Admin`;
   }
@@ -55,9 +60,6 @@
       const view = params.get('view') || 'dashboard';
       currentView = view;
       updatePageTitle(view);
-
-      // Notify AdminLayout of navigation
-      window.dispatchEvent(new CustomEvent('admin-navigate', { detail: { view } }));
     }
 
     window.addEventListener('popstate', handlePopState);
@@ -65,22 +67,17 @@
     // Set initial title
     updatePageTitle(currentView);
 
-    // Listen for navigation events from AdminLayout
-    function handleAdminNavigate(e: Event) {
-      const customEvent = e as CustomEvent<{ view: string }>;
-      navigateTo(customEvent.detail.view);
-    }
-
-    window.addEventListener('admin-navigate-request', handleAdminNavigate);
-
     return () => {
       window.removeEventListener('popstate', handlePopState);
-      window.removeEventListener('admin-navigate-request', handleAdminNavigate);
     };
   });
 </script>
 
-<div class="admin-app">
+<div class="admin-layout">
+  <Sidebar {currentView} {navigateTo} />
+
+  <div class="admin-content">
+    <div class="admin-app">
   {#if currentView === 'dashboard'}
     <Dashboard {cmsUrl} {navigateTo} />
   {:else if currentView === 'cms-sync'}
@@ -137,5 +134,57 @@
         <StyleManager />
       </div>
     </div>
+  {:else if currentView === 'redirects'}
+    <div>
+      <!-- Back to Dashboard -->
+      <div class="mb-6">
+        <button onclick={() => navigateTo('dashboard')} class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Back to Dashboard
+        </button>
+      </div>
+      <RedirectManagement />
+    </div>
+  {:else if currentView === 'published-pages'}
+    <div>
+      <!-- Back to Dashboard -->
+      <div class="mb-6">
+        <button onclick={() => navigateTo('dashboard')} class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Back to Dashboard
+        </button>
+      </div>
+      <PublishedPagesDashboard />
+    </div>
   {/if}
+    </div>
+  </div>
 </div>
+
+<style>
+  .admin-layout {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  .admin-content {
+    flex: 1;
+    margin-left: 260px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .admin-app {
+    padding: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    .admin-content {
+      margin-left: 0;
+    }
+  }
+</style>
