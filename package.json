@@ -14,6 +14,7 @@
         "codegen:watch": "graphql-codegen --watch --config codegen.ts",
         "styles:push": "node --env-file=.env ./utils/styles/push.mjs",
         "styles:pull": "node --env-file=.env ./utils/styles/pull.mjs",
+        "styles:delete-all": "node --env-file=.env ./utils/styles/delete-all.mjs",
         "style:push": "node --env-file=.env ./utils/styles/push.mjs",
         "style:pull": "node --env-file=.env ./utils/styles/pull.mjs",
         "style:delete": "node --env-file=.env ./utils/styles/delete.mjs",
