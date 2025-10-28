@@ -41,11 +41,11 @@ const cmsLocales = availableLocalesResponse?._Content?.facets?._metadata?.locale
     });
 
 // Debug: Log what we got from the query
-if (import.meta.env.DEV) {
-    console.log('[LocaleSelector] CMS Locales from facets:', cmsLocales);
-    console.log('[LocaleSelector] Facet data:', availableLocalesResponse?._Content?.facets?._metadata?.locale);
-    console.log('[LocaleSelector] i18n config locales:', i18nConfig.locales);
-}
+// if (import.meta.env.DEV) {
+//     console.log('[LocaleSelector] CMS Locales from facets:', cmsLocales);
+//     console.log('[LocaleSelector] Facet data:', availableLocalesResponse?._Content?.facets?._metadata?.locale);
+//     console.log('[LocaleSelector] i18n config locales:', i18nConfig.locales);
+// }
 
 // Use CMS locales if available, otherwise fall back to i18n config
 // Also validate that CMS locales are actually in the i18n config to prevent errors
@@ -53,7 +53,7 @@ let availableLocales: string[];
 if (cmsLocales && cmsLocales.length > 0) {
     // Only use locales that are both in CMS AND in i18n config
     availableLocales = cmsLocales.filter(locale => i18nConfig.locales.includes(locale));
-
+    
     // If filtering resulted in no locales, fall back to i18n config
     if (availableLocales.length === 0) {
         console.warn('[LocaleSelector] No CMS locales matched i18n config, using i18n config');
@@ -63,9 +63,9 @@ if (cmsLocales && cmsLocales.length > 0) {
     availableLocales = i18nConfig.locales;
 }
 
-if (import.meta.env.DEV) {
-    console.log('[LocaleSelector] Final available locales:', availableLocales);
-}
+// if (import.meta.env.DEV) {
+//     console.log('[LocaleSelector] Final available locales:', availableLocales);
+// }
 
 // Fetch language alternatives for the current content using its key
 // This gets the actual URLs for each locale variant (respecting localized slugs)
@@ -77,9 +77,9 @@ if (contentPayload.key) {
             key: [contentPayload.key]
         });
 
-        if (import.meta.env.DEV) {
-            console.log('[LocaleSelector] Language alternatives response:', languageAlternatives);
-        }
+        // if (import.meta.env.DEV) {
+        //     console.log('[LocaleSelector] Language alternatives response:', languageAlternatives);
+        // }
 
         // Build a map of normalized locale -> URL
         languageAlternatives?._Content?.items?.forEach(item => {
@@ -94,9 +94,9 @@ if (contentPayload.key) {
             }
         });
 
-        if (import.meta.env.DEV) {
-            console.log('[LocaleSelector] Language alternatives map:', Object.fromEntries(languageAlternativesMap));
-        }
+        // if (import.meta.env.DEV) {
+        //     console.log('[LocaleSelector] Language alternatives map:', Object.fromEntries(languageAlternativesMap));
+        // }
     } catch (error) {
         console.error('[LocaleSelector] Error fetching language alternatives:', error);
     }
@@ -160,7 +160,7 @@ const localeNames: Record<string, { name: string; flag: string }> = {
     >
         {availableLocales.filter(locale => locale && locale.trim() !== '').map((locale) => {
             const localeInfo = localeNames[locale] || { name: locale, flag: '🌐' };
-            const isActive = locale === currentLocale;
+            const isActive = locale.toLowerCase() === currentLocale.toLowerCase();
 
             // Try to get the actual URL from language alternatives (CMS)
             // This respects localized slugs (e.g., /en/about-us vs /es/acerca-de-nosotros)
@@ -169,7 +169,7 @@ const localeNames: Record<string, { name: string; flag: string }> = {
 
             if (cmsUrl) {
                 // Use the actual CMS URL for this locale variant
-                localeUrl = cmsUrl;
+                localeUrl = cmsUrl.toLowerCase();
             } else {
                 // Content doesn't exist in this locale, fall back to homepage
                 try {
