@@ -157,16 +157,20 @@ export function getRowStyles(row: CompositionStructureNode) {
             'xl': 'xl',
             'xxl': 'xxl',
         };
-        rowGap = spacingMap[legacySpacing] || 'medium';
-        columnGap = spacingMap[legacySpacing] || 'medium';
+        rowGap = spacingMap[legacySpacing] || 'small';
+        columnGap = spacingMap[legacySpacing] || 'small';
     }
 
-    if (rowGap) {
-        cssClasses.push(RowGapClasses[rowGap] ?? '');
+    // Set default to 'small' if no gap value is provided
+    if (!rowGap) {
+        rowGap = 'small';
     }
-    if (columnGap) {
-        cssClasses.push(ColumnGapClasses[columnGap] ?? '');
+    if (!columnGap) {
+        columnGap = 'small';
     }
+
+    cssClasses.push(RowGapClasses[rowGap] ?? '');
+    cssClasses.push(ColumnGapClasses[columnGap] ?? '');
 
     // Apply alignment options
     if (dictionary['alignItems']) {
