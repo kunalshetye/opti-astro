@@ -27,7 +27,7 @@
     showMessage = false;
 
     try {
-      const response = await fetch('/opti-admin/api/synonyms.json', {
+      const response = await fetch('/opti-admin/api/synonyms/synonyms.json', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

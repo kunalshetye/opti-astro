@@ -9838,6 +9838,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lucide-svelte@npm:^0.548.0":
+  version: 0.548.0
+  resolution: "lucide-svelte@npm:0.548.0"
+  peerDependencies:
+    svelte: ^3 || ^4 || ^5.0.0-next.42
+  checksum: 10c0/b6d49080b0dfd8e8e52e1e758f7f045ed54b7bc4a5f8c7e91aa903b3ef8e1a027378e6dc94d4d817c7291fa341fc6c6b0e1d878c832554f82281bf0f89f982c6
+  languageName: node
+  linkType: hard
+
 "luxon@npm:^3.2.1":
   version: 3.6.1
   resolution: "luxon@npm:3.6.1"
@@ -11154,6 +11163,7 @@ __metadata:
     graphql-request: "npm:6.1.0"
     graphql-sock: "npm:^1.0.1"
     graphql-tag: "npm:^2.12.6"
+    lucide-svelte: "npm:^0.548.0"
     path-to-regexp: "npm:6.3.0"
     postcss: "npm:^8.5.3"
     prettier: "npm:^3.5.3"
