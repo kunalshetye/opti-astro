@@ -61,8 +61,9 @@ export const GET: APIRoute = async ({ url }) => {
 		const articleTotal = searchResults.ArticlePage?.total || 0;
 		const articleFacets = searchResults.ArticlePage?.facets;
 
-		const experienceItems = searchResults._Experience?.items || [];
-		const experienceTotal = searchResults._Experience?.total || 0;
+		// If author filters are applied, skip Experience results (no authors on Experiences)
+		const experienceItems = authorFilters.length > 0 ? [] : searchResults._Experience?.items || [];
+		const experienceTotal = authorFilters.length > 0 ? 0 : searchResults._Experience?.total || 0;
 		const experienceFacets = searchResults._Experience?.facets;
 
 		// Merge and sort ALL results using shared helper
