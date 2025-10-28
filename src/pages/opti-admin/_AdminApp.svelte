@@ -6,7 +6,7 @@
   import StyleManager from './style-manager/_StyleManager.svelte';
   import Dashboard from './components/_Dashboard.svelte';
   import RedirectManagement from './components/_RedirectManagement.svelte';
-  import PublishedPagesDashboard from './components/_PublishedPagesDashboard.svelte';
+  import PublishedPagesDashboard from './components/published-pages/_PublishedPagesDashboard.svelte';
   import Sidebar from './components/_Sidebar.svelte';
 
   interface Props {
