@@ -20,13 +20,27 @@
 	let localChoices = $state<Record<string, DisplaySettingChoice>>({ ...setting.choices });
 	let expanded = $state(false);
 
+	// Track previous values to detect external changes
+	let prevSettingKey = $state(settingKey);
+	let prevSetting = $state(setting);
+
 	// Sync local state with prop changes (for drag and drop reordering)
+	// Only update if the prop changed externally (not from our own updates)
 	$effect(() => {
-		localSettingKey = settingKey;
-		localDisplayName = setting.displayName;
-		localEditor = setting.editor || 'DropDown';
-		localSortOrder = setting.sortOrder || 10;
-		localChoices = { ...setting.choices };
+		// Check if settingKey changed externally (key rename from parent)
+		if (settingKey !== prevSettingKey && settingKey !== localSettingKey) {
+			localSettingKey = settingKey;
+			prevSettingKey = settingKey;
+		}
+
+		// Check if setting changed externally (drag and drop reorder)
+		if (setting !== prevSetting) {
+			localDisplayName = setting.displayName;
+			localEditor = setting.editor || 'DropDown';
+			localSortOrder = setting.sortOrder || 10;
+			localChoices = { ...setting.choices };
+			prevSetting = setting;
+		}
 	});
 
 	function handleKeyBlur() {
