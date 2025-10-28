@@ -389,33 +389,6 @@
                 }
             }
         },
-        "gridArea": {
-            "displayName": "Grid Area Name (Advanced)",
-            "editor": "",
-            "sortOrder": 9,
-            "choices": {
-                "none": {
-                    "displayName": "None",
-                    "sortOrder": 1
-                },
-                "header": {
-                    "displayName": "Header",
-                    "sortOrder": 10
-                },
-                "sidebar": {
-                    "displayName": "Sidebar",
-                    "sortOrder": 20
-                },
-                "content": {
-                    "displayName": "Content",
-                    "sortOrder": 30
-                },
-                "footer": {
-                    "displayName": "Footer",
-                    "sortOrder": 40
-                }
-            }
-        },
         "backgroundColor": {
             "displayName": "Background Color",
             "editor": "",

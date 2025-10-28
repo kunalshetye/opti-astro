@@ -57,13 +57,6 @@ export function getColumnStyles(column: CompositionStructureNode) {
         cssClasses.push(`md:row-end-${gridRowEnd}`);
     }
 
-    // Grid Area Names (NEW)
-    // For named grid areas defined in parent Row's gridTemplateAreas
-    const gridArea = dictionary['gridArea'];
-    if (gridArea && gridArea !== 'none') {
-        cssClasses.push(`[grid-area:${gridArea}]`);
-    }
-
     switch (column.displayTemplateKey) {
         case 'DefaultColumn':
             // Content Spacing - Column's internal content spacing
