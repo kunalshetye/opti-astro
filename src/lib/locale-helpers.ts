@@ -59,10 +59,11 @@ export function localeToSdkLocale(locale: string): string {
 
 /**
  * Convert GraphQL API locale format to URL-friendly format
- * Example: 'nb_NO' -> 'nb-NO'
+ * Example: 'nb_NO' -> 'nb-no', 'fr_CA' -> 'fr-ca'
+ * Always returns lowercase for consistent comparison
  */
 export function normalizeLocale(locale: string): string {
-    return locale.replace(/_/g, '-');
+    return locale.replace(/_/g, '-').toLowerCase();
 }
 
 /**
