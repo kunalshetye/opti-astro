@@ -79,7 +79,7 @@
 	// Load types from API
 	async function loadTypes() {
 		try {
-			const response = await fetch('/opti-admin/api/list-types.json');
+			const response = await fetch('/opti-admin/api/cms-sync/list-types.json');
 			const data = await response.json();
 
 			if (data.types && data.types.length > 0) {
@@ -93,7 +93,7 @@
 	// Load styles from API
 	async function loadStyles() {
 		try {
-			const response = await fetch('/opti-admin/api/list-styles.json');
+			const response = await fetch('/opti-admin/api/cms-sync/list-styles.json');
 			const data = await response.json();
 
 			if (data.styles && data.styles.length > 0) {
@@ -214,7 +214,7 @@
 		}
 
 		// Create new EventSource connection
-		eventSource = new EventSource(`/opti-admin/api/stream/${command}`);
+		eventSource = new EventSource(`/opti-admin/api/cms-sync/stream/${command}`);
 
 		eventSource.onmessage = (event) => {
 			const data = JSON.parse(event.data);
@@ -307,7 +307,7 @@
 
 		// Create new EventSource connection
 		const param = type === 'type' ? `type=${encodeURIComponent(name)}` : `style=${encodeURIComponent(name)}`;
-		eventSource = new EventSource(`/opti-admin/api/stream/${command}?${param}`);
+		eventSource = new EventSource(`/opti-admin/api/cms-sync/stream/${command}?${param}`);
 
 		eventSource.onmessage = (event) => {
 			const data = JSON.parse(event.data);

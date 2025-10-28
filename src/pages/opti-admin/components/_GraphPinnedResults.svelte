@@ -83,7 +83,7 @@
   async function loadCollections() {
     loadingCollections = true;
     try {
-      const response = await fetch('/opti-admin/api/pinned-collections.json');
+      const response = await fetch('/opti-admin/api/pinned/collections.json');
       const result = await response.json();
 
       if (result.success && Array.isArray(result.data)) {
@@ -106,7 +106,7 @@
     showMessage = false;
 
     try {
-      const response = await fetch('/opti-admin/api/pinned-collections.json', {
+      const response = await fetch('/opti-admin/api/pinned/collections.json', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -139,7 +139,7 @@
     pinnedItems = [];
 
     try {
-      const response = await fetch(`/opti-admin/api/pinned-items.json?collectionId=${collection.id}`);
+      const response = await fetch(`/opti-admin/api/pinned/items.json?collectionId=${collection.id}`);
       const result = await response.json();
 
       if (result.success && Array.isArray(result.data)) {
@@ -169,7 +169,7 @@
 
     deleting = true;
     try {
-      const response = await fetch('/opti-admin/api/pinned-collections.json', {
+      const response = await fetch('/opti-admin/api/pinned/collections.json', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: collectionToDelete.id })
@@ -207,7 +207,7 @@
     showMessage = false;
 
     try {
-      const response = await fetch('/opti-admin/api/pinned-items.json', {
+      const response = await fetch('/opti-admin/api/pinned/items.json', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -250,7 +250,7 @@
     if (!confirm('Are you sure you want to delete this pinned item?')) return;
 
     try {
-      await fetch('/opti-admin/api/pinned-items.json', {
+      await fetch('/opti-admin/api/pinned/items.json', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -274,7 +274,7 @@
     searchResults = [];
 
     try {
-      const response = await fetch('/opti-admin/api/content-search.json', {
+      const response = await fetch('/opti-admin/api/cms-sync/content-search.json', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: searchQuery, limit: 10 })

@@ -47,6 +47,7 @@
         "date-fns": "^4.1.0",
         "graphql": "^16.10.0",
         "graphql-request": "6.1.0",
+        "lucide-svelte": "^0.548.0",
         "path-to-regexp": "6.3.0",
         "query-string": "^9.1.1",
         "svelte": "^5.41.2",
