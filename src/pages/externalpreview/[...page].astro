@@ -59,6 +59,7 @@ const contentByPathResponse = result.contentResponse;
 const item = contentByPathResponse._Content.item;
 
 extPreviewPayload.key = item?._metadata?.key || '';
+extPreviewPayload.loc = localeToSdkLocale(item._metadata.locale) || Astro.currentLocale || 'en';
 
 const token = Astro.url.searchParams.get('token') || '';
 if (!token || !isValidExtPreviewToken(extPreviewPayload.key, extPreviewPayload.ver, token)) {
@@ -68,7 +69,7 @@ if (!token || !isValidExtPreviewToken(extPreviewPayload.key, extPreviewPayload.v
 // Search by content ID to get the content item
 const optiPreviewResponse = await getOptimizelySdk(extPreviewPayload).contentById({
     key: extPreviewPayload.key,
-    loc: localeToSdkLocale(Astro.currentLocale) as Locales,
+    loc: localeToSdkLocale(extPreviewPayload.loc) as Locales,
     ver: extPreviewPayload.ver,
 });
 
