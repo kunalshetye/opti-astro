@@ -420,7 +420,7 @@
       <code class="bg-green-100 px-2 py-1 rounded block text-xs">/old-page,/new-page,301,true</code>
       <code class="bg-green-100 px-2 py-1 rounded block text-xs">/blog/old-post,https://example.com/new-post,302,false</code>
       <button
-        on:click={downloadTemplate}
+        onclick={downloadTemplate}
         type="button"
         class="mt-3 text-sm text-green-700 hover:text-green-800 underline"
       >
@@ -437,7 +437,7 @@
         <input
           type="file"
           accept=".csv"
-          on:change={handleCsvUpload}
+          onchange={handleCsvUpload}
           disabled={isUploadingCsv}
           class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100 disabled:opacity-50"
         />
@@ -455,7 +455,7 @@
       {editingId ? 'Edit Redirect' : 'Add New Redirect'}
     </h3>
 
-    <form on:submit={handleSubmit}>
+    <form onsubmit={handleSubmit}>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div>
           <label for="fromPath" class="block text-sm font-medium text-gray-700 mb-1">
@@ -532,7 +532,7 @@
         {#if editingId}
           <button
             type="button"
-            on:click={resetForm}
+            onclick={resetForm}
             class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
           >
             Cancel
@@ -627,7 +627,7 @@
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <button
-                    on:click={() => toggleEnabled(redirect.id, redirect.enabled)}
+                    onclick={() => toggleEnabled(redirect.id, redirect.enabled)}
                     type="button"
                     class="px-3 py-1 text-xs font-semibold rounded-full {redirect.enabled ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'} hover:opacity-80"
                   >
@@ -636,14 +636,14 @@
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <button
-                    on:click={() => editRedirect(redirect)}
+                    onclick={() => editRedirect(redirect)}
                     type="button"
                     class="text-blue-600 hover:text-blue-900 mr-3"
                   >
                     Edit
                   </button>
                   <button
-                    on:click={() => deleteRedirect(redirect.id)}
+                    onclick={() => deleteRedirect(redirect.id)}
                     type="button"
                     class="text-red-600 hover:text-red-900"
                   >

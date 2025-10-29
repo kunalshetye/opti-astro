@@ -285,10 +285,11 @@
 					<div class="grid grid-cols-2 gap-4">
 						<!-- Key -->
 						<div>
-							<label class="block text-sm font-medium text-gray-700 mb-2">
+							<label for="style-key" class="block text-sm font-medium text-gray-700 mb-2">
 								Key <span class="text-red-500">*</span>
 							</label>
 							<input
+								id="style-key"
 								type="text"
 								bind:value={key}
 								class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -303,10 +304,11 @@
 
 						<!-- Display Name -->
 						<div>
-							<label class="block text-sm font-medium text-gray-700 mb-2">
+							<label for="style-display-name" class="block text-sm font-medium text-gray-700 mb-2">
 								Display Name <span class="text-red-500">*</span>
 							</label>
 							<input
+								id="style-display-name"
 								type="text"
 								bind:value={displayName}
 								class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -317,10 +319,11 @@
 
 						<!-- Scope Type -->
 						<div>
-							<label class="block text-sm font-medium text-gray-700 mb-2">
+							<label for="style-scope-type" class="block text-sm font-medium text-gray-700 mb-2">
 								Scope Type <span class="text-red-500">*</span>
 							</label>
 							<select
+								id="style-scope-type"
 								bind:value={scopeType}
 								class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 							>
@@ -333,7 +336,7 @@
 
 						<!-- Scope Value -->
 						<div>
-							<label class="block text-sm font-medium text-gray-700 mb-2">
+							<label for="style-scope-value" class="block text-sm font-medium text-gray-700 mb-2">
 								{scopeType === 'contentType'
 									? 'Content Type'
 									: scopeType === 'nodeType'
@@ -341,6 +344,7 @@
 										: 'Base Type'} <span class="text-red-500">*</span>
 							</label>
 							<input
+								id="style-scope-value"
 								type="text"
 								bind:value={scopeValue}
 								class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
