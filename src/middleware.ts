@@ -4,6 +4,7 @@ import { getOptimizelySdk } from './graphql/getSdk';
 import type { ContentPayload } from './graphql/shared/ContentPayload';
 import { localeToSdkLocale } from './lib/locale-helpers';
 import { checkAdminAuth } from './pages/opti-admin/auth-opti-admin';
+import { checkRedirects } from './lib/redirect-utils';
 
 // Cache for placeholder data to avoid repeated GraphQL calls
 const placeholderCache = new Map<string, Map<string, string>>();
@@ -16,6 +17,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
     if (authError) {
       return authError;
     }
+  }
+
+  // Check for redirects
+  const redirectResponse = checkRedirects(context.url.pathname);
+  if (redirectResponse) {
+    return redirectResponse;
   }
 
   const response = await next();

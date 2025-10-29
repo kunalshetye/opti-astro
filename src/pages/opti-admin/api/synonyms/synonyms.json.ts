@@ -1,6 +1,6 @@
 // /src/pages/opti-admin/api/synonyms.json.ts
 import type { APIRoute } from 'astro';
-import { getOptimizelyGraphConfig, uploadSynonyms } from '../../../../utils/optimizely-hmac';
+import { getOptimizelyGraphConfig, uploadSynonyms } from '../../../../../utils/optimizely-hmac';
 
 export const POST: APIRoute = async ({ request }) => {
   try {

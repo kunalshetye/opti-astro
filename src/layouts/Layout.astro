@@ -119,7 +119,7 @@ const contentKey = contentPayload.key || '';
                 />
             )
         }
-        <Header siteSettings={siteSettings} />
+        <Header siteSettings={siteSettings} contentPayload={contentPayload} />
         <slot />
         <Footer siteSettings={siteSettings} />
 

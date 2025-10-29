@@ -46,6 +46,14 @@ PREVIEW_DELAY=1000
 OPTIMIZELY_FORMS_ENABLED=false
 ```
 
+### Sitemap Configuration
+
+```bash
+# Base URL for absolute URLs in sitemap.xml
+# Default: Uses request origin
+SITEMAP_BASE_URL=https://example.com
+```
+
 ### Preview & External Access
 
 ```bash
@@ -198,6 +206,18 @@ If you need external preview functionality:
 - **Requirement**: Both username and password must be set for admin dashboard to be accessible
 - **Usage**: Enables Basic Auth protection for /admin route and all admin APIs
 - **Note**: If not configured, admin dashboard returns 404 to hide its existence
+
+### SITEMAP_BASE_URL
+- **Type**: String (URL)
+- **Access**: Server-side only
+- **Default**: Uses request origin
+- **Purpose**: Base URL for generating absolute URLs in sitemap.xml
+- **Example**: `https://example.com`
+- **Use Cases**:
+  - Ensure consistent URLs in sitemap across different environments
+  - Required for correct sitemap generation in serverless environments
+  - Override when deployed behind proxies or CDNs
+- **Note**: Sitemap caching is handled by CDN/browser via `Cache-Control` headers (1 hour default)
 
 
 ## 🚀 Development vs Production

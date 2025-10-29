@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { pushAllContentTypes } from '../../services/cms-sync';
+import { pushAllStyles } from '../../../services/cms-sync';
 
 export const GET: APIRoute = async ({ request }) => {
     // Set up SSE headers
@@ -49,7 +49,7 @@ export const GET: APIRoute = async ({ request }) => {
             });
 
             // Execute the push operation
-            pushAllContentTypes(onProgress)
+            pushAllStyles(onProgress)
                 .then((result) => {
                     if (!closed) {
                         sendMessage({
@@ -63,7 +63,7 @@ export const GET: APIRoute = async ({ request }) => {
                     if (!closed) {
                         sendMessage({
                             type: 'error',
-                            message: `Failed to push content types: ${error.message}`
+                            message: `Failed to push styles: ${error.message}`
                         });
                     }
                 })

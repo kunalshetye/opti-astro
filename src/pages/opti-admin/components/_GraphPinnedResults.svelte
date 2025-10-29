@@ -83,7 +83,7 @@
   async function loadCollections() {
     loadingCollections = true;
     try {
-      const response = await fetch('/opti-admin/api/pinned-collections.json');
+      const response = await fetch('/opti-admin/api/pinned/collections.json');
       const result = await response.json();
 
       if (result.success && Array.isArray(result.data)) {
@@ -106,7 +106,7 @@
     showMessage = false;
 
     try {
-      const response = await fetch('/opti-admin/api/pinned-collections.json', {
+      const response = await fetch('/opti-admin/api/pinned/collections.json', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -139,7 +139,7 @@
     pinnedItems = [];
 
     try {
-      const response = await fetch(`/opti-admin/api/pinned-items.json?collectionId=${collection.id}`);
+      const response = await fetch(`/opti-admin/api/pinned/items.json?collectionId=${collection.id}`);
       const result = await response.json();
 
       if (result.success && Array.isArray(result.data)) {
@@ -169,7 +169,7 @@
 
     deleting = true;
     try {
-      const response = await fetch('/opti-admin/api/pinned-collections.json', {
+      const response = await fetch('/opti-admin/api/pinned/collections.json', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: collectionToDelete.id })
@@ -207,7 +207,7 @@
     showMessage = false;
 
     try {
-      const response = await fetch('/opti-admin/api/pinned-items.json', {
+      const response = await fetch('/opti-admin/api/pinned/items.json', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -250,7 +250,7 @@
     if (!confirm('Are you sure you want to delete this pinned item?')) return;
 
     try {
-      await fetch('/opti-admin/api/pinned-items.json', {
+      await fetch('/opti-admin/api/pinned/items.json', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -274,7 +274,7 @@
     searchResults = [];
 
     try {
-      const response = await fetch('/opti-admin/api/content-search.json', {
+      const response = await fetch('/opti-admin/api/cms-sync/content-search.json', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: searchQuery, limit: 10 })
@@ -432,14 +432,14 @@
                       <div class="flex items-center space-x-2">
                         <button
                           type="button"
-                          on:click={() => selectCollection(collection)}
+                          onclick={() => selectCollection(collection)}
                           class="text-blue-600 hover:text-blue-800 text-sm font-medium px-2 py-1 rounded hover:bg-blue-50"
                         >
                           Select
                         </button>
                         <button
                           type="button"
-                          on:click={() => showDeleteConfirmation(collection)}
+                          onclick={() => showDeleteConfirmation(collection)}
                           class="text-red-600 hover:text-red-800 text-sm font-medium px-2 py-1 rounded hover:bg-red-50"
                           title="Delete collection"
                         >
@@ -482,7 +482,7 @@
                           </div>
                           <button
                             type="button"
-                            on:click={() => deletePinnedItem(item)}
+                            onclick={() => deletePinnedItem(item)}
                             class="text-red-500 hover:text-red-700 text-sm font-medium px-2 py-1 rounded hover:bg-red-50"
                             title="Delete pinned item"
                           >
@@ -514,7 +514,7 @@
             <h2 class="text-xl font-semibold text-gray-900">Create Collection</h2>
             <p class="text-sm text-gray-600 mt-1">Collections group pinned results together for management</p>
           </div>
-          <form on:submit={handleCreateCollection} class="p-6 space-y-4">
+          <form onsubmit={handleCreateCollection} class="p-6 space-y-4">
             <div>
               <label for="collectionTitle" class="block text-sm font-medium text-gray-700 mb-2">
                 Collection Title
@@ -579,13 +579,13 @@
               <input
                 type="text"
                 bind:value={searchQuery}
-                on:keydown={handleSearchKeydown}
+                onkeydown={handleSearchKeydown}
                 placeholder="Search for content..."
                 class="flex-1 p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
               <button
                 type="button"
-                on:click={searchContent}
+                onclick={searchContent}
                 disabled={searching}
                 class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-200 disabled:bg-gray-400"
               >
@@ -619,7 +619,10 @@
                       </div>
                       <button
                         type="button"
-                        on:click={(e) => selectSearchResult(result, e)}
+                        onclick={(e) => selectSearchResult(result, e)}
+                        role="button"
+                        tabindex="0"
+                        onkeydown={(e) => e.key === 'Enter' && selectSearchResult(result, e)}
                         class="text-blue-600 hover:text-blue-800 text-sm font-medium"
                       >
                         Select Page
@@ -648,7 +651,7 @@
             <h2 class="text-xl font-semibold text-gray-900">Add Pinned Result</h2>
             <p class="text-sm text-gray-600 mt-1">Add content to be pinned for specific search phrases</p>
           </div>
-          <form on:submit={handleAddPinnedItem} class="p-6 space-y-4">
+          <form onsubmit={handleAddPinnedItem} class="p-6 space-y-4">
             {#if !selectedCollectionId}
               <div class="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-md">
                 <p class="text-sm">Please select a collection from the left panel first.</p>
@@ -751,8 +754,8 @@
 
 <!-- Delete Collection Confirmation Dialog -->
 {#if showDeleteDialog && collectionToDelete}
-  <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" on:click={handleDialogBackdropClick} on:keydown={(e) => e.key === 'Escape' && hideDeleteDialog()} role="dialog" aria-modal="true">
-    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+  <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" onclick={handleDialogBackdropClick} onkeydown={(e) => e.key === 'Escape' && hideDeleteDialog()}>
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white" role="dialog" aria-modal="true">
       <div class="mt-3 text-center">
         <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
           <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -769,7 +772,7 @@
         <div class="items-center px-4 py-3">
           <button
             type="button"
-            on:click={confirmDeleteCollection}
+            onclick={confirmDeleteCollection}
             disabled={deleting}
             class="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md w-24 mr-2 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 disabled:bg-gray-400"
           >
@@ -781,7 +784,7 @@
           </button>
           <button
             type="button"
-            on:click={hideDeleteDialog}
+            onclick={hideDeleteDialog}
             disabled={deleting}
             class="px-4 py-2 bg-gray-500 text-white text-base font-medium rounded-md w-24 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:bg-gray-400"
           >
@@ -793,4 +796,4 @@
   </div>
 {/if}
 
-<svelte:body on:keydown={handleEscapeKey} />
+<svelte:body onkeydown={handleEscapeKey} />
