@@ -23,11 +23,11 @@ export async function handleSitemapRequest(context: APIContext): Promise<Respons
         const domain = import.meta.env.SITEMAP_BASE_URL || url.origin;
 
         // Fetch all pages from GraphQL with pagination
-        // Don't filter by domain to include all pages regardless of their base URL
+        // Filter by domain to only include pages for this domain
         const pages = await fetchPagesForSitemap(
             getOptimizelySdk,
             sdkLocale,
-            undefined // Don't filter by domain
+            domain // Filter by domain
         );
 
         // Generate sitemap XML
