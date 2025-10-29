@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { pushAllStyles } from '../../services/cms-sync';
+import { pushAllStyles } from '../../../services/cms-sync';
 
 export const GET: APIRoute = async ({ request }) => {
     // Set up SSE headers
