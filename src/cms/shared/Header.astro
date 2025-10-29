@@ -4,7 +4,7 @@ import { Image as AstroImage } from 'astro:assets';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import type { SiteSettingsByHostnameQuery } from '../../../__generated/sdk';
 import { getClassForLogo } from './siteSettingsHelper';
-import SearchPaletteV2 from './SearchPaletteV2.astro';
+import SearchPaletteV2 from './SearchPaletteV2.svelte';
 import ThemePicker from './ThemePicker.astro';
 import HeaderDrawerMenuButton from './HeaderDrawerMenuButton.astro';
 import HeaderMobileDropdownNav from './HeaderMobileDropdownNav.astro';
@@ -123,7 +123,7 @@ const headerItems = settings?.HeaderLinks as MenuItemType[] | undefined;
 {isDrawerMode && <HeaderDrawerNavigation headerItems={headerItems} isDrawerRight={isDrawerRight} />}
 
 <!-- Search Palette Component -->
-<SearchPaletteV2 />
+<SearchPaletteV2 client:load currentLocale={lang} domain={Astro.url.origin} />
 
 <!-- Keyboard shortcut for search -->
 <script is:inline>
