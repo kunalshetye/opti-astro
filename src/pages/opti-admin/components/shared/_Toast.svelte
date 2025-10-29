@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script lang="ts" module>
 	import { writable, type Writable } from 'svelte/store';
 
 	export interface Toast {
@@ -40,18 +40,6 @@
 		allToasts = value;
 	});
 
-	function getIcon(type: Toast['type']) {
-		switch (type) {
-			case 'success':
-				return CheckCircle;
-			case 'error':
-				return XCircle;
-			case 'warning':
-				return AlertTriangle;
-			case 'info':
-				return Info;
-		}
-	}
 
 	function getColorClasses(type: Toast['type']) {
 		switch (type) {
@@ -86,7 +74,15 @@
 			transition:fly={{ y: -20, duration: 300 }}
 			class="flex items-center gap-3 p-4 rounded-lg border shadow-lg max-w-md {getColorClasses(toast.type)}"
 		>
-			<svelte:component this={getIcon(toast.type)} size={20} class={getIconColorClass(toast.type)} />
+			{#if toast.type === 'success'}
+				<CheckCircle size={20} class={getIconColorClass(toast.type)} />
+			{:else if toast.type === 'error'}
+				<XCircle size={20} class={getIconColorClass(toast.type)} />
+			{:else if toast.type === 'warning'}
+				<AlertTriangle size={20} class={getIconColorClass(toast.type)} />
+			{:else}
+				<Info size={20} class={getIconColorClass(toast.type)} />
+			{/if}
 			<p class="flex-1 text-sm font-medium">{toast.message}</p>
 			<button
 				type="button"

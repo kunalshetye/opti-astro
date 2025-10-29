@@ -52,7 +52,14 @@
 
 <!-- Sidebar Overlay (Mobile) -->
 {#if isMobileOpen}
-  <div class="sidebar-overlay active" onclick={toggleMobile}></div>
+  <div
+    class="sidebar-overlay active"
+    onclick={toggleMobile}
+    role="button"
+    tabindex="0"
+    onkeydown={(e) => e.key === 'Enter' && toggleMobile()}
+    aria-label="Close sidebar"
+  ></div>
 {/if}
 
 <!-- Sidebar -->
