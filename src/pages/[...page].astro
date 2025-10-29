@@ -104,14 +104,14 @@ if (!item?._metadata) {
 const contentByIdResponse = await getOptimizelySdk(contentPayload).contentById({
     key: item._metadata.key || '',
     ver: item._metadata.version || '',
-    loc: localeToSdkLocale(lang) as Locales,
+    loc: localeToSdkLocale(item._metadata.locale) as Locales,
 });
 
 contentPayload = {
     ctx: ctx,
     key: item._metadata.key || '',
     ver: item._metadata.version || '',
-    loc: localeToSdkLocale(lang) as Locales,
+    loc: localeToSdkLocale(item._metadata.locale) as Locales,
     preview_token: '',
     types: (contentByIdResponse?._Content?.item?._metadata?.types as string[]) || [],
 };

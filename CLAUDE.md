@@ -8,7 +8,7 @@ This is an **Astro v5 SSR project** with **Optimizely SaaS CMS integration** fea
 - **Dynamic locale system** - No hardcoded locale lists, fully CMS-driven
 - **Flexible layout system** - Responsive rows and columns with extensive styling options
 - **GraphQL integration** - Type-safe content fetching from Optimizely Graph
-- **Modern tech stack** - TailwindCSS v4, AlpineJS, TypeScript, Node.js 22.x
+- **Modern tech stack** - TailwindCSS v4, AlpineJS, Svelte5, TypeScript, Node.js 22.x
 
 ## Available Commands
 
@@ -39,7 +39,8 @@ This is an Astro v5 SSR project with Optimizely SaaS CMS integration using:
 - **Node.js 22.x** runtime environment
 - **GraphQL** for content fetching via Optimizely Graph
 - **TailwindCSS v4 + daisyUI** for styling system
-- **AlpineJS** for client-side interactivity
+- **AlpineJS** for lightweight client-side interactivity
+- **Svelte5** for complex UI components requiring extensive JavaScript interactivity
 - **Splide.js** for carousel functionality
 - **TypeScript** for type safety
 
@@ -80,11 +81,47 @@ Components are dynamically rendered through `_Component.astro` and `_Components.
 - `codegen.ts` - GraphQL code generation configuration
 - `src/graphql/getSdk.ts` - GraphQL SDK for CMS data fetching
 - `src/cms/shared/globalStylesHelper.ts` - Style mapping system
-- `src/middleware.ts` - Astro middleware
+- `src/middleware.ts` - Astro middleware (includes redirect checking)
+- `src/lib/redirect-utils.ts` - URL redirect management utilities
 - `utils/styles/` - CMS style sync utilities
 - `utils/types/` - CMS type sync utilities
 - `utils/sync-locales.mjs` - Locale synchronization
 - `__generated/` - Generated GraphQL types and schema
+
+### Admin Dashboard (`/opti-admin`)
+The project includes a comprehensive admin dashboard built with Svelte 5 and Astro:
+
+#### Features
+- **CMS Sync** - Push/pull content types and component styles
+- **Synonyms Manager** - Configure search synonym mappings for Optimizely Graph
+- **Pinned Results** - Manage best bets for targeted search queries
+- **Style Manager** - Create and edit display templates with form-based UI
+- **Redirect Management** - Manage URL redirects with middleware integration
+- **Published Pages Dashboard** - Track recently published pages and plan content migrations
+
+#### Redirect Management
+- **Location**: `/opti-admin?view=redirects`
+- **Features**:
+  - Create, edit, delete, and toggle redirects
+  - Support for 301, 302, 307, and 308 redirect types
+  - CSV bulk upload with validation
+  - Search and filter by type and status
+  - Real-time middleware integration
+- **Storage**: Client-side (localStorage) + server-side (in-memory cache)
+- **Middleware**: `checkRedirects()` in `src/middleware.ts` handles redirect logic
+- **APIs**:
+  - `GET/POST /opti-admin/api/redirects.json` - List/sync redirects to cache
+  - `POST /opti-admin/api/redirects-upload.json` - CSV file upload with persistence to `data/redirects.json`
+
+#### Published Pages Dashboard
+- **Location**: `/opti-admin?view=published-pages`
+- **Features**:
+  - View pages published in the last 10 days
+  - Filter by locale and search by title/owner/URL
+  - Track action decisions (Copy as is, Copy + changes, Ignore)
+  - Action tracking persists to localStorage
+- **Data Source**: Direct GraphQL queries to Optimizely Graph
+- **No server API required** - Uses client-side GraphQL calls with `astro:env/client`
 
 ### Environment Setup
 Requires `.env` file with Optimizely Graph credentials:
@@ -103,6 +140,18 @@ Optional environment variables:
 - GraphQL code generation runs before dev/build to ensure types are current
 - Locale synchronization integrated into build process
 
+### Client-Side Interactivity Guidelines
+**When to use AlpineJS:**
+- Simple interactions (dropdowns, toggles, accordions)
+- Lightweight DOM manipulations
+- Small components with minimal state management
+
+**When to use Svelte5:**
+- Complex UI components with extensive interactivity
+- Components requiring significant state management
+- Advanced user interactions (drag-and-drop, complex forms, data visualizations)
+- When component logic becomes too complex for AlpineJS
+
 ## Documentation
 
 Comprehensive documentation is available in the `docs/` folder:
@@ -118,3 +167,4 @@ Comprehensive documentation is available in the `docs/` folder:
 1. **Setup**: Configure environment variables (see docs/ENVIRONMENT-VARIABLES.md)
 2. **Locales**: Understand the internationalization system (see docs/LOCALE-CONFIG.md)
 3. **Layouts**: Master the CMS layout tools (see docs/ROW-COLUMN-LAYOUT-GUIDE.md)
+4. **Interactivity**: Choose between AlpineJS and Svelte5 based on complexity (see Client-Side Interactivity Guidelines)

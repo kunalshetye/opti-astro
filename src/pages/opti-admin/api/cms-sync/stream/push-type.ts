@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { pushContentType } from '../../services/cms-sync';
+import { pushContentType } from '../../../services/cms-sync';
 
 export const GET: APIRoute = async ({ request, url }) => {
     const typeName = url.searchParams.get('type');

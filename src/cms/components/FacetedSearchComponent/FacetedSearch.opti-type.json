@@ -1,0 +1,283 @@
+{
+	"key": "FacetedSearch",
+	"displayName": "Faceted Search",
+	"description": "Interactive faceted search component with filters, sorting, and URL parameter support for searching ArticlePage and other content types.",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"sectionEnabled",
+		"elementEnabled"
+	],
+	"properties": {
+		"Title": {
+			"type": "string",
+			"displayName": "Title",
+			"description": "Heading text displayed above the search interface",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 0,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		},
+		"IntroText": {
+			"type": "string",
+			"format": "html",
+			"displayName": "Introduction Text",
+			"description": "Optional introduction text displayed below the title",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 10,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		},
+		"ItemsPerPage": {
+			"type": "integer",
+			"displayName": "Items Per Page",
+			"description": "Number of search results to display per page (applies to both list and grid views)",
+			"localized": false,
+			"required": false,
+			"group": "Layout",
+			"sortOrder": 100,
+			"editorSettings": {},
+			"minimum": 1,
+			"maximum": 100
+		},
+		"DefaultViewMode": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Default View Mode",
+			"description": "Set the default view mode (users can toggle and share their preference via URL)",
+			"localized": false,
+			"required": false,
+			"group": "Layout",
+			"sortOrder": 105,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "List View",
+						"value": "list"
+					},
+					{
+						"displayName": "Grid View",
+						"value": "grid"
+					}
+				]
+			}
+		},
+		"GridColumns": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Grid View Columns",
+			"description": "Number of columns to display in grid view layout",
+			"localized": false,
+			"required": false,
+			"group": "Layout",
+			"sortOrder": 110,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "2 Columns (Spacious)",
+						"value": "2"
+					},
+					{
+						"displayName": "3 Columns (Balanced)",
+						"value": "3"
+					},
+					{
+						"displayName": "4 Columns (Compact)",
+						"value": "4"
+					}
+				]
+			}
+		},
+		"DefaultSortOrder": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Default Sort Order",
+			"description": "Default sorting option for search results",
+			"localized": false,
+			"required": false,
+			"group": "Configuration",
+			"sortOrder": 200,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "Relevance",
+						"value": "relevance"
+					},
+					{
+						"displayName": "Semantic (AI-powered)",
+						"value": "semantic"
+					},
+					{
+						"displayName": "Newest First",
+						"value": "date_desc"
+					},
+					{
+						"displayName": "Oldest First",
+						"value": "date_asc"
+					},
+					{
+						"displayName": "Title A-Z",
+						"value": "title_asc"
+					},
+					{
+						"displayName": "Title Z-A",
+						"value": "title_desc"
+					}
+				]
+			}
+		},
+		"ShowSearchInput": {
+			"type": "boolean",
+			"displayName": "Show Search Input",
+			"description": "Display search input field (default: true)",
+			"localized": false,
+			"required": false,
+			"group": "Configuration",
+			"sortOrder": 210,
+			"editorSettings": {}
+		},
+		"DefaultFiltersState": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Default Filters State",
+			"description": "Set the default filters panel visibility (users can toggle)",
+			"localized": false,
+			"required": false,
+			"group": "Filters",
+			"sortOrder": 290,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "Show Filters",
+						"value": "show"
+					},
+					{
+						"displayName": "Hide Filters",
+						"value": "hide"
+					}
+				]
+			}
+		},
+		"ShowAuthorFacet": {
+			"type": "boolean",
+			"displayName": "Show Author Filter",
+			"description": "Display author facet filter (default: true)",
+			"localized": false,
+			"required": false,
+			"group": "Filters",
+			"sortOrder": 300,
+			"editorSettings": {}
+		},
+		"ShowTypeFacet": {
+			"type": "boolean",
+			"displayName": "Show Content Type Filter",
+			"description": "Display content type facet filter (default: true)",
+			"localized": false,
+			"required": false,
+			"group": "Filters",
+			"sortOrder": 310,
+			"editorSettings": {}
+		},
+		"UseSemanticSearch": {
+			"type": "boolean",
+			"displayName": "Enable Semantic Search",
+			"description": "Use AI-powered semantic search for better relevance (requires search term)",
+			"localized": false,
+			"required": false,
+			"group": "Advanced",
+			"sortOrder": 400,
+			"editorSettings": {}
+		},
+		"SemanticWeight": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Semantic Search Weight",
+			"description": "Balance between keyword and semantic search: 0.0 = keyword only, 1.0 = semantic only, 0.3 recommended for balanced results",
+			"localized": false,
+			"required": false,
+			"group": "Advanced",
+			"sortOrder": 410,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "0.0 - Keyword Only",
+						"value": "0.0"
+					},
+					{
+						"displayName": "0.1 - Mostly Keyword",
+						"value": "0.1"
+					},
+					{
+						"displayName": "0.2",
+						"value": "0.2"
+					},
+					{
+						"displayName": "0.3 - Balanced (Recommended)",
+						"value": "0.3"
+					},
+					{
+						"displayName": "0.4",
+						"value": "0.4"
+					},
+					{
+						"displayName": "0.5 - Half & Half",
+						"value": "0.5"
+					},
+					{
+						"displayName": "0.6",
+						"value": "0.6"
+					},
+					{
+						"displayName": "0.7",
+						"value": "0.7"
+					},
+					{
+						"displayName": "0.8 - Mostly Semantic",
+						"value": "0.8"
+					},
+					{
+						"displayName": "0.9",
+						"value": "0.9"
+					},
+					{
+						"displayName": "1.0 - Semantic Only",
+						"value": "1.0"
+					}
+				]
+			}
+		},
+		"SearchPlaceholder": {
+			"type": "string",
+			"displayName": "Search Placeholder Text",
+			"description": "Placeholder text for search input field",
+			"localized": true,
+			"required": false,
+			"group": "Labels",
+			"sortOrder": 500,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		},
+		"NoResultsMessage": {
+			"type": "string",
+			"displayName": "No Results Message",
+			"description": "Message displayed when search returns no results",
+			"localized": true,
+			"required": false,
+			"group": "Labels",
+			"sortOrder": 510,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		}
+	}
+}

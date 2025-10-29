@@ -1,7 +1,10 @@
 <script lang="ts">
-  let { title, color = 'blue' }: {
+  import type { Snippet } from 'svelte';
+
+  let { title, color = 'blue', children }: {
     title: string;
     color?: 'blue' | 'yellow' | 'green';
+    children: Snippet;
   } = $props();
 
   let isOpen = $state(false);
@@ -49,6 +52,6 @@
     </div>
   </summary>
   <div class="px-4 pb-4 text-sm {colors.textColor}">
-    <slot />
+    {@render children()}
   </div>
 </details>

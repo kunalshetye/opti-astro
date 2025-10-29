@@ -1,0 +1,18 @@
+fragment FacetedSearch on FacetedSearch {
+    Title
+    IntroText {
+        html
+    }
+    ItemsPerPage
+    DefaultViewMode
+    GridColumns
+    DefaultSortOrder
+    ShowSearchInput
+    DefaultFiltersState
+    ShowAuthorFacet
+    ShowTypeFacet
+    UseSemanticSearch
+    SemanticWeight
+    SearchPlaceholder
+    NoResultsMessage
+}

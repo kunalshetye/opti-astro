@@ -1,0 +1,53 @@
+query getAllPagesForSitemap(
+    $loc: [Locales]
+    $site: String
+    $status: String! = "Published"
+    $limit: Int = 100
+    $cursor: String
+) {
+    _Page(
+        locale: $loc
+        orderBy: { _metadata: { published: DESC } }
+        where: {
+            _metadata: {
+                status: { eq: $status }
+                url: { base: { eq: $site } }
+            }
+        }
+        limit: $limit
+        cursor: $cursor
+    ) {
+        cursor
+        items {
+            _metadata {
+                types
+                url {
+                    default
+                }
+                published
+                lastModified
+            }
+            ... on ArticlePage {
+                SeoSettings {
+                    Indexing
+                }
+            }
+            ... on LandingPage {
+                SeoSettings {
+                    Indexing
+                }
+            }
+            ... on BlankExperience {
+                SeoSettings: BlankExperienceSeoSettings {
+                    Indexing
+                }
+            }
+            ... on MockupPage {
+                # MockupPage doesn't have SeoSettings, but we'll handle it
+                _metadata {
+                    displayName
+                }
+            }
+        }
+    }
+}

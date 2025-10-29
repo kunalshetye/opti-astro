@@ -1,15 +1,15 @@
 // /src/pages/opti-admin/api/content-search.json.ts
 import type { APIRoute } from 'astro';
 import {
-  getOptimizelyGraphConfig,
-  CONTENT_SEARCH_QUERY,
-  getRecentContentQuery,
-  createSuccessResponse,
-  createErrorResponse,
-  handleApiError,
   clampNumber,
+  CONTENT_SEARCH_QUERY,
+  createErrorResponse,
+  createSuccessResponse,
+  getOptimizelyGraphConfig,
+  getRecentContentQuery,
+  handleApiError,
   searchContent
-} from '../../../../utils/optimizely-graph-utils';
+} from '../../../../../utils/optimizely-graph-utils';
 
 // POST - Search for content and return with GUIDs
 export const POST: APIRoute = async ({ request }) => {

@@ -1,0 +1,15 @@
+query getAvailableLocales {
+    _Content(
+        locale: [ALL]
+        limit: 100
+    ) {
+        facets {
+            _metadata {
+                locale(limit: 50) {
+                    name
+                    count
+                }
+            }
+        }
+    }
+}

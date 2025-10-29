@@ -1,0 +1,17 @@
+query getContentLanguageAlternatives($key: [String]!) {
+    _Content(
+        ids: $key
+        locale: [ALL]
+    ) {
+        items {
+            _metadata {
+                key
+                locale
+                url {
+                    default
+                    hierarchical
+                }
+            }
+        }
+    }
+}

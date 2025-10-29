@@ -2,10 +2,13 @@
 import { Image as AstroImage } from 'astro:assets';
 
 import { getRelativeLocaleUrl } from 'astro:i18n';
-import type { SiteSettingsByHostnameQuery } from '../../../__generated/sdk';
+import type { SiteSettingsByHostnameQuery, Locales } from '../../../__generated/sdk';
+import type { ContentPayload } from '../../graphql/shared/ContentPayload';
+import { localeToSdkLocale } from '../../lib/locale-helpers';
 import { getClassForLogo } from './siteSettingsHelper';
-import SearchPalette from './SearchPalette.astro';
+import SearchPaletteV2 from './SearchPaletteV2.svelte';
 import ThemePicker from './ThemePicker.astro';
+import LocaleSelector from './LocaleSelector.astro';
 import HeaderDrawerMenuButton from './HeaderDrawerMenuButton.astro';
 import HeaderMobileDropdownNav from './HeaderMobileDropdownNav.astro';
 import HeaderDesktopHorizontalNav from './HeaderDesktopHorizontalNav.astro';
@@ -16,9 +19,20 @@ const lang = Astro.currentLocale;
 
 interface Props {
     siteSettings: SiteSettingsByHostnameQuery;
+    contentPayload?: ContentPayload;
 }
 
-const { siteSettings } = Astro.props;
+const { siteSettings, contentPayload: providedContentPayload } = Astro.props;
+
+// Use provided contentPayload if available, otherwise create minimal one
+const contentPayload: ContentPayload = providedContentPayload || {
+    ctx: 'view',
+    key: '',
+    ver: '',
+    loc: localeToSdkLocale(lang || 'en') as Locales,
+    preview_token: '',
+    types: [],
+};
 const settings = siteSettings?.SiteSettings?.item;
 
 const topNavStyle = settings?.TopNavStyle || 'standard';
@@ -110,6 +124,8 @@ const headerItems = settings?.HeaderLinks as MenuItemType[] | undefined;
                     ></path>
                 </svg>
             </button>
+            <!-- Locale selector -->
+            <LocaleSelector contentPayload={contentPayload} />
             <!-- Theme switcher dropdown -->
             <ThemePicker />
             <a class="btn" href="https://home.optimizely.com/">Log In</a>
@@ -123,7 +139,7 @@ const headerItems = settings?.HeaderLinks as MenuItemType[] | undefined;
 {isDrawerMode && <HeaderDrawerNavigation headerItems={headerItems} isDrawerRight={isDrawerRight} />}
 
 <!-- Search Palette Component -->
-<SearchPalette />
+<SearchPaletteV2 client:load currentLocale={lang} domain={Astro.url.origin} />
 
 <!-- Keyboard shortcut for search -->
 <script is:inline>

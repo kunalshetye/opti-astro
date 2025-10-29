@@ -22,17 +22,46 @@ export interface I18nConfig {
  * This is the fallback if no environment variable override is provided
  */
 export const defaultI18nConfig: I18nConfig = {
-    locales: ['en', 'nl', 'nl-BE', 'sv', 'no', 'fr', 'fr-CA', 'es', 'it', 'ar', 'zh', 'zh-Hans-HK', 'de', 'de-AT'],
+    locales: [
+        'en',
+        'en-gb',
+        'en-nz',
+        'en-za',
+        'nl',
+        'nl-be',
+        'sv',
+        'no',
+        'fr',
+        'fr-ca',
+        'es',
+        'it',
+        'ar',
+        'zh',
+        'zh-hans-hk',
+        'de',
+        'de-at',
+        'da',
+        'pt-br',
+        'fi',
+        'hi',
+        'sw',
+    ],
     defaultLocale: 'en',
     routing: {
         prefixDefaultLocale: false,
         fallbackType: 'rewrite',
     },
     fallback: {
-        'nl-BE': 'nl',
-        'fr-CA': 'fr',
-        'zh-Hans-HK': 'zh',
-        'de-AT': 'de',
+        // Regional variants fall back to base language
+        'nl-be': 'nl',
+        'fr-ca': 'fr',
+        'zh-hans-hk': 'zh',
+        'de-at': 'de',
+        'en-gb': 'en',
+        'en-nz': 'en',
+        'en-za': 'en',
+        'pt-br': 'en', // Could add 'pt' as intermediate if you have Portuguese
+        // All languages fall back to English
         'nl': 'en',
         'sv': 'en',
         'no': 'en',
@@ -42,6 +71,10 @@ export const defaultI18nConfig: I18nConfig = {
         'ar': 'en',
         'zh': 'en',
         'de': 'en',
+        'da': 'en',
+        'fi': 'en',
+        'hi': 'en',
+        'sw': 'en',
     },
 };
 
