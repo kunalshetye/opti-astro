@@ -110,6 +110,9 @@ export function validateStyleDefinition(style: Partial<StyleDefinition>): { vali
                 errors.push(`Setting "${settingKey}" must have at least one choice`);
             } else {
                 Object.entries(setting.choices).forEach(([choiceKey, choice]) => {
+                    if (!/^[A-Za-z][_0-9A-Za-z]+$/.test(choiceKey)) {
+                        errors.push('Choice key must start with a letter and contain only alphanumerics and underscores');
+                    }
                     if (!choice.displayName) {
                         errors.push(`Choice "${choiceKey}" in setting "${settingKey}" is missing displayName`);
                     }
