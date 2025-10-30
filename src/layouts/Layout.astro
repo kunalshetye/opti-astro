@@ -16,6 +16,7 @@ import { isDraftContent, isEditContext } from '../cms/shared/utils.ts';
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
 import '../styles/global.css';
+import 'aos/dist/aos.css';
 
 interface Props {
     title: string;
@@ -110,6 +111,17 @@ const contentKey = contentPayload.key || '';
         {ASTRO_TRANSITIONS_ENABLED && <ClientRouter />}
     </head>
     <body data-content-key={contentKey}>
+        <script is:inline src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        <script is:inline>
+            document.addEventListener('astro:page-load', () => {
+                AOS.init({
+                    duration: 800,
+                    easing: 'ease-out-cubic',
+                    once: false,
+                    offset: 50,
+                });
+            });
+        </script>
         {
             EXTERNAL_PREVIEW_ENABLED && extPreviewEnabled && isDraft 
                 && (ctx === 'edit' || ctx === 'ext_preview') && (

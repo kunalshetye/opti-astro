@@ -4,6 +4,7 @@ import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import Elements from '../../components/_Components.astro';
 import { getColumnStyles } from './ColumnHelper';
 import { getGlobalStyles } from '../../shared/globalStylesHelper';
+import { getAnimationStyles } from '../../shared/animationStylesHelper';
 export interface Props {
     column: CompositionStructureNode;
     contentPayload: ContentPayload;
@@ -12,11 +13,15 @@ const { column, contentPayload } = Astro.props as Props;
 const styles = getColumnStyles(column);
 const globalStyles = getGlobalStyles(column);
 const allStyles = [...styles, ...globalStyles]
+
+const columnAnimationStyles = getAnimationStyles(column);
+const aosAnimationClass = columnAnimationStyles.aosAnimationClass;
 ---
 
 <div
     class:list={allStyles}
     class="vb:col flex w-full flex-col p-2 sm:p-3 md:flex-1 md:p-4"
+    {...(aosAnimationClass ? { 'data-aos': aosAnimationClass } : {})}
 >
     {
         column.nodes?.map((item: any) => (
