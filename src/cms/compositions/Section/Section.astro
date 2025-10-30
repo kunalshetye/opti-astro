@@ -5,6 +5,7 @@ import Row from '../Row/Row.astro';
 import OptiForm from '../../forms/base/OptiFormsContainerDataComponent/OptiForm.astro';
 import { getSectionStyles } from './SectionHelper';
 import { getGlobalStyles } from '../../shared/globalStylesHelper';
+import { getAnimationStyles } from '../../shared/animationStylesHelper';
 export interface Props {
     grid: any;
     contentPayload: ContentPayload;
@@ -17,12 +18,17 @@ const isFormContainer = grid.type === 'OptiFormsContainerData';
 const sectionStyles = getSectionStyles(grid);
 const globalStyles = getGlobalStyles(grid);
 const styles = [...sectionStyles, ...globalStyles];
+
+const sectionAnimationStyles = getAnimationStyles(grid);
+const aosAnimationClass = sectionAnimationStyles.aosAnimationClass;
 ---
 
 <div
     class:list={styles}
     class="vb:grid relative flex w-full flex-col justify-start p-2 sm:p-3 md:p-4"
     data-epi-block-id={grid.key}
+    {...(aosAnimationClass ? { 'data-aos': aosAnimationClass } : {})}
+
 >
     {
         isSection && !isFormContainer &&
