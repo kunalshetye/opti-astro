@@ -40,6 +40,6 @@ export function getAnimationStyles(row: CompositionStructureNode) {
     const settingsDict = getDictionaryFromDisplaySettings(displaySettings);
 
     return {
-        aosAnimationClass: aosAnimationClassMap[settingsDict['aosAnimation']]
+        aosAnimationClass: aosAnimationClassMap[settingsDict['aosAnimation']] || ''
     };
 }
