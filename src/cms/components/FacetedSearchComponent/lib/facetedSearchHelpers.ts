@@ -105,12 +105,13 @@ export function mergeAndSortResults(
 	}
 
 	// Pinned Results:
-	//// for any results with score 10000+, push to top (for pinned results/best bets)
+	//// for any results with score 20000+, push to top (for pinned results/best bets)
 	//// filter out any pinned results for different domain
 	const pinned = items
-		.filter(item => item._score >= 10000 && item._metadata?.url?.base === domain)
+		.filter(item => item._score >= 20000 && item._metadata?.url?.base === domain)
 		.sort((a, b) => b._score - a._score);
-	const rest = items.filter(item => item._score < 10000);
+
+	const rest = items.filter(item => item._score < 20000);
 	items = [...pinned, ...rest];
 
 	return items;

@@ -22,7 +22,7 @@
     const imageAlt = getImageAlt(result);
     const placeholderGradient = getPlaceholderGradient(result);
 
-    const isPinnedResult = result._score >= 10000;
+    const isPinnedResult = result._score >= 20000;
 
     function handleClick(event: Event) {
         if (onClick) {
