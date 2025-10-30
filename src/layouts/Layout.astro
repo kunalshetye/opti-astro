@@ -111,7 +111,7 @@ const contentKey = contentPayload.key || '';
         {ASTRO_TRANSITIONS_ENABLED && <ClientRouter />}
     </head>
     <body data-content-key={contentKey}>
-        <script is:inline src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        <script is:inline src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
         <script is:inline>
             document.addEventListener('astro:page-load', () => {
                 AOS.init({
