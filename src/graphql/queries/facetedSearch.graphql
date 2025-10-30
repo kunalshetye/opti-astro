@@ -33,6 +33,7 @@ query facetedSearch(
     ) {
         total
         items {
+            _score
             _metadata {
                 key
                 displayName
@@ -102,6 +103,7 @@ query facetedSearch(
     ) {
         total
         items {
+            _score
             _metadata {
                 key
                 displayName

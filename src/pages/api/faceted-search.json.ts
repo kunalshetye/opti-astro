@@ -67,7 +67,7 @@ export const GET: APIRoute = async ({ url }) => {
 		const experienceFacets = searchResults._Experience?.facets;
 
 		// Merge and sort ALL results using shared helper
-		const allMergedItems = mergeAndSortResults(articleItems, experienceItems, sortOrder);
+		const allMergedItems = mergeAndSortResults(articleItems, experienceItems, sortOrder, domain);
 
 		// Apply pagination to merged results
 		const items = allMergedItems.slice(offset, offset + limit);
