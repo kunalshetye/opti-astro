@@ -39,6 +39,7 @@
         "@tailwindcss/vite": "^4.0.12",
         "@types/alpinejs": "^3.13.11",
         "alpinejs": "^3.14.8",
+        "aos": "^2.3.4",
         "astro": "5.14.7",
         "astro-auto-adapter": "^2.3.0",
         "astro-embed": "^0.9.0",
