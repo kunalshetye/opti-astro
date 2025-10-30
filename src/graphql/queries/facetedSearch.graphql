@@ -48,17 +48,7 @@ query facetedSearch(
             SubHeading
             Author
             PromoImage {
-                url {
-                    default
-                }
-                item {
-                    ... on Image {
-                        AltText
-                        _metadata {
-                            displayName
-                        }
-                    }
-                }
+                ...ContentUrl
             }
             Body {
                 html
@@ -130,17 +120,7 @@ query facetedSearch(
                     MetaTitle
                     MetaDescription
                     SharingImage {
-                        url {
-                            default
-                        }
-                        item {
-                            ... on Image {
-                                AltText
-                                _metadata {
-                                    displayName
-                                }
-                            }
-                        }
+                        ...ContentUrl
                     }
                 }
             }
