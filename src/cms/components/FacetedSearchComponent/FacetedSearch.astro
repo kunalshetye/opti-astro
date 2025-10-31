@@ -105,7 +105,7 @@ const experienceTotal = searchResults._Experience?.total || 0;
 const experienceFacets = searchResults._Experience?.facets;
 
 // Merge and sort ALL results using shared helper
-const allMergedItems = mergeAndSortResults(articleItems, experienceItems, initialSort);
+const allMergedItems = mergeAndSortResults(articleItems, experienceItems, initialSort, Astro.url.origin);
 
 // Apply pagination to merged results
 const items = allMergedItems.slice(initialOffset, initialOffset + config.resultsPerPage);
@@ -120,7 +120,7 @@ const initialFacets = mergeFacets(articleFacets, experienceFacets);
 const componentClass = 'component-facetedsearch';
 ---
 
-<div data-epi-block-id={isCmsEdit && key || undefined} class={componentClass}>
+<div data-epi-block-id={isCmsEdit && key || undefined} class:list={[componentClass, 'w-full']}>
 	<div class="w-full" class:list={[containerWrapperClasses]}>
 		{data.Title && (
 			<div class="mb-6">
