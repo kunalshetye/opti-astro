@@ -25,13 +25,15 @@ query facetedSearch(
                 { _metadata: { status: { eq: "Published" } } }
             ]
             # Full-text search filter (optional - null value is ignored)
-            _fulltext: { match: $searchTerm, fuzzy: true }
+            _fulltext: { match: $searchTerm, fuzzy: true, synonyms: ONE }
             # Author filter (optional - null value is ignored)
             Author: { in: $authorFilters }
         }
+        usePinned: { phrase: $searchTerm }
     ) {
         total
         items {
+            _score
             _metadata {
                 key
                 displayName
@@ -96,11 +98,13 @@ query facetedSearch(
                 { _metadata: { status: { eq: "Published" } } }
             ]
             # Full-text search filter (optional - null value is ignored)
-            _fulltext: { match: $searchTerm, fuzzy: true }
+            _fulltext: { match: $searchTerm, fuzzy: true, synonyms: ONE }
         }
+        usePinned: { phrase: $searchTerm }
     ) {
         total
         items {
+            _score
             _metadata {
                 key
                 displayName
