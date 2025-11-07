@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+    import WipBadge from './shared/_WipBadge.svelte';
 
 	// Props
 	interface Props {
@@ -412,6 +413,7 @@
 </script>
 
 <div class="space-y-8">
+  <WipBadge size="large" message="This feature is actively being developed. Results may vary." />
 	<!-- INFORMATION Section -->
 	<section>
 		<h2 class="text-2xl font-semibold mb-4 flex items-center gap-2">
