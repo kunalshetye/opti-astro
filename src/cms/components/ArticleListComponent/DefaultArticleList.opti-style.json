@@ -84,7 +84,7 @@
 			"sortOrder": 30,
 			"choices": {
 				"left": {
-					"displayName": "Left (Default)",
+					"displayName": "Start (Default)",
 					"sortOrder": 10
 				},
 				"center": {
@@ -92,7 +92,7 @@
 					"sortOrder": 20
 				},
 				"right": {
-					"displayName": "Right",
+					"displayName": "End",
 					"sortOrder": 30
 				}
 			}
