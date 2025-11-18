@@ -255,6 +255,121 @@
                     "sortOrder": 110
                 }
             }
+        },
+        "aosAnimation": {
+            "displayName": "Column Animation",
+            "editor": "",
+            "sortOrder": 80,
+            "choices": {
+                "none": {
+                    "displayName": "None (Default)",
+                    "sortOrder": 10
+                },
+                "fade_up": {
+                    "displayName": "Fade Up",
+                    "sortOrder": 20
+                },
+                "fade_down": {
+                    "displayName": "Fade Down",
+                    "sortOrder": 30
+                },
+                "fade_left": {
+                    "displayName": "Fade Left",
+                    "sortOrder": 40
+                },
+                "fade_right": {
+                    "displayName": "Fade Right",
+                    "sortOrder": 50
+                },
+                "fade_up_right": {
+                    "displayName": "Fade Up Right",
+                    "sortOrder": 60
+                },
+                "fade_up_left": {
+                    "displayName": "Fade Up Left",
+                    "sortOrder": 70
+                },
+                "fade_down_right": {
+                    "displayName": "Fade Down Right",
+                    "sortOrder": 80
+                },
+                "fade_down_left": {
+                    "displayName": "Fade Down Left",
+                    "sortOrder": 90
+                },
+                "flip_left": {
+                    "displayName": "Flip Left",
+                    "sortOrder": 100
+                },
+                "flip_right": {
+                    "displayName": "Flip Right",
+                    "sortOrder": 110
+                },
+                "flip_up": {
+                    "displayName": "Flip Up",
+                    "sortOrder": 120
+                },
+                "flip_down": {
+                    "displayName": "Flip Down",
+                    "sortOrder": 130
+                },
+                "slide_left": {
+                    "displayName": "Slide Left",
+                    "sortOrder": 140
+                },
+                "slide_right": {
+                    "displayName": "Slide Right",
+                    "sortOrder": 150
+                },
+                "slide_up": {
+                    "displayName": "Slide Up",
+                    "sortOrder": 160
+                },
+                "slide_down": {
+                    "displayName": "Slide Down",
+                    "sortOrder": 170
+                },
+                "zoom_in": {
+                    "displayName": "Zoom In",
+                    "sortOrder": 180
+                },
+                "zoom_in_up": {
+                    "displayName": "Zoom In Up",
+                    "sortOrder": 190
+                },
+                "zoom_in_down": {
+                    "displayName": "Zoom In Down",
+                    "sortOrder": 200
+                },
+                "zoom_in_left": {
+                    "displayName": "Zoom In Left",
+                    "sortOrder": 210
+                },
+                "zoom_in_right": {
+                    "displayName": "Zoom In Right",
+                    "sortOrder": 220
+                },
+                "zoom_out": {
+                    "displayName": "Zoom Out",
+                    "sortOrder": 230
+                },
+                "zoom_out_up": {
+                    "displayName": "Zoom Out Up",
+                    "sortOrder": 240
+                },
+                "zoom_out_down": {
+                    "displayName": "Zoom Out Down",
+                    "sortOrder": 250
+                },
+                "zoom_out_left": {
+                    "displayName": "Zoom Out Left",
+                    "sortOrder": 260
+                },
+                "zoom_out_right": {
+                    "displayName": "Zoom Out Right",
+                    "sortOrder": 270
+                }
+            }
         }
     }
 }
