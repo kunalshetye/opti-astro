@@ -461,7 +461,7 @@
 						Run Graph Full Sync
 					</a>
 					<a
-						href="{cmsUrl}/ui/ContentGraph/GraphiQL"
+						href="{cmsUrl}/ui/Optimizely.Graph.Cms/EditGraphiQL"
 						target="_blank"
 						rel="noopener noreferrer"
 						class="inline-flex items-center px-4 py-2 border border-purple-300 rounded-md shadow-sm text-sm font-medium text-purple-700 bg-purple-50 hover:bg-purple-100"
