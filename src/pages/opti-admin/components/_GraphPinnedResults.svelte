@@ -371,10 +371,10 @@
     </NotesPanel>
 
     <NotesPanel title="Example Usage in GraphQL" color="green">
-      <p class="mb-2">To use pinned results in your GraphQL queries, use the usePinned parameter:</p>
+      <p class="mb-2">To use pinned results in your GraphQL queries, use the pinned parameter:</p>
       <pre class="bg-green-100 p-3 rounded text-xs overflow-x-auto"><code>{`  Content(
     where: { _fulltext: { match: "water" } }
-    usePinned: {
+    pinned: {
       phrase: "water",
       collectionId: "your-collection-id"
     }
