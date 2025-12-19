@@ -1,0 +1,15 @@
+fragment ImageResponsive on ImageResponsive {
+    AltText
+    Image {
+        ...ContentUrl
+        ...ContentReferenceItem
+    }
+    ImageTablet {
+        ...ContentUrl
+        ...ContentReferenceItem
+    }
+    ImageMobile {
+        ...ContentUrl
+        ...ContentReferenceItem
+    }
+}
