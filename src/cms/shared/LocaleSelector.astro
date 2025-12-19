@@ -12,6 +12,8 @@ interface Props {
 
 const { contentPayload } = Astro.props;
 
+const currentPageKey = contentPayload.key;
+
 const currentLocale = Astro.currentLocale || 'en';
 const i18nConfig = getI18nConfig();
 
@@ -71,12 +73,12 @@ if (cmsLocales && cmsLocales.length > 0) {
 // This gets the actual URLs for each locale variant (respecting localized slugs)
 const languageAlternativesMap = new Map<string, string>();
 
-if (contentPayload.key) {
+if (currentPageKey) {
     try {
         const languageAlternatives = await getOptimizelySdk(contentPayload).getContentLanguageAlternatives({
-            key: [contentPayload.key]
+            key: [currentPageKey]
         });
-
+        
         // if (import.meta.env.DEV) {
         //     console.log('[LocaleSelector] Language alternatives response:', languageAlternatives);
         // }

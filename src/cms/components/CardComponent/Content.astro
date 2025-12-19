@@ -9,6 +9,8 @@ import LinkButton from '../ButtonComponent/LinkButton.astro';
 import { getButtonStyles } from '../ButtonComponent/ButtonStyling';
 import { getCardTextAlignmentStyle, getCardHeaderStyles } from './CardStyling';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
+import { getLink } from '../../shared/utils.ts';
+import type { ButtonLinkData } from '../../shared/utils.ts';
 
 export interface Props {
     data: CardFragment;
@@ -21,6 +23,9 @@ export interface Props {
     isFullSplit?: boolean;
     globalStyles?: string[];
 }
+
+const currentDomain = Astro.url.origin;
+
 const { data, displaySettings, DisplayAs, widthClass, verticalAlignClass, isFullSplit, globalStyles } = Astro.props as Props;
 const cardButtonStyles = getButtonStyles(displaySettings, false); // false: button type defined here
 const cardTextAlignmentStyle = getCardTextAlignmentStyle(displaySettings);
@@ -141,10 +146,14 @@ const contentClasses = isFullSplit
                 {data.Links && data.Links.length > 0 && (
                     <div class={cssClassesForCallToAction}>
                         {
-                            data.Links.map((link, i) => {
+                            data.Links?.map((link, i) => {                              
+                                // console.log('Rendering card link:', link);  
+                                const buttonLink = getLink(link as ButtonLinkData, currentDomain);
+                                console.log('Rendering card Button Link:', buttonLink);
+                                const newWindow = link?.target === '_blank';
                                 const buttonType = ['', getButtonType(i)];
                                 return (
-                                    <LinkButton cssClasses={[buttonType, cardButtonStyles]} link={link?.url?.default}>{link?.text}</LinkButton>
+                                    <LinkButton cssClasses={[buttonType, cardButtonStyles]} link={buttonLink} newWindow={newWindow}>{link?.text}</LinkButton>
                                 );
                             })
                         }
@@ -171,10 +180,14 @@ const contentClasses = isFullSplit
             {data.Links && data.Links.length > 0 && (
                 <div class={cssClassesForCallToAction}>
                     {
-                        data.Links.map((link, i) => {
+                        data.Links.map((link, i) => {            
+                            // console.log('Rendering card link:', link);  
+                            const buttonLink = getLink(link as ButtonLinkData, currentDomain);
+                            console.log('Rendering card Button Link:', buttonLink);
+                            const newWindow = link?.target === '_blank';
                             const buttonType = ['', getButtonType(i)];
                             return (
-                                <LinkButton cssClasses={[buttonType, cardButtonStyles]} link={link?.url?.default}>{link?.text}</LinkButton>
+                                <LinkButton cssClasses={[buttonType, cardButtonStyles]} link={buttonLink} newWindow={newWindow}>{link?.text}</LinkButton>
                             );
                         })
                     }

@@ -78,10 +78,13 @@ const canonicalUrl = Astro.url.origin + hierarchicalUrl;
 const graphType = graphtype !== '-' ? graphtype : 'website';
 const contentKey = contentPayload.key || '';
 
+const rtlLangs = ['ar', 'he', 'fa', 'ur'];
+const currentLang = contentPayload.loc || 'en';
+const isRtl = rtlLangs.includes(currentLang.split('-')[0]);
 ---
 
 <!doctype html>
-<html data-theme="light" lang="en">
+<html data-theme="light" lang={currentLang} {...(isRtl ? { dir: "rtl" } : {})}>
     <head>
         <meta charset="UTF-8" />
         {!isCmsEdit && optiWebProjectId && (

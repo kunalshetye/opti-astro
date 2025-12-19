@@ -1,13 +1,13 @@
 ---
 export interface Props {
     link?: string | null;
+    newWindow?: boolean;
     cssClasses?: string | string[] | {};
     tooltip?: string | null;
 }
-const {cssClasses, link="/", tooltip} = Astro.props as Props;
-
+const {cssClasses, link="/", tooltip, newWindow=false} = Astro.props as Props;
 const btnStyles = cssClasses;
 ---
-<a class="btn my-1" class:list={btnStyles} href={link} title={tooltip}>
+<a class="btn my-1" class:list={btnStyles} href={link} title={tooltip} target={newWindow ? "_blank" : undefined} rel={newWindow ? "noopener noreferrer" : undefined}>
     <slot />
 </a>
