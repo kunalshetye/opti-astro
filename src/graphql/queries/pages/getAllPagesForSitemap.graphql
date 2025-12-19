@@ -12,6 +12,7 @@ query getAllPagesForSitemap(
             _metadata: {
                 status: { eq: $status }
                 url: { base: { eq: $site } }
+                types: { notEq: "FolderPage" }
             }
         }
         limit: $limit
