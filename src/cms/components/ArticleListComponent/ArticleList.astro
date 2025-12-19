@@ -37,8 +37,8 @@ const styleDictionary = getDictionaryFromDisplaySettings(displaySettings);
 
 // Container settings
 const maxWidth = styleDictionary['maxWidth'] || 'none';
-const contentAlignment = styleDictionary['contentAlignment'] || 'left';
-const titleAlignment = styleDictionary['titleAlignment'] || 'left';
+const contentAlignment = styleDictionary['contentAlignment'] || 'start';
+const titleAlignment = styleDictionary['titleAlignment'] || 'start';
 
 // Layout settings
 const layoutStyle = styleDictionary['layoutStyle'] || 'grid';
@@ -73,9 +73,9 @@ const containerWrapperClasses = {
 
 // Title alignment classes
 const titleClasses = {
-    'text-left': titleAlignment === 'left',
+    'text-start': titleAlignment === 'left',
     'text-center': titleAlignment === 'center',
-    'text-right': titleAlignment === 'right',
+    'text-end': titleAlignment === 'right',
 };
 
 // Button alignment classes

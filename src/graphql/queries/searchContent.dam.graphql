@@ -12,7 +12,7 @@ query searchContent(
             _fulltext: { match: $searchTerm, fuzzy: true, synonyms: ONE }
             _metadata: { url: { base: { eq: $domain } } }
         }
-        usePinned: { phrase: $searchTerm }
+        pinned: { phrase: $searchTerm }
         limit: 20
     ) @include(if: $useSemanticSearch) {
         items {
@@ -62,7 +62,7 @@ query searchContent(
             _fulltext: { match: $searchTerm, fuzzy: true, synonyms: ONE }
             _metadata: { url: { base: { eq: $domain } } }
         }
-        usePinned: { phrase: $searchTerm }
+        pinned: { phrase: $searchTerm }
         limit: 20
     ) @skip(if: $useSemanticSearch) {
         items {
