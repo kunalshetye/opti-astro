@@ -7,9 +7,11 @@ import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import LinkButton from '../ButtonComponent/LinkButton.astro';
 // import { getCtaStyles } from './CallToActionStyling';
 import { getButtonStyles } from '../ButtonComponent/ButtonStyling';
-import { isEditContext } from '../../shared/utils.ts';
+import { isEditContext, getLink } from '../../shared/utils.ts';
+import type { ButtonLinkData } from '../../shared/utils.ts';
 
 const isCmsEdit = isEditContext(Astro.url);
+const currentDomain = Astro.url.origin;
 
 export interface Props {
     key: string;
@@ -27,6 +29,8 @@ const componentClass = 'component-cta';
 <div class="m-4 flex gap-4 flex-wrap" class:list={componentClass} data-epi-block-id={isCmsEdit && key || undefined}>
     {
         data.Links?.map((link, i) => {
+            const buttonLink = getLink(link as ButtonLinkData, currentDomain);
+            const newWindow = link?.target === '_blank';
             const buttonType: string[] = [""];
             switch (i) {
                 case 0:
@@ -55,7 +59,7 @@ const componentClass = 'component-cta';
                     break;
             }
             return (
-                <LinkButton cssClasses={[buttonType, ctaButtonStyles]} link={link?.url?.default}>{link?.text}</LinkButton>
+                <LinkButton cssClasses={[buttonType, ctaButtonStyles]} link={buttonLink} newWindow={newWindow}>{link?.text}</LinkButton>
             );
         })
     }

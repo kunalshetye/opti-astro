@@ -10,9 +10,11 @@ import { getHeroStyles } from './HeroStyling';
 import { getGlobalStyles } from '../../shared/globalStylesHelper';
 import LinkButton from '../ButtonComponent/LinkButton.astro';
 import { getButtonStyles } from '../ButtonComponent/ButtonStyling';
-import { isEditContext } from '../../shared/utils.ts';
+import { isEditContext, getLink } from '../../shared/utils.ts';
+import type { ButtonLinkData } from '../../shared/utils.ts';
 
 const isCmsEdit = isEditContext(Astro.url);
+const currentDomain = Astro.url.origin;
 
 export interface Props {
     key: string;
@@ -98,6 +100,8 @@ const componentClass = 'component-hero';
         <div class="mt-6 flex space-x-4" class:list={justifyClass}>
             {
                 data?.Links?.map((link, i) => {
+                    const buttonLink = getLink(link as ButtonLinkData, currentDomain);
+                    const newWindow = link?.target === '_blank';
                     const buttonType: string[] = [""];
                     switch (i) {
                         case 0:
@@ -120,7 +124,7 @@ const componentClass = 'component-hero';
                             break;
                     }
                     return (
-                        <LinkButton cssClasses={[buttonType, heroButtonStyles]} link={link?.url?.default}>{link?.text}</LinkButton>
+                        <LinkButton cssClasses={[buttonType, heroButtonStyles]} link={buttonLink} newWindow={newWindow}>{link?.text}</LinkButton>
                     );
                 })
             }
