@@ -36,25 +36,18 @@ if(isLoginButton) {
 }
 
 const currentDomain = Astro.url.origin;
-const safeButtonLink: ButtonLinkData = {
-    url: {
-        hierarchical: data?.ButtonLink?.url?.hierarchical ?? '#',
-        default: data?.ButtonLink?.url?.default ?? '#',
-        type: data?.ButtonLink?.url?.type ?? 'HIERARCHICAL',
-        base: data?.ButtonLink?.url?.base ?? currentDomain,
-    }
-};
-const buttonLink = getLink(safeButtonLink, currentDomain);
 
+const buttonLink = getLink(data?.ButtonLink as ButtonLinkData, currentDomain);
+const newWindow = data?.ButtonLink?.target === '_blank';
 const componentClass = 'component-button';
 ---
 { isDefaultButton &&
     <span data-epi-block-id={isCmsEdit && key || undefined} class={componentClass}>
-        <LinkButton cssClasses={btnStyles} link={buttonLink}>{data?.ButtonLabel}</LinkButton>
+        <LinkButton cssClasses={btnStyles} link={buttonLink} newWindow={newWindow}>{data?.ButtonLabel}</LinkButton>
     </span>
 }
 { isLoginButton &&
     <span data-epi-block-id={isCmsEdit && key || undefined} class={componentClass}>
-        <LinkButton cssClasses={btnStyles} link={buttonLink}><Fragment set:html={loginButtonSlot}/></LinkButton>
+        <LinkButton cssClasses={btnStyles} link={buttonLink} newWindow={newWindow}><Fragment set:html={loginButtonSlot}/></LinkButton>
     </span>
 }

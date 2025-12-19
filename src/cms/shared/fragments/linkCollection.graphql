@@ -1,6 +1,11 @@
 fragment LinkCollection on Link {
     text
+    title
+    target
     url {
+        base
         default
+        hierarchical
+        type
     }
 }
