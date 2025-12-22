@@ -1,0 +1,41 @@
+{
+	"key": "GenericProductList",
+	"displayName": "Generic Product List",
+	"description": "Displays a list of products from catalog or manual selection",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"sectionEnabled"
+	],
+	"properties": {
+		"UseProductCatalog": {
+			"type": "boolean",
+			"displayName": "Use Product Catalog",
+			"description": "Enable to automatically list all products from catalog",
+			"localized": false,
+			"required": false,
+			"group": "Settings",
+			"sortOrder": 0,
+			"editorSettings": {}
+		},
+		"ListedProducts": {
+			"type": "array",
+			"displayName": "Listed Products",
+			"description": "Manually add GenericProduct blocks (used when Product Catalog is disabled)",
+			"localized": true,
+			"required": false,
+			"group": "Content",
+			"sortOrder": 10,
+			"editorSettings": {},
+			"items": {
+				"type": "content",
+				"allowedTypes": [
+					"GenericProduct"
+				],
+				"restrictedTypes": []
+			}
+		}
+	}
+}

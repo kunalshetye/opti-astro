@@ -1,0 +1,91 @@
+{
+	"key": "GenericProductListStyles",
+	"displayName": "Product List Default",
+	"contentType": "GenericProductList",
+	"isDefault": true,
+	"settings": {
+		"layoutMode": {
+			"displayName": "Layout Mode",
+			"editor": "",
+			"sortOrder": 10,
+			"choices": {
+				"grid": {
+					"displayName": "Grid",
+					"sortOrder": 10
+				},
+				"carousel": {
+					"displayName": "Horizontal Carousel",
+					"sortOrder": 20
+				}
+			}
+		},
+		"gridColumns": {
+			"displayName": "Grid Columns",
+			"editor": "",
+			"sortOrder": 20,
+			"choices": {
+				"c2": {
+					"displayName": "2 Columns",
+					"sortOrder": 10
+				},
+				"c3": {
+					"displayName": "3 Columns",
+					"sortOrder": 20
+				},
+				"c4": {
+					"displayName": "4 Columns",
+					"sortOrder": 30
+				}
+			}
+		},
+		"gap": {
+			"displayName": "Gap Size",
+			"editor": "",
+			"sortOrder": 30,
+			"choices": {
+				"sm": {
+					"displayName": "Small",
+					"sortOrder": 10
+				},
+				"md": {
+					"displayName": "Medium",
+					"sortOrder": 20
+				},
+				"lg": {
+					"displayName": "Large",
+					"sortOrder": 30
+				}
+			}
+		},
+		"showCategories": {
+			"displayName": "Show Categories",
+			"editor": "",
+			"sortOrder": 40,
+			"choices": {
+				"yes": {
+					"displayName": "Yes",
+					"sortOrder": 10
+				},
+				"no": {
+					"displayName": "No",
+					"sortOrder": 20
+				}
+			}
+		},
+		"showFilters": {
+			"displayName": "Show Filters",
+			"editor": "",
+			"sortOrder": 50,
+			"choices": {
+				"yes": {
+					"displayName": "Yes",
+					"sortOrder": 10
+				},
+				"no": {
+					"displayName": "No",
+					"sortOrder": 20
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,84 @@
+{
+	"key": "GenericProduct",
+	"displayName": "Generic Product",
+	"description": "",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"sectionEnabled",
+		"elementEnabled"
+	],
+	"properties": {
+		"ProductSKU": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "Product SKU (Optional)",
+			"description": "Enter SKU to auto-populate product data from catalog. Leave empty to enter data manually. Example: TS-BLU-MD-001",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": -150,
+			"indexingType": "queryable",
+			"editorSettings": {}
+		},
+		"GenericProductName": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "Product name",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": -100,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		},
+		"GenericProductDescription": {
+			"type": "string",
+			"format": "html",
+			"displayName": "Product description",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 0,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		},
+		"ProductPrice": {
+			"type": "float",
+			"displayName": "ProductPrice",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 0,
+			"editorSettings": {}
+		},
+		"AddToCartText": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "AddToCartText",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 50,
+			"editorSettings": {}
+		},
+		"GenericProductAsset": {
+			"type": "contentReference",
+			"displayName": "Asset",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 100,
+			"editorSettings": {},
+			"allowedTypes": [],
+			"restrictedTypes": []
+		}
+	}
+}

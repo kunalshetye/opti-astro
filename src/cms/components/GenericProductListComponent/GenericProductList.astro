@@ -1,0 +1,527 @@
+---
+import type {
+    DisplaySettingsFragment,
+    GenericProductListFragment,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { getAllProducts, type Product } from '../../../lib/product-catalog-utils';
+import { isEditContext } from '../../shared/utils.ts';
+import ContentArea from '../../shared/ContentArea/ContentArea.astro';
+import GenericProduct from '../GenericProductComponent/GenericProduct.astro';
+import {
+    getLayoutClasses,
+    getGridColumnsClass,
+    getGapClass,
+    getCarouselItemClass,
+    isCarouselLayout,
+    shouldShowCategories,
+    shouldShowFilters
+} from './GenericProductListStyling';
+
+const isCmsEdit = isEditContext(Astro.url);
+
+export interface Props {
+    key: string;
+    data: GenericProductListFragment;
+    displaySettings: DisplaySettingsFragment[];
+    displayTemplateKey: string;
+    contentPayload: ContentPayload;
+}
+
+const { key, data, displaySettings, contentPayload } = Astro.props as Props;
+
+// Get current locale
+const locale = contentPayload.loc.includes('_')
+    ? contentPayload.loc.split('_')[0].toLowerCase()
+    : contentPayload.loc.toLowerCase();
+
+// Get styling
+const layoutClass = getLayoutClasses(displaySettings);
+const gridColsClass = getGridColumnsClass(displaySettings);
+const gapClass = getGapClass(displaySettings);
+const carouselItemClass = getCarouselItemClass();
+const isCarousel = isCarouselLayout(displaySettings);
+
+// Determine data source
+let catalogProducts: Product[] = [];
+let useManualProducts = false;
+
+if (data.UseProductCatalog) {
+    // Fetch all products from catalog
+    catalogProducts = await getAllProducts();
+} else {
+    // Use manual products from content area
+    useManualProducts = true;
+}
+
+// Extract unique categories and brands from catalog products (for filtering)
+const uniqueCategories = data.UseProductCatalog
+    ? [...new Set(catalogProducts.map(p => p.category).filter(Boolean))]
+    : [];
+
+const uniqueBrands = data.UseProductCatalog
+    ? [...new Set(catalogProducts.map(p => p.brand).filter(Boolean))]
+    : [];
+
+// Get price range
+const minPrice = data.UseProductCatalog && catalogProducts.length > 0
+    ? Math.floor(Math.min(...catalogProducts.map(p => p.salePrice ?? p.price)))
+    : 0;
+const maxPrice = data.UseProductCatalog && catalogProducts.length > 0
+    ? Math.ceil(Math.max(...catalogProducts.map(p => p.price)))
+    : 2000;
+
+// Check display settings for category selector and filters
+const showCategories = shouldShowCategories(displaySettings);
+const showFilters = shouldShowFilters(displaySettings);
+
+const componentClass = 'component-generic-product-list';
+---
+
+<div
+    data-epi-block-id={isCmsEdit && key || undefined}
+    class:list={[componentClass, 'container mx-auto px-4 py-8']}
+    x-data={showCategories || showFilters ? `{
+        selectedCategory: 'all',
+        filterPriceMin: null,
+        filterPriceMax: null,
+        filterOnSale: false,
+        selectedBrands: [],
+        get filteredProducts() {
+            let products = this.$root.querySelectorAll('[data-product]');
+            let filtered = Array.from(products);
+            if (this.selectedCategory !== 'all') {
+                filtered = filtered.filter(el => el.dataset.productCategory === this.selectedCategory);
+            }
+            if (this.filterPriceMin !== null && this.filterPriceMin !== '') {
+                filtered = filtered.filter(el => parseFloat(el.dataset.productPrice) >= parseFloat(this.filterPriceMin));
+            }
+            if (this.filterPriceMax !== null && this.filterPriceMax !== '') {
+                filtered = filtered.filter(el => parseFloat(el.dataset.productPrice) <= parseFloat(this.filterPriceMax));
+            }
+            if (this.filterOnSale) {
+                filtered = filtered.filter(el => el.dataset.productOnSale === 'true');
+            }
+            if (this.selectedBrands.length > 0) {
+                filtered = filtered.filter(el => this.selectedBrands.includes(el.dataset.productBrand));
+            }
+            return filtered;
+        },
+        updateVisibility() {
+            const products = this.$root.querySelectorAll('[data-product]');
+            const filtered = this.filteredProducts;
+            products.forEach(product => {
+                product.style.display = filtered.includes(product) ? 'block' : 'none';
+            });
+            const emptyState = this.$root.querySelector('[data-empty-state]');
+            if (emptyState) {
+                emptyState.style.display = filtered.length === 0 ? 'block' : 'none';
+            }
+        },
+        clearFilters() {
+            this.selectedCategory = 'all';
+            this.filterPriceMin = null;
+            this.filterPriceMax = null;
+            this.filterOnSale = false;
+            this.selectedBrands = [];
+            this.updateVisibility();
+        },
+        get activeFilterCount() {
+            let count = 0;
+            if (this.selectedCategory !== 'all') count++;
+            if (this.filterPriceMin || this.filterPriceMax) count++;
+            if (this.filterOnSale) count++;
+            count += this.selectedBrands.length;
+            return count;
+        }
+    }` : undefined}
+    x-init={showCategories || showFilters ? `
+        $watch('selectedCategory', () => updateVisibility());
+        $watch('filterPriceMin', () => updateVisibility());
+        $watch('filterPriceMax', () => updateVisibility());
+        $watch('filterOnSale', () => updateVisibility());
+        $watch('selectedBrands', () => updateVisibility());
+    ` : undefined}
+>
+    {/* Category Selector (Grid Mode Only) */}
+    {showCategories && !isCarousel && uniqueCategories.length > 0 && (
+        <div class="mb-8">
+            <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-thin">
+                <button
+                    @click="selectedCategory = 'all'"
+                    :class="selectedCategory === 'all' ? 'btn-primary' : 'btn-outline'"
+                    class="btn btn-sm whitespace-nowrap"
+                >
+                    All ({catalogProducts.length})
+                </button>
+                {uniqueCategories.map((category) => {
+                    const count = catalogProducts.filter(p => p.category === category).length;
+                    const displayName = category.split('/').pop();
+                    return (
+                        <button
+                            @click={`selectedCategory = '${category}'`}
+                            :class={`selectedCategory === '${category}' ? 'btn-primary' : 'btn-outline'`}
+                            class="btn btn-sm whitespace-nowrap"
+                        >
+                            {displayName} ({count})
+                        </button>
+                    );
+                })}
+            </div>
+        </div>
+    )}
+
+    {/* Filter Sidebar + Grid Layout (Grid Mode Only) */}
+    {showFilters && !isCarousel ? (
+        <div class="lg:flex lg:gap-6">
+            {/* Filter Sidebar */}
+            <aside class="lg:w-64 mb-6 lg:mb-0">
+                <div class="card bg-base-200 shadow-lg">
+                    <div class="card-body p-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="card-title text-lg">Filters</h3>
+                            <button
+                                @click="clearFilters()"
+                                x-show="activeFilterCount > 0"
+                                class="btn btn-ghost btn-xs"
+                            >
+                                Clear All
+                            </button>
+                        </div>
+
+                        <div x-show="activeFilterCount > 0" class="badge badge-primary mb-4">
+                            <span x-text="activeFilterCount"></span> active
+                        </div>
+
+                        {/* Price Range Filter */}
+                        <div class="form-control mb-6">
+                            <label class="label">
+                                <span class="label-text font-semibold">Price Range</span>
+                            </label>
+                            <div class="flex gap-2 items-center">
+                                <input
+                                    type="number"
+                                    x-model="filterPriceMin"
+                                    placeholder={`$${minPrice}`}
+                                    class="input input-bordered input-sm w-full"
+                                    min={minPrice}
+                                    max={maxPrice}
+                                />
+                                <span>-</span>
+                                <input
+                                    type="number"
+                                    x-model="filterPriceMax"
+                                    placeholder={`$${maxPrice}`}
+                                    class="input input-bordered input-sm w-full"
+                                    min={minPrice}
+                                    max={maxPrice}
+                                />
+                            </div>
+                        </div>
+
+                        {/* On Sale Filter */}
+                        <div class="form-control mb-6">
+                            <label class="label cursor-pointer justify-start gap-2">
+                                <input
+                                    type="checkbox"
+                                    x-model="filterOnSale"
+                                    class="checkbox checkbox-primary checkbox-sm"
+                                />
+                                <span class="label-text font-semibold">On Sale</span>
+                            </label>
+                        </div>
+
+                        {/* Brand Filter */}
+                        {uniqueBrands.length > 0 && (
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text font-semibold">Brands</span>
+                                </label>
+                                <div class="space-y-2 max-h-64 overflow-y-auto">
+                                    {uniqueBrands.map((brand) => {
+                                        const count = catalogProducts.filter(p => p.brand === brand).length;
+                                        return (
+                                            <label class="label cursor-pointer justify-start gap-2 py-1">
+                                                <input
+                                                    type="checkbox"
+                                                    x-bind:checked={`selectedBrands.includes('${brand}')`}
+                                                    @change={`
+                                                        if ($event.target.checked) {
+                                                            selectedBrands.push('${brand}');
+                                                        } else {
+                                                            selectedBrands = selectedBrands.filter(b => b !== '${brand}');
+                                                        }
+                                                    `}
+                                                    class="checkbox checkbox-sm"
+                                                />
+                                                <span class="label-text text-sm">{brand} ({count})</span>
+                                            </label>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </aside>
+
+            {/* Product Grid */}
+            <div class="flex-1">
+                {data.UseProductCatalog && (
+                    <div class:list={[layoutClass, gridColsClass, gapClass]}>
+                        {catalogProducts.map((product) => {
+                            const displayPrice = product.salePrice ?? product.price;
+                            return (
+                                <div
+                                    data-product
+                                    data-product-category={product.category}
+                                    data-product-price={displayPrice}
+                                    data-product-on-sale={product.salePrice ? 'true' : 'false'}
+                                    data-product-brand={product.brand}
+                                >
+                                    <GenericProduct
+                                        key={`product-${product.sku}`}
+                                        data={{
+                                            _metadata: {
+                                                types: ['GenericProduct'],
+                                                key: `product-${product.sku}`
+                                            },
+                                            ProductSKU: product.sku,
+                                            GenericProductName: null,
+                                            GenericProductDescription: null,
+                                            ProductPrice: null,
+                                            AddToCartText: null,
+                                            GenericProductAsset: null
+                                        }}
+                                        displaySettings={[]}
+                                        displayTemplateKey=""
+                                        contentPayload={contentPayload}
+                                    />
+                                </div>
+                            );
+                        })}
+                        <div data-empty-state style="display: none;" class="col-span-full text-center py-12">
+                            <p class="text-gray-500 text-lg">No products match your filters</p>
+                            <button @click="clearFilters()" class="btn btn-primary mt-4">
+                                Clear Filters
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </div>
+        </div>
+    ) : (
+        <>
+            {/* Catalog Products Mode */}
+            {data.UseProductCatalog && (
+                isCarousel ? (
+                    <section
+                        id={`product-carousel-${key}`}
+                        class="splide"
+                        data-content-mode="true"
+                        data-show-arrows="true"
+                        data-show-pagination="true"
+                        data-loop="false"
+                        data-items-desktop="4"
+                        data-items-tablet="2"
+                        data-items-mobile="1"
+                        data-space-between="24"
+                    >
+                        <div class="splide__track">
+                            <ul class="splide__list">
+                                {catalogProducts.map((product) => (
+                                    <li class="splide__slide">
+                                        <GenericProduct
+                                            key={`product-${product.sku}`}
+                                            data={{
+                                                _metadata: {
+                                                    types: ['GenericProduct'],
+                                                    key: `product-${product.sku}`
+                                                },
+                                                ProductSKU: product.sku,
+                                                GenericProductName: null,
+                                                GenericProductDescription: null,
+                                                ProductPrice: null,
+                                                AddToCartText: null,
+                                                GenericProductAsset: null
+                                            }}
+                                            displaySettings={[]}
+                                            displayTemplateKey=""
+                                            contentPayload={contentPayload}
+                                        />
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </section>
+                ) : (
+                    <div class:list={[layoutClass, gridColsClass, gapClass]}>
+                        {catalogProducts.map((product) => {
+                            const displayPrice = product.salePrice ?? product.price;
+                            return (
+                                <div
+                                    data-product={showCategories || showFilters ? true : undefined}
+                                    data-product-category={showCategories ? product.category : undefined}
+                                    data-product-price={showCategories || showFilters ? displayPrice : undefined}
+                                    data-product-on-sale={showCategories || showFilters ? (product.salePrice ? 'true' : 'false') : undefined}
+                                    data-product-brand={showCategories || showFilters ? product.brand : undefined}
+                                >
+                                    <GenericProduct
+                                        key={`product-${product.sku}`}
+                                        data={{
+                                            _metadata: {
+                                                types: ['GenericProduct'],
+                                                key: `product-${product.sku}`
+                                            },
+                                            ProductSKU: product.sku,
+                                            GenericProductName: null,
+                                            GenericProductDescription: null,
+                                            ProductPrice: null,
+                                            AddToCartText: null,
+                                            GenericProductAsset: null
+                                        }}
+                                        displaySettings={[]}
+                                        displayTemplateKey=""
+                                        contentPayload={contentPayload}
+                                    />
+                                </div>
+                            );
+                        })}
+                        {(showCategories || showFilters) && (
+                            <div data-empty-state style="display: none;" class="col-span-full text-center py-12">
+                                <p class="text-gray-500 text-lg">No products match your filters</p>
+                                <button @click="clearFilters()" class="btn btn-primary mt-4">
+                                    Clear Filters
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                )
+            )}
+
+            {/* Manual Products Mode */}
+            {!data.UseProductCatalog && data.ListedProducts && (
+                isCarousel ? (
+                    <section
+                        id={`product-carousel-${key}`}
+                        class="splide"
+                        data-content-mode="true"
+                        data-show-arrows="true"
+                        data-show-pagination="true"
+                        data-loop="false"
+                        data-items-desktop="4"
+                        data-items-tablet="2"
+                        data-items-mobile="1"
+                        data-space-between="24"
+                    >
+                        <div class="splide__track">
+                            <ul class="splide__list">
+                                {data.ListedProducts.map((productItem) => (
+                                    <li class="splide__slide">
+                                        <ContentArea
+                                            contentPayload={contentPayload}
+                                            contentAreaItem={productItem}
+                                        />
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </section>
+                ) : (
+                    <div class:list={[layoutClass, gridColsClass, gapClass]}>
+                        {data.ListedProducts.map((productItem) => (
+                            <div>
+                                <ContentArea
+                                    contentPayload={contentPayload}
+                                    contentAreaItem={productItem}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                )
+            )}
+
+            {/* Empty State */}
+            {!data.UseProductCatalog && (!data.ListedProducts || data.ListedProducts.length === 0) && (
+                <div class="text-center py-12 text-gray-500">
+                    <p>No products to display. Add products to the "Listed Products" area or enable "Use Product Catalog".</p>
+                </div>
+            )}
+        </>
+    )}
+</div>
+
+<!-- Splide CSS -->
+{isCarousel && (
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css"
+    />
+)}
+
+<!-- Splide JS -->
+{isCarousel && (
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+)}
+
+{isCarousel && (
+    <script>
+        document.addEventListener('astro:page-load', function () {
+            // Find all carousel instances
+            const carousels = document.querySelectorAll('.splide');
+
+            carousels.forEach((carousel) => {
+                // Skip if already initialized
+                if (carousel.splide) return;
+
+                // Get configuration from data attributes
+                const isContentMode = carousel.dataset.contentMode === 'true';
+                const showArrows = carousel.dataset.showArrows === 'true';
+                const showPagination = carousel.dataset.showPagination === 'true';
+                const enableLoop = carousel.dataset.loop === 'true';
+
+                // Content carousel specific settings
+                const itemsDesktop = parseInt(carousel.dataset.itemsDesktop || '3');
+                const itemsTablet = parseInt(carousel.dataset.itemsTablet || '2');
+                const itemsMobile = parseInt(carousel.dataset.itemsMobile || '1');
+                const spaceBetween = parseInt(carousel.dataset.spaceBetween || '24');
+
+                // Build configuration
+                let config = {
+                    type: enableLoop ? 'loop' : 'slide',
+                    arrows: showArrows,
+                    pagination: showPagination,
+                    speed: 500,
+                    easing: 'ease-in-out',
+                };
+
+                if (isContentMode) {
+                    // Content carousel with responsive breakpoints
+                    config.perPage = itemsDesktop;
+                    config.gap = `${spaceBetween}px`;
+                    config.breakpoints = {
+                        1023: {
+                            perPage: itemsTablet,
+                            gap: `${spaceBetween}px`,
+                        },
+                        767: {
+                            perPage: itemsMobile,
+                            gap: `${spaceBetween}px`,
+                        },
+                    };
+                } else {
+                    // Standard carousel - one slide at a time
+                    config.perPage = 1;
+                    config.gap = 0;
+                }
+
+                // Initialize Splide
+                if (typeof Splide !== 'undefined') {
+                    new Splide(carousel, config).mount();
+                } else {
+                    console.error('Splide is not loaded');
+                }
+            });
+        });
+    </script>
+)}

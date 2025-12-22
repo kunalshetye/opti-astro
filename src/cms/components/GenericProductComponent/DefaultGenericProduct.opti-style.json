@@ -1,0 +1,88 @@
+{
+	"key": "DefaultGenericProduct",
+	"displayName": "Generic Product Default",
+	"contentType": "GenericProduct",
+	"isDefault": true,
+	"settings": {
+		"cardStyle": {
+			"displayName": "Card Style",
+			"editor": "",
+			"sortOrder": 10,
+			"choices": {
+				"elevated": {
+					"displayName": "Elevated (Shadow)",
+					"sortOrder": 10
+				},
+				"bordered": {
+					"displayName": "Bordered",
+					"sortOrder": 20
+				},
+				"flat": {
+					"displayName": "Flat",
+					"sortOrder": 30
+				}
+			}
+		},
+		"imageAspect": {
+			"displayName": "Image Aspect Ratio",
+			"editor": "",
+			"sortOrder": 20,
+			"choices": {
+				"square": {
+					"displayName": "Square (1:1)",
+					"sortOrder": 10
+				},
+				"portrait": {
+					"displayName": "Portrait (3:4)",
+					"sortOrder": 20
+				},
+				"landscape": {
+					"displayName": "Landscape (4:3)",
+					"sortOrder": 30
+				}
+			}
+		},
+		"buttonStyle": {
+			"displayName": "Button Style",
+			"editor": "",
+			"sortOrder": 30,
+			"choices": {
+				"primary": {
+					"displayName": "Primary",
+					"sortOrder": 10
+				},
+				"secondary": {
+					"displayName": "Secondary",
+					"sortOrder": 20
+				},
+				"accent": {
+					"displayName": "Accent",
+					"sortOrder": 30
+				},
+				"neutral": {
+					"displayName": "Neutral",
+					"sortOrder": 40
+				}
+			}
+		},
+		"buttonSize": {
+			"displayName": "Button Size",
+			"editor": "",
+			"sortOrder": 40,
+			"choices": {
+				"sm": {
+					"displayName": "Small",
+					"sortOrder": 10
+				},
+				"md": {
+					"displayName": "Medium",
+					"sortOrder": 20
+				},
+				"lg": {
+					"displayName": "Large",
+					"sortOrder": 30
+				}
+			}
+		}
+	}
+}

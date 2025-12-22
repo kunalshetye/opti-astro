@@ -1,0 +1,10 @@
+fragment GenericProductList on GenericProductList {
+    UseProductCatalog
+    ListedProducts {
+        _metadata {
+            types
+            key
+        }
+        ...GenericProduct
+    }
+}
