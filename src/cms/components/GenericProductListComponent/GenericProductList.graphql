@@ -1,6 +1,5 @@
 fragment GenericProductList on GenericProductList {
     UseProductCatalog
-    PreSelectedCategory
     ListedProducts {
         _metadata {
             types
