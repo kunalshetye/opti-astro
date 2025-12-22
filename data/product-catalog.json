@@ -1,0 +1,738 @@
+{
+  "version": "1.0",
+  "lastUpdated": "2025-12-19T13:10:10.185Z",
+  "products": [
+    {
+      "sku": "TS-BLU-MD-001",
+      "name": {
+        "en": "Classic Blue T-Shirt",
+        "de": "Klassisches Blaues T-Shirt",
+        "fr": "T-shirt Bleu Classique"
+      },
+      "description": {
+        "en": "<p>Comfortable 100% organic cotton t-shirt in vibrant blue. Perfect for everyday wear with a modern fit.</p>",
+        "de": "<p>Bequemes T-Shirt aus 100% Bio-Baumwolle in lebendigem Blau. Perfekt für den Alltag mit moderner Passform.</p>",
+        "fr": "<p>T-shirt confortable en coton 100% bio bleu vif. Parfait pour un usage quotidien avec une coupe moderne.</p>"
+      },
+      "price": 29.99,
+      "salePrice": null,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://images4.cmp.optimizely.com/Zz00ZDE2OTMzMmRjYTgxMWYwOTMzNTVhZjQxNzJiM2Q1NA==",
+          "alt": "Blue cotton t-shirt",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "EcoWear",
+      "category": "Fashion/Apparel",
+      "tags": [
+        "cotton",
+        "organic",
+        "casual",
+        "unisex"
+      ]
+    },
+    {
+      "sku": "JN-DNM-32X32-001",
+      "name": {
+        "en": "Denim Jeans - Straight Fit",
+        "de": "Jeans - Gerade Passform",
+        "fr": "Jean Denim - Coupe Droite"
+      },
+      "description": {
+        "en": "<p>Classic straight-fit denim jeans with timeless style. Made from durable denim fabric for long-lasting wear.</p>",
+        "de": "<p>Klassische Jeans mit gerader Passform und zeitlosem Stil. Aus strapazierfähigem Denim-Stoff für lange Haltbarkeit.</p>",
+        "fr": "<p>Jean denim classique à coupe droite au style intemporel. Fabriqué en tissu denim durable pour une usure durable.</p>"
+      },
+      "price": 79.99,
+      "salePrice": 59.99,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://images4.cmp.optimizely.com/Zz00Yzk5ZDNiMGRjYTgxMWYwODBjODE2YWM3Y2U5MDZiZA==",
+          "alt": "Classic denim jeans",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "UrbanDenim",
+      "category": "Fashion/Apparel",
+      "tags": [
+        "denim",
+        "straight-fit",
+        "casual",
+        "sale"
+      ]
+    },
+    {
+      "sku": "SN-WHT-42-001",
+      "name": {
+        "en": "Premium White Sneakers",
+        "de": "Premium Weiße Sneaker",
+        "fr": "Baskets Blanches Premium"
+      },
+      "description": {
+        "en": "<p>Minimalist white sneakers with premium leather construction. Comfortable cushioning for all-day wear.</p>",
+        "de": "<p>Minimalistische weiße Sneaker aus hochwertigem Leder. Bequeme Polsterung für ganztägiges Tragen.</p>",
+        "fr": "<p>Baskets blanches minimalistes en cuir premium. Amorti confortable pour un port toute la journée.</p>"
+      },
+      "price": 129.99,
+      "salePrice": null,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://images3.cmp.optimizely.com/Zz0wMjVhMzEwY2RjYWIxMWYwYmQ4OGFhNzJhZjY2MTljMg==",
+          "alt": "White leather sneakers",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "UrbanStep",
+      "category": "Fashion/Footwear",
+      "tags": [
+        "sneakers",
+        "leather",
+        "minimalist",
+        "white"
+      ]
+    },
+    {
+      "sku": "DR-BLK-MD-001",
+      "name": {
+        "en": "Elegant Black Dress",
+        "de": "Elegantes Schwarzes Kleid",
+        "fr": "Robe Noire Élégante"
+      },
+      "description": {
+        "en": "<p>Timeless black dress perfect for any occasion. Flattering silhouette with premium fabric blend.</p>",
+        "de": "<p>Zeitloses schwarzes Kleid perfekt für jeden Anlass. Schmeichelhafte Silhouette mit hochwertiger Stoffmischung.</p>",
+        "fr": "<p>Robe noire intemporelle parfaite pour toute occasion. Silhouette flatteuse avec mélange de tissu premium.</p>"
+      },
+      "price": 149.99,
+      "salePrice": 119.99,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://images4.cmp.optimizely.com/Zz00Y2Y5NzY0ZWRjYTgxMWYwYmQ4OGFhNzJhZjY2MTljMg==",
+          "alt": "Black elegant dress",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "Elegance",
+      "category": "Fashion/Apparel",
+      "tags": [
+        "dress",
+        "elegant",
+        "formal",
+        "sale"
+      ]
+    },
+    {
+      "sku": "JK-LTH-LG-001",
+      "name": {
+        "en": "Leather Biker Jacket",
+        "de": "Leder Bikerjacke",
+        "fr": "Veste de Motard en Cuir"
+      },
+      "description": {
+        "en": "<p>Genuine leather biker jacket with classic styling. Features multiple pockets and durable YKK zippers.</p>",
+        "de": "<p>Echte Leder-Bikerjacke mit klassischem Styling. Mit mehreren Taschen und langlebigen YKK-Reißverschlüssen.</p>",
+        "fr": "<p>Veste de motard en cuir véritable au style classique. Comprend plusieurs poches et fermetures éclair YKK durables.</p>"
+      },
+      "price": 299.99,
+      "salePrice": null,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://images2.cmp.optimizely.com/Zz1jNjljZTZiZWRjYzgxMWYwODBjODE2YWM3Y2U5MDZiZA==",
+          "alt": "Black leather biker jacket",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "RoadRider",
+      "category": "Fashion/Outerwear",
+      "tags": [
+        "jacket",
+        "leather",
+        "biker",
+        "premium"
+      ]
+    },
+    {
+      "sku": "HD-GRY-XL-001",
+      "name": {
+        "en": "Cozy Gray Hoodie",
+        "de": "Gemütlicher Grauer Hoodie",
+        "fr": "Sweat à Capuche Gris Confortable"
+      },
+      "description": {
+        "en": "<p>Soft cotton-blend hoodie perfect for casual wear. Features kangaroo pocket and adjustable drawstring hood.</p>",
+        "de": "<p>Weicher Baumwoll-Mix-Hoodie perfekt für Freizeitkleidung. Mit Känguru-Tasche und verstellbarer Kordelzug-Kapuze.</p>",
+        "fr": "<p>Sweat à capuche doux en mélange de coton parfait pour un usage décontracté. Comprend une poche kangourou et capuche ajustable.</p>"
+      },
+      "price": 59.99,
+      "salePrice": 44.99,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://images4.cmp.optimizely.com/Zz1hNjlmOTE1NmRjYTgxMWYwODZlZjdlYzU3ZTZkYjAwMw==",
+          "alt": "Gray cotton hoodie",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "ComfortWear",
+      "category": "Fashion/Apparel",
+      "tags": [
+        "hoodie",
+        "casual",
+        "comfortable",
+        "sale"
+      ]
+    },
+    {
+      "sku": "SG-BLK-001",
+      "name": {
+        "en": "Classic Aviator Sunglasses",
+        "de": "Klassische Pilotenbrille",
+        "fr": "Lunettes de Soleil Aviateur Classiques"
+      },
+      "description": {
+        "en": "<p>Timeless aviator sunglasses with UV400 protection. Metal frame with gradient lenses for style and comfort.</p>",
+        "de": "<p>Zeitlose Pilotenbrille mit UV400-Schutz. Metallrahmen mit Verlaufsgläsern für Stil und Komfort.</p>",
+        "fr": "<p>Lunettes aviateur intemporelles avec protection UV400. Monture en métal avec verres dégradés pour style et confort.</p>"
+      },
+      "price": 89.99,
+      "salePrice": null,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://images3.cmp.optimizely.com/Zz1jOGI4ZWU5ZWRjMDkxMWYwYjhkZGFhNzJhZjY2MTljMg==",
+          "alt": "Aviator sunglasses",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "SunStyle",
+      "category": "Fashion/Accessories",
+      "tags": [
+        "sunglasses",
+        "aviator",
+        "UV protection",
+        "accessories"
+      ]
+    },
+    {
+      "sku": "BP-BLK-001",
+      "name": {
+        "en": "Urban Canvas Backpack",
+        "de": "Urban Canvas Rucksack",
+        "fr": "Sac à Dos en Toile Urbain"
+      },
+      "description": {
+        "en": "<p>Durable canvas backpack with laptop compartment. Water-resistant coating and padded straps for comfort.</p>",
+        "de": "<p>Strapazierfähiger Canvas-Rucksack mit Laptop-Fach. Wasserabweisende Beschichtung und gepolsterte Träger für Komfort.</p>",
+        "fr": "<p>Sac à dos en toile durable avec compartiment pour ordinateur portable. Revêtement hydrofuge et bretelles rembourrées pour le confort.</p>"
+      },
+      "price": 69.99,
+      "salePrice": null,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://images3.cmp.optimizely.com/Zz1jOTA3ODE4MGRjMDkxMWYwYmQ4OGFhNzJhZjY2MTljMg==",
+          "alt": "Black canvas backpack",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "UrbanCarry",
+      "category": "Fashion/Accessories",
+      "tags": [
+        "backpack",
+        "canvas",
+        "laptop",
+        "urban"
+      ]
+    },
+    {
+      "sku": "WT-SLV-001",
+      "name": {
+        "en": "Minimalist Silver Watch",
+        "de": "Minimalistische Silberuhr",
+        "fr": "Montre Argentée Minimaliste"
+      },
+      "description": {
+        "en": "<p>Elegant minimalist watch with silver stainless steel case. Japanese quartz movement and scratch-resistant sapphire crystal.</p>",
+        "de": "<p>Elegante minimalistische Uhr mit silbernem Edelstahlgehäuse. Japanisches Quarzwerk und kratzfestes Saphirglas.</p>",
+        "fr": "<p>Montre minimaliste élégante avec boîtier en acier inoxydable argenté. Mouvement à quartz japonais et cristal saphir résistant aux rayures.</p>"
+      },
+      "price": 199.99,
+      "salePrice": null,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://images1.cmp.optimizely.com/Zz1lNzUwYTE0NGRjMDkxMWYwODljYzI2OTk2YzEyNDVkYw==",
+          "alt": "Silver minimalist watch",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "TimeCraft",
+      "category": "Fashion/Accessories",
+      "tags": [
+        "watch",
+        "minimalist",
+        "silver",
+        "luxury"
+      ]
+    },
+    {
+      "sku": "SK-CKR-09-001",
+      "name": {
+        "en": "High-Top Skate Shoes",
+        "de": "High-Top Skaterschuhe",
+        "fr": "Chaussures de Skate Montantes"
+      },
+      "description": {
+        "en": "<p>Durable high-top skate shoes with reinforced toe caps. Grippy rubber sole and padded collar for ankle support.</p>",
+        "de": "<p>Strapazierfähige High-Top-Skateschuhe mit verstärkten Zehenkappen. Griffige Gummisohle und gepolsterter Kragen für Knöchelunterstützung.</p>",
+        "fr": "<p>Chaussures de skate montantes durables avec embouts renforcés. Semelle en caoutchouc adhérente et col rembourré pour le soutien de la cheville.</p>"
+      },
+      "price": 84.99,
+      "salePrice": 69.99,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://images3.cmp.optimizely.com/Zz0wOGNlMzQ3MGRjYWIxMWYwOTNiMmFhNzJhZjY2MTljMg==",
+          "alt": "Black high-top skate shoes",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "SkateCore",
+      "category": "Fashion/Footwear",
+      "tags": [
+        "skateshoes",
+        "high-top",
+        "street",
+        "sale"
+      ]
+    },
+    {
+      "sku": "SW-CLD-12M-001",
+      "name": {
+        "en": "Cloud Storage Pro - 12 Months",
+        "de": "Cloud-Speicher Pro - 12 Monate",
+        "fr": "Stockage Cloud Pro - 12 Mois"
+      },
+      "description": {
+        "en": "<p>Premium cloud storage subscription with 2TB space. Includes automatic backup, file versioning, and advanced sharing features.</p>",
+        "de": "<p>Premium Cloud-Speicher-Abonnement mit 2TB Speicherplatz. Enthält automatisches Backup, Dateiversionierung und erweiterte Freigabefunktionen.</p>",
+        "fr": "<p>Abonnement de stockage cloud premium avec 2 To d'espace. Comprend la sauvegarde automatique, le versioning des fichiers et des fonctionnalités de partage avancées.</p>"
+      },
+      "price": 99.99,
+      "salePrice": 79.99,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://images2.cmp.optimizely.com/Zz01OWQxNDhlNGRjYzkxMWYwYjVmYjE2YWM3Y2U5MDZiZA==",
+          "alt": "Cloud storage digital service",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "CloudVault",
+      "category": "Software/Cloud Services",
+      "tags": [
+        "cloud",
+        "storage",
+        "subscription",
+        "backup",
+        "sale"
+      ]
+    },
+    {
+      "sku": "SW-VID-12M-001",
+      "name": {
+        "en": "Premium Video Streaming - Annual",
+        "de": "Premium Video-Streaming - Jährlich",
+        "fr": "Streaming Vidéo Premium - Annuel"
+      },
+      "description": {
+        "en": "<p>Unlimited 4K video streaming with ad-free experience. Access thousands of movies, series, and documentaries. Up to 4 simultaneous streams.</p>",
+        "de": "<p>Unbegrenztes 4K-Video-Streaming ohne Werbung. Zugriff auf Tausende von Filmen, Serien und Dokumentationen. Bis zu 4 gleichzeitige Streams.</p>",
+        "fr": "<p>Streaming vidéo 4K illimité sans publicité. Accédez à des milliers de films, séries et documentaires. Jusqu'à 4 diffusions simultanées.</p>"
+      },
+      "price": 119.99,
+      "salePrice": null,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://images3.cmp.optimizely.com/Zz1iZDA3M2YzMGRjZDQxMWYwOTcyOWFhNzJhZjY2MTljMg==",
+          "alt": "Video streaming service",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "StreamMax",
+      "category": "Software/Entertainment",
+      "tags": [
+        "streaming",
+        "video",
+        "subscription",
+        "4K"
+      ]
+    },
+    {
+      "sku": "SW-PM-12M-001",
+      "name": {
+        "en": "Project Management Suite - Team Plan",
+        "de": "Projektmanagement-Suite - Team-Plan",
+        "fr": "Suite de Gestion de Projet - Plan Équipe"
+      },
+      "description": {
+        "en": "<p>Complete project management solution for teams up to 25 users. Includes Kanban boards, Gantt charts, time tracking, and integrations.</p>",
+        "de": "<p>Komplette Projektmanagementlösung für Teams mit bis zu 25 Benutzern. Enthält Kanban-Boards, Gantt-Diagramme, Zeiterfassung und Integrationen.</p>",
+        "fr": "<p>Solution complète de gestion de projet pour équipes jusqu'à 25 utilisateurs. Comprend tableaux Kanban, diagrammes de Gantt, suivi du temps et intégrations.</p>"
+      },
+      "price": 299.99,
+      "salePrice": 249.99,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://images2.cmp.optimizely.com/Zz03MDQxZTZkYWRjZDYxMWYwOTRhNTE2YWM3Y2U5MDZiZA==",
+          "alt": "Project management software",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "TaskFlow",
+      "category": "Software/Productivity",
+      "tags": [
+        "project-management",
+        "team",
+        "subscription",
+        "productivity",
+        "sale"
+      ]
+    },
+    {
+      "sku": "SW-AV-12M-001",
+      "name": {
+        "en": "Internet Security Suite - Premium",
+        "de": "Internet-Sicherheitssuite - Premium",
+        "fr": "Suite de Sécurité Internet - Premium"
+      },
+      "description": {
+        "en": "<p>Advanced antivirus and internet security for up to 5 devices. Real-time protection, VPN, password manager, and parental controls included.</p>",
+        "de": "<p>Erweiterte Antiviren- und Internetsicherheit für bis zu 5 Geräte. Echtzeitschutz, VPN, Passwort-Manager und Kindersicherung enthalten.</p>",
+        "fr": "<p>Antivirus avancé et sécurité internet pour jusqu'à 5 appareils. Protection en temps réel, VPN, gestionnaire de mots de passe et contrôle parental inclus.</p>"
+      },
+      "price": 79.99,
+      "salePrice": 59.99,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://picsum.photos/id/130/600/800",
+          "alt": "Cybersecurity software",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "SecureNet",
+      "category": "Software/Security",
+      "tags": [
+        "antivirus",
+        "security",
+        "VPN",
+        "subscription",
+        "sale"
+      ]
+    },
+    {
+      "sku": "SW-DSN-12M-001",
+      "name": {
+        "en": "Creative Design Studio - Professional",
+        "de": "Kreatives Design-Studio - Professional",
+        "fr": "Studio de Design Créatif - Professionnel"
+      },
+      "description": {
+        "en": "<p>Professional design software suite with vector editing, photo manipulation, and UI/UX tools. Cloud storage and collaboration features included.</p>",
+        "de": "<p>Professionelle Design-Software-Suite mit Vektorbearbeitung, Fotomanipulation und UI/UX-Tools. Cloud-Speicher und Collaboration-Funktionen enthalten.</p>",
+        "fr": "<p>Suite logicielle de design professionnel avec édition vectorielle, manipulation photo et outils UI/UX. Stockage cloud et fonctionnalités de collaboration inclus.</p>"
+      },
+      "price": 399.99,
+      "salePrice": null,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://images1.cmp.optimizely.com/Zz0yMDI3ZTgwNmRjY2QxMWYwOWEyMjVhZjQxNzJiM2Q1NA==",
+          "alt": "Design software interface",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "DesignPro",
+      "category": "Software/Creative",
+      "tags": [
+        "design",
+        "creative",
+        "subscription",
+        "professional"
+      ]
+    },
+    {
+      "sku": "SW-MUS-12M-001",
+      "name": {
+        "en": "Music Streaming Premium - Family Plan",
+        "de": "Musik-Streaming Premium - Familienplan",
+        "fr": "Streaming Musical Premium - Plan Familial"
+      },
+      "description": {
+        "en": "<p>Unlimited music streaming for up to 6 family members. 100 million songs, ad-free listening, offline downloads, and high-quality audio.</p>",
+        "de": "<p>Unbegrenztes Musik-Streaming für bis zu 6 Familienmitglieder. 100 Millionen Songs, werbefreies Hören, Offline-Downloads und hochwertige Audioqualität.</p>",
+        "fr": "<p>Streaming musical illimité pour jusqu'à 6 membres de la famille. 100 millions de chansons, écoute sans publicité, téléchargements hors ligne et audio haute qualité.</p>"
+      },
+      "price": 149.99,
+      "salePrice": null,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://images3.cmp.optimizely.com/Zz00OWQxZGUyY2RjZDMxMWYwYmQ4OGFhNzJhZjY2MTljMg==",
+          "alt": "Music streaming service",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "SoundWave",
+      "category": "Software/Entertainment",
+      "tags": [
+        "music",
+        "streaming",
+        "subscription",
+        "family"
+      ]
+    },
+    {
+      "sku": "PH-PRO-512-001",
+      "name": {
+        "en": "ProPhone 15 Max - 512GB",
+        "de": "ProPhone 15 Max - 512GB",
+        "fr": "ProPhone 15 Max - 512 Go"
+      },
+      "description": {
+        "en": "<p>Premium flagship smartphone with 6.7-inch OLED display, triple camera system (48MP main), A17 Pro chip, and all-day battery life. 5G enabled.</p>",
+        "de": "<p>Premium Flaggschiff-Smartphone mit 6,7-Zoll-OLED-Display, Triple-Kamera-System (48MP Haupt), A17 Pro Chip und ganztägiger Akkulaufzeit. 5G-fähig.</p>",
+        "fr": "<p>Smartphone phare premium avec écran OLED 6,7 pouces, système triple caméra (principal 48MP), puce A17 Pro et autonomie d'une journée. Compatible 5G.</p>"
+      },
+      "price": 1299.99,
+      "salePrice": null,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://images4.cmp.optimizely.com/Zz1mZmQ4MGFiNGRjMDgxMWYwOGMxODdlYzU3ZTZkYjAwMw==",
+          "alt": "Premium black smartphone",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "ProTech",
+      "category": "Electronics/Smartphones",
+      "tags": [
+        "smartphone",
+        "5G",
+        "premium",
+        "flagship"
+      ]
+    },
+    {
+      "sku": "PH-GLX-256-001",
+      "name": {
+        "en": "Galaxy S24 Ultra - 256GB",
+        "de": "Galaxy S24 Ultra - 256GB",
+        "fr": "Galaxy S24 Ultra - 256 Go"
+      },
+      "description": {
+        "en": "<p>Advanced Android smartphone with 6.8-inch Dynamic AMOLED display, 200MP camera, S Pen stylus, and titanium frame. AI-powered features included.</p>",
+        "de": "<p>Fortschrittliches Android-Smartphone mit 6,8-Zoll Dynamic AMOLED Display, 200MP Kamera, S Pen Stylus und Titanrahmen. KI-gestützte Funktionen enthalten.</p>",
+        "fr": "<p>Smartphone Android avancé avec écran Dynamic AMOLED 6,8 pouces, caméra 200MP, stylet S Pen et cadre en titane. Fonctionnalités alimentées par IA incluses.</p>"
+      },
+      "price": 1199.99,
+      "salePrice": 1099.99,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://images3.cmp.optimizely.com/Zz0xMWM0MmJhNGRjMDkxMWYwYmQ4OGFhNzJhZjY2MTljMg==",
+          "alt": "Samsung Galaxy smartphone",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "Samsung",
+      "category": "Electronics/Smartphones",
+      "tags": [
+        "smartphone",
+        "android",
+        "5G",
+        "stylus",
+        "sale"
+      ]
+    },
+    {
+      "sku": "PH-PIX-128-001",
+      "name": {
+        "en": "Pixel 9 Pro - 128GB",
+        "de": "Pixel 9 Pro - 128GB",
+        "fr": "Pixel 9 Pro - 128 Go"
+      },
+      "description": {
+        "en": "<p>Google's flagship with advanced AI photography, Tensor G4 chip, and pure Android experience. 6.3-inch LTPO OLED display with 120Hz refresh rate.</p>",
+        "de": "<p>Googles Flaggschiff mit fortschrittlicher KI-Fotografie, Tensor G4 Chip und purem Android-Erlebnis. 6,3-Zoll LTPO OLED Display mit 120Hz Bildwiederholrate.</p>",
+        "fr": "<p>Produit phare de Google avec photographie IA avancée, puce Tensor G4 et expérience Android pure. Écran LTPO OLED 6,3 pouces avec taux de rafraîchissement 120Hz.</p>"
+      },
+      "price": 899.99,
+      "salePrice": null,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://images2.cmp.optimizely.com/Zz0xZmEyZGNiNmRjMDkxMWYwOTgwMjRhNTkxYzY4NDNkNQ==",
+          "alt": "Google Pixel smartphone",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "Google",
+      "category": "Electronics/Smartphones",
+      "tags": [
+        "smartphone",
+        "android",
+        "AI",
+        "photography"
+      ]
+    },
+    {
+      "sku": "PH-BDG-128-001",
+      "name": {
+        "en": "Value Pro 5G - 128GB",
+        "de": "Value Pro 5G - 128GB",
+        "fr": "Value Pro 5G - 128 Go"
+      },
+      "description": {
+        "en": "<p>Affordable 5G smartphone with 6.5-inch FHD+ display, 50MP dual camera, and 5000mAh battery. Great performance at an unbeatable price.</p>",
+        "de": "<p>Erschwingliches 5G-Smartphone mit 6,5-Zoll FHD+ Display, 50MP Dual-Kamera und 5000mAh Akku. Großartige Leistung zu einem unschlagbaren Preis.</p>",
+        "fr": "<p>Smartphone 5G abordable avec écran FHD+ 6,5 pouces, double caméra 50MP et batterie 5000mAh. Excellentes performances à un prix imbattable.</p>"
+      },
+      "price": 399.99,
+      "salePrice": 349.99,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://images3.cmp.optimizely.com/Zz0xZjNiMzVhY2RjMDkxMWYwYTg2MmFhNzJhZjY2MTljMg==",
+          "alt": "Budget smartphone",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "ValueTech",
+      "category": "Electronics/Smartphones",
+      "tags": [
+        "smartphone",
+        "5G",
+        "budget",
+        "affordable",
+        "sale"
+      ]
+    },
+    {
+      "sku": "PH-FLD-512-001",
+      "name": {
+        "en": "Fold Z6 - 512GB",
+        "de": "Fold Z6 - 512GB",
+        "fr": "Fold Z6 - 512 Go"
+      },
+      "description": {
+        "en": "<p>Revolutionary foldable smartphone with 7.6-inch main display and 6.2-inch cover screen. Multi-tasking optimized with ultra-thin glass and improved hinge.</p>",
+        "de": "<p>Revolutionäres faltbares Smartphone mit 7,6-Zoll Hauptdisplay und 6,2-Zoll Außendisplay. Multitasking-optimiert mit ultradünnem Glas und verbessertem Scharnier.</p>",
+        "fr": "<p>Smartphone pliable révolutionnaire avec écran principal 7,6 pouces et écran de couverture 6,2 pouces. Optimisé pour le multitâche avec verre ultra-fin et charnière améliorée.</p>"
+      },
+      "price": 1799.99,
+      "salePrice": null,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://images2.cmp.optimizely.com/Zz0zMzM2YjFmOGRjMDkxMWYwOTRhNTE2YWM3Y2U5MDZiZA==",
+          "alt": "Foldable smartphone",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "Samsung",
+      "category": "Electronics/Smartphones",
+      "tags": [
+        "smartphone",
+        "foldable",
+        "premium",
+        "innovative"
+      ]
+    },
+    {
+      "sku": "PH-GMR-256-001",
+      "name": {
+        "en": "ROG Gaming Phone 8 - 256GB",
+        "de": "ROG Gaming Phone 8 - 256GB",
+        "fr": "ROG Gaming Phone 8 - 256 Go"
+      },
+      "description": {
+        "en": "<p>Ultimate gaming smartphone with 6.78-inch 165Hz AMOLED display, Snapdragon 8 Gen 3, advanced cooling system, and 6000mAh battery. Includes AirTriggers.</p>",
+        "de": "<p>Ultimatives Gaming-Smartphone mit 6,78-Zoll 165Hz AMOLED Display, Snapdragon 8 Gen 3, fortschrittlichem Kühlsystem und 6000mAh Akku. AirTriggers enthalten.</p>",
+        "fr": "<p>Smartphone gaming ultime avec écran AMOLED 165Hz 6,78 pouces, Snapdragon 8 Gen 3, système de refroidissement avancé et batterie 6000mAh. AirTriggers inclus.</p>"
+      },
+      "price": 999.99,
+      "salePrice": 899.99,
+      "currency": "USD",
+      "images": [
+        {
+          "url": "https://images3.cmp.optimizely.com/Zz0zMzY3Yjg0OGRjMDkxMWYwOTcyOWFhNzJhZjY2MTljMg==",
+          "alt": "Gaming smartphone",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "ASUS ROG",
+      "category": "Electronics/Smartphones",
+      "tags": [
+        "smartphone",
+        "gaming",
+        "performance",
+        "5G",
+        "sale"
+      ]
+    }
+  ]
+}

@@ -43,3 +43,4 @@ utils/**/temp/
 bun.*
 
 .mcp.json
+.env.template

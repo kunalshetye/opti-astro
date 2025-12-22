@@ -1,0 +1,141 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Opti-Astro Product Catalog",
+  "description": "Product catalog schema for SKU-based product lookup in GenericProduct components",
+  "type": "object",
+  "required": ["version", "products"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Catalog schema version"
+    },
+    "lastUpdated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of last catalog update"
+    },
+    "products": {
+      "type": "array",
+      "description": "Array of products available in the catalog",
+      "items": {
+        "type": "object",
+        "required": ["sku", "name", "price", "currency", "images"],
+        "properties": {
+          "sku": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9\\-_]{5,19}$",
+            "description": "Stock Keeping Unit - unique product identifier (6-20 chars, starts with letter, alphanumeric + dashes/underscores)"
+          },
+          "name": {
+            "type": "object",
+            "description": "Localized product names",
+            "required": ["en"],
+            "properties": {
+              "en": { "type": "string", "minLength": 1 },
+              "de": { "type": "string" },
+              "fr": { "type": "string" },
+              "es": { "type": "string" },
+              "it": { "type": "string" },
+              "nl": { "type": "string" },
+              "sv": { "type": "string" },
+              "no": { "type": "string" },
+              "da": { "type": "string" },
+              "fi": { "type": "string" },
+              "pt-br": { "type": "string" },
+              "zh": { "type": "string" },
+              "ar": { "type": "string" },
+              "hi": { "type": "string" },
+              "sw": { "type": "string" }
+            }
+          },
+          "description": {
+            "type": "object",
+            "description": "Localized product descriptions (HTML)",
+            "properties": {
+              "en": { "type": "string" },
+              "de": { "type": "string" },
+              "fr": { "type": "string" },
+              "es": { "type": "string" },
+              "it": { "type": "string" },
+              "nl": { "type": "string" },
+              "sv": { "type": "string" },
+              "no": { "type": "string" },
+              "da": { "type": "string" },
+              "fi": { "type": "string" },
+              "pt-br": { "type": "string" },
+              "zh": { "type": "string" },
+              "ar": { "type": "string" },
+              "hi": { "type": "string" },
+              "sw": { "type": "string" }
+            }
+          },
+          "price": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Regular product price"
+          },
+          "salePrice": {
+            "type": ["number", "null"],
+            "minimum": 0,
+            "description": "Sale price (if product is on sale)"
+          },
+          "currency": {
+            "type": "string",
+            "enum": ["USD", "EUR", "GBP", "CAD", "NZD", "ZAR", "SEK", "NOK", "DKK", "BRL", "CNY", "HKD", "SAR", "INR", "KES"],
+            "description": "ISO 4217 currency code"
+          },
+          "images": {
+            "type": "array",
+            "minItems": 1,
+            "description": "Product images",
+            "items": {
+              "type": "object",
+              "required": ["url", "alt"],
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "description": "Image URL (absolute or relative)"
+                },
+                "alt": {
+                  "type": "string",
+                  "description": "Alternative text for accessibility"
+                },
+                "isPrimary": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Whether this is the primary product image"
+                },
+                "sortOrder": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Display order for image gallery"
+                }
+              }
+            }
+          },
+          "availability": {
+            "type": "string",
+            "enum": ["InStock", "OutOfStock", "PreOrder"],
+            "default": "InStock",
+            "description": "Product availability status"
+          },
+          "brand": {
+            "type": "string",
+            "description": "Brand or manufacturer name"
+          },
+          "category": {
+            "type": "string",
+            "description": "Product category (e.g., 'Apparel/T-Shirts')"
+          },
+          "tags": {
+            "type": "array",
+            "description": "Product tags for filtering and search",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
