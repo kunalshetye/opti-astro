@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { OPTIMIZELY_GRAPH_GATEWAY, OPTIMIZELY_GRAPH_APP_KEY, OPTIMIZELY_GRAPH_SECRET } from 'astro:env/client';
   import StatusMessage from '../../../shared/_StatusMessage.svelte';
   import ContentQualityChart from './_ContentQualityChart.svelte';
   import ContentQualityTable from './_ContentQualityTable.svelte';
@@ -350,144 +349,23 @@
   }
 
   async function loadContentQuality() {
-    if (!OPTIMIZELY_GRAPH_GATEWAY || !OPTIMIZELY_GRAPH_APP_KEY || !OPTIMIZELY_GRAPH_SECRET) {
-      displayMessage('Missing required environment variables. Please check your configuration.', false);
-      return;
-    }
-
     isLoading = true;
 
     try {
-      const query = `
-        query GetContentQualityData {
-          _Page(
-            limit: 100
-            orderBy: {
-              _metadata: {
-                lastModified: DESC
-              }
-            }
-            where: {
-              _metadata: {
-                status: {
-                  in: ["Published", ""]
-                }
-              }
-            }
-          ) {
-            total
-            items {
-              _id
-              _metadata {
-                displayName
-                published
-                lastModified
-                locale
-                types
-                status
-                url {
-                  default
-                }
-              }
-
-              ... on ArticlePage {
-                Heading
-                SubHeading
-                Body {
-                  html
-                }
-                Author
-                AuthorEmail
-                PromoImage {
-                  item {
-                    ... on ImageMedia {
-                      AltText
-                    }
-                  }
-                }
-                SeoSettings {
-                  MetaTitle
-                  MetaDescription
-                  SharingImage {
-                    item {
-                      ... on _IContent {
-                        _metadata {
-                          key
-                        }
-                      }
-                    }
-                  }
-                  Indexing
-                  GraphType
-                }
-              }
-
-              ... on LandingPage {
-                TopContentArea {
-                  ... on _IContent {
-                    _metadata {
-                      key
-                    }
-                  }
-                }
-                MainContentArea {
-                  ... on _IContent {
-                    _metadata {
-                      key
-                    }
-                  }
-                }
-                SeoSettings {
-                  MetaTitle
-                  MetaDescription
-                  SharingImage {
-                    item {
-                      ... on _IContent {
-                        _metadata {
-                          key
-                        }
-                      }
-                    }
-                  }
-                  Indexing
-                  GraphType
-                }
-              }
-
-              ... on FolderPage {
-                FolderDescription
-              }
-            }
-          }
-        }
-      `;
-
-      const response = await fetch(`${OPTIMIZELY_GRAPH_GATEWAY}/content/v2`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Basic ${btoa(`${OPTIMIZELY_GRAPH_APP_KEY}:${OPTIMIZELY_GRAPH_SECRET}`)}`
-        },
-        body: JSON.stringify({ query })
-      });
-
-      console.log('Response status:', response.status);
+      // Call server-side API instead of direct GraphQL
+      const response = await fetch('/opti-admin/api/reporting/content-quality.json');
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Response error:', errorText);
-        throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const result = await response.json();
-      console.log('GraphQL result:', result);
 
-      if (result.errors) {
-        console.error('GraphQL errors:', result.errors);
-        throw new Error(result.errors[0]?.message || 'GraphQL query failed');
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to load content quality data');
       }
 
-      rawPages = result.data?._Page?.items || [];
+      rawPages = result.data.pages;
 
       // Transform pages and calculate scores
       pageMetrics = rawPages.map(gqlPage => {

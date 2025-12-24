@@ -1,27 +1,29 @@
 <script lang="ts">
-  import { OPTIMIZELY_GRAPH_GATEWAY, OPTIMIZELY_GRAPH_APP_KEY, OPTIMIZELY_GRAPH_SECRET } from 'astro:env/client';
   import StatusMessage from '../../../shared/_StatusMessage.svelte';
   import UserPerformanceChart from './_UserPerformanceChart.svelte';
   import UserPerformanceTable from './_UserPerformanceTable.svelte';
 
   // Interfaces
   interface PageData {
-    _id: string;
-    _metadata: {
-      displayName: string;
-      published: string | null;
-      created: string;
-      lastModified: string;
-      createdBy: string | null;
-      lastModifiedBy: string | null;
-      owner: string | null;
-      locale: string;
-      types: string[];
-      status: string;
-      url: {
-        default: string;
-      };
-    };
+    id: string;
+    contentId: string;
+    variationId: string | null;
+    fullId: string;
+    title: string;
+    url: string;
+    published: string;
+    created: string;
+    lastModified: string;
+    owner: string;
+    locale: string;
+    status: string;
+    baseUrl: string;
+    contentType: string[];
+    version: string | null;
+    isVariation: boolean;
+    createdBy: string | null;
+    lastModifiedBy: string | null;
+    variations?: PageData[];
   }
 
   interface UserMetrics {
@@ -147,17 +149,54 @@
       .join(' ');
   }
 
-  function aggregateUserData(pagesData: PageData[]): Map<string, UserMetrics> {
-    const userMap = new Map<string, UserMetrics>();
+  function processPageForUser(page: PageData, userMap: Map<string, UserMetrics>) {
+    const createdBy = normalizeUser(page.createdBy);
+    const modifiedBy = normalizeUser(page.lastModifiedBy);
 
-    pagesData.forEach(page => {
-      const createdBy = normalizeUser(page._metadata.createdBy);
-      const modifiedBy = normalizeUser(page._metadata.lastModifiedBy);
+    // Track creator
+    if (!userMap.has(createdBy)) {
+      userMap.set(createdBy, {
+        user: createdBy,
+        itemsCreated: 0,
+        itemsModified: 0,
+        totalActivity: 0,
+        contentTypeBreakdown: new Map(),
+        mostRecentActivity: '',
+        locales: new Set(),
+        createdDates: [],
+        modifiedDates: []
+      });
+    }
 
-      // Track creator
-      if (!userMap.has(createdBy)) {
-        userMap.set(createdBy, {
-          user: createdBy,
+    const creatorMetrics = userMap.get(createdBy)!;
+    creatorMetrics.itemsCreated++;
+    creatorMetrics.totalActivity++;
+    creatorMetrics.createdDates.push(new Date(page.created));
+
+    // Update most recent activity
+    if (!creatorMetrics.mostRecentActivity || page.created > creatorMetrics.mostRecentActivity) {
+      creatorMetrics.mostRecentActivity = page.created;
+    }
+
+    // Track content types
+    page.contentType.forEach(type => {
+      const cleanType = type.split('.').pop() || type;
+      creatorMetrics.contentTypeBreakdown.set(
+        cleanType,
+        (creatorMetrics.contentTypeBreakdown.get(cleanType) || 0) + 1
+      );
+    });
+
+    // Track locales
+    if (page.locale) {
+      creatorMetrics.locales.add(page.locale);
+    }
+
+    // Track modifier (if different from creator)
+    if (modifiedBy !== createdBy) {
+      if (!userMap.has(modifiedBy)) {
+        userMap.set(modifiedBy, {
+          user: modifiedBy,
           itemsCreated: 0,
           itemsModified: 0,
           totalActivity: 0,
@@ -169,71 +208,44 @@
         });
       }
 
-      const creatorMetrics = userMap.get(createdBy)!;
-      creatorMetrics.itemsCreated++;
-      creatorMetrics.totalActivity++;
-      creatorMetrics.createdDates.push(new Date(page._metadata.created));
+      const modifierMetrics = userMap.get(modifiedBy)!;
+      modifierMetrics.itemsModified++;
+      modifierMetrics.totalActivity++;
+      modifierMetrics.modifiedDates.push(new Date(page.lastModified));
 
       // Update most recent activity
-      if (!creatorMetrics.mostRecentActivity ||
-          page._metadata.created > creatorMetrics.mostRecentActivity) {
-        creatorMetrics.mostRecentActivity = page._metadata.created;
+      if (!modifierMetrics.mostRecentActivity || page.lastModified > modifierMetrics.mostRecentActivity) {
+        modifierMetrics.mostRecentActivity = page.lastModified;
       }
 
-      // Track content types
-      page._metadata.types.forEach(type => {
+      // Track content types for modifier
+      page.contentType.forEach(type => {
         const cleanType = type.split('.').pop() || type;
-        creatorMetrics.contentTypeBreakdown.set(
+        modifierMetrics.contentTypeBreakdown.set(
           cleanType,
-          (creatorMetrics.contentTypeBreakdown.get(cleanType) || 0) + 1
+          (modifierMetrics.contentTypeBreakdown.get(cleanType) || 0) + 1
         );
       });
 
-      // Track locales
-      if (page._metadata.locale) {
-        creatorMetrics.locales.add(page._metadata.locale);
+      // Track locales for modifier
+      if (page.locale) {
+        modifierMetrics.locales.add(page.locale);
       }
+    }
+  }
 
-      // Track modifier (if different from creator)
-      if (modifiedBy !== createdBy) {
-        if (!userMap.has(modifiedBy)) {
-          userMap.set(modifiedBy, {
-            user: modifiedBy,
-            itemsCreated: 0,
-            itemsModified: 0,
-            totalActivity: 0,
-            contentTypeBreakdown: new Map(),
-            mostRecentActivity: '',
-            locales: new Set(),
-            createdDates: [],
-            modifiedDates: []
-          });
-        }
+  function aggregateUserData(pagesData: PageData[]): Map<string, UserMetrics> {
+    const userMap = new Map<string, UserMetrics>();
 
-        const modifierMetrics = userMap.get(modifiedBy)!;
-        modifierMetrics.itemsModified++;
-        modifierMetrics.totalActivity++;
-        modifierMetrics.modifiedDates.push(new Date(page._metadata.lastModified));
+    pagesData.forEach(page => {
+      // Process parent page
+      processPageForUser(page, userMap);
 
-        // Update most recent activity
-        if (!modifierMetrics.mostRecentActivity ||
-            page._metadata.lastModified > modifierMetrics.mostRecentActivity) {
-          modifierMetrics.mostRecentActivity = page._metadata.lastModified;
-        }
-
-        // Track content types for modifier
-        page._metadata.types.forEach(type => {
-          const cleanType = type.split('.').pop() || type;
-          modifierMetrics.contentTypeBreakdown.set(
-            cleanType,
-            (modifierMetrics.contentTypeBreakdown.get(cleanType) || 0) + 1
-          );
+      // Process variations
+      if (page.variations && page.variations.length > 0) {
+        page.variations.forEach(variant => {
+          processPageForUser(variant, userMap);
         });
-
-        // Track locales for modifier
-        if (page._metadata.locale) {
-          modifierMetrics.locales.add(page._metadata.locale);
-        }
       }
     });
 
@@ -272,87 +284,23 @@
   }
 
   async function loadUserPerformance() {
-    if (!OPTIMIZELY_GRAPH_GATEWAY || !OPTIMIZELY_GRAPH_APP_KEY || !OPTIMIZELY_GRAPH_SECRET) {
-      displayMessage('Missing required environment variables. Please check your configuration.', false);
-      return;
-    }
-
     isLoading = true;
 
     try {
-      // Calculate date filter based on time range
-      const dateThreshold = new Date();
-      dateThreshold.setDate(dateThreshold.getDate() - timeRangeDays);
-      const dateFilter = dateThreshold.toISOString();
-
-      const query = `
-        query GetUserPerformance {
-          _Page(
-            limit: 100
-            orderBy: {
-              _metadata: {
-                lastModified: DESC
-              }
-            }
-            where: {
-              _metadata: {
-                lastModified: {
-                  gte: "${dateFilter}"
-                }
-              }
-            }
-          ) {
-            total
-            items {
-              _id
-              _metadata {
-                displayName
-                published
-                created
-                lastModified
-                locale
-                types
-                status
-                url {
-                  default
-                }
-                ... on InstanceMetadata {
-                  createdBy
-                  lastModifiedBy
-                  owner
-                }
-              }
-            }
-          }
-        }
-      `;
-
-      const response = await fetch(`${OPTIMIZELY_GRAPH_GATEWAY}/content/v2`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Basic ${btoa(`${OPTIMIZELY_GRAPH_APP_KEY}:${OPTIMIZELY_GRAPH_SECRET}`)}`
-        },
-        body: JSON.stringify({ query })
-      });
-
-      console.log('Response status:', response.status);
+      // Call server-side API instead of direct GraphQL
+      const response = await fetch(`/opti-admin/api/reporting/user-performance.json?timeRangeDays=${timeRangeDays}`);
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Response error:', errorText);
-        throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const result = await response.json();
-      console.log('GraphQL result:', result);
 
-      if (result.errors) {
-        console.error('GraphQL errors:', result.errors);
-        throw new Error(result.errors[0]?.message || 'GraphQL query failed');
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to load user performance data');
       }
 
-      pages = result.data?._Page?.items || [];
+      pages = result.data.pages;
 
       // Aggregate data by user
       const metrics = aggregateUserData(pages);
@@ -366,13 +314,26 @@
       const contentTypeSet = new Set<string>();
 
       pages.forEach(page => {
-        if (page._metadata.locale) {
-          localeSet.add(page._metadata.locale);
+        if (page.locale) {
+          localeSet.add(page.locale);
         }
-        page._metadata.types.forEach(type => {
+        page.contentType.forEach(type => {
           const cleanType = type.split('.').pop() || type;
           contentTypeSet.add(cleanType);
         });
+
+        // Also process variations
+        if (page.variations) {
+          page.variations.forEach(variant => {
+            if (variant.locale) {
+              localeSet.add(variant.locale);
+            }
+            variant.contentType.forEach(type => {
+              const cleanType = type.split('.').pop() || type;
+              contentTypeSet.add(cleanType);
+            });
+          });
+        }
       });
 
       availableLocales = Array.from(localeSet).sort();

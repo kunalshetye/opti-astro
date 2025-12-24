@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { OPTIMIZELY_GRAPH_GATEWAY, OPTIMIZELY_GRAPH_APP_KEY, OPTIMIZELY_GRAPH_SECRET } from 'astro:env/client';
   import StatusMessage from '../../../shared/_StatusMessage.svelte';
   import LoadingSpinner from '../../../shared/_LoadingSpinner.svelte';
   import PublishedPagesChart from './_PublishedPagesChart.svelte';
@@ -7,6 +6,9 @@
 
   interface PublishedPage {
     id: string;
+    contentId: string;
+    variationId: string | null;
+    fullId: string;
     title: string;
     url: string;
     published: string;
@@ -16,6 +18,9 @@
     status: string;
     baseUrl: string;
     contentType: string[];
+    version: string | null;
+    isVariation: boolean;
+    variations?: PublishedPage[];
     action?: 'copy' | 'copy-with-changes' | 'ignore';
   }
 
@@ -34,6 +39,9 @@
   // Days to look back
   const daysToLookBack = 365;
 
+  // Expanded state for variations
+  let expandedRows = $state<Set<string>>(new Set());
+
   function displayMessage(text: string, isSuccess: boolean) {
     message = text;
     messageType = isSuccess ? 'success' : 'error';
@@ -41,6 +49,15 @@
     setTimeout(() => {
       showMessage = false;
     }, 5000);
+  }
+
+  function toggleRow(contentId: string) {
+    if (expandedRows.has(contentId)) {
+      expandedRows.delete(contentId);
+    } else {
+      expandedRows.add(contentId);
+    }
+    expandedRows = new Set(expandedRows); // Trigger reactivity
   }
 
   // Load pages on mount
@@ -81,105 +98,20 @@
     showMessage = false;
 
     try {
-      // Calculate the date from 10 days ago
-      const tenDaysAgo = new Date();
-      tenDaysAgo.setDate(tenDaysAgo.getDate() - daysToLookBack);
-      const dateFilter = tenDaysAgo.toISOString();
-
-      // GraphQL query to fetch published pages from the last 10 days
-      const query = `
-        query GetPublishedPages {
-          _Page(
-            limit: 100
-            orderBy: {
-              _metadata: {
-                published: DESC
-              }
-            }
-            where: {
-              _metadata: {
-                status: {
-                  eq: "Published"
-                }
-                published: {
-                  gte: "${dateFilter}"
-                }
-              }
-            }
-          ) {
-            total
-            items {
-              _id
-              _metadata {
-                displayName
-                url {
-                  default
-                  base
-                }
-                published
-                lastModified
-                locale
-                status
-                key
-                types
-              }
-              ... on ArticlePage {
-                Author
-              }
-            }
-          }
-        }
-      `;
-
-      // Fetch from GraphQL endpoint using App Key + Secret for draft content access
-      console.log('GraphQL Endpoint:', OPTIMIZELY_GRAPH_GATEWAY);
-      console.log('Query:', query);
-
-      if (!OPTIMIZELY_GRAPH_GATEWAY || !OPTIMIZELY_GRAPH_APP_KEY || !OPTIMIZELY_GRAPH_SECRET) {
-        throw new Error('Missing GraphQL configuration. Please check your environment variables (need App Key and Secret for draft content).');
-      }
-
-      const response = await fetch(`${OPTIMIZELY_GRAPH_GATEWAY}/content/v2`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Basic ${btoa(`${OPTIMIZELY_GRAPH_APP_KEY}:${OPTIMIZELY_GRAPH_SECRET}`)}`
-        },
-        body: JSON.stringify({ query })
-      });
-
-      console.log('Response status:', response.status);
+      // Call server-side API instead of direct GraphQL
+      const response = await fetch(`/opti-admin/api/reporting/published-pages.json?daysToLookBack=${daysToLookBack}`);
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Response error:', errorText);
-        throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const result = await response.json();
-      console.log('GraphQL result:', result);
 
-      if (result.errors) {
-        console.error('GraphQL errors:', result.errors);
-        throw new Error(result.errors[0]?.message || 'GraphQL query failed');
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to load pages');
       }
 
-      const items = result.data?._Page?.items || [];
-      console.log('Total items found:', items.length);
-
-      // Transform data
-      pages = items.map((item: any) => ({
-        id: item._id,
-        title: item._metadata?.displayName || 'Untitled',
-        url: item._metadata?.url?.default || '',
-        published: item._metadata?.published || '',
-        lastModified: item._metadata?.lastModified || '',
-        owner: item.Author || extractOwner(item._metadata?.key || ''),
-        locale: item._metadata?.locale || '',
-        status: item._metadata?.status || '',
-        baseUrl: item._metadata?.url?.base || '',
-        contentType: item._metadata?.types || []
-      }));
+      pages = result.data.pages;
 
       // Extract unique locales for filter
       const locales = new Set(pages.map(p => p.locale));
@@ -198,14 +130,6 @@
     }
   }
 
-  function extractOwner(key: string): string {
-    // Try to extract owner from content key if available
-    // Format is typically something like "contentkey_owner_timestamp"
-    // This is a simplified extraction - adjust based on your actual key format
-    const parts = key.split('_');
-    return parts.length > 1 ? parts[1] : 'Unknown';
-  }
-
   function setAction(pageId: string, action: 'copy' | 'copy-with-changes' | 'ignore') {
     const index = pages.findIndex(p => p.id === pageId);
     if (index !== -1) {
@@ -218,21 +142,31 @@
     }
   }
 
-  // Computed filtered pages
+  // Computed filtered pages (maintains parent-child structure)
   let filteredPages = $derived(
-    pages.filter(page => {
-      // Filter out pages with no base URL
-      const hasBaseUrl = page.baseUrl && page.baseUrl.trim() !== '';
+    pages
+      .filter(page => {
+        // Filter out pages with no base URL
+        const hasBaseUrl = page.baseUrl && page.baseUrl.trim() !== '';
 
-      const matchesSearch = !searchQuery ||
-        page.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        page.url.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        page.owner.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesSearch = !searchQuery ||
+          page.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          page.url.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          page.owner.toLowerCase().includes(searchQuery.toLowerCase());
 
-      const matchesLocale = filterLocale === 'all' || page.locale === filterLocale;
+        const matchesLocale = filterLocale === 'all' || page.locale === filterLocale;
 
-      return hasBaseUrl && matchesSearch && matchesLocale;
-    })
+        return hasBaseUrl && matchesSearch && matchesLocale;
+      })
+      .map(page => ({
+        ...page,
+        // Filter variations too
+        variations: page.variations?.filter(variant => {
+          const matchesSearch = !searchQuery ||
+            variant.title.toLowerCase().includes(searchQuery.toLowerCase());
+          return matchesSearch;
+        }) || []
+      }))
   );
 </script>
 
@@ -312,6 +246,8 @@
     {searchQuery}
     {filterLocale}
     {daysToLookBack}
+    {expandedRows}
+    onToggleRow={toggleRow}
     onSetAction={setAction}
   />
 </div>

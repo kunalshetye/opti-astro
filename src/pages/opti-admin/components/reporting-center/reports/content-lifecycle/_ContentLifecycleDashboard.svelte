@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { OPTIMIZELY_GRAPH_GATEWAY, OPTIMIZELY_GRAPH_APP_KEY, OPTIMIZELY_GRAPH_SECRET } from 'astro:env/client';
   import StatusMessage from '../../../shared/_StatusMessage.svelte';
   import LoadingSpinner from '../../../shared/_LoadingSpinner.svelte';
   import ContentLifecycleChart from './_ContentLifecycleChart.svelte';
@@ -7,6 +6,9 @@
 
   interface ContentPage {
     id: string;
+    contentId: string;
+    variationId: string | null;
+    fullId: string;
     title: string;
     url: string;
     published: string;
@@ -16,6 +18,9 @@
     status: string;
     baseUrl: string;
     contentType: string[];
+    version: string | null;
+    isVariation: boolean;
+    variations?: ContentPage[];
     daysSinceUpdate: number;
   }
 
@@ -32,6 +37,18 @@
   let availableLocales = $state<string[]>([]);
   let inactivityPeriod = $state<number>(90); // Default: 90 days
   let inactivityUnit = $state<'days' | 'months'>('days');
+
+  // Expanded rows state for variations
+  let expandedRows = $state<Set<string>>(new Set());
+
+  function toggleRow(contentId: string) {
+    if (expandedRows.has(contentId)) {
+      expandedRows.delete(contentId);
+    } else {
+      expandedRows.add(contentId);
+    }
+    expandedRows = new Set(expandedRows); // Trigger reactivity
+  }
 
   function displayMessage(text: string, isSuccess: boolean) {
     message = text;
@@ -52,141 +69,73 @@
     showMessage = false;
 
     try {
-      // Calculate the date threshold
-      const daysThreshold = inactivityUnit === 'months'
-        ? inactivityPeriod * 30
-        : inactivityPeriod;
-
-      const thresholdDate = new Date();
-      thresholdDate.setDate(thresholdDate.getDate() - daysThreshold);
-      const dateFilter = thresholdDate.toISOString();
-
-      // GraphQL query to fetch published pages not updated since threshold
-      // Only show published pages for lifecycle tracking (not drafts)
-      const query = `
-        query GetStaleContent {
-          _Page(
-            limit: 100
-            orderBy: {
-              _metadata: {
-                lastModified: ASC
-              }
-            }
-            where: {
-              _and: [
-                {
-                  _metadata: {
-                    lastModified: {
-                      lt: "${dateFilter}"
-                    }
-                  }
-                }
-                {
-                  _metadata: {
-                    status: {
-                      eq: "Published"
-                    }
-                  }
-                }
-              ]
-            }
-          ) {
-            total
-            items {
-              _id
-              _metadata {
-                displayName
-                url {
-                  default
-                  base
-                }
-                published
-                lastModified
-                locale
-                status
-                key
-                types
-              }
-              ... on ArticlePage {
-                Author
-              }
-            }
-          }
-        }
-      `;
-
-      console.log('GraphQL Endpoint:', OPTIMIZELY_GRAPH_GATEWAY);
-      console.log('Query:', query);
-      console.log('Date threshold:', dateFilter);
-
-      if (!OPTIMIZELY_GRAPH_GATEWAY || !OPTIMIZELY_GRAPH_APP_KEY || !OPTIMIZELY_GRAPH_SECRET) {
-        throw new Error('Missing GraphQL configuration. Please check your environment variables (need App Key and Secret for draft content).');
-      }
-
-      const response = await fetch(`${OPTIMIZELY_GRAPH_GATEWAY}/content/v2`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Basic ${btoa(`${OPTIMIZELY_GRAPH_APP_KEY}:${OPTIMIZELY_GRAPH_SECRET}`)}`
-        },
-        body: JSON.stringify({ query })
-      });
-
-      console.log('Response status:', response.status);
+      // Call server-side API instead of direct GraphQL
+      const response = await fetch(`/opti-admin/api/reporting/content-lifecycle.json?inactivityPeriod=${inactivityPeriod}&inactivityUnit=${inactivityUnit}`);
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Response error:', errorText);
-        throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const result = await response.json();
-      console.log('GraphQL result:', result);
 
-      if (result.errors) {
-        console.error('GraphQL errors:', result.errors);
-        throw new Error(result.errors[0]?.message || 'GraphQL query failed');
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to load content lifecycle data');
       }
 
-      const items = result.data?._Page?.items || [];
+      const items = result.data.pages;
       console.log('Total items found:', items.length);
 
-      // Transform data and filter to only include Pages (exclude Experiences, Blocks, etc.)
+      // Transform data - API already filters and groups by variation
       const now = new Date();
-      pages = items
-        .filter((item: any) => {
-          const types = item._metadata?.types || [];
+      pages = items.map((item: any) => {
+        const lastModified = new Date(item.lastModified || '');
+        const daysSinceUpdate = Math.floor((now.getTime() - lastModified.getTime()) / (1000 * 60 * 60 * 24));
 
-          // Exclude Experiences and Blocks
-          const isExperience = types.some((type: string) =>
-            type.includes('_Experience') || type.includes('Experience')
-          );
-          const isBlock = types.some((type: string) =>
-            type.includes('_Block') || type.includes('Block') || type.includes('ShareableContent')
-          );
+        // Transform parent page
+        const page = {
+          id: item.id,
+          contentId: item.contentId,
+          variationId: item.variationId,
+          fullId: item.fullId,
+          title: item.title,
+          url: item.url,
+          published: item.published,
+          lastModified: item.lastModified,
+          owner: item.owner,
+          locale: item.locale,
+          status: item.status,
+          baseUrl: item.baseUrl,
+          contentType: item.contentType,
+          version: item.version,
+          isVariation: item.isVariation,
+          daysSinceUpdate,
+          variations: item.variations?.map((v: any) => {
+            const vLastModified = new Date(v.lastModified || '');
+            const vDaysSinceUpdate = Math.floor((now.getTime() - vLastModified.getTime()) / (1000 * 60 * 60 * 24));
+            return {
+              id: v.id,
+              contentId: v.contentId,
+              variationId: v.variationId,
+              fullId: v.fullId,
+              title: v.title,
+              url: v.url,
+              published: v.published,
+              lastModified: v.lastModified,
+              owner: v.owner,
+              locale: v.locale,
+              status: v.status,
+              baseUrl: v.baseUrl,
+              contentType: v.contentType,
+              version: v.version,
+              isVariation: v.isVariation,
+              daysSinceUpdate: vDaysSinceUpdate
+            };
+          }) || []
+        };
+        return page;
+      });
 
-          return !isExperience && !isBlock;
-        })
-        .map((item: any) => {
-          const lastModified = new Date(item._metadata?.lastModified || '');
-          const daysSinceUpdate = Math.floor((now.getTime() - lastModified.getTime()) / (1000 * 60 * 60 * 24));
-
-          return {
-            id: item._id,
-            title: item._metadata?.displayName || 'Untitled',
-            url: item._metadata?.url?.default || '',
-            published: item._metadata?.published || '',
-            lastModified: item._metadata?.lastModified || '',
-            owner: item.Author || extractOwner(item._metadata?.key || ''),
-            locale: item._metadata?.locale || '',
-            status: item._metadata?.status || '',
-            baseUrl: item._metadata?.url?.base || '',
-            contentType: item._metadata?.types || [],
-            daysSinceUpdate
-          };
-        });
-
-      console.log('Filtered pages:', pages.length);
+      console.log('Processed pages:', pages.length);
 
       // Extract unique locales for filter
       const locales = new Set(pages.map(p => p.locale));
@@ -209,25 +158,35 @@
 
   // Computed filtered pages
   let filteredPages = $derived(
-    pages.filter(page => {
-      const hasBaseUrl = page.baseUrl && page.baseUrl.trim() !== '';
+    pages
+      .filter(page => {
+        const hasBaseUrl = page.baseUrl && page.baseUrl.trim() !== '';
 
-      const matchesSearch = !searchQuery ||
-        page.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        page.url.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        page.owner.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesSearch = !searchQuery ||
+          page.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          page.url.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          page.owner.toLowerCase().includes(searchQuery.toLowerCase());
 
-      const matchesLocale = filterLocale === 'all' || page.locale === filterLocale;
+        const matchesLocale = filterLocale === 'all' || page.locale === filterLocale;
 
-      return hasBaseUrl && matchesSearch && matchesLocale;
-    })
+        return hasBaseUrl && matchesSearch && matchesLocale;
+      })
+      .map(page => ({
+        ...page,
+        // Also filter variations based on search query
+        variations: page.variations?.filter(variant => {
+          const matchesSearch = !searchQuery ||
+            variant.title.toLowerCase().includes(searchQuery.toLowerCase());
+          return matchesSearch;
+        }) || []
+      }))
   );
 </script>
 
 <div class="w-full">
   <div class="mb-8">
     <h1 class="text-3xl font-bold text-gray-900 mb-2">Content Lifecycle Dashboard</h1>
-    <p class="text-gray-600">Track pages that haven't been updated recently</p>
+    <p class="text-gray-600">Track published pages that haven't been updated recently</p>
   </div>
 
   {#if showMessage}
@@ -327,5 +286,9 @@
   <ContentLifecycleTable
     pages={filteredPages}
     {isLoading}
+    {searchQuery}
+    {filterLocale}
+    {expandedRows}
+    onToggleRow={toggleRow}
   />
 </div>
