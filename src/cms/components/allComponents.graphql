@@ -20,4 +20,6 @@ fragment AllComponentsExceptGrid on _IComponent {
     ...Divider
     ...OdpForm
     ...FacetedSearch
+    ...GenericProduct
+    ...GenericProductList
 }
