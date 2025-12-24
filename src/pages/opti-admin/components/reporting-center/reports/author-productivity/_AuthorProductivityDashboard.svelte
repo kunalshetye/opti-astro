@@ -1,23 +1,27 @@
 <script lang="ts">
-  import { OPTIMIZELY_GRAPH_GATEWAY, OPTIMIZELY_GRAPH_APP_KEY, OPTIMIZELY_GRAPH_SECRET } from 'astro:env/client';
   import StatusMessage from '../../../shared/_StatusMessage.svelte';
   import AuthorProductivityChart from './_AuthorProductivityChart.svelte';
   import AuthorProductivityTable from './_AuthorProductivityTable.svelte';
 
   // Interfaces
   interface ArticlePageData {
-    _id: string;
-    _metadata: {
-      displayName: string;
-      published: string;
-      created: string;
-      locale: string;
-      types: string[];
-      url: {
-        default: string;
-      };
-    };
-    Author: string | null;
+    id: string;
+    contentId: string;
+    variationId: string | null;
+    fullId: string;
+    title: string;
+    url: string;
+    published: string;
+    created: string;
+    lastModified: string;
+    owner: string;
+    locale: string;
+    status: string;
+    baseUrl: string;
+    contentType: string[];
+    version: string | null;
+    isVariation: boolean;
+    variations?: ArticlePageData[];
   }
 
   interface AuthorMetrics {
@@ -145,52 +149,63 @@
       .join(' ');
   }
 
+  function processPageForAuthor(page: ArticlePageData, authorMap: Map<string, AuthorMetrics>) {
+    const author = normalizeAuthor(page.owner);
+
+    if (!authorMap.has(author)) {
+      authorMap.set(author, {
+        author,
+        totalPages: 0,
+        avgTimeToPublish: 0,
+        contentTypeBreakdown: new Map(),
+        pagesPerWeek: 0,
+        pagesPerMonth: 0,
+        mostRecentPublication: '',
+        publicationDates: [],
+        locales: new Set()
+      });
+    }
+
+    const metrics = authorMap.get(author)!;
+    metrics.totalPages++;
+
+    // Track publication date for velocity
+    if (page.published) {
+      metrics.publicationDates.push(new Date(page.published));
+
+      // Update most recent
+      if (!metrics.mostRecentPublication || page.published > metrics.mostRecentPublication) {
+        metrics.mostRecentPublication = page.published;
+      }
+    }
+
+    // Track content types
+    page.contentType.forEach((type: string) => {
+      const cleanType = type.split('.').pop() || type;
+      metrics.contentTypeBreakdown.set(
+        cleanType,
+        (metrics.contentTypeBreakdown.get(cleanType) || 0) + 1
+      );
+    });
+
+    // Track locales
+    if (page.locale) {
+      metrics.locales.add(page.locale);
+    }
+  }
+
   function aggregateAuthorData(pagesData: ArticlePageData[]): Map<string, AuthorMetrics> {
     const authorMap = new Map<string, AuthorMetrics>();
 
     pagesData.forEach(page => {
-      const author = normalizeAuthor(page.Author);
+      // Process parent page
+      processPageForAuthor(page, authorMap);
 
-      if (!authorMap.has(author)) {
-        authorMap.set(author, {
-          author,
-          totalPages: 0,
-          avgTimeToPublish: 0,
-          contentTypeBreakdown: new Map(),
-          pagesPerWeek: 0,
-          pagesPerMonth: 0,
-          mostRecentPublication: '',
-          publicationDates: [],
-          locales: new Set()
+      // Process variations
+      if (page.variations && page.variations.length > 0) {
+        page.variations.forEach(variant => {
+          processPageForAuthor(variant, authorMap);
         });
-      }
-
-      const metrics = authorMap.get(author)!;
-      metrics.totalPages++;
-
-      // Track publication date for velocity
-      if (page._metadata.published) {
-        metrics.publicationDates.push(new Date(page._metadata.published));
-
-        // Update most recent
-        if (!metrics.mostRecentPublication ||
-            page._metadata.published > metrics.mostRecentPublication) {
-          metrics.mostRecentPublication = page._metadata.published;
-        }
-      }
-
-      // Track content types
-      page._metadata.types.forEach(type => {
-        const cleanType = type.split('.').pop() || type;
-        metrics.contentTypeBreakdown.set(
-          cleanType,
-          (metrics.contentTypeBreakdown.get(cleanType) || 0) + 1
-        );
-      });
-
-      // Track locales
-      if (page._metadata.locale) {
-        metrics.locales.add(page._metadata.locale);
       }
     });
 
@@ -206,27 +221,39 @@
     return authorMap;
   }
 
+  function processTimeToPublish(page: ArticlePageData, authorTimeMap: Map<string, { total: number; count: number }>) {
+    const author = normalizeAuthor(page.owner);
+    const created = page.created ? new Date(page.created) : null;
+    const published = page.published ? new Date(page.published) : null;
+
+    if (created && published) {
+      const diffMs = published.getTime() - created.getTime();
+      const diffDays = diffMs / (1000 * 60 * 60 * 24);
+
+      // Only count non-negative values (handle edge cases where published < created)
+      if (diffDays >= 0) {
+        if (!authorTimeMap.has(author)) {
+          authorTimeMap.set(author, { total: 0, count: 0 });
+        }
+        const entry = authorTimeMap.get(author)!;
+        entry.total += diffDays;
+        entry.count++;
+      }
+    }
+  }
+
   function calculateTimeToPublish(pagesData: ArticlePageData[], metrics: Map<string, AuthorMetrics>) {
     const authorTimeMap = new Map<string, { total: number; count: number }>();
 
     pagesData.forEach(page => {
-      const author = normalizeAuthor(page.Author);
-      const created = page._metadata.created ? new Date(page._metadata.created) : null;
-      const published = page._metadata.published ? new Date(page._metadata.published) : null;
+      // Process parent page
+      processTimeToPublish(page, authorTimeMap);
 
-      if (created && published) {
-        const diffMs = published.getTime() - created.getTime();
-        const diffDays = diffMs / (1000 * 60 * 60 * 24);
-
-        // Only count non-negative values (handle edge cases where published < created)
-        if (diffDays >= 0) {
-          if (!authorTimeMap.has(author)) {
-            authorTimeMap.set(author, { total: 0, count: 0 });
-          }
-          const entry = authorTimeMap.get(author)!;
-          entry.total += diffDays;
-          entry.count++;
-        }
+      // Process variations
+      if (page.variations && page.variations.length > 0) {
+        page.variations.forEach(variant => {
+          processTimeToPublish(variant, authorTimeMap);
+        });
       }
     });
 
@@ -270,86 +297,23 @@
   }
 
   async function loadAuthorProductivity() {
-    if (!OPTIMIZELY_GRAPH_GATEWAY || !OPTIMIZELY_GRAPH_APP_KEY || !OPTIMIZELY_GRAPH_SECRET) {
-      displayMessage('Missing required environment variables. Please check your configuration.', false);
-      return;
-    }
-
     isLoading = true;
 
     try {
-      // Calculate date filter based on time range
-      const dateThreshold = new Date();
-      dateThreshold.setDate(dateThreshold.getDate() - timeRangeDays);
-      const dateFilter = dateThreshold.toISOString();
-
-      const query = `
-        query GetAuthorProductivity {
-          _Page(
-            limit: 100
-            orderBy: {
-              _metadata: {
-                published: DESC
-              }
-            }
-            where: {
-              _metadata: {
-                status: {
-                  eq: "Published"
-                }
-                published: {
-                  gte: "${dateFilter}"
-                }
-              }
-            }
-          ) {
-            total
-            items {
-              _id
-              _metadata {
-                displayName
-                published
-                created
-                locale
-                types
-                url {
-                  default
-                }
-              }
-              ... on ArticlePage {
-                Author
-              }
-            }
-          }
-        }
-      `;
-
-      const response = await fetch(`${OPTIMIZELY_GRAPH_GATEWAY}/content/v2`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Basic ${btoa(`${OPTIMIZELY_GRAPH_APP_KEY}:${OPTIMIZELY_GRAPH_SECRET}`)}`
-        },
-        body: JSON.stringify({ query })
-      });
-
-      console.log('Response status:', response.status);
+      // Call server-side API instead of direct GraphQL
+      const response = await fetch(`/opti-admin/api/reporting/author-productivity.json?timeRangeDays=${timeRangeDays}`);
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Response error:', errorText);
-        throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const result = await response.json();
-      console.log('GraphQL result:', result);
 
-      if (result.errors) {
-        console.error('GraphQL errors:', result.errors);
-        throw new Error(result.errors[0]?.message || 'GraphQL query failed');
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to load author productivity data');
       }
 
-      pages = result.data?._Page?.items || [];
+      pages = result.data.pages;
 
       // Aggregate data by author
       const metrics = aggregateAuthorData(pages);
@@ -366,13 +330,26 @@
       const contentTypeSet = new Set<string>();
 
       pages.forEach(page => {
-        if (page._metadata.locale) {
-          localeSet.add(page._metadata.locale);
+        if (page.locale) {
+          localeSet.add(page.locale);
         }
-        page._metadata.types.forEach(type => {
+        page.contentType.forEach((type: string) => {
           const cleanType = type.split('.').pop() || type;
           contentTypeSet.add(cleanType);
         });
+
+        // Also process variations
+        if (page.variations) {
+          page.variations.forEach(variant => {
+            if (variant.locale) {
+              localeSet.add(variant.locale);
+            }
+            variant.contentType.forEach((type: string) => {
+              const cleanType = type.split('.').pop() || type;
+              contentTypeSet.add(cleanType);
+            });
+          });
+        }
       });
 
       availableLocales = Array.from(localeSet).sort();

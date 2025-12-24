@@ -91,7 +91,7 @@
 
   <div class="flex gap-6 flex-col xl:flex-row">
     <!-- Left Sidebar Menu -->
-    <aside class="w-full xl:w-72 flex-shrink-0">
+    <aside class="w-full xl:w-72 flex-shrink-0 xl:sticky xl:top-6 xl:self-start">
       <nav class="bg-white rounded-lg shadow-md border border-gray-200 p-4">
         <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
           Available Reports

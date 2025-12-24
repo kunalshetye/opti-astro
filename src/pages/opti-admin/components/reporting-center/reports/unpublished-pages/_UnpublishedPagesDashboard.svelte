@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { OPTIMIZELY_GRAPH_GATEWAY, OPTIMIZELY_GRAPH_APP_KEY, OPTIMIZELY_GRAPH_SECRET } from 'astro:env/client';
   import StatusMessage from '../../../shared/_StatusMessage.svelte';
   import LoadingSpinner from '../../../shared/_LoadingSpinner.svelte';
   import WipBadge from '../../../shared/_WipBadge.svelte';
@@ -8,6 +7,9 @@
 
   interface UnpublishedPage {
     id: string;
+    contentId: string;
+    variationId: string | null;
+    fullId: string;
     title: string;
     url: string;
     created: string;
@@ -17,6 +19,9 @@
     status: string;
     baseUrl: string;
     contentType: string[];
+    version: string | null;
+    isVariation: boolean;
+    variations?: UnpublishedPage[];
   }
 
   // State
@@ -31,6 +36,9 @@
   let filterLocale = $state<string>('all');
   let availableLocales = $state<string[]>([]);
 
+  // Expanded state for variations
+  let expandedRows = $state<Set<string>>(new Set());
+
   function displayMessage(text: string, isSuccess: boolean) {
     message = text;
     messageType = isSuccess ? 'success' : 'error';
@@ -38,6 +46,15 @@
     setTimeout(() => {
       showMessage = false;
     }, 5000);
+  }
+
+  function toggleRow(contentId: string) {
+    if (expandedRows.has(contentId)) {
+      expandedRows.delete(contentId);
+    } else {
+      expandedRows.add(contentId);
+    }
+    expandedRows = new Set(expandedRows); // Trigger reactivity
   }
 
   // Load pages on mount
@@ -50,180 +67,20 @@
     showMessage = false;
 
     try {
-      // GraphQL query to fetch draft/unpublished page versions
-      // Using App Key + Secret authentication with status filter
-      // Status "Published" means live, anything else (like empty/null) means draft
-      const query = `
-        query GetUnpublishedPages {
-          _Page(
-            limit: 100
-            orderBy: {
-              _metadata: {
-                lastModified: DESC
-              }
-            }
-            where: {
-              _metadata: {
-                status: {
-                  notEq: "Published"
-                }
-              }
-            }
-          ) {
-            total
-            items {
-              _id
-              _metadata {
-                displayName
-                url {
-                  default
-                  base
-                }
-                created
-                lastModified
-                locale
-                status
-                key
-                types
-                published
-                version
-              }
-              ... on ArticlePage {
-                Author
-              }
-            }
-          }
-        }
-      `;
-
-      // Fetch from GraphQL endpoint using App Key + Secret for draft content access
-      console.log('GraphQL Endpoint:', OPTIMIZELY_GRAPH_GATEWAY);
-      console.log('Query:', query);
-
-      if (!OPTIMIZELY_GRAPH_GATEWAY || !OPTIMIZELY_GRAPH_APP_KEY || !OPTIMIZELY_GRAPH_SECRET) {
-        throw new Error('Missing GraphQL configuration. Please check your environment variables (need App Key and Secret for draft content).');
-      }
-
-      const response = await fetch(`${OPTIMIZELY_GRAPH_GATEWAY}/content/v2`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Basic ${btoa(`${OPTIMIZELY_GRAPH_APP_KEY}:${OPTIMIZELY_GRAPH_SECRET}`)}`
-        },
-        body: JSON.stringify({ query })
-      });
-
-      console.log('Response status:', response.status);
+      // Call server-side API instead of direct GraphQL
+      const response = await fetch('/opti-admin/api/reporting/unpublished-pages.json');
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Response error:', errorText);
-        throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const result = await response.json();
-      console.log('GraphQL result:', result);
 
-      if (result.errors) {
-        console.error('GraphQL errors:', result.errors);
-        throw new Error(result.errors[0]?.message || 'GraphQL query failed');
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to load pages');
       }
 
-      const items = result.data?._Page?.items || [];
-      console.log('=== UNPUBLISHED PAGES DEBUG ===');
-      console.log('Total items found:', items.length);
-
-      // Analyze all unique status values
-      const statusSet = new Set<string>();
-      items.forEach((item: any) => {
-        if (item._metadata?.status) {
-          statusSet.add(item._metadata.status);
-        }
-      });
-      console.log('Unique status values found:', Array.from(statusSet));
-
-      // Show sample of first 10 items
-      console.log('Sample items (first 10):', items.slice(0, 10).map((item: any) => ({
-        title: item._metadata?.displayName,
-        published: item._metadata?.published,
-        status: item._metadata?.status,
-        types: item._metadata?.types,
-        locale: item._metadata?.locale,
-        version: item._metadata?.version
-      })));
-
-      // Transform data and filter to only include Pages (exclude Experiences, Blocks, etc.)
-      const filteredItems: any[] = [];
-      const excludedItems: any[] = [];
-
-      items.forEach((item: any) => {
-        const types = item._metadata?.types || [];
-
-        // Only include if it's a Page type (not Experience or Block)
-        const isExperience = types.some((type: string) =>
-          type.includes('_Experience') || type.includes('Experience')
-        );
-        const isBlock = types.some((type: string) =>
-          type.includes('_Block') || type.includes('Block') || type.includes('ShareableContent')
-        );
-
-        if (isExperience) {
-          excludedItems.push({
-            title: item._metadata?.displayName,
-            reason: 'is Experience',
-            types
-          });
-          return;
-        }
-
-        if (isBlock) {
-          excludedItems.push({
-            title: item._metadata?.displayName,
-            reason: 'is Block/ShareableContent',
-            types
-          });
-          return;
-        }
-
-        // Filter to only show non-published versions
-        // Status "Published" means this version is live
-        // Any other status (CheckedOut, etc.) means it's a draft
-        const status = item._metadata?.status || '';
-        if (status === 'Published') {
-          excludedItems.push({
-            title: item._metadata?.displayName,
-            reason: 'status is Published',
-            status,
-            locale: item._metadata?.locale
-          });
-          return;
-        }
-
-        filteredItems.push(item);
-      });
-
-      console.log('Excluded items (showing first 5):', excludedItems.slice(0, 5));
-      console.log('Items passing filter:', filteredItems.length);
-      console.log('Filtered items by locale:', filteredItems.reduce((acc: any, item: any) => {
-        const locale = item._metadata?.locale || 'unknown';
-        acc[locale] = (acc[locale] || 0) + 1;
-        return acc;
-      }, {}));
-
-      pages = filteredItems.map((item: any) => ({
-        id: item._id,
-        title: item._metadata?.displayName || 'Untitled',
-        url: item._metadata?.url?.default || '',
-        created: item._metadata?.created || '',
-        lastModified: item._metadata?.lastModified || '',
-        owner: item.Author || extractOwner(item._metadata?.key || ''),
-        locale: item._metadata?.locale || '',
-        status: item._metadata?.status || '',
-        baseUrl: item._metadata?.url?.base || '',
-        contentType: item._metadata?.types || []
-      }));
-
-      console.log('Final pages array:', pages.length, pages);
+      pages = result.data.pages;
 
       // Extract unique locales for filter
       const locales = new Set(pages.map(p => p.locale));
@@ -239,29 +96,31 @@
     }
   }
 
-  function extractOwner(key: string): string {
-    // Try to extract owner from content key if available
-    // Format is typically something like "contentkey_owner_timestamp"
-    // This is a simplified extraction - adjust based on your actual key format
-    const parts = key.split('_');
-    return parts.length > 1 ? parts[1] : 'Unknown';
-  }
-
-  // Computed filtered pages
+  // Computed filtered pages (maintains parent-child structure)
   let filteredPages = $derived(
-    pages.filter(page => {
-      // Filter out pages with no base URL
-      const hasBaseUrl = page.baseUrl && page.baseUrl.trim() !== '';
+    pages
+      .filter(page => {
+        // Filter out pages with no base URL
+        const hasBaseUrl = page.baseUrl && page.baseUrl.trim() !== '';
 
-      const matchesSearch = !searchQuery ||
-        page.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        page.url.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        page.owner.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesSearch = !searchQuery ||
+          page.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          page.url.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          page.owner.toLowerCase().includes(searchQuery.toLowerCase());
 
-      const matchesLocale = filterLocale === 'all' || page.locale === filterLocale;
+        const matchesLocale = filterLocale === 'all' || page.locale === filterLocale;
 
-      return hasBaseUrl && matchesSearch && matchesLocale;
-    })
+        return hasBaseUrl && matchesSearch && matchesLocale;
+      })
+      .map(page => ({
+        ...page,
+        // Filter variations too
+        variations: page.variations?.filter(variant => {
+          const matchesSearch = !searchQuery ||
+            variant.title.toLowerCase().includes(searchQuery.toLowerCase());
+          return matchesSearch;
+        }) || []
+      }))
   );
 </script>
 
@@ -326,5 +185,7 @@
     {isLoading}
     {searchQuery}
     {filterLocale}
+    {expandedRows}
+    onToggleRow={toggleRow}
   />
 </div>
