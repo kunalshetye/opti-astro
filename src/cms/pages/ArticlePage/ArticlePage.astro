@@ -1,5 +1,4 @@
 ---
-import { Image as AstroImage } from 'astro:assets';
 import type { Locales } from 'astro';
 import { format } from 'date-fns';
 import type { ArticlePageFragment } from '../../../../__generated/sdk';
@@ -7,6 +6,9 @@ import { getOptimizelySdk } from '../../../graphql/getSdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import Layout from '../../../layouts/Layout.astro';
 import { isEditContext } from '../../shared/utils.ts';
+import ArticleHero from './components/ArticleHero.astro';
+import type { ArticleHeroImage, ArticleHeroContent, ArticleHeroEditContext } from './components/ArticleHero.astro';
+import { CMPClient } from '@optimarvin/opti-cmp-client';
 
 const isCmsEdit = isEditContext(Astro.url);
 
@@ -27,14 +29,84 @@ const publishedDate = format(
     'dd MMM yyyy'
 );
 
-const articleHeaderFontColor = ((post.PromoImage as any)?.item?.Url || post.PromoImage?.url?.default)
-    ? "text-neutral-content" : "text-base-content";
-const articleHeaderAuthorColor = ((post.PromoImage as any)?.item?.Url || post.PromoImage?.url?.default)
-    ? "text-neutral-content/75" : "text-base-content/65";
-const articleHeaderDateColor = ((post.PromoImage as any)?.item?.Url || post.PromoImage?.url?.default)
-    ? "text-neutral-content/55" : "text-base-content/50";
+// Prepare hero component props
+const heroImage: ArticleHeroImage | undefined = await (async () => {
+    const graphUrl = post.PromoImage?.url?.graph;
 
-const graphType = post?.SeoSettings?.GraphType && post?.SeoSettings?.GraphType !== "-" ? 
+    // Determine image source: CMS or CMP
+    const isStoredInCms = graphUrl?.startsWith('graph://cms/');
+    const isStoredInCmp = graphUrl?.startsWith('graph://cmp/');
+
+    let imageUrl: string | undefined;
+    let altText: string | undefined;
+
+    if (isStoredInCms) {
+        // Image is in CMS - use existing logic
+        imageUrl = (post.PromoImage as any)?.item?.Url || post.PromoImage?.url?.default;
+        altText = (post.PromoImage as any)?.item?.AltText
+            || (post.PromoImage as any)?.item?._metadata?.displayName
+            || post.Heading
+            || 'Article promo image';
+    } else if (isStoredInCmp) {
+        // Image is in CMP - fetch from CMP API
+        try {
+            // Extract image ID from graph URL (e.g., "graph://cmp/ImageMedia/e0ce37f5dcf0439dbf248785ba5b9a20")
+            const imageId = graphUrl?.split('/').pop();
+
+            if (imageId && import.meta.env.CMP_API_BASE_URL) {
+                // Initialize CMP client
+                const cmpClient = new CMPClient({
+                    apiBaseUrl: import.meta.env.CMP_API_BASE_URL,
+                    clientId: import.meta.env.CMP_OAUTH_CLIENT_ID,
+                    clientSecret: import.meta.env.CMP_OAUTH_CLIENT_SECRET,
+                    authServerUrl: import.meta.env.CMP_AUTH_SERVER_URL
+                });
+
+                // Fetch image from CMP
+                const cmpImage = await cmpClient.getImage(imageId);
+                imageUrl = cmpImage.url;
+                altText = cmpImage.alt_text || cmpImage.title || post.Heading || 'Article promo image';
+            }
+        } catch (error) {
+            console.error('[CMP Image Debug] Failed to fetch CMP image:', error);
+            if (error instanceof Error && 'statusCode' in error && 'details' in error) {
+                console.error('[CMP Image Debug] Status Code:', (error as any).statusCode);
+                console.error('[CMP Image Debug] Details:', (error as any).details);
+            }
+            // Fallback to undefined on error
+            imageUrl = undefined;
+        }
+    } else {
+        // Fallback to default behavior
+        imageUrl = (post.PromoImage as any)?.item?.Url || post.PromoImage?.url?.default;
+        altText = (post.PromoImage as any)?.item?.AltText
+            || (post.PromoImage as any)?.item?._metadata?.displayName
+            || post.Heading
+            || 'Article promo image';
+    }
+
+    if (!imageUrl) return undefined;
+
+    return { url: imageUrl, altText: altText || 'Article promo image' };
+})();
+
+const heroContent: ArticleHeroContent = {
+    heading: post?.Heading || '',
+    subHeading: post?.SubHeading ?? undefined,
+    author: post?.Author ?? undefined,
+    publishedDate
+};
+
+const heroEditContext: ArticleHeroEditContext = {
+    enabled: isCmsEdit,
+    imageAttribute: 'PromoImage',
+    headingAttribute: 'Heading',
+    subHeadingAttribute: 'SubHeading',
+    authorAttribute: 'Author',
+    dateAttribute: 'publishedDate'
+};
+
+const graphType = post?.SeoSettings?.GraphType && post?.SeoSettings?.GraphType !== "-" ?
     post?.SeoSettings?.GraphType : 'article';
 const defaultUrl = post?._metadata?.url?.default || '';
 const hierarchicalUrl = post?._metadata?.url?.type === "SIMPLE" ? post?._metadata?.url?.hierarchical : '';
@@ -55,53 +127,11 @@ const pageClass = 'page-article';
 >
     <div class={`max-w-screen-6xl mx-auto ${pageClass}`}>
         <main class="mt-10">
-            <div
-                class="relative mx-auto mb-4 w-full max-w-screen-xl md:mb-0 bg-base-200"
-                style="height: 24em;"
-            >
-                { ((post.PromoImage as any)?.item?.Url || post.PromoImage?.url?.default) && 
-                    <div
-                        class="absolute bottom-0 start-0 z-10 h-full w-full"
-                        style="background-image: linear-gradient(180deg,transparent,rgba(0,0,0,.7));"
-                    >
-                    </div>
-                    <AstroImage
-                        src={(post.PromoImage as any)?.item?.Url || post.PromoImage?.url?.default}
-                        class="absolute top-0 start-0 z-0 h-full w-full object-cover"
-                        alt={(post.PromoImage as any)?.item?.AltText || (post.PromoImage as any)?.item?._metadata?.displayName || post.Heading || 'Article promo image'}
-                        inferSize={true}
-                        data-epi-edit={isCmsEdit ? "PromoImage" : undefined}
-                    />
-                }
-                <div class="absolute bottom-0 start-0 z-20 p-4">
-                    <h1
-                        class={`text-4xl lg:text-6xl leading-tight font-semibold pb-4 ${articleHeaderFontColor}`}
-                        data-epi-edit={isCmsEdit ? "Heading" : undefined}
-                    >
-                        {post?.Heading}
-                    </h1>
-                    <h2
-                        class={`text-base lg:text-2xl leading-tight font-semibold ${articleHeaderFontColor}`}
-                        data-epi-edit={isCmsEdit ? "SubHeading" : undefined}
-                    >
-                        {post?.SubHeading}
-                    </h2>
-                    <div class="mt-3 flex">
-                        <div>
-                            <p class={`text-sm font-semibold ${articleHeaderAuthorColor}`}
-                                data-epi-edit={isCmsEdit ? "Author" : undefined}
-                            >
-                                {post?.Author}
-                            </p>
-                            <p class={`text-xs font-semibold ${articleHeaderDateColor}`}
-                                data-epi-edit={isCmsEdit ? "publishedDate" : undefined}
-                            >
-                                {publishedDate}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <ArticleHero
+                image={heroImage}
+                content={heroContent}
+                editContext={heroEditContext}
+            />
             <article
                 class="prose dark:prose-invert md:prose-lg lg:prose-xl mx-auto mt-12 mb-12 max-w-screen-xl px-4 2xl:px-0 prose-img:rounded-[2rem] prose-img:p-4 "
                 data-epi-edit={isCmsEdit ? "BlogPostBody" : undefined}

@@ -1,0 +1,103 @@
+---
+import { Image as AstroImage } from 'astro:assets';
+
+export interface ArticleHeroImage {
+    url: string;
+    altText: string;
+}
+
+export interface ArticleHeroContent {
+    heading: string;
+    subHeading?: string;
+    author?: string;
+    publishedDate: string;
+}
+
+export interface ArticleHeroEditContext {
+    enabled: boolean;
+    imageAttribute?: string;
+    headingAttribute?: string;
+    subHeadingAttribute?: string;
+    authorAttribute?: string;
+    dateAttribute?: string;
+}
+
+export interface Props {
+    image?: ArticleHeroImage;
+    content: ArticleHeroContent;
+    editContext?: ArticleHeroEditContext;
+    containerHeight?: string;
+}
+
+const {
+    image,
+    content,
+    editContext = { enabled: false },
+    containerHeight = '24em'
+} = Astro.props;
+
+const hasImage = Boolean(image?.url);
+
+// Dynamic color classes based on image presence
+const textColorClasses = {
+    heading: hasImage ? 'text-neutral-content' : 'text-base-content',
+    author: hasImage ? 'text-neutral-content/75' : 'text-base-content/65',
+    date: hasImage ? 'text-neutral-content/55' : 'text-base-content/50',
+};
+---
+
+<div
+    class="relative mx-auto mb-4 w-full max-w-screen-xl md:mb-0 bg-base-200"
+    style={`height: ${containerHeight};`}
+>
+    {hasImage && image && (
+        <>
+            <div
+                class="absolute bottom-0 start-0 z-10 h-full w-full"
+                style="background-image: linear-gradient(180deg,transparent,rgba(0,0,0,.7));"
+            >
+            </div>
+            <AstroImage
+                src={image.url}
+                class="absolute top-0 start-0 z-0 h-full w-full object-cover"
+                alt={image.altText}
+                inferSize={true}
+                data-epi-edit={editContext.enabled && editContext.imageAttribute ? editContext.imageAttribute : undefined}
+            />
+        </>
+    )}
+    <div class="absolute bottom-0 start-0 z-20 p-4">
+        <h1
+            class={`text-4xl lg:text-6xl leading-tight font-semibold pb-4 ${textColorClasses.heading}`}
+            data-epi-edit={editContext.enabled && editContext.headingAttribute ? editContext.headingAttribute : undefined}
+        >
+            {content.heading}
+        </h1>
+        {content.subHeading && (
+            <h2
+                class={`text-base lg:text-2xl leading-tight font-semibold ${textColorClasses.heading}`}
+                data-epi-edit={editContext.enabled && editContext.subHeadingAttribute ? editContext.subHeadingAttribute : undefined}
+            >
+                {content.subHeading}
+            </h2>
+        )}
+        <div class="mt-3 flex">
+            <div>
+                {content.author && (
+                    <p
+                        class={`text-sm font-semibold ${textColorClasses.author}`}
+                        data-epi-edit={editContext.enabled && editContext.authorAttribute ? editContext.authorAttribute : undefined}
+                    >
+                        {content.author}
+                    </p>
+                )}
+                <p
+                    class={`text-xs font-semibold ${textColorClasses.date}`}
+                    data-epi-edit={editContext.enabled && editContext.dateAttribute ? editContext.dateAttribute : undefined}
+                >
+                    {content.publishedDate}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

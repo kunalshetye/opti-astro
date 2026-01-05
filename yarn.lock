@@ -4032,6 +4032,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@optimarvin/opti-cmp-client@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@optimarvin/opti-cmp-client@npm:1.2.0"
+  checksum: 10c0/85383fb63afbd058108dfe99d6d7978dd20e43ed1aa4064fd4cc92aeb21046124d608256516d0694fca5bb2b4ad7b71cbcc625514b4ca0d160a531821431a3df
+  languageName: node
+  linkType: hard
+
 "@optimizely/optimizely-sdk@npm:^6.0.0":
   version: 6.0.0
   resolution: "@optimizely/optimizely-sdk@npm:6.0.0"
@@ -11519,6 +11526,7 @@ __metadata:
     "@graphql-codegen/typescript-generic-sdk": "npm:^4.0.1"
     "@graphql-codegen/typescript-graphql-request": "npm:6.2.0"
     "@graphql-codegen/typescript-operations": "npm:^4.5.1"
+    "@optimarvin/opti-cmp-client": "npm:^1.2.0"
     "@optimizely/optimizely-sdk": "npm:^6.0.0"
     "@parcel/watcher": "npm:^2.5.1"
     "@remkoj/optimizely-cms-api": "npm:5.1.1"

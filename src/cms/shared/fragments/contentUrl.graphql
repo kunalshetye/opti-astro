@@ -1,6 +1,10 @@
 fragment ContentUrl on ContentReference {
     url {
+        base
         default
+        graph
         hierarchical
+        internal
+        type
     }
 }
