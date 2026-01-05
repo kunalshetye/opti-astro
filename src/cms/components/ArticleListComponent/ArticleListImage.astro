@@ -1,0 +1,37 @@
+---
+import { Image as AstroImage } from 'astro:assets';
+import type { ArticlePageExcerptFragment } from '../../../../__generated/sdk';
+import LinkButton from '../ButtonComponent/LinkButton.astro';
+
+export interface Props {
+    item: ArticlePageExcerptFragment;
+    imageUrl: string;
+    altText: string;
+    cardDynamicClasses: Record<string, boolean>;
+    figureClasses: Record<string, boolean>;
+    buttonClasses: Record<string, boolean>;
+}
+
+const { item, imageUrl, altText, cardDynamicClasses, figureClasses, buttonClasses } = Astro.props as Props;
+---
+
+<div class="card bg-base-100 shadow-sm flex" class:list={[cardDynamicClasses]}>
+    <figure class:list={[figureClasses]}>
+        <AstroImage
+            class="aspect-3/2 object-cover w-full h-full"
+            src={imageUrl}
+            alt={altText}
+            width={600}
+            height={400}
+        />
+    </figure>
+    <div class="card-body">
+        <h2 class="card-title">{item.Heading}</h2>
+        { item.Body?.html &&
+            <div set:html={item.Body.html.replace(/<[^>]*>/g, '').split(' ').slice(0, 30).join(' ') + "..."} />
+        }
+        <div class:list={["card-actions mt-auto", buttonClasses]}>
+            <LinkButton cssClasses="btn-primary" link={item._metadata?.url?.hierarchical}>Read more</LinkButton>
+        </div>
+    </div>
+</div>

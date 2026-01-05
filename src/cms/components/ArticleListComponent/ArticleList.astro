@@ -1,6 +1,4 @@
 ---
-import { Image as AstroImage } from 'astro:assets';
-import { randomBytes } from 'crypto';
 import type {
 ArticleListFragment,
 ArticlePageExcerptFragment,
@@ -10,7 +8,8 @@ import { getOptimizelySdk } from '../../../graphql/getSdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
 import { isEditContext } from '../../shared/utils.ts';
-import LinkButton from '../ButtonComponent/LinkButton.astro';
+import ArticleListImage from './ArticleListImage.astro';
+import { CMPClient } from '@optimarvin/opti-cmp-client';
 
 const isCmsEdit = isEditContext(Astro.url);
 
@@ -29,8 +28,77 @@ const articlesList = await getOptimizelySdk(contentPayload).getArticles({
     limit: data.NumberOfArticles || 1,
     rootUrl: data.ArticleRoot?.url?.default || '/',
 });
-const glideId = randomBytes(5).toString('hex');
 const items = articlesList.ArticlePage?.items || null;
+
+// Helper function to resolve image from CMS or CMP
+async function resolveImage(item: ArticlePageExcerptFragment) {
+    const graphUrl = item.PromoImage?.url?.graph;
+
+    // Determine image source: CMS or CMP
+    const isStoredInCms = graphUrl?.startsWith('graph://cms/');
+    const isStoredInCmp = graphUrl?.startsWith('graph://cmp/');
+
+    let imageUrl: string | undefined;
+    let altText: string | undefined;
+
+    if (isStoredInCms) {
+        // Image is in CMS - use existing logic
+        imageUrl = (item.PromoImage as any)?.item?.Url || item.PromoImage?.url?.default;
+        altText = (item.PromoImage as any)?.item?.AltText
+            || (item.PromoImage as any)?.item?._metadata?.displayName
+            || `Promo image for ${item.Heading}`
+            || 'Article promo image';
+    } else if (isStoredInCmp) {
+        // Image is in CMP - fetch from CMP API
+        try {
+            // Extract image ID from graph URL (e.g., "graph://cmp/ImageMedia/e0ce37f5dcf0439dbf248785ba5b9a20")
+            const imageId = graphUrl?.split('/').pop();
+
+            if (imageId && import.meta.env.CMP_API_BASE_URL) {
+                // Initialize CMP client
+                const cmpClient = new CMPClient({
+                    apiBaseUrl: import.meta.env.CMP_API_BASE_URL,
+                    clientId: import.meta.env.CMP_OAUTH_CLIENT_ID,
+                    clientSecret: import.meta.env.CMP_OAUTH_CLIENT_SECRET,
+                    authServerUrl: import.meta.env.CMP_AUTH_SERVER_URL
+                });
+
+                // Fetch image from CMP
+                const cmpImage = await cmpClient.getImage(imageId);
+                imageUrl = cmpImage.url;
+                altText = cmpImage.alt_text || cmpImage.title || `Promo image for ${item.Heading}` || 'Article promo image';
+            }
+        } catch (error) {
+            console.error('[CMP Image Debug] Failed to fetch CMP image:', error);
+            if (error instanceof Error && 'statusCode' in error && 'details' in error) {
+                console.error('[CMP Image Debug] Status Code:', (error as any).statusCode);
+                console.error('[CMP Image Debug] Details:', (error as any).details);
+            }
+            // Fallback to undefined on error
+            imageUrl = undefined;
+        }
+    } else {
+        // Fallback to default behavior
+        imageUrl = (item.PromoImage as any)?.item?.Url || item.PromoImage?.url?.default;
+        altText = (item.PromoImage as any)?.item?.AltText
+            || (item.PromoImage as any)?.item?._metadata?.displayName
+            || `Promo image for ${item.Heading}`
+            || 'Article promo image';
+    }
+
+    return {
+        url: imageUrl ?? '/article-list-placeholder.jpg',
+        altText: altText || 'Article promo image'
+    };
+}
+
+// Resolve all images
+const itemsWithImages = items ? await Promise.all(
+    items.filter((item): item is ArticlePageExcerptFragment => item !== null).map(async (item: ArticlePageExcerptFragment) => ({
+        item,
+        image: await resolveImage(item)
+    }))
+) : [];
 
 // Get style settings from display settings
 const styleDictionary = getDictionaryFromDisplaySettings(displaySettings);
@@ -138,31 +206,16 @@ const componentClass = 'component-articlelist';
         <h1 class="w-full basis-full" class:list={[titleClasses]}>{data?.Title}</h1>
         <div class="mt-4 mb-4" class:list={[gridContainerClasses]}>
             {
-                //@ts-ignore
-                items?.map((item: ArticlePageExcerptFragment, i) => {
-                    return (
-                        <div class="card bg-base-100 shadow-sm flex" class:list={[cardDynamicClasses]}>
-                            <figure class:list={[figureClasses]}>
-                                <AstroImage
-                                    class="aspect-3/2 object-cover w-full h-full"
-                                    src={((item.PromoImage as any)?.item?.Url || item.PromoImage?.url?.default) ?? '/article-list-placeholder.jpg'}
-                                    alt={item.PromoImage?.item?.AltText || item.PromoImage?.item?._metadata?.displayName || `Promo image for ${item.Heading}` || 'Article promo image'}
-                                    width={600}
-                                    height={400}
-                                />
-                            </figure>
-                            <div class="card-body">
-                                <h2 class="card-title">{item.Heading}</h2>
-                                { item.Body?.html &&
-                                    <div set:html={item.Body.html.replace(/<[^>]*>/g, '').split(' ').slice(0, 30).join(' ') + "..."} />
-                                }
-                                <div class:list={["card-actions mt-auto", buttonClasses]}>
-                                    <LinkButton cssClasses="btn-primary" link={item._metadata?.url?.hierarchical}>Read more</LinkButton>
-                                </div>
-                            </div>
-                        </div>
-                    );
-                })
+                itemsWithImages.map(({ item, image }) => (
+                    <ArticleListImage
+                        item={item}
+                        imageUrl={image.url}
+                        altText={image.altText}
+                        cardDynamicClasses={cardDynamicClasses}
+                        figureClasses={figureClasses}
+                        buttonClasses={buttonClasses}
+                    />
+                ))
             }
         </div>
     </div>
