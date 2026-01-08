@@ -6,6 +6,7 @@
   import AuthorProductivityDashboard from './reports/author-productivity/_AuthorProductivityDashboard.svelte';
   import UserPerformanceDashboard from './reports/user-performance/_UserPerformanceDashboard.svelte';
   import ContentQualityDashboard from './reports/content-quality/_ContentQualityDashboard.svelte';
+  import LocalizationCoverageDashboard from './reports/localization-coverage/_LocalizationCoverageDashboard.svelte';
 
   // State for current report
   let currentReport = $state<string>('published-pages');
@@ -47,6 +48,12 @@
       name: 'Content Quality Score',
       description: 'Assess content completeness and SEO readiness',
       icon: 'badge-check'
+    },
+    {
+      id: 'localization-coverage',
+      name: 'Localization Coverage',
+      description: 'Track translation completeness across locales',
+      icon: 'globe'
     }
   ];
 
@@ -121,6 +128,8 @@
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                     {:else if report.icon === 'badge-check'}
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    {:else if report.icon === 'globe'}
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     {/if}
                   </svg>
                   <div class="flex-1 min-w-0">
@@ -149,6 +158,8 @@
         <UserPerformanceDashboard />
       {:else if currentReport === 'content-quality'}
         <ContentQualityDashboard />
+      {:else if currentReport === 'localization-coverage'}
+        <LocalizationCoverageDashboard />
       {/if}
     </main>
   </div>
