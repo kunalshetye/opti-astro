@@ -20,6 +20,17 @@
 			"sortOrder": 0,
 			"editorSettings": {}
 		},
+		"PreSelectedCategory": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "Pre-filter by Category",
+			"description": "Optional: Enter exact category path (e.g., 'Fashion/Apparel' or 'Electronics/Smartphones'). Leave empty to show all products. Only works when 'Use Product Catalog' is enabled",
+			"localized": false,
+			"required": false,
+			"group": "Settings",
+			"sortOrder": 0,
+			"editorSettings": {}
+		},
 		"ListedProducts": {
 			"type": "array",
 			"displayName": "Listed Products",

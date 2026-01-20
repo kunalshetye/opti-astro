@@ -18,8 +18,7 @@
 			"required": false,
 			"group": "Information",
 			"sortOrder": 10,
-			"allowedTypes": [],
-			"restrictedTypes": []
+			"editorSettings": {}
 		}
 	}
 }

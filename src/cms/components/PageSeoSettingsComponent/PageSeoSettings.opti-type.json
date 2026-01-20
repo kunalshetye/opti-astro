@@ -51,6 +51,17 @@
 			"sortOrder": 0,
 			"editorSettings": {}
 		},
+		"GEOLLMSummary": {
+			"type": "string",
+			"format": "html",
+			"displayName": "GEOLLMSummary",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 0,
+			"editorSettings": {}
+		},
 		"SharingImage": {
 			"type": "contentReference",
 			"displayName": "Sharing image",
