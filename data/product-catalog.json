@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastUpdated": "2025-12-19T13:10:10.185Z",
+  "lastUpdated": "2026-01-20T21:01:26.068Z",
   "products": [
     {
       "sku": "TS-BLU-MD-001",
@@ -732,6 +732,40 @@
         "performance",
         "5G",
         "sale"
+      ]
+    },
+    {
+      "sku": "TDK-CUS250M-S8NJ",
+      "name": {
+        "en": "CUS250M - CUS250M-12"
+      },
+      "description": {
+        "en": "\n        <p>Medical Safety Approval.. Suitable for conduction cooling.. Peak power capability to reduce the size of power supply needed. Curve B EMC for both class I and class II products.. Dual input fuses.. 4in x 2in footprint..</p>\n        <ul>\n          <li>Input: 80 - 264VAC (Single phase)</li>\n          <li>Output Power: 250W</li>\n          <li>Dimensions: 50.8x101.6x39.5mm</li>\n          <li>Cooling: No fan (customer cooling)</li>\n          <li>Approvals: CE, EN/ES/IEC/UL60601-1, EN/IEC/UL60950-1, EN/IEC/UL62368-1, UKCA</li>\n        </ul>\n      "
+      },
+      "price": 0,
+      "salePrice": null,
+      "currency": "EUR",
+      "images": [
+        {
+          "url": "https://www.emea.lambda.tdk.com/images/products/cus250m.png",
+          "alt": "CUS250M Programmable Power Supply",
+          "isPrimary": true,
+          "sortOrder": 0
+        }
+      ],
+      "availability": "InStock",
+      "brand": "TDK-Lambda",
+      "category": "TDK-Lambda/Programmable Power Supplies",
+      "tags": [
+        "power-supply",
+        "programmable",
+        "single-phase",
+        "medical-safety",
+        "suitable-for",
+        "peak-power",
+        "curve-b",
+        "dual-input",
+        "4in-x"
       ]
     }
   ]

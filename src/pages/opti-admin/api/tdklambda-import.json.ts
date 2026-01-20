@@ -13,18 +13,8 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Transform TDK-Lambda products to catalog format
     const newProducts: Product[] = products.map((tdkProduct: any) => {
-      // Sanitize range for SKU generation
-      // Remove invalid characters and ensure it's alphanumeric with dashes/underscores only
-      // SKU format: TDK-{RANGE}-{RAND} must be max 20 chars total
-      // TDK- (4) + RANGE (11) + - (1) + RAND (4) = 20 chars
-      const sanitizedRange = tdkProduct.range
-        .replace(/[^A-Z0-9\-_]/gi, '-')  // Replace invalid chars with dash
-        .replace(/-+/g, '-')              // Replace multiple dashes with single dash
-        .replace(/^-|-$/g, '')            // Remove leading/trailing dashes
-        .substring(0, 11);                // Limit to 11 chars (20 - 9 fixed chars)
-
-      // Generate SKU: TDK-{SANITIZED_RANGE}-{RANDOM}
-      const sku = `TDK-${sanitizedRange}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+      // Generate SKU: TDK-{RANGE}-{RANDOM}
+      const sku = `TDK-${tdkProduct.range}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
 
       // Build description from features and specs
       const descriptionHtml = `
@@ -38,16 +28,10 @@ export const POST: APIRoute = async ({ request }) => {
         </ul>
       `;
 
-      // Construct image URL from product page link
-      // The imageFileNameUrlEncoded field doesn't point to a valid URL
-      // Instead, extract slug from product page and use imagebank path
-      let imageUrl = 'https://via.placeholder.com/400x300?text=TDK-Lambda';
-
-      if (tdkProduct.linksToProductPage && tdkProduct.linksToProductPage.length > 0) {
-        const productPageUrl = tdkProduct.linksToProductPage[0];
-        const productSlug = productPageUrl.split('/').pop();
-        imageUrl = `https://www.emea.lambda.tdk.com/uk/imagebank/cropped/product/${productSlug}.jpg`;
-      }
+      // Construct image URL
+      const imageUrl = tdkProduct.imageFileNameUrlEncoded
+        ? `https://www.emea.lambda.tdk.com/images/products/${tdkProduct.imageFileNameUrlEncoded}`
+        : 'https://via.placeholder.com/400x300?text=TDK-Lambda';
 
       return {
         sku,
