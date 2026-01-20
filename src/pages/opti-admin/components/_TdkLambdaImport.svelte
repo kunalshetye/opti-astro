@@ -15,6 +15,7 @@
   let isSearching = $state(false);
   let isImporting = $state(false);
   let statusMessage = $state<{ type: 'success' | 'error', text: string } | null>(null);
+  let importStatus = $state<Record<string, boolean>>({});
 
   // Search TDK-Lambda API
   async function searchProducts() {
@@ -33,9 +34,26 @@
       if (data.success) {
         searchResults = data.products;
         selectedProducts.clear();
+
+        // Check which products are already imported
+        const productRanges = data.products.map((p: any) => p.range);
+        const checkResponse = await fetch('/opti-admin/api/tdklambda-check-imported.json', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productRanges })
+        });
+
+        const checkData = await checkResponse.json();
+        if (checkData.success) {
+          importStatus = checkData.importStatus;
+        }
+
+        const alreadyImportedCount = Object.values(importStatus).filter(Boolean).length;
+        const newProductsCount = data.products.length - alreadyImportedCount;
+
         statusMessage = {
           type: 'success',
-          text: `Found ${data.products.length} products`
+          text: `Found ${data.products.length} products (${newProductsCount} new, ${alreadyImportedCount} already imported)`
         };
       } else {
         statusMessage = {
@@ -76,8 +94,17 @@
 
     try {
       const productsToImport = searchResults.filter(p =>
-        selectedProducts.has(p.uniqueId)
+        selectedProducts.has(p.uniqueId) && !importStatus[p.range]
       );
+
+      if (productsToImport.length === 0) {
+        statusMessage = {
+          type: 'error',
+          text: 'All selected products are already imported'
+        };
+        isImporting = false;
+        return;
+      }
 
       const response = await fetch('/opti-admin/api/tdklambda-import.json', {
         method: 'POST',
@@ -96,7 +123,18 @@
           text: `Successfully imported ${data.imported} products`
         };
         selectedProducts.clear();
-        // Optionally refresh results
+
+        // Refresh import status
+        const productRanges = searchResults.map((p: any) => p.range);
+        const checkResponse = await fetch('/opti-admin/api/tdklambda-check-imported.json', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productRanges })
+        });
+        const checkData = await checkResponse.json();
+        if (checkData.success) {
+          importStatus = checkData.importStatus;
+        }
       } else {
         statusMessage = {
           type: 'error',
@@ -215,10 +253,16 @@
               <th class="px-4 py-2 text-left">
                 <input
                   type="checkbox"
-                  checked={selectedProducts.size === searchResults.length && searchResults.length > 0}
+                  checked={selectedProducts.size > 0 &&
+                           selectedProducts.size === searchResults.filter(p => !importStatus[p.range]).length}
                   onchange={(e) => {
                     if (e.currentTarget.checked) {
-                      selectedProducts = new Set(searchResults.map(p => p.uniqueId));
+                      // Only select non-imported products
+                      selectedProducts = new Set(
+                        searchResults
+                          .filter(p => !importStatus[p.range])
+                          .map(p => p.uniqueId)
+                      );
                     } else {
                       selectedProducts = new Set();
                     }
@@ -236,16 +280,30 @@
           </thead>
           <tbody>
             {#each searchResults as product}
-              <tr class="border-t hover:bg-gray-50">
+              {@const isImported = importStatus[product.range]}
+              <tr class="border-t {isImported ? 'bg-gray-100 opacity-60' : 'hover:bg-gray-50'}">
                 <td class="px-4 py-2">
-                  <input
-                    type="checkbox"
-                    checked={selectedProducts.has(product.uniqueId)}
-                    onchange={() => toggleProduct(product.uniqueId)}
-                    class="w-4 h-4"
-                  />
+                  {#if isImported}
+                    <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                  {:else}
+                    <input
+                      type="checkbox"
+                      checked={selectedProducts.has(product.uniqueId)}
+                      onchange={() => toggleProduct(product.uniqueId)}
+                      class="w-4 h-4"
+                    />
+                  {/if}
                 </td>
-                <td class="px-4 py-2 font-medium">{product.displayHeading}</td>
+                <td class="px-4 py-2 font-medium">
+                  {product.displayHeading}
+                  {#if isImported}
+                    <span class="ml-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
+                      Already Imported
+                    </span>
+                  {/if}
+                </td>
                 <td class="px-4 py-2 text-sm">{product.itemDescription}</td>
                 <td class="px-4 py-2 text-sm">{product.inVoltRange}</td>
                 <td class="px-4 py-2 text-sm">
