@@ -9,6 +9,7 @@
   import PublishedPagesDashboard from './components/published-pages/_PublishedPagesDashboard.svelte';
   import ReportingCenter from './components/reporting-center/_ReportingCenter.svelte';
   import ProductCatalog from './components/_ProductCatalog.svelte';
+  import TdkLambdaImport from './components/_TdkLambdaImport.svelte';
   import Sidebar from './components/_Sidebar.svelte';
 
   interface Props {
@@ -52,7 +53,8 @@
       'redirects': 'Redirect Management',
       'published-pages': 'Published Pages Dashboard',
       'reporting-center': 'Reporting Center',
-      'product-catalog': 'Product Catalog'
+      'product-catalog': 'Product Catalog',
+      'tdklambda-import': 'TDK-Lambda Import'
     };
     document.title = `${titles[view] || 'Dashboard'} | Optimizely Admin`;
   }
@@ -189,6 +191,19 @@
         </button>
       </div>
       <ProductCatalog />
+    </div>
+  {:else if currentView === 'tdklambda-import'}
+    <div>
+      <!-- Back to Dashboard -->
+      <div class="mb-6">
+        <button onclick={() => navigateTo('dashboard')} class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Back to Dashboard
+        </button>
+      </div>
+      <TdkLambdaImport />
     </div>
   {/if}
     </div>
