@@ -49,6 +49,17 @@ let useManualProducts = false;
 if (data.UseProductCatalog) {
     // Fetch all products from catalog
     catalogProducts = await getAllProducts();
+
+    // Apply server-side category filter if specified
+    if (data.PreSelectedCategory && data.PreSelectedCategory.trim()) {
+        const filterCategory = data.PreSelectedCategory.trim();
+        catalogProducts = catalogProducts.filter(p => p.category === filterCategory);
+
+        // Log for debugging in development
+        if (import.meta.env.DEV) {
+            console.log(`[GenericProductList] Filtered ${catalogProducts.length} products by category: ${filterCategory}`);
+        }
+    }
 } else {
     // Use manual products from content area
     useManualProducts = true;
