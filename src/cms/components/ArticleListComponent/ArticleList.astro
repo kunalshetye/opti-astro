@@ -21,7 +21,9 @@ export interface Props {
     contentPayload: ContentPayload;
 }
 const { key, data, displaySettings, contentPayload } = Astro.props as Props;
-const currentSite = data.IncludeAllSites ? null : Astro.url.origin;
+const currentSite = data.IncludeAllSites ? 
+    data.ArticleRoot?.url?.base ? data.ArticleRoot.url.base :
+    null : Astro.url.origin;
 const articlesList = await getOptimizelySdk(contentPayload).getArticles({
     //@ts-ignore
     loc: contentPayload.loc,
@@ -140,7 +142,8 @@ const componentClass = 'component-articlelist';
             {
                 //@ts-ignore
                 items?.map((item: ArticlePageExcerptFragment, i) => {
-                    return (
+                    const articleUrl = (item._metadata?.url?.base || '') + (item._metadata?.url?.hierarchical || '') || '#';
+                    return (                        
                         <div class="card bg-base-100 shadow-sm flex" class:list={[cardDynamicClasses]}>
                             <figure class:list={[figureClasses]}>
                                 <AstroImage
@@ -157,7 +160,7 @@ const componentClass = 'component-articlelist';
                                     <div set:html={item.Body.html.replace(/<[^>]*>/g, '').split(' ').slice(0, 30).join(' ') + "..."} />
                                 }
                                 <div class:list={["card-actions mt-auto", buttonClasses]}>
-                                    <LinkButton cssClasses="btn-primary" link={item._metadata?.url?.hierarchical}>Read more</LinkButton>
+                                    <LinkButton cssClasses="btn-primary" link={articleUrl}>Read more</LinkButton>
                                 </div>
                             </div>
                         </div>
