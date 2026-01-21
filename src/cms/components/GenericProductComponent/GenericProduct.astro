@@ -88,17 +88,21 @@ const formattedRegularPrice = ((hasSKU || !data.ProductPrice) && catalogProduct?
 // Image handling - Priority: catalog image when SKU exists, otherwise CMS image
 let imageUrl: string | null = null;
 let imageAlt: string = productName || 'Product image';
+let isExternalImage: boolean = false;
 
 if (hasSKU && catalogProduct?.images && catalogProduct.images.length > 0) {
     // Use catalog image when SKU is provided
     const primaryImage = catalogProduct.images.find(img => img.isPrimary) || catalogProduct.images[0];
     imageUrl = primaryImage.url;
     imageAlt = primaryImage.alt;
+    // Check if it's an external image (not from Optimizely CDN)
+    isExternalImage = !imageUrl.includes('optimizely.com');
 } else if (data.GenericProductAsset) {
     // Fallback to CMS image if no SKU or catalog product
     imageUrl = (data.GenericProductAsset as any)?.item?.Url ||
                data.GenericProductAsset?.url?.default || null;
     imageAlt = (data.GenericProductAsset as any)?.item?.AltText || imageAlt;
+    isExternalImage = imageUrl ? !imageUrl.includes('optimizely.com') : false;
 }
 
 // Get styling from display settings
@@ -146,12 +150,23 @@ const isOutOfStock = availability === 'OutOfStock';
         <!-- Product Image -->
         {imageUrl && (
             <figure class:list={['relative overflow-hidden w-full', imageAspectClass]}>
-                <AstroImage
-                    src={imageUrl}
-                    alt={imageAlt}
-                    inferSize
-                    class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                />
+                {isExternalImage ? (
+                    <!-- Use regular img tag for external images (like TDK-Lambda) -->
+                    <img
+                        src={imageUrl}
+                        alt={imageAlt}
+                        class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                        loading="lazy"
+                    />
+                ) : (
+                    <!-- Use Astro Image for Optimizely CDN images -->
+                    <AstroImage
+                        src={imageUrl}
+                        alt={imageAlt}
+                        inferSize
+                        class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    />
+                )}
 
                 <!-- Wishlist Button (Heart Icon) - Positioned over image -->
                 <button
