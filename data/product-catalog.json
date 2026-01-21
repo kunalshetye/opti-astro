@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastUpdated": "2026-01-21T11:32:43.789Z",
+  "lastUpdated": "2026-01-21T12:00:42.920Z",
   "products": [
     {
       "sku": "TS-BLU-MD-001",
@@ -769,40 +769,6 @@
       ]
     },
     {
-      "sku": "TDK-GENESYS-Half-O2F4",
-      "name": {
-        "en": "GENESYS+™ Half rack - "
-      },
-      "description": {
-        "en": "\n        <p>Built in USB, RS232, RS485 and LAN.. Arbitrary function generator.. Constant current, constant voltage or constant power versions.. Temperature controlled fan option reduces audible noise in your system. Bench or rack mount.. Last setting memory..</p>\n        <ul>\n          <li>Input: 85 - 265VAC (Single phase)</li>\n          <li>Output Power: 1000W</li>\n          <li>Dimensions: 214x432x44mm</li>\n          <li>Cooling: Variable speed forward air fan</li>\n          <li>Approvals: CE, EN/IEC/UL61010-1, UKCA</li>\n        </ul>\n      "
-      },
-      "price": 0,
-      "salePrice": null,
-      "currency": "EUR",
-      "images": [
-        {
-          "url": "https://www.emea.lambda.tdk.com/uk/imagebank/cropped/product/genesys-plus-1u-half-rack.jpg",
-          "alt": "GENESYS+™ Half rack Programmable Power Supply",
-          "isPrimary": true,
-          "sortOrder": 0
-        }
-      ],
-      "availability": "InStock",
-      "brand": "TDK-Lambda",
-      "category": "TDK-Lambda/Programmable Power Supplies",
-      "tags": [
-        "power-supply",
-        "programmable",
-        "single-phase",
-        "built-in",
-        "arbitrary-function",
-        "constant-current,",
-        "temperature-controlled",
-        "bench-or",
-        "last-setting"
-      ]
-    },
-    {
       "sku": "TDK-Genesys-1U-WIKS",
       "name": {
         "en": "Genesys 1U - "
@@ -833,40 +799,6 @@
         "advanced-parallel",
         "ieee488.2-scpi",
         "19-inch"
-      ]
-    },
-    {
-      "sku": "TDK-Genesys-GENH-G3JW",
-      "name": {
-        "en": "Genesys GENH - "
-      },
-      "description": {
-        "en": "\n        <p>Programmable output voltage.. Built in RS232 and RS485 interface.. Advanced parallel standard.. IEEE488.2 SCPI (GPIB) optional interface.. Isolated analogue interface.. 1U half rack size..</p>\n        <ul>\n          <li>Input: 85 - 265VAC (Single phase)</li>\n          <li>Output Power: 750W</li>\n          <li>Dimensions: 214x437.5x43.6mm</li>\n          <li>Cooling: Variable speed forward air fan</li>\n          <li>Approvals: CE, EN/UL60950-1, EN/UL62368-1, UKCA</li>\n        </ul>\n      "
-      },
-      "price": 0,
-      "salePrice": null,
-      "currency": "EUR",
-      "images": [
-        {
-          "url": "https://www.emea.lambda.tdk.com/uk/imagebank/cropped/product/genesys-1u-half-rack.jpg",
-          "alt": "Genesys GENH Programmable Power Supply",
-          "isPrimary": true,
-          "sortOrder": 0
-        }
-      ],
-      "availability": "InStock",
-      "brand": "TDK-Lambda",
-      "category": "TDK-Lambda/Programmable Power Supplies",
-      "tags": [
-        "power-supply",
-        "programmable",
-        "single-phase",
-        "programmable-output",
-        "built-in",
-        "advanced-parallel",
-        "ieee488.2-scpi",
-        "isolated-analogue",
-        "1u-half"
       ]
     },
     {
@@ -1449,70 +1381,6 @@
       ]
     },
     {
-      "sku": "TDK-HWS30-1500-M-FMSO",
-      "name": {
-        "en": "HWS30-1500/ME - "
-      },
-      "description": {
-        "en": "\n        <p>Medical Safety Approval.. Universal (wide range) input.. High efficiency to reduce heat in your system..</p>\n        <ul>\n          <li>Input: 85 - 265VAC (Single phase)</li>\n          <li>Output Power: 156W</li>\n          <li>Dimensions: 37x160x82mm</li>\n          <li>Cooling: Convection cooled</li>\n          <li>Approvals: CE, CSA/EN/UL60601-1, UKCA</li>\n        </ul>\n      "
-      },
-      "price": 0,
-      "salePrice": null,
-      "currency": "EUR",
-      "images": [
-        {
-          "url": "https://www.emea.lambda.tdk.com/uk/imagebank/cropped/product/hws-me.jpg",
-          "alt": "HWS30-1500/ME Programmable Power Supply",
-          "isPrimary": true,
-          "sortOrder": 0
-        }
-      ],
-      "availability": "InStock",
-      "brand": "TDK-Lambda",
-      "category": "TDK-Lambda/Programmable Power Supplies",
-      "tags": [
-        "power-supply",
-        "programmable",
-        "single-phase",
-        "medical-safety",
-        "universal-(wide",
-        "high-efficiency"
-      ]
-    },
-    {
-      "sku": "TDK-HWS50-1500-H-ZPMG",
-      "name": {
-        "en": "HWS50-1500/HD - "
-      },
-      "description": {
-        "en": "\n        <p>-10° to +71°C operation.. -40°C startup.. Universal (wide range) input.. Conformally coated pcb's.. SEMI F47 compliant (highline AC)..</p>\n        <ul>\n          <li>Input: 85 - 265VAC (Single phase)</li>\n          <li>Output Power: 156W</li>\n          <li>Dimensions: 37x160x82mm</li>\n          <li>Cooling: Convection cooled</li>\n          <li>Approvals: CE, CSA/EN/UL60950-1, CSA/EN/UL62368-1, EN50178, UKCA, UL508</li>\n        </ul>\n      "
-      },
-      "price": 0,
-      "salePrice": null,
-      "currency": "EUR",
-      "images": [
-        {
-          "url": "https://www.emea.lambda.tdk.com/uk/imagebank/cropped/product/hws-hd.jpg",
-          "alt": "HWS50-1500/HD Programmable Power Supply",
-          "isPrimary": true,
-          "sortOrder": 0
-        }
-      ],
-      "availability": "InStock",
-      "brand": "TDK-Lambda",
-      "category": "TDK-Lambda/Programmable Power Supplies",
-      "tags": [
-        "power-supply",
-        "programmable",
-        "single-phase",
-        "-10°-to",
-        "-40°c-startup.",
-        "universal-(wide",
-        "conformally-coated",
-        "semi-f47"
-      ]
-    },
-    {
       "sku": "TDK-DTM-ADYC",
       "name": {
         "en": "DTM - "
@@ -1575,68 +1443,6 @@
         "small-footprint.",
         "high-power",
         "medical-safety"
-      ]
-    },
-    {
-      "sku": "TDK-NVM175-with--MIAS",
-      "name": {
-        "en": "NVM175 with S1 option - "
-      },
-      "description": {
-        "en": "\n        <p>Designed for BF medical applications.. Meets EN55032 Class B EMC.. Dual input fuses..</p>\n        <ul>\n          <li>Input: 90 - 264VAC (Single phase)</li>\n          <li>Output Power: 180W</li>\n          <li>Dimensions: 76.2x127x31.6mm</li>\n          <li>Cooling: No fan (customer cooling)</li>\n          <li>Approvals: CE, CSA/EN/IEC/UL60950-1, CSA/EN/IEC/UL62368-1, EN/IEC/UL60601-1, UKCA</li>\n        </ul>\n      "
-      },
-      "price": 0,
-      "salePrice": null,
-      "currency": "EUR",
-      "images": [
-        {
-          "url": "https://www.emea.lambda.tdk.com/uk/imagebank/cropped/product/nv-power.jpg",
-          "alt": "NVM175 with S1 option Programmable Power Supply",
-          "isPrimary": true,
-          "sortOrder": 0
-        }
-      ],
-      "availability": "InStock",
-      "brand": "TDK-Lambda",
-      "category": "TDK-Lambda/Programmable Power Supplies",
-      "tags": [
-        "power-supply",
-        "programmable",
-        "single-phase",
-        "designed-for",
-        "meets-en55032",
-        "dual-input"
-      ]
-    },
-    {
-      "sku": "TDK-NVM175-with--5506",
-      "name": {
-        "en": "NVM175 with S2 option - "
-      },
-      "description": {
-        "en": "\n        <p>Designed for BF medical applications.. Meets EN55032 Class B EMC.. Dual input fuses..</p>\n        <ul>\n          <li>Input: 90 - 264VAC (Single phase)</li>\n          <li>Output Power: 180W</li>\n          <li>Dimensions: 76.2x127x31.6mm</li>\n          <li>Cooling: No fan (customer cooling)</li>\n          <li>Approvals: CE, CSA/EN/IEC/UL60950-1, CSA/EN/IEC/UL62368-1, EN/IEC/UL60601-1, UKCA</li>\n        </ul>\n      "
-      },
-      "price": 0,
-      "salePrice": null,
-      "currency": "EUR",
-      "images": [
-        {
-          "url": "https://www.emea.lambda.tdk.com/uk/imagebank/cropped/product/nv-power.jpg",
-          "alt": "NVM175 with S2 option Programmable Power Supply",
-          "isPrimary": true,
-          "sortOrder": 0
-        }
-      ],
-      "availability": "InStock",
-      "brand": "TDK-Lambda",
-      "category": "TDK-Lambda/Programmable Power Supplies",
-      "tags": [
-        "power-supply",
-        "programmable",
-        "single-phase",
-        "designed-for",
-        "meets-en55032",
-        "dual-input"
       ]
     },
     {

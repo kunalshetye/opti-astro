@@ -15,11 +15,13 @@ export const POST: APIRoute = async ({ request }) => {
     const newProducts: Product[] = products.map((tdkProduct: any) => {
       // Sanitize range for SKU generation
       // Remove invalid characters and ensure it's alphanumeric with dashes/underscores only
+      // SKU format: TDK-{RANGE}-{RAND} must be max 20 chars total
+      // TDK- (4) + RANGE (11) + - (1) + RAND (4) = 20 chars
       const sanitizedRange = tdkProduct.range
         .replace(/[^A-Z0-9\-_]/gi, '-')  // Replace invalid chars with dash
         .replace(/-+/g, '-')              // Replace multiple dashes with single dash
         .replace(/^-|-$/g, '')            // Remove leading/trailing dashes
-        .substring(0, 12);                // Limit to 12 chars to leave room for suffix
+        .substring(0, 11);                // Limit to 11 chars (20 - 9 fixed chars)
 
       // Generate SKU: TDK-{SANITIZED_RANGE}-{RANDOM}
       const sku = `TDK-${sanitizedRange}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
