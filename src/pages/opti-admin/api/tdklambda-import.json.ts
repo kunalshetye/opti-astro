@@ -36,10 +36,16 @@ export const POST: APIRoute = async ({ request }) => {
         </ul>
       `;
 
-      // Construct image URL
-      const imageUrl = tdkProduct.imageFileNameUrlEncoded
-        ? `https://www.emea.lambda.tdk.com/images/products/${tdkProduct.imageFileNameUrlEncoded}`
-        : 'https://via.placeholder.com/400x300?text=TDK-Lambda';
+      // Construct image URL from product page link
+      // The imageFileNameUrlEncoded field doesn't point to a valid URL
+      // Instead, extract slug from product page and use imagebank path
+      let imageUrl = 'https://via.placeholder.com/400x300?text=TDK-Lambda';
+
+      if (tdkProduct.linksToProductPage && tdkProduct.linksToProductPage.length > 0) {
+        const productPageUrl = tdkProduct.linksToProductPage[0];
+        const productSlug = productPageUrl.split('/').pop();
+        imageUrl = `https://www.emea.lambda.tdk.com/uk/imagebank/cropped/product/${productSlug}.jpg`;
+      }
 
       return {
         sku,
