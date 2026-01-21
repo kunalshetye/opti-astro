@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastUpdated": "2026-01-21T12:00:42.920Z",
+  "lastUpdated": "2026-01-21T12:05:37.743Z",
   "products": [
     {
       "sku": "TS-BLU-MD-001",
@@ -799,71 +799,6 @@
         "advanced-parallel",
         "ieee488.2-scpi",
         "19-inch"
-      ]
-    },
-    {
-      "sku": "TDK-D1SE-C1L8",
-      "name": {
-        "en": "D1SE - "
-      },
-      "description": {
-        "en": "\n        <p>Convection cooled.. Low cost.. High efficiency to reduce heat in your system.. Protective coated useful for harsh environments. Universal (wide range) input.. Conservative component ratings for long life..</p>\n        <ul>\n          <li>Input: 90 - 264VAC (Single phase) / 93 - 300VDC</li>\n          <li>Output Power: 120W</li>\n          <li>Dimensions: 38x110x125mm</li>\n          <li>Cooling: Convection cooled</li>\n          <li>Approvals: CSA/EN/IEC/UL61010-1, CSA/EN/IEC/UL61010-2-201, CSA/EN/IEC/UL62368-1, IS13252-1</li>\n        </ul>\n      "
-      },
-      "price": 0,
-      "salePrice": null,
-      "currency": "EUR",
-      "images": [
-        {
-          "url": "https://www.emea.lambda.tdk.com/uk/imagebank/cropped/product/4.jpg",
-          "alt": "D1SE Programmable Power Supply",
-          "isPrimary": true,
-          "sortOrder": 0
-        }
-      ],
-      "availability": "InStock",
-      "brand": "TDK-Lambda",
-      "category": "TDK-Lambda/Programmable Power Supplies",
-      "tags": [
-        "power-supply",
-        "programmable",
-        "single-phase",
-        "convection-cooled.",
-        "low-cost.",
-        "high-efficiency",
-        "protective-coated",
-        "universal-(wide",
-        "conservative-component"
-      ]
-    },
-    {
-      "sku": "TDK-DRB-4DE2",
-      "name": {
-        "en": "DRB - 20% peak power for 10s"
-      },
-      "description": {
-        "en": "\n        <p>High efficiency to reduce heat in your system.. Market leading case width. 10 year E-cap lifetime..</p>\n        <ul>\n          <li>Input: 85 - 264VAC (Single phase)</li>\n          <li>Output Power: 120W</li>\n          <li>Dimensions: 35x125x124mm</li>\n          <li>Cooling: Convection cooled</li>\n          <li>Approvals: CE, CSA/EN/IEC/UL62368-1, UKCA, UL508</li>\n        </ul>\n      "
-      },
-      "price": 0,
-      "salePrice": null,
-      "currency": "EUR",
-      "images": [
-        {
-          "url": "https://www.emea.lambda.tdk.com/uk/imagebank/cropped/product/drb.jpg",
-          "alt": "DRB Programmable Power Supply",
-          "isPrimary": true,
-          "sortOrder": 0
-        }
-      ],
-      "availability": "InStock",
-      "brand": "TDK-Lambda",
-      "category": "TDK-Lambda/Programmable Power Supplies",
-      "tags": [
-        "power-supply",
-        "programmable",
-        "single-phase",
-        "high-efficiency",
-        "market-leading",
-        "10-year"
       ]
     },
     {
