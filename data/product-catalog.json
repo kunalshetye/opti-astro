@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastUpdated": "2026-01-20T21:28:48.421Z",
+  "lastUpdated": "2026-01-21T11:17:30.740Z",
   "products": [
     {
       "sku": "TS-BLU-MD-001",
@@ -1257,68 +1257,6 @@
       ]
     },
     {
-      "sku": "TDK-NVM175 with S1 option-N36W",
-      "name": {
-        "en": "NVM175 with S1 option - "
-      },
-      "description": {
-        "en": "\n        <p>Designed for BF medical applications.. Meets EN55032 Class B EMC.. Dual input fuses..</p>\n        <ul>\n          <li>Input: 90 - 264VAC (Single phase)</li>\n          <li>Output Power: 180W</li>\n          <li>Dimensions: 76.2x127x31.6mm</li>\n          <li>Cooling: No fan (customer cooling)</li>\n          <li>Approvals: CE, CSA/EN/IEC/UL60950-1, CSA/EN/IEC/UL62368-1, EN/IEC/UL60601-1, UKCA</li>\n        </ul>\n      "
-      },
-      "price": 0,
-      "salePrice": null,
-      "currency": "EUR",
-      "images": [
-        {
-          "url": "https://www.emea.lambda.tdk.com/images/products/nvm175.png",
-          "alt": "NVM175 with S1 option Programmable Power Supply",
-          "isPrimary": true,
-          "sortOrder": 0
-        }
-      ],
-      "availability": "InStock",
-      "brand": "TDK-Lambda",
-      "category": "TDK-Lambda/Programmable Power Supplies",
-      "tags": [
-        "power-supply",
-        "programmable",
-        "single-phase",
-        "designed-for",
-        "meets-en55032",
-        "dual-input"
-      ]
-    },
-    {
-      "sku": "TDK-NVM175 with S2 option-K1F1",
-      "name": {
-        "en": "NVM175 with S2 option - "
-      },
-      "description": {
-        "en": "\n        <p>Designed for BF medical applications.. Meets EN55032 Class B EMC.. Dual input fuses..</p>\n        <ul>\n          <li>Input: 90 - 264VAC (Single phase)</li>\n          <li>Output Power: 180W</li>\n          <li>Dimensions: 76.2x127x31.6mm</li>\n          <li>Cooling: No fan (customer cooling)</li>\n          <li>Approvals: CE, CSA/EN/IEC/UL60950-1, CSA/EN/IEC/UL62368-1, EN/IEC/UL60601-1, UKCA</li>\n        </ul>\n      "
-      },
-      "price": 0,
-      "salePrice": null,
-      "currency": "EUR",
-      "images": [
-        {
-          "url": "https://www.emea.lambda.tdk.com/images/products/nvm175.png",
-          "alt": "NVM175 with S2 option Programmable Power Supply",
-          "isPrimary": true,
-          "sortOrder": 0
-        }
-      ],
-      "availability": "InStock",
-      "brand": "TDK-Lambda",
-      "category": "TDK-Lambda/Programmable Power Supplies",
-      "tags": [
-        "power-supply",
-        "programmable",
-        "single-phase",
-        "designed-for",
-        "meets-en55032",
-        "dual-input"
-      ]
-    },
-    {
       "sku": "TDK-DTM-IQ2C",
       "name": {
         "en": "DTM - "
@@ -1380,102 +1318,6 @@
         "constant-voltage",
         "adjustable-output",
         "remote-on/off."
-      ]
-    },
-    {
-      "sku": "TDK-HWS30-1500/ME-SRCX",
-      "name": {
-        "en": "HWS30-1500/ME - "
-      },
-      "description": {
-        "en": "\n        <p>Medical Safety Approval.. Universal (wide range) input.. High efficiency to reduce heat in your system..</p>\n        <ul>\n          <li>Input: 85 - 265VAC (Single phase)</li>\n          <li>Output Power: 324W</li>\n          <li>Dimensions: 61x165x82mm</li>\n          <li>Cooling: Fixed speed forward air fan</li>\n          <li>Approvals: CE, CSA/EN/UL60601-1, UKCA</li>\n        </ul>\n      "
-      },
-      "price": 0,
-      "salePrice": null,
-      "currency": "EUR",
-      "images": [
-        {
-          "url": "https://www.emea.lambda.tdk.com/images/products/hwsme.png",
-          "alt": "HWS30-1500/ME Programmable Power Supply",
-          "isPrimary": true,
-          "sortOrder": 0
-        }
-      ],
-      "availability": "InStock",
-      "brand": "TDK-Lambda",
-      "category": "TDK-Lambda/Programmable Power Supplies",
-      "tags": [
-        "power-supply",
-        "programmable",
-        "single-phase",
-        "medical-safety",
-        "universal-(wide",
-        "high-efficiency"
-      ]
-    },
-    {
-      "sku": "TDK-HWS50-1500/HD-S9PY",
-      "name": {
-        "en": "HWS50-1500/HD - "
-      },
-      "description": {
-        "en": "\n        <p>-10° to +71°C operation.. -40°C startup.. Universal (wide range) input.. Conformally coated pcb's.. SEMI F47 compliant (highline AC)..</p>\n        <ul>\n          <li>Input: 85 - 265VAC (Single phase)</li>\n          <li>Output Power: 324W</li>\n          <li>Dimensions: 61x165x82mm</li>\n          <li>Cooling: Fixed speed forward air fan</li>\n          <li>Approvals: CE, CSA/EN/UL60950-1, CSA/EN/UL62368-1, EN50178, UKCA</li>\n        </ul>\n      "
-      },
-      "price": 0,
-      "salePrice": null,
-      "currency": "EUR",
-      "images": [
-        {
-          "url": "https://www.emea.lambda.tdk.com/images/products/hwshd.png",
-          "alt": "HWS50-1500/HD Programmable Power Supply",
-          "isPrimary": true,
-          "sortOrder": 0
-        }
-      ],
-      "availability": "InStock",
-      "brand": "TDK-Lambda",
-      "category": "TDK-Lambda/Programmable Power Supplies",
-      "tags": [
-        "power-supply",
-        "programmable",
-        "single-phase",
-        "-10°-to",
-        "-40°c-startup.",
-        "universal-(wide",
-        "conformally-coated",
-        "semi-f47"
-      ]
-    },
-    {
-      "sku": "TDK-Z+-3M9G",
-      "name": {
-        "en": "Z+ - "
-      },
-      "description": {
-        "en": "\n        <p>2U High.. Built in USB, RS232 and RS485.. Optional LAN, GPIB and isolated analogue programming interfaces.. Arbitrary function generator..</p>\n        <ul>\n          <li>Input: 85 - 265VAC (Single phase)</li>\n          <li>Output Power: 400W</li>\n          <li>Dimensions: 70x350x83mm</li>\n          <li>Cooling: Variable speed forward air fan</li>\n          <li>Approvals: CE, IEC/UL61010-1, UKCA</li>\n        </ul>\n      "
-      },
-      "price": 0,
-      "salePrice": null,
-      "currency": "EUR",
-      "images": [
-        {
-          "url": "https://www.emea.lambda.tdk.com/images/products/zplus.png",
-          "alt": "Z+ Programmable Power Supply",
-          "isPrimary": true,
-          "sortOrder": 0
-        }
-      ],
-      "availability": "InStock",
-      "brand": "TDK-Lambda",
-      "category": "TDK-Lambda/Programmable Power Supplies",
-      "tags": [
-        "power-supply",
-        "programmable",
-        "single-phase",
-        "2u-high.",
-        "built-in",
-        "optional-lan,",
-        "arbitrary-function"
       ]
     }
   ]
