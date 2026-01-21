@@ -31,6 +31,10 @@ export default defineConfig({
                 protocol: 'https',
                 hostname: '*.cmp.optimizely.com',
             },
+            {
+                protocol: 'https',
+                hostname: 'www.emea.lambda.tdk.com',
+            },
         ],
     },
 

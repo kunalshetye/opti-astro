@@ -13,8 +13,16 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Transform TDK-Lambda products to catalog format
     const newProducts: Product[] = products.map((tdkProduct: any) => {
-      // Generate SKU: TDK-{RANGE}-{RANDOM}
-      const sku = `TDK-${tdkProduct.range}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+      // Sanitize range for SKU generation
+      // Remove invalid characters and ensure it's alphanumeric with dashes/underscores only
+      const sanitizedRange = tdkProduct.range
+        .replace(/[^A-Z0-9\-_]/gi, '-')  // Replace invalid chars with dash
+        .replace(/-+/g, '-')              // Replace multiple dashes with single dash
+        .replace(/^-|-$/g, '')            // Remove leading/trailing dashes
+        .substring(0, 12);                // Limit to 12 chars to leave room for suffix
+
+      // Generate SKU: TDK-{SANITIZED_RANGE}-{RANDOM}
+      const sku = `TDK-${sanitizedRange}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
 
       // Build description from features and specs
       const descriptionHtml = `
