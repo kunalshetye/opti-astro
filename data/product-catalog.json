@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastUpdated": "2026-01-21T12:05:37.743Z",
+  "lastUpdated": "2026-01-22T07:27:03.360Z",
   "products": [
     {
       "sku": "TS-BLU-MD-001",
@@ -799,39 +799,6 @@
         "advanced-parallel",
         "ieee488.2-scpi",
         "19-inch"
-      ]
-    },
-    {
-      "sku": "TDK-DRB-3-Phase-5KV5",
-      "name": {
-        "en": "DRB 3 Phase - "
-      },
-      "description": {
-        "en": "\n        <p>Power boost of 120% for 2 seconds to support capacitive loads start-up.. A low I²t avoids nuisance tripping of the input circuit breakers. Parallel Operation with Current Sharing, enables increased output current.. Every model available with screw or push-in terminals for individual application needs. Conservative component ratings for long life..</p>\n        <ul>\n          <li>Input: 350 - 575VAC (Three phase)</li>\n          <li>Output Power: 120W</li>\n          <li>Dimensions: 55x135.7x129mm</li>\n          <li>Cooling: Convection cooled</li>\n          <li>Approvals: CAN/CSA-C22.2 No. 61010-1, CAN/CSA-C22.2 No. 61010-2-201, CE, EAC, EN/IEC/UL61010-1, EN/IEC/UL61010-2-201, EN/IEC/UL62368-1(Ed.2), UKCA</li>\n        </ul>\n      "
-      },
-      "price": 0,
-      "salePrice": null,
-      "currency": "EUR",
-      "images": [
-        {
-          "url": "https://www.emea.lambda.tdk.com/uk/imagebank/cropped/product/.jpg",
-          "alt": "DRB 3 Phase Programmable Power Supply",
-          "isPrimary": true,
-          "sortOrder": 0
-        }
-      ],
-      "availability": "InStock",
-      "brand": "TDK-Lambda",
-      "category": "TDK-Lambda/Programmable Power Supplies",
-      "tags": [
-        "power-supply",
-        "programmable",
-        "three-phase",
-        "power-boost",
-        "a-low",
-        "parallel-operation",
-        "every-model",
-        "conservative-component"
       ]
     },
     {
