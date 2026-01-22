@@ -4,6 +4,7 @@ fragment ArticleList on ArticleList {
     ArticleRoot {
         url {
             default
+            base
         }
     }
     IncludeAllSites
