@@ -52,26 +52,37 @@ const errorIds = [
 ].filter(Boolean).join(' ');
 ---
 
-<label class="text-lg font-semibold" for={inputId}>
-    {Label}
-    {isRequiredErrorMsg && <span aria-label="required" class="text-red-500">*</span>}
-</label>
-<textarea
-    id={inputId}
-    name={inputId}
-    class="textarea validator h-24 w-full"
-    placeholder={Placeholder}
-    required={isRequiredErrorMsg ? true : false}
-    aria-describedby={errorIds || undefined}
-    value={PredefinedValue}
-    autocomplete={AutoComplete || 'off'}
-    title={Tooltip}
-    {...regularExpressionValue ? { pattern: regularExpressionValue } : {}}
-></textarea>
+<div class="form-control w-full">
+    <label class="label pb-1" for={inputId}>
+        <span class="label-text text-base font-medium text-base-content/80">
+            {Label}
+            {isRequiredErrorMsg && <span class="text-error ml-1" aria-label="required">*</span>}
+        </span>
+    </label>
 
-{isRequiredErrorMsg && (
-    <div class="validator-hint">{isRequiredErrorMsg}</div>
-)}
-{isRegExpErrorMsg && (
-    <div class="validator-hint">{isRegExpErrorMsg}</div>
-)}
+    <textarea
+        id={inputId}
+        name={inputId}
+        class="textarea textarea-bordered w-full min-h-[120px] rounded-xl bg-base-100 border-base-300 shadow-sm
+               transition-all duration-200 ease-in-out resize-y
+               hover:border-primary/50 hover:shadow-md
+               focus:border-primary focus:ring-2 focus:ring-primary/20 focus:shadow-md focus:outline-none
+               placeholder:text-base-content/40"
+        placeholder={Placeholder}
+        required={isRequiredErrorMsg ? true : false}
+        aria-describedby={errorIds || undefined}
+        value={PredefinedValue}
+        autocomplete={AutoComplete || 'off'}
+        title={Tooltip}
+        {...regularExpressionValue ? { pattern: regularExpressionValue } : {}}
+    ></textarea>
+
+    <div class="mt-1.5 min-h-[1.25rem]">
+        {isRequiredErrorMsg && (
+            <p class="validator-hint text-sm text-error animate-pulse">{isRequiredErrorMsg}</p>
+        )}
+        {isRegExpErrorMsg && (
+            <p class="validator-hint text-sm text-error animate-pulse">{isRegExpErrorMsg}</p>
+        )}
+    </div>
+</div>

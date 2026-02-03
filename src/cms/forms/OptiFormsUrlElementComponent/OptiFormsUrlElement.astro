@@ -53,36 +53,49 @@ const describedByIds = [
 const defaultUrlPattern = '^https?://[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?)*(/.*)?$';
 ---
 
-<label class="text-lg font-semibold" for={inputId}>
-    {Label}
-    {isRequiredErrorMsg && <span aria-label="required" class="text-red-500">*</span>}
-</label>
+<div class="form-control w-full">
+    <label class="label pb-1" for={inputId}>
+        <span class="label-text text-base font-medium text-base-content/80">
+            {Label}
+            {isRequiredErrorMsg && <span class="text-error ml-1" aria-label="required">*</span>}
+        </span>
+    </label>
 
-<div id={urlDescriptionId} class="mb-1 text-sm text-gray-600">
-    Enter a valid URL (e.g., https://example.com)
+    <p id={urlDescriptionId} class="text-sm text-base-content/60 mb-2">
+        Enter a valid URL (e.g., https://example.com)
+    </p>
+
+    <div class="relative">
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-base-content/40">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+            </svg>
+        </span>
+        <input
+            id={inputId}
+            name={inputId}
+            type="url"
+            class="input input-bordered w-full rounded-xl bg-base-100 border-base-300 shadow-sm pl-10
+                   transition-all duration-200 ease-in-out
+                   hover:border-primary/50 hover:shadow-md
+                   focus:border-primary focus:ring-2 focus:ring-primary/20 focus:shadow-md focus:outline-none
+                   placeholder:text-base-content/40"
+            required={isRequiredErrorMsg ? true : false}
+            aria-describedby={describedByIds}
+            placeholder={Placeholder || "https://example.com"}
+            value={PredefinedValue}
+            pattern={regularExpressionValue || defaultUrlPattern}
+            title={Tooltip || "Enter a valid URL starting with http:// or https://"}
+            autocomplete="url"
+        />
+    </div>
+
+    <div class="mt-1.5 min-h-[1.25rem]">
+        {isRequiredErrorMsg && (
+            <p id={`${inputId}-required-error`} class="validator-hint hidden text-sm text-error animate-pulse">{isRequiredErrorMsg}</p>
+        )}
+        {isRegExpErrorMsg && (
+            <p id={`${inputId}-regexp-error`} class="validator-hint hidden text-sm text-error animate-pulse">{isRegExpErrorMsg}</p>
+        )}
+    </div>
 </div>
-
-<input
-    id={inputId}
-    name={inputId}
-    type="url"
-    class="input validator w-full"
-    required={isRequiredErrorMsg ? true : false}
-    aria-describedby={describedByIds}
-    placeholder={Placeholder || "https://example.com"}
-    value={PredefinedValue}
-    pattern={regularExpressionValue || defaultUrlPattern}
-    title={Tooltip || "Enter a valid URL starting with http:// or https://"}
-    autocomplete="url"
-/>
-
-{
-    isRequiredErrorMsg && (
-        <div id={`${inputId}-required-error`} class="validator-hint hidden">{isRequiredErrorMsg}</div>
-    )
-}
-{
-    isRegExpErrorMsg && (
-        <div id={`${inputId}-regexp-error`} class="validator-hint hidden">{isRegExpErrorMsg}</div>
-    )
-}

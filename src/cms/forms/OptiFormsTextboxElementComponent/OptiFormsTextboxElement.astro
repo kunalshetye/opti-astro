@@ -57,41 +57,44 @@ const errorIds = [
 ].filter(Boolean).join(' ');
 ---
 
-<label class="text-lg font-semibold" for={inputId}>
-    {Label}
-    {isRequiredErrorMsg && <span aria-label="required">*</span>}
-</label>
+<div class="form-control w-full">
+    <label class="label pb-1" for={inputId}>
+        <span class="label-text text-base font-medium text-base-content/80">
+            {Label}
+            {isRequiredErrorMsg && <span class="text-error ml-1" aria-label="required">*</span>}
+        </span>
+    </label>
 
-<input
-    id={inputId}
-    name={inputId}
-    type={inputType}
-    class="input validator w-full"
-    required={isRequiredErrorMsg ? true : false}
-    aria-describedby={errorIds || undefined}
-    placeholder={Placeholder}
-    value={PredefinedValue}
-    autocomplete={AutoComplete || 'off'}
-    {...regularExpressionValue ? { pattern: regularExpressionValue } : {}}
-    title={Tooltip}
-/>
-{
-    isRequiredErrorMsg && (
-        <div id={`${inputId}-required-error`} class="validator-hint hidden">{isRequiredErrorMsg}</div>
-    )
-}
-{
-    isRegExpErrorMsg && (
-        <div id={`${inputId}-regexp-error`} class="validator-hint hidden">{isRegExpErrorMsg}</div>
-    )
-}
-{
-    isEmailErrorMsg && (
-        <div id={`${inputId}-email-error`} class="validator-hint hidden">{isEmailErrorMsg}</div>
-    )
-}
-{
-    isNumberErrorMsg && (
-        <div id={`${inputId}-number-error`} class="validator-hint hidden">{isNumberErrorMsg}</div>
-    )
-}
+    <input
+        id={inputId}
+        name={inputId}
+        type={inputType}
+        class="input input-bordered w-full rounded-xl bg-base-100 border-base-300 shadow-sm
+               transition-all duration-200 ease-in-out
+               hover:border-primary/50 hover:shadow-md
+               focus:border-primary focus:ring-2 focus:ring-primary/20 focus:shadow-md focus:outline-none
+               placeholder:text-base-content/40"
+        required={isRequiredErrorMsg ? true : false}
+        aria-describedby={errorIds || undefined}
+        placeholder={Placeholder}
+        value={PredefinedValue}
+        autocomplete={AutoComplete || 'off'}
+        {...regularExpressionValue ? { pattern: regularExpressionValue } : {}}
+        title={Tooltip}
+    />
+
+    <div class="mt-1.5 min-h-[1.25rem]">
+        {isRequiredErrorMsg && (
+            <p id={`${inputId}-required-error`} class="validator-hint hidden text-sm text-error animate-pulse">{isRequiredErrorMsg}</p>
+        )}
+        {isRegExpErrorMsg && (
+            <p id={`${inputId}-regexp-error`} class="validator-hint hidden text-sm text-error animate-pulse">{isRegExpErrorMsg}</p>
+        )}
+        {isEmailErrorMsg && (
+            <p id={`${inputId}-email-error`} class="validator-hint hidden text-sm text-error animate-pulse">{isEmailErrorMsg}</p>
+        )}
+        {isNumberErrorMsg && (
+            <p id={`${inputId}-number-error`} class="validator-hint hidden text-sm text-error animate-pulse">{isNumberErrorMsg}</p>
+        )}
+    </div>
+</div>
