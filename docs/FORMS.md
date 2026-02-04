@@ -185,10 +185,9 @@ Add these to your `.env` file:
 # ODP Configuration (Required for ODP integration)
 OPTIMIZELY_DATA_PLATFORM_ENDPOINT=https://api.zaius.com
 OPTIMIZELY_DATA_PLATFORM_PRIVATE_KEY=YOUR-PRIVATE-KEY-HERE
-
-# Forms Configuration (Optional)
-OPTIMIZELY_FORMS_ENABLED=true
 ```
+
+> **Note:** Forms support is automatically detected during `yarn codegen` — no manual environment variable is needed.
 
 **Where to find your ODP Private Key:**
 1. Log into your Optimizely Data Platform account
