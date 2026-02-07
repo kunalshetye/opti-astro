@@ -1,4 +1,4 @@
-// /src/pages/opti-admin/api/pinned-items.json.ts
+// /src/pages/opti-admin/api/pinned/items.json.ts
 import type { APIRoute } from 'astro';
 import {
   createErrorResponse,
@@ -15,8 +15,8 @@ export const POST: APIRoute = async ({ request }) => {
       collectionId,
       phrases,
       targetKey,
-      language = 'en',
-      priority = 1,
+      language = null,
+      priority = 1000,
       isActive = true
     } = body;
 
@@ -31,11 +31,10 @@ export const POST: APIRoute = async ({ request }) => {
       return createErrorResponse('Content GUID (targetKey) is required', 400);
     }
 
-    // Prepare request body as strings
     const requestBody: Record<string, any> = {
       phrases: typeof phrases === 'string' ? phrases : Array.isArray(phrases) ? phrases.join('\n') : '',
       targetKey,
-      language,
+      language: language || null,
       priority,
       isActive
     };
@@ -98,6 +97,46 @@ export const GET: APIRoute = async ({ url }) => {
     return createSuccessResponse(
       Array.isArray(items) ? items : [items]
     );
+
+  } catch (error) {
+    return handleApiError(error);
+  }
+};
+
+// PUT - Update a pinned item
+export const PUT: APIRoute = async ({ request }) => {
+  try {
+    const body = await request.json();
+    const { collectionId, itemId, phrases, targetKey, language, priority, isActive } = body;
+
+    if (!collectionId || !itemId) {
+      return createErrorResponse('Collection ID and Item ID are required', 400);
+    }
+
+    // Build partial update payload - only include provided fields
+    const updatePayload: Record<string, any> = {};
+    if (phrases !== undefined) updatePayload.phrases = phrases;
+    if (targetKey !== undefined) updatePayload.targetKey = targetKey;
+    if (language !== undefined) updatePayload.language = language;
+    if (priority !== undefined) updatePayload.priority = priority;
+    if (isActive !== undefined) updatePayload.isActive = isActive;
+
+    const response = await makeHmacApiRequest(`/api/pinned/collections/${collectionId}/items/${itemId}`, {
+      method: 'PUT',
+      body: updatePayload
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      return createErrorResponse(
+        `Failed to update pinned item: ${response.status} ${response.statusText} - ${errorText}`,
+        response.status
+      );
+    }
+
+    const result = await response.json();
+
+    return createSuccessResponse(result, 'Pinned item updated successfully');
 
   } catch (error) {
     return handleApiError(error);

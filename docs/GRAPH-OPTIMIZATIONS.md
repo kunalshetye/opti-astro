@@ -119,13 +119,13 @@ The Pinned Results Manager allows you to "pin" specific content to the top of se
 
 ### Usage in GraphQL
 
-To use pinned results, add the `usePinned` parameter to your query, providing the user's search phrase and the `collectionId`.
+To use pinned results, add the `pinned` parameter to your query, providing the user's search phrase and the `collectionId`.
 
 ```graphql
 {
   Content(
     where: { _fulltext: { match: "water" } }
-    usePinned: { 
+    pinned: { 
       phrase: "water", 
       collectionId: "your-collection-id" 
     }
