@@ -1,4 +1,4 @@
-// /src/pages/opti-admin/api/pinned-collections.json.ts
+// /src/pages/opti-admin/api/pinned/collections.json.ts
 import type { APIRoute } from 'astro';
 import {
   createErrorResponse,
@@ -37,15 +37,18 @@ export const GET: APIRoute = async () => {
 export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
-    const { title, isActive = true } = body;
+    const { title, key, isActive = false } = body;
 
     if (!title) {
       return createErrorResponse('Collection title is required', 400);
     }
 
+    // Generate a key from the title if not provided
+    const collectionKey = key || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
     const response = await makeHmacApiRequest('/api/pinned/collections', {
       method: 'POST',
-      body: { title, isActive }
+      body: { title, key: collectionKey, isActive }
     });
 
     if (!response.ok) {
@@ -78,9 +81,14 @@ export const PUT: APIRoute = async ({ request }) => {
       return createErrorResponse('Collection ID is required', 400);
     }
 
+    // Build partial update payload - only include provided fields
+    const updatePayload: Record<string, any> = {};
+    if (title !== undefined) updatePayload.title = title;
+    if (isActive !== undefined) updatePayload.isActive = isActive;
+
     const response = await makeHmacApiRequest(`/api/pinned/collections/${id}`, {
       method: 'PUT',
-      body: { title, isActive }
+      body: updatePayload
     });
 
     if (!response.ok) {
@@ -100,10 +108,9 @@ export const PUT: APIRoute = async ({ request }) => {
   }
 };
 
-// DELETE - Delete existing collection
+// DELETE - Delete existing collection (clears all items first)
 export const DELETE: APIRoute = async ({ request }) => {
   try {
-    // Get collection ID from the request body
     const body = await request.json();
     const collectionId = body.id;
 
@@ -111,6 +118,20 @@ export const DELETE: APIRoute = async ({ request }) => {
       return createErrorResponse('Collection ID is required', 400);
     }
 
+    // Step 1: Clear all items in the collection first
+    const clearResponse = await makeHmacApiRequest(`/api/pinned/collections/${collectionId}/items`, {
+      method: 'DELETE'
+    });
+
+    if (!clearResponse.ok) {
+      const errorText = await clearResponse.text();
+      return createErrorResponse(
+        `Failed to clear collection items before deletion: ${clearResponse.status} ${clearResponse.statusText} - ${errorText}`,
+        clearResponse.status
+      );
+    }
+
+    // Step 2: Delete the collection itself
     const response = await makeHmacApiRequest(`/api/pinned/collections/${collectionId}`, {
       method: 'DELETE'
     });
@@ -123,7 +144,7 @@ export const DELETE: APIRoute = async ({ request }) => {
       );
     }
 
-    return createSuccessResponse(undefined, 'Collection deleted successfully');
+    return createSuccessResponse(undefined, 'Collection and all its items deleted successfully');
 
   } catch (error) {
     return handleApiError(error);
