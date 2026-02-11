@@ -79,6 +79,9 @@ const errorIds = [
         autocomplete={AutoComplete || 'off'}
         {...regularExpressionValue ? { pattern: regularExpressionValue } : {}}
         title={Tooltip}
+        data-msg-required={isRequiredErrorMsg}
+        data-msg-type={isEmailErrorMsg}
+        data-msg-pattern={isRegExpErrorMsg}
     />
 
     <div class="mt-1.5">
@@ -89,6 +92,7 @@ const errorIds = [
             <p id={`${inputId}-regexp-error`} class="validator-hint hidden text-sm text-error animate-pulse">{isRegExpErrorMsg}</p>
         )}
         {isEmailErrorMsg && (
+            console.log("Email error message:", isEmailErrorMsg),
             <p id={`${inputId}-email-error`} class="validator-hint hidden text-sm text-error animate-pulse">{isEmailErrorMsg}</p>
         )}
     </div>

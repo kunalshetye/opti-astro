@@ -87,6 +87,7 @@ const describedByIds = [
         aria-describedby={describedByIds}
         title={Tooltip}
         size={AllowMultiSelect ? Math.min(Math.max((Options?.length || 1) + 1, 5), 8) : undefined}
+        data-msg-required={isRequiredErrorMsg}
     >
         {!AllowMultiSelect && (
             <option value="" disabled selected class="text-base-content/40">

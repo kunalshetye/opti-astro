@@ -87,6 +87,8 @@ const defaultUrlPattern = '^https?://[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\\.[
             pattern={regularExpressionValue || defaultUrlPattern}
             title={Tooltip || "Enter a valid URL starting with http:// or https://"}
             autocomplete="url"
+            data-msg-required={isRequiredErrorMsg}
+            data-msg-pattern={isRegExpErrorMsg}
         />
     </div>
 

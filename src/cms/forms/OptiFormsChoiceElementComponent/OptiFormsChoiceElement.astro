@@ -95,6 +95,7 @@ const instructionText = AllowMultiSelect
                             value={opt.value}
                             checked={opt.selected}
                             required={isRequiredErrorMsg ? (AllowMultiSelect ? false : true) : false}
+                            data-msg-required={isRequiredErrorMsg}
                         />
                         <span class="label-text text-base-content/90">{opt.label}</span>
                     </label>

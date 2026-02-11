@@ -184,6 +184,31 @@ const componentClass = 'component-form';
 
             form.addEventListener("submit", handleFormSubmit);
 
+            // Custom validation messages from CMS data attributes
+            form.querySelectorAll('input, textarea, select').forEach(function(el) {
+                const msgRequired = (el as HTMLElement).dataset.msgRequired;
+                const msgType = (el as HTMLElement).dataset.msgType;
+                const msgPattern = (el as HTMLElement).dataset.msgPattern;
+                if (msgRequired || msgType || msgPattern) {
+                    el.addEventListener('invalid', function() {
+                        const v = (el as HTMLInputElement).validity;
+                        if (v.valueMissing && msgRequired) {
+                            (el as HTMLInputElement).setCustomValidity(msgRequired);
+                        } else if (v.typeMismatch && msgType) {
+                            (el as HTMLInputElement).setCustomValidity(msgType);
+                        } else if (v.patternMismatch && msgPattern) {
+                            (el as HTMLInputElement).setCustomValidity(msgPattern);
+                        }
+                    });
+                    el.addEventListener('input', function() {
+                        (el as HTMLInputElement).setCustomValidity('');
+                    });
+                    el.addEventListener('change', function() {
+                        (el as HTMLInputElement).setCustomValidity('');
+                    });
+                }
+            });
+
             // Reset button confirmation logic
             const resetButton = form.querySelector('.form-reset-button');
             const resetModal = document.getElementById(`${formId}-reset-modal`) as HTMLDialogElement;
@@ -274,7 +299,7 @@ const componentClass = 'component-form';
     .form-control input:user-invalid,
     .form-control textarea:user-invalid,
     .form-control select:user-invalid {
-        border-color: oklch(var(--er));
+        border-color: var(--color-error);
         animation: shake 0.3s ease-in-out;
     }
 
@@ -282,6 +307,11 @@ const componentClass = 'component-form';
     .form-control textarea:user-valid,
     .form-control select:user-valid {
         border-color: oklch(var(--su));
+    }
+
+    /* Show validator hints when any child input is user-invalid */
+    .form-control:has(:user-invalid) .validator-hint {
+        display: block;
     }
 
     /* Subtle shake animation for errors */

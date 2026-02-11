@@ -75,6 +75,8 @@ const errorIds = [
         autocomplete={AutoComplete || 'off'}
         title={Tooltip}
         {...regularExpressionValue ? { pattern: regularExpressionValue } : {}}
+        data-msg-required={isRequiredErrorMsg}
+        data-msg-pattern={isRegExpErrorMsg}
     ></textarea>
 
     <div class="mt-1.5">
