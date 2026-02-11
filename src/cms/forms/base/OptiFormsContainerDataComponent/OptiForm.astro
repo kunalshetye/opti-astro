@@ -263,7 +263,6 @@ const componentClass = 'component-form';
             data-epi-block-id={formGrid.key}
         >
             {formGrid.nodes?.map((item: any) => (
-                console.log("Rendering form item:", item),
                 <FormComponents contentPayload={contentPayload} data={item} />
             ))}
         </div>
