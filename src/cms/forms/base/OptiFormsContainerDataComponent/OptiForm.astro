@@ -142,11 +142,13 @@ const componentClass = 'component-form';
                 type: "error" | "success",
                 element: HTMLElement
             ) {
-                const p = document.createElement("p");
-                p.id = "message";
-                p.className = `message ${type === "success" ? "text-teal-500" : "text-pink-500"} mt-2 px-2`;
-                p.innerText = message;
-                element.appendChild(p);
+                const div = document.createElement("div");
+                div.id = "message";
+                div.className = type === "success"
+                    ? "mt-4 p-4 rounded-xl bg-success/10 text-success-content font-medium border border-success/20"
+                    : "mt-4 p-4 rounded-xl bg-error/10 text-error-content font-medium border border-error/20";
+                div.innerText = message;
+                element.appendChild(div);
             }
 
             function clearInput(formElement: HTMLFormElement) {
@@ -261,6 +263,7 @@ const componentClass = 'component-form';
             data-epi-block-id={formGrid.key}
         >
             {formGrid.nodes?.map((item: any) => (
+                console.log("Rendering form item:", item),
                 <FormComponents contentPayload={contentPayload} data={item} />
             ))}
         </div>
@@ -282,14 +285,6 @@ const componentClass = 'component-form';
         border-color: oklch(var(--su));
     }
 
-    /* Show validation hints on invalid state */
-    .form-control:has(input:user-invalid) .validator-hint,
-    .form-control:has(textarea:user-invalid) .validator-hint,
-    .form-control:has(select:user-invalid) .validator-hint,
-    fieldset:has(input:user-invalid) .validator-hint {
-        display: block;
-    }
-
     /* Subtle shake animation for errors */
     @keyframes shake {
         0%, 100% { transform: translateX(0); }
@@ -297,13 +292,4 @@ const componentClass = 'component-form';
         75% { transform: translateX(4px); }
     }
 
-    /* Success message styling */
-    .message.text-teal-500 {
-        color: oklch(var(--su));
-    }
-
-    /* Error message styling */
-    .message.text-pink-500 {
-        color: oklch(var(--er));
-    }
 </style>

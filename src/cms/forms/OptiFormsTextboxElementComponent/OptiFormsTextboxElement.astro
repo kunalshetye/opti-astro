@@ -37,7 +37,6 @@ const {
 
 const isRequiredErrorMsg = requiredValidatorMsg(Validators);
 const isEmailErrorMsg = emailValidatorMsg(Validators);
-const isNumberErrorMsg = numberValidatorMsg(Validators);
 const isRegExpErrorMsg = regExpValidatorMsg(Validators);
 
 const regularExpressionValue = isRegExpErrorMsg
@@ -45,15 +44,14 @@ const regularExpressionValue = isRegExpErrorMsg
     : undefined;
 
 const inputType =
-    (isEmailErrorMsg && 'email') || (isNumberErrorMsg && 'number') || 'text';
+    (isEmailErrorMsg && 'email') || 'text';
 
 const inputId = Label?.replace(/\s+/g, '_') || `textbox-${Math.random().toString(36).substr(2, 4)}`;
 
 const errorIds = [
     isRequiredErrorMsg && `${inputId}-required-error`,
     isRegExpErrorMsg && `${inputId}-regexp-error`,
-    isEmailErrorMsg && `${inputId}-email-error`,
-    isNumberErrorMsg && `${inputId}-number-error`
+    isEmailErrorMsg && `${inputId}-email-error`
 ].filter(Boolean).join(' ');
 ---
 
@@ -83,7 +81,7 @@ const errorIds = [
         title={Tooltip}
     />
 
-    <div class="mt-1.5 min-h-[1.25rem]">
+    <div class="mt-1.5">
         {isRequiredErrorMsg && (
             <p id={`${inputId}-required-error`} class="validator-hint hidden text-sm text-error animate-pulse">{isRequiredErrorMsg}</p>
         )}
@@ -92,9 +90,6 @@ const errorIds = [
         )}
         {isEmailErrorMsg && (
             <p id={`${inputId}-email-error`} class="validator-hint hidden text-sm text-error animate-pulse">{isEmailErrorMsg}</p>
-        )}
-        {isNumberErrorMsg && (
-            <p id={`${inputId}-number-error`} class="validator-hint hidden text-sm text-error animate-pulse">{isNumberErrorMsg}</p>
         )}
     </div>
 </div>

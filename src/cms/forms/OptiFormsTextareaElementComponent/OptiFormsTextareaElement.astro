@@ -77,12 +77,12 @@ const errorIds = [
         {...regularExpressionValue ? { pattern: regularExpressionValue } : {}}
     ></textarea>
 
-    <div class="mt-1.5 min-h-[1.25rem]">
+    <div class="mt-1.5">
         {isRequiredErrorMsg && (
-            <p class="validator-hint text-sm text-error animate-pulse">{isRequiredErrorMsg}</p>
+            <p class="validator-hint hidden text-sm text-error animate-pulse">{isRequiredErrorMsg}</p>
         )}
         {isRegExpErrorMsg && (
-            <p class="validator-hint text-sm text-error animate-pulse">{isRegExpErrorMsg}</p>
+            <p class="validator-hint hidden text-sm text-error animate-pulse">{isRegExpErrorMsg}</p>
         )}
     </div>
 </div>
