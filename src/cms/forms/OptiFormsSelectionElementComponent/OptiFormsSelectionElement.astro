@@ -70,10 +70,13 @@ const describedByIds = [
     </p>
 
     <select
-        class="select select-bordered w-full rounded-xl bg-base-100 border-base-300 shadow-sm
-               transition-all duration-200 ease-in-out
-               hover:border-primary/50 hover:shadow-md
-               focus:border-primary focus:ring-2 focus:ring-primary/20 focus:shadow-md focus:outline-none"
+        class:list={[
+            "select select-bordered w-full rounded-xl bg-base-100 border-base-300 shadow-sm",
+            "transition-all duration-200 ease-in-out",
+            "hover:border-primary/50 hover:shadow-md",
+            "focus:border-primary focus:ring-2 focus:ring-primary/20 focus:shadow-md focus:outline-none",
+            AllowMultiSelect && "h-auto"
+        ]}
         id={inputId}
         name={AllowMultiSelect ? `${inputId}[]` : inputId}
         autocomplete={AutoComplete || 'off'}
@@ -81,7 +84,7 @@ const describedByIds = [
         required={isRequiredErrorMsg ? true : false}
         aria-describedby={describedByIds}
         title={Tooltip}
-        size={AllowMultiSelect ? Math.min((Options?.length || 1) + 1, 8) : 1}
+        size={AllowMultiSelect ? Math.min(Math.max((Options?.length || 1) + 1, 5), 8) : undefined}
     >
         {!AllowMultiSelect && (
             <option value="" disabled selected class="text-base-content/40">
