@@ -309,11 +309,6 @@ const componentClass = 'component-form';
         border-color: oklch(var(--su));
     }
 
-    /* Show validator hints when any child input is user-invalid */
-    .form-control:has(:user-invalid) .validator-hint {
-        display: block;
-    }
-
     /* Subtle shake animation for errors */
     @keyframes shake {
         0%, 100% { transform: translateX(0); }
