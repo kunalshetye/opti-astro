@@ -34,7 +34,9 @@ export interface Props {
     AllowMultiSelect?: boolean;
 }
 const { data, displaySettings } = Astro.props as Props;
-const { Label, Tooltip, Options, Validators, AllowMultiSelect } = data;
+const { Label, Tooltip, Options: RawOptions, Validators, AllowMultiSelect } = data;
+
+const Options = typeof RawOptions === 'string' ? JSON.parse(RawOptions) : RawOptions;
 
 const isRequiredErrorMsg = requiredValidatorMsg(Validators);
 const inputId = Label?.replace(/\s+/g, '_') || `choice-${Math.random().toString(36).substr(2, 4)}`;
@@ -60,18 +62,19 @@ const instructionText = AllowMultiSelect
     : "Select one option. Use arrow keys to navigate.";
 ---
 
-<fieldset class="fieldset bg-base-100 border-base-300 rounded-box w-full border p-4">
-    <legend id={legendId} class="fieldset-legend text-lg font-semibold">
+<fieldset class="form-control w-full rounded-2xl bg-base-100 border border-base-300 p-5 shadow-sm
+                    transition-all duration-200 ease-in-out hover:shadow-md">
+    <legend id={legendId} class="px-2 text-base font-medium text-base-content/80">
         {Label}
-        {isRequiredErrorMsg && <span aria-label="required" class="text-red-500 ml-1">*</span>}
+        {isRequiredErrorMsg && <span class="text-error ml-1" aria-label="required">*</span>}
     </legend>
-    
-    <div id={instructionsId} class="text-sm text-gray-600 mb-2">
+
+    <p id={instructionsId} class="text-sm text-base-content/60 mb-3">
         {instructionText}
-    </div>
-    
-    <div 
-        class="flex flex-row flex-wrap gap-x-6 gap-y-2"
+    </p>
+
+    <div
+        class="flex flex-row flex-wrap gap-x-8 gap-y-3"
         role={groupRole}
         aria-labelledby={legendId}
         aria-describedby={describedByIds}
@@ -81,26 +84,29 @@ const instructionText = AllowMultiSelect
             (opt: { label: string; value: string; selected?: boolean }, idx: number) => {
                 const optionId = `${inputId}-${inputType}-${idx}`;
                 return (
-                    <label class="label cursor-pointer justify-start gap-3" for={optionId}>
+                    <label class="label cursor-pointer justify-start gap-3 p-2 rounded-lg
+                                  transition-all duration-150 ease-in-out
+                                  hover:bg-base-200/50" for={optionId}>
                         <input
                             id={optionId}
                             name={inputId}
                             type={inputType}
-                            class={inputClass}
+                            class={`${inputClass} ${inputClass}-primary transition-all duration-150`}
                             value={opt.value}
                             checked={opt.selected}
                             required={isRequiredErrorMsg ? (AllowMultiSelect ? false : true) : false}
+                            data-msg-required={isRequiredErrorMsg}
                         />
-                        <span class="label-text">{opt.label}</span>
+                        <span class="label-text text-base-content/90">{opt.label}</span>
                     </label>
                 );
             }
         )}
     </div>
-    
-    {
-        isRequiredErrorMsg && (
-            <div id={`${inputId}-required-error`} class="validator-hint hidden">{isRequiredErrorMsg}</div>
-        )
-    }
+
+    <div class="mt-2">
+        {isRequiredErrorMsg && (
+            <p id={`${inputId}-required-error`} class="validator-hint hidden text-sm text-error animate-pulse">{isRequiredErrorMsg}</p>
+        )}
+    </div>
 </fieldset>
