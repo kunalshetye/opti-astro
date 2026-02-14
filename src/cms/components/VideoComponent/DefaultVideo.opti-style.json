@@ -6,7 +6,7 @@
 	"settings": {
 		"aspectRatio": {
 			"displayName": "Aspect Ratio",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 10,
 			"choices": {
 				"auto": {
@@ -37,7 +37,7 @@
 		},
 		"showControls": {
 			"displayName": "Show player controls",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 20,
 			"choices": {
 				"true": {
@@ -52,7 +52,7 @@
 		},
 		"autoPlay": {
 			"displayName": "Start playback automatically",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 30,
 			"choices": {
 				"true": {
@@ -67,7 +67,7 @@
 		},
 		"loop": {
 			"displayName": "Loop video",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 40,
 			"choices": {
 				"true": {
@@ -82,7 +82,7 @@
 		},
 		"muted": {
 			"displayName": "Mute audio",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 50,
 			"choices": {
 				"true": {
@@ -97,7 +97,7 @@
 		},
 		"roundedCorners": {
 			"displayName": "Rounded corners",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 60,
 			"choices": {
 				"none": {

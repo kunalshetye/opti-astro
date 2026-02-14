@@ -6,7 +6,7 @@
 	"settings": {
 		"carouselMode": {
 			"displayName": "Carousel Mode",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 10,
 			"choices": {
 				"standard": {
@@ -21,7 +21,7 @@
 		},
 		"itemsPerViewDesktop": {
 			"displayName": "Items Per View (Desktop)",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 20,
 			"choices": {
 				"items2": {
@@ -44,7 +44,7 @@
 		},
 		"itemsPerViewTablet": {
 			"displayName": "Items Per View (Tablet)",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 30,
 			"choices": {
 				"items1": {
@@ -67,7 +67,7 @@
 		},
 		"itemsPerViewMobile": {
 			"displayName": "Items Per View (Mobile)",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 40,
 			"choices": {
 				"items1": {
@@ -86,7 +86,7 @@
 		},
 		"spaceBetween": {
 			"displayName": "Space Between Items",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 50,
 			"choices": {
 				"space16": {
@@ -105,7 +105,7 @@
 		},
 		"showNavigation": {
 			"displayName": "Show Navigation Arrows",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 60,
 			"choices": {
 				"true": {
@@ -120,7 +120,7 @@
 		},
 		"showPagination": {
 			"displayName": "Show Pagination Dots",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 70,
 			"choices": {
 				"true": {
@@ -135,7 +135,7 @@
 		},
 		"autoplay": {
 			"displayName": "Enable Autoplay",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 80,
 			"choices": {
 				"true": {
@@ -150,7 +150,7 @@
 		},
 		"autoplayDelay": {
 			"displayName": "Autoplay Delay (seconds)",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 90,
 			"choices": {
 				"delay3s": {
@@ -173,7 +173,7 @@
 		},
 		"loop": {
 			"displayName": "Enable Loop",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 100,
 			"choices": {
 				"true": {
@@ -188,7 +188,7 @@
 		},
 		"carousel_height": {
 			"displayName": "Carousel Height",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 110,
 			"choices": {
 				"h_auto": {
@@ -227,7 +227,7 @@
 		},
 		"image_fit": {
 			"displayName": "Image Fit",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 120,
 			"choices": {
 				"object_cover": {
@@ -246,7 +246,7 @@
 		},
 		"carousel_alignment": {
 			"displayName": "Carousel Alignment",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 130,
 			"choices": {
 				"full_width": {

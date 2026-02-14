@@ -6,7 +6,7 @@
 	"settings": {
 		"gridSpan": {
 			"displayName": "Grid Span (out of 12)",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 5,
 			"choices": {
 				"auto": {
@@ -65,7 +65,7 @@
 		},
 		"colBackgroundColor": {
 			"displayName": "Background color",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 10,
 			"choices": {
 				"white": {
@@ -100,7 +100,7 @@
 		},
 		"itemOrderOnSmallScreen": {
 			"displayName": "First item on small screen",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 20,
 			"choices": {
 				"normal": {

@@ -6,7 +6,7 @@
 	"settings": {
 		"rowWidth": {
 			"displayName": "Width",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 3,
 			"choices": {
 				"inherit": {
@@ -69,7 +69,7 @@
 		},
 		"vSpacing": {
 			"displayName": "Vertical Spacing",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 5,
 			"choices": {
 				"none": {
@@ -92,7 +92,7 @@
 		},
 		"rowBackgroundColor": {
 			"displayName": "Background color",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 10,
 			"choices": {
 				"white": {
@@ -127,7 +127,7 @@
 		},
 		"columnOrderOnSmallScreen": {
 			"displayName": "Colums on small screen",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 20,
 			"choices": {
 				"normal": {

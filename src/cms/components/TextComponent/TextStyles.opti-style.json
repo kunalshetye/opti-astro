@@ -6,7 +6,7 @@
 	"settings": {
 		"headingType": {
 			"displayName": "Heading Type",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 10,
 			"choices": {
 				"h1": {
@@ -41,7 +41,7 @@
 		},
 		"textAlign": {
 			"displayName": "Text align",
-			"editor": "",
+			"editor":"select",
 			"sortOrder": 20,
 			"choices": {
 				"left": {
@@ -64,7 +64,7 @@
 		},
 		"showAs": {
 			"displayName": "Render as",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 30,
 			"choices": {
 				"heading": {
@@ -79,7 +79,7 @@
 		},
 		"transform": {
 			"displayName": "Text transform",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 40,
 			"choices": {
 				"keep": {
@@ -102,7 +102,7 @@
 		},
 		"color": {
 			"displayName": "Text color",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 50,
 			"choices": {
 				"default": {

@@ -6,7 +6,7 @@
 	"settings": {
 		"transform": {
 			"displayName": "Text Transform",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 5,
 			"choices": {
 				"keep": {
@@ -29,7 +29,7 @@
 		},
 		"buttonStyle": {
 			"displayName": "Button Style",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 20,
 			"choices": {
 				"standard": {
@@ -72,7 +72,7 @@
 		},
 		"buttonType": {
 			"displayName": "Button Type (Color)",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 30,
 			"choices": {
 				"primary": {
@@ -111,7 +111,7 @@
 		},
 		"buttonWidth": {
 			"displayName": "Button Width",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 40,
 			"choices": {
 				"w_10rem": {
@@ -158,7 +158,7 @@
 		},
 		"buttonSize": {
 			"displayName": "Button Size",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 50,
 			"choices": {
 				"medium": {
@@ -189,7 +189,7 @@
 		},
 		"buttonRadius": {
 			"displayName": "Button Corners",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 60,
 			"choices": {
 				"standard": {
@@ -236,7 +236,7 @@
 		},
 		"buttonAction": {
 			"displayName": "Button Hover Effect",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 70,
 			"choices": {
 				"static": {
