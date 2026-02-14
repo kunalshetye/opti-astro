@@ -6,7 +6,7 @@
 	"settings": {
 		"gridWidth": {
 			"displayName": "Width",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 10,
 			"choices": {
 				"default": {
@@ -29,7 +29,7 @@
 		},
 		"vSpacing": {
 			"displayName": "Vertical spacing",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 20,
 			"choices": {
 				"default": {
@@ -48,7 +48,7 @@
 		},
 		"sectionColor": {
 			"displayName": "Color",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 30,
 			"choices": {
 				"default": {

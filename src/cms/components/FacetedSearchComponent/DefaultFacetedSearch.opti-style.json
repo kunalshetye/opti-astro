@@ -6,7 +6,7 @@
 	"settings": {
 		"maxWidth": {
 			"displayName": "Max Width",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 10,
 			"choices": {
 				"none": {
@@ -61,7 +61,7 @@
 		},
 		"contentAlignment": {
 			"displayName": "Content Alignment",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 20,
 			"choices": {
 				"left": {

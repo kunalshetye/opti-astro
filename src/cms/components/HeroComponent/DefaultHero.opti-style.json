@@ -6,7 +6,7 @@
   "settings": {
     "hoverEffect": {
       "displayName": "Hover Effect",
-      "editor": "",
+      "editor": "select",
       "sortOrder": 1,
       "choices": {
         "zoom_subtle": {
@@ -25,7 +25,7 @@
     },
     "hero_height": {
       "displayName": "Hero Height",
-      "editor": "",
+      "editor": "select",
       "sortOrder": 20,
       "choices": {
         "h_18rem": {
@@ -48,7 +48,7 @@
     },
     "text_placement": {
       "displayName": "Text Placement",
-      "editor": "",
+      "editor": "select",
       "sortOrder": 30,
       "choices": {
         "center": {
@@ -67,7 +67,7 @@
     },
     "text_color": {
       "displayName": "Text Color",
-      "editor": "",
+      "editor": "select",
       "sortOrder": 40,
       "choices": {
         "default": {
@@ -118,7 +118,7 @@
     },
     "background_tint_level": {
       "displayName": "Background Tint Level",
-      "editor": "",
+      "editor": "select",
       "sortOrder": 60,
       "choices": {
         "o_0": {
@@ -169,7 +169,7 @@
     },
 	"backgroundColor": {
 		"displayName": "Hero Background Color",
-		"editor": "",
+		"editor": "select",
 		"sortOrder": 70,
 		"choices": {
 			"transparent": {
@@ -224,7 +224,7 @@
 	},
     "image_fit": {
       "displayName": "Image Fit",
-      "editor": "",
+      "editor": "select",
       "sortOrder": 80,
       "choices": {
         "object_cover": {
@@ -243,7 +243,7 @@
     },
 		"buttonStyle": {
 			"displayName": "Button Style",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 120,
 			"choices": {
 				"standard": {
@@ -286,7 +286,7 @@
 		},
 		"buttonWidth": {
 			"displayName": "Button Width",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 130,
 			"choices": {
 				"w_10rem": {
@@ -333,7 +333,7 @@
 		},
 		"buttonSize": {
 			"displayName": "Button Size",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 130,
 			"choices": {
 				"medium": {
@@ -364,7 +364,7 @@
 		},
 		"buttonRadius": {
 			"displayName": "Rounded Buttons",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 150,
 			"choices": {
 				"none": {
@@ -411,7 +411,7 @@
 		},
 		"buttonAction": {
 			"displayName": "Bouncy Buttons",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 160,
 			"choices": {
 				"static": {

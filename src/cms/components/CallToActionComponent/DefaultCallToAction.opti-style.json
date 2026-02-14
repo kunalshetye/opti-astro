@@ -6,7 +6,7 @@
 	"settings": {
 		"transform": {
 			"displayName": "Text Transform",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 5,
 			"choices": {
 				"keep": {
@@ -29,7 +29,7 @@
 		},
 		"buttonStyle": {
 			"displayName": "Button Style",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 20,
 			"choices": {
 				"standard": {
@@ -72,7 +72,7 @@
 		},
 		"buttonWidth": {
 			"displayName": "Button Width",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 40,
 			"choices": {
 				"w_10rem": {
@@ -119,7 +119,7 @@
 		},
 		"buttonSize": {
 			"displayName": "Button Size",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 50,
 			"choices": {
 				"medium": {
@@ -149,7 +149,7 @@
 			},
 			"buttonRadius": {
 				"displayName": "Rounded Buttons",
-				"editor": "",
+				"editor": "select",
 				"sortOrder": 60,
 				"choices": {
 					"none": {
@@ -196,7 +196,7 @@
 			},
 			"buttonAction": {
 				"displayName": "Bouncy Buttons",
-				"editor": "",
+				"editor": "select",
 				"sortOrder": 70,
 				"choices": {
 					"static": {

@@ -6,7 +6,7 @@
 	"settings": {
 		"maxWidth": {
 			"displayName": "Max Width",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 10,
 			"choices": {
 				"none": {
@@ -61,7 +61,7 @@
 		},
 		"contentAlignment": {
 			"displayName": "Content Alignment",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 20,
 			"choices": {
 				"left": {
@@ -80,7 +80,7 @@
 		},
 		"titleAlignment": {
 			"displayName": "Title Alignment",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 30,
 			"choices": {
 				"left": {
@@ -99,7 +99,7 @@
 		},
 		"layoutStyle": {
 			"displayName": "Layout Style",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 40,
 			"choices": {
 				"grid": {
@@ -114,7 +114,7 @@
 		},
 		"gridColumns": {
 			"displayName": "Grid Columns (Desktop) - Use with Grid layout",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 50,
 			"choices": {
 				"col4": {
@@ -145,7 +145,7 @@
 		},
 		"buttonPosition": {
 			"displayName": "Button Position",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 55,
 			"choices": {
 				"end": {
@@ -164,7 +164,7 @@
 		},
 		"imagePosition": {
 			"displayName": "Image Position",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 60,
 			"choices": {
 				"top": {
@@ -183,7 +183,7 @@
 		},
 		"hoverEffect": {
 			"displayName": "Hover Effect",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 70,
 			"choices": {
 				"zoom_subtle": {
@@ -202,7 +202,7 @@
 		},
 		"cardShadow": {
 			"displayName": "Card Shadow",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 80,
 			"choices": {
 				"none": {
@@ -229,7 +229,7 @@
 		},
 		"hoverShadow": {
 			"displayName": "Card Hover Shadow",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 90,
 			"choices": {
 				"none": {

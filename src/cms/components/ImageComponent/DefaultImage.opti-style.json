@@ -6,7 +6,7 @@
 	"settings": {
 		"displayAs": {
 			"displayName": "Display As",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 1,
 			"choices": {
 				"image": {
@@ -21,7 +21,7 @@
 		},
 		"aspectRatio": {
 			"displayName": "Image aspect ratio",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 5,
 			"choices": {
 				"default": {
@@ -52,7 +52,7 @@
 		},
 		"orientation": {
 			"displayName": "Image orientation",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 10,
 			"choices": {
 				"landscape": {
@@ -67,7 +67,7 @@
 		},
 		"roundedCorners": {
 			"displayName": "Rounded corners",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 20,
 			"choices": {
 				"none": {
@@ -110,7 +110,7 @@
 		},
 		"iconSize": {
 			"displayName": "Icon Size",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 100,
 			"choices": {
 				"xs": {
@@ -145,7 +145,7 @@
 		},
 		"iconShape": {
 			"displayName": "Icon Shape",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 110,
 			"choices": {
 				"none": {
