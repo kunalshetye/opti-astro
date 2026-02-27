@@ -68,6 +68,8 @@ const formSubmitConfirmationMsg: string | null = getFormProperty('SubmitConfirma
 const formResetConfirmationMsg: string = getFormProperty('ResetConfirmationMessage') ?? formItem?.ResetConfirmationMessage ?? 'Are you sure you want to reset the form?';
 const formSubmitUrl: string | null = getFormProperty('SubmitUrl')?.default ?? formItem?.SubmitUrl?.default ?? null;
 const showSummaryMessage: boolean = getFormProperty('ShowSummaryMessageAfterSubmission') ?? formItem?.ShowSummaryMessageAfterSubmission ?? false;
+const formDependencyRules = getFormProperty('DependencyRules') ?? formItem?.DependencyRules ?? null;
+const formDependencyRulesJson: string | null = formDependencyRules?.length ? JSON.stringify(formDependencyRules) : null;
 
 const componentClass = 'component-form';
 ---
@@ -80,6 +82,7 @@ const componentClass = 'component-form';
                     id={formId}
                     class="mx-auto mb-6 w-full rounded-2xl bg-base-100 px-8 py-8 shadow-lg
                            border border-base-200 transition-shadow duration-300 hover:shadow-xl"
+                    data-form-rules={formDependencyRulesJson || undefined}
                 >
                     {formSubmitUrl && (
                         <input type="hidden" name="formSubmitUrl" value={formSubmitUrl} />
@@ -227,7 +230,116 @@ const componentClass = 'component-form';
                     clearInput(form);
                     clearPreviousMessage("message");
                     resetModal.close();
+                    evaluateAllRules();
                 });
+            }
+
+            // Form rules engine — dependent field visibility
+            const rulesJson = form.dataset.formRules;
+            const rules: Array<{
+                TargetElement: string;
+                SatisfiedAction: string;
+                ConditionCombination: string;
+                Conditions: Array<{
+                    DependsOnField: string;
+                    ComparisonOperator: string;
+                    ComparisonValue: string;
+                }>;
+            }> = rulesJson ? JSON.parse(rulesJson) : [];
+
+            function getFieldValues(fieldName: string): string[] {
+                const safeName = fieldName.replace(/\s+/g, '_');
+                const inputs = form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
+                    `[name="${safeName}"], [name="${safeName}[]"]`
+                );
+                const values: string[] = [];
+                inputs.forEach((input) => {
+                    if ((input as HTMLInputElement).type === 'checkbox' || (input as HTMLInputElement).type === 'radio') {
+                        if ((input as HTMLInputElement).checked) values.push(input.value);
+                    } else if (input.tagName === 'SELECT' && (input as HTMLSelectElement).multiple) {
+                        Array.from((input as HTMLSelectElement).selectedOptions).forEach((opt) => values.push(opt.value));
+                    } else {
+                        if (input.value !== '') values.push(input.value);
+                    }
+                });
+                return values;
+            }
+
+            function evaluateCondition(
+                condition: { ComparisonOperator: string; ComparisonValue: string; DependsOnField: string },
+                fieldValues: string[]
+            ): boolean {
+                const op = condition.ComparisonOperator;
+                const compareValue = condition.ComparisonValue ?? '';
+                if (!op || op === 'NotApplicable') return true;
+                return fieldValues.some((val) => {
+                    switch (op) {
+                        case 'Equals': return val === compareValue;
+                        case 'NotEquals': return val !== compareValue;
+                        case 'Contains': return val.includes(compareValue);
+                        case 'DoesNotContain': return !val.includes(compareValue);
+                        case 'StartsWith': return val.startsWith(compareValue);
+                        case 'EndsWith': return val.endsWith(compareValue);
+                        case 'MatchRegularExpression': {
+                            try { return new RegExp(compareValue).test(val); } catch { return false; }
+                        }
+                        default: return false;
+                    }
+                });
+            }
+
+            function applyVisibility(targetEl: Element, visible: boolean) {
+                (targetEl as HTMLElement).style.display = visible ? '' : 'none';
+                targetEl.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(
+                    'input, textarea, select'
+                ).forEach((input) => { input.disabled = !visible; });
+            }
+
+            function evaluateRule(rule: typeof rules[number]) {
+                const { TargetElement, SatisfiedAction, ConditionCombination, Conditions } = rule;
+                if (!Conditions?.length) return;
+                const results = Conditions.map((cond) =>
+                    evaluateCondition(cond, getFieldValues(cond.DependsOnField))
+                );
+                const conditionsMet = ConditionCombination === 'Any'
+                    ? results.some(Boolean)
+                    : results.every(Boolean);
+                const shouldBeVisible = SatisfiedAction === 'Show' ? conditionsMet : !conditionsMet;
+                const targetEl = form.querySelector(`[data-field-name="${CSS.escape(TargetElement)}"]`);
+                if (targetEl) applyVisibility(targetEl, shouldBeVisible);
+            }
+
+            function evaluateAllRules() {
+                rules.forEach(evaluateRule);
+            }
+
+            if (rules.length) {
+                // Build source-field → rules map and attach listeners
+                const fieldToRules = new Map<string, typeof rules>();
+                rules.forEach((rule) => {
+                    rule.Conditions?.forEach((cond) => {
+                        const fn = cond.DependsOnField;
+                        if (!fn) return;
+                        if (!fieldToRules.has(fn)) fieldToRules.set(fn, []);
+                        fieldToRules.get(fn)!.push(rule);
+                    });
+                });
+
+                fieldToRules.forEach((affectedRules, fieldName) => {
+                    const safeName = fieldName.replace(/\s+/g, '_');
+                    form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
+                        `[name="${safeName}"], [name="${safeName}[]"]`
+                    ).forEach((input) => {
+                        const handler = () => affectedRules.forEach(evaluateRule);
+                        input.addEventListener('change', handler);
+                        if (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA') {
+                            input.addEventListener('input', handler);
+                        }
+                    });
+                });
+
+                // Apply initial visibility on page load
+                evaluateAllRules();
             }
         </script>
 
