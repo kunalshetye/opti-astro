@@ -6,7 +6,7 @@
 	"settings": {
 		"paragraph_alignment": {
 			"displayName": "Paragraph Alignment",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 10,
 			"choices": {
 				"full_width": {

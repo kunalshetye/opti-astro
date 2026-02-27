@@ -105,7 +105,7 @@ export function mergeAndSortResults(
 	}
 
 	// Pinned Results:
-	//// for any results with score 20000+, push to top (for pinned results/best bets)
+	//// for any results with score 20000+, push to top (pinned results)
 	//// filter out any pinned results for different domain
 	const pinned = items
 		.filter(item => item._score >= 20000 && item._metadata?.url?.base === domain)

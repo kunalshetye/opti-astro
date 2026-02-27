@@ -43,7 +43,8 @@
 			"sortOrder": 200,
 			"editorSettings": {},
 			"allowedTypes": [
-				"Page"
+				"Page",
+				"BlankExperience"
 			],
 			"restrictedTypes": []
 		},

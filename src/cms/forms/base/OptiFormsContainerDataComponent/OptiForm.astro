@@ -78,16 +78,17 @@ const componentClass = 'component-form';
             <div class={`vb:section flex flex-col ${componentClass}`} data-epi-block-id={formGrid.key}>
                 <form
                     id={formId}
-                    class="mx-auto mb-4 w-full rounded bg-white px-8 pt-6 pb-8 shadow-md"
+                    class="mx-auto mb-6 w-full rounded-2xl bg-base-100 px-8 py-8 shadow-lg
+                           border border-base-200 transition-shadow duration-300 hover:shadow-xl"
                 >
                     {formSubmitUrl && (
                         <input type="hidden" name="formSubmitUrl" value={formSubmitUrl} />
                     )}
                     <input type="hidden" name="formTitle" value={formTitle} />
                     {formTitle && (
-                        <h2 class="mb-4 text-2xl font-bold">{formTitle}</h2>
+                        <h2 class="mb-2 text-2xl font-bold text-base-content">{formTitle}</h2>
                     )}
-                    {formDescription && <p class="mb-4">{formDescription}</p>}
+                    {formDescription && <p class="mb-6 text-base-content/70">{formDescription}</p>}
                     {formNodes?.map((step: any) => (
                         <Astro.self contentPayload={contentPayload} grid={step} />
                     ))}
@@ -95,17 +96,22 @@ const componentClass = 'component-form';
             </div>
 
             <dialog id={`${formId}-reset-modal`} class="modal modal-middle">
-                <div class="modal-box">
-                    <h3 class="font-bold text-lg">Confirm Form Reset</h3>
-                    <p class="py-4">{formResetConfirmationMsg}</p>
-                    <div class="modal-action justify-center gap-8">
-                        <button class="btn btn-primary" id={`${formId}-reset-confirm-button`}>Confirm</button>
+                <div class="modal-box rounded-2xl shadow-2xl bg-base-100 border border-base-200">
+                    <h3 class="font-bold text-xl text-base-content">Confirm Form Reset</h3>
+                    <p class="py-4 text-base-content/70">{formResetConfirmationMsg}</p>
+                    <div class="modal-action justify-center gap-4 pt-2">
+                        <button
+                            class="btn btn-primary px-6 rounded-xl shadow-md transition-all duration-200
+                                   hover:shadow-lg hover:scale-[1.02]"
+                            id={`${formId}-reset-confirm-button`}
+                        >Confirm</button>
                         <form method="dialog">
-                            <button class="btn btn-secondary">Cancel</button>
+                            <button class="btn btn-ghost px-6 rounded-xl border border-base-300
+                                          transition-all duration-200 hover:bg-base-200">Cancel</button>
                         </form>
                     </div>
                 </div>
-                <form method="dialog" class="modal-backdrop">
+                <form method="dialog" class="modal-backdrop bg-base-content/20 backdrop-blur-sm">
                     <button>close</button>
                 </form>
             </dialog>
@@ -136,11 +142,13 @@ const componentClass = 'component-form';
                 type: "error" | "success",
                 element: HTMLElement
             ) {
-                const p = document.createElement("p");
-                p.id = "message";
-                p.className = `message ${type === "success" ? "text-teal-500" : "text-pink-500"} mt-2 px-2`;
-                p.innerText = message;
-                element.appendChild(p);
+                const div = document.createElement("div");
+                div.id = "message";
+                div.className = type === "success"
+                    ? "mt-4 p-4 rounded-xl bg-success/10 text-success-content font-medium border border-success/20"
+                    : "mt-4 p-4 rounded-xl bg-error/10 text-error-content font-medium border border-error/20";
+                div.innerText = message;
+                element.appendChild(div);
             }
 
             function clearInput(formElement: HTMLFormElement) {
@@ -175,6 +183,31 @@ const componentClass = 'component-form';
             }
 
             form.addEventListener("submit", handleFormSubmit);
+
+            // Custom validation messages from CMS data attributes
+            form.querySelectorAll('input, textarea, select').forEach(function(el) {
+                const msgRequired = (el as HTMLElement).dataset.msgRequired;
+                const msgType = (el as HTMLElement).dataset.msgType;
+                const msgPattern = (el as HTMLElement).dataset.msgPattern;
+                if (msgRequired || msgType || msgPattern) {
+                    el.addEventListener('invalid', function() {
+                        const v = (el as HTMLInputElement).validity;
+                        if (v.valueMissing && msgRequired) {
+                            (el as HTMLInputElement).setCustomValidity(msgRequired);
+                        } else if (v.typeMismatch && msgType) {
+                            (el as HTMLInputElement).setCustomValidity(msgType);
+                        } else if (v.patternMismatch && msgPattern) {
+                            (el as HTMLInputElement).setCustomValidity(msgPattern);
+                        }
+                    });
+                    el.addEventListener('input', function() {
+                        (el as HTMLInputElement).setCustomValidity('');
+                    });
+                    el.addEventListener('change', function() {
+                        (el as HTMLInputElement).setCustomValidity('');
+                    });
+                }
+            });
 
             // Reset button confirmation logic
             const resetButton = form.querySelector('.form-reset-button');
@@ -236,7 +269,7 @@ const componentClass = 'component-form';
 {
     nodeType === 'row' && (
         <div
-            class="vb:row flex flex-row flex-wrap justify-start gap-4"
+            class="vb:row flex flex-row flex-wrap justify-start gap-6"
             class:list={styles}
             data-epi-block-id={formGrid.key}
         >
@@ -250,7 +283,7 @@ const componentClass = 'component-form';
 {
     nodeType === 'column' && (
         <div
-            class="vb:col flex flex-1 flex-col flex-nowrap justify-start"
+            class="vb:col flex flex-1 flex-col flex-nowrap justify-start gap-5"
             class:list={styles}
             data-epi-block-id={formGrid.key}
         >
@@ -262,11 +295,25 @@ const componentClass = 'component-form';
 }
 
 <style is:inline>
-    input:invalid {
-        border: 2px dashed red;
+    /* Modern validation styling */
+    .form-control input:user-invalid,
+    .form-control textarea:user-invalid,
+    .form-control select:user-invalid {
+        border-color: var(--color-error);
+        animation: shake 0.3s ease-in-out;
     }
 
-    input:valid {
-        border: 2px solid black;
+    .form-control input:user-valid,
+    .form-control textarea:user-valid,
+    .form-control select:user-valid {
+        border-color: oklch(var(--su));
     }
+
+    /* Subtle shake animation for errors */
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-4px); }
+        75% { transform: translateX(4px); }
+    }
+
 </style>

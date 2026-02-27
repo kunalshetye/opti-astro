@@ -49,27 +49,28 @@ const inputId = Label?.replace(/\s+/g, '_') || `range-${Math.random().toString(3
 const rangeDescriptionId = `range-description-${inputId}`;
 ---
 
-<fieldset class="fieldset w-full">
-    <legend class="fieldset-legend text-lg font-semibold"
-        >{Label}</legend
-    >
-    <div class="w-full max-w-xs">
+<fieldset class="form-control w-full rounded-2xl bg-base-100 border border-base-300 p-5 shadow-sm
+                    transition-all duration-200 ease-in-out hover:shadow-md">
+    <legend class="px-2 text-base font-medium text-base-content/80">{Label}</legend>
+
+    <div class="w-full">
         <input
             id={inputId}
             name={inputId}
             type="range"
-            class="range validator w-full"
+            class="range range-primary w-full transition-all duration-200"
             min={safeMin}
             max={safeMax}
             value={PredefinedValue}
             step={safeIncrement}
             title={Tooltip}
         />
-        <div class="mt-2 flex justify-between px-2.5 text-xs">
-            {rangeLabels.map((label) => <span>{label}</span>)}
+        <div class="mt-3 flex justify-between px-1 text-xs text-base-content/60 font-medium">
+            {rangeLabels.map((label) => <span class="transition-colors duration-150 hover:text-primary">{label}</span>)}
         </div>
     </div>
-    <div id={rangeDescriptionId} class="text-sm text-gray-600 mb-2">
+
+    <p id={rangeDescriptionId} class="text-sm text-base-content/60 mt-3">
         Range from {safeMin} to {safeMax}, step by {safeIncrement}. Use arrow keys to adjust.
-    </div>
+    </p>
 </fieldset>

@@ -6,7 +6,7 @@
 	"settings": {
 		"dividerColor": {
 			"displayName": "Divider Line Color",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 10,
 			"choices": {
 				"default": {
@@ -45,7 +45,7 @@
 		},
 		"textColor": {
 			"displayName": "Text Color",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 20,
 			"choices": {
 				"default": {
@@ -84,7 +84,7 @@
 		},
 		"textPosition": {
 			"displayName": "Text Position",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 30,
 			"choices": {
 				"middle": {
@@ -103,7 +103,7 @@
 		},
 		"transform": {
 			"displayName": "Text Transform",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 40,
 			"choices": {
 				"middle": {
@@ -126,7 +126,7 @@
 		},
 		"dividerLineThickness": {
 			"displayName": "Divider Line Thickness",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 50,
 			"choices": {
 				"default": {
@@ -165,7 +165,7 @@
 		},
 		"dividerLineMargin": {
 			"displayName": "Space before/after Divider Line",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 60,
 			"choices": {
 				"default": {
@@ -212,7 +212,7 @@
 		},
 		"dividerLineLength": {
 			"displayName": "Length of Divider Line (Horizontal Divider Only)",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 70,
 			"choices": {
 				"default": {

@@ -38,6 +38,7 @@
         class="card bg-base-100 shadow-md hover:shadow-lg transition-shadow h-full"
         class:pinned={isPinnedResult}
         class:pinned--grid={isPinnedResult}
+        data-score={result._score}
     >
         <!-- Image Section -->
         <figure class="aspect-video w-full overflow-hidden">
@@ -96,6 +97,7 @@
     <article
         class="card bg-base-100 shadow-md hover:shadow-lg transition-shadow"
         class:pinned={isPinnedResult}
+        data-score={result._score}
     >
         <div class="card-body md:flex-row md:items-start gap-4 p-4">
             <!-- Image Section (desktop: left side, mobile: top) -->

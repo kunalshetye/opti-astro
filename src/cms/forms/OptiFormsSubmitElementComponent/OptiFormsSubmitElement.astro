@@ -24,7 +24,13 @@ const defaultLabel = Label || "Submit Form";
 const submitId = Label?.replace(/\s+/g, '_') || `submit-${Math.random().toString(36).substr(2, 4)}`;
 ---
 
-<button class="btn btn-primary mt-4" type="submit"
+<button
+    class="btn btn-primary mt-6 px-8 py-3 rounded-xl font-medium text-base shadow-md
+           transition-all duration-200 ease-in-out
+           hover:shadow-lg hover:scale-[1.02] hover:-translate-y-0.5
+           active:scale-[0.98] active:shadow-sm
+           focus:ring-2 focus:ring-primary/30 focus:outline-none"
+    type="submit"
     title={Tooltip || `Submit the form`}
     aria-describedby={Tooltip ? `${submitId}-tooltip` : undefined}
 >
