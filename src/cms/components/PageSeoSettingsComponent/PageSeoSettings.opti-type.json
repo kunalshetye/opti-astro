@@ -69,7 +69,7 @@
 			"displayName": "OpenGraph Type",
 			"description": "",
 			"localized": false,
-			"required": true,
+			"required": false,
 			"group": "Information",
 			"sortOrder": 200,
 			"editorSettings": {},

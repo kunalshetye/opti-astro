@@ -94,7 +94,7 @@ The project includes a comprehensive admin dashboard built with Svelte 5 and Ast
 #### Features
 - **CMS Sync** - Push/pull content types and component styles
 - **Synonyms Manager** - Configure search synonym mappings for Optimizely Graph
-- **Pinned Results** - Manage best bets for targeted search queries
+- **Pinned Results** - Manage pinned results for targeted search queries
 - **Style Manager** - Create and edit display templates with form-based UI
 - **Redirect Management** - Manage URL redirects with middleware integration
 - **Published Pages Dashboard** - Track recently published pages and plan content migrations

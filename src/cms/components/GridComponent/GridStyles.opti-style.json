@@ -6,7 +6,7 @@
 	"settings": {
 		"columnsOnDesktop": {
 			"displayName": "Columns on Desktop",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 10,
 			"choices": {
 				"c1": {
@@ -29,7 +29,7 @@
 		},
 		"columnsOnTablet": {
 			"displayName": "Columns on Tablet",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 20,
 			"choices": {
 				"c1": {
@@ -52,7 +52,7 @@
 		},
 		"columnsOnMobile": {
 			"displayName": "Columns on Mobile",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 30,
 			"choices": {
 				"c1": {

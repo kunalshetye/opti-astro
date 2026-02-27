@@ -38,22 +38,35 @@ const errorIds = [
 ].filter(Boolean).join(' ');
 ---
 
-<label class="text-lg font-semibold" for={inputId}>
-    {Label}
-    {isRequiredErrorMsg && <span aria-label="required" class="text-red-500">*</span>}
-</label>
-<input
-    id={inputId}
-    name={inputId}
-    type="number"
-    class="input validator w-full"
-    required={isRequiredErrorMsg ? true : false}
-    aria-describedby={errorIds || undefined}
-    placeholder={Placeholder}
-    value={PredefinedValue}
-    autocomplete={AutoComplete || 'off'}
-    title={Tooltip}
-/>
-{isRequiredErrorMsg && (
-    <div class="validator-hint">{isRequiredErrorMsg}</div>
-)}
+<div class="form-control w-full">
+    <label class="label pb-1" for={inputId}>
+        <span class="label-text text-base font-medium text-base-content/80">
+            {Label}
+            {isRequiredErrorMsg && <span class="text-error ml-1" aria-label="required">*</span>}
+        </span>
+    </label>
+
+    <input
+        id={inputId}
+        name={inputId}
+        type="number"
+        class="input input-bordered w-full rounded-xl bg-base-100 border-base-300 shadow-sm
+               transition-all duration-200 ease-in-out
+               hover:border-primary/50 hover:shadow-md
+               focus:border-primary focus:ring-2 focus:ring-primary/20 focus:shadow-md focus:outline-none
+               placeholder:text-base-content/40"
+        required={isRequiredErrorMsg ? true : false}
+        aria-describedby={errorIds || undefined}
+        placeholder={Placeholder}
+        value={PredefinedValue}
+        autocomplete={AutoComplete || 'off'}
+        title={Tooltip}
+        data-msg-required={isRequiredErrorMsg}
+    />
+
+    <div class="mt-1.5">
+        {isRequiredErrorMsg && (
+            <p class="validator-hint hidden text-sm text-error animate-pulse">{isRequiredErrorMsg}</p>
+        )}
+    </div>
+</div>

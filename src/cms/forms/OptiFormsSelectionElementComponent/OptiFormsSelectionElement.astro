@@ -35,8 +35,10 @@ export interface Props {
     AutoComplete?: string;
 }
 const { data, displaySettings } = Astro.props as Props;
-const { Label, Tooltip, Options, Validators, AllowMultiSelect, AutoComplete } =
+const { Label, Tooltip, Options: RawOptions, Validators, AllowMultiSelect, AutoComplete } =
     data;
+
+const Options = typeof RawOptions === 'string' ? JSON.parse(RawOptions) : RawOptions;
 
 const isRequiredErrorMsg = requiredValidatorMsg(Validators);
 const inputId = Label?.replace(/\s+/g, '_') || `selection-${Math.random().toString(36).substr(2, 4)}`;
@@ -58,18 +60,25 @@ const describedByIds = [
 ].filter(Boolean).join(' ');
 ---
 
-<fieldset class="fieldset w-full border border-gray-300 rounded p-4">
-    <legend class="fieldset-legend text-lg font-semibold px-2">
+<fieldset class="form-control w-full rounded-2xl bg-base-100 border border-base-300 p-5 shadow-sm
+                    transition-all duration-200 ease-in-out hover:shadow-md">
+    <legend class="px-2 text-base font-medium text-base-content/80">
         {Label}
-        {isRequiredErrorMsg && <span aria-label="required" class="text-red-500 ml-1">*</span>}
+        {isRequiredErrorMsg && <span class="text-error ml-1" aria-label="required">*</span>}
     </legend>
-    
-    <div id={instructionsId} class="text-sm text-gray-600 mb-2">
+
+    <p id={instructionsId} class="text-sm text-base-content/60 mb-3">
         {instructionText}
-    </div>
-    
+    </p>
+
     <select
-        class="select validator w-full"
+        class:list={[
+            "select select-bordered w-full rounded-xl bg-base-100 border-base-300 shadow-sm",
+            "transition-all duration-200 ease-in-out",
+            "hover:border-primary/50 hover:shadow-md",
+            "focus:border-primary focus:ring-2 focus:ring-primary/20 focus:shadow-md focus:outline-none",
+            AllowMultiSelect && "h-auto"
+        ]}
         id={inputId}
         name={AllowMultiSelect ? `${inputId}[]` : inputId}
         autocomplete={AutoComplete || 'off'}
@@ -77,10 +86,11 @@ const describedByIds = [
         required={isRequiredErrorMsg ? true : false}
         aria-describedby={describedByIds}
         title={Tooltip}
-        size={AllowMultiSelect ? Math.min((Options?.length || 1) + 1, 8) : 1}
+        size={AllowMultiSelect ? Math.min(Math.max((Options?.length || 1) + 1, 5), 8) : undefined}
+        data-msg-required={isRequiredErrorMsg}
     >
         {!AllowMultiSelect && (
-            <option value="" disabled selected>
+            <option value="" disabled selected class="text-base-content/40">
                 {Tooltip || "Choose an option..."}
             </option>
         )}
@@ -92,8 +102,10 @@ const describedByIds = [
             )
         )}
     </select>
-    
-    {isRequiredErrorMsg && (
-        <div class="validator-hint">{isRequiredErrorMsg}</div>
-    )}
+
+    <div class="mt-2">
+        {isRequiredErrorMsg && (
+            <p class="validator-hint hidden text-sm text-error animate-pulse">{isRequiredErrorMsg}</p>
+        )}
+    </div>
 </fieldset>
