@@ -247,13 +247,26 @@ const componentClass = 'component-form';
                 }>;
             }> = rulesJson ? JSON.parse(rulesJson) : [];
 
-            function getFieldValues(fieldName: string): string[] {
-                const safeName = fieldName.replace(/\s+/g, '_');
-                const inputs = form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
-                    `[name="${safeName}"], [name="${safeName}[]"]`
-                );
+            // Safe escape for use inside CSS attribute value selectors (quoted strings).
+            // Only backslash and double-quote need escaping inside "...".
+            function escapeAttr(str: string): string {
+                return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+            }
+
+            // Find a field's wrapper element by composition node key first, then by label.
+            function findFieldEl(fieldId: string): Element | null {
+                return form.querySelector(`[data-field-key="${escapeAttr(fieldId)}"]`)
+                    ?? form.querySelector(`[data-field-name="${escapeAttr(fieldId)}"]`);
+            }
+
+            // Collect current values from all visible inputs within a field wrapper.
+            function getFieldValues(fieldId: string): string[] {
+                const fieldEl = findFieldEl(fieldId);
+                if (!fieldEl) return [];
                 const values: string[] = [];
-                inputs.forEach((input) => {
+                fieldEl.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
+                    'input:not([type="hidden"]), textarea, select'
+                ).forEach((input) => {
                     if ((input as HTMLInputElement).type === 'checkbox' || (input as HTMLInputElement).type === 'radio') {
                         if ((input as HTMLInputElement).checked) values.push(input.value);
                     } else if (input.tagName === 'SELECT' && (input as HTMLSelectElement).multiple) {
@@ -272,6 +285,7 @@ const componentClass = 'component-form';
                 const op = condition.ComparisonOperator;
                 const compareValue = condition.ComparisonValue ?? '';
                 if (!op || op === 'NotApplicable') return true;
+                if (fieldValues.length === 0) return false;
                 return fieldValues.some((val) => {
                     switch (op) {
                         case 'Equals': return val === compareValue;
@@ -305,8 +319,12 @@ const componentClass = 'component-form';
                     ? results.some(Boolean)
                     : results.every(Boolean);
                 const shouldBeVisible = SatisfiedAction === 'Show' ? conditionsMet : !conditionsMet;
-                const targetEl = form.querySelector(`[data-field-name="${CSS.escape(TargetElement)}"]`);
-                if (targetEl) applyVisibility(targetEl, shouldBeVisible);
+                const targetEl = findFieldEl(TargetElement);
+                if (targetEl) {
+                    applyVisibility(targetEl, shouldBeVisible);
+                } else {
+                    console.warn('[Form Rules] Target element not found for TargetElement:', TargetElement);
+                }
             }
 
             function evaluateAllRules() {
@@ -314,7 +332,7 @@ const componentClass = 'component-form';
             }
 
             if (rules.length) {
-                // Build source-field → rules map and attach listeners
+                // Build source-field → rules map and attach change/input listeners
                 const fieldToRules = new Map<string, typeof rules>();
                 rules.forEach((rule) => {
                     rule.Conditions?.forEach((cond) => {
@@ -325,10 +343,14 @@ const componentClass = 'component-form';
                     });
                 });
 
-                fieldToRules.forEach((affectedRules, fieldName) => {
-                    const safeName = fieldName.replace(/\s+/g, '_');
-                    form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
-                        `[name="${safeName}"], [name="${safeName}[]"]`
+                fieldToRules.forEach((affectedRules, fieldId) => {
+                    const fieldEl = findFieldEl(fieldId);
+                    if (!fieldEl) {
+                        console.warn('[Form Rules] Source field not found for DependsOnField:', fieldId);
+                        return;
+                    }
+                    fieldEl.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
+                        'input:not([type="hidden"]), textarea, select'
                     ).forEach((input) => {
                         const handler = () => affectedRules.forEach(evaluateRule);
                         input.addEventListener('change', handler);
