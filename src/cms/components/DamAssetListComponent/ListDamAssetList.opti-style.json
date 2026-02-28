@@ -1,0 +1,57 @@
+{
+	"key": "ListDamAssetList",
+	"displayName": "DAM Asset List: List",
+	"contentType": "DamAssetList",
+	"isDefault": false,
+	"settings": {
+		"thumbnailSize": {
+			"displayName": "Thumbnail Size",
+			"editor": "Buttons",
+			"sortOrder": 10,
+			"choices": {
+				"md": {
+					"displayName": "Medium (96px)",
+					"sortOrder": 10
+				},
+				"sm": {
+					"displayName": "Small (64px)",
+					"sortOrder": 20
+				},
+				"lg": {
+					"displayName": "Large (128px)",
+					"sortOrder": 30
+				}
+			}
+		},
+		"showDescription": {
+			"displayName": "Show Description",
+			"editor": "Buttons",
+			"sortOrder": 20,
+			"choices": {
+				"show": {
+					"displayName": "Show",
+					"sortOrder": 10
+				},
+				"hide": {
+					"displayName": "Hide",
+					"sortOrder": 20
+				}
+			}
+		},
+		"showDimensions": {
+			"displayName": "Show Dimensions",
+			"editor": "Buttons",
+			"sortOrder": 30,
+			"choices": {
+				"hide": {
+					"displayName": "Hide",
+					"sortOrder": 10
+				},
+				"show": {
+					"displayName": "Show",
+					"sortOrder": 20
+				}
+			}
+		}
+	}
+}

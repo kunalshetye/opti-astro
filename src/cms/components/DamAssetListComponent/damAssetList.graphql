@@ -1,0 +1,5 @@
+fragment DamAssetList on DamAssetList {
+    Header
+    Tags
+    AssetCount
+}

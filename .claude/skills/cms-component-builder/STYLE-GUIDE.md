@@ -137,7 +137,7 @@ Display settings are defined in the `settings` object as key-value pairs where t
 - **Max Length**: 50 characters
 - **Description**: Suggested editor type for the CMS UI
 - **Common Values**:
-  - `"DropDown"` - Dropdown selector (most common)
+  - `"Select"` - Dropdown selector (most common) — NOTE: use `"Select"` not `"DropDown"`
   - `"RadioButtons"` - Radio button group
   - `"Buttons"` - Button group selector
   - `"ColorPicker"` - Color picker
