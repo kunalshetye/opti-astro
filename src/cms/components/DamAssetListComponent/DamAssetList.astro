@@ -1,5 +1,5 @@
 ---
-import type { DamAssetListFragment, DisplaySettingsFragment, GetDamAssetsQuery } from '../../../../__generated/sdk';
+import type { DamAssetListFragment, DisplaySettingsFragment } from '../../../../__generated/sdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { getOptimizelySdk } from '../../../graphql/getSdk';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
@@ -96,7 +96,14 @@ const showLightboxTitle = style.lightboxTitle !== 'hide';
 // --- Data fetching ---
 const tags = (data.Tags?.filter(Boolean) ?? []) as string[];
 
-type DamImage = NonNullable<NonNullable<GetDamAssetsQuery['cmp_PublicImageAsset']>['items']>[number];
+interface DamImage {
+    Title?:       string | null;
+    Url?:         string | null;
+    AltText?:     string | null;
+    Width?:       number | null;
+    Height?:      number | null;
+    Description?: string | null;
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const sdk = getOptimizelySdk(contentPayload) as any;
