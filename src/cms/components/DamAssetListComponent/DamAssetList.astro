@@ -217,7 +217,7 @@ const componentClass = 'component-damassetlist';
                     {assets.map((asset) => (
                         <li class="m-0 p-0">
                             <a
-                                href={asset?.Url ?? '#'}
+                                href={asset.Url}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 data-gallery={`dam-${key}`}
