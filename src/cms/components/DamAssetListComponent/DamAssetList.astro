@@ -93,12 +93,22 @@ const captionMode    = style.caption ?? 'none';
 // Shared across all layouts
 const showLightboxTitle = style.lightboxTitle !== 'hide';
 
-// Strip all HTML tags from a string so DAM metadata is never rendered as HTML
+// Encode DAM metadata as plain text so it is never interpreted as HTML
 // in GLightbox titles/descriptions (XSS mitigation).
+function encodeHtml(value: string): string {
+    return value
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 function stripHtml(value: string | null | undefined): string | undefined {
     if (!value) return undefined;
-    const plain = value.replace(/<[^>]*>/g, '').trim();
-    return plain || undefined;
+    const trimmed = value.trim();
+    if (!trimmed) return undefined;
+    return encodeHtml(trimmed);
 }
 
 // --- Data fetching ---
