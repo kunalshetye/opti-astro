@@ -95,11 +95,15 @@ const tags = (data.Tags?.filter(Boolean) ?? []) as string[];
 
 type DamImage = NonNullable<NonNullable<GetDamAssetsQuery['cmp_PublicImageAsset']>['items']>[number];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const sdk = getOptimizelySdk(contentPayload) as any;
+const damAvailable = typeof sdk.getDamAssets === 'function';
+
 let assets: DamImage[] = [];
 let total = 0;
 
-if (tags.length > 0) {
-    const result = await getOptimizelySdk(contentPayload).getDamAssets({
+if (damAvailable && tags.length > 0) {
+    const result = await sdk.getDamAssets({
         tags,
         maxImages: data.AssetCount ?? 100,
     });
@@ -110,6 +114,15 @@ if (tags.length > 0) {
 const componentClass = 'component-damassetlist';
 ---
 
+{!damAvailable && isCmsEdit && (
+    <div data-epi-block-id={key} class:list={[componentClass, 'w-full']}>
+        <div class="alert alert-error mb-4">
+            <span>DAM Asset List: DAM is not available. Connect a DAM to display assets.</span>
+        </div>
+    </div>
+)}
+
+{damAvailable && (
 <div data-epi-block-id={isCmsEdit && key || undefined} class:list={[componentClass, 'w-full']}>
     {data.Header && (
         <h2 class="text-2xl font-bold mb-4">{data.Header}</h2>
@@ -263,3 +276,4 @@ const componentClass = 'component-damassetlist';
         </>
     )}
 </div>
+)}
