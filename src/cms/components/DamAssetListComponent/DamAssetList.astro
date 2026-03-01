@@ -166,38 +166,64 @@ const componentClass = 'component-damassetlist';
                 <ul class:list={['grid gap-4 list-none p-0 m-0', gridColumns]}>
                     {assets.map((asset) => (
                         <li class="m-0 p-0">
-                            <a
-                                href={asset?.Url ?? '#'}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                data-gallery={`dam-${key}`}
-                                data-type="image"
-                                data-title={showLightboxTitle ? (asset?.Title || asset?.AltText || undefined) : undefined}
-                                data-description={asset?.Description || undefined}
-                                class:list={['glightbox group flex flex-col rounded-lg overflow-hidden transition-all', gridCard]}
-                            >
-                                <div class:list={['overflow-hidden bg-base-200', gridAspect]}>
-                                    <img
-                                        src={asset?.Url ?? ''}
-                                        alt={asset?.AltText || asset?.Title || ''}
-                                        width={asset?.Width ?? 400}
-                                        height={asset?.Height ?? 400}
-                                        class:list={['w-full h-full group-hover:scale-105 transition-transform duration-300', gridImageFit]}
-                                    />
-                                </div>
-                                {(gridShowTitle || gridShowDescription) && (
-                                    <div class="p-2">
-                                        {gridShowTitle && (
-                                            <p class="text-sm font-medium truncate leading-snug">
-                                                {asset?.Title || asset?.AltText || 'Untitled'}
-                                            </p>
-                                        )}
-                                        {gridShowDescription && asset?.Description && (
-                                            <p class="text-xs text-base-content/60 truncate mt-0.5">{asset?.Description}</p>
-                                        )}
+                            {asset?.Url ? (
+                                <a
+                                    href={asset.Url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    data-gallery={`dam-${key}`}
+                                    data-type="image"
+                                    data-title={showLightboxTitle ? (asset?.Title || asset?.AltText || undefined) : undefined}
+                                    data-description={asset?.Description || undefined}
+                                    class:list={['glightbox group flex flex-col rounded-lg overflow-hidden transition-all', gridCard]}
+                                >
+                                    <div class:list={['overflow-hidden bg-base-200', gridAspect]}>
+                                        <img
+                                            src={asset?.Url ?? ''}
+                                            alt={asset?.AltText || asset?.Title || ''}
+                                            width={asset?.Width ?? 400}
+                                            height={asset?.Height ?? 400}
+                                            class:list={['w-full h-full group-hover:scale-105 transition-transform duration-300', gridImageFit]}
+                                        />
                                     </div>
-                                )}
-                            </a>
+                                    {(gridShowTitle || gridShowDescription) && (
+                                        <div class="p-2">
+                                            {gridShowTitle && (
+                                                <p class="text-sm font-medium truncate leading-snug">
+                                                    {asset?.Title || asset?.AltText || 'Untitled'}
+                                                </p>
+                                            )}
+                                            {gridShowDescription && asset?.Description && (
+                                                <p class="text-xs text-base-content/60 truncate mt-0.5">{asset?.Description}</p>
+                                            )}
+                                        </div>
+                                    )}
+                                </a>
+                            ) : (
+                                <div class:list={['group flex flex-col rounded-lg overflow-hidden transition-all', gridCard]}>
+                                    <div class:list={['overflow-hidden bg-base-200', gridAspect]}>
+                                        <img
+                                            src={asset?.Url ?? ''}
+                                            alt={asset?.AltText || asset?.Title || ''}
+                                            width={asset?.Width ?? 400}
+                                            height={asset?.Height ?? 400}
+                                            class:list={['w-full h-full group-hover:scale-105 transition-transform duration-300', gridImageFit]}
+                                        />
+                                    </div>
+                                    {(gridShowTitle || gridShowDescription) && (
+                                        <div class="p-2">
+                                            {gridShowTitle && (
+                                                <p class="text-sm font-medium truncate leading-snug">
+                                                    {asset?.Title || asset?.AltText || 'Untitled'}
+                                                </p>
+                                            )}
+                                            {gridShowDescription && asset?.Description && (
+                                                <p class="text-xs text-base-content/60 truncate mt-0.5">{asset?.Description}</p>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </li>
                     ))}
                 </ul>
