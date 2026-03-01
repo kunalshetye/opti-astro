@@ -38,8 +38,8 @@
 		},
 		"AssetCount": {
 			"type": "integer",
-			"displayName": "Max Number of Assets",
-			"description": "Maximum number of assets to be returned (default = all)",
+			"displayName": "Max Number of Assets (Max 100 displayed)",
+			"description": "Maximum number of assets to be returned (default = 100)",
 			"localized": false,
 			"required": false,
 			"group": "Information",

@@ -93,6 +93,14 @@ const captionMode    = style.caption ?? 'none';
 // Shared across all layouts
 const showLightboxTitle = style.lightboxTitle !== 'hide';
 
+// Strip all HTML tags from a string so DAM metadata is never rendered as HTML
+// in GLightbox titles/descriptions (XSS mitigation).
+function stripHtml(value: string | null | undefined): string | undefined {
+    if (!value) return undefined;
+    const plain = value.replace(/<[^>]*>/g, '').trim();
+    return plain || undefined;
+}
+
 // --- Data fetching ---
 const tags = (data.Tags?.filter(Boolean) ?? []) as string[];
 
@@ -117,7 +125,7 @@ if (damAvailable && tags.length > 0) {
         tags,
         maxImages: data.AssetCount ?? 100,
     });
-    assets = result?.cmp_PublicImageAsset?.items ?? [];
+    assets = (result?.cmp_PublicImageAsset?.items ?? []).filter((a: DamImage) => !!a?.Url);
     total  = result?.cmp_PublicImageAsset?.total ?? 0;
 }
 
@@ -173,8 +181,8 @@ const componentClass = 'component-damassetlist';
                                     rel="noopener noreferrer"
                                     data-gallery={`dam-${key}`}
                                     data-type="image"
-                                    data-title={showLightboxTitle ? (asset?.Title || asset?.AltText || undefined) : undefined}
-                                    data-description={asset?.Description || undefined}
+                                    data-title={showLightboxTitle ? (stripHtml(asset?.Title) || stripHtml(asset?.AltText)) : undefined}
+                                    data-description={stripHtml(asset?.Description)}
                                     class:list={['glightbox group flex flex-col rounded-lg overflow-hidden transition-all', gridCard]}
                                 >
                                     <div class:list={['overflow-hidden bg-base-200', gridAspect]}>
@@ -240,8 +248,8 @@ const componentClass = 'component-damassetlist';
                                 rel="noopener noreferrer"
                                 data-gallery={`dam-${key}`}
                                 data-type="image"
-                                data-title={showLightboxTitle ? (asset?.Title || asset?.AltText || undefined) : undefined}
-                                data-description={asset?.Description || undefined}
+                                data-title={showLightboxTitle ? (stripHtml(asset?.Title) || stripHtml(asset?.AltText)) : undefined}
+                                data-description={stripHtml(asset?.Description)}
                                 class="glightbox flex items-center gap-4 py-3 px-2 hover:bg-base-200 rounded transition-colors"
                             >
                                 <img
@@ -283,8 +291,8 @@ const componentClass = 'component-damassetlist';
                                 rel="noopener noreferrer"
                                 data-gallery={`dam-${key}`}
                                 data-type="image"
-                                data-title={showLightboxTitle ? (asset?.Title || asset?.AltText || undefined) : undefined}
-                                data-description={asset?.Description || undefined}
+                                data-title={showLightboxTitle ? (stripHtml(asset?.Title) || stripHtml(asset?.AltText)) : undefined}
+                                data-description={stripHtml(asset?.Description)}
                                 class="glightbox group relative block rounded-lg overflow-hidden"
                             >
                                 <img
@@ -330,10 +338,17 @@ const componentClass = 'component-damassetlist';
 <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/glightbox@3.3.1/dist/css/glightbox.min.css"
+    integrity="sha256-bT9i1NF5afnHDpQ4z2cQBHJQGehoEj8uvClaAG+NXS0="
+    crossorigin="anonymous"
 />
 
 <!-- GLightbox JS -->
-<script src="https://cdn.jsdelivr.net/npm/glightbox@3.3.1/dist/js/glightbox.min.js"></script>
+<script
+    is:inline
+    src="https://cdn.jsdelivr.net/npm/glightbox@3.3.1/dist/js/glightbox.min.js"
+    integrity="sha256-xnxZzfmAeTsCFsnenG6/aIQYg4girx5QsJQ546oon/M="
+    crossorigin="anonymous"
+></script>
 
 <script>
     declare const GLightbox: ((options: Record<string, unknown>) => { destroy(): void }) | undefined;
