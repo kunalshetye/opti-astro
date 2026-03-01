@@ -6,7 +6,7 @@
 	"settings": {
 		"thumbnailSize": {
 			"displayName": "Thumbnail Size",
-			"editor": "Buttons",
+			"editor": "select",
 			"sortOrder": 10,
 			"choices": {
 				"md": {
@@ -25,7 +25,7 @@
 		},
 		"showDescription": {
 			"displayName": "Show Description",
-			"editor": "Buttons",
+			"editor": "select",
 			"sortOrder": 20,
 			"choices": {
 				"show": {
@@ -40,7 +40,7 @@
 		},
 		"showDimensions": {
 			"displayName": "Show Dimensions",
-			"editor": "Buttons",
+			"editor": "select",
 			"sortOrder": 30,
 			"choices": {
 				"hide": {
@@ -49,6 +49,21 @@
 				},
 				"show": {
 					"displayName": "Show",
+					"sortOrder": 20
+				}
+			}
+		},
+		"lightboxTitle": {
+			"displayName": "Show Image Title in Lightbox",
+			"editor": "select",
+			"sortOrder": 40,
+			"choices": {
+				"show": {
+					"displayName": "Show",
+					"sortOrder": 10
+				},
+				"hide": {
+					"displayName": "Hide",
 					"sortOrder": 20
 				}
 			}

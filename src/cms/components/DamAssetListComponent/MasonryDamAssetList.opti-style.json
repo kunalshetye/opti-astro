@@ -6,7 +6,7 @@
 	"settings": {
 		"columns": {
 			"displayName": "Columns",
-			"editor": "Buttons",
+			"editor": "select",
 			"sortOrder": 10,
 			"choices": {
 				"col3": {
@@ -29,7 +29,7 @@
 		},
 		"gap": {
 			"displayName": "Gap",
-			"editor": "Buttons",
+			"editor": "select",
 			"sortOrder": 20,
 			"choices": {
 				"normal": {
@@ -48,7 +48,7 @@
 		},
 		"caption": {
 			"displayName": "Caption",
-			"editor": "Buttons",
+			"editor": "select",
 			"sortOrder": 30,
 			"choices": {
 				"none": {
@@ -62,6 +62,21 @@
 				"overlay": {
 					"displayName": "Hover Overlay",
 					"sortOrder": 30
+				}
+			}
+		},
+		"lightboxTitle": {
+			"displayName": "Show Image Title in Lightbox",
+			"editor": "select",
+			"sortOrder": 40,
+			"choices": {
+				"show": {
+					"displayName": "Show",
+					"sortOrder": 10
+				},
+				"hide": {
+					"displayName": "Hide",
+					"sortOrder": 20
 				}
 			}
 		}

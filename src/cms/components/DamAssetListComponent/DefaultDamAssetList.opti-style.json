@@ -33,7 +33,7 @@
 		},
 		"aspectRatio": {
 			"displayName": "Aspect Ratio",
-			"editor": "Buttons",
+			"editor": "select",
 			"sortOrder": 20,
 			"choices": {
 				"square": {
@@ -52,7 +52,7 @@
 		},
 		"cardStyle": {
 			"displayName": "Card Style",
-			"editor": "Buttons",
+			"editor": "select",
 			"sortOrder": 30,
 			"choices": {
 				"bordered": {
@@ -71,7 +71,7 @@
 		},
 		"showTitle": {
 			"displayName": "Show Title",
-			"editor": "Buttons",
+			"editor": "select",
 			"sortOrder": 40,
 			"choices": {
 				"show": {
@@ -86,7 +86,7 @@
 		},
 		"showDescription": {
 			"displayName": "Show Description",
-			"editor": "Buttons",
+			"editor": "select",
 			"sortOrder": 50,
 			"choices": {
 				"show": {
@@ -101,7 +101,7 @@
 		},
 		"imageFit": {
 			"displayName": "Image Fit",
-			"editor": "Buttons",
+			"editor": "select",
 			"sortOrder": 60,
 			"choices": {
 				"contain": {
@@ -110,6 +110,21 @@
 				},
 				"cover": {
 					"displayName": "Cover",
+					"sortOrder": 20
+				}
+			}
+		},
+		"lightboxTitle": {
+			"displayName": "Show Image Title in Lightbox",
+			"editor": "select",
+			"sortOrder": 70,
+			"choices": {
+				"show": {
+					"displayName": "Show",
+					"sortOrder": 10
+				},
+				"hide": {
+					"displayName": "Hide",
 					"sortOrder": 20
 				}
 			}

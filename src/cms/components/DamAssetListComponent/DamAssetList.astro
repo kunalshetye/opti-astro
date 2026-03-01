@@ -90,6 +90,9 @@ const masonryGap     = masonryGapClass[masonryGapKey]     ?? masonryGapClass.nor
 const masonryItemMb  = masonryItemMbClass[masonryGapKey]  ?? masonryItemMbClass.normal;
 const captionMode    = style.caption ?? 'none';
 
+// Shared across all layouts
+const showLightboxTitle = style.lightboxTitle !== 'hide';
+
 // --- Data fetching ---
 const tags = (data.Tags?.filter(Boolean) ?? []) as string[];
 
@@ -157,17 +160,21 @@ const componentClass = 'component-damassetlist';
                     {assets.map((asset) => (
                         <li class="m-0 p-0">
                             <a
-                                href={asset.Url ?? '#'}
+                                href={asset?.Url ?? '#'}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class:list={['group flex flex-col rounded-lg overflow-hidden transition-all', gridCard]}
+                                data-gallery={`dam-${key}`}
+                                data-type="image"
+                                data-title={showLightboxTitle ? (asset?.Title || asset?.AltText || undefined) : undefined}
+                                data-description={asset?.Description || undefined}
+                                class:list={['glightbox group flex flex-col rounded-lg overflow-hidden transition-all', gridCard]}
                             >
                                 <div class:list={['overflow-hidden bg-base-200', gridAspect]}>
                                     <img
-                                        src={asset.Url ?? ''}
-                                        alt={asset.AltText || asset.Title || ''}
-                                        width={asset.Width ?? 400}
-                                        height={asset.Height ?? 400}
+                                        src={asset?.Url ?? ''}
+                                        alt={asset?.AltText || asset?.Title || ''}
+                                        width={asset?.Width ?? 400}
+                                        height={asset?.Height ?? 400}
                                         class:list={['w-full h-full group-hover:scale-105 transition-transform duration-300', gridImageFit]}
                                     />
                                 </div>
@@ -175,11 +182,11 @@ const componentClass = 'component-damassetlist';
                                     <div class="p-2">
                                         {gridShowTitle && (
                                             <p class="text-sm font-medium truncate leading-snug">
-                                                {asset.Title || asset.AltText || 'Untitled'}
+                                                {asset?.Title || asset?.AltText || 'Untitled'}
                                             </p>
                                         )}
-                                        {gridShowDescription && asset.Description && (
-                                            <p class="text-xs text-base-content/60 truncate mt-0.5">{asset.Description}</p>
+                                        {gridShowDescription && asset?.Description && (
+                                            <p class="text-xs text-base-content/60 truncate mt-0.5">{asset?.Description}</p>
                                         )}
                                     </div>
                                 )}
@@ -195,30 +202,34 @@ const componentClass = 'component-damassetlist';
                     {assets.map((asset) => (
                         <li class="m-0 p-0">
                             <a
-                                href={asset.Url ?? '#'}
+                                href={asset?.Url ?? '#'}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="flex items-center gap-4 py-3 px-2 hover:bg-base-200 rounded transition-colors"
+                                data-gallery={`dam-${key}`}
+                                data-type="image"
+                                data-title={showLightboxTitle ? (asset?.Title || asset?.AltText || undefined) : undefined}
+                                data-description={asset?.Description || undefined}
+                                class="glightbox flex items-center gap-4 py-3 px-2 hover:bg-base-200 rounded transition-colors"
                             >
                                 <img
-                                    src={asset.Url ?? ''}
-                                    alt={asset.AltText || asset.Title || ''}
+                                    src={asset?.Url ?? ''}
+                                    alt={asset?.AltText || asset?.Title || ''}
                                     width={listThumbPx}
                                     height={listThumbPx}
                                     class:list={['rounded object-cover shrink-0', listThumb]}
                                 />
                                 <div class="flex flex-col min-w-0 flex-1">
                                     <span class="font-medium truncate">
-                                        {asset.Title || asset.AltText || 'Untitled'}
+                                        {asset?.Title || asset?.AltText || 'Untitled'}
                                     </span>
-                                    {listShowDescription && asset.Description && (
+                                    {listShowDescription && asset?.Description && (
                                         <span class="text-sm text-base-content/60 truncate mt-0.5">
-                                            {asset.Description}
+                                            {asset?.Description}
                                         </span>
                                     )}
-                                    {listShowDimensions && asset.Width && asset.Height && (
+                                    {listShowDimensions && asset?.Width && asset?.Height && (
                                         <span class="text-xs text-base-content/40 mt-0.5">
-                                            {asset.Width} × {asset.Height}
+                                            {asset?.Width} × {asset?.Height}
                                         </span>
                                     )}
                                 </div>
@@ -234,26 +245,30 @@ const componentClass = 'component-damassetlist';
                     {assets.map((asset) => (
                         <li class:list={['break-inside-avoid m-0 p-0', masonryItemMb]}>
                             <a
-                                href={asset.Url ?? '#'}
+                                href={asset?.Url ?? '#'}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="group relative block rounded-lg overflow-hidden"
+                                data-gallery={`dam-${key}`}
+                                data-type="image"
+                                data-title={showLightboxTitle ? (asset?.Title || asset?.AltText || undefined) : undefined}
+                                data-description={asset?.Description || undefined}
+                                class="glightbox group relative block rounded-lg overflow-hidden"
                             >
                                 <img
-                                    src={asset.Url ?? ''}
-                                    alt={asset.AltText || asset.Title || ''}
-                                    width={asset.Width ?? 400}
-                                    height={asset.Height ?? 400}
+                                    src={asset?.Url ?? ''}
+                                    alt={asset?.AltText || asset?.Title || ''}
+                                    width={asset?.Width ?? 400}
+                                    height={asset?.Height ?? 400}
                                     class="w-full h-auto block"
                                 />
                                 {/* Caption: below */}
-                                {captionMode === 'below' && (asset.Title || asset.Description) && (
+                                {captionMode === 'below' && (asset?.Title || asset?.Description) && (
                                     <div class="pt-1 pb-2 px-1">
                                         <p class="text-sm font-medium leading-snug truncate">
-                                            {asset.Title || asset.AltText || 'Untitled'}
+                                            {asset?.Title || asset?.AltText || 'Untitled'}
                                         </p>
-                                        {asset.Description && (
-                                            <p class="text-xs text-base-content/60 truncate mt-0.5">{asset.Description}</p>
+                                        {asset?.Description && (
+                                            <p class="text-xs text-base-content/60 truncate mt-0.5">{asset?.Description}</p>
                                         )}
                                     </div>
                                 )}
@@ -261,10 +276,10 @@ const componentClass = 'component-damassetlist';
                                 {captionMode === 'overlay' && (
                                     <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-3">
                                         <p class="text-white text-sm font-medium leading-snug truncate">
-                                            {asset.Title || asset.AltText || 'Untitled'}
+                                            {asset?.Title || asset?.AltText || 'Untitled'}
                                         </p>
-                                        {asset.Description && (
-                                            <p class="text-white/70 text-xs truncate mt-0.5">{asset.Description}</p>
+                                        {asset?.Description && (
+                                            <p class="text-white/70 text-xs truncate mt-0.5">{asset?.Description}</p>
                                         )}
                                     </div>
                                 )}
@@ -277,3 +292,46 @@ const componentClass = 'component-damassetlist';
     )}
 </div>
 )}
+
+<!-- GLightbox CSS -->
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/glightbox@3.3.1/dist/css/glightbox.min.css"
+/>
+
+<!-- GLightbox JS -->
+<script src="https://cdn.jsdelivr.net/npm/glightbox@3.3.1/dist/js/glightbox.min.js"></script>
+
+<script>
+    declare const GLightbox: ((options: Record<string, unknown>) => { destroy(): void }) | undefined;
+
+    // Register the astro:page-load handler only once, even if multiple DamAssetList
+    // components are on the same page (each would otherwise add a duplicate listener).
+    (function () {
+        if (document.documentElement.dataset.damGlightboxHandler) return;
+        document.documentElement.dataset.damGlightboxHandler = 'true';
+
+        document.addEventListener('astro:page-load', function () {
+            if (typeof GLightbox === 'undefined') return;
+
+            const instances: Record<string, { destroy(): void }> =
+                ((window as any)._damGlightboxInstances ??= {});
+
+            // Collect unique gallery IDs from all DamAssetList components on the page
+            const galleries = new Set(
+                Array.from(document.querySelectorAll<HTMLElement>('[data-gallery^="dam-"]'))
+                    .map((el) => el.dataset.gallery as string)
+            );
+
+            galleries.forEach((gallery) => {
+                instances[gallery]?.destroy();
+                instances[gallery] = GLightbox!({
+                    selector: `[data-gallery="${gallery}"]`,
+                    touchNavigation: true,
+                    loop: true,
+                    autoplayVideos: false,
+                });
+            });
+        });
+    })();
+</script>
