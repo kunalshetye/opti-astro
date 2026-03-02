@@ -1,0 +1,84 @@
+{
+	"key": "MasonryDamAssetList",
+	"displayName": "DAM Asset List: Masonry",
+	"contentType": "DamAssetList",
+	"isDefault": false,
+	"settings": {
+		"columns": {
+			"displayName": "Columns",
+			"editor": "select",
+			"sortOrder": 10,
+			"choices": {
+				"col3": {
+					"displayName": "3",
+					"sortOrder": 10
+				},
+				"col2": {
+					"displayName": "2",
+					"sortOrder": 20
+				},
+				"col4": {
+					"displayName": "4",
+					"sortOrder": 30
+				},
+				"col5": {
+					"displayName": "5",
+					"sortOrder": 40
+				}
+			}
+		},
+		"gap": {
+			"displayName": "Gap",
+			"editor": "select",
+			"sortOrder": 20,
+			"choices": {
+				"normal": {
+					"displayName": "Normal",
+					"sortOrder": 10
+				},
+				"tight": {
+					"displayName": "Tight",
+					"sortOrder": 20
+				},
+				"loose": {
+					"displayName": "Loose",
+					"sortOrder": 30
+				}
+			}
+		},
+		"caption": {
+			"displayName": "Caption",
+			"editor": "select",
+			"sortOrder": 30,
+			"choices": {
+				"none": {
+					"displayName": "None",
+					"sortOrder": 10
+				},
+				"below": {
+					"displayName": "Below Image",
+					"sortOrder": 20
+				},
+				"overlay": {
+					"displayName": "Hover Overlay",
+					"sortOrder": 30
+				}
+			}
+		},
+		"lightboxTitle": {
+			"displayName": "Show Image Title in Lightbox",
+			"editor": "select",
+			"sortOrder": 40,
+			"choices": {
+				"show": {
+					"displayName": "Show",
+					"sortOrder": 10
+				},
+				"hide": {
+					"displayName": "Hide",
+					"sortOrder": 20
+				}
+			}
+		}
+	}
+}

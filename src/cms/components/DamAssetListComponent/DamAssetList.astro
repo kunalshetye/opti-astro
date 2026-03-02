@@ -1,0 +1,369 @@
+---
+import type { DamAssetListFragment, DisplaySettingsFragment } from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import { getOptimizelySdk } from '../../../graphql/getSdk';
+import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
+import { isEditContext } from '../../shared/utils.ts';
+
+const isCmsEdit = isEditContext(Astro.url);
+
+export interface Props {
+    key: string;
+    data: DamAssetListFragment;
+    displaySettings: DisplaySettingsFragment[];
+    displayTemplateKey: string;
+    contentPayload: ContentPayload;
+}
+
+const { key, data, displaySettings, displayTemplateKey, contentPayload } = Astro.props as Props;
+
+// --- Layout mode ---
+const isList    = displayTemplateKey === 'ListDamAssetList';
+const isMasonry = displayTemplateKey === 'MasonryDamAssetList';
+const isGrid    = !isList && !isMasonry; // DefaultDamAssetList or unset
+
+// --- Display settings ---
+const style = getDictionaryFromDisplaySettings(displaySettings);
+
+// Grid
+const gridColumnClass: Record<string, string> = {
+    col2: 'grid-cols-2',
+    col3: 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3',
+    col4: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4',
+    col5: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-5',
+    col6: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-6',
+};
+const gridColumns = gridColumnClass[style.columns ?? 'col4'] ?? gridColumnClass.col4;
+
+const gridAspectClass: Record<string, string> = {
+    square:    'aspect-square',
+    landscape: 'aspect-video',
+    portrait:  'aspect-[3/4]',
+};
+const gridAspect = gridAspectClass[style.aspectRatio ?? 'square'] ?? gridAspectClass.square;
+
+const gridCardClass: Record<string, string> = {
+    bordered: 'border border-base-200 hover:border-primary hover:shadow-md',
+    shadowed: 'shadow-md hover:shadow-xl border border-transparent',
+    flat:     'border border-transparent',
+};
+const gridCard = gridCardClass[style.cardStyle ?? 'bordered'] ?? gridCardClass.bordered;
+
+const gridShowTitle       = style.showTitle       !== 'hide';
+const gridShowDescription = style.showDescription !== 'hide';
+const gridImageFit        = style.imageFit === 'cover' ? 'object-cover' : 'object-contain';
+
+// List
+const thumbnailSizeClass: Record<string, string> = {
+    sm: 'w-16 h-16',
+    md: 'w-24 h-24',
+    lg: 'w-32 h-32',
+};
+const thumbnailPx: Record<string, number> = { sm: 64, md: 96, lg: 128 };
+const listThumbKey        = style.thumbnailSize ?? 'md';
+const listThumb           = thumbnailSizeClass[listThumbKey] ?? thumbnailSizeClass.md;
+const listThumbPx         = thumbnailPx[listThumbKey] ?? 96;
+const listShowDescription = style.showDescription !== 'hide';
+const listShowDimensions  = style.showDimensions  === 'show';
+
+// Masonry
+const masonryColumnClass: Record<string, string> = {
+    col2: 'columns-2',
+    col3: 'columns-1 sm:columns-2 md:columns-3',
+    col4: 'columns-2 md:columns-4',
+    col5: 'columns-2 md:columns-3 lg:columns-5',
+};
+const masonryColumns = masonryColumnClass[style.columns ?? 'col3'] ?? masonryColumnClass.col3;
+
+const masonryGapClass: Record<string, string> = {
+    tight:  'gap-2',
+    normal: 'gap-4',
+    loose:  'gap-6',
+};
+const masonryItemMbClass: Record<string, string> = {
+    tight:  'mb-2',
+    normal: 'mb-4',
+    loose:  'mb-6',
+};
+const masonryGapKey  = style.gap ?? 'normal';
+const masonryGap     = masonryGapClass[masonryGapKey]     ?? masonryGapClass.normal;
+const masonryItemMb  = masonryItemMbClass[masonryGapKey]  ?? masonryItemMbClass.normal;
+const captionMode    = style.caption ?? 'none';
+
+// Shared across all layouts
+const showLightboxTitle = style.lightboxTitle !== 'hide';
+
+// Encode DAM metadata as plain text so it is never interpreted as HTML
+// in GLightbox titles/descriptions (XSS mitigation).
+function encodeHtml(value: string): string {
+    return value
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function stripHtml(value: string | null | undefined): string | undefined {
+    if (!value) return undefined;
+    const trimmed = value.trim();
+    if (!trimmed) return undefined;
+    return encodeHtml(trimmed);
+}
+
+// --- Data fetching ---
+const tags = (data.Tags?.filter(Boolean) ?? []) as string[];
+
+interface DamImage {
+    Title?:       string | null;
+    Url?:         string | null;
+    AltText?:     string | null;
+    Width?:       number | null;
+    Height?:      number | null;
+    Description?: string | null;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const sdk = getOptimizelySdk(contentPayload) as any;
+const damAvailable = typeof sdk.getDamAssets === 'function';
+
+let assets: DamImage[] = [];
+let total = 0;
+
+if (damAvailable && tags.length > 0) {
+    const result = await sdk.getDamAssets({
+        tags,
+        maxImages: data.AssetCount ?? 100,
+    });
+    assets = (result?.cmp_PublicImageAsset?.items ?? []).filter((a: DamImage) => !!a?.Url);
+    total  = result?.cmp_PublicImageAsset?.total ?? 0;
+}
+
+const componentClass = 'component-damassetlist';
+---
+
+{!damAvailable && isCmsEdit && (
+    <div data-epi-block-id={key} class:list={[componentClass, 'w-full']}>
+        <div class="alert alert-error mb-4">
+            <span>DAM Asset List: DAM is not available. Connect a DAM to display assets.</span>
+        </div>
+    </div>
+)}
+
+{damAvailable && (
+<div data-epi-block-id={isCmsEdit && key || undefined} class:list={[componentClass, 'w-full']}>
+    {data.Header && (
+        <h2 class="text-2xl font-bold mb-4">{data.Header}</h2>
+    )}
+
+    {isCmsEdit && tags.length === 0 && (
+        <div class="alert alert-warning mb-4">
+            <span>DAM Asset List: No tags configured. Add tags in the CMS to display assets.</span>
+        </div>
+    )}
+
+    {isCmsEdit && tags.length > 0 && assets.length === 0 && (
+        <div class="alert alert-info mb-4">
+            <span>DAM Asset List: No assets found for tag(s): {tags.join(', ')}</span>
+        </div>
+    )}
+
+    {assets.length > 0 && (
+        <>
+            <p class="text-sm text-base-content/60 mb-1">
+                <span class="font-medium">Tags:</span> {tags.join(' | ')}
+            </p>
+            <p class="text-sm text-base-content/60 mb-4">
+                {total > assets.length
+                    ? `Showing ${assets.length} of ${total} images`
+                    : `${assets.length} ${assets.length === 1 ? 'image' : 'images'}`}
+            </p>
+
+            {/* ── GRID ── */}
+            {isGrid && (
+                <ul class:list={['grid gap-4 list-none p-0 m-0', gridColumns]}>
+                    {assets.map((asset) => (
+                        <li class="m-0 p-0">
+                            <a
+                                href={asset.Url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                data-gallery={`dam-${key}`}
+                                data-type="image"
+                                data-title={showLightboxTitle ? (stripHtml(asset?.Title) || stripHtml(asset?.AltText)) : undefined}
+                                data-description={stripHtml(asset?.Description)}
+                                class:list={['glightbox group flex flex-col rounded-lg overflow-hidden transition-all', gridCard]}
+                            >
+                                <div class:list={['overflow-hidden bg-base-200', gridAspect]}>
+                                    <img
+                                        src={asset?.Url ?? ''}
+                                        alt={asset?.AltText || asset?.Title || ''}
+                                        width={asset?.Width ?? 400}
+                                        height={asset?.Height ?? 400}
+                                        class:list={['w-full h-full group-hover:scale-105 transition-transform duration-300', gridImageFit]}
+                                    />
+                                </div>
+                                {(gridShowTitle || gridShowDescription) && (
+                                    <div class="p-2">
+                                        {gridShowTitle && (
+                                            <p class="text-sm font-medium truncate leading-snug">
+                                                {asset?.Title || asset?.AltText || 'Untitled'}
+                                            </p>
+                                        )}
+                                        {gridShowDescription && asset?.Description && (
+                                            <p class="text-xs text-base-content/60 truncate mt-0.5">{asset?.Description}</p>
+                                        )}
+                                    </div>
+                                )}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            )}
+
+            {/* ── LIST ── */}
+            {isList && (
+                <ul class="flex flex-col divide-y divide-base-200 list-none p-0 m-0">
+                    {assets.map((asset) => (
+                        <li class="m-0 p-0">
+                            <a
+                                href={asset.Url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                data-gallery={`dam-${key}`}
+                                data-type="image"
+                                data-title={showLightboxTitle ? (stripHtml(asset?.Title) || stripHtml(asset?.AltText)) : undefined}
+                                data-description={stripHtml(asset?.Description)}
+                                class="glightbox flex items-center gap-4 py-3 px-2 hover:bg-base-200 rounded transition-colors"
+                            >
+                                <img
+                                    src={asset?.Url ?? ''}
+                                    alt={asset?.AltText || asset?.Title || ''}
+                                    width={listThumbPx}
+                                    height={listThumbPx}
+                                    class:list={['rounded object-cover shrink-0', listThumb]}
+                                />
+                                <div class="flex flex-col min-w-0 flex-1">
+                                    <span class="font-medium truncate">
+                                        {asset?.Title || asset?.AltText || 'Untitled'}
+                                    </span>
+                                    {listShowDescription && asset?.Description && (
+                                        <span class="text-sm text-base-content/60 truncate mt-0.5">
+                                            {asset?.Description}
+                                        </span>
+                                    )}
+                                    {listShowDimensions && asset?.Width && asset?.Height && (
+                                        <span class="text-xs text-base-content/40 mt-0.5">
+                                            {asset?.Width} × {asset?.Height}
+                                        </span>
+                                    )}
+                                </div>
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            )}
+
+            {/* ── MASONRY ── */}
+            {isMasonry && (
+                <ul class:list={[masonryColumns, masonryGap, 'list-none p-0 m-0']}>
+                    {assets.map((asset) => (
+                        <li class:list={['break-inside-avoid m-0 p-0', masonryItemMb]}>
+                            <a
+                                href={asset?.Url ?? '#'}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                data-gallery={`dam-${key}`}
+                                data-type="image"
+                                data-title={showLightboxTitle ? (stripHtml(asset?.Title) || stripHtml(asset?.AltText)) : undefined}
+                                data-description={stripHtml(asset?.Description)}
+                                class="glightbox group relative block rounded-lg overflow-hidden"
+                            >
+                                <img
+                                    src={asset?.Url ?? ''}
+                                    alt={asset?.AltText || asset?.Title || ''}
+                                    width={asset?.Width ?? 400}
+                                    height={asset?.Height ?? 400}
+                                    class="w-full h-auto block"
+                                />
+                                {/* Caption: below */}
+                                {captionMode === 'below' && (asset?.Title || asset?.Description) && (
+                                    <div class="pt-1 pb-2 px-1">
+                                        <p class="text-sm font-medium leading-snug truncate">
+                                            {asset?.Title || asset?.AltText || 'Untitled'}
+                                        </p>
+                                        {asset?.Description && (
+                                            <p class="text-xs text-base-content/60 truncate mt-0.5">{asset?.Description}</p>
+                                        )}
+                                    </div>
+                                )}
+                                {/* Caption: hover overlay */}
+                                {captionMode === 'overlay' && (
+                                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-3">
+                                        <p class="text-white text-sm font-medium leading-snug truncate">
+                                            {asset?.Title || asset?.AltText || 'Untitled'}
+                                        </p>
+                                        {asset?.Description && (
+                                            <p class="text-white/70 text-xs truncate mt-0.5">{asset?.Description}</p>
+                                        )}
+                                    </div>
+                                )}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </>
+    )}
+</div>
+)}
+
+<!-- GLightbox CSS -->
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/glightbox@3.3.1/dist/css/glightbox.min.css"
+    integrity="sha256-bT9i1NF5afnHDpQ4z2cQBHJQGehoEj8uvClaAG+NXS0="
+    crossorigin="anonymous"
+/>
+
+<!-- GLightbox JS -->
+<script
+    is:inline
+    src="https://cdn.jsdelivr.net/npm/glightbox@3.3.1/dist/js/glightbox.min.js"
+    integrity="sha256-xnxZzfmAeTsCFsnenG6/aIQYg4girx5QsJQ546oon/M="
+    crossorigin="anonymous"
+></script>
+
+<script>
+    declare const GLightbox: ((options: Record<string, unknown>) => { destroy(): void }) | undefined;
+
+    // Register the astro:page-load handler only once, even if multiple DamAssetList
+    // components are on the same page (each would otherwise add a duplicate listener).
+    (function () {
+        if (document.documentElement.dataset.damGlightboxHandler) return;
+        document.documentElement.dataset.damGlightboxHandler = 'true';
+
+        document.addEventListener('astro:page-load', function () {
+            if (typeof GLightbox === 'undefined') return;
+
+            const instances: Record<string, { destroy(): void }> =
+                ((window as any)._damGlightboxInstances ??= {});
+
+            // Collect unique gallery IDs from all DamAssetList components on the page
+            const galleries = new Set(
+                Array.from(document.querySelectorAll<HTMLElement>('[data-gallery^="dam-"]'))
+                    .map((el) => el.dataset.gallery as string)
+            );
+
+            galleries.forEach((gallery) => {
+                instances[gallery]?.destroy();
+                instances[gallery] = GLightbox!({
+                    selector: `[data-gallery="${gallery}"]`,
+                    touchNavigation: true,
+                    loop: true,
+                    autoplayVideos: false,
+                });
+            });
+        });
+    })();
+</script>

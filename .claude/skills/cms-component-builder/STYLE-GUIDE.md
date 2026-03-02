@@ -117,7 +117,7 @@ Display settings are defined in the `settings` object as key-value pairs where t
   "settings": {
     "settingName": {
       "displayName": "Setting Display Name",
-      "editor": "DropDown",
+      "editor": "select",
       "sortOrder": 10,
       "choices": {}
     }
@@ -135,14 +135,11 @@ Display settings are defined in the `settings` object as key-value pairs where t
 ### `editor` (Optional)
 - **Type**: `string`
 - **Max Length**: 50 characters
-- **Description**: Suggested editor type for the CMS UI
-- **Common Values**:
-  - `"DropDown"` - Dropdown selector (most common)
-  - `"RadioButtons"` - Radio button group
-  - `"Buttons"` - Button group selector
-  - `"ColorPicker"` - Color picker
-  - `"Slider"` - Slider control
-- **Note**: The CMS may override this based on the number of choices
+- **Description**: Specifies the editor type shown in the CMS UI
+- **Valid Values** — only these two are supported:
+  - `"select"` — Dropdown list for single-item selection. Use for all multi-choice settings. This is the most common editor type.
+  - `"checkbox"` — Boolean toggle; returns `true` or `false`. Choices can define custom display labels for the two states.
+- **Warning**: Any other value (`"Buttons"`, `"RadioButtons"`, `"DropDown"`, `"ColorPicker"`, etc.) is **invalid** and will be rejected or ignored by the CMS.
 
 ### `sortOrder` (Optional)
 - **Type**: `integer`
@@ -241,8 +238,8 @@ Each choice within a display setting represents one selectable option.
    - Provide visual context in names: `"Large (48px)"` vs. just `"Large"`
 
 3. **Editor Selection**:
-   - `"DropDown"` - Default for most settings
-   - `"RadioButtons"` or `"Buttons"` - For 2-4 important choices
+   - `"select"` — Use for all multi-choice settings (the only valid choice editor)
+   - `"checkbox"` — Use only for true/false boolean settings
    - Consistent editor types for similar settings across templates
 
 ### Maintainability
@@ -275,7 +272,7 @@ Each choice within a display setting represents one selectable option.
   "settings": {
     "size": {
       "displayName": "Size",
-      "editor": "DropDown",
+      "editor": "select",
       "sortOrder": 10,
       "choices": {
         "sm": {
@@ -307,7 +304,7 @@ Each choice within a display setting represents one selectable option.
   "settings": {
     "elevation": {
       "displayName": "Elevation",
-      "editor": "RadioButtons",
+      "editor": "select",
       "sortOrder": 10,
       "choices": {
         "flat": {
@@ -326,7 +323,7 @@ Each choice within a display setting represents one selectable option.
     },
     "padding": {
       "displayName": "Padding",
-      "editor": "DropDown",
+      "editor": "select",
       "sortOrder": 20,
       "choices": {
         "compact": {
@@ -345,7 +342,7 @@ Each choice within a display setting represents one selectable option.
     },
     "borderRadius": {
       "displayName": "Corner Radius",
-      "editor": "DropDown",
+      "editor": "select",
       "sortOrder": 30,
       "choices": {
         "none": {
@@ -381,7 +378,7 @@ Each choice within a display setting represents one selectable option.
   "settings": {
     "height": {
       "displayName": "Height",
-      "editor": "DropDown",
+      "editor": "select",
       "sortOrder": 10,
       "choices": {
         "small": {
@@ -404,7 +401,7 @@ Each choice within a display setting represents one selectable option.
     },
     "textAlignment": {
       "displayName": "Text Alignment",
-      "editor": "Buttons",
+      "editor": "select",
       "sortOrder": 20,
       "choices": {
         "left": {
@@ -423,7 +420,7 @@ Each choice within a display setting represents one selectable option.
     },
     "overlay": {
       "displayName": "Background Overlay",
-      "editor": "DropDown",
+      "editor": "select",
       "sortOrder": 30,
       "choices": {
         "none": {
@@ -459,7 +456,7 @@ Each choice within a display setting represents one selectable option.
   "settings": {
     "marginTop": {
       "displayName": "Top Margin",
-      "editor": "DropDown",
+      "editor": "select",
       "sortOrder": 10,
       "choices": {
         "none": {
@@ -482,7 +479,7 @@ Each choice within a display setting represents one selectable option.
     },
     "marginBottom": {
       "displayName": "Bottom Margin",
-      "editor": "DropDown",
+      "editor": "select",
       "sortOrder": 20,
       "choices": {
         "none": {
@@ -519,7 +516,7 @@ Each choice within a display setting represents one selectable option.
   "settings": {
     "size": {
       "displayName": "Size",
-      "editor": "DropDown",
+      "editor": "select",
       "sortOrder": 10,
       "choices": {
         "sm": { "displayName": "Small", "sortOrder": 10 },
@@ -539,7 +536,7 @@ Each choice within a display setting represents one selectable option.
   "settings": {
     "size": {
       "displayName": "Size",
-      "editor": "DropDown",
+      "editor": "select",
       "sortOrder": 10,
       "choices": {
         "sm": { "displayName": "Small", "sortOrder": 10 },
@@ -559,7 +556,7 @@ Each choice within a display setting represents one selectable option.
   "settings": {
     "size": {
       "displayName": "Size",
-      "editor": "DropDown",
+      "editor": "select",
       "sortOrder": 10,
       "choices": {
         "sm": { "displayName": "Small", "sortOrder": 10 },
@@ -691,7 +688,7 @@ Display templates are managed through the following API endpoints:
   "settings": {
     "mobileHeight": {
       "displayName": "Mobile Height",
-      "editor": "DropDown",
+      "editor": "select",
       "sortOrder": 10,
       "choices": {
         "small": { "displayName": "Small", "sortOrder": 10 },
@@ -701,7 +698,7 @@ Display templates are managed through the following API endpoints:
     },
     "desktopHeight": {
       "displayName": "Desktop Height",
-      "editor": "DropDown",
+      "editor": "select",
       "sortOrder": 20,
       "choices": {
         "small": { "displayName": "Small", "sortOrder": 10 },
@@ -725,7 +722,7 @@ Display templates are managed through the following API endpoints:
   "settings": {
     "colorScheme": {
       "displayName": "Color Scheme",
-      "editor": "DropDown",
+      "editor": "select",
       "sortOrder": 10,
       "choices": {
         "light": { "displayName": "Light", "sortOrder": 10 },
@@ -736,7 +733,7 @@ Display templates are managed through the following API endpoints:
     },
     "contrast": {
       "displayName": "Contrast",
-      "editor": "DropDown",
+      "editor": "select",
       "sortOrder": 20,
       "choices": {
         "low": { "displayName": "Low", "sortOrder": 10 },
@@ -759,7 +756,7 @@ Display templates are managed through the following API endpoints:
   "settings": {
     "layout": {
       "displayName": "Layout",
-      "editor": "RadioButtons",
+      "editor": "select",
       "sortOrder": 10,
       "choices": {
         "imageLeft": { "displayName": "Image Left", "sortOrder": 10 },
@@ -770,7 +767,7 @@ Display templates are managed through the following API endpoints:
     },
     "imageRatio": {
       "displayName": "Image Ratio",
-      "editor": "DropDown",
+      "editor": "select",
       "sortOrder": 20,
       "choices": {
         "square": { "displayName": "1:1 Square", "sortOrder": 10 },
