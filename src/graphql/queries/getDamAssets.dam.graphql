@@ -1,6 +1,6 @@
 query getDamAssets($tags: [String]!, $maxImages: Int = 100) {
     cmp_PublicImageAsset(
-        where: { LibraryPath: { exist: true }, Tags: { Name: { in: $tags } } }
+        where: { Tags: { Name: { in: $tags } } }
         limit: $maxImages
     ) {
         total
