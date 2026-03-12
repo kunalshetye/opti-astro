@@ -236,7 +236,7 @@ const componentClass = 'component-form';
 
             // Form rules engine — dependent field visibility
             const rulesJson = form.dataset.formRules;
-            const rules: Array<{
+            let rules: Array<{
                 TargetElement: string;
                 SatisfiedAction: string;
                 ConditionCombination: string;
@@ -245,15 +245,23 @@ const componentClass = 'component-form';
                     ComparisonOperator: string;
                     ComparisonValue: string;
                 }>;
-            }> = rulesJson ? JSON.parse(rulesJson) : [];
-
-            // Safe escape for use inside CSS attribute value selectors (quoted strings).
-            // Only backslash and double-quote need escaping inside "...".
-            function escapeAttr(str: string): string {
-                return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+            }> = [];
+            if (rulesJson) {
+                try {
+                    rules = JSON.parse(rulesJson);
+                } catch (e) {
+                    console.warn('OptiForm: failed to parse form rules JSON', e);
+                }
             }
 
-            // Find a field's wrapper element by composition node key first, then by label.
+            // Safe escape for use inside CSS attribute value selectors (quoted strings).
+            // Prefer the standard CSS.escape API when available, with a minimal fallback.
+            function escapeAttr(str: string): string {
+                if (typeof CSS !== 'undefined' && typeof CSS.escape === 'function') {
+                    return CSS.escape(str);
+                }
+                return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+            }
             function findFieldEl(fieldId: string): Element | null {
                 return form.querySelector(`[data-field-key="${escapeAttr(fieldId)}"]`)
                     ?? form.querySelector(`[data-field-name="${escapeAttr(fieldId)}"]`);
@@ -278,14 +286,72 @@ const componentClass = 'component-form';
                 return values;
             }
 
+            let formA11yLiveRegion: HTMLElement | null = null;
+
+            function getFormA11yLiveRegion(): HTMLElement {
+                if (formA11yLiveRegion && document.body.contains(formA11yLiveRegion)) {
+                    return formA11yLiveRegion;
+                }
+
+                const region = document.createElement('div');
+                region.setAttribute('aria-live', 'polite');
+                region.setAttribute('role', 'status');
+                // Visually hidden but available to screen readers
+                region.style.position = 'absolute';
+                region.style.width = '1px';
+                region.style.height = '1px';
+                region.style.margin = '-1px';
+                region.style.padding = '0';
+                region.style.border = '0';
+                region.style.clip = 'rect(0 0 0 0)';
+                region.style.overflow = 'hidden';
+
+                document.body.appendChild(region);
+                formA11yLiveRegion = region;
+                return region;
+            }
+
+            function applyVisibility(targetEl: Element, visible: boolean) {
+                const target = targetEl as HTMLElement;
+                target.style.display = visible ? '' : 'none';
+                target.setAttribute('aria-hidden', visible ? 'false' : 'true');
+
+                target.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(
+                    'input, textarea, select'
+                ).forEach((input) => {
+                    input.disabled = !visible;
+                    // When hiding a field, clear any existing validation state and error flags
+                    if (!visible) {
+                        if ('setCustomValidity' in input) {
+                            input.setCustomValidity('');
+                        }
+                        (input as HTMLElement).removeAttribute('aria-invalid');
+                    }
+                });
+
+                try {
+                    const liveRegion = getFormA11yLiveRegion();
+                    const labelEl = target.querySelector('label');
+                    const labelText = (labelEl && (labelEl as HTMLLabelElement).innerText)
+                        ? (labelEl as HTMLLabelElement).innerText.trim()
+                        : '';
+                    const messageBase = labelText
+                        ? `Field "${labelText}"`
+                        : 'A field';
+                    liveRegion.textContent = `${messageBase} is now ${visible ? 'available' : 'unavailable'}.`;
+                } catch {
+                    // Fail silently if DOM is not available (e.g., during SSR)
+                }
+            }
+
             function evaluateCondition(
-                condition: { ComparisonOperator: string; ComparisonValue: string; DependsOnField: string },
+                condition: { ComparisonOperator: string; ComparisonValue: string },
                 fieldValues: string[]
             ): boolean {
                 const op = condition.ComparisonOperator;
                 const compareValue = condition.ComparisonValue ?? '';
                 if (!op || op === 'NotApplicable') return true;
-                if (fieldValues.length === 0) return false;
+                if (fieldValues.length === 0) return op === 'NotEquals';
                 return fieldValues.some((val) => {
                     switch (op) {
                         case 'Equals': return val === compareValue;
@@ -300,13 +366,6 @@ const componentClass = 'component-form';
                         default: return false;
                     }
                 });
-            }
-
-            function applyVisibility(targetEl: Element, visible: boolean) {
-                (targetEl as HTMLElement).style.display = visible ? '' : 'none';
-                targetEl.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(
-                    'input, textarea, select'
-                ).forEach((input) => { input.disabled = !visible; });
             }
 
             function evaluateRule(rule: typeof rules[number]) {
