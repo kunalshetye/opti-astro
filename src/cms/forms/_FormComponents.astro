@@ -100,6 +100,17 @@ const componentType = component._metadata.types[0];
 }
 
 {
+    componentType === 'OptiFormsDateTimeElement' && (
+        <OptiFormsDateTimeElement
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+            nodeKey={data.key}
+        />
+    )
+}
+
+{
     componentType === 'OptiFormsSubmitElement' && (
         <OptiFormsSubmitElement
             contentPayload={contentPayload}
@@ -111,15 +122,6 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'OptiFormsResetElement' && (
         <OptiFormsResetElement
-            contentPayload={contentPayload}
-            data={component}
-            displaySettings={displaySettings}
-        />
-    )
-}
-{
-    componentType === 'OptiFormsDateTimeElement' && (
-        <OptiFormsDateTimeElement
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
