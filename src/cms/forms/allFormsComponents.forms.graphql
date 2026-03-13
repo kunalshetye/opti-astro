@@ -10,4 +10,5 @@ fragment AllFormComponents on _IComponent {
     ...textareaElement
     ...textboxElement
     ...urlElement
+    ...dateTimeElement
 }

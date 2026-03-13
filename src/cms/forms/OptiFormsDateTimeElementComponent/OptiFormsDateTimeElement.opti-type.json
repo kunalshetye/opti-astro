@@ -1,0 +1,96 @@
+{
+	"key": "OptiFormsDateTimeElement",
+	"displayName": "Date/Time Picker",
+	"description": "Date/Time Picker",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"formsElementEnabled"
+	],
+	"properties": {
+		"DateTimeSelectorType": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "DateTime Selector Type",
+			"description": "",
+			"localized": false,
+			"required": true,
+			"group": "Information",
+			"sortOrder": 10,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "Date",
+						"value": "date"
+					},
+					{
+						"displayName": "Date + Time",
+						"value": "datetime-local"
+					},
+					{
+						"displayName": "Time",
+						"value": "time"
+					},
+					{
+						"displayName": "Month",
+						"value": "month"
+					}
+				]
+			}
+		},
+		"Label": {
+			"type": "string",
+			"displayName": "Label",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 100,
+			"editorSettings": {}
+		},
+		"Placeholder": {
+			"type": "string",
+			"displayName": "Placeholder",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 200,
+			"editorSettings": {}
+		},
+		"Tooltip": {
+			"type": "string",
+			"displayName": "Tooltip",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 300,
+			"editorSettings": {}
+		},
+		"PredefinedValue": {
+			"type": "string",
+			"displayName": "PredefinedValue",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 400,
+			"editorSettings": {}
+		},
+		"Validators": {
+			"type": "json",
+			"format": "ValidatorListProperty",
+			"displayName": "Validators",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 900,
+			"editorSettings": {}
+		}
+	}
+}

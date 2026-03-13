@@ -11,6 +11,7 @@ import OptiFormsUrlElement from '../forms/OptiFormsUrlElementComponent/OptiForms
 import OptiFormsChoiceElement from '../forms/OptiFormsChoiceElementComponent/OptiFormsChoiceElement.astro';
 import OptiFormsSubmitElement from '../forms/OptiFormsSubmitElementComponent/OptiFormsSubmitElement.astro';
 import OptiFormsResetElement from '../forms/OptiFormsResetElementComponent/OptiFormsResetElement.astro';
+import OptiFormsDateTimeElement from '../forms/OptiFormsDateTimeElementComponent/OptiFormsDateTimeElement.astro';
 
 interface Props {
     contentPayload: ContentPayload;
@@ -110,6 +111,15 @@ const componentType = component._metadata.types[0];
 {
     componentType === 'OptiFormsResetElement' && (
         <OptiFormsResetElement
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+        />
+    )
+}
+{
+    componentType === 'OptiFormsDateTimeElement' && (
+        <OptiFormsDateTimeElement
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}

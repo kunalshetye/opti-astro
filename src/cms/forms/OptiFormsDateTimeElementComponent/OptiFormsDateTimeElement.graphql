@@ -1,0 +1,8 @@
+fragment dateTimeElement on OptiFormsDateTimeElement {
+    DateTimeSelectorType
+    Label
+    Placeholder
+    Tooltip
+    PredefinedValue
+    Validators
+}
