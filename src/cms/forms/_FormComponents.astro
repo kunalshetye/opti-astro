@@ -12,6 +12,7 @@ import OptiFormsChoiceElement from '../forms/OptiFormsChoiceElementComponent/Opt
 import OptiFormsSubmitElement from '../forms/OptiFormsSubmitElementComponent/OptiFormsSubmitElement.astro';
 import OptiFormsResetElement from '../forms/OptiFormsResetElementComponent/OptiFormsResetElement.astro';
 import OptiFormsDateTimeElement from '../forms/OptiFormsDateTimeElementComponent/OptiFormsDateTimeElement.astro';
+import OptiFormsHiddenFieldElement from '../forms/OptiFormsHiddenFieldElementComponent/OptiFormsHiddenFieldElement.astro';
 
 interface Props {
     contentPayload: ContentPayload;
@@ -106,6 +107,16 @@ const componentType = component._metadata.types[0];
             data={component}
             displaySettings={displaySettings}
             nodeKey={data.key}
+        />
+    )
+}
+
+{
+    componentType === 'OptiFormsHiddenFieldElement' && (
+        <OptiFormsHiddenFieldElement
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
         />
     )
 }
