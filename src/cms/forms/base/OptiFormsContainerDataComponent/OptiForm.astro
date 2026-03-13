@@ -68,6 +68,8 @@ const formSubmitConfirmationMsg: string | null = getFormProperty('SubmitConfirma
 const formResetConfirmationMsg: string = getFormProperty('ResetConfirmationMessage') ?? formItem?.ResetConfirmationMessage ?? 'Are you sure you want to reset the form?';
 const formSubmitUrl: string | null = getFormProperty('SubmitUrl')?.default ?? formItem?.SubmitUrl?.default ?? null;
 const showSummaryMessage: boolean = getFormProperty('ShowSummaryMessageAfterSubmission') ?? formItem?.ShowSummaryMessageAfterSubmission ?? false;
+const formDependencyRules = getFormProperty('DependencyRules') ?? formItem?.DependencyRules ?? null;
+const formDependencyRulesJson: string | null = formDependencyRules?.length ? JSON.stringify(formDependencyRules) : null;
 
 const componentClass = 'component-form';
 ---
@@ -80,6 +82,7 @@ const componentClass = 'component-form';
                     id={formId}
                     class="mx-auto mb-6 w-full rounded-2xl bg-base-100 px-8 py-8 shadow-lg
                            border border-base-200 transition-shadow duration-300 hover:shadow-xl"
+                    data-form-rules={formDependencyRulesJson || undefined}
                 >
                     {formSubmitUrl && (
                         <input type="hidden" name="formSubmitUrl" value={formSubmitUrl} />
@@ -227,7 +230,197 @@ const componentClass = 'component-form';
                     clearInput(form);
                     clearPreviousMessage("message");
                     resetModal.close();
+                    evaluateAllRules();
                 });
+            }
+
+            // Form rules engine — dependent field visibility
+            const rulesJson = form.dataset.formRules;
+            let rules: Array<{
+                TargetElement: string;
+                SatisfiedAction: string;
+                ConditionCombination: string;
+                Conditions: Array<{
+                    DependsOnField: string;
+                    ComparisonOperator: string;
+                    ComparisonValue: string;
+                }>;
+            }> = [];
+            if (rulesJson) {
+                try {
+                    rules = JSON.parse(rulesJson);
+                } catch (e) {
+                    console.warn('OptiForm: failed to parse form rules JSON', e);
+                }
+            }
+
+            // Safe escape for use inside CSS attribute value selectors (quoted strings).
+            // Prefer the standard CSS.escape API when available, with a minimal fallback.
+            function escapeAttr(str: string): string {
+                if (typeof CSS !== 'undefined' && typeof CSS.escape === 'function') {
+                    return CSS.escape(str);
+                }
+                return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+            }
+            function findFieldEl(fieldId: string): Element | null {
+                return form.querySelector(`[data-field-key="${escapeAttr(fieldId)}"]`)
+                    ?? form.querySelector(`[data-field-name="${escapeAttr(fieldId)}"]`);
+            }
+
+            // Collect current values from all visible inputs within a field wrapper.
+            function getFieldValues(fieldId: string): string[] {
+                const fieldEl = findFieldEl(fieldId);
+                if (!fieldEl) return [];
+                const values: string[] = [];
+                fieldEl.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
+                    'input:not([type="hidden"]), textarea, select'
+                ).forEach((input) => {
+                    if ((input as HTMLInputElement).type === 'checkbox' || (input as HTMLInputElement).type === 'radio') {
+                        if ((input as HTMLInputElement).checked) values.push(input.value);
+                    } else if (input.tagName === 'SELECT' && (input as HTMLSelectElement).multiple) {
+                        Array.from((input as HTMLSelectElement).selectedOptions).forEach((opt) => values.push(opt.value));
+                    } else {
+                        if (input.value !== '') values.push(input.value);
+                    }
+                });
+                return values;
+            }
+
+            let formA11yLiveRegion: HTMLElement | null = null;
+
+            function getFormA11yLiveRegion(): HTMLElement {
+                if (formA11yLiveRegion && document.body.contains(formA11yLiveRegion)) {
+                    return formA11yLiveRegion;
+                }
+
+                const region = document.createElement('div');
+                region.setAttribute('aria-live', 'polite');
+                region.setAttribute('role', 'status');
+                // Visually hidden but available to screen readers
+                region.style.position = 'absolute';
+                region.style.width = '1px';
+                region.style.height = '1px';
+                region.style.margin = '-1px';
+                region.style.padding = '0';
+                region.style.border = '0';
+                region.style.clip = 'rect(0 0 0 0)';
+                region.style.overflow = 'hidden';
+
+                document.body.appendChild(region);
+                formA11yLiveRegion = region;
+                return region;
+            }
+
+            function applyVisibility(targetEl: Element, visible: boolean) {
+                const target = targetEl as HTMLElement;
+                target.style.display = visible ? '' : 'none';
+                target.setAttribute('aria-hidden', visible ? 'false' : 'true');
+
+                target.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(
+                    'input, textarea, select'
+                ).forEach((input) => {
+                    input.disabled = !visible;
+                    // When hiding a field, clear any existing validation state and error flags
+                    if (!visible) {
+                        if ('setCustomValidity' in input) {
+                            input.setCustomValidity('');
+                        }
+                        (input as HTMLElement).removeAttribute('aria-invalid');
+                    }
+                });
+
+                try {
+                    const liveRegion = getFormA11yLiveRegion();
+                    const labelEl = target.querySelector('label');
+                    const labelText = (labelEl && (labelEl as HTMLLabelElement).innerText)
+                        ? (labelEl as HTMLLabelElement).innerText.trim()
+                        : '';
+                    const messageBase = labelText
+                        ? `Field "${labelText}"`
+                        : 'A field';
+                    liveRegion.textContent = `${messageBase} is now ${visible ? 'available' : 'unavailable'}.`;
+                } catch {
+                    // Fail silently if DOM is not available (e.g., during SSR)
+                }
+            }
+
+            function evaluateCondition(
+                condition: { ComparisonOperator: string; ComparisonValue: string },
+                fieldValues: string[]
+            ): boolean {
+                const op = condition.ComparisonOperator;
+                const compareValue = condition.ComparisonValue ?? '';
+                if (!op || op === 'NotApplicable') return true;
+                if (fieldValues.length === 0) return op === 'NotEquals';
+                return fieldValues.some((val) => {
+                    switch (op) {
+                        case 'Equals': return val === compareValue;
+                        case 'NotEquals': return val !== compareValue;
+                        case 'Contains': return val.includes(compareValue);
+                        case 'DoesNotContain': return !val.includes(compareValue);
+                        case 'StartsWith': return val.startsWith(compareValue);
+                        case 'EndsWith': return val.endsWith(compareValue);
+                        case 'MatchRegularExpression': {
+                            try { return new RegExp(compareValue).test(val); } catch { return false; }
+                        }
+                        default: return false;
+                    }
+                });
+            }
+
+            function evaluateRule(rule: typeof rules[number]) {
+                const { TargetElement, SatisfiedAction, ConditionCombination, Conditions } = rule;
+                if (!Conditions?.length) return;
+                const results = Conditions.map((cond) =>
+                    evaluateCondition(cond, getFieldValues(cond.DependsOnField))
+                );
+                const conditionsMet = ConditionCombination === 'Any'
+                    ? results.some(Boolean)
+                    : results.every(Boolean);
+                const shouldBeVisible = SatisfiedAction === 'Show' ? conditionsMet : !conditionsMet;
+                const targetEl = findFieldEl(TargetElement);
+                if (targetEl) {
+                    applyVisibility(targetEl, shouldBeVisible);
+                } else {
+                    console.warn('[Form Rules] Target element not found for TargetElement:', TargetElement);
+                }
+            }
+
+            function evaluateAllRules() {
+                rules.forEach(evaluateRule);
+            }
+
+            if (rules.length) {
+                // Build source-field → rules map and attach change/input listeners
+                const fieldToRules = new Map<string, typeof rules>();
+                rules.forEach((rule) => {
+                    rule.Conditions?.forEach((cond) => {
+                        const fn = cond.DependsOnField;
+                        if (!fn) return;
+                        if (!fieldToRules.has(fn)) fieldToRules.set(fn, []);
+                        fieldToRules.get(fn)!.push(rule);
+                    });
+                });
+
+                fieldToRules.forEach((affectedRules, fieldId) => {
+                    const fieldEl = findFieldEl(fieldId);
+                    if (!fieldEl) {
+                        console.warn('[Form Rules] Source field not found for DependsOnField:', fieldId);
+                        return;
+                    }
+                    fieldEl.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
+                        'input:not([type="hidden"]), textarea, select'
+                    ).forEach((input) => {
+                        const handler = () => affectedRules.forEach(evaluateRule);
+                        input.addEventListener('change', handler);
+                        if (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA') {
+                            input.addEventListener('input', handler);
+                        }
+                    });
+                });
+
+                // Apply initial visibility on page load
+                evaluateAllRules();
             }
         </script>
 
