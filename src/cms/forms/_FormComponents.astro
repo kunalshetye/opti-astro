@@ -1,6 +1,7 @@
 ---
 import type { ContentPayload } from '../../graphql/shared/ContentPayload';
 
+import Components from '../components/_Components.astro';
 import OptiFormsTextboxElement from '../forms/OptiFormsTextboxElementComponent/OptiFormsTextboxElement.astro';
 import OptiFormsNumberElement from '../forms/OptiFormsNumberElementComponent/OptiFormsNumberElement.astro';
 import OptiFormsRangeElement from '../forms/OptiFormsRangeElementComponent/OptiFormsRangeElement.astro';
@@ -113,5 +114,13 @@ const componentType = component._metadata.types[0];
             data={component}
             displaySettings={displaySettings}
         />
+    )
+}
+
+{
+    // Fallback: render any non-form component (e.g. Text, Paragraph) using the generic renderer.
+    // Convention: all Optimizely form element types must use the "OptiForms" prefix.
+    !componentType.startsWith('OptiForms') && (
+        <Components contentPayload={contentPayload} data={data} />
     )
 }
