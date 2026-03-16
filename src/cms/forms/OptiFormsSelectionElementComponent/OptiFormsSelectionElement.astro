@@ -27,6 +27,7 @@ export interface Props {
     data: OptiFormsSelectionElement;
     contentPayload: ContentPayload;
     displaySettings: DisplaySettingsFragment[];
+    nodeKey?: string;
     Label?: string;
     Tooltip?: string;
     Options?: any;
@@ -34,7 +35,7 @@ export interface Props {
     AllowMultiSelect?: boolean;
     AutoComplete?: string;
 }
-const { data, displaySettings } = Astro.props as Props;
+const { data, displaySettings, nodeKey } = Astro.props as Props;
 const { Label, Tooltip, Options: RawOptions, Validators, AllowMultiSelect, AutoComplete } =
     data;
 
@@ -61,7 +62,7 @@ const describedByIds = [
 ---
 
 <fieldset class="form-control w-full rounded-2xl bg-base-100 border border-base-300 p-5 shadow-sm
-                    transition-all duration-200 ease-in-out hover:shadow-md">
+                    transition-all duration-200 ease-in-out hover:shadow-md" data-field-name={Label} data-field-key={nodeKey || undefined}>
     <legend class="px-2 text-base font-medium text-base-content/80">
         {Label}
         {isRequiredErrorMsg && <span class="text-error ml-1" aria-label="required">*</span>}

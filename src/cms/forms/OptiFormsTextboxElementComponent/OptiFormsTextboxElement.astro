@@ -18,6 +18,7 @@ export interface Props {
     data: OptiFormsTextboxElement;
     contentPayload: ContentPayload;
     displaySettings: DisplaySettingsFragment[];
+    nodeKey?: string;
     Label?: string;
     Placeholder?: string;
     Tooltip?: string;
@@ -25,7 +26,7 @@ export interface Props {
     Validators?: any;
     AutoComplete?: string;
 }
-const { data, displaySettings } = Astro.props as Props;
+const { data, displaySettings, nodeKey } = Astro.props as Props;
 const {
     Label,
     Placeholder,
@@ -55,7 +56,7 @@ const errorIds = [
 ].filter(Boolean).join(' ');
 ---
 
-<div class="form-control w-full">
+<div class="form-control w-full" data-field-name={Label} data-field-key={nodeKey || undefined}>
     <label class="label pb-1" for={inputId}>
         <span class="label-text text-base font-medium text-base-content/80">
             {Label}
@@ -92,7 +93,6 @@ const errorIds = [
             <p id={`${inputId}-regexp-error`} class="validator-hint hidden text-sm text-error animate-pulse">{isRegExpErrorMsg}</p>
         )}
         {isEmailErrorMsg && (
-            console.log("Email error message:", isEmailErrorMsg),
             <p id={`${inputId}-email-error`} class="validator-hint hidden text-sm text-error animate-pulse">{isEmailErrorMsg}</p>
         )}
     </div>

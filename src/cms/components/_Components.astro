@@ -3,6 +3,7 @@ import type { ContentPayload } from '../../graphql/shared/ContentPayload';
 import ArticlePageCard from '../pages/ArticlePage/ArticlePageCard.astro';
 import ArticleList from './ArticleListComponent/ArticleList.astro';
 import Button from './ButtonComponent/Button.astro';
+import DamAssetList from './DamAssetListComponent/DamAssetList.astro';
 import CallToAction from './CallToActionComponent/CallToAction.astro';
 import Card from './CardComponent/Card.astro';
 import Carousel from './CarouselComponent/Carousel.astro';
@@ -228,6 +229,18 @@ const componentType = component._metadata.types[0];
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
+        />
+    )
+}
+
+{
+    componentType === 'DamAssetList' && (
+        <DamAssetList
+            key={data?.key}
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+            displayTemplateKey={displayTemplateKey}
         />
     )
 }

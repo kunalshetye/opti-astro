@@ -78,7 +78,14 @@ export function mergeAndSortResults(
 	let items = [...articleItemsWithType, ...experienceItemsWithType];
 
 	// Client-side sorting for merged results
-	if (sortOrder === 'date_desc') {
+	if (sortOrder === 'relevance' || sortOrder === 'semantic') {
+		items.sort((a, b) => {
+			const scoreA = a._score || 0;
+			const scoreB = b._score || 0;
+			return scoreB - scoreA;
+		});
+	} 
+	else if (sortOrder === 'date_desc') {
 		items.sort((a, b) => {
 			const dateA = new Date(a._metadata?.published || 0).getTime();
 			const dateB = new Date(b._metadata?.published || 0).getTime();
