@@ -16,7 +16,7 @@
 			"localized": true,
 			"required": false,
 			"group": "Information",
-			"sortOrder": 0,
+			"sortOrder": 10,
 			"indexingType": "searchable",
 			"editorSettings": {}
 		},
@@ -27,7 +27,7 @@
 			"localized": false,
 			"required": false,
 			"group": "Information",
-			"sortOrder": 0,
+			"sortOrder": 20,
 			"indexingType": "searchable",
 			"editorSettings": {}
 		},
@@ -38,7 +38,7 @@
 			"localized": true,
 			"required": false,
 			"group": "Information",
-			"sortOrder": 0,
+			"sortOrder": 30,
 			"editorSettings": {}
 		},
 		"Indexing": {
@@ -48,7 +48,7 @@
 			"localized": true,
 			"required": false,
 			"group": "Information",
-			"sortOrder": 0,
+			"sortOrder": 40,
 			"editorSettings": {}
 		},
 		"SharingImage": {
@@ -58,7 +58,7 @@
 			"localized": false,
 			"required": false,
 			"group": "Information",
-			"sortOrder": 100,
+			"sortOrder": 50,
 			"editorSettings": {},
 			"allowedTypes": [],
 			"restrictedTypes": []
@@ -71,7 +71,7 @@
 			"localized": false,
 			"required": false,
 			"group": "Information",
-			"sortOrder": 200,
+			"sortOrder": 60,
 			"editorSettings": {},
 			"enum": {
 				"values": [

@@ -17,7 +17,7 @@
 			"localized": true,
 			"required": false,
 			"group": "Information",
-			"sortOrder": -100,
+			"sortOrder": 10,
 			"editorSettings": {},
 			"items": {
 				"type": "content",
@@ -32,7 +32,7 @@
 			"localized": true,
 			"required": false,
 			"group": "Information",
-			"sortOrder": 0,
+			"sortOrder": 20,
 			"editorSettings": {},
 			"items": {
 				"type": "content",
@@ -48,7 +48,7 @@
 			"localized": false,
 			"required": false,
 			"group": "SeoSettings",
-			"sortOrder": 0,
+			"sortOrder": 10,
 			"editorSettings": {}
 		},
 		"PageAdminSettings": {
