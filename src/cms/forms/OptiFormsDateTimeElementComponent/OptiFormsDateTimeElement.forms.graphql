@@ -4,5 +4,4 @@ fragment dateTimeElement on OptiFormsDateTimeElement {
     Placeholder
     Tooltip
     PredefinedValue
-    Validators
 }

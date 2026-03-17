@@ -4,5 +4,4 @@ fragment hiddenFieldElement on OptiFormsHiddenFieldElement {
     Placeholder
     Tooltip
     PredefinedValue
-    Validators
 }
