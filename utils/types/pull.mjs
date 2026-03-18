@@ -1,28 +1,21 @@
-import { createClient } from '@remkoj/optimizely-cms-api';
+import { createCmsApiClient } from '../cms-api-client.mjs';
 import fg from 'fast-glob';
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Convert import.meta.url to a usable file path
-
+// Environment variables for API connection
 const clientId = process.env.OPTIMIZELY_CLIENT_ID;
 const clientSecret = process.env.OPTIMIZELY_CLIENT_SECRET;
-const cmsUrl = process.env.OPTIMIZELY_CMS_URL;
 
 // Create an instance of the client
-const config = {
-    base: new URL(cmsUrl),
-    clientId: clientId,
-    clientSecret: clientSecret,
-};
-const client = createClient(config);
+const client = createCmsApiClient({ clientId, clientSecret });
 
 // Get command line argument for specific type
 const typeNameArg = process.argv[2];
 
 // Get content types from API
-const contentTypesList = await client.contentTypes.contentTypesList();
+const contentTypesList = await client.contentTypes.list();
 const contentTypesListFiltered = typeNameArg ? 
     contentTypesList.items.filter(
         (item) => item.key === typeNameArg

@@ -1,4 +1,4 @@
-import { createClient } from '@remkoj/optimizely-cms-api';
+import { createCmsApiClient } from '../../../lib/optimizely-cms-api';
 import fg from 'fast-glob';
 import fs from 'fs/promises';
 import path from 'path';
@@ -24,17 +24,12 @@ export type ProgressCallback = (progress: SyncProgress) => void;
 function createCMSClient() {
     const clientId = import.meta.env.OPTIMIZELY_CLIENT_ID;
     const clientSecret = import.meta.env.OPTIMIZELY_CLIENT_SECRET;
-    const cmsUrl = import.meta.env.OPTIMIZELY_CMS_URL;
 
-    if (!clientId || !clientSecret || !cmsUrl) {
-        throw new Error('Missing required environment variables: OPTIMIZELY_CLIENT_ID, OPTIMIZELY_CLIENT_SECRET, OPTIMIZELY_CMS_URL');
+    if (!clientId || !clientSecret) {
+        throw new Error('Missing required environment variables: OPTIMIZELY_CLIENT_ID, OPTIMIZELY_CLIENT_SECRET');
     }
 
-    return createClient({
-        base: new URL(cmsUrl),
-        clientId: clientId,
-        clientSecret: clientSecret,
-    });
+    return createCmsApiClient({ clientId, clientSecret });
 }
 
 // Utility functions
@@ -69,7 +64,7 @@ async function readJsonFile(filePath: string): Promise<any> {
 // Property Groups Management
 async function getPropertyGroups(client: any): Promise<Record<string, any>> {
     try {
-        const groups = await client.propertyGroups.propertyGroupsList();
+        const groups = await client.propertyGroups.list();
         const groupMap: Record<string, any> = {};
         if (groups && groups.items) {
             groups.items.forEach((group: any) => {
@@ -84,7 +79,7 @@ async function getPropertyGroups(client: any): Promise<Record<string, any>> {
 
 async function createPropertyGroup(client: any, groupKey: string): Promise<boolean> {
     try {
-        await client.propertyGroups.propertyGroupsCreate({
+        await client.propertyGroups.create({
             key: groupKey,
             displayName: groupKey,
             sortOrder: 0
@@ -228,10 +223,9 @@ export async function pushContentType(
         delete cleanContentType.created;
 
         // Push to CMS
-        await client.contentTypes.contentTypesPut(
+        await client.contentTypes.put(
             contentTypeKey,
-            cleanContentType,
-            true // Force update
+            cleanContentType
         );
 
         const successMessage = `Content type "${displayName}" (${contentTypeKey}) of baseType ${baseType} has been updated`;
@@ -328,10 +322,9 @@ export async function pushAllContentTypes(onProgress?: ProgressCallback): Promis
                 delete cleanContentType.created;
 
                 // Push to CMS
-                await client.contentTypes.contentTypesPut(
+                await client.contentTypes.put(
                     contentTypeKey,
-                    cleanContentType,
-                    true // Force update
+                    cleanContentType
                 );
 
                 onProgress?.({
@@ -445,7 +438,7 @@ export async function pushStyle(
         });
 
         // Push to CMS
-        await client.displayTemplates.displayTemplatesPut(
+        await client.displayTemplates.put(
             styleKey,
             styleDefinition
         );
@@ -523,7 +516,7 @@ export async function pushAllStyles(onProgress?: ProgressCallback): Promise<Sync
                 const nodeType = styleDefinition.nodeType;
 
                 // Push to CMS
-                await client.displayTemplates.displayTemplatesPut(
+                await client.displayTemplates.put(
                     styleKey,
                     styleDefinition
                 );
