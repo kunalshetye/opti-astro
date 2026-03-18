@@ -12,4 +12,5 @@ fragment AllFormComponents on _IComponent {
     ...urlElement
     ...dateTimeElement
     ...hiddenFieldElement
+    ...prebuiltListElement
 }

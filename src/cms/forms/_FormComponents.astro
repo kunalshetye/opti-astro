@@ -13,6 +13,7 @@ import OptiFormsSubmitElement from '../forms/OptiFormsSubmitElementComponent/Opt
 import OptiFormsResetElement from '../forms/OptiFormsResetElementComponent/OptiFormsResetElement.astro';
 import OptiFormsDateTimeElement from '../forms/OptiFormsDateTimeElementComponent/OptiFormsDateTimeElement.astro';
 import OptiFormsHiddenFieldElement from '../forms/OptiFormsHiddenFieldElementComponent/OptiFormsHiddenFieldElement.astro';
+import OptiFormsPrebuiltListElement from '../forms/OptiFormsPrebuiltListElementComponent/OptiFormsPrebuiltListElement.astro';
 
 interface Props {
     contentPayload: ContentPayload;
@@ -117,6 +118,17 @@ const componentType = component._metadata.types[0];
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
+        />
+    )
+}
+
+{
+    componentType === 'OptiFormsPrebuiltListElement' && (
+        <OptiFormsPrebuiltListElement
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+            nodeKey={data.key}
         />
     )
 }
