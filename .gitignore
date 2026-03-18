@@ -25,6 +25,7 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 .vscode/
+!.vscode/settings.json
 
 # graphql
 __generated/
