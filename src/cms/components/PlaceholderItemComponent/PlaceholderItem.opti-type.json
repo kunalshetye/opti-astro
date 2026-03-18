@@ -15,7 +15,7 @@
 			"localized": false,
 			"required": true,
 			"group": "Information",
-			"sortOrder": 0,
+			"sortOrder": 10,
 			"editorSettings": {}
 		},
 		"Value": {
@@ -25,7 +25,7 @@
 			"localized": true,
 			"required": true,
 			"group": "Information",
-			"sortOrder": 0,
+			"sortOrder": 20,
 			"editorSettings": {}
 		}
 	}

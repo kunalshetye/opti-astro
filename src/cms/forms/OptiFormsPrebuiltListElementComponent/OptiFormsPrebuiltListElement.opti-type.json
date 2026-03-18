@@ -1,0 +1,97 @@
+{
+	"key": "OptiFormsPrebuiltListElement",
+	"displayName": "Prebuilt List Form Element",
+	"description": "Prebuilt List Form Element with predefined options to choose from, such as US states, CA provinces, etc.",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"formsElementEnabled"
+	],
+	"properties": {
+		"PrebuiltListType": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "List Type",
+			"description": "Select the type of prebuilt list to use.",
+			"localized": false,
+			"required": true,
+			"group": "Information",
+			"sortOrder": 10,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "US States",
+						"value": "us_states"
+					},
+					{
+						"displayName": "CA Provinces",
+						"value": "ca_provinces"
+					},
+					{
+						"displayName": "AU States & Territories",
+						"value": "au_states"
+					},
+					{
+						"displayName": "Countries",
+						"value": "countries"
+					},
+					{
+						"displayName": "Salutation",
+						"value": "salutation"
+					},
+					{
+						"displayName": "Industry",
+						"value": "industry"
+					},
+					{
+						"displayName": "Job Level",
+						"value": "job_level"
+					}
+				]
+			}
+		},
+		"Label": {
+			"type": "string",
+			"displayName": "Label",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 100,
+			"editorSettings": {}
+		},
+		"Placeholder": {
+			"type": "string",
+			"displayName": "Placeholder",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 200,
+			"editorSettings": {}
+		},
+		"Tooltip": {
+			"type": "string",
+			"displayName": "Tooltip",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 300,
+			"editorSettings": {}
+		},
+		"PredefinedValue": {
+			"type": "string",
+			"displayName": "PredefinedValue",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 400,
+			"editorSettings": {}
+		}
+	}
+}
