@@ -1,5 +1,6 @@
 fragment AllFormComponents on _IComponent {
     ...formContainerData
+    ...AllComponents
     ...choiceElement
     ...numberElement
     ...rangeElement
@@ -9,4 +10,7 @@ fragment AllFormComponents on _IComponent {
     ...textareaElement
     ...textboxElement
     ...urlElement
+    ...dateTimeElement
+    ...hiddenFieldElement
+    ...prebuiltListElement
 }

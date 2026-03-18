@@ -18,7 +18,7 @@
 			"localized": false,
 			"required": false,
 			"group": "Information",
-			"sortOrder": -200,
+			"sortOrder": 10,
 			"indexingType": "searchable",
 			"editorSettings": {}
 		},
@@ -29,7 +29,7 @@
 			"localized": false,
 			"required": false,
 			"group": "Information",
-			"sortOrder": -100,
+			"sortOrder": 20,
 			"editorSettings": {},
 			"allowedTypes": [
 				"Image"

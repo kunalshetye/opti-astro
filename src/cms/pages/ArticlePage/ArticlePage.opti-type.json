@@ -17,7 +17,7 @@
 			"localized": true,
 			"required": false,
 			"group": "Information",
-			"sortOrder": -100,
+			"sortOrder": 10,
 			"editorSettings": {},
 			"allowedTypes": [
 				"Image"
@@ -31,7 +31,7 @@
 			"localized": true,
 			"required": false,
 			"group": "Information",
-			"sortOrder": 0,
+			"sortOrder": 20,
 			"indexingType": "searchable",
 			"editorSettings": {}
 		},
@@ -42,7 +42,7 @@
 			"localized": true,
 			"required": false,
 			"group": "Information",
-			"sortOrder": 0,
+			"sortOrder": 30,
 			"indexingType": "searchable",
 			"editorSettings": {}
 		},
@@ -54,7 +54,7 @@
 			"localized": false,
 			"required": false,
 			"group": "SeoSettings",
-			"sortOrder": 0,
+			"sortOrder": 40,
 			"editorSettings": {}
 		},
 		"PageAdminSettings": {
@@ -76,7 +76,7 @@
 			"localized": false,
 			"required": false,
 			"group": "Information",
-			"sortOrder": 100,
+			"sortOrder": 40,
 			"indexingType": "searchable",
 			"editorSettings": {}
 		},
@@ -87,7 +87,7 @@
 			"localized": false,
 			"required": false,
 			"group": "Information",
-			"sortOrder": 150,
+			"sortOrder": 50,
 			"indexingType": "searchable",
 			"editorSettings": {}
 		},
@@ -99,7 +99,7 @@
 			"localized": true,
 			"required": false,
 			"group": "Information",
-			"sortOrder": 200,
+			"sortOrder": 60,
 			"indexingType": "searchable",
 			"editorSettings": {}
 		}

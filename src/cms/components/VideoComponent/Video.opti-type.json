@@ -18,7 +18,7 @@
 			"localized": false,
 			"required": false,
 			"group": "Information",
-			"sortOrder": 0,
+			"sortOrder": 10,
 			"editorSettings": {},
 			"allowedTypes": [
 				"Video"

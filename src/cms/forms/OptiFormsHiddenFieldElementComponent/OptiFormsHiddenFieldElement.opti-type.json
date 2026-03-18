@@ -1,0 +1,109 @@
+{
+	"key": "OptiFormsHiddenFieldElement",
+	"displayName": "Hidden Field Form Element",
+	"description": "Hidden Field Form Element to pass information with form submission",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"formsElementEnabled"
+	],
+	"properties": {
+		"HiddenFieldType": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Hidden Field Type",
+			"description": "",
+			"localized": false,
+			"required": true,
+			"group": "Information",
+			"sortOrder": 10,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "Current Page",
+						"value": "currentpage"
+					},
+					{
+						"displayName": "Locale",
+						"value": "locale"
+					},
+					{
+						"displayName": "Predefined Value",
+						"value": "predefinedvalue"
+					},
+					{
+						"displayName": "Referer",
+						"value": "referer"
+					},
+					{
+						"displayName": "User-Agent",
+						"value": "useragent"
+					},
+					{
+						"displayName": "utm_campaign",
+						"value": "utm_campaign"
+					},
+					{
+						"displayName": "utm_content",
+						"value": "utm_content"
+					},
+					{
+						"displayName": "utm_medium",
+						"value": "utm_medium"
+					},
+					{
+						"displayName": "utm_source",
+						"value": "utm_source"
+					},
+					{
+						"displayName": "utm_term",
+						"value": "utm_term"
+					}
+				]
+			}
+		},
+		"Label": {
+			"type": "string",
+			"displayName": "Label",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 100,
+			"editorSettings": {}
+		},
+		"Placeholder": {
+			"type": "string",
+			"displayName": "Placeholder",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 200,
+			"editorSettings": {}
+		},
+		"Tooltip": {
+			"type": "string",
+			"displayName": "Tooltip",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 300,
+			"editorSettings": {}
+		},
+		"PredefinedValue": {
+			"type": "string",
+			"displayName": "PredefinedValue",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 400,
+			"editorSettings": {}
+		}
+	}
+}
