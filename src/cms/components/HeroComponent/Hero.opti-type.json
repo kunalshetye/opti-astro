@@ -11,20 +11,6 @@
 		"elementEnabled"
 	],
 	"properties": {
-		"Video": {
-			"type": "contentReference",
-			"displayName": "Video",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
-			"sortOrder": -200,
-			"editorSettings": {},
-			"allowedTypes": [
-				"Video"
-			],
-			"restrictedTypes": []
-		},
 		"Image": {
 			"type": "contentReference",
 			"displayName": "Image",
@@ -32,10 +18,24 @@
 			"localized": true,
 			"required": false,
 			"group": "Information",
-			"sortOrder": -100,
+			"sortOrder": 10,
 			"editorSettings": {},
 			"allowedTypes": [
 				"Image"
+			],
+			"restrictedTypes": []
+		},
+		"Video": {
+			"type": "contentReference",
+			"displayName": "Video",
+			"description": "",
+			"localized": true,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 20,
+			"editorSettings": {},
+			"allowedTypes": [
+				"Video"
 			],
 			"restrictedTypes": []
 		},
@@ -46,7 +46,7 @@
 			"localized": true,
 			"required": false,
 			"group": "Information",
-			"sortOrder": -50,
+			"sortOrder": 30,
 			"indexingType": "searchable",
 			"editorSettings": {}
 		},
@@ -57,7 +57,7 @@
 			"localized": true,
 			"required": false,
 			"group": "Information",
-			"sortOrder": -25,
+			"sortOrder": 40,
 			"indexingType": "searchable",
 			"editorSettings": {}
 		},
@@ -69,7 +69,7 @@
 			"localized": true,
 			"required": false,
 			"group": "Information",
-			"sortOrder": 0,
+			"sortOrder": 50,
 			"indexingType": "searchable",
 			"editorSettings": {}
 		},
@@ -81,7 +81,7 @@
 			"localized": true,
 			"required": false,
 			"group": "Information",
-			"sortOrder": 0,
+			"sortOrder": 60,
 			"editorSettings": {},
 			"items": {
 				"type": "component",

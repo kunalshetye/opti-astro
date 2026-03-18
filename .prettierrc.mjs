@@ -9,7 +9,7 @@ export default {
             },
         },
     ],
-    tailwindConfig: './tailwind.config.mjs',
+    tailwindStylesheet: './src/styles/global.css',
     trailingComma: 'es5',
     tabWidth: 4,
     semi: true,

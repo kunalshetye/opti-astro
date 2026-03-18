@@ -18,7 +18,7 @@
 			"localized": true,
 			"required": false,
 			"group": "Information",
-			"sortOrder": -100,
+			"sortOrder": 10,
 			"indexingType": "searchable",
 			"editorSettings": {}
 		},
@@ -30,7 +30,7 @@
 			"localized": false,
 			"required": false,
 			"group": "Information",
-			"sortOrder": -50,
+			"sortOrder": 20,
 			"editorSettings": {}
 		},
 		"Assets": {
@@ -41,7 +41,7 @@
 			"localized": true,
 			"required": false,
 			"group": "Information",
-			"sortOrder": 0,
+			"sortOrder": 30,
 			"editorSettings": {},
 			"items": {
 				"type": "component",

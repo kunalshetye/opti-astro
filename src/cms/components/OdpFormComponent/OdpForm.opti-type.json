@@ -18,7 +18,7 @@
 			"description": "Choose whether to target by ID or CSS class",
 			"localized": false,
 			"required": true,
-			"group": "Content",
+			"group": "Information",
 			"sortOrder": 10,
 			"editorSettings": {},
 			"enum": {
@@ -41,7 +41,7 @@
 			"description": "The ID or class name to target (without # or .)",
 			"localized": false,
 			"required": true,
-			"group": "Content",
+			"group": "Information",
 			"sortOrder": 20,
 			"editorSettings": {}
 		}
