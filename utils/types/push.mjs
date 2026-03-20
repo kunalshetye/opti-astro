@@ -1,4 +1,4 @@
-import { createClient } from '@remkoj/optimizely-cms-api';
+import { createCmsApiClient } from '../cms-api-client.mjs';
 import fg from 'fast-glob';
 import fs from 'fs/promises';
 import path from 'path';
@@ -14,15 +14,9 @@ const directoryToFindTypesIn = fg.convertPathToPattern(path.resolve(
 // Environment variables for API connection
 const clientId = process.env.OPTIMIZELY_CLIENT_ID;
 const clientSecret = process.env.OPTIMIZELY_CLIENT_SECRET;
-const cmsUrl = process.env.OPTIMIZELY_CMS_URL;
 
 // Create an instance of the client
-const config = {
-    base: new URL(cmsUrl),
-    clientId: clientId,
-    clientSecret: clientSecret,
-};
-const client = createClient(config);
+const client = createCmsApiClient({ clientId, clientSecret });
 
 /**
  * Find all files matching a pattern in the specified directory
@@ -62,7 +56,7 @@ async function tryReadJsonFile(filePath) {
  */
 async function getPropertyGroups() {
     try {
-        const groups = await client.propertyGroups.propertyGroupsList();
+        const groups = await client.propertyGroups.list();
         const groupMap = {};
         if (groups && groups.items) {
             groups.items.forEach(group => {
@@ -83,7 +77,7 @@ async function getPropertyGroups() {
  */
 async function createPropertyGroup(groupKey) {
     try {
-        await client.propertyGroups.propertyGroupsCreate({
+        await client.propertyGroups.create({
             key: groupKey,
             displayName: groupKey,
             sortOrder: 0
@@ -170,10 +164,9 @@ const typeNameArg = process.argv[2];
         if (cleanContentType.created) delete cleanContentType.created;
 
         try {
-            await client.contentTypes.contentTypesPut(
+            await client.contentTypes.put(
                 contentTypeKey,
-                cleanContentType,
-                true // Force update
+                cleanContentType
             );
             console.log(
                 `✅ Content type "${displayName}" (${contentTypeKey}) of baseType ${baseType} has been updated`

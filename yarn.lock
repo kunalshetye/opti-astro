@@ -4257,13 +4257,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remkoj/optimizely-cms-api@npm:5.1.1":
-  version: 5.1.1
-  resolution: "@remkoj/optimizely-cms-api@npm:5.1.1"
-  checksum: 10c0/63017c5e765de2247a97dcb1a5fba060ed2a0fd445614843d886f6238af44b8869f4c1b1e3b1680632ad7df55490343621f243427e79e11475b2262537159c51
-  languageName: node
-  linkType: hard
-
 "@repeaterjs/repeater@npm:^3.0.4, @repeaterjs/repeater@npm:^3.0.6":
   version: 3.0.6
   resolution: "@repeaterjs/repeater@npm:3.0.6"
@@ -11521,7 +11514,6 @@ __metadata:
     "@graphql-codegen/typescript-operations": "npm:^4.5.1"
     "@optimizely/optimizely-sdk": "npm:^6.0.0"
     "@parcel/watcher": "npm:^2.5.1"
-    "@remkoj/optimizely-cms-api": "npm:5.1.1"
     "@rollup/plugin-commonjs": "npm:^28.0.3"
     "@splidejs/splide": "npm:^4.1.4"
     "@tailwindcss/typography": "npm:^0.5.16"

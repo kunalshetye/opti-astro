@@ -1,28 +1,21 @@
-import { createClient } from '@remkoj/optimizely-cms-api';
+import { createCmsApiClient } from '../cms-api-client.mjs';
 import fg from 'fast-glob';
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Convert import.meta.url to a usable file path
-
+// Environment variables for API connection
 const clientId = process.env.OPTIMIZELY_CLIENT_ID;
 const clientSecret = process.env.OPTIMIZELY_CLIENT_SECRET;
-const cmsUrl = process.env.OPTIMIZELY_CMS_URL;
 
 // Create an instance of the client
-const config = {
-    base: new URL(cmsUrl),
-    clientId: clientId,
-    clientSecret: clientSecret,
-};
-const client = createClient(config);
+const client = createCmsApiClient({ clientId, clientSecret });
 
 // Get command line argument for specific type
 const typeNameArg = process.argv[2];
 
 // Get content types from API
-const contentTypesList = await client.contentTypes.contentTypesList();
+const contentTypesList = await client.contentTypes.list();
 const contentTypesListFiltered = typeNameArg ? 
     contentTypesList.items.filter(
         (item) => item.key === typeNameArg
@@ -58,8 +51,8 @@ contentTypesListSorted?.forEach(async (contentType) => {
 
         // Now organize based on type following folder structure based on baseType
         const baseType = cleanContentType.baseType;
-
-        if (baseType === 'page') {
+        
+        if (baseType === 'page' || baseType === '_page') {
             // Pages go in pages folder
             const typeFolderPath = fg.convertPathToPattern(
                 path.resolve(
@@ -84,12 +77,15 @@ contentTypesListSorted?.forEach(async (contentType) => {
                     `⚠️ Warning: Page folder for "${contentTypeKey}" does not exist at ${typeFolderPath}`
                 );
             }
-        } else if (baseType === 'component') {
-            // Standard components go in component folders
+        } else if (baseType === 'component' || baseType === '_component') {
+            // OptiForms components go in forms folders, standard components go in component folders
+            const isOptiForms = contentTypeKeyCapitalized.startsWith('OptiForms');
             const typeFolderPath = fg.convertPathToPattern(
                 path.resolve(
                     path.dirname(fileURLToPath(import.meta.url)),
-                    `../../src/cms/components/${contentTypeKeyCapitalized}Component`
+                    isOptiForms
+                        ? `../../src/cms/forms/${contentTypeKeyCapitalized}Component`
+                        : `../../src/cms/components/${contentTypeKeyCapitalized}Component`
                 )
             );
 
@@ -101,15 +97,15 @@ contentTypesListSorted?.forEach(async (contentType) => {
                     JSON.stringify(cleanContentType, null, '\t')
                 );
                 console.log(
-                    `✅ Content type for type "${contentTypeKey}" has been pulled to components folder`
+                    `✅ Content type for type "${contentTypeKey}" has been pulled to ${isOptiForms ? 'forms' : 'components'} folder`
                 );
             } else {
                 // Directory doesn't exist, just warn
                 console.log(
-                    `⚠️ Warning: Component folder for "${contentTypeKey}" does not exist at ${typeFolderPath}`
+                    `⚠️ Warning: ${isOptiForms ? 'Forms' : 'Component'} folder for "${contentTypeKey}" does not exist at ${typeFolderPath}`
                 );
             }
-        } else if (baseType === 'media') {
+        } else if (baseType === 'media' || baseType === '_media') {
             // Media types go in media folder
             const typeFolderPath = fg.convertPathToPattern(
                 path.resolve(
@@ -134,7 +130,7 @@ contentTypesListSorted?.forEach(async (contentType) => {
                     `⚠️ Warning: Media folder for "${contentTypeKey}" does not exist at ${typeFolderPath}`
                 );
             }
-        } else if (baseType === 'image' || baseType === 'video') {
+        } else if (baseType === 'image' || baseType === 'video' || baseType === '_image' || baseType === '_video') {
             // Image and video types also go in media folder
             const typeFolderPath = fg.convertPathToPattern(
                 path.resolve(
@@ -159,7 +155,7 @@ contentTypesListSorted?.forEach(async (contentType) => {
                     `⚠️ Warning: Media folder for "${contentTypeKey}" does not exist at ${typeFolderPath}`
                 );
             }
-        } else if (baseType === 'experience') {
+        } else if (baseType === 'experience' || baseType === '_experience') {
             if (contentTypeKeyCapitalized === 'BlankExperience') {
                 console.log(
                     `⚠️ Warning: Skipping experience type "${contentTypeKey}"`
