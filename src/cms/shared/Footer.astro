@@ -1,9 +1,12 @@
 ---
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import { Image as AstroImage } from 'astro:assets';
 import type { SiteSettingsByHostnameQuery } from '../../../__generated/sdk';
 import { getClassForLogo } from './siteSettingsHelper';
 import DevTools from './DevTools.astro';
 import type { FXDebugInfo } from '../../optimizely/debug';
+
+const lang = Astro.currentLocale;
 
 // Define interfaces for the menu items to fix TypeScript errors
 interface LinkType {
@@ -43,13 +46,18 @@ const socialLinkGitHub = "https://www.github.com/" + settings?.SocialGitHub;
 <footer class="bg-base-200">
     <div class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
         <div class="flex justify-center text-primary">
-            <AstroImage
-                class:list={[logoCss, "w-full object-contain max-w-full"]}
-                src={logoUrl ?? '/optimizely-logo.svg'}
-                alt="Logo"
-                width=300
-                height=300
-            />
+            <a
+                class="block px-8 text-teal-600"
+                href={getRelativeLocaleUrl(lang, '/')}
+            >
+                <AstroImage
+                    class:list={[logoCss, "w-full object-contain max-w-full"]}
+                    src={logoUrl ?? '/optimizely-logo.svg'}
+                    alt="Logo"
+                    width=300
+                    height=300
+                />
+            </a>
         </div>
 
         <p
