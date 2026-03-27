@@ -6,6 +6,7 @@ fragment AllComponents on _IComponent {
 fragment AllComponentsExceptGrid on _IComponent {
     ...Text
     ...Image
+    ...ImageResponsive
     ...CallToAction
     ...Video
     ...Paragraph
