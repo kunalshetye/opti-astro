@@ -86,11 +86,8 @@ export function getColumnStyles(column: CompositionStructureNode) {
                 case 'end':
                     cssClasses.push('justify-end justify-items-end');
                     break;
-                case 'start':
-                    cssClasses.push('justify-start justify-items-start');
-                    break;
                 default:
-                    cssClasses.push('justify-center justify-items-center');
+                    cssClasses.push('justify-start justify-items-start');
                     break;
             }
 
@@ -101,11 +98,8 @@ export function getColumnStyles(column: CompositionStructureNode) {
                 case 'end':
                     cssClasses.push('content-end items-end');
                     break;
-                case 'start':
-                    cssClasses.push('content-start items-start');
-                    break;
                 default:
-                    cssClasses.push('content-center items-center');
+                    cssClasses.push('content-start items-start');
                     break;
             }
 
