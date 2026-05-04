@@ -66,6 +66,18 @@
     --font-size-9xl: 8rem;      /* 128px */
 }
 
+/* Hero component: force text to be white and centered on hero images */
+.component-hero .relative.z-10,
+.component-hero .relative.z-10 h1,
+.component-hero .relative.z-10 p {
+    text-align: center !important;
+    color: white !important;
+}
+
+.component-hero .mt-6.flex {
+    justify-content: center !important;
+}
+
 @layer base {
     ul {
         @apply list-inside list-disc;
