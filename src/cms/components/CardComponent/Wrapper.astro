@@ -3,9 +3,8 @@ interface Props {
     DisplayAs: string;
     GlobalStyles?: string[];
     isFullSplit?: boolean;
-    hasAsset?: boolean;
 }
-const { DisplayAs, GlobalStyles, isFullSplit, hasAsset = true } = Astro.props as Props;
+const { DisplayAs, GlobalStyles, isFullSplit } = Astro.props as Props;
 
 // CSS classes for default max-w-7xl container
 const defaultClasses = {
@@ -37,9 +36,7 @@ const fullSplitClasses = {
 
 const cssClasses = isFullSplit ? fullSplitClasses : defaultClasses;
 
-const cssClass = !hasAsset
-    ? 'mx-auto w-full flex flex-col items-center justify-center'
-    : cssClasses[DisplayAs as keyof typeof cssClasses];
+const cssClass = cssClasses[DisplayAs as keyof typeof cssClasses];
 
 // For full split, exclude GlobalStyles (applied to content section)
 const wrapperClasses = isFullSplit 
