@@ -66,21 +66,23 @@ const imageClasses = isFullSplit
 const finalContainerClasses = [containerClasses];
 ---
 
-<div class:list={finalContainerClasses}>
-    {
-        imageUrl && (
-            <>
-                <AstroImage
-                    alt={data.Asset?.item?.AltText || data.Asset?.item?._metadata?.displayName || data.Heading || 'Card image'}
-                    class={imageClasses}
-                    inferSize
-                    src={imageUrl}
-                />
-                {/* Image tint overlay (only for hover mode when tint is applied) */}
-                {isHoverMode && imageTintClass && (
-                    <div class={`absolute inset-0 ${imageTintClass} z-5`}></div>
-                )}
-            </>
-        )
-    }
-</div>
+{(imageUrl || isHoverMode || isFullSplit) && (
+    <div class:list={finalContainerClasses}>
+        {
+            imageUrl && (
+                <>
+                    <AstroImage
+                        alt={data.Asset?.item?.AltText || data.Asset?.item?._metadata?.displayName || data.Heading || 'Card image'}
+                        class={imageClasses}
+                        inferSize
+                        src={imageUrl}
+                    />
+                    {/* Image tint overlay (only for hover mode when tint is applied) */}
+                    {isHoverMode && imageTintClass && (
+                        <div class={`absolute inset-0 ${imageTintClass} z-5`}></div>
+                    )}
+                </>
+            )
+        }
+    </div>
+)}
