@@ -28,11 +28,11 @@ const publishedDate = format(
 );
 
 const articleHeaderFontColor = ((post.PromoImage as any)?.item?.Url || post.PromoImage?.url?.default)
-    ? "text-neutral-content" : "text-base-content";
+    ? "text-white" : "text-base-content";
 const articleHeaderAuthorColor = ((post.PromoImage as any)?.item?.Url || post.PromoImage?.url?.default)
-    ? "text-neutral-content/75" : "text-base-content/65";
+    ? "text-white/75" : "text-base-content/65";
 const articleHeaderDateColor = ((post.PromoImage as any)?.item?.Url || post.PromoImage?.url?.default)
-    ? "text-neutral-content/55" : "text-base-content/50";
+    ? "text-white/55" : "text-base-content/50";
 
 const graphType = post?.SeoSettings?.GraphType && post?.SeoSettings?.GraphType !== "-" ? 
     post?.SeoSettings?.GraphType : 'article';
@@ -73,7 +73,7 @@ const pageClass = 'page-article';
                         data-epi-edit={isCmsEdit ? "PromoImage" : undefined}
                     />
                 }
-                <div class="absolute bottom-0 start-0 z-20 p-4">
+                <div class="absolute bottom-0 inset-x-0 z-20 p-4 text-center">
                     <h1
                         class={`text-4xl lg:text-6xl leading-tight font-semibold pb-4 ${articleHeaderFontColor}`}
                         data-epi-edit={isCmsEdit ? "Heading" : undefined}
