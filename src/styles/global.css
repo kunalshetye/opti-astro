@@ -66,19 +66,6 @@
     --font-size-9xl: 8rem;      /* 128px */
 }
 
-/* Hero component: force text to be white and centered on hero images */
-@layer utilities {
-    .hero-content,
-    .hero-content h1,
-    .hero-content p {
-        text-align: center !important;
-        color: white !important;
-    }
-
-    .hero-content .flex {
-        justify-content: center !important;
-    }
-}
 
 @layer base {
     ul {
