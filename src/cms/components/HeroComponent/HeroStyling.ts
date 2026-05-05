@@ -121,7 +121,7 @@ export function getHeroStyles(displaySettings: DisplaySettingsFragment[]): {
             heightClass = 'h-[38rem]';
             break;
         case 'h_48rem':
-            heightClass = 'h-[48rem]';
+            heightClass = 'h-[28rem]';
             break;
         default:
             heightClass = 'h-[28rem]';
