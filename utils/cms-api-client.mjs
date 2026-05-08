@@ -1,12 +1,12 @@
 /**
  * Lightweight Optimizely CMS API client for CLI scripts.
- * Replaces @remkoj/optimizely-cms-api with direct fetch calls to preview3.
+ * Replaces @remkoj/optimizely-cms-api with direct fetch calls to v1.
  *
- * Base URL: https://api.cms.optimizely.com/preview3
+ * Base URL: https://api.cms.optimizely.com/v1
  * Auth: OAuth2 client credentials via https://api.cms.optimizely.com/oauth/token
  */
 
-const API_BASE = 'https://api.cms.optimizely.com/preview3';
+const API_BASE = 'https://api.cms.optimizely.com/v1';
 const AUTH_URL = 'https://api.cms.optimizely.com/oauth/token';
 
 let cachedToken = null;

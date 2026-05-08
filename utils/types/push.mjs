@@ -223,10 +223,9 @@ const typeNameArg = process.argv[2];
 
             try {
                 // Push the content type to Optimizely CMS
-                await client.contentTypes.contentTypesPut(
+                await client.contentTypes.put(
                     contentTypeKey,
-                    cleanContentType,
-                    true // Force update
+                    cleanContentType
                 );
                 console.log(
                     `✅ Content type "${displayName}" (${contentTypeKey}) of baseType ${baseType} has been updated`

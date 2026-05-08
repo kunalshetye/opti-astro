@@ -105,7 +105,7 @@ const styleNameArg = process.argv[2];
             const nodeType = styleDefinition.nodeType;
             
             try {
-                await client.displayTemplates.displayTemplatesPut(
+                await client.displayTemplates.put(
                     styleKey,
                     styleDefinition
                 );
