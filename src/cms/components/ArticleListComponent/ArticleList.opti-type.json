@@ -2,7 +2,8 @@
 	"key": "ArticleList",
 	"displayName": "Article List",
 	"description": "Reusable component to display article lists with customizable title and number of articles.",
-	"baseType": "component",
+	"baseType": "_component",
+	"isContract": false,
 	"sortOrder": 0,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [],
@@ -10,40 +11,40 @@
 		"sectionEnabled",
 		"elementEnabled"
 	],
+	"contracts": [],
 	"properties": {
 		"Title": {
 			"type": "string",
 			"displayName": "Title",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 0,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"NumberOfArticles": {
 			"type": "integer",
 			"displayName": "Number of Articles to Show",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 100,
-			"editorSettings": {},
-			"minimum": 1
+			"minimum": 1,
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"ArticleRoot": {
 			"type": "contentReference",
 			"displayName": "Article Root",
 			"description": "Section of the site to pull listed articles from",
-			"localized": false,
-			"required": false,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 200,
-			"editorSettings": {},
 			"allowedTypes": [
-				"Page",
+				"_page",
 				"BlankExperience"
 			],
 			"restrictedTypes": []
@@ -52,11 +53,12 @@
 			"type": "boolean",
 			"displayName": "Include Articles from all sites",
 			"description": "Include Articles from all sites",
-			"localized": false,
-			"required": false,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 400,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		}
 	}
 }
