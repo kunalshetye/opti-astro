@@ -2,38 +2,25 @@
 	"key": "LandingPage",
 	"displayName": "Landing Page",
 	"description": "Versatile page for marketing landing pages, supporting various components for engaging content.",
-	"baseType": "page",
+	"baseType": "_page",
+	"isContract": false,
 	"sortOrder": 0,
 	"mayContainTypes": [
 		"*"
 	],
 	"mediaFileExtensions": [],
 	"compositionBehaviors": [],
+	"contracts": [],
 	"properties": {
 		"TopContentArea": {
 			"type": "array",
 			"displayName": "Top Content Area",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 10,
-			"editorSettings": {},
-			"items": {
-				"type": "content",
-				"allowedTypes": [],
-				"restrictedTypes": []
-			}
-		},
-		"MainContentArea": {
-			"type": "array",
-			"displayName": "Main Content Area",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
-			"sortOrder": 20,
-			"editorSettings": {},
+			"allowedTypes": [],
+			"restrictedTypes": [],
 			"items": {
 				"type": "content",
 				"allowedTypes": [],
@@ -44,23 +31,38 @@
 			"type": "component",
 			"contentType": "PageSeoSettings",
 			"displayName": "SEO Settings",
-			"description": "",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "SeoSettings",
 			"sortOrder": 10,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"PageAdminSettings": {
 			"type": "component",
 			"contentType": "PageAdminSettings",
 			"displayName": "Page Admin Settings",
-			"description": "",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "AdminSettings",
 			"sortOrder": 10,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
+		},
+		"MainContentArea": {
+			"type": "array",
+			"displayName": "Main Content Area",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 20,
+			"allowedTypes": [],
+			"restrictedTypes": [],
+			"items": {
+				"type": "content",
+				"allowedTypes": [],
+				"restrictedTypes": []
+			}
 		}
 	}
 }

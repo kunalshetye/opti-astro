@@ -2,24 +2,26 @@
 	"key": "FolderPage",
 	"displayName": "Folder",
 	"description": "Folder type for organizing items in page tree",
-	"baseType": "page",
+	"baseType": "_page",
+	"isContract": false,
 	"sortOrder": 0,
 	"mayContainTypes": [
 		"*"
 	],
 	"mediaFileExtensions": [],
 	"compositionBehaviors": [],
+	"contracts": [],
 	"properties": {
 		"FolderDescription": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "Folder Description",
-			"description": "",
-			"localized": false,
-			"required": false,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 7,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		}
 	}
 }

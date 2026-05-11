@@ -2,7 +2,8 @@
 	"key": "Image",
 	"displayName": "Image",
 	"description": "Displays images with options for captions and links.",
-	"baseType": "component",
+	"baseType": "_component",
+	"isContract": false,
 	"sortOrder": 0,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [],
@@ -10,29 +11,28 @@
 		"sectionEnabled",
 		"elementEnabled"
 	],
+	"contracts": [],
 	"properties": {
 		"AltText": {
 			"type": "string",
 			"displayName": "Alt Text",
-			"description": "",
-			"localized": false,
-			"required": false,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 10,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"Image": {
 			"type": "contentReference",
 			"displayName": "Image",
-			"description": "",
-			"localized": false,
-			"required": false,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 20,
-			"editorSettings": {},
 			"allowedTypes": [
-				"Image"
+				"_image"
 			],
 			"restrictedTypes": []
 		}

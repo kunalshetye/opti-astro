@@ -1,8 +1,8 @@
 {
 	"key": "DamAssetList",
 	"displayName": "DAM Asset List",
-	"description": "",
-	"baseType": "component",
+	"baseType": "_component",
+	"isContract": false,
 	"sortOrder": 0,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [],
@@ -10,41 +10,47 @@
 		"sectionEnabled",
 		"elementEnabled"
 	],
+	"contracts": [],
+	"createdBy": "daniel.isaacs@optimizely.com",
 	"properties": {
 		"Header": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "Header",
-			"description": "",
-			"localized": false,
-			"required": false,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 10,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"Tags": {
 			"type": "array",
 			"displayName": "Tags",
 			"description": "Tags to include in image search and listing",
-			"localized": false,
-			"required": false,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 20,
-			"editorSettings": {},
+			"allowedTypes": [],
+			"restrictedTypes": [],
 			"items": {
 				"type": "string",
-				"format": "shortString"
+				"format": "shortString",
+				"allowedTypes": [],
+				"restrictedTypes": []
 			}
 		},
 		"AssetCount": {
 			"type": "integer",
 			"displayName": "Max Number of Assets (Max 100 displayed)",
 			"description": "Maximum number of assets to be returned (default = 100)",
-			"localized": false,
-			"required": false,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 30,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		}
 	}
 }
