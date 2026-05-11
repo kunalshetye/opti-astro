@@ -12,6 +12,7 @@
         path: string;
         fullUrl: string;
         locale: string;
+        site: string;
         count: number;
     }
 
@@ -20,18 +21,84 @@
         path: string;
         fullUrl: string;
         locale: string;
+        site: string;
         componentCounts: Record<string, number>;
     }
 
-    const BATCH_SIZE = 10;
+    const CACHE_KEY = 'opti-admin:component-usage-index';
+    const CACHE_TTL_MS = 4 * 60 * 60 * 1000; // 4 hours
+
+    // Fetches composition structure directly — no per-page _json round-trips.
+    // 4 levels of nesting covers Section > Row > Column > Component.
+    const COMPOSITION_QUERY = `
+        query GetAllCompositions($cursor: String) {
+            BlankExperience(limit: 100, cursor: $cursor) {
+                cursor
+                total(all: true)
+                items {
+                    _metadata {
+                        key
+                        displayName
+                        locale
+                        url { base default }
+                    }
+                    composition {
+                        nodes {
+                            __typename
+                            type
+                            ... on CompositionStructureNode {
+                                nodes {
+                                    __typename
+                                    type
+                                    ... on CompositionStructureNode {
+                                        nodes {
+                                            __typename
+                                            type
+                                            ... on CompositionStructureNode {
+                                                nodes {
+                                                    __typename
+                                                    type
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    `;
 
     let componentTypes = $state<{ key: string; displayName: string }[]>([]);
     let typesLoading = $state(true);
     let typesError = $state('');
 
-    // In-memory index — persists across searches within the session
-    let pageCache: CachedPage[] | null = null;
+    let pageCache = $state<CachedPage[] | null>(null);
     let cacheBuilt = $state(false);
+
+    function loadCachedIndex(): CachedPage[] | null {
+        try {
+            const raw = localStorage.getItem(CACHE_KEY);
+            if (!raw) return null;
+            const { ts, data } = JSON.parse(raw);
+            if (Date.now() - ts > CACHE_TTL_MS) {
+                localStorage.removeItem(CACHE_KEY);
+                return null;
+            }
+            return data as CachedPage[];
+        } catch { return null; }
+    }
+
+    function saveCachedIndex(pages: CachedPage[]) {
+        try {
+            localStorage.setItem(
+                CACHE_KEY,
+                JSON.stringify({ ts: Date.now(), data: pages })
+            );
+        } catch {} // storage quota exceeded — fail silently
+    }
 
     onMount(async () => {
         try {
@@ -47,9 +114,14 @@
         } finally {
             typesLoading = false;
         }
+
+        const stored = loadCachedIndex();
+        if (stored) {
+            pageCache = stored;
+            cacheBuilt = true;
+        }
     });
 
-    // Search state
     let selectedType = $state('');
     let searchLoading = $state(false);
     let verifyingIndex = $state(0);
@@ -57,10 +129,19 @@
     let results = $state<ResultPage[]>([]);
     let hasSearched = $state(false);
 
-    // Filter
+    let filterSite = $state('all');
     let filterLocale = $state('all');
 
-    // Status message
+    let availableSites = $derived(
+        pageCache
+            ? [...new Set(pageCache.map((p) => p.site).filter(Boolean))].sort()
+            : []
+    );
+
+    function displaySite(base: string) {
+        return base.replace(/^https?:\/\//, '').replace(/\/$/, '');
+    }
+
     let message = $state('');
     let messageType = $state<'success' | 'error'>('success');
     let showMessage = $state(false);
@@ -79,12 +160,13 @@
     );
 
     let filteredResults = $derived(
-        filterLocale === 'all'
-            ? results
-            : results.filter((r) => r.locale === filterLocale)
+        results.filter(
+            (r) =>
+                (filterSite === 'all' || r.site === filterSite) &&
+                (filterLocale === 'all' || r.locale === filterLocale)
+        )
     );
 
-    // Count all component types present in a composition tree in one pass
     function countAllComponents(
         node: any,
         acc: Record<string, number> = {}
@@ -93,13 +175,13 @@
         if (node.__typename === 'CompositionComponentNode' && node.type) {
             acc[node.type] = (acc[node.type] ?? 0) + 1;
         }
-        if (Array.isArray(node.nodes)) {
-            for (const child of node.nodes) countAllComponents(child, acc);
+        for (const child of node.nodes ?? []) {
+            countAllComponents(child, acc);
         }
         return acc;
     }
 
-    async function graphql(query: string, variables?: Record<string, string>) {
+    async function graphql(query: string, variables?: Record<string, unknown>) {
         const response = await fetch(
             `${OPTIMIZELY_GRAPH_GATEWAY}/content/v2?auth=${OPTIMIZELY_GRAPH_SINGLE_KEY}`,
             {
@@ -115,62 +197,44 @@
         return data;
     }
 
-    async function buildIndex(candidates: any[]): Promise<CachedPage[]> {
-        verifyingTotal = candidates.length;
-        verifyingIndex = 0;
-        const built: CachedPage[] = [];
+    function processItems(items: any[], pages: CachedPage[]) {
+        for (const item of items ?? []) {
+            if (!item) continue;
+            const base = item._metadata?.url?.base ?? '';
+            const path = item._metadata?.url?.default ?? '';
+            pages.push({
+                title: item._metadata?.displayName || 'Untitled',
+                path,
+                fullUrl: path ? base + path : '',
+                locale: item._metadata?.locale || '',
+                site: base,
+                componentCounts: countAllComponents(item.composition),
+            });
+        }
+    }
 
-        for (let i = 0; i < candidates.length; i += BATCH_SIZE) {
-            const batch = candidates.slice(i, i + BATCH_SIZE);
+    async function buildIndex(): Promise<CachedPage[]> {
+        const pages: CachedPage[] = [];
 
-            const batchResults = await Promise.all(
-                batch.map(async (candidate) => {
-                    const key = candidate._metadata?.key;
-                    if (!key) return null;
-                    try {
-                        const res = await graphql(
-                            `
-                                query GetPageJson($key: String!) {
-                                    _Page(
-                                        where: {
-                                            _metadata: { key: { eq: $key } }
-                                        }
-                                    ) {
-                                        item {
-                                            _json
-                                        }
-                                    }
-                                }
-                            `,
-                            { key }
-                        );
-                        const json = res.data?._Page?.item?._json;
-                        const componentCounts = json
-                            ? countAllComponents(json.composition)
-                            : {};
-                        const base = candidate._metadata?.url?.base ?? '';
-                        const path = candidate._metadata?.url?.default ?? '';
-                        return {
-                            title:
-                                candidate._metadata?.displayName || 'Untitled',
-                            path,
-                            fullUrl: path ? base + path : '',
-                            locale: candidate._metadata?.locale || '',
-                            componentCounts,
-                        } satisfies CachedPage;
-                    } catch {
-                        return null;
-                    }
-                })
-            );
+        // First request also gives us the total for accurate progress display
+        const first = await graphql(COMPOSITION_QUERY);
+        const firstData = first.data?.BlankExperience;
+        verifyingTotal = firstData?.total ?? 0;
+        processItems(firstData?.items ?? [], pages);
+        verifyingIndex = pages.length;
 
-            for (const r of batchResults) {
-                if (r) built.push(r);
-            }
-            verifyingIndex = Math.min(i + BATCH_SIZE, candidates.length);
+        let cursor: string | null = firstData?.cursor ?? null;
+        while (cursor && pages.length < verifyingTotal) {
+            const res = await graphql(COMPOSITION_QUERY, { cursor });
+            const data = res.data?.BlankExperience;
+            const items = data?.items ?? [];
+            if (items.length === 0) break;
+            processItems(items, pages);
+            verifyingIndex = pages.length;
+            cursor = data?.cursor ?? null;
         }
 
-        return built;
+        return pages;
     }
 
     async function search() {
@@ -179,6 +243,7 @@
         searchLoading = true;
         hasSearched = true;
         results = [];
+        filterSite = 'all';
         filterLocale = 'all';
         showMessage = false;
 
@@ -189,35 +254,14 @@
                 );
             }
 
-            // Build index on first search; subsequent searches reuse it
             if (!pageCache) {
                 verifyingIndex = 0;
                 verifyingTotal = 0;
-
-                const pass1 = await graphql(`
-                    query GetExperiencePages {
-                        BlankExperience(limit: 100) {
-                            items {
-                                _metadata {
-                                    key
-                                    displayName
-                                    locale
-                                    url {
-                                        base
-                                        default
-                                    }
-                                }
-                            }
-                        }
-                    }
-                `);
-                const candidates = pass1.data?.BlankExperience?.items ?? [];
-
-                pageCache = await buildIndex(candidates);
+                pageCache = await buildIndex();
+                saveCachedIndex(pageCache);
                 cacheBuilt = true;
             }
 
-            // Instant lookup from cache
             const confirmed: ResultPage[] = pageCache
                 .filter((p) => (p.componentCounts[selectedType] ?? 0) > 0)
                 .map((p) => ({
@@ -225,6 +269,7 @@
                     path: p.path,
                     fullUrl: p.fullUrl,
                     locale: p.locale,
+                    site: p.site,
                     count: p.componentCounts[selectedType],
                 }))
                 .sort((a, b) => b.count - a.count);
@@ -256,7 +301,9 @@
         results = [];
         hasSearched = false;
         showMessage = false;
+        filterSite = 'all';
         filterLocale = 'all';
+        try { localStorage.removeItem(CACHE_KEY); } catch {}
     }
 </script>
 
@@ -305,6 +352,26 @@
                     </select>
                 {/if}
             </div>
+
+            {#if cacheBuilt && availableSites.length > 1}
+                <div>
+                    <label
+                        for="site-filter"
+                        class="block text-sm font-medium text-gray-700 mb-1"
+                        >Site</label
+                    >
+                    <select
+                        id="site-filter"
+                        bind:value={filterSite}
+                        class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                    >
+                        <option value="all">All sites</option>
+                        {#each availableSites as site}
+                            <option value={site}>{displaySite(site)}</option>
+                        {/each}
+                    </select>
+                </div>
+            {/if}
 
             {#if hasSearched && availableLocales.length > 1}
                 <div>
@@ -403,6 +470,7 @@
                         1
                             ? ''
                             : 's'}
+                        {filterSite !== 'all' ? `on ${displaySite(filterSite)}` : ''}
                         {filterLocale !== 'all' ? `in ${filterLocale}` : ''}
                         using
                         <span class="font-mono text-blue-700"
@@ -449,9 +517,8 @@
                         >{componentTypes.find((t) => t.key === selectedType)
                             ?.displayName ?? selectedType}</strong
                     >
-                    {filterLocale !== 'all'
-                        ? ` in locale "${filterLocale}"`
-                        : ''}.
+                    {filterSite !== 'all' ? ` on ${displaySite(filterSite)}` : ''}
+                    {filterLocale !== 'all' ? ` in locale "${filterLocale}"` : ''}.
                 </div>
             {:else}
                 <table class="w-full text-sm">
