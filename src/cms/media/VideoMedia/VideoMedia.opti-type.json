@@ -2,7 +2,8 @@
 	"key": "VideoMedia",
 	"displayName": "Video media",
 	"description": "Used for video assets.",
-	"baseType": "video",
+	"baseType": "_video",
+	"isContract": false,
 	"sortOrder": 520,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [
@@ -24,5 +25,6 @@
 		"wmv"
 	],
 	"compositionBehaviors": [],
+	"contracts": [],
 	"properties": {}
 }

@@ -2,108 +2,109 @@
 	"key": "OptiFormsHiddenFieldElement",
 	"displayName": "Hidden Field Form Element",
 	"description": "Hidden Field Form Element to pass information with form submission",
-	"baseType": "component",
+	"baseType": "_component",
+	"isContract": false,
 	"sortOrder": 0,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [],
 	"compositionBehaviors": [
 		"formsElementEnabled"
 	],
+	"contracts": [],
+	"createdBy": "daniel.isaacs@optimizely.com",
 	"properties": {
 		"HiddenFieldType": {
 			"type": "string",
 			"format": "selectOne",
 			"displayName": "Hidden Field Type",
-			"description": "",
-			"localized": false,
-			"required": true,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": true,
+			"group": "Content",
 			"sortOrder": 10,
-			"editorSettings": {},
-			"enum": {
-				"values": [
-					{
-						"displayName": "Current Page",
-						"value": "currentpage"
-					},
-					{
-						"displayName": "Locale",
-						"value": "locale"
-					},
-					{
-						"displayName": "Predefined Value",
-						"value": "predefinedvalue"
-					},
-					{
-						"displayName": "Referer",
-						"value": "referer"
-					},
-					{
-						"displayName": "User-Agent",
-						"value": "useragent"
-					},
-					{
-						"displayName": "utm_campaign",
-						"value": "utm_campaign"
-					},
-					{
-						"displayName": "utm_content",
-						"value": "utm_content"
-					},
-					{
-						"displayName": "utm_medium",
-						"value": "utm_medium"
-					},
-					{
-						"displayName": "utm_source",
-						"value": "utm_source"
-					},
-					{
-						"displayName": "utm_term",
-						"value": "utm_term"
-					}
-				]
-			}
+			"enum": [
+				{
+					"value": "currentpage",
+					"displayName": "Current Page"
+				},
+				{
+					"value": "locale",
+					"displayName": "Locale"
+				},
+				{
+					"value": "predefinedvalue",
+					"displayName": "Predefined Value"
+				},
+				{
+					"value": "referer",
+					"displayName": "Referer"
+				},
+				{
+					"value": "useragent",
+					"displayName": "User-Agent"
+				},
+				{
+					"value": "utm_campaign",
+					"displayName": "utm_campaign"
+				},
+				{
+					"value": "utm_content",
+					"displayName": "utm_content"
+				},
+				{
+					"value": "utm_medium",
+					"displayName": "utm_medium"
+				},
+				{
+					"value": "utm_source",
+					"displayName": "utm_source"
+				},
+				{
+					"value": "utm_term",
+					"displayName": "utm_term"
+				}
+			],
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"Label": {
 			"type": "string",
 			"displayName": "Label",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 100,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"Placeholder": {
 			"type": "string",
 			"displayName": "Placeholder",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 200,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"Tooltip": {
 			"type": "string",
 			"displayName": "Tooltip",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 300,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"PredefinedValue": {
 			"type": "string",
 			"displayName": "PredefinedValue",
-			"description": "",
-			"localized": false,
-			"required": false,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 400,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		}
 	}
 }

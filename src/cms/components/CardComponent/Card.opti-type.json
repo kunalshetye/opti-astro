@@ -2,7 +2,8 @@
 	"key": "Card",
 	"displayName": "Card",
 	"description": "Versatile card for rich info: heading, text, image, links, and various display layouts.",
-	"baseType": "component",
+	"baseType": "_component",
+	"isContract": false,
 	"sortOrder": 0,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [],
@@ -10,87 +11,86 @@
 		"sectionEnabled",
 		"elementEnabled"
 	],
+	"contracts": [],
 	"properties": {
 		"Heading": {
 			"type": "string",
 			"displayName": "Heading",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 10,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"SubHeading": {
 			"type": "string",
 			"displayName": "Sub Heading",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 20,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"Body": {
-			"type": "string",
-			"format": "html",
+			"type": "richText",
 			"displayName": "Body",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 30,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": [],
+			"editorSettings": {
+				"preset": "expanded"
+			}
 		},
 		"DisplayAs": {
 			"type": "string",
 			"format": "selectOne",
 			"displayName": "Display As",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 40,
-			"editorSettings": {},
-			"enum": {
-				"values": [
-					{
-						"displayName": "Text Below Card",
-						"value": "textBelowCard"
-					},
-					{
-						"displayName": "Text Above Card",
-						"value": "textAboveCard"
-					},
-					{
-						"displayName": "Text On Left",
-						"value": "textOnLeft"
-					},
-					{
-						"displayName": "Text On Right",
-						"value": "textOnRight"
-					},
-					{
-						"displayName": "Hover Overlay",
-						"value": "hover"
-					}
-				]
-			}
+			"enum": [
+				{
+					"value": "textBelowCard",
+					"displayName": "Text Below Card"
+				},
+				{
+					"value": "textAboveCard",
+					"displayName": "Text Above Card"
+				},
+				{
+					"value": "textOnLeft",
+					"displayName": "Text On Left"
+				},
+				{
+					"value": "textOnRight",
+					"displayName": "Text On Right"
+				},
+				{
+					"value": "hover",
+					"displayName": "Hover Overlay"
+				}
+			],
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"Asset": {
 			"type": "contentReference",
 			"displayName": "Asset",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 50,
-			"editorSettings": {},
 			"allowedTypes": [
-				"Image"
+				"_image"
 			],
 			"restrictedTypes": []
 		},
@@ -98,15 +98,16 @@
 			"type": "array",
 			"format": "LinkCollection",
 			"displayName": "Links",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 60,
-			"editorSettings": {},
+			"allowedTypes": [],
+			"restrictedTypes": [],
 			"items": {
-				"type": "component",
-				"contentType": "link"
+				"type": "link",
+				"allowedTypes": [],
+				"restrictedTypes": []
 			}
 		}
 	}
