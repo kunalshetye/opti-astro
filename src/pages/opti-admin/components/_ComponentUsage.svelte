@@ -7,6 +7,11 @@
     import LoadingSpinner from './shared/_LoadingSpinner.svelte';
     import StatusMessage from './shared/_StatusMessage.svelte';
 
+    interface SharedBlockRef {
+        key: string;
+        name: string;
+    }
+
     interface ResultPage {
         title: string;
         path: string;
@@ -14,6 +19,7 @@
         locale: string;
         site: string;
         count: number;
+        instanceKeys: SharedBlockRef[];
     }
 
     interface CachedPage {
@@ -23,16 +29,67 @@
         locale: string;
         site: string;
         componentCounts: Record<string, number>;
+        componentInstances: Record<string, SharedBlockRef[]>;
     }
 
-    const CACHE_KEY = 'opti-admin:component-usage-index';
+    interface SharedBlock {
+        key: string;
+        name: string;
+        pages: ResultPage[];
+    }
+
+    const CACHE_KEY = 'opti-admin:component-usage-index-v3';
     const CACHE_TTL_MS = 4 * 60 * 60 * 1000; // 4 hours
 
     // Fetches composition structure directly — no per-page _json round-trips.
     // 4 levels of nesting covers Section > Row > Column > Component.
+    // Uses _Experience to cover all experience types. Composition is selected
+    // via inline fragments because _IExperience doesn't expose it directly.
+    // Add a new fragment here when additional experience types are introduced.
+    const COMPONENT_NODE_FRAGMENT = `
+        ... on CompositionComponentNode {
+            component { _metadata { key displayName } }
+        }
+    `;
+
+    const COMPOSITION_FRAGMENT = `
+        composition {
+            nodes {
+                __typename
+                key
+                type
+                ${COMPONENT_NODE_FRAGMENT}
+                ... on CompositionStructureNode {
+                    nodes {
+                        __typename
+                        key
+                        type
+                        ${COMPONENT_NODE_FRAGMENT}
+                        ... on CompositionStructureNode {
+                            nodes {
+                                __typename
+                                key
+                                type
+                                ${COMPONENT_NODE_FRAGMENT}
+                                ... on CompositionStructureNode {
+                                    nodes {
+                                        __typename
+                                        key
+                                        type
+                                        ${COMPONENT_NODE_FRAGMENT}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    `;
+
     const COMPOSITION_QUERY = `
         query GetAllCompositions($cursor: String) {
-            BlankExperience(limit: 100, cursor: $cursor) {
+            _Experience(limit: 100, cursor: $cursor) {
                 cursor
                 total(all: true)
                 items {
@@ -42,30 +99,7 @@
                         locale
                         url { base default }
                     }
-                    composition {
-                        nodes {
-                            __typename
-                            type
-                            ... on CompositionStructureNode {
-                                nodes {
-                                    __typename
-                                    type
-                                    ... on CompositionStructureNode {
-                                        nodes {
-                                            __typename
-                                            type
-                                            ... on CompositionStructureNode {
-                                                nodes {
-                                                    __typename
-                                                    type
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    ... on BlankExperience { ${COMPOSITION_FRAGMENT} }
                 }
             }
         }
@@ -167,17 +201,45 @@
         )
     );
 
-    function countAllComponents(
+    let totalUses = $derived(
+        filteredResults.reduce((sum, r) => sum + r.count, 0)
+    );
+
+    let sharedInstanceCount = $derived(
+        new Set(filteredResults.flatMap((r) => r.instanceKeys.map((i) => i.key))).size
+    );
+
+    let sharedBlockResults = $derived.by((): SharedBlock[] => {
+        const map = new Map<string, { name: string; pages: ResultPage[] }>();
+        for (const page of filteredResults) {
+            const seenOnPage = new Set<string>();
+            for (const { key, name } of page.instanceKeys) {
+                if (!map.has(key)) map.set(key, { name, pages: [] });
+                if (!seenOnPage.has(key)) {
+                    map.get(key)!.pages.push(page);
+                    seenOnPage.add(key);
+                }
+            }
+        }
+        return [...map.entries()]
+            .map(([key, { name, pages }]) => ({ key, name, pages }))
+            .sort((a, b) => b.pages.length - a.pages.length);
+    });
+
+    function collectComponentData(
         node: any,
-        acc: Record<string, number> = {}
-    ): Record<string, number> {
+        acc = { counts: {} as Record<string, number>, instances: {} as Record<string, SharedBlockRef[]> }
+    ) {
         if (!node) return acc;
         if (node.__typename === 'CompositionComponentNode' && node.type) {
-            acc[node.type] = (acc[node.type] ?? 0) + 1;
+            acc.counts[node.type] = (acc.counts[node.type] ?? 0) + 1;
+            const key = node.component?._metadata?.key;
+            if (key) (acc.instances[node.type] ??= []).push({
+                key,
+                name: node.component?._metadata?.displayName ?? '',
+            });
         }
-        for (const child of node.nodes ?? []) {
-            countAllComponents(child, acc);
-        }
+        for (const child of node.nodes ?? []) collectComponentData(child, acc);
         return acc;
     }
 
@@ -202,13 +264,15 @@
             if (!item) continue;
             const base = item._metadata?.url?.base ?? '';
             const path = item._metadata?.url?.default ?? '';
+            const { counts, instances } = collectComponentData(item.composition);
             pages.push({
                 title: item._metadata?.displayName || 'Untitled',
                 path,
                 fullUrl: path ? base + path : '',
                 locale: item._metadata?.locale || '',
                 site: base,
-                componentCounts: countAllComponents(item.composition),
+                componentCounts: counts,
+                componentInstances: instances,
             });
         }
     }
@@ -218,7 +282,7 @@
 
         // First request also gives us the total for accurate progress display
         const first = await graphql(COMPOSITION_QUERY);
-        const firstData = first.data?.BlankExperience;
+        const firstData = first.data?._Experience;
         verifyingTotal = firstData?.total ?? 0;
         processItems(firstData?.items ?? [], pages);
         verifyingIndex = pages.length;
@@ -226,7 +290,7 @@
         let cursor: string | null = firstData?.cursor ?? null;
         while (cursor && pages.length < verifyingTotal) {
             const res = await graphql(COMPOSITION_QUERY, { cursor });
-            const data = res.data?.BlankExperience;
+            const data = res.data?._Experience;
             const items = data?.items ?? [];
             if (items.length === 0) break;
             processItems(items, pages);
@@ -245,6 +309,10 @@
         results = [];
         filterSite = 'all';
         filterLocale = 'all';
+        viewMode = 'pages';
+        expandedBlocks = new Set();
+        unusedBlocks = null;
+        unusedFetchedForType = '';
         showMessage = false;
 
         try {
@@ -271,6 +339,7 @@
                     locale: p.locale,
                     site: p.site,
                     count: p.componentCounts[selectedType],
+                    instanceKeys: p.componentInstances[selectedType] ?? [],
                 }))
                 .sort((a, b) => b.count - a.count);
 
@@ -295,6 +364,72 @@
         }
     }
 
+    let viewMode = $state<'pages' | 'shared-blocks' | 'unused'>('pages');
+    let expandedBlocks = $state(new Set<string>());
+
+    function toggleBlock(key: string) {
+        const next = new Set(expandedBlocks);
+        next.has(key) ? next.delete(key) : next.add(key);
+        expandedBlocks = next;
+    }
+
+    let unusedBlocks = $state<{ key: string; name: string }[] | null>(null);
+    let unusedLoading = $state(false);
+    let unusedFetchedForType = $state('');
+
+    async function fetchUnused() {
+        if (!selectedType || !pageCache) return;
+        if (unusedFetchedForType === selectedType) return;
+
+        unusedLoading = true;
+        try {
+            const query = `
+                query GetTypeInstances($cursor: String) {
+                    ${selectedType}(limit: 100, cursor: $cursor) {
+                        cursor
+                        total(all: true)
+                        items {
+                            _metadata { key displayName }
+                        }
+                    }
+                }
+            `;
+            const allInstances: { key: string; name: string }[] = [];
+
+            const first = await graphql(query);
+            const firstData = first.data?.[selectedType];
+            const total = firstData?.total ?? 0;
+            for (const item of firstData?.items ?? []) {
+                if (item?._metadata?.key)
+                    allInstances.push({ key: item._metadata.key, name: item._metadata.displayName ?? '' });
+            }
+
+            let cursor: string | null = firstData?.cursor ?? null;
+            while (cursor && allInstances.length < total) {
+                const res = await graphql(query, { cursor });
+                const data = res.data?.[selectedType];
+                const items = data?.items ?? [];
+                if (items.length === 0) break;
+                for (const item of items) {
+                    if (item?._metadata?.key)
+                        allInstances.push({ key: item._metadata.key, name: item._metadata.displayName ?? '' });
+                }
+                cursor = data?.cursor ?? null;
+            }
+
+            // Use full cache (all sites/locales) — a block used anywhere is not unused
+            const usedKeys = new Set(
+                pageCache!.flatMap((p) => (p.componentInstances[selectedType] ?? []).map((i) => i.key))
+            );
+            unusedBlocks = allInstances.filter((i) => !usedKeys.has(i.key));
+            unusedFetchedForType = selectedType;
+        } catch {
+            unusedBlocks = [];
+        } finally {
+            unusedLoading = false;
+        }
+    }
+
     function clearCache() {
         pageCache = null;
         cacheBuilt = false;
@@ -303,6 +438,10 @@
         showMessage = false;
         filterSite = 'all';
         filterLocale = 'all';
+        viewMode = 'pages';
+        expandedBlocks = new Set();
+        unusedBlocks = null;
+        unusedFetchedForType = '';
         try { localStorage.removeItem(CACHE_KEY); } catch {}
     }
 </script>
@@ -337,6 +476,7 @@
                     <select
                         id="component-select"
                         bind:value={selectedType}
+                        onchange={() => { if (hasSearched) search(); }}
                         disabled={typesLoading}
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm disabled:opacity-50"
                     >
@@ -459,17 +599,15 @@
         <div
             class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden"
         >
-            <div class="px-6 py-4 border-b border-gray-200">
+            <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between gap-4">
                 <h2 class="text-base font-semibold text-gray-900">
                     {#if searchLoading}
                         {verifyingTotal > 0
                             ? `Building index: page ${verifyingIndex} of ${verifyingTotal}...`
                             : 'Fetching Experience pages...'}
                     {:else}
-                        {filteredResults.length} page{filteredResults.length ===
-                        1
-                            ? ''
-                            : 's'}
+                        {filteredResults.length} page{filteredResults.length === 1 ? '' : 's'}
+                        · {totalUses} use{totalUses === 1 ? '' : 's'}
                         {filterSite !== 'all' ? `on ${displaySite(filterSite)}` : ''}
                         {filterLocale !== 'all' ? `in ${filterLocale}` : ''}
                         using
@@ -477,8 +615,29 @@
                             >{componentTypes.find((t) => t.key === selectedType)
                                 ?.displayName ?? selectedType}</span
                         >
+                        {#if sharedInstanceCount > 0}
+                            <span class="text-sm font-normal text-gray-400">· {sharedInstanceCount} shared instance{sharedInstanceCount === 1 ? '' : 's'}</span>
+                        {/if}
                     {/if}
                 </h2>
+                {#if !searchLoading}
+                    <div class="flex shrink-0 rounded-lg border border-gray-200 overflow-hidden text-xs font-medium">
+                        <button
+                            onclick={() => viewMode = 'pages'}
+                            class="px-3 py-1.5 transition-colors {viewMode === 'pages' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}"
+                        >Pages</button>
+                        {#if sharedBlockResults.length > 0}
+                            <button
+                                onclick={() => viewMode = 'shared-blocks'}
+                                class="px-3 py-1.5 border-l border-gray-200 transition-colors {viewMode === 'shared-blocks' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}"
+                            >Shared Blocks</button>
+                        {/if}
+                        <button
+                            onclick={() => { viewMode = 'unused'; fetchUnused(); }}
+                            class="px-3 py-1.5 border-l border-gray-200 transition-colors {viewMode === 'unused' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}"
+                        >{#if unusedLoading}Unused…{:else if unusedBlocks !== null && unusedFetchedForType === selectedType}Unused ({unusedBlocks.length}){:else}Unused{/if}</button>
+                    </div>
+                {/if}
             </div>
 
             {#if searchLoading}
@@ -497,6 +656,44 @@
                         </div>
                     {/if}
                 </div>
+            {:else if viewMode === 'unused'}
+                {#if unusedLoading}
+                    <div class="flex flex-col justify-center items-center py-16 gap-3 text-gray-500 text-sm">
+                        <LoadingSpinner size="lg" color="text-blue-600" />
+                        Fetching all instances…
+                    </div>
+                {:else if unusedBlocks === null}
+                    <div class="py-16 text-center text-gray-500 text-sm">
+                        Click <strong>Unused</strong> to check for shared blocks not placed on any Experience page.
+                    </div>
+                {:else if unusedBlocks.length === 0}
+                    <div class="py-16 text-center text-gray-500">
+                        <svg class="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        All <strong>{componentTypes.find((t) => t.key === selectedType)?.displayName ?? selectedType}</strong> shared blocks are in use on Experience pages.
+                    </div>
+                {:else}
+                    <div class="px-6 py-3 bg-amber-50 border-b border-amber-100 text-xs text-amber-700">
+                        These blocks exist in the CMS but were not found on any Experience page. They may still be used on other page types (Landing Pages, etc.).
+                    </div>
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50 text-gray-600 uppercase text-xs tracking-wider">
+                            <tr>
+                                <th class="px-6 py-3 text-left font-medium">Block name</th>
+                                <th class="px-6 py-3 text-left font-medium">Content key</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            {#each unusedBlocks as block}
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-3 font-medium text-gray-900">{block.name || 'Unnamed'}</td>
+                                    <td class="px-6 py-3 font-mono text-xs text-gray-400">{block.key}</td>
+                                </tr>
+                            {/each}
+                        </tbody>
+                    </table>
+                {/if}
             {:else if filteredResults.length === 0}
                 <div class="py-16 text-center text-gray-500">
                     <svg
@@ -520,21 +717,16 @@
                     {filterSite !== 'all' ? ` on ${displaySite(filterSite)}` : ''}
                     {filterLocale !== 'all' ? ` in locale "${filterLocale}"` : ''}.
                 </div>
-            {:else}
+            {:else if viewMode === 'pages'}
                 <table class="w-full text-sm">
                     <thead
                         class="bg-gray-50 text-gray-600 uppercase text-xs tracking-wider"
                     >
                         <tr>
-                            <th class="px-6 py-3 text-left font-medium">Page</th
-                            >
+                            <th class="px-6 py-3 text-left font-medium">Page</th>
                             <th class="px-6 py-3 text-left font-medium">URL</th>
-                            <th class="px-6 py-3 text-left font-medium"
-                                >Locale</th
-                            >
-                            <th class="px-6 py-3 text-right font-medium"
-                                >Count</th
-                            >
+                            <th class="px-6 py-3 text-left font-medium">Locale</th>
+                            <th class="px-6 py-3 text-right font-medium">Uses</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -547,24 +739,15 @@
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             class="text-blue-600 hover:underline"
-                                        >
-                                            {page.title}
-                                        </a>
+                                        >{page.title}</a>
                                     {:else}
                                         {page.title}
                                     {/if}
                                 </td>
-                                <td
-                                    class="px-6 py-3 text-gray-500 font-mono text-xs"
-                                    >{page.fullUrl || '—'}</td
-                                >
-                                <td class="px-6 py-3 text-gray-500"
-                                    >{page.locale || '—'}</td
-                                >
+                                <td class="px-6 py-3 text-gray-500 font-mono text-xs">{page.fullUrl || '—'}</td>
+                                <td class="px-6 py-3 text-gray-500">{page.locale || '—'}</td>
                                 <td class="px-6 py-3 text-right">
-                                    <span
-                                        class="inline-flex items-center justify-center min-w-6 px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700"
-                                    >
+                                    <span class="inline-flex items-center justify-center min-w-6 px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
                                         {page.count}
                                     </span>
                                 </td>
@@ -572,6 +755,54 @@
                         {/each}
                     </tbody>
                 </table>
+            {:else}
+                <div class="divide-y divide-gray-100">
+                    {#each sharedBlockResults as block}
+                        <div>
+                            <button
+                                onclick={() => toggleBlock(block.key)}
+                                class="w-full px-6 py-3 flex items-center justify-between gap-4 hover:bg-gray-50 transition-colors text-left"
+                            >
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <svg
+                                        class="w-4 h-4 shrink-0 text-gray-400 transition-transform {expandedBlocks.has(block.key) ? 'rotate-90' : ''}"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    >
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-gray-900 truncate">
+                                        {block.name || 'Unnamed block'}
+                                    </span>
+                                    <span class="font-mono text-xs text-gray-300 shrink-0">{block.key.slice(0, 8)}…</span>
+                                </div>
+                                <span class="inline-flex shrink-0 items-center justify-center px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
+                                    {block.pages.length} page{block.pages.length === 1 ? '' : 's'}
+                                </span>
+                            </button>
+                            {#if expandedBlocks.has(block.key)}
+                                <ul class="px-6 pb-3 pl-14 bg-gray-50 space-y-1.5">
+                                    {#each block.pages as page}
+                                        <li class="text-sm text-gray-700 flex items-center gap-2">
+                                            {#if page.fullUrl}
+                                                <a
+                                                    href={page.fullUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    class="text-blue-600 hover:underline"
+                                                >{page.title}</a>
+                                            {:else}
+                                                {page.title}
+                                            {/if}
+                                            {#if page.locale}
+                                                <span class="text-xs text-gray-400">{page.locale}</span>
+                                            {/if}
+                                        </li>
+                                    {/each}
+                                </ul>
+                            {/if}
+                        </div>
+                    {/each}
+                </div>
             {/if}
         </div>
     {/if}
