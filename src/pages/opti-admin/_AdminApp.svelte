@@ -7,6 +7,7 @@
   import Dashboard from './components/_Dashboard.svelte';
   import RedirectManagement from './components/_RedirectManagement.svelte';
   import PublishedPagesDashboard from './components/published-pages/_PublishedPagesDashboard.svelte';
+  import ContentCalendar from './components/_ContentCalendar.svelte';
   import Sidebar from './components/_Sidebar.svelte';
 
   interface Props {
@@ -48,7 +49,8 @@
       'cms-sync': 'CMS Sync',
       'style-manager': 'Style Manager',
       'redirects': 'Redirect Management',
-      'published-pages': 'Published Pages Dashboard'
+      'published-pages': 'Published Pages Dashboard',
+      'content-calendar': 'Content Calendar'
     };
     document.title = `${titles[view] || 'Dashboard'} | Optimizely Admin`;
   }
@@ -159,6 +161,19 @@
         </button>
       </div>
       <PublishedPagesDashboard />
+    </div>
+  {:else if currentView === 'content-calendar'}
+    <div>
+      <!-- Back to Dashboard -->
+      <div class="mb-6">
+        <button onclick={() => navigateTo('dashboard')} class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Back to Dashboard
+        </button>
+      </div>
+      <ContentCalendar />
     </div>
   {/if}
     </div>
