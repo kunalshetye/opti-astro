@@ -2,7 +2,8 @@
 	"key": "ImageMedia",
 	"displayName": "Image media",
 	"description": "Used for image assets.",
-	"baseType": "image",
+	"baseType": "_image",
+	"isContract": false,
 	"sortOrder": 510,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [
@@ -19,18 +20,19 @@
 		"webp"
 	],
 	"compositionBehaviors": [],
+	"contracts": [],
 	"properties": {
 		"AltText": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "Alt text",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 10,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		}
 	}
 }

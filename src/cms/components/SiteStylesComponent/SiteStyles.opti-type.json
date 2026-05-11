@@ -2,866 +2,899 @@
 	"key": "SiteStyles",
 	"displayName": "Site Styles",
 	"description": "Manages site-wide colors and display attributes for consistent branding.",
-	"baseType": "component",
+	"baseType": "_component",
+	"isContract": false,
 	"sortOrder": 0,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [],
 	"compositionBehaviors": [],
+	"contracts": [],
 	"properties": {
 		"font": {
 			"type": "string",
 			"format": "selectOne",
 			"displayName": "Font",
-			"description": "",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesOther",
 			"sortOrder": 5,
-			"editorSettings": {},
-			"enum": {
-				"values": [
-					{
-						"displayName": "default",
-						"value": "default"
-					},
-					{
-						"displayName": "Alegreya",
-						"value": "--font-alegreya"
-					},
-					{
-						"displayName": "Alegreya Sans",
-						"value": "--font-alegreya-sans"
-					},
-					{
-						"displayName": "Archivo Narrow",
-						"value": "--font-archivo-narrow"
-					},
-					{
-						"displayName": "BioRhyme",
-						"value": "--font-biorhyme"
-					},
-					{
-						"displayName": "Cardo",
-						"value": "--font-cardo"
-					},
-					{
-						"displayName": "Chivo",
-						"value": "--font-chivo"
-					},
-					{
-						"displayName": "Cormorant",
-						"value": "--font-cormorant"
-					},
-					{
-						"displayName": "Crimson Text",
-						"value": "--font-crimson-text"
-					},
-					{
-						"displayName": "DM Sans",
-						"value": "--font-dm-sans"
-					},
-					{
-						"displayName": "Eczar",
-						"value": "--font-eczar"
-					},
-					{
-						"displayName": "Fira Sans",
-						"value": "--font-fira-sans"
-					},
-					{
-						"displayName": "Fraunces",
-						"value": "--font-fraunces"
-					},
-					{
-						"displayName": "Heebo",
-						"value": "--font-heebo"
-					},
-					{
-						"displayName": "IBM Plex Sans",
-						"value": "--font-ibm-plex-sans"
-					},
-					{
-						"displayName": "IBM Plex Serif",
-						"value": "--font-ibm-plex-serif"
-					},
-					{
-						"displayName": "Inconsolata",
-						"value": "--font-inconsolata"
-					},
-					{
-						"displayName": "Inknut Antiqua",
-						"value": "--font-inknut-antiqua"
-					},
-					{
-						"displayName": "Inter",
-						"value": "--font-inter"
-					},
-					{
-						"displayName": "Karla",
-						"value": "--font-karla"
-					},
-					{
-						"displayName": "Lato",
-						"value": "--font-lato"
-					},
-					{
-						"displayName": "Libre Baskerville",
-						"value": "--font-libre-baskerville"
-					},
-					{
-						"displayName": "Libre Franklin",
-						"value": "--font-libre-franklin"
-					},
-					{
-						"displayName": "Lora",
-						"value": "--font-lora"
-					},
-					{
-						"displayName": "Manrope",
-						"value": "--font-manrope"
-					},
-					{
-						"displayName": "Merriweather",
-						"value": "--font-merriweather"
-					},
-					{
-						"displayName": "Montserrat",
-						"value": "--font-montserrat"
-					},
-					{
-						"displayName": "Neuton",
-						"value": "--font-neuton"
-					},
-					{
-						"displayName": "Nunito",
-						"value": "--font-nunito"
-					},
-					{
-						"displayName": "Open Sans",
-						"value": "--font-open-sans"
-					},
-					{
-						"displayName": "Oswald",
-						"value": "--font-oswald"
-					},
-					{
-						"displayName": "Outfit",
-						"value": "--font-outfit"
-					},
-					{
-						"displayName": "Playfair Display",
-						"value": "--font-playfair-display"
-					},
-					{
-						"displayName": "Plus Jakarta Sans",
-						"value": "--font-plus-jakarta-sans"
-					},
-					{
-						"displayName": "Poppins",
-						"value": "--font-poppins"
-					},
-					{
-						"displayName": "Proza Libre",
-						"value": "--font-proza-libre"
-					},
-					{
-						"displayName": "PT Sans",
-						"value": "--font-pt-sans"
-					},
-					{
-						"displayName": "PT Serif",
-						"value": "--font-pt-serif"
-					},
-					{
-						"displayName": "Public Sans",
-						"value": "--font-public-sans"
-					},
-					{
-						"displayName": "Quicksand",
-						"value": "--font-quicksand"
-					},
-					{
-						"displayName": "Raleway",
-						"value": "--font-raleway"
-					},
-					{
-						"displayName": "Roboto",
-						"value": "--font-roboto"
-					},
-					{
-						"displayName": "Roboto Mono",
-						"value": "--font-roboto-mono"
-					},
-					{
-						"displayName": "Rubik",
-						"value": "--font-rubik"
-					},
-					{
-						"displayName": "Source Sans 3",
-						"value": "--font-source-sans-3"
-					},
-					{
-						"displayName": "Source Serif 4",
-						"value": "--font-source-serif-4"
-					},
-					{
-						"displayName": "Space Grotesk",
-						"value": "--font-space-grotesk"
-					},
-					{
-						"displayName": "Space Mono",
-						"value": "--font-space-mono"
-					},
-					{
-						"displayName": "Spectral",
-						"value": "--font-spectral"
-					},
-					{
-						"displayName": "Syne",
-						"value": "--font-syne"
-					},
-					{
-						"displayName": "Urbanist",
-						"value": "--font-urbanist"
-					},
-					{
-						"displayName": "Work Sans",
-						"value": "--font-work-sans"
-					}
-				]
-			}
+			"enum": [
+				{
+					"value": "default",
+					"displayName": "default"
+				},
+				{
+					"value": "--font-alegreya",
+					"displayName": "Alegreya"
+				},
+				{
+					"value": "--font-alegreya-sans",
+					"displayName": "Alegreya Sans"
+				},
+				{
+					"value": "--font-archivo-narrow",
+					"displayName": "Archivo Narrow"
+				},
+				{
+					"value": "--font-biorhyme",
+					"displayName": "BioRhyme"
+				},
+				{
+					"value": "--font-cardo",
+					"displayName": "Cardo"
+				},
+				{
+					"value": "--font-chivo",
+					"displayName": "Chivo"
+				},
+				{
+					"value": "--font-cormorant",
+					"displayName": "Cormorant"
+				},
+				{
+					"value": "--font-crimson-text",
+					"displayName": "Crimson Text"
+				},
+				{
+					"value": "--font-dm-sans",
+					"displayName": "DM Sans"
+				},
+				{
+					"value": "--font-eczar",
+					"displayName": "Eczar"
+				},
+				{
+					"value": "--font-fira-sans",
+					"displayName": "Fira Sans"
+				},
+				{
+					"value": "--font-fraunces",
+					"displayName": "Fraunces"
+				},
+				{
+					"value": "--font-heebo",
+					"displayName": "Heebo"
+				},
+				{
+					"value": "--font-ibm-plex-sans",
+					"displayName": "IBM Plex Sans"
+				},
+				{
+					"value": "--font-ibm-plex-serif",
+					"displayName": "IBM Plex Serif"
+				},
+				{
+					"value": "--font-inconsolata",
+					"displayName": "Inconsolata"
+				},
+				{
+					"value": "--font-inknut-antiqua",
+					"displayName": "Inknut Antiqua"
+				},
+				{
+					"value": "--font-inter",
+					"displayName": "Inter"
+				},
+				{
+					"value": "--font-karla",
+					"displayName": "Karla"
+				},
+				{
+					"value": "--font-lato",
+					"displayName": "Lato"
+				},
+				{
+					"value": "--font-libre-baskerville",
+					"displayName": "Libre Baskerville"
+				},
+				{
+					"value": "--font-libre-franklin",
+					"displayName": "Libre Franklin"
+				},
+				{
+					"value": "--font-lora",
+					"displayName": "Lora"
+				},
+				{
+					"value": "--font-manrope",
+					"displayName": "Manrope"
+				},
+				{
+					"value": "--font-merriweather",
+					"displayName": "Merriweather"
+				},
+				{
+					"value": "--font-montserrat",
+					"displayName": "Montserrat"
+				},
+				{
+					"value": "--font-neuton",
+					"displayName": "Neuton"
+				},
+				{
+					"value": "--font-nunito",
+					"displayName": "Nunito"
+				},
+				{
+					"value": "--font-open-sans",
+					"displayName": "Open Sans"
+				},
+				{
+					"value": "--font-oswald",
+					"displayName": "Oswald"
+				},
+				{
+					"value": "--font-outfit",
+					"displayName": "Outfit"
+				},
+				{
+					"value": "--font-playfair-display",
+					"displayName": "Playfair Display"
+				},
+				{
+					"value": "--font-plus-jakarta-sans",
+					"displayName": "Plus Jakarta Sans"
+				},
+				{
+					"value": "--font-poppins",
+					"displayName": "Poppins"
+				},
+				{
+					"value": "--font-proza-libre",
+					"displayName": "Proza Libre"
+				},
+				{
+					"value": "--font-pt-sans",
+					"displayName": "PT Sans"
+				},
+				{
+					"value": "--font-pt-serif",
+					"displayName": "PT Serif"
+				},
+				{
+					"value": "--font-public-sans",
+					"displayName": "Public Sans"
+				},
+				{
+					"value": "--font-quicksand",
+					"displayName": "Quicksand"
+				},
+				{
+					"value": "--font-raleway",
+					"displayName": "Raleway"
+				},
+				{
+					"value": "--font-roboto",
+					"displayName": "Roboto"
+				},
+				{
+					"value": "--font-roboto-mono",
+					"displayName": "Roboto Mono"
+				},
+				{
+					"value": "--font-rubik",
+					"displayName": "Rubik"
+				},
+				{
+					"value": "--font-source-sans-3",
+					"displayName": "Source Sans 3"
+				},
+				{
+					"value": "--font-source-serif-4",
+					"displayName": "Source Serif 4"
+				},
+				{
+					"value": "--font-space-grotesk",
+					"displayName": "Space Grotesk"
+				},
+				{
+					"value": "--font-space-mono",
+					"displayName": "Space Mono"
+				},
+				{
+					"value": "--font-spectral",
+					"displayName": "Spectral"
+				},
+				{
+					"value": "--font-syne",
+					"displayName": "Syne"
+				},
+				{
+					"value": "--font-urbanist",
+					"displayName": "Urbanist"
+				},
+				{
+					"value": "--font-work-sans",
+					"displayName": "Work Sans"
+				}
+			],
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"primary": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "color-primary",
 			"description": "Primary brand color",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesColors",
 			"sortOrder": 10,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"radiusSelector": {
 			"type": "string",
 			"format": "selectOne",
 			"displayName": "Radius - Selector (checkbox, toggle, badge, etc)",
 			"description": "Border radius for selectors like checkbox, toggle, badge, etc",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesOther",
 			"sortOrder": 10,
-			"editorSettings": {},
-			"enum": {
-				"values": [
-					{
-						"displayName": "Default",
-						"value": ""
-					},
-					{
-						"displayName": "xs",
-						"value": "0rem"
-					},
-					{
-						"displayName": "s",
-						"value": "0.25rem"
-					},
-					{
-						"displayName": "md",
-						"value": "0.5rem"
-					},
-					{
-						"displayName": "lg",
-						"value": "1rem"
-					},
-					{
-						"displayName": "xl",
-						"value": "2rem"
-					}
-				]
-			}
+			"enum": [
+				{
+					"value": "",
+					"displayName": "Default"
+				},
+				{
+					"value": "0rem",
+					"displayName": "xs"
+				},
+				{
+					"value": "0.25rem",
+					"displayName": "s"
+				},
+				{
+					"value": "0.5rem",
+					"displayName": "md"
+				},
+				{
+					"value": "1rem",
+					"displayName": "lg"
+				},
+				{
+					"value": "2rem",
+					"displayName": "xl"
+				}
+			],
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"SiteStylesDomain": {
 			"type": "string",
 			"displayName": "Site Domain",
 			"description": "Domain (format: www.mysite.com) to associate with these Site Styles",
-			"localized": false,
-			"required": true,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": true,
+			"group": "Content",
 			"sortOrder": 10,
 			"indexingType": "searchable",
-			"editorSettings": {},
-			"pattern": "^((([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,})|localhost)(:[0-9]+)?$"
+			"pattern": "^((([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,})|localhost)(:[0-9]+)?$",
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"textXs": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "text-xs",
 			"description": "Text size: xs",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesSizes",
 			"sortOrder": 10,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"primaryContent": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "color-primary-content",
 			"description": "Foreground content color to use on primary color",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesColors",
 			"sortOrder": 20,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"radiusField": {
 			"type": "string",
 			"format": "selectOne",
 			"displayName": "Radius - Field (button, input, select, tab)",
 			"description": "Border radius for fields like input, select, tab, etc",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesOther",
 			"sortOrder": 20,
-			"editorSettings": {},
-			"enum": {
-				"values": [
-					{
-						"displayName": "Default",
-						"value": ""
-					},
-					{
-						"displayName": "xs",
-						"value": "0rem"
-					},
-					{
-						"displayName": "s",
-						"value": "0.25rem"
-					},
-					{
-						"displayName": "md",
-						"value": "0.5rem"
-					},
-					{
-						"displayName": "lg",
-						"value": "1rem"
-					},
-					{
-						"displayName": "xl",
-						"value": "2rem"
-					}
-				]
-			}
+			"enum": [
+				{
+					"value": "",
+					"displayName": "Default"
+				},
+				{
+					"value": "0rem",
+					"displayName": "xs"
+				},
+				{
+					"value": "0.25rem",
+					"displayName": "s"
+				},
+				{
+					"value": "0.5rem",
+					"displayName": "md"
+				},
+				{
+					"value": "1rem",
+					"displayName": "lg"
+				},
+				{
+					"value": "2rem",
+					"displayName": "xl"
+				}
+			],
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"textSm": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "text-sm (h6)",
 			"description": "Text size: sm",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesSizes",
 			"sortOrder": 20,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"secondary": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "color-secondary",
 			"description": "Secondary brand color",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesColors",
 			"sortOrder": 30,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"radiusBox": {
 			"type": "string",
 			"format": "selectOne",
 			"displayName": "Radius - Box (card, modal, alert, etc)",
 			"description": "Border radius for boxes like card, modal, alert, etc",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesOther",
 			"sortOrder": 30,
-			"editorSettings": {},
-			"enum": {
-				"values": [
-					{
-						"displayName": "Default",
-						"value": ""
-					},
-					{
-						"displayName": "xs",
-						"value": "0rem"
-					},
-					{
-						"displayName": "s",
-						"value": "0.25rem"
-					},
-					{
-						"displayName": "md",
-						"value": "0.5rem"
-					},
-					{
-						"displayName": "lg",
-						"value": "1rem"
-					},
-					{
-						"displayName": "xl",
-						"value": "2rem"
-					}
-				]
-			}
+			"enum": [
+				{
+					"value": "",
+					"displayName": "Default"
+				},
+				{
+					"value": "0rem",
+					"displayName": "xs"
+				},
+				{
+					"value": "0.25rem",
+					"displayName": "s"
+				},
+				{
+					"value": "0.5rem",
+					"displayName": "md"
+				},
+				{
+					"value": "1rem",
+					"displayName": "lg"
+				},
+				{
+					"value": "2rem",
+					"displayName": "xl"
+				}
+			],
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"textBase": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "text-base (h5 + p)",
 			"description": "Text size: base",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesSizes",
 			"sortOrder": 30,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"sizeField": {
 			"type": "string",
 			"format": "selectOne",
 			"displayName": "Size - Field",
 			"description": "Base scale size for fields like input, select, tab, etc",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesOther",
 			"sortOrder": 35,
-			"editorSettings": {},
-			"enum": {
-				"values": [
-					{
-						"displayName": "Default",
-						"value": ""
-					},
-					{
-						"displayName": "xs",
-						"value": "0.1875rem"
-					},
-					{
-						"displayName": "s",
-						"value": "0.21875rem"
-					},
-					{
-						"displayName": "md",
-						"value": "0.25rem"
-					},
-					{
-						"displayName": "lg",
-						"value": "0.28125rem"
-					},
-					{
-						"displayName": "xl",
-						"value": "0.3125rem"
-					}
-				]
-			}
+			"enum": [
+				{
+					"value": "",
+					"displayName": "Default"
+				},
+				{
+					"value": "0.1875rem",
+					"displayName": "xs"
+				},
+				{
+					"value": "0.21875rem",
+					"displayName": "s"
+				},
+				{
+					"value": "0.25rem",
+					"displayName": "md"
+				},
+				{
+					"value": "0.28125rem",
+					"displayName": "lg"
+				},
+				{
+					"value": "0.3125rem",
+					"displayName": "xl"
+				}
+			],
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"secondaryContent": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "color-secondary-content",
 			"description": "Foreground content color to use on secondary color",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesColors",
 			"sortOrder": 40,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"sizeSelector": {
 			"type": "string",
 			"format": "selectOne",
 			"displayName": "Size - Selector",
 			"description": "Base scale size for selectors like checkbox, toggle, badge, etc",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesOther",
 			"sortOrder": 40,
-			"editorSettings": {},
-			"enum": {
-				"values": [
-					{
-						"displayName": "Default",
-						"value": ""
-					},
-					{
-						"displayName": "xs",
-						"value": "0.1875rem"
-					},
-					{
-						"displayName": "s",
-						"value": "0.21875rem"
-					},
-					{
-						"displayName": "md",
-						"value": "0.25rem"
-					},
-					{
-						"displayName": "lg",
-						"value": "0.28125rem"
-					},
-					{
-						"displayName": "xl",
-						"value": "0.3125rem"
-					}
-				]
-			}
+			"enum": [
+				{
+					"value": "",
+					"displayName": "Default"
+				},
+				{
+					"value": "0.1875rem",
+					"displayName": "xs"
+				},
+				{
+					"value": "0.21875rem",
+					"displayName": "s"
+				},
+				{
+					"value": "0.25rem",
+					"displayName": "md"
+				},
+				{
+					"value": "0.28125rem",
+					"displayName": "lg"
+				},
+				{
+					"value": "0.3125rem",
+					"displayName": "xl"
+				}
+			],
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"textLg": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "text-lg (h4)",
 			"description": "Text size: lg",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesSizes",
 			"sortOrder": 40,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"accent": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "color-accent",
 			"description": "Accent brand color",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesColors",
 			"sortOrder": 50,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"borderWidth": {
 			"type": "float",
 			"displayName": "Border Width (px)",
 			"description": "Border width of all components",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesOther",
 			"sortOrder": 50,
-			"editorSettings": {},
 			"minimum": 0,
-			"maximum": 10
+			"maximum": 10,
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"textXl": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "text-xl (h3)",
 			"description": "Text size: xl",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesSizes",
 			"sortOrder": 50,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"depth": {
 			"type": "boolean",
 			"displayName": "Depth",
 			"description": "Adds a depth effect for relevant components",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesOther",
 			"sortOrder": 59,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"accentContent": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "color-accent-content",
 			"description": "Foreground content color to use on accent color",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesColors",
 			"sortOrder": 60,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"text2xl": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "text-2xl (h2)",
 			"description": "Text size: 2xl",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesSizes",
 			"sortOrder": 60,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"neutral": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "color-neutral",
 			"description": "Neutral dark color",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesColors",
 			"sortOrder": 70,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"noise": {
 			"type": "boolean",
 			"displayName": "Noise",
 			"description": "Adds a background noise effect for relevant components",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesOther",
 			"sortOrder": 70,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"text3xl": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "text-3xl (h1)",
 			"description": "Text size: 3xl",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesSizes",
 			"sortOrder": 70,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"neutralContent": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "color-neutral-content",
 			"description": "Foreground content color to use on neutral color",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesColors",
 			"sortOrder": 80,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"text4xl": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "text-4xl",
 			"description": "Text size: 4xl",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesSizes",
 			"sortOrder": 80,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"text5xl": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "text-5xl",
 			"description": "Text size: 5xl",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesSizes",
 			"sortOrder": 90,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"text6xl": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "text-6xl",
 			"description": "Text size: 6xl",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesSizes",
 			"sortOrder": 100,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"text7xl": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "text-7xl",
 			"description": "Text size: 7xl",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesSizes",
 			"sortOrder": 110,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"text8xl": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "text-8xl",
 			"description": "Text size: 8xl",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesSizes",
 			"sortOrder": 120,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"info": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "color-info",
 			"description": "Info color",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesColors",
 			"sortOrder": 130,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"text9xl": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "text-9xl",
 			"description": "Text size: 9xl",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesSizes",
 			"sortOrder": 130,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"infoContent": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "color-info-content",
 			"description": "Foreground content color to use on info content",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesColors",
 			"sortOrder": 140,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"success": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "color-success",
 			"description": "Success color",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesColors",
 			"sortOrder": 150,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"successContent": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "color-success-content",
 			"description": "Foreground content color to use on success content",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesColors",
 			"sortOrder": 160,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"warning": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "color-warning",
 			"description": "Warning color",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesColors",
 			"sortOrder": 170,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"warningContent": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "color-warning-content",
 			"description": "Foreground content color to use on warning content",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesColors",
 			"sortOrder": 180,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"error": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "color-error",
 			"description": "Error color",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesColors",
 			"sortOrder": 190,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"errorContent": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "color-error-content",
 			"description": "Foreground content color to use on error content",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesColors",
 			"sortOrder": 200,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"base100": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "color-base-100",
 			"description": "Base color of page, used for blank backgrounds",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesColors",
 			"sortOrder": 210,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"base200": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "color-base-200",
 			"description": "Base color, darker shade",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesColors",
 			"sortOrder": 220,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"base300": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "color-base-300",
 			"description": "Base color, even more darker shade",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesColors",
 			"sortOrder": 230,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"baseContent": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "color-base-content (base text color)",
 			"description": "Foreground (text) content color to use on base content",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesColors",
 			"sortOrder": 240,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"daisyuiTheme": {
 			"type": "string",
 			"displayName": "DaisyUI Theme",
 			"description": "A free form field to copy/paste the theme generated via the DaisyUI theme generator - https://daisyui.com/theme-generator/",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesOther",
 			"sortOrder": 499,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"freeFormStyles": {
 			"type": "string",
 			"displayName": "Styles (Free Form)",
 			"description": "Free-form entry of styles list (for example, from DaisyUI's template generator)",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesOther",
 			"sortOrder": 500,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"cssFile": {
 			"type": "content",
 			"displayName": "CSS File",
 			"description": "Load custom CSS file on all pages",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "StylesOther",
 			"sortOrder": 510,
-			"editorSettings": {},
 			"allowedTypes": [
 				"CssMedia"
 			],

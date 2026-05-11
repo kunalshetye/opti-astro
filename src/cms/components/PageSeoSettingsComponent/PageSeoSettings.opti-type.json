@@ -2,64 +2,64 @@
 	"key": "PageSeoSettings",
 	"displayName": "Page SEO Settings",
 	"description": "Configures page SEO settings: meta titles, descriptions, and social media tags.",
-	"baseType": "component",
+	"baseType": "_component",
+	"isContract": false,
 	"sortOrder": 100,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [],
 	"compositionBehaviors": [],
+	"contracts": [],
 	"properties": {
 		"MetaTitle": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "Meta title",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
-			"sortOrder": 0,
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 10,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"MetaDescription": {
 			"type": "string",
 			"displayName": "Meta description",
-			"description": "",
-			"localized": false,
-			"required": false,
-			"group": "Information",
-			"sortOrder": 0,
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 20,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"DisplayInMenu": {
 			"type": "boolean",
 			"displayName": "Display In Menu",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
-			"sortOrder": 0,
-			"editorSettings": {}
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 30,
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"Indexing": {
 			"type": "boolean",
 			"displayName": "Disable Indexing (NOINDEX, NOFOLLOW)",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
-			"sortOrder": 0,
-			"editorSettings": {}
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 40,
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"SharingImage": {
 			"type": "contentReference",
 			"displayName": "Sharing image",
-			"description": "",
-			"localized": false,
-			"required": false,
-			"group": "Information",
-			"sortOrder": 100,
-			"editorSettings": {},
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 50,
 			"allowedTypes": [],
 			"restrictedTypes": []
 		},
@@ -67,24 +67,22 @@
 			"type": "string",
 			"format": "selectOne",
 			"displayName": "OpenGraph Type",
-			"description": "",
-			"localized": false,
-			"required": false,
-			"group": "Information",
-			"sortOrder": 200,
-			"editorSettings": {},
-			"enum": {
-				"values": [
-					{
-						"displayName": "Undefined",
-						"value": "-"
-					},
-					{
-						"displayName": "Article",
-						"value": "article"
-					}
-				]
-			}
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 60,
+			"enum": [
+				{
+					"value": "-",
+					"displayName": "Undefined"
+				},
+				{
+					"value": "article",
+					"displayName": "Article"
+				}
+			],
+			"allowedTypes": [],
+			"restrictedTypes": []
 		}
 	}
 }

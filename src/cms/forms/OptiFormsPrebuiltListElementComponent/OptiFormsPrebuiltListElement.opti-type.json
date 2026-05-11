@@ -1,0 +1,99 @@
+{
+	"key": "OptiFormsPrebuiltListElement",
+	"displayName": "Prebuilt List Form Element",
+	"description": "Prebuilt List Form Element with predefined options to choose from, such as US states, CA provinces, etc.",
+	"baseType": "_component",
+	"isContract": false,
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"formsElementEnabled"
+	],
+	"contracts": [],
+	"createdBy": "6896e78a3e184c08982d49714136a7ec",
+	"properties": {
+		"PrebuiltListType": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "List Type",
+			"description": "Select the type of prebuilt list to use.",
+			"isLocalized": false,
+			"isRequired": true,
+			"group": "Content",
+			"sortOrder": 10,
+			"enum": [
+				{
+					"value": "us_states",
+					"displayName": "US States"
+				},
+				{
+					"value": "ca_provinces",
+					"displayName": "CA Provinces"
+				},
+				{
+					"value": "au_states",
+					"displayName": "AU States & Territories"
+				},
+				{
+					"value": "countries",
+					"displayName": "Countries"
+				},
+				{
+					"value": "salutation",
+					"displayName": "Salutation"
+				},
+				{
+					"value": "industry",
+					"displayName": "Industry"
+				},
+				{
+					"value": "job_level",
+					"displayName": "Job Level"
+				}
+			],
+			"allowedTypes": [],
+			"restrictedTypes": []
+		},
+		"Label": {
+			"type": "string",
+			"displayName": "Label",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 100,
+			"allowedTypes": [],
+			"restrictedTypes": []
+		},
+		"Placeholder": {
+			"type": "string",
+			"displayName": "Placeholder",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 200,
+			"allowedTypes": [],
+			"restrictedTypes": []
+		},
+		"Tooltip": {
+			"type": "string",
+			"displayName": "Tooltip",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 300,
+			"allowedTypes": [],
+			"restrictedTypes": []
+		},
+		"PredefinedValue": {
+			"type": "string",
+			"displayName": "PredefinedValue",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 400,
+			"allowedTypes": [],
+			"restrictedTypes": []
+		}
+	}
+}

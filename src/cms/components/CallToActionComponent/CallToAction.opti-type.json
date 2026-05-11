@@ -2,7 +2,8 @@
 	"key": "CallToAction",
 	"displayName": "Call To Action",
 	"description": "Component to drive engagement with a prominent call-to-action button and customizable text.",
-	"baseType": "component",
+	"baseType": "_component",
+	"isContract": false,
 	"sortOrder": 0,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [],
@@ -10,20 +11,22 @@
 		"sectionEnabled",
 		"elementEnabled"
 	],
+	"contracts": [],
 	"properties": {
 		"Links": {
 			"type": "array",
 			"format": "LinkCollection",
 			"displayName": "Links",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 0,
-			"editorSettings": {},
+			"allowedTypes": [],
+			"restrictedTypes": [],
 			"items": {
-				"type": "component",
-				"contentType": "link"
+				"type": "link",
+				"allowedTypes": [],
+				"restrictedTypes": []
 			}
 		}
 	}
