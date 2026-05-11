@@ -2,7 +2,8 @@
 	"key": "Video",
 	"displayName": "Video",
 	"description": "Embeds video content directly into your page.",
-	"baseType": "component",
+	"baseType": "_component",
+	"isContract": false,
 	"sortOrder": 0,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [],
@@ -10,18 +11,17 @@
 		"sectionEnabled",
 		"elementEnabled"
 	],
+	"contracts": [],
 	"properties": {
 		"Video": {
 			"type": "contentReference",
 			"displayName": "Video",
-			"description": "",
-			"localized": false,
-			"required": false,
-			"group": "Information",
-			"sortOrder": 0,
-			"editorSettings": {},
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 10,
 			"allowedTypes": [
-				"Video"
+				"_video"
 			],
 			"restrictedTypes": []
 		},
@@ -29,13 +29,12 @@
 			"type": "contentReference",
 			"displayName": "Video Poster Image",
 			"description": "Image shown before video is played (limited use if autoplay enabled)",
-			"localized": false,
-			"required": false,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 20,
-			"editorSettings": {},
 			"allowedTypes": [
-				"Image"
+				"_image"
 			],
 			"restrictedTypes": []
 		}

@@ -1,0 +1,56 @@
+{
+	"key": "DamAssetList",
+	"displayName": "DAM Asset List",
+	"baseType": "_component",
+	"isContract": false,
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"sectionEnabled",
+		"elementEnabled"
+	],
+	"contracts": [],
+	"createdBy": "daniel.isaacs@optimizely.com",
+	"properties": {
+		"Header": {
+			"type": "string",
+			"format": "shortString",
+			"displayName": "Header",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 10,
+			"allowedTypes": [],
+			"restrictedTypes": []
+		},
+		"Tags": {
+			"type": "array",
+			"displayName": "Tags",
+			"description": "Tags to include in image search and listing",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 20,
+			"allowedTypes": [],
+			"restrictedTypes": [],
+			"items": {
+				"type": "string",
+				"format": "shortString",
+				"allowedTypes": [],
+				"restrictedTypes": []
+			}
+		},
+		"AssetCount": {
+			"type": "integer",
+			"displayName": "Max Number of Assets (Max 100 displayed)",
+			"description": "Maximum number of assets to be returned (default = 100)",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 30,
+			"allowedTypes": [],
+			"restrictedTypes": []
+		}
+	}
+}

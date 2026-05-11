@@ -1,6 +1,7 @@
 ---
 import type { ContentPayload } from '../../graphql/shared/ContentPayload';
 
+import Components from '../components/_Components.astro';
 import OptiFormsTextboxElement from '../forms/OptiFormsTextboxElementComponent/OptiFormsTextboxElement.astro';
 import OptiFormsNumberElement from '../forms/OptiFormsNumberElementComponent/OptiFormsNumberElement.astro';
 import OptiFormsRangeElement from '../forms/OptiFormsRangeElementComponent/OptiFormsRangeElement.astro';
@@ -10,6 +11,9 @@ import OptiFormsUrlElement from '../forms/OptiFormsUrlElementComponent/OptiForms
 import OptiFormsChoiceElement from '../forms/OptiFormsChoiceElementComponent/OptiFormsChoiceElement.astro';
 import OptiFormsSubmitElement from '../forms/OptiFormsSubmitElementComponent/OptiFormsSubmitElement.astro';
 import OptiFormsResetElement from '../forms/OptiFormsResetElementComponent/OptiFormsResetElement.astro';
+import OptiFormsDateTimeElement from '../forms/OptiFormsDateTimeElementComponent/OptiFormsDateTimeElement.astro';
+import OptiFormsHiddenFieldElement from '../forms/OptiFormsHiddenFieldElementComponent/OptiFormsHiddenFieldElement.astro';
+import OptiFormsPrebuiltListElement from '../forms/OptiFormsPrebuiltListElementComponent/OptiFormsPrebuiltListElement.astro';
 
 interface Props {
     contentPayload: ContentPayload;
@@ -27,6 +31,7 @@ const componentType = component._metadata.types[0];
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
+            nodeKey={data.key}
         />
     )
 }
@@ -37,6 +42,7 @@ const componentType = component._metadata.types[0];
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
+            nodeKey={data.key}
         />
     )
 }
@@ -47,6 +53,7 @@ const componentType = component._metadata.types[0];
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
+            nodeKey={data.key}
         />
     )
 }
@@ -56,6 +63,7 @@ const componentType = component._metadata.types[0];
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
+            nodeKey={data.key}
         />
     )
 }
@@ -66,6 +74,7 @@ const componentType = component._metadata.types[0];
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
+            nodeKey={data.key}
         />
     )
 }
@@ -76,6 +85,7 @@ const componentType = component._metadata.types[0];
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
+            nodeKey={data.key}
         />
     )
 }
@@ -86,6 +96,39 @@ const componentType = component._metadata.types[0];
             contentPayload={contentPayload}
             data={component}
             displaySettings={displaySettings}
+            nodeKey={data.key}
+        />
+    )
+}
+
+{
+    componentType === 'OptiFormsDateTimeElement' && (
+        <OptiFormsDateTimeElement
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+            nodeKey={data.key}
+        />
+    )
+}
+
+{
+    componentType === 'OptiFormsHiddenFieldElement' && (
+        <OptiFormsHiddenFieldElement
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+        />
+    )
+}
+
+{
+    componentType === 'OptiFormsPrebuiltListElement' && (
+        <OptiFormsPrebuiltListElement
+            contentPayload={contentPayload}
+            data={component}
+            displaySettings={displaySettings}
+            nodeKey={data.key}
         />
     )
 }
@@ -106,5 +149,13 @@ const componentType = component._metadata.types[0];
             data={component}
             displaySettings={displaySettings}
         />
+    )
+}
+
+{
+    // Fallback: render any non-form component (e.g. Text, Paragraph) using the generic renderer.
+    // Convention: all Optimizely form element types must use the "OptiForms" prefix.
+    !componentType.startsWith('OptiForms') && (
+        <Components contentPayload={contentPayload} data={data} />
     )
 }

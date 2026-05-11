@@ -1,4 +1,4 @@
-import { createClient } from '@remkoj/optimizely-cms-api';
+import { createCmsApiClient } from '../cms-api-client.mjs';
 import fg from 'fast-glob';
 import fs from 'fs/promises';
 import path from 'path';
@@ -7,23 +7,16 @@ import { fileURLToPath } from 'url';
 // Convert import.meta.url to a usable file path
 const currentFilename = fileURLToPath(import.meta.url);
 const currentDirectory = path.dirname(currentFilename);
-// const directoryToPullStylesInto = fg.convertPathToPattern(path.resolve(`${currentDirectory}/temp`)); // temp directory to store pulled styles
 const clientId = process.env.OPTIMIZELY_CLIENT_ID;
 const clientSecret = process.env.OPTIMIZELY_CLIENT_SECRET;
-const cmsUrl = process.env.OPTIMIZELY_CMS_URL;
 
 // Create an instance of the client
-const config = {
-    base: new URL(cmsUrl),
-    clientId: clientId,
-    clientSecret: clientSecret,
-};
-const client = createClient(config);
+const client = createCmsApiClient({ clientId, clientSecret });
 
 // Get command line argument for specific style name
 const styleNameArg = process.argv[2];
 
-const templatesList = await client.displayTemplates.displayTemplatesList();
+const templatesList = await client.displayTemplates.list();
 const templatesListFiltered = styleNameArg ? 
     templatesList.items.filter(
         (item) => item.key === styleNameArg
@@ -32,7 +25,7 @@ const templatesListFiltered = styleNameArg ?
 templatesListFiltered?.forEach(async (template) => {
     const styleKey = template.key;
     const styleDefinition =
-        await client.displayTemplates.displayTemplatesGet(styleKey);
+        await client.displayTemplates.get(styleKey);
     const contentType = styleDefinition.contentType;
     const nodeType = styleDefinition.nodeType;
     const baseType = styleDefinition.baseType;

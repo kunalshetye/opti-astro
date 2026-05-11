@@ -1,0 +1,16 @@
+query getDamAssets($tags: [String]!, $maxImages: Int = 100) {
+    cmp_PublicImageAsset(
+        where: { Tags: { Name: { in: $tags } } }
+        limit: $maxImages
+    ) {
+        total
+        items {
+            Title
+            Url
+            AltText
+            Width
+            Height
+            Description
+        }
+    }
+}

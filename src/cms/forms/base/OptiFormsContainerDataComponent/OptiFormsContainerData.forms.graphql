@@ -9,4 +9,14 @@ fragment formContainerData on OptiFormsContainerData {
     Title
     Description
     ShowSummaryMessageAfterSubmission
+    DependencyRules {
+        TargetElement
+        SatisfiedAction
+        ConditionCombination
+        Conditions {
+            DependsOnField
+            ComparisonOperator
+            ComparisonValue
+        }
+    }
 }

@@ -1,0 +1,133 @@
+{
+	"key": "DefaultDamAssetList",
+	"displayName": "DAM Asset List: Grid (Default)",
+	"contentType": "DamAssetList",
+	"isDefault": true,
+	"settings": {
+		"columns": {
+			"displayName": "Columns",
+			"editor": "select",
+			"sortOrder": 10,
+			"choices": {
+				"col4": {
+					"displayName": "4",
+					"sortOrder": 10
+				},
+				"col2": {
+					"displayName": "2",
+					"sortOrder": 20
+				},
+				"col3": {
+					"displayName": "3",
+					"sortOrder": 30
+				},
+				"col5": {
+					"displayName": "5",
+					"sortOrder": 40
+				},
+				"col6": {
+					"displayName": "6",
+					"sortOrder": 50
+				}
+			}
+		},
+		"aspectRatio": {
+			"displayName": "Aspect Ratio",
+			"editor": "select",
+			"sortOrder": 20,
+			"choices": {
+				"square": {
+					"displayName": "Square (1:1)",
+					"sortOrder": 10
+				},
+				"landscape": {
+					"displayName": "Landscape (16:9)",
+					"sortOrder": 20
+				},
+				"portrait": {
+					"displayName": "Portrait (3:4)",
+					"sortOrder": 30
+				}
+			}
+		},
+		"cardStyle": {
+			"displayName": "Card Style",
+			"editor": "select",
+			"sortOrder": 30,
+			"choices": {
+				"bordered": {
+					"displayName": "Bordered",
+					"sortOrder": 10
+				},
+				"shadowed": {
+					"displayName": "Shadowed",
+					"sortOrder": 20
+				},
+				"flat": {
+					"displayName": "Flat",
+					"sortOrder": 30
+				}
+			}
+		},
+		"showTitle": {
+			"displayName": "Show Title",
+			"editor": "select",
+			"sortOrder": 40,
+			"choices": {
+				"show": {
+					"displayName": "Show",
+					"sortOrder": 10
+				},
+				"hide": {
+					"displayName": "Hide",
+					"sortOrder": 20
+				}
+			}
+		},
+		"showDescription": {
+			"displayName": "Show Description",
+			"editor": "select",
+			"sortOrder": 50,
+			"choices": {
+				"show": {
+					"displayName": "Show",
+					"sortOrder": 10
+				},
+				"hide": {
+					"displayName": "Hide",
+					"sortOrder": 20
+				}
+			}
+		},
+		"imageFit": {
+			"displayName": "Image Fit",
+			"editor": "select",
+			"sortOrder": 60,
+			"choices": {
+				"contain": {
+					"displayName": "Contain",
+					"sortOrder": 10
+				},
+				"cover": {
+					"displayName": "Cover",
+					"sortOrder": 20
+				}
+			}
+		},
+		"lightboxTitle": {
+			"displayName": "Show Image Title in Lightbox",
+			"editor": "select",
+			"sortOrder": 70,
+			"choices": {
+				"show": {
+					"displayName": "Show",
+					"sortOrder": 10
+				},
+				"hide": {
+					"displayName": "Hide",
+					"sortOrder": 20
+				}
+			}
+		}
+	}
+}

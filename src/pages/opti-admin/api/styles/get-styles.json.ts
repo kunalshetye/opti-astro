@@ -1,26 +1,21 @@
 import type { APIRoute } from 'astro';
-import { createClient } from '@remkoj/optimizely-cms-api';
+import { createCmsApiClient } from '../../../../lib/optimizely-cms-api';
 
 function createCMSClient() {
     const clientId = import.meta.env.OPTIMIZELY_CLIENT_ID;
     const clientSecret = import.meta.env.OPTIMIZELY_CLIENT_SECRET;
-    const cmsUrl = import.meta.env.OPTIMIZELY_CMS_URL;
 
-    if (!clientId || !clientSecret || !cmsUrl) {
-        throw new Error('Missing required environment variables');
+    if (!clientId || !clientSecret) {
+        throw new Error('Missing required environment variables: OPTIMIZELY_CLIENT_ID, OPTIMIZELY_CLIENT_SECRET');
     }
 
-    return createClient({
-        base: new URL(cmsUrl),
-        clientId: clientId,
-        clientSecret: clientSecret,
-    });
+    return createCmsApiClient({ clientId, clientSecret });
 }
 
 export const GET: APIRoute = async () => {
     try {
         const client = createCMSClient();
-        const templatesList = await client.displayTemplates.displayTemplatesList();
+        const templatesList = await client.displayTemplates.list();
 
         // Clean up system fields
         const styles = (templatesList.items || []).map((style: any) => {

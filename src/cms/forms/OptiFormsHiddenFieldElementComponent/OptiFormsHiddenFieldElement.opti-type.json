@@ -1,0 +1,110 @@
+{
+	"key": "OptiFormsHiddenFieldElement",
+	"displayName": "Hidden Field Form Element",
+	"description": "Hidden Field Form Element to pass information with form submission",
+	"baseType": "_component",
+	"isContract": false,
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"formsElementEnabled"
+	],
+	"contracts": [],
+	"createdBy": "daniel.isaacs@optimizely.com",
+	"properties": {
+		"HiddenFieldType": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Hidden Field Type",
+			"isLocalized": false,
+			"isRequired": true,
+			"group": "Content",
+			"sortOrder": 10,
+			"enum": [
+				{
+					"value": "currentpage",
+					"displayName": "Current Page"
+				},
+				{
+					"value": "locale",
+					"displayName": "Locale"
+				},
+				{
+					"value": "predefinedvalue",
+					"displayName": "Predefined Value"
+				},
+				{
+					"value": "referer",
+					"displayName": "Referer"
+				},
+				{
+					"value": "useragent",
+					"displayName": "User-Agent"
+				},
+				{
+					"value": "utm_campaign",
+					"displayName": "utm_campaign"
+				},
+				{
+					"value": "utm_content",
+					"displayName": "utm_content"
+				},
+				{
+					"value": "utm_medium",
+					"displayName": "utm_medium"
+				},
+				{
+					"value": "utm_source",
+					"displayName": "utm_source"
+				},
+				{
+					"value": "utm_term",
+					"displayName": "utm_term"
+				}
+			],
+			"allowedTypes": [],
+			"restrictedTypes": []
+		},
+		"Label": {
+			"type": "string",
+			"displayName": "Label",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 100,
+			"allowedTypes": [],
+			"restrictedTypes": []
+		},
+		"Placeholder": {
+			"type": "string",
+			"displayName": "Placeholder",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 200,
+			"allowedTypes": [],
+			"restrictedTypes": []
+		},
+		"Tooltip": {
+			"type": "string",
+			"displayName": "Tooltip",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 300,
+			"allowedTypes": [],
+			"restrictedTypes": []
+		},
+		"PredefinedValue": {
+			"type": "string",
+			"displayName": "PredefinedValue",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 400,
+			"allowedTypes": [],
+			"restrictedTypes": []
+		}
+	}
+}

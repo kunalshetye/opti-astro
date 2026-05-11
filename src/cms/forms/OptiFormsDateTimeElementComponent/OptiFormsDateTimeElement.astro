@@ -1,0 +1,48 @@
+---
+import type {
+    DisplaySettingsFragment,
+    OptiFormsDateTimeElement,
+} from '../../../../__generated/sdk';
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+
+// https://daisyui.com/components/input/
+
+export interface Props {
+    data: OptiFormsDateTimeElement;
+    contentPayload: ContentPayload;
+    displaySettings: DisplaySettingsFragment[];
+    nodeKey?: string;
+    Label?: string;
+    Placeholder?: string;
+    Tooltip?: string;
+    PredefinedValue?: string;
+}
+const { data, displaySettings, nodeKey } = Astro.props as Props;
+const {
+    DateTimeSelectorType,
+    Label,
+    Placeholder,
+    Tooltip,
+    PredefinedValue,
+} = data;
+
+const inputType = (DateTimeSelectorType?.toString() || 'date') as 'date' | 'time' | 'datetime-local' | 'month';
+
+const inputId = Label?.replace(/\s+/g, '_') || `textbox-${Math.random().toString(36).substr(2, 4)}`;
+---
+
+<div class="form-control w-full" data-field-name={Label} data-field-key={nodeKey || undefined}>
+    <label class="text-lg font-semibold" for={inputId}>
+        {Label}
+    </label>
+
+    <input
+        id={inputId}
+        name={inputId}
+        type={inputType}
+        class="input w-full"
+        placeholder={Placeholder}
+        value={PredefinedValue}
+        title={Tooltip}
+    />
+</div>

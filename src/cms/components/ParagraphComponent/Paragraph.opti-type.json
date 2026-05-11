@@ -2,26 +2,31 @@
 	"key": "Paragraph",
 	"displayName": "Paragraph",
 	"description": "Basic text component for adding paragraph content.",
-	"baseType": "component",
+	"baseType": "_component",
+	"isContract": false,
 	"sortOrder": 0,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [],
 	"compositionBehaviors": [
 		"sectionEnabled",
-		"elementEnabled"
+		"elementEnabled",
+		"formsElementEnabled"
 	],
+	"contracts": [],
 	"properties": {
 		"Text": {
-			"type": "string",
-			"format": "html",
+			"type": "richText",
 			"displayName": "Text",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 0,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": [],
+			"editorSettings": {
+				"preset": "expanded"
+			}
 		}
 	}
 }
