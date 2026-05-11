@@ -2,96 +2,98 @@
 	"key": "OptiFormsPrebuiltListElement",
 	"displayName": "Prebuilt List Form Element",
 	"description": "Prebuilt List Form Element with predefined options to choose from, such as US states, CA provinces, etc.",
-	"baseType": "component",
+	"baseType": "_component",
+	"isContract": false,
 	"sortOrder": 0,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [],
 	"compositionBehaviors": [
 		"formsElementEnabled"
 	],
+	"contracts": [],
+	"createdBy": "6896e78a3e184c08982d49714136a7ec",
 	"properties": {
 		"PrebuiltListType": {
 			"type": "string",
 			"format": "selectOne",
 			"displayName": "List Type",
 			"description": "Select the type of prebuilt list to use.",
-			"localized": false,
-			"required": true,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": true,
+			"group": "Content",
 			"sortOrder": 10,
-			"editorSettings": {},
-			"enum": {
-				"values": [
-					{
-						"displayName": "US States",
-						"value": "us_states"
-					},
-					{
-						"displayName": "CA Provinces",
-						"value": "ca_provinces"
-					},
-					{
-						"displayName": "AU States & Territories",
-						"value": "au_states"
-					},
-					{
-						"displayName": "Countries",
-						"value": "countries"
-					},
-					{
-						"displayName": "Salutation",
-						"value": "salutation"
-					},
-					{
-						"displayName": "Industry",
-						"value": "industry"
-					},
-					{
-						"displayName": "Job Level",
-						"value": "job_level"
-					}
-				]
-			}
+			"enum": [
+				{
+					"value": "us_states",
+					"displayName": "US States"
+				},
+				{
+					"value": "ca_provinces",
+					"displayName": "CA Provinces"
+				},
+				{
+					"value": "au_states",
+					"displayName": "AU States & Territories"
+				},
+				{
+					"value": "countries",
+					"displayName": "Countries"
+				},
+				{
+					"value": "salutation",
+					"displayName": "Salutation"
+				},
+				{
+					"value": "industry",
+					"displayName": "Industry"
+				},
+				{
+					"value": "job_level",
+					"displayName": "Job Level"
+				}
+			],
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"Label": {
 			"type": "string",
 			"displayName": "Label",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 100,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"Placeholder": {
 			"type": "string",
 			"displayName": "Placeholder",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 200,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"Tooltip": {
 			"type": "string",
 			"displayName": "Tooltip",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 300,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"PredefinedValue": {
 			"type": "string",
 			"displayName": "PredefinedValue",
-			"description": "",
-			"localized": false,
-			"required": false,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 400,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		}
 	}
 }

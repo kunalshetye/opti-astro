@@ -2,23 +2,23 @@
 	"key": "SiteSettings",
 	"displayName": "Site Settings",
 	"description": "Manages global site settings: branding, analytics, and general configurations.",
-	"baseType": "component",
+	"baseType": "_component",
+	"isContract": false,
 	"sortOrder": 0,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [],
 	"compositionBehaviors": [],
+	"contracts": [],
 	"properties": {
 		"Logo": {
 			"type": "contentReference",
 			"displayName": "Logo",
-			"description": "",
-			"localized": false,
-			"required": false,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 10,
-			"editorSettings": {},
 			"allowedTypes": [
-				"Image"
+				"_image"
 			],
 			"restrictedTypes": []
 		},
@@ -26,150 +26,148 @@
 			"type": "string",
 			"format": "shortString",
 			"displayName": "Facebook Account",
-			"description": "",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "SocialMediaAccounts",
 			"sortOrder": 10,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"OptiWebProjectId": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "Optimizely Web Project ID",
 			"description": "Optimizely Web Project ID to load snippet on all pages",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "OptiTools",
 			"sortOrder": 10,
-			"editorSettings": {},
-			"maxLength": 20
+			"maxLength": 20,
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"LogoResolution": {
 			"type": "string",
 			"format": "selectOne",
 			"displayName": "Logo Resolution",
-			"description": "",
-			"localized": false,
-			"required": false,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 20,
-			"editorSettings": {},
-			"enum": {
-				"values": [
-					{
-						"displayName": "32",
-						"value": "32"
-					},
-					{
-						"displayName": "16",
-						"value": "16"
-					},
-					{
-						"displayName": "12",
-						"value": "12"
-					},
-					{
-						"displayName": "10",
-						"value": "10"
-					},
-					{
-						"displayName": "8",
-						"value": "8"
-					}
-				]
-			}
+			"enum": [
+				{
+					"value": "32",
+					"displayName": "32"
+				},
+				{
+					"value": "16",
+					"displayName": "16"
+				},
+				{
+					"value": "12",
+					"displayName": "12"
+				},
+				{
+					"value": "10",
+					"displayName": "10"
+				},
+				{
+					"value": "8",
+					"displayName": "8"
+				}
+			],
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"SocialInstagram": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "Instagram Account",
-			"description": "",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "SocialMediaAccounts",
 			"sortOrder": 20,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"SocialTwitter": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "Twitter (X) Account",
-			"description": "",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "SocialMediaAccounts",
 			"sortOrder": 30,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"SocialTikTok": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "TikTok Account",
-			"description": "",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "SocialMediaAccounts",
 			"sortOrder": 40,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"SocialGitHub": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "GitHub Account",
-			"description": "",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "SocialMediaAccounts",
 			"sortOrder": 50,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"TopNavStyle": {
 			"type": "string",
 			"format": "selectOne",
 			"displayName": "Top Nav Display Style",
 			"description": "Style to display the top navigation menu",
-			"localized": false,
-			"required": false,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 50,
-			"editorSettings": {},
-			"enum": {
-				"values": [
-					{
-						"displayName": "Standard (Default)",
-						"value": "standard"
-					},
-					{
-						"displayName": "Drawer (Left)",
-						"value": "drawer-left"
-					},
-					{
-						"displayName": "Drawer (Right)",
-						"value": "drawer-right"
-					}
-				]
-			}
+			"enum": [
+				{
+					"value": "standard",
+					"displayName": "Standard (Default)"
+				},
+				{
+					"value": "drawer-left",
+					"displayName": "Drawer (Left)"
+				},
+				{
+					"value": "drawer-right",
+					"displayName": "Drawer (Right)"
+				}
+			],
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"HeaderLinks": {
 			"type": "array",
 			"displayName": "Header Links",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 100,
-			"editorSettings": {},
 			"maxItems": 6,
+			"allowedTypes": [],
+			"restrictedTypes": [],
 			"items": {
 				"type": "content",
 				"allowedTypes": [
-					"Page",
+					"_page",
 					"MenuItem"
 				],
 				"restrictedTypes": []
@@ -178,27 +176,27 @@
 		"FooterText": {
 			"type": "string",
 			"displayName": "Footer Text",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 200,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"FooterLinks": {
 			"type": "array",
 			"displayName": "Footer Links",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 210,
-			"editorSettings": {},
+			"allowedTypes": [],
+			"restrictedTypes": [],
 			"items": {
 				"type": "content",
 				"allowedTypes": [
-					"Page",
+					"_page",
 					"MenuItem"
 				],
 				"restrictedTypes": []
@@ -208,13 +206,14 @@
 			"type": "string",
 			"displayName": "Site Domain",
 			"description": "Domain (format: www.mysite.com) to associate with these Site Settings",
-			"localized": false,
-			"required": false,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 1000,
 			"indexingType": "searchable",
-			"editorSettings": {},
-			"pattern": "^((([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,})|localhost)(:[0-9]+)?$"
+			"pattern": "^((([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,})|localhost)(:[0-9]+)?$",
+			"allowedTypes": [],
+			"restrictedTypes": []
 		}
 	}
 }

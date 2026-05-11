@@ -1,4 +1,4 @@
-import { createClient } from '@remkoj/optimizely-cms-api';
+import { createCmsApiClient } from '../cms-api-client.mjs';
 import fg from 'fast-glob';
 import fs from 'fs/promises';
 import path from 'path';
@@ -13,15 +13,9 @@ const directoryToFindStylesIn = fg.convertPathToPattern(path.resolve(
 
 const clientId = process.env.OPTIMIZELY_CLIENT_ID;
 const clientSecret = process.env.OPTIMIZELY_CLIENT_SECRET;
-const cmsUrl = process.env.OPTIMIZELY_CMS_URL;
 
 // Create an instance of the client
-const config = {
-    base: new URL(cmsUrl),
-    clientId: clientId,
-    clientSecret: clientSecret,
-};
-const client = createClient(config);
+const client = createCmsApiClient({ clientId, clientSecret });
 
 /**
  * Find all files matching a pattern in the specified directory
@@ -110,7 +104,7 @@ const styleNameArg = process.argv[2];
     // For now, we'll proceed with the deletion
     
     try {
-        await client.displayTemplates.displayTemplatesDelete(styleKey);
+        await client.displayTemplates.delete(styleKey);
         console.log(`✅ Style "${styleKey}" has been successfully deleted from the CMS`);
         
         if (hasLocalFile) {

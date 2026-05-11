@@ -2,84 +2,84 @@
 	"key": "OptiFormsDateTimeElement",
 	"displayName": "Date/Time Picker",
 	"description": "Date/Time Picker",
-	"baseType": "component",
+	"baseType": "_component",
+	"isContract": false,
 	"sortOrder": 0,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [],
 	"compositionBehaviors": [
 		"formsElementEnabled"
 	],
+	"contracts": [],
 	"properties": {
 		"DateTimeSelectorType": {
 			"type": "string",
 			"format": "selectOne",
 			"displayName": "DateTime Selector Type",
-			"description": "",
-			"localized": false,
-			"required": true,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": true,
+			"group": "Content",
 			"sortOrder": 10,
-			"editorSettings": {},
-			"enum": {
-				"values": [
-					{
-						"displayName": "Date",
-						"value": "date"
-					},
-					{
-						"displayName": "Date + Time",
-						"value": "datetime-local"
-					},
-					{
-						"displayName": "Time",
-						"value": "time"
-					},
-					{
-						"displayName": "Month",
-						"value": "month"
-					}
-				]
-			}
+			"enum": [
+				{
+					"value": "date",
+					"displayName": "Date"
+				},
+				{
+					"value": "datetime-local",
+					"displayName": "Date + Time"
+				},
+				{
+					"value": "time",
+					"displayName": "Time"
+				},
+				{
+					"value": "month",
+					"displayName": "Month"
+				}
+			],
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"Label": {
 			"type": "string",
 			"displayName": "Label",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 100,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"Placeholder": {
 			"type": "string",
 			"displayName": "Placeholder",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 200,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"Tooltip": {
 			"type": "string",
 			"displayName": "Tooltip",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 300,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"PredefinedValue": {
 			"type": "string",
 			"displayName": "PredefinedValue",
-			"description": "",
-			"localized": false,
-			"required": false,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 400,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		}
 	}
 }
