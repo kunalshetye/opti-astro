@@ -4,6 +4,8 @@ The Component Usage dashboard helps you find every Experience page that uses a s
 
 **Location:** `/opti-admin?view=component-usage`
 
+**Prerequisites:** Requires `OPTIMIZELY_CLIENT_ID`, `OPTIMIZELY_CLIENT_SECRET`, and `OPTIMIZELY_CMS_API_GATEWAY` to be set — these are used to fetch the component type list from the CMS REST API. See [Environment Variables](ENVIRONMENT-VARIABLES.md) for details.
+
 ---
 
 ## How It Works

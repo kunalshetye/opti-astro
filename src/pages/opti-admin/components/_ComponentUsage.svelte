@@ -139,8 +139,8 @@
             const res = await fetch(
                 '/opti-admin/api/component-usage/list-component-types.json'
             );
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const data = await res.json();
+            if (!res.ok) throw new Error(data.error ?? `HTTP ${res.status}`);
             componentTypes = data.types ?? [];
             if (componentTypes.length > 0) selectedType = componentTypes[0].key;
         } catch (err) {
