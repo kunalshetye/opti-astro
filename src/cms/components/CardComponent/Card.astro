@@ -57,8 +57,8 @@ const cardContainerClasses = isFullSplit
 const componentClass = 'component-card';
 ---
 
-<span data-epi-block-id={isCmsEdit && key || undefined} class:list={[componentClass]}>
-    <div class:list={cardContainerClasses}>
+<span data-epi-block-id={isCmsEdit && key || undefined} class:list={[componentClass, 'block', 'h-full']}>
+    <div class:list={[...cardContainerClasses, 'h-full']}>
         <Wrapper DisplayAs={DisplayAs ?? ''} GlobalStyles={globalStyles} isFullSplit={isFullSplit}>
             <Asset
                 data={data}

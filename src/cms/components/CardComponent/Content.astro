@@ -53,7 +53,7 @@ const cssClassesCallToAction = {
     textOnRight: 'z-20 mt-8 flex gap-2 flex-wrap',
     textOnLeft: 'z-20 mt-8 flex gap-2 flex-wrap',
     textAboveCard: 'z-20 mt-8 flex justify-center gap-2 flex-wrap',
-    textBelowCard: 'z-20 mt-8 flex justify-center gap-2 flex-wrap',
+    textBelowCard: 'z-20 mt-auto pt-6 flex justify-center gap-2 flex-wrap',
     hover: 'z-20 mt-8 flex justify-center gap-2 flex-wrap',
 };
 type DisplayAsType =
@@ -112,6 +112,8 @@ const containerClasses = isFullSplit
     ? `w-full md:w-1/2 flex flex-col justify-center p-8 md:p-12 lg:p-16 ${cardTextAlignmentStyle} overflow-hidden`
     : isHoverMode
     ? 'absolute inset-0' // Container for positioning both heading and overlay
+    : displayAs === 'textBelowCard'
+    ? `flex-1 flex flex-col ${cssClassesForSection} ${cardTextAlignmentStyle} pt-4`
     : `${widthClass || 'flex-1'} ${cssClassesForSection} ${cardTextAlignmentStyle} ${verticalAlignClass || 'self-center'}`;
 
 // Build final classes including global styles for split mode

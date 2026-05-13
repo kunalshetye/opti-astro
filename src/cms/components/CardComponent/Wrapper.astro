@@ -15,7 +15,7 @@ const defaultClasses = {
     textAboveCard:
         'mx-auto max-w-7xl flex flex-col-reverse gap-4 rounded-xl p-5',
     textBelowCard:
-        'mx-auto max-w-7xl flex flex-col gap-8 rounded-xl p-5',
+        'mx-auto max-w-7xl flex flex-col rounded-xl p-5',
     hover:
         'group relative mx-auto max-w-7xl rounded-xl overflow-hidden h-[400px]',
 };
@@ -41,7 +41,7 @@ const cssClass = cssClasses[DisplayAs as keyof typeof cssClasses];
 // For full split, exclude GlobalStyles (applied to content section)
 const wrapperClasses = isFullSplit 
     ? [cssClass]
-    : [cssClass, "opacity-100", ...(GlobalStyles ?? [])];
+    : [cssClass, "opacity-100", "h-full", ...(GlobalStyles ?? [])];
 ---
 
 <div class:list={wrapperClasses}>

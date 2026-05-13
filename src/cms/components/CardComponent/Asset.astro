@@ -51,10 +51,12 @@ if (isHoverMode && imageTintLevel !== 'o_0') {
 }
 
 
-const containerClasses = isFullSplit 
+const containerClasses = isFullSplit
     ? 'relative w-full md:w-1/2 min-h-[500px] overflow-hidden'
     : isHoverMode
     ? 'w-full h-full'
+    : DisplayAs === 'textBelowCard'
+    ? 'relative mx-auto max-w-4xl w-full'
     : `relative mx-auto max-w-4xl ${widthClass || 'flex-1'} ${verticalAlignClass || 'self-center'}`;
 
 const imageClasses = isFullSplit
