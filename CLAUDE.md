@@ -140,6 +140,32 @@ Optional environment variables:
 - GraphQL code generation runs before dev/build to ensure types are current
 - Locale synchronization integrated into build process
 
+### Card Component Patterns
+
+The Card component (`src/cms/components/CardComponent/`) has several advanced display options with non-obvious implementation details.
+
+#### Background Color Hover Effect
+Controlled by `backgroundColorHoverEffect` in `DefaultCard.opti-style.json`. Options: `always` (static), `on_hover` (fade), `up_left/up_right/down_right/down_left` (directional fill).
+
+**How it works:**
+- `getBgFillClasses()` in `CardStyling.ts` returns a complete class string including both the bg color class and the animation classes (e.g. `"bg-primary origin-bottom-right scale-0 group-hover:scale-100 transition-transform duration-500 ease-out"`). The templates just apply this string directly — don't hardcode animation classes in the templates.
+- A fill div with `absolute inset-0 z-[-1]` is rendered as the first child of the Wrapper (non-fullSplit) or Content (fullSplit) div.
+- The parent container gets `relative isolate overflow-hidden`. `isolate` creates a stacking context so `z-[-1]` stays contained; `overflow-hidden` clips the fill to `rounded-xl`.
+- `group` is added to the outer `<span>` in `Card.astro`; the fill div uses `group-hover:*` to respond to card-level hover.
+- When a directional/fade mode is active, `bg-*` and `text-*` are stripped from `globalStyles` (to avoid pre-hover tinting). `getHoverTextColorClass()` returns a `group-hover:text-{color}-content` class that is added to `globalStyles` instead, so text transitions to the appropriate content color on hover.
+
+#### Link Entire Card
+Controlled by `linkEntireCard` in `DefaultCard.opti-style.json`. Uses the first link in `data.Links`.
+
+**How it works:**
+- A transparent `<a href="..." class="absolute inset-0 z-[1]" aria-hidden="true" tabindex="-1">` is rendered inside the inner div in `Card.astro` (which gets `relative`). This is the "stretched link" pattern.
+- CTA containers in `Content.astro` have `relative z-20` so individual buttons remain independently clickable above the stretched link (z-[1]).
+- When enabled, the CTA buttons are hidden entirely (`hideLinks` prop suppresses both normal and hover-overlay CTAs).
+- The stretched link sits at z-[1], below the hover overlay (z-10) and buttons (z-20), so hover overlay mode remains fully compatible.
+
+#### TailwindCSS Class Scanning
+**Important:** Tailwind v4 scans source files for class strings. Any dynamically-generated Tailwind classes in TypeScript files must appear as **full string literals** — never build them via string concatenation or template literals. Always use an explicit switch/map with the complete class names written out (e.g. `'group-hover:text-primary-content'`, not `'group-hover:text-' + colorName + '-content'`).
+
 ### Client-Side Interactivity Guidelines
 **When to use AlpineJS:**
 - Simple interactions (dropdowns, toggles, accordions)

@@ -3,8 +3,9 @@ interface Props {
     DisplayAs: string;
     GlobalStyles?: string[];
     isFullSplit?: boolean;
+    bgFillClass?: string;
 }
-const { DisplayAs, GlobalStyles, isFullSplit } = Astro.props as Props;
+const { DisplayAs, GlobalStyles, isFullSplit, bgFillClass } = Astro.props as Props;
 
 // CSS classes for default max-w-7xl container
 const defaultClasses = {
@@ -39,11 +40,14 @@ const cssClasses = isFullSplit ? fullSplitClasses : defaultClasses;
 const cssClass = cssClasses[DisplayAs as keyof typeof cssClasses];
 
 // For full split, exclude GlobalStyles (applied to content section)
-const wrapperClasses = isFullSplit 
+const wrapperClasses = isFullSplit
     ? [cssClass]
-    : [cssClass, "opacity-100", "h-full", ...(GlobalStyles ?? [])];
+    : [cssClass, "opacity-100", "h-full", ...(GlobalStyles ?? []), ...(bgFillClass ? ['relative', 'isolate', 'overflow-hidden'] : [])];
 ---
 
 <div class:list={wrapperClasses}>
+    {!isFullSplit && bgFillClass && (
+        <div aria-hidden="true" class:list={['absolute', 'inset-0', 'z-[-1]', bgFillClass]} />
+    )}
     <slot />
 </div>
