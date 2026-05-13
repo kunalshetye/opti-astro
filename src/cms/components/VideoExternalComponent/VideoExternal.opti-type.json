@@ -2,7 +2,8 @@
 	"key": "VideoExternal",
 	"displayName": "Video (External)",
 	"description": "Embeds external video streams from platforms like YouTube and Vimeo.",
-	"baseType": "component",
+	"baseType": "_component",
+	"isContract": false,
 	"sortOrder": 0,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [],
@@ -10,53 +11,53 @@
 		"sectionEnabled",
 		"elementEnabled"
 	],
+	"contracts": [],
 	"properties": {
 		"Provider": {
 			"type": "string",
 			"format": "selectOne",
 			"displayName": "Video Provider",
 			"description": "Video streaming provider (YouTube, Vimeo)",
-			"localized": false,
-			"required": true,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": true,
+			"group": "Content",
 			"sortOrder": 10,
-			"editorSettings": {},
-			"enum": {
-				"values": [
-					{
-						"displayName": "YouTube",
-						"value": "youtube"
-					},
-					{
-						"displayName": "Vimeo",
-						"value": "vimeo"
-					}
-				]
-			}
+			"enum": [
+				{
+					"value": "youtube",
+					"displayName": "YouTube"
+				},
+				{
+					"value": "vimeo",
+					"displayName": "Vimeo"
+				}
+			],
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"Video": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "Video URL or ID",
 			"description": "Video URL or ID",
-			"localized": false,
-			"required": true,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": true,
+			"group": "Content",
 			"sortOrder": 20,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"Poster": {
 			"type": "contentReference",
 			"displayName": "Video Poster",
 			"description": "Video Poster - shown before video plays",
-			"localized": false,
-			"required": false,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 30,
-			"editorSettings": {},
 			"allowedTypes": [
-				"Image"
+				"_image"
 			],
 			"restrictedTypes": []
 		},
@@ -65,54 +66,54 @@
 			"format": "shortString",
 			"displayName": "Play Button Text",
 			"description": "Default: \"Play\"",
-			"localized": false,
-			"required": false,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 40,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"DisplayWidth": {
 			"type": "string",
 			"format": "selectOne",
 			"displayName": "Display Width",
-			"description": "",
-			"localized": false,
-			"required": true,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": true,
+			"group": "Content",
 			"sortOrder": 45,
-			"editorSettings": {},
-			"enum": {
-				"values": [
-					{
-						"displayName": "100% (Default)",
-						"value": "100%"
-					},
-					{
-						"displayName": "75%",
-						"value": "75%"
-					},
-					{
-						"displayName": "50%",
-						"value": "50%"
-					},
-					{
-						"displayName": "25%",
-						"value": "25%"
-					}
-				]
-			}
+			"enum": [
+				{
+					"value": "100%",
+					"displayName": "100% (Default)"
+				},
+				{
+					"value": "75%",
+					"displayName": "75%"
+				},
+				{
+					"value": "50%",
+					"displayName": "50%"
+				},
+				{
+					"value": "25%",
+					"displayName": "25%"
+				}
+			],
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"Params": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "Video Player Parameters",
 			"description": "See provider documentation for full feature list: https://developers.google.com/youtube/player_parameters#Parameters  https://vimeo.zendesk.com/hc/en-us/articles/360001494447-Player-parameters-overview",
-			"localized": false,
-			"required": false,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 50,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		}
 	}
 }

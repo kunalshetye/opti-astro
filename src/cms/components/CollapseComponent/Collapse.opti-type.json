@@ -2,36 +2,37 @@
 	"key": "Collapse",
 	"displayName": "Collapse",
 	"description": "Toggable content component for FAQs or organizing large info.",
-	"baseType": "component",
+	"baseType": "_component",
+	"isContract": false,
 	"sortOrder": 0,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [],
 	"compositionBehaviors": [
 		"elementEnabled"
 	],
+	"contracts": [],
 	"properties": {
 		"Heading": {
 			"type": "string",
 			"displayName": "Heading",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
-			"sortOrder": 0,
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 10,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"Body": {
-			"type": "string",
-			"format": "html",
+			"type": "richText",
 			"displayName": "Body",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
-			"sortOrder": 0,
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 20,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		}
 	}
 }

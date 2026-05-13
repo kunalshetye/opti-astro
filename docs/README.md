@@ -41,6 +41,11 @@ This folder contains comprehensive documentation for the Opti-Astro project, cov
     - Configuring synonyms for equivalent or replacement search terms
     - Pinning specific content to the top of search results
 
+- **[Component Usage Dashboard](COMPONENT-USAGE.md)** - Usage reporting for all component types on Experience pages
+    - How the page index is built and cached
+    - Filtering by site and locale
+    - Known limitations (page types covered, content area depth)
+
 - **[CMS Sync Manager](CMS-SYNC.md)** - Web-based CMS content synchronization tool
     - Push content types and component styles to CMS
     - Real-time terminal output and progress tracking

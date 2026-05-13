@@ -2,7 +2,8 @@
 	"key": "Hero",
 	"displayName": "Hero",
 	"description": "Flexible hero section with headline, description, and CTA for prominent page display.",
-	"baseType": "component",
+	"baseType": "_component",
+	"isContract": false,
 	"sortOrder": 0,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [],
@@ -10,82 +11,82 @@
 		"sectionEnabled",
 		"elementEnabled"
 	],
+	"contracts": [],
 	"properties": {
-		"Video": {
-			"type": "contentReference",
-			"displayName": "Video",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
-			"sortOrder": -200,
-			"editorSettings": {},
-			"allowedTypes": [
-				"Video"
-			],
-			"restrictedTypes": []
-		},
 		"Image": {
 			"type": "contentReference",
 			"displayName": "Image",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
-			"sortOrder": -100,
-			"editorSettings": {},
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 10,
 			"allowedTypes": [
-				"Image"
+				"_image"
+			],
+			"restrictedTypes": []
+		},
+		"Video": {
+			"type": "contentReference",
+			"displayName": "Video",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 20,
+			"allowedTypes": [
+				"_video"
 			],
 			"restrictedTypes": []
 		},
 		"Heading": {
 			"type": "string",
 			"displayName": "Heading",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
-			"sortOrder": -50,
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 30,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"SubHeading": {
 			"type": "string",
 			"displayName": "Sub Heading",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
-			"sortOrder": -25,
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 40,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"Body": {
-			"type": "string",
-			"format": "html",
+			"type": "richText",
 			"displayName": "Body",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
-			"sortOrder": 0,
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 50,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": [],
+			"editorSettings": {
+				"preset": "expanded"
+			}
 		},
 		"Links": {
 			"type": "array",
 			"format": "LinkCollection",
 			"displayName": "Links",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
-			"sortOrder": 0,
-			"editorSettings": {},
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 60,
+			"allowedTypes": [],
+			"restrictedTypes": [],
 			"items": {
-				"type": "component",
-				"contentType": "link"
+				"type": "link",
+				"allowedTypes": [],
+				"restrictedTypes": []
 			}
 		}
 	}

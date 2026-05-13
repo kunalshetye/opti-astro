@@ -6,7 +6,7 @@
 	"settings": {
 		"containerWidth": {
 			"displayName": "Container Width",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 1,
 			"choices": {
 				"default": {
@@ -21,7 +21,7 @@
 		},
 		"hoverEffect": {
 			"displayName": "Hover Effect",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 2,
 			"choices": {
 				"zoom_subtle": {
@@ -40,7 +40,7 @@
 		},
 		"transform": {
 			"displayName": "Button Text Transform",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 5,
 			"choices": {
 				"keep": {
@@ -63,7 +63,7 @@
 		},
 		"buttonStyle": {
 			"displayName": "Button Style",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 20,
 			"choices": {
 				"standard": {
@@ -106,7 +106,7 @@
 		},
 		"buttonWidth": {
 			"displayName": "Button Width",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 40,
 			"choices": {
 				"w_10rem": {
@@ -153,7 +153,7 @@
 		},
 		"buttonSize": {
 			"displayName": "Button Size",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 50,
 			"choices": {
 				"medium": {
@@ -184,7 +184,7 @@
 		},
 		"buttonRadius": {
 			"displayName": "Rounded Buttons",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 60,
 			"choices": {
 				"none": {
@@ -231,7 +231,7 @@
 		},
 		"buttonAction": {
 			"displayName": "Bouncy Buttons",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 70,
 			"choices": {
 				"static": {
@@ -246,7 +246,7 @@
 		},
 		"assetWidth": {
 			"displayName": "Asset Width",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 80,
 			"choices": {
 				"flex_1": {
@@ -277,7 +277,7 @@
 		},
 		"contentWidth": {
 			"displayName": "Content Width",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 90,
 			"choices": {
 				"flex_1": {
@@ -308,7 +308,7 @@
 		},
 		"textAlign": {
 			"displayName": "Text Alignment",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 100,
 			"choices": {
 				"left": {
@@ -331,7 +331,7 @@
 		},
 		"transformHeader": {
 			"displayName": "Header Text Transform",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 110,
 			"choices": {
 				"normal_case": {
@@ -354,7 +354,7 @@
 		},
 		"assetVerticalAlign": {
 			"displayName": "Asset Vertical Alignment",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 120,
 			"choices": {
 				"center": {
@@ -373,7 +373,7 @@
 		},
 		"contentVerticalAlign": {
 			"displayName": "Content Vertical Alignment",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 130,
 			"choices": {
 				"center": {
@@ -392,7 +392,7 @@
 		},
 		"imageTintLevel": {
 			"displayName": "Image Tint Level",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 135,
 			"choices": {
 				"o_0": {
@@ -447,7 +447,7 @@
 		},
 		"overlayTintLevel": {
 			"displayName": "Overlay Tint Level",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 140,
 			"choices": {
 				"o_0": {
@@ -502,7 +502,7 @@
 		},
 		"backgroundColor": {
 			"displayName": "Card Background Color",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 150,
 			"choices": {
 				"transparent": {

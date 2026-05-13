@@ -6,7 +6,7 @@
 	"settings": {
 		"loginService": {
 			"displayName": "Login Service",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 5,
 			"choices": {
 				"Email": {

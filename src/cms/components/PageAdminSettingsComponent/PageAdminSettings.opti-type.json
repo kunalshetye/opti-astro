@@ -2,21 +2,24 @@
 	"key": "PageAdminSettings",
 	"displayName": "Page Admin Settings",
 	"description": "Manages page-specific admin settings like publishing options.",
-	"baseType": "component",
+	"baseType": "_component",
+	"isContract": false,
 	"sortOrder": 0,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [],
 	"compositionBehaviors": [],
+	"contracts": [],
 	"properties": {
 		"EnableExternalPreview": {
 			"type": "boolean",
 			"displayName": "Enable External Preview Link",
 			"description": "Select to enable external (non-CMS) preview link for draft content",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 10,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		}
 	}
 }

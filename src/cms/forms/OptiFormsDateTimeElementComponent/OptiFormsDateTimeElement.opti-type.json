@@ -1,0 +1,85 @@
+{
+	"key": "OptiFormsDateTimeElement",
+	"displayName": "Date/Time Picker",
+	"description": "Date/Time Picker",
+	"baseType": "_component",
+	"isContract": false,
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"formsElementEnabled"
+	],
+	"contracts": [],
+	"properties": {
+		"DateTimeSelectorType": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "DateTime Selector Type",
+			"isLocalized": false,
+			"isRequired": true,
+			"group": "Content",
+			"sortOrder": 10,
+			"enum": [
+				{
+					"value": "date",
+					"displayName": "Date"
+				},
+				{
+					"value": "datetime-local",
+					"displayName": "Date + Time"
+				},
+				{
+					"value": "time",
+					"displayName": "Time"
+				},
+				{
+					"value": "month",
+					"displayName": "Month"
+				}
+			],
+			"allowedTypes": [],
+			"restrictedTypes": []
+		},
+		"Label": {
+			"type": "string",
+			"displayName": "Label",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 100,
+			"allowedTypes": [],
+			"restrictedTypes": []
+		},
+		"Placeholder": {
+			"type": "string",
+			"displayName": "Placeholder",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 200,
+			"allowedTypes": [],
+			"restrictedTypes": []
+		},
+		"Tooltip": {
+			"type": "string",
+			"displayName": "Tooltip",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 300,
+			"allowedTypes": [],
+			"restrictedTypes": []
+		},
+		"PredefinedValue": {
+			"type": "string",
+			"displayName": "PredefinedValue",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 400,
+			"allowedTypes": [],
+			"restrictedTypes": []
+		}
+	}
+}

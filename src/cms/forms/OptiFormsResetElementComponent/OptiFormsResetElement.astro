@@ -17,10 +17,14 @@ const resetId = Label?.replace(/\s+/g, '_') || `reset-${Math.random().toString(3
 const defaultLabel = Label || "Reset Form";
 ---
 
-<button 
-    type="button" 
+<button
+    type="button"
     id={resetId}
-    class="btn btn-secondary mt-4 form-reset-button"
+    class="btn btn-ghost mt-6 px-6 py-3 rounded-xl font-medium text-base border border-base-300 shadow-sm
+           transition-all duration-200 ease-in-out form-reset-button
+           hover:bg-base-200 hover:shadow-md hover:border-base-content/20
+           active:scale-[0.98] active:shadow-sm
+           focus:ring-2 focus:ring-base-content/20 focus:outline-none"
     aria-describedby={Tooltip ? `${resetId}-tooltip` : undefined}
     title={Tooltip || `Reset the form: ${defaultLabel}`}
 >

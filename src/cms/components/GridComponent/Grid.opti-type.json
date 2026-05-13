@@ -2,35 +2,39 @@
 	"key": "Grid",
 	"displayName": "Grid",
 	"description": "Organizes content into a flexible grid for responsive layouts.",
-	"baseType": "component",
+	"baseType": "_component",
+	"isContract": false,
 	"sortOrder": 0,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [],
 	"compositionBehaviors": [
 		"sectionEnabled"
 	],
+	"contracts": [],
 	"properties": {
 		"RichText": {
-			"type": "string",
-			"format": "html",
+			"type": "richText",
 			"displayName": "Rich Text",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
-			"sortOrder": -75,
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 10,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": [],
+			"editorSettings": {
+				"preset": "expanded"
+			}
 		},
 		"Items": {
 			"type": "array",
 			"displayName": "Items",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
-			"sortOrder": 0,
-			"editorSettings": {},
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 20,
+			"allowedTypes": [],
+			"restrictedTypes": [],
 			"items": {
 				"type": "content",
 				"allowedTypes": [],

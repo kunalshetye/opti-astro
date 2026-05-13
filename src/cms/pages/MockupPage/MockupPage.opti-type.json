@@ -2,21 +2,22 @@
 	"key": "MockupPage",
 	"displayName": "Mockup Page",
 	"description": "Page for displaying HTML mockups, useful for design previews or integrating external HTML.",
-	"baseType": "page",
+	"baseType": "_page",
+	"isContract": false,
 	"sortOrder": 200,
 	"mayContainTypes": [
 		"*"
 	],
 	"mediaFileExtensions": [],
 	"compositionBehaviors": [],
+	"contracts": [],
 	"properties": {
 		"HtmlMockup": {
 			"type": "string",
 			"displayName": "Html Mockup",
-			"description": "",
-			"localized": false,
-			"required": false,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 10,
 			"allowedTypes": [],
 			"restrictedTypes": []

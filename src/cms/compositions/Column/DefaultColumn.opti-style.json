@@ -6,7 +6,7 @@
     "settings": {
         "contentSpacing": {
             "displayName": "Content Spacing",
-            "editor": "",
+            "editor": "select",
             "sortOrder": 10,
             "choices": {
                 "none": {
@@ -37,7 +37,7 @@
         },
         "justifyContent": {
             "displayName": "Justify content",
-            "editor": "",
+            "editor": "select",
             "sortOrder": 20,
             "choices": {
                 "start": {
@@ -56,7 +56,7 @@
         },
         "alignContent": {
             "displayName": "Align content",
-            "editor": "",
+            "editor": "select",
             "sortOrder": 30,
             "choices": {
                 "start": {
@@ -75,7 +75,7 @@
         },
         "showFrom": {
             "displayName": "Show on",
-            "editor": "",
+            "editor": "select",
             "sortOrder": 40,
             "choices": {
                 "always": {
@@ -98,7 +98,7 @@
         },
         "minWidth": {
             "displayName": "Minimal width",
-            "editor": "",
+            "editor": "select",
             "sortOrder": 50,
             "choices": {
                 "auto": {
@@ -121,7 +121,7 @@
         },
         "overflow": {
             "displayName": "Overflow (if available width is less then minimal)",
-            "editor": "",
+            "editor": "select",
             "sortOrder": 60,
             "choices": {
                 "full": {
@@ -144,7 +144,7 @@
         },
         "gridSpan": {
             "displayName": "Grid Span (out of 12)",
-            "editor": "",
+            "editor": "select",
             "sortOrder": 5,
             "choices": {
                 "auto": {
@@ -203,7 +203,7 @@
         },
         "backgroundColor": {
             "displayName": "Background Color",
-            "editor": "",
+            "editor": "select",
             "sortOrder": 70,
             "choices": {
                 "transparent": {
@@ -258,7 +258,7 @@
         },
         "aosAnimation": {
             "displayName": "Column Animation",
-            "editor": "",
+            "editor": "select",
             "sortOrder": 80,
             "choices": {
                 "none": {

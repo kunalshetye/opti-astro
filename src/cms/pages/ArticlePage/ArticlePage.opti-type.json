@@ -2,106 +2,108 @@
 	"key": "ArticlePage",
 	"displayName": "Article",
 	"description": "Page for detailed articles with author, content, images, and SEO/admin settings.",
-	"baseType": "page",
+	"baseType": "_page",
+	"isContract": false,
 	"sortOrder": 0,
 	"mayContainTypes": [
 		"*"
 	],
 	"mediaFileExtensions": [],
 	"compositionBehaviors": [],
+	"contracts": [],
 	"properties": {
 		"PromoImage": {
 			"type": "contentReference",
 			"displayName": "Promo Image",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
-			"sortOrder": -100,
-			"editorSettings": {},
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 10,
 			"allowedTypes": [
-				"Image"
+				"_image"
 			],
 			"restrictedTypes": []
-		},
-		"Heading": {
-			"type": "string",
-			"displayName": "Heading",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
-			"sortOrder": 0,
-			"indexingType": "searchable",
-			"editorSettings": {}
-		},
-		"SubHeading": {
-			"type": "string",
-			"displayName": "Sub Heading",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
-			"sortOrder": 0,
-			"indexingType": "searchable",
-			"editorSettings": {}
-		},
-		"SeoSettings": {
-			"type": "component",
-			"contentType": "PageSeoSettings",
-			"displayName": "SEO Settings",
-			"description": "",
-			"localized": false,
-			"required": false,
-			"group": "SeoSettings",
-			"sortOrder": 0,
-			"editorSettings": {}
 		},
 		"PageAdminSettings": {
 			"type": "component",
 			"contentType": "PageAdminSettings",
 			"displayName": "Page Admin Settings",
-			"description": "",
-			"localized": false,
-			"required": false,
+			"isLocalized": false,
+			"isRequired": false,
 			"group": "AdminSettings",
 			"sortOrder": 10,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
+		},
+		"Heading": {
+			"type": "string",
+			"displayName": "Heading",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 20,
+			"indexingType": "searchable",
+			"allowedTypes": [],
+			"restrictedTypes": []
+		},
+		"SubHeading": {
+			"type": "string",
+			"displayName": "Sub Heading",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 30,
+			"indexingType": "searchable",
+			"allowedTypes": [],
+			"restrictedTypes": []
+		},
+		"SeoSettings": {
+			"type": "component",
+			"contentType": "PageSeoSettings",
+			"displayName": "SEO Settings",
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "SeoSettings",
+			"sortOrder": 40,
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"Author": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "Author",
-			"description": "",
-			"localized": false,
-			"required": false,
-			"group": "Information",
-			"sortOrder": 100,
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 40,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"AuthorEmail": {
 			"type": "string",
 			"displayName": "Author Email",
-			"description": "",
-			"localized": false,
-			"required": false,
-			"group": "Information",
-			"sortOrder": 150,
+			"isLocalized": false,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 50,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"Body": {
-			"type": "string",
-			"format": "html",
+			"type": "richText",
 			"displayName": "Body",
-			"description": "",
-			"localized": true,
-			"required": false,
-			"group": "Information",
-			"sortOrder": 200,
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
+			"sortOrder": 60,
 			"indexingType": "searchable",
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": [],
+			"editorSettings": {
+				"preset": "expanded"
+			}
 		}
 	}
 }

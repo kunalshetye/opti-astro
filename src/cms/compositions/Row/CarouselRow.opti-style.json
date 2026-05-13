@@ -6,7 +6,7 @@
 	"settings": {
 		"rowWidth": {
 			"displayName": "Width",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 3,
 			"choices": {
 				"inherit": {
@@ -69,7 +69,7 @@
 		},
 		"carouselMode": {
 			"displayName": "Carousel Mode",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 10,
 			"choices": {
 				"standard": {
@@ -84,7 +84,7 @@
 		},
 		"itemsPerViewDesktop": {
 			"displayName": "Items Per View (Desktop)",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 20,
 			"choices": {
 				"items1": {
@@ -111,7 +111,7 @@
 		},
 		"itemsPerViewTablet": {
 			"displayName": "Items Per View (Tablet)",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 30,
 			"choices": {
 				"items1": {
@@ -134,7 +134,7 @@
 		},
 		"itemsPerViewMobile": {
 			"displayName": "Items Per View (Mobile)",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 40,
 			"choices": {
 				"items1": {
@@ -153,7 +153,7 @@
 		},
 		"spaceBetween": {
 			"displayName": "Space Between Items",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 50,
 			"choices": {
 				"space16": {
@@ -172,7 +172,7 @@
 		},
 		"showNavigation": {
 			"displayName": "Show Navigation Arrows",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 60,
 			"choices": {
 				"true": {
@@ -187,7 +187,7 @@
 		},
 		"showPagination": {
 			"displayName": "Show Pagination Dots",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 70,
 			"choices": {
 				"true": {
@@ -202,7 +202,7 @@
 		},
 		"autoplay": {
 			"displayName": "Enable Autoplay",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 80,
 			"choices": {
 				"true": {
@@ -217,7 +217,7 @@
 		},
 		"autoplayDelay": {
 			"displayName": "Autoplay Delay",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 90,
 			"choices": {
 				"delay3s": {
@@ -240,7 +240,7 @@
 		},
 		"loop": {
 			"displayName": "Enable Loop",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 100,
 			"choices": {
 				"true": {
@@ -255,7 +255,7 @@
 		},
 		"carouselHeight": {
 			"displayName": "Carousel Height",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 110,
 			"choices": {
 				"h_auto": {
@@ -294,7 +294,7 @@
 		},
 		"transitionSpeed": {
 			"displayName": "Transition Speed",
-			"editor": "",
+			"editor": "select",
 			"sortOrder": 120,
 			"choices": {
 				"speed300": {

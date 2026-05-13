@@ -48,7 +48,7 @@ export function getOptimizelySdk(contentPayload: ContentPayload) {
 
     var client = new GraphQLClient('');
     const requester: Requester<any> = async (doc: any, vars: any) => {
-        if (mode === 'edit' && prevToken) {
+        if ((mode === 'edit' || mode === 'preview') && prevToken) {
             client = new GraphQLClient(
                 `${OPTIMIZELY_GRAPH_GATEWAY}/content/v2` + `?stored=true`, // enable cached templates
                 {
