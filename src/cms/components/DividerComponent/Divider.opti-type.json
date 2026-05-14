@@ -2,7 +2,8 @@
 	"key": "Divider",
 	"displayName": "Divider",
 	"description": "Visually separates content sections, improving readability.",
-	"baseType": "component",
+	"baseType": "_component",
+	"isContract": false,
 	"sortOrder": 0,
 	"mayContainTypes": [],
 	"mediaFileExtensions": [],
@@ -10,40 +11,41 @@
 		"sectionEnabled",
 		"elementEnabled"
 	],
+	"contracts": [],
 	"properties": {
 		"DividerText": {
 			"type": "string",
 			"format": "shortString",
 			"displayName": "Divider Text",
 			"description": "Text to show on divider line",
-			"localized": true,
-			"required": false,
-			"group": "Information",
+			"isLocalized": true,
+			"isRequired": false,
+			"group": "Content",
 			"sortOrder": 10,
-			"editorSettings": {}
+			"allowedTypes": [],
+			"restrictedTypes": []
 		},
 		"DividerDirection": {
 			"type": "string",
 			"format": "selectOne",
 			"displayName": "Divider Direction",
 			"description": "Direction the divider line will be displayed",
-			"localized": false,
-			"required": true,
-			"group": "Information",
+			"isLocalized": false,
+			"isRequired": true,
+			"group": "Content",
 			"sortOrder": 20,
-			"editorSettings": {},
-			"enum": {
-				"values": [
-					{
-						"displayName": "Horizontal Divider Line",
-						"value": "horizontal"
-					},
-					{
-						"displayName": "Vertical Divider Line",
-						"value": "vertical"
-					}
-				]
-			}
+			"enum": [
+				{
+					"value": "horizontal",
+					"displayName": "Horizontal Divider Line"
+				},
+				{
+					"value": "vertical",
+					"displayName": "Vertical Divider Line"
+				}
+			],
+			"allowedTypes": [],
+			"restrictedTypes": []
 		}
 	}
 }

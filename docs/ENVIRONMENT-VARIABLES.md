@@ -81,6 +81,20 @@ ADMIN_DASHBOARD_USERNAME=your-admin-username-here
 ADMIN_DASHBOARD_PASSWORD=your-secure-password-here
 ```
 
+### CMS REST API (Admin Features)
+
+Required for admin features that call the Optimizely CMS REST API: CMS Sync, Style Manager, and the Component Usage type dropdown.
+
+```bash
+# CMS REST API base URL (same for all instances)
+OPTIMIZELY_CMS_API_GATEWAY=https://api.cms.optimizely.com/preview3
+
+# OAuth client credentials for CMS REST API access
+# Generate these in Optimizely CMS → Settings → API Clients
+OPTIMIZELY_CLIENT_ID=your-client-id-here
+OPTIMIZELY_CLIENT_SECRET=your-client-secret-here
+```
+
 ## 🏗️ Environment Setup
 
 ### 1. Create .env File
@@ -177,6 +191,27 @@ If you need external preview functionality:
   - Track experiment metrics and conversions
 - **Note**: When configured, the system will automatically fetch variant content from CMS based on FX SDK decisions
 
+### OPTIMIZELY_CMS_API_GATEWAY
+- **Type**: String (URL)
+- **Access**: Server-side only
+- **Default**: `https://api.cms.optimizely.com/preview3` (same for all instances)
+- **Purpose**: Base URL for the Optimizely CMS REST API
+- **Used by**: CMS Sync, Style Manager, Component Usage type list
+
+### OPTIMIZELY_CLIENT_ID
+- **Type**: String
+- **Access**: Secret (server-side only)
+- **Purpose**: OAuth client ID for authenticating with the CMS REST API
+- **Security**: ⚠️ **Keep this secure!**
+- **How to obtain**: Optimizely CMS → Settings → API Clients → Create client
+
+### OPTIMIZELY_CLIENT_SECRET
+- **Type**: String
+- **Access**: Secret (server-side only)
+- **Purpose**: OAuth client secret for authenticating with the CMS REST API
+- **Security**: ⚠️ **Keep this secure!**
+- **How to obtain**: Generated alongside `OPTIMIZELY_CLIENT_ID`
+
 ### ADMIN_DASHBOARD_USERNAME
 - **Type**: String
 - **Access**: Secret (server-side only)
@@ -253,6 +288,11 @@ console.log('Secret available:', !!process.env.OPTIMIZELY_GRAPH_SECRET);
 - Check `ASTRO_TRANSITIONS_ENABLED=true`
 - Verify the environment variable is properly loaded
 - Clear browser cache and rebuild the project
+
+#### ❌ "Missing required environment variables: OPTIMIZELY_CLIENT_ID, OPTIMIZELY_CLIENT_SECRET, OPTIMIZELY_CMS_API_GATEWAY"
+- These are required for admin features that use the CMS REST API (CMS Sync, Style Manager, Component Usage)
+- Set `OPTIMIZELY_CMS_API_GATEWAY=https://api.cms.optimizely.com/preview3` (fixed value, same for all instances)
+- Obtain `OPTIMIZELY_CLIENT_ID` and `OPTIMIZELY_CLIENT_SECRET` from Optimizely CMS → Settings → API Clients
 
 #### ❌ "External preview not working"
 - Set `EXTERNAL_PREVIEW_ENABLED=true`
