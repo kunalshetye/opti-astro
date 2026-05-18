@@ -61,6 +61,21 @@
 				}
 			}
 		},
+		"linkEntireCard": {
+			"displayName": "Link Entire Card",
+			"editor": "select",
+			"sortOrder": 15,
+			"choices": {
+				"no": {
+					"displayName": "No (Default)",
+					"sortOrder": 10
+				},
+				"yes": {
+					"displayName": "Yes (use first link)",
+					"sortOrder": 20
+				}
+			}
+		},
 		"buttonStyle": {
 			"displayName": "Button Style",
 			"editor": "select",
@@ -552,6 +567,37 @@
 				"error": {
 					"displayName": "Error",
 					"sortOrder": 110
+				}
+			}
+		},
+		"backgroundColorHoverEffect": {
+			"displayName": "Card Background Color Hover Effect",
+			"editor": "select",
+			"sortOrder": 160,
+			"choices": {
+				"always": {
+					"displayName": "Always Show (Default)",
+					"sortOrder": 10
+				},
+				"on_hover": {
+					"displayName": "On Hover",
+					"sortOrder": 15
+				},
+				"up_left": {
+					"displayName": "Up-Left",
+					"sortOrder": 20
+				},
+				"up_right": {
+					"displayName": "Up-Right",
+					"sortOrder": 30
+				},
+				"down_right": {
+					"displayName": "Down-Right",
+					"sortOrder": 40
+				},
+				"down_left": {
+					"displayName": "Down-Left",
+					"sortOrder": 50
 				}
 			}
 		}

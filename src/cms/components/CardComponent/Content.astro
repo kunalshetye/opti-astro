@@ -22,11 +22,13 @@ export interface Props {
     verticalAlignClass?: string;
     isFullSplit?: boolean;
     globalStyles?: string[];
+    bgFillClass?: string;
+    hideLinks?: boolean;
 }
 
 const currentDomain = Astro.url.origin;
 
-const { data, displaySettings, DisplayAs, widthClass, verticalAlignClass, isFullSplit, globalStyles } = Astro.props as Props;
+const { data, displaySettings, DisplayAs, widthClass, verticalAlignClass, isFullSplit, globalStyles, bgFillClass, hideLinks } = Astro.props as Props;
 const cardButtonStyles = getButtonStyles(displaySettings, false); // false: button type defined here
 const cardTextAlignmentStyle = getCardTextAlignmentStyle(displaySettings);
 const cardHeaderStyles = getCardHeaderStyles(displaySettings);
@@ -50,11 +52,11 @@ const cssTextClasses = {
     hover: 'mt-0',
 };
 const cssClassesCallToAction = {
-    textOnRight: 'z-20 mt-8 flex gap-2 flex-wrap',
-    textOnLeft: 'z-20 mt-8 flex gap-2 flex-wrap',
-    textAboveCard: 'z-20 mt-8 flex justify-center gap-2 flex-wrap',
-    textBelowCard: 'z-20 mt-8 flex justify-center gap-2 flex-wrap',
-    hover: 'z-20 mt-8 flex justify-center gap-2 flex-wrap',
+    textOnRight: 'relative z-20 mt-8 flex gap-2 flex-wrap',
+    textOnLeft: 'relative z-20 mt-8 flex gap-2 flex-wrap',
+    textAboveCard: 'relative z-20 mt-8 flex justify-center gap-2 flex-wrap',
+    textBelowCard: 'relative z-20 mt-auto pt-6 flex justify-center gap-2 flex-wrap',
+    hover: 'relative z-20 mt-8 flex justify-center gap-2 flex-wrap',
 };
 type DisplayAsType =
     | 'textOnRight'
@@ -112,15 +114,20 @@ const containerClasses = isFullSplit
     ? `w-full md:w-1/2 flex flex-col justify-center p-8 md:p-12 lg:p-16 ${cardTextAlignmentStyle} overflow-hidden`
     : isHoverMode
     ? 'absolute inset-0' // Container for positioning both heading and overlay
+    : displayAs === 'textBelowCard'
+    ? `flex-1 flex flex-col ${cssClassesForSection} ${cardTextAlignmentStyle} pt-4`
     : `${widthClass || 'flex-1'} ${cssClassesForSection} ${cardTextAlignmentStyle} ${verticalAlignClass || 'self-center'}`;
 
 // Build final classes including global styles for split mode
 const contentClasses = isFullSplit
-    ? [containerClasses, ...(globalStyles ?? [])]
+    ? [containerClasses, ...(globalStyles ?? []), ...(bgFillClass ? ['relative', 'isolate'] : [])]
     : [containerClasses];
 ---
 
 <div class:list={contentClasses}>
+    {isFullSplit && bgFillClass && (
+        <div aria-hidden="true" class:list={['absolute', 'inset-0', 'z-[-1]', bgFillClass]} />
+    )}
     {isHoverMode ? (
         <!-- Hover Mode: Heading always visible at bottom, rest on hover overlay -->
         <>
@@ -143,13 +150,11 @@ const contentClasses = isFullSplit
                 {data.Body?.html && (
                     <div class="opacity-75 mb-6" set:html={data.Body.html}></div>
                 )}
-                {data.Links && data.Links.length > 0 && (
+                {!hideLinks && data.Links && data.Links.length > 0 && (
                     <div class={cssClassesForCallToAction}>
                         {
-                            data.Links?.map((link, i) => {                              
-                                // console.log('Rendering card link:', link);  
+                            data.Links?.map((link, i) => {
                                 const buttonLink = getLink(link as ButtonLinkData, currentDomain);
-                                console.log('Rendering card Button Link:', buttonLink);
                                 const newWindow = link?.target === '_blank';
                                 const buttonType = ['', getButtonType(i)];
                                 return (
@@ -177,13 +182,11 @@ const contentClasses = isFullSplit
             {data.Body?.html && (
                 <div class={`${cssClassesForText} opacity-75`} set:html={data.Body.html}></div>
             )}
-            {data.Links && data.Links.length > 0 && (
+            {!hideLinks && data.Links && data.Links.length > 0 && (
                 <div class={cssClassesForCallToAction}>
                     {
-                        data.Links.map((link, i) => {            
-                            // console.log('Rendering card link:', link);  
+                        data.Links.map((link, i) => {
                             const buttonLink = getLink(link as ButtonLinkData, currentDomain);
-                            console.log('Rendering card Button Link:', buttonLink);
                             const newWindow = link?.target === '_blank';
                             const buttonType = ['', getButtonType(i)];
                             return (

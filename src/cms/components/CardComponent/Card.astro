@@ -7,8 +7,10 @@ DisplaySettingsFragment,
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
 import { getAssetWidthClass, getContentWidthClass } from './CardHelper';
-import { getAssetVerticalAlignClass, getContentVerticalAlignClass } from './CardStyling';
+import { getAssetVerticalAlignClass, getContentVerticalAlignClass, getBgFillClasses, getHoverTextColorClass } from './CardStyling';
 import { getGlobalStyles } from '../../shared/globalStylesHelper';
+import { getLink } from '../../shared/utils.ts';
+import type { ButtonLinkData } from '../../shared/utils.ts';
 import Asset from './Asset.astro';
 import Content from './Content.astro';
 import Wrapper from './Wrapper.astro';
@@ -32,7 +34,23 @@ const assetWidthClass = getAssetWidthClass(dictionary);
 const contentWidthClass = getContentWidthClass(dictionary);
 const assetVerticalAlignClass = getAssetVerticalAlignClass(displaySettings);
 const contentVerticalAlignClass = getContentVerticalAlignClass(displaySettings);
-const globalStyles = getGlobalStyles(displaySettings);
+// Directional bg hover effect: strip bg class from global styles so the fill div carries the color
+const bgFillClass = getBgFillClasses(displaySettings);
+const rawGlobalStyles = getGlobalStyles(displaySettings);
+const hoverTextClass = bgFillClass ? getHoverTextColorClass(displaySettings) : '';
+const globalStyles = bgFillClass
+    ? [
+        ...rawGlobalStyles.filter(cls => !cls.startsWith('bg-') && !cls.startsWith('text-')),
+        ...(hoverTextClass ? [hoverTextClass] : []),
+      ]
+    : rawGlobalStyles;
+
+// Stretched link: use first link when linkEntireCard is enabled
+const shouldLinkEntireCard = dictionary['linkEntireCard'] === 'yes';
+const firstLink = data.Links?.[0];
+const cardLinkUrl = shouldLinkEntireCard && firstLink
+    ? getLink(firstLink as ButtonLinkData, Astro.url.origin)
+    : null;
 
 // Get container width setting
 const containerWidth = dictionary['containerWidth'] || 'default';
@@ -57,9 +75,12 @@ const cardContainerClasses = isFullSplit
 const componentClass = 'component-card';
 ---
 
-<span data-epi-block-id={isCmsEdit && key || undefined} class:list={[componentClass]}>
-    <div class:list={cardContainerClasses}>
-        <Wrapper DisplayAs={DisplayAs ?? ''} GlobalStyles={globalStyles} isFullSplit={isFullSplit}>
+<span data-epi-block-id={isCmsEdit && key || undefined} class:list={[componentClass, 'block', 'h-full', ...(bgFillClass ? ['group'] : [])]}>
+    <div class:list={[...cardContainerClasses, 'h-full', ...(cardLinkUrl ? ['relative'] : [])]}>
+        {cardLinkUrl && (
+            <a href={cardLinkUrl} class="absolute inset-0 z-[1]" aria-hidden="true" tabindex="-1" />
+        )}
+        <Wrapper DisplayAs={DisplayAs ?? ''} GlobalStyles={globalStyles} isFullSplit={isFullSplit} bgFillClass={bgFillClass ?? undefined}>
             <Asset
                 data={data}
                 displaySettings={displaySettings}
@@ -80,6 +101,8 @@ const componentClass = 'component-card';
                 verticalAlignClass={contentVerticalAlignClass}
                 isFullSplit={isFullSplit}
                 globalStyles={isFullSplit ? globalStyles : undefined}
+                bgFillClass={isFullSplit ? bgFillClass ?? undefined : undefined}
+                hideLinks={shouldLinkEntireCard}
             />
         </Wrapper>
     </div>
