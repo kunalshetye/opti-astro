@@ -55,8 +55,8 @@ const containerClasses = isFullSplit
     ? 'relative w-full md:w-1/2 min-h-[500px] overflow-hidden'
     : isHoverMode
     ? 'w-full h-full'
-    : DisplayAs === 'textBelowCard'
-    ? 'relative mx-auto max-w-4xl w-full'
+    : (DisplayAs === 'textBelowCard' || DisplayAs === 'textAboveCard')
+    ? 'relative mx-auto max-w-4xl w-full flex justify-center'
     : `relative mx-auto max-w-4xl ${widthClass || 'flex-1'} ${verticalAlignClass || 'self-center'}`;
 
 const imageClasses = isFullSplit
