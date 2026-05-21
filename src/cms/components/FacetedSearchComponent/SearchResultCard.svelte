@@ -13,10 +13,12 @@
         result: any;
         locale: string;
         viewMode?: 'list' | 'grid';
+        position?: number;
+        trackingEnabled?: boolean;
         onClick?: (result: any) => void;
     }
 
-    let { result, locale, viewMode = 'list', onClick }: Props = $props();
+    let { result, locale, viewMode = 'list', position = 0, trackingEnabled = true, onClick }: Props = $props();
 
     const imageUrl = getImageUrl(result);
     const imageAlt = getImageAlt(result);
@@ -24,7 +26,47 @@
 
     const isPinnedResult = result._score >= 20000;
 
+    const DEDUP_WINDOW_MS = 5 * 60 * 1000;
+
+    function isDuplicate(cid: string): boolean {
+        try {
+            const key = `opti_track_${cid}`;
+            const last = sessionStorage.getItem(key);
+            if (last && Date.now() - Number(last) < DEDUP_WINDOW_MS) return true;
+            sessionStorage.setItem(key, String(Date.now()));
+        } catch {
+            // sessionStorage unavailable — allow tracking
+        }
+        return false;
+    }
+
+    function fireTrackUrl() {
+        if (!trackingEnabled) return;
+        const trackUrl = result._track;
+        if (!trackUrl) return;
+
+        const url = new URL(trackUrl);
+        const cid = url.searchParams.get('cid') || trackUrl;
+        if (isDuplicate(cid)) return;
+
+        // Override pos with the actual rendered position
+        url.searchParams.set('pos', String(position));
+        const finalUrl = url.toString();
+
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 3000);
+        fetch(finalUrl, {
+            method: 'GET',
+            keepalive: true,
+            mode: 'no-cors',
+            signal: controller.signal,
+        })
+            .catch(() => {})
+            .finally(() => clearTimeout(timeout));
+    }
+
     function handleClick(event: Event) {
+        fireTrackUrl();
         if (onClick) {
             event.preventDefault();
             onClick(result);

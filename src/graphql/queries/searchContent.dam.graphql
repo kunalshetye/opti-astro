@@ -13,9 +13,11 @@ query searchContent(
             _metadata: { url: { base: { eq: $domain } } }
         }
         pinned: { phrase: $searchTerm }
+        tracking: { phrase: $searchTerm, source: "/search-palette" }
         limit: 20
     ) @include(if: $useSemanticSearch) {
         items {
+            _track
             _metadata {
                 key
                 displayName
@@ -63,9 +65,11 @@ query searchContent(
             _metadata: { url: { base: { eq: $domain } } }
         }
         pinned: { phrase: $searchTerm }
+        tracking: { phrase: $searchTerm, source: "/search-palette" }
         limit: 20
     ) @skip(if: $useSemanticSearch) {
         items {
+            _track
             _metadata {
                 key
                 displayName
