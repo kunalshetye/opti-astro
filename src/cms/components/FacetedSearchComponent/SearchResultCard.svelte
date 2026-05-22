@@ -6,8 +6,9 @@
         isExperience,
         getImageUrl,
         getImageAlt,
-        getPlaceholderGradient
+        getPlaceholderGradient,
     } from './lib/searchResultHelpers';
+    import { OPTIMIZELY_GRAPH_SINGLE_KEY } from 'astro:env/client';
 
     interface Props {
         result: any;
@@ -18,7 +19,14 @@
         onClick?: (result: any) => void;
     }
 
-    let { result, locale, viewMode = 'list', position = 0, trackingEnabled = true, onClick }: Props = $props();
+    let {
+        result,
+        locale,
+        viewMode = 'list',
+        position = 0,
+        trackingEnabled = true,
+        onClick,
+    }: Props = $props();
 
     const imageUrl = getImageUrl(result);
     const imageAlt = getImageAlt(result);
@@ -26,13 +34,14 @@
 
     const isPinnedResult = result._score >= 20000;
 
-    const DEDUP_WINDOW_MS = 5 * 60 * 1000;
+    const DEDUP_WINDOW_MS = 1 * 60 * 1000;
 
     function isDuplicate(cid: string): boolean {
         try {
             const key = `opti_track_${cid}`;
             const last = sessionStorage.getItem(key);
-            if (last && Date.now() - Number(last) < DEDUP_WINDOW_MS) return true;
+            if (last && Date.now() - Number(last) < DEDUP_WINDOW_MS)
+                return true;
             sessionStorage.setItem(key, String(Date.now()));
         } catch {
             // sessionStorage unavailable — allow tracking
@@ -51,6 +60,7 @@
 
         // Override pos with the actual rendered position
         url.searchParams.set('pos', String(position));
+        url.searchParams.set('auth', OPTIMIZELY_GRAPH_SINGLE_KEY);
         const finalUrl = url.toString();
 
         const controller = new AbortController();
@@ -85,9 +95,15 @@
         <!-- Image Section -->
         <figure class="aspect-video w-full overflow-hidden">
             {#if imageUrl}
-				<img src={imageUrl} alt={imageAlt} class="w-full h-full object-cover" />
+                <img
+                    src={imageUrl}
+                    alt={imageAlt}
+                    class="w-full h-full object-cover"
+                />
             {:else}
-				<div class="w-full h-full flex items-center justify-center {placeholderGradient}">
+                <div
+                    class="w-full h-full flex items-center justify-center {placeholderGradient}"
+                >
                     <svg
                         class="w-16 h-16 text-base-content/20"
                         fill="none"
@@ -108,14 +124,19 @@
         <!-- Content Section -->
         <div class="card-body p-4">
             <h2 class="card-title text-base">
-				<a href={result._metadata.url.hierarchical} class="hover:text-primary line-clamp-2" onclick={handleClick}>
+                <a
+                    href={result._metadata.url.hierarchical}
+                    class="hover:text-primary line-clamp-2"
+                    onclick={handleClick}
+                >
                     {getTitle(result)}
                 </a>
             </h2>
 
             <div class="flex items-center gap-2 text-xs text-base-content/60">
                 {#if result._metadata.published}
-					<span>{formatDate(result._metadata.published, locale)}</span>
+                    <span>{formatDate(result._metadata.published, locale)}</span
+                    >
                 {/if}
                 {#if !isExperience(result) && result.Author}
                     <span>•</span>
@@ -124,11 +145,17 @@
             </div>
 
             {#if getContentExcerpt(result)}
-				<p class="text-sm text-base-content/70 line-clamp-3">{getContentExcerpt(result)}</p>
+                <p class="text-sm text-base-content/70 line-clamp-3">
+                    {getContentExcerpt(result)}
+                </p>
             {/if}
 
             <div class="card-actions justify-end mt-auto">
-				<a href={result._metadata.url.hierarchical} class="btn btn-primary btn-sm" onclick={handleClick}>
+                <a
+                    href={result._metadata.url.hierarchical}
+                    class="btn btn-primary btn-sm"
+                    onclick={handleClick}
+                >
                     Read more
                 </a>
             </div>
@@ -144,14 +171,25 @@
         <div class="card-body md:flex-row md:items-start gap-4 p-4">
             <!-- Image Section (desktop: left side, mobile: top) -->
             {#if imageUrl}
-				<figure class="flex-shrink-0 w-full md:w-48 h-36 overflow-hidden rounded-lg">
-					<img src={imageUrl} alt={imageAlt} class="w-full h-full object-cover" />
+                <figure
+                    class="flex-shrink-0 w-full md:w-48 h-36 overflow-hidden rounded-lg"
+                >
+                    <img
+                        src={imageUrl}
+                        alt={imageAlt}
+                        class="w-full h-full object-cover"
+                    />
                 </figure>
             {:else}
                 <div
                     class="flex-shrink-0 w-full md:w-48 h-36 rounded-lg flex items-center justify-center {placeholderGradient}"
                 >
-					<svg class="w-12 h-12 text-base-content/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg
+                        class="w-12 h-12 text-base-content/20"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
                         <path
                             stroke-linecap="round"
                             stroke-linejoin="round"
@@ -165,7 +203,11 @@
             <!-- Content Section -->
             <div class="flex-1 min-w-0">
                 <h2 class="card-title text-lg mb-2">
-					<a href={result._metadata.url.hierarchical} class="hover:text-primary" onclick={handleClick}>
+                    <a
+                        href={result._metadata.url.hierarchical}
+                        class="hover:text-primary"
+                        onclick={handleClick}
+                    >
                         {getTitle(result)}
                     </a>
                 </h2>
@@ -174,12 +216,19 @@
                     <p class="text-base-content/70 mb-2">{result.SubHeading}</p>
                 {/if}
 
-				<div class="flex items-center gap-4 text-sm text-base-content/60 mb-3">
+                <div
+                    class="flex items-center gap-4 text-sm text-base-content/60 mb-3"
+                >
                     {#if !isExperience(result) && result.Author}
                         <span>By {result.Author}</span>
                     {/if}
                     {#if result._metadata.published}
-						<span>{formatDate(result._metadata.published, locale)}</span>
+                        <span
+                            >{formatDate(
+                                result._metadata.published,
+                                locale
+                            )}</span
+                        >
                     {/if}
                 </div>
 
@@ -190,7 +239,11 @@
                 {/if}
 
                 <div class="card-actions">
-					<a href={result._metadata.url.hierarchical} class="btn btn-primary btn-sm" onclick={handleClick}>
+                    <a
+                        href={result._metadata.url.hierarchical}
+                        class="btn btn-primary btn-sm"
+                        onclick={handleClick}
+                    >
                         Read more
                     </a>
                 </div>
