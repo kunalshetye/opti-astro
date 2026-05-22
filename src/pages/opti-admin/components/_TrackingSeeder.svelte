@@ -5,7 +5,6 @@
     interface Scenario {
         id: string;
         query: string;
-        positions: number[];
         repetitions: number;
         enabled: boolean;
     }
@@ -20,9 +19,9 @@
 
     const STORAGE_KEY = 'opti-tracking-seeder';
     const DEFAULT_SCENARIOS: Scenario[] = [
-        { id: 'default-1', query: 'getting started', positions: [0, 1], repetitions: 5, enabled: true },
-        { id: 'default-2', query: 'features', positions: [0, 1, 2], repetitions: 4, enabled: true },
-        { id: 'default-3', query: 'pricing', positions: [0], repetitions: 8, enabled: true },
+        { id: 'default-1', query: 'getting started', repetitions: 5, enabled: true },
+        { id: 'default-2', query: 'features', repetitions: 4, enabled: true },
+        { id: 'default-3', query: 'pricing', repetitions: 8, enabled: true },
     ];
 
     let scenarios = $state<Scenario[]>([]);
@@ -37,7 +36,6 @@
 
     let showAddForm = $state(false);
     let newQuery = $state('');
-    let newPositions = $state('0, 1');
     let newReps = $state(5);
 
     onMount(() => {
@@ -56,19 +54,14 @@
 
     function addScenario() {
         if (!newQuery.trim()) return;
-        const positions = newPositions
-            .split(',')
-            .map(s => parseInt(s.trim()))
-            .filter(n => !isNaN(n) && n >= 0);
         scenarios = [...scenarios, {
             id: crypto.randomUUID(),
             query: newQuery.trim(),
-            positions: positions.length ? positions : [0],
             repetitions: Math.max(1, newReps),
             enabled: true,
         }];
         persist();
-        newQuery = ''; newPositions = '0, 1'; newReps = 5; showAddForm = false;
+        newQuery = ''; newReps = 5; showAddForm = false;
     }
 
     function removeScenario(id: string) {
@@ -93,10 +86,22 @@
             q: query, locale, domain,
             limit: '10', offset: '0', sort: 'relevance',
             useSemanticSearch: 'false', semanticWeight: '0.3',
+            trackingSource: `/search-seeder?s=${crypto.randomUUID()}`,
         });
-        const res = await fetch(`/api/faceted-search.json?${params}`);
+        const res = await fetch(`/api/faceted-search.json?${params}`, { cache: 'no-store' });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return (await res.json()).items ?? [];
+    }
+
+    function weightedRandomPick(results: any[]): { item: any; pos: number } {
+        const weights = results.map((_, i) => 1 / (i + 1));
+        const total = weights.reduce((sum, w) => sum + w, 0);
+        let r = Math.random() * total;
+        for (let i = 0; i < results.length; i++) {
+            r -= weights[i];
+            if (r <= 0) return { item: results[i], pos: i };
+        }
+        return { item: results[results.length - 1], pos: results.length - 1 };
     }
 
     async function fireTrack(trackUrl: string, pos: number): Promise<string> {
@@ -113,7 +118,7 @@
     }
 
     async function executeScenario(s: Scenario) {
-        addEntry('info', `▶ "${s.query}" — ${s.repetitions} rep(s), positions [${s.positions.join(', ')}]`);
+        addEntry('info', `▶ "${s.query}" — ${s.repetitions} search(es)`);
         for (let rep = 0; rep < s.repetitions; rep++) {
             if (shouldAbort) return;
             try {
@@ -122,25 +127,17 @@
                     addEntry('warning', `"${s.query}": no results — check query or domain`);
                     return;
                 }
-                for (const pos of s.positions) {
-                    if (shouldAbort) return;
-                    const item = results[pos];
-                    if (!item) {
-                        addEntry('warning', `"${s.query}" pos ${pos}: out of range (${results.length} results)`);
-                        continue;
-                    }
-                    if (!item._track) {
-                        addEntry('warning', `"${s.query}" pos ${pos}: no _track URL on result`);
-                        continue;
-                    }
+                const { item, pos } = weightedRandomPick(results);
+                if (!item._track) {
+                    addEntry('warning', `"${s.query}" rep ${rep + 1} pos ${pos}: no _track URL on result`);
+                } else {
                     const firedUrl = await fireTrack(item._track, pos);
                     addEntry('success', `"${s.query}" rep ${rep + 1} pos ${pos}: "${resultTitle(item)}"`, firedUrl);
-                    await sleep(delayMs);
                 }
             } catch (e: any) {
                 addEntry('error', `"${s.query}" rep ${rep + 1}: ${e.message}`);
             }
-            if (rep < s.repetitions - 1) await sleep(delayMs);
+            await sleep(delayMs);
         }
         addEntry('success', `✓ "${s.query}" complete`);
     }
@@ -240,7 +237,7 @@
         <!-- Add form -->
         {#if showAddForm}
             <div class="bg-gray-50 rounded-lg p-4 mb-4 border border-gray-200">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
                     <div class="md:col-span-2">
                         <label class="block text-xs font-medium text-gray-700 mb-1">Search query</label>
                         <input
@@ -249,15 +246,6 @@
                             placeholder="e.g. pricing"
                             class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
                             onkeydown={(e) => e.key === 'Enter' && addScenario()}
-                        />
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-700 mb-1">Positions to click</label>
-                        <input
-                            type="text"
-                            bind:value={newPositions}
-                            placeholder="0, 1, 2"
-                            class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
                     <div>
@@ -310,7 +298,7 @@
 
                         <!-- Meta -->
                         <span class="text-xs text-gray-500 {!scenario.enabled ? 'opacity-50' : ''}">
-                            pos [{scenario.positions.join(', ')}] &nbsp;·&nbsp; {scenario.repetitions}×
+                            {scenario.repetitions}×
                         </span>
 
                         <!-- Run single -->

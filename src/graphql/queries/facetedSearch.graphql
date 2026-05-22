@@ -1,6 +1,7 @@
 query facetedSearch(
     $searchTerm: String
     $trackingPhrase: String! = ""
+    $trackingSource: String! = "/search"
     $locale: [Locales]
     $domain: String
     $limit: Int = 20
@@ -31,7 +32,7 @@ query facetedSearch(
             Author: { in: $authorFilters }
         }
         pinned: { phrase: $searchTerm }
-        tracking: { phrase: $trackingPhrase, source: "/search" }
+        tracking: { phrase: $trackingPhrase, source: $trackingSource }
     ) {
         total
         items {
@@ -103,7 +104,7 @@ query facetedSearch(
             _fulltext: { match: $searchTerm, fuzzy: true, synonyms: ONE }
         }
         pinned: { phrase: $searchTerm }
-        tracking: { phrase: $trackingPhrase, source: "/search" }
+        tracking: { phrase: $trackingPhrase, source: $trackingSource }
     ) {
         total
         items {

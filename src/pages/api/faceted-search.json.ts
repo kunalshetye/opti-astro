@@ -45,9 +45,11 @@ export const GET: APIRoute = async ({ url }) => {
 		const fetchLimit = Math.max(limit * 3, 60);
 		const sdk = getOptimizelySdk(contentPayload);
 		const trackingPhrase = (searchTerm || '').trim().toLowerCase().replace(/\s+/g, ' ');
+		const trackingSource = url.searchParams.get('trackingSource') || '/search';
 		const searchResults = await sdk.facetedSearch({
 			searchTerm: searchTerm,
 			trackingPhrase,
+			trackingSource,
 			locale: [contentPayload.loc as Locales],
 			domain: domain,
 			limit: fetchLimit,
