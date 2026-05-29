@@ -9,6 +9,7 @@
     import PublishedPagesDashboard from './components/published-pages/_PublishedPagesDashboard.svelte';
     import ContentCalendar from './components/_ContentCalendar.svelte';
     import ComponentUsage from './components/_ComponentUsage.svelte';
+    import TrackingSeeder from './components/_TrackingSeeder.svelte';
     import Sidebar from './components/_Sidebar.svelte';
 
     interface Props {
@@ -55,6 +56,7 @@
             'published-pages': 'Published Pages Dashboard',
             'component-usage': 'Component Usage',
             'content-calendar': 'Content Calendar',
+            'tracking-seeder': 'Tracking Seeder',
         };
         document.title = `${titles[view] || 'Dashboard'} | Optimizely Admin`;
     }
@@ -293,6 +295,31 @@
                         </button>
                     </div>
                     <ContentCalendar />
+                </div>
+            {:else if currentView === 'tracking-seeder'}
+                <div>
+                    <div class="mb-6">
+                        <button
+                            onclick={() => navigateTo('dashboard')}
+                            class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors"
+                        >
+                            <svg
+                                class="w-5 h-5 mr-2"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                                ></path>
+                            </svg>
+                            Back to Dashboard
+                        </button>
+                    </div>
+                    <TrackingSeeder />
                 </div>
             {/if}
         </div>

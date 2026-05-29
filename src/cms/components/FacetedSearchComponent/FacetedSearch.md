@@ -28,6 +28,7 @@ The Faceted Search component provides a powerful search interface with dynamic f
   - Clear all filters button
   - Individual filter badges
 - **Responsive Design**: Mobile-first layout with collapsible facet sidebar
+- **Search Hit Tracking**: Integrates with Optimizely Graph's native analytics — query-level tracking fires on every search, click-level tracking fires when users click results (first page only, with deduplication)
 
 ## Configuration
 
@@ -99,11 +100,27 @@ The component automatically manages URL parameters:
   - Manages filter state
   - Syncs state with URL parameters
   - Handles user interactions
-  - Fetches updated results (future enhancement)
+  - Fetches updated results via `/api/faceted-search.json`
+- **SearchResultCard.svelte**: Result card with click tracking
+  - Fires `_track` URL on result click using `fetch` with `keepalive: true`
+  - Appends `?auth=<single_key>` and corrects `pos` to actual render position
+  - 1-minute dedup window via `sessionStorage` (keyed by `cid` param)
+  - Only tracks clicks on page 1 results (`trackingEnabled` prop)
 - **facetedSearch.graphql**: GraphQL query
-  - Fetches ArticlePage content with facets
-  - Supports filters and pagination
-  - Returns facet counts
+  - Fetches ArticlePage and Experience content with facets
+  - Supports filters, pagination, and sorting
+  - Returns facet counts, `_track` URL per item, and `_score` for pinned results
+  - Sends `tracking: { phrase, source }` to register search events with Optimizely Graph analytics
+
+### Tracking Architecture
+
+Optimizely Graph tracking has two independent mechanisms:
+
+1. **Query-level tracking** (server-side): Every call to `facetedSearch.json` includes `tracking: { phrase: $trackingPhrase, source: "/search" }` in the GraphQL query. This registers a search event and returns a session `tid` embedded in each item's `_track` URL.
+
+2. **Click-level tracking** (client-side): When a user clicks a result, `SearchResultCard.svelte` fires a GET request to the `_track` URL. The `tid` ties the click back to the originating search session. Authentication uses `?auth=<OPTIMIZELY_GRAPH_SINGLE_KEY>` as a query parameter (Bearer headers are not usable in `no-cors` mode).
+
+The `_trackingPhrase` variable is separate from `$searchTerm` because `tracking.phrase` requires `String!` while `$searchTerm` is nullable.
 
 ### GraphQL Facets API
 
@@ -197,8 +214,10 @@ The query currently focuses on ArticlePage but can be extended:
 - **SSR First**: Initial results rendered server-side for fast page loads
 - **Progressive Enhancement**: JavaScript-free fallback displays initial results
 - **Debounced Search**: 500ms delay before triggering search
+- **No API Caching**: The `/api/faceted-search.json` endpoint has no `Cache-Control` headers — each request gets a fresh `_track` URL with a unique `tid` session token, which is required for accurate click attribution
 - **Facet Caching**: Facet counts cached until filters change
 - **Pagination**: Limits result sets for optimal performance
+- **Tracking Deduplication**: `sessionStorage` prevents the same click from being tracked more than once per minute
 
 ## Troubleshooting
 
@@ -217,6 +236,13 @@ The query currently focuses on ArticlePage but can be extended:
 - Check browser console for errors
 - Verify `query-string` library is installed
 
+### Click Tracking Not Firing
+- Confirm `result._track` is present in API responses (requires `_track` in the GraphQL query)
+- Check that `OPTIMIZELY_GRAPH_SINGLE_KEY` is set and exposed via `astro:env/client`
+- Click tracking only fires on page 1 results — this is intentional (first-page guard)
+- Verify the `_track` URL is not being deduplicated (1-minute window per `cid`); clear `sessionStorage` to reset
+- Network requests use `mode: 'no-cors'` so responses are opaque — use the Optimizely Graph analytics dashboard to verify events rather than browser network tab status codes
+
 ## Dependencies
 
 - **Svelte 5**: Interactive UI framework
@@ -233,7 +259,7 @@ The query currently focuses on ArticlePage but can be extended:
 - [ ] Saved search functionality
 - [ ] Export results (CSV, JSON)
 - [ ] Advanced search syntax support
-- [ ] Search analytics tracking
+- [x] Search analytics tracking (query-level + click-level via Optimizely Graph `_track`)
 - [ ] A/B testing integration
 
 ## References

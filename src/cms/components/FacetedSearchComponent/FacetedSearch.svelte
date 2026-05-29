@@ -400,8 +400,8 @@
 				<!-- Results -->
 				{#if !isLoading && results.length > 0}
 					<div class:space-y-6={viewMode === 'list'} class:grid={viewMode === 'grid'} class:grid-cols-1={viewMode === 'grid'} class={viewMode === 'grid' ? gridColsClass : ''} class:gap-6={viewMode === 'grid'}>
-						{#each results as result}
-							<SearchResultCard {result} locale={config.locale} {viewMode} onClick={onResultClick} />
+						{#each results as result, index}
+							<SearchResultCard {result} locale={config.locale} {viewMode} position={index} trackingEnabled={currentPage === 1} onClick={onResultClick} />
 						{/each}
 					</div>
 				{/if}

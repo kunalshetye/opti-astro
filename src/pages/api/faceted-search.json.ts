@@ -1,4 +1,4 @@
-import type { APIRoute } from 'astro';
+﻿import type { APIRoute } from 'astro';
 import type { Locales } from '../../../__generated/sdk';
 import { getOptimizelySdk } from '../../graphql/getSdk';
 import type { ContentPayload } from '../../graphql/shared/ContentPayload';
@@ -44,8 +44,12 @@ export const GET: APIRoute = async ({ url }) => {
 		// We fetch 3x the limit from each query to ensure we have enough results after merging
 		const fetchLimit = Math.max(limit * 3, 60);
 		const sdk = getOptimizelySdk(contentPayload);
+		const trackingPhrase = (searchTerm || '').trim().toLowerCase().replace(/\s+/g, ' ');
+		const trackingSource = url.searchParams.get('trackingSource') || '/search';
 		const searchResults = await sdk.facetedSearch({
 			searchTerm: searchTerm,
+			trackingPhrase,
+			trackingSource,
 			locale: [contentPayload.loc as Locales],
 			domain: domain,
 			limit: fetchLimit,
@@ -88,8 +92,7 @@ export const GET: APIRoute = async ({ url }) => {
 				status: 200,
 				headers: {
 					'Content-Type': 'application/json',
-					'Cache-Control': 'public, max-age=60, s-maxage=60',
-				}
+					}
 			}
 		);
 	} catch (error) {
