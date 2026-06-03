@@ -154,7 +154,7 @@ Optional environment variables:
 
 ## Astrobook (Component Stories)
 
-Astrobook is the component preview tool for this project — an Astro-native Storybook alternative. It runs at `/astrobook` during development.
+Astrobook is the component preview tool for this project — an Astro-native Storybook alternative. It runs at `/component-preview` during development.
 
 ### Location & Config
 - **Stories**: `src/stories/` — one `*.stories.mjs` file per component

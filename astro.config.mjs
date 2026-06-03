@@ -55,7 +55,7 @@ export default defineConfig({
         alpinejs(),
         svelte(),
         astrobook({
-            subpath: '/astrobook',
+            subpath: '/component-preview',
             directory: './src/stories',
             css: ['./src/styles/global.css'],
             homeContent: {
