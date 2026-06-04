@@ -152,6 +152,57 @@ Optional environment variables:
 - Advanced user interactions (drag-and-drop, complex forms, data visualizations)
 - When component logic becomes too complex for AlpineJS
 
+## Astrobook (Component Stories)
+
+Astrobook is the component preview tool for this project — an Astro-native Storybook alternative. It runs at `/component-preview` during development.
+
+### Location & Config
+- **Stories**: `src/stories/` — one `*.stories.mjs` file per component
+- **Config**: `astrobook({ ... })` integration in `astro.config.mjs`
+- **Helpers**: `src/stories/_mocks.ts` — shared mock factories
+
+### Story File Pattern
+
+```js
+import MyComponent from '../cms/components/MyComponent/MyComponent.astro';
+import { ds, mockLink, mockPayload, mockImageRef, IMAGES } from './_mocks.ts';
+
+export default { component: MyComponent };
+
+export const Default = {
+    args: {
+        key: 'my-component',
+        contentPayload: mockPayload,
+        displayTemplateKey: 'DefaultMyComponent',   // matches .opti-style.json key
+        displaySettings: [
+            ds('settingKey', 'choiceValue'),         // one ds() per display setting
+        ],
+        data: {
+            __typename: 'MyComponent',
+            SomeField: 'value',
+            LinkField: mockLink('Label', '/path'),
+            ImageField: mockImageRef(IMAGES.landscape),
+        },
+    },
+};
+```
+
+### Helper Reference (`_mocks.ts`)
+
+| Helper | Purpose |
+|---|---|
+| `ds(key, value)` | Creates a `DisplaySettingsFragment` — maps to `.opti-style.json` setting keys/choices |
+| `mockPayload` | Standard `ContentPayload` for all stories |
+| `mockLink(text, href)` | Creates a `Link` object |
+| `mockImageRef(url)` | Creates a `ContentReference` for images |
+| `IMAGES` | Named Unsplash URLs: `landscape`, `portrait`, `office`, `abstract`, `nature`, `city` |
+
+### Coverage Rule
+
+**Every choice in every `.opti-style.json` file must have at least one story that uses it.** When adding or editing a component's style JSON, update the corresponding story file to cover any new or changed choices.
+
+To audit coverage: read the component's `.opti-style.json`, list all `settings` keys and their `choices` values, then verify each appears in at least one story's `displaySettings`.
+
 ## Documentation
 
 Comprehensive documentation is available in the `docs/` folder:
