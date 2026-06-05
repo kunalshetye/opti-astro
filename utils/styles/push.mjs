@@ -74,7 +74,7 @@ const styleNameArg = process.argv[2];
             );
         } catch (e) {
             console.log(`❌ Error while trying to update ${styleKey} in ${targetFile}`);
-            console.log(`Error Details: ${JSON.stringify(e)}`);
+            console.log(`Error Details: ${e.message}`);
             process.exit(1);
         }
     } else {
@@ -115,7 +115,7 @@ const styleNameArg = process.argv[2];
                 results.success++;
             } catch (e) {
                 console.log(`❌ Error while trying to update ${styleKey} in ${file}`);
-                console.log(`Error Details: ${JSON.stringify(e)}`);
+                console.log(`Error Details: ${e.message}`);
                 results.failed++;
             }
         }
