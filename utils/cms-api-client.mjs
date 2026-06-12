@@ -98,9 +98,16 @@ export function createCmsApiClient(config) {
             async list() {
                 return request('GET', '/contenttypes');
             },
-            /** Create or update a content type by key (PATCH with merge semantics) */
+            /** Create or update a content type by key (PATCH if exists, POST if new) */
             async put(key, definition) {
-                return request('PATCH', `/contenttypes/${encodeURIComponent(key)}`, definition, 'application/merge-patch+json');
+                try {
+                    return await request('PATCH', `/contenttypes/${encodeURIComponent(key)}`, definition, 'application/merge-patch+json');
+                } catch (error) {
+                    if (error?.message?.includes(': 404 ')) {
+                        return request('POST', '/contenttypes', definition, 'application/json');
+                    }
+                    throw error;
+                }
             },
         },
         displayTemplates: {
@@ -112,9 +119,16 @@ export function createCmsApiClient(config) {
             async get(key) {
                 return request('GET', `/displaytemplates/${encodeURIComponent(key)}`);
             },
-            /** Create or update a display template by key */
+            /** Create or update a display template by key (PATCH if exists, POST if new) */
             async put(key, definition) {
-                return request('PATCH', `/displaytemplates/${encodeURIComponent(key)}`, definition, 'application/merge-patch+json');
+                try {
+                    return await request('PATCH', `/displaytemplates/${encodeURIComponent(key)}`, definition, 'application/merge-patch+json');
+                } catch (error) {
+                    if (error?.message?.includes(': 404 ')) {
+                        return request('POST', '/displaytemplates', definition, 'application/json');
+                    }
+                    throw error;
+                }
             },
             /** Delete a display template by key */
             async delete(key) {

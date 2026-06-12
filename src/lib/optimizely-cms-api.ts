@@ -105,7 +105,14 @@ export function createCmsApiClient(config: CmsApiClientConfig) {
                 return request('GET', '/contenttypes');
             },
             async put(key: string, definition: any): Promise<any> {
-                return request('PATCH', `/contenttypes/${encodeURIComponent(key)}`, definition, 'application/merge-patch+json');
+                try {
+                    return await request('PATCH', `/contenttypes/${encodeURIComponent(key)}`, definition, 'application/merge-patch+json');
+                } catch (error: any) {
+                    if (error?.message?.includes(': 404 ')) {
+                        return request('POST', '/contenttypes', definition, 'application/json');
+                    }
+                    throw error;
+                }
             },
         },
         displayTemplates: {
@@ -116,7 +123,14 @@ export function createCmsApiClient(config: CmsApiClientConfig) {
                 return request('GET', `/displaytemplates/${encodeURIComponent(key)}`);
             },
             async put(key: string, definition: any): Promise<any> {
-                return request('PATCH', `/displaytemplates/${encodeURIComponent(key)}`, definition, 'application/merge-patch+json');
+                try {
+                    return await request('PATCH', `/displaytemplates/${encodeURIComponent(key)}`, definition, 'application/merge-patch+json');
+                } catch (error: any) {
+                    if (error?.message?.includes(': 404 ')) {
+                        return request('POST', '/displaytemplates', definition, 'application/json');
+                    }
+                    throw error;
+                }
             },
             async delete(key: string): Promise<any> {
                 return request('DELETE', `/displaytemplates/${encodeURIComponent(key)}`);

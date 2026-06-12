@@ -6,12 +6,10 @@ import { adapter } from 'astro-auto-adapter';
 import { defineConfig, envField, fontProviders } from 'astro/config';
 import mkcert from 'vite-plugin-mkcert';
 
+import astrobook from 'astrobook';
 import { loadI18nConfig } from './src/config/i18n.config.ts';
 
 const multiAdapter = await adapter();
-
-// Load i18n configuration (with optional environment variable override)
-// This happens at build time only, not at runtime
 const i18nConfig = loadI18nConfig();
 
 // https://astro.build/config
@@ -53,7 +51,19 @@ export default defineConfig({
         },
         plugins: [mkcert(), tailwindcss()],
     },
-    integrations: [alpinejs(), svelte()],
+    integrations: [
+        alpinejs(),
+        svelte(),
+        astrobook({
+            subpath: '/component-preview',
+            directory: './src/stories',
+            css: ['./src/styles/global.css'],
+            homeContent: {
+                title: 'Optimizely CMS Components',
+                subtitle: 'Component library — all display templates',
+            },
+        }),
+    ],
 
     env: {
         schema: {
@@ -128,7 +138,7 @@ export default defineConfig({
     },
 
     experimental: {
-        fonts: [
+    fonts: [
             {
                 provider: fontProviders.google(),
                 name: 'Alegreya',

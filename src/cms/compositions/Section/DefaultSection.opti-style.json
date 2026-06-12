@@ -1,7 +1,7 @@
 {
 	"key": "DefaultSection",
 	"displayName": "Section Default",
-	"baseType": "section",
+	"baseType": "_section",
 	"isDefault": true,
 	"settings": {
 		"gridWidth": {
