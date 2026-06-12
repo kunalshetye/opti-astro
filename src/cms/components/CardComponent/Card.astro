@@ -6,7 +6,7 @@ DisplaySettingsFragment,
 
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
-import { getAssetWidthClass, getContentWidthClass } from './CardHelper';
+import { getAssetWidthClass, getContentWidthClass, getMdAssetWidthClass, getMdContentWidthClass } from './CardHelper';
 import { getAssetVerticalAlignClass, getContentVerticalAlignClass, getBgFillClasses, getHoverTextColorClass } from './CardStyling';
 import { getGlobalStyles } from '../../shared/globalStylesHelper';
 import { getLink } from '../../shared/utils.ts';
@@ -32,6 +32,8 @@ const dictionary = getDictionaryFromDisplaySettings(displaySettings);
 const { DisplayAs } = data;
 const assetWidthClass = getAssetWidthClass(dictionary);
 const contentWidthClass = getContentWidthClass(dictionary);
+const mdAssetWidthClass = getMdAssetWidthClass(dictionary);
+const mdContentWidthClass = getMdContentWidthClass(dictionary);
 const assetVerticalAlignClass = getAssetVerticalAlignClass(displaySettings);
 const contentVerticalAlignClass = getContentVerticalAlignClass(displaySettings);
 // Directional bg hover effect: strip bg class from global styles so the fill div carries the color
@@ -88,6 +90,7 @@ const componentClass = 'component-card';
                 contentPayload={contentPayload}
                 DisplayAs={DisplayAs ?? undefined}
                 widthClass={assetWidthClass}
+                mdWidthClass={mdAssetWidthClass}
                 verticalAlignClass={assetVerticalAlignClass}
                 isFullSplit={isFullSplit}
             />
@@ -98,6 +101,7 @@ const componentClass = 'component-card';
                 contentPayload={contentPayload}
                 DisplayAs={DisplayAs ?? undefined}
                 widthClass={contentWidthClass}
+                mdWidthClass={mdContentWidthClass}
                 verticalAlignClass={contentVerticalAlignClass}
                 isFullSplit={isFullSplit}
                 globalStyles={isFullSplit ? globalStyles : undefined}

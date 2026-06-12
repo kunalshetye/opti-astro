@@ -19,6 +19,7 @@ export interface Props {
     contentPayload: ContentPayload;
     DisplayAs?: string;
     widthClass?: string;
+    mdWidthClass?: string;
     verticalAlignClass?: string;
     isFullSplit?: boolean;
     globalStyles?: string[];
@@ -28,7 +29,7 @@ export interface Props {
 
 const currentDomain = Astro.url.origin;
 
-const { data, displaySettings, DisplayAs, widthClass, verticalAlignClass, isFullSplit, globalStyles, bgFillClass, hideLinks } = Astro.props as Props;
+const { data, displaySettings, DisplayAs, widthClass, mdWidthClass, verticalAlignClass, isFullSplit, globalStyles, bgFillClass, hideLinks } = Astro.props as Props;
 const cardButtonStyles = getButtonStyles(displaySettings, false); // false: button type defined here
 const cardTextAlignmentStyle = getCardTextAlignmentStyle(displaySettings);
 const cardHeaderStyles = getCardHeaderStyles(displaySettings);
@@ -110,8 +111,8 @@ const overlayContentClasses = isHoverMode
     : '';
 
 // For full split layout, content takes exactly 50% with background applied
-const containerClasses = isFullSplit 
-    ? `w-full md:w-1/2 flex flex-col justify-center p-8 md:p-12 lg:p-16 ${cardTextAlignmentStyle} overflow-hidden`
+const containerClasses = isFullSplit
+    ? `w-full ${mdWidthClass || 'md:w-1/2'} flex flex-col justify-center p-8 md:p-12 lg:p-16 ${cardTextAlignmentStyle} overflow-hidden`
     : isHoverMode
     ? 'absolute inset-0' // Container for positioning both heading and overlay
     : displayAs === 'textBelowCard'
