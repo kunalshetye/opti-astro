@@ -63,7 +63,7 @@ const instructionText = AllowMultiSelect
     : "Select one option. Use arrow keys to navigate.";
 ---
 
-<fieldset class="form-control w-full rounded-2xl bg-base-100 border border-base-300 p-5 shadow-sm
+<fieldset class="form-control w-full min-w-0 rounded-2xl bg-base-100 border border-base-300 p-5 shadow-sm
                     transition-all duration-200 ease-in-out hover:shadow-md" data-field-name={Label} data-field-key={nodeKey || undefined}>
     <legend id={legendId} class="px-2 text-base font-medium text-base-content/80">
         {Label}
@@ -75,7 +75,7 @@ const instructionText = AllowMultiSelect
     </p>
 
     <div
-        class="flex flex-row flex-wrap gap-x-8 gap-y-3"
+        class="flex flex-col gap-y-1"
         role={groupRole}
         aria-labelledby={legendId}
         aria-describedby={describedByIds}
@@ -98,7 +98,7 @@ const instructionText = AllowMultiSelect
                             required={isRequiredErrorMsg ? (AllowMultiSelect ? false : true) : false}
                             data-msg-required={isRequiredErrorMsg}
                         />
-                        <span class="label-text text-base-content/90">{opt.label}</span>
+                        <span class="label-text text-base-content/90 min-w-0">{opt.label}</span>
                     </label>
                 );
             }

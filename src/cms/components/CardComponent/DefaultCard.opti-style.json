@@ -61,6 +61,21 @@
 				}
 			}
 		},
+		"linkEntireCard": {
+			"displayName": "Link Entire Card",
+			"editor": "select",
+			"sortOrder": 15,
+			"choices": {
+				"no": {
+					"displayName": "No (Default)",
+					"sortOrder": 10
+				},
+				"yes": {
+					"displayName": "Yes (use first link)",
+					"sortOrder": 20
+				}
+			}
+		},
 		"buttonStyle": {
 			"displayName": "Button Style",
 			"editor": "select",
@@ -253,25 +268,33 @@
 					"displayName": "Equal (50/50) (Default)",
 					"sortOrder": 10
 				},
+				"w_1_4": {
+					"displayName": "One Fourth (25%)",
+					"sortOrder": 20
+				},
 				"w_1_3": {
 					"displayName": "One Third (33%)",
-					"sortOrder": 20
+					"sortOrder": 30
 				},
 				"w_2_5": {
 					"displayName": "Two Fifths (40%)",
-					"sortOrder": 30
+					"sortOrder": 40
 				},
 				"w_1_2": {
 					"displayName": "Half (50%)",
-					"sortOrder": 40
+					"sortOrder": 50
 				},
 				"w_3_5": {
 					"displayName": "Three Fifths (60%)",
-					"sortOrder": 50
+					"sortOrder": 60
+				},
+				"w_3_4": {
+					"displayName": "Three Fourths (75%)",
+					"sortOrder": 70
 				},
 				"w_2_3": {
 					"displayName": "Two Thirds (67%)",
-					"sortOrder": 60
+					"sortOrder": 80
 				}
 			}
 		},
@@ -284,25 +307,33 @@
 					"displayName": "Equal (50/50) (Default)",
 					"sortOrder": 10
 				},
+				"w_1_4": {
+					"displayName": "One Fourth (25%)",
+					"sortOrder": 20
+				},
 				"w_1_3": {
 					"displayName": "One Third (33%)",
-					"sortOrder": 20
+					"sortOrder": 30
 				},
 				"w_2_5": {
 					"displayName": "Two Fifths (40%)",
-					"sortOrder": 30
+					"sortOrder": 40
 				},
 				"w_1_2": {
 					"displayName": "Half (50%)",
-					"sortOrder": 40
+					"sortOrder": 50
 				},
 				"w_3_5": {
 					"displayName": "Three Fifths (60%)",
-					"sortOrder": 50
+					"sortOrder": 60
+				},
+				"w_3_4": {
+					"displayName": "Three Fourths (75%)",
+					"sortOrder": 70
 				},
 				"w_2_3": {
 					"displayName": "Two Thirds (67%)",
-					"sortOrder": 60
+					"sortOrder": 80
 				}
 			}
 		},
@@ -552,6 +583,37 @@
 				"error": {
 					"displayName": "Error",
 					"sortOrder": 110
+				}
+			}
+		},
+		"backgroundColorHoverEffect": {
+			"displayName": "Card Background Color Hover Effect",
+			"editor": "select",
+			"sortOrder": 160,
+			"choices": {
+				"always": {
+					"displayName": "Always Show (Default)",
+					"sortOrder": 10
+				},
+				"on_hover": {
+					"displayName": "On Hover",
+					"sortOrder": 15
+				},
+				"up_left": {
+					"displayName": "Up-Left",
+					"sortOrder": 20
+				},
+				"up_right": {
+					"displayName": "Up-Right",
+					"sortOrder": 30
+				},
+				"down_right": {
+					"displayName": "Down-Right",
+					"sortOrder": 40
+				},
+				"down_left": {
+					"displayName": "Down-Left",
+					"sortOrder": 50
 				}
 			}
 		}
