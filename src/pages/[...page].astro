@@ -19,13 +19,17 @@ Astro.response.headers.set('Content-Type', 'text/html; charset=UTF-8');
 
 const lang = Astro.currentLocale || 'en';
 
+
 // Opti Web variation cookie handling -- cookie name depends on page path
-const rawPath = Astro.url.pathname; 
-let pathSegment;
-if (rawPath === '/') {
+const rawPath = Astro.url.pathname;
+let pathSegment = rawPath;
+if (pathSegment.length > 1 && pathSegment.endsWith('/')) {
+    pathSegment = pathSegment.slice(0, -1);
+}
+if (pathSegment === '/') {
     pathSegment = 'homepage';
 } else {
-    pathSegment = rawPath.replace(/^\//, '').replace(/[\/|-]/g, '_');
+    pathSegment = pathSegment.replace(/^\//, '').replace(/[\/|-]/g, '_');
 }
 const cookieName = `cmsvariation_${pathSegment}`;
 const pageVariationWeb = Astro.cookies.get(cookieName)?.value || null;
