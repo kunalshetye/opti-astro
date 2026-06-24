@@ -1,0 +1,68 @@
+{
+	"key": "ImageResponsive",
+	"displayName": "Image (Responsive)",
+	"description": "Responsive Image Component",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"sectionEnabled",
+		"elementEnabled"
+	],
+	"properties": {
+		"AltText": {
+			"type": "string",
+			"displayName": "Alt Text",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": -200,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		},
+		"Image": {
+			"type": "contentReference",
+			"displayName": "Image",
+			"description": "",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": -100,
+			"editorSettings": {},
+			"allowedTypes": [
+				"Image"
+			],
+			"restrictedTypes": []
+		},
+		"ImageTablet": {
+			"type": "contentReference",
+			"displayName": "Image (Tablet)",
+			"description": "Responsive image for tablet breakpoint",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 30,
+			"editorSettings": {},
+			"allowedTypes": [
+				"Image"
+			],
+			"restrictedTypes": []
+		},
+		"ImageMobile": {
+			"type": "contentReference",
+			"displayName": "Image (Mobile)",
+			"description": "Responsive image for mobile breakpoint",
+			"localized": false,
+			"required": false,
+			"group": "Information",
+			"sortOrder": 40,
+			"editorSettings": {},
+			"allowedTypes": [
+				"Image"
+			],
+			"restrictedTypes": []
+		}
+	}
+}
